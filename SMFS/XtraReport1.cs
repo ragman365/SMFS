@@ -22,7 +22,6 @@ namespace SMFS
         {
             workdgv = dgv;
             workdgv.DataSource = dt;
-            workdgv.DataSource = dt;
             InitializeComponent();
             this.objectDataSource1.DataSource = dt;
             this.DataSource = dt;

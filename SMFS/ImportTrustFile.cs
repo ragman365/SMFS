@@ -1677,8 +1677,8 @@ namespace SMFS
             for (int i = (firstRow + 1); i < dt.Rows.Count; i++)
             {
                 str = dt.Rows[i]["FH No."].ObjToString();
-                if (String.IsNullOrWhiteSpace(str))
-                    continue;
+                //if (String.IsNullOrWhiteSpace(str))
+                //    continue;
                 newDt.ImportRow(dt.Rows[i]);
             }
             newDt = mapFDLIC(newDt);
@@ -3112,10 +3112,14 @@ namespace SMFS
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    if ( contractNumber == "P04039")
+                    {
+
+                    }
                     if (String.IsNullOrWhiteSpace(contractNumber))
                     {
                         policyNumber = dt.Rows[i]["policyNumber"].ObjToString();
-                        if ( policyNumber == "SM1879605")
+                        if ( policyNumber == "SM1614321")
                         {
                         }
                         if (String.IsNullOrWhiteSpace(policyNumber))

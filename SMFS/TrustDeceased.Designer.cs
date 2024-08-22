@@ -511,6 +511,7 @@ namespace SMFS
             this.post2002ReportSNFTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.post2002ReportCadenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pre2002ReportSNFTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkIgnoreOverruns = new System.Windows.Forms.CheckBox();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -636,7 +637,7 @@ namespace SMFS
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1801, 533);
+            this.tabPage1.Size = new System.Drawing.Size(1801, 531);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -650,7 +651,7 @@ namespace SMFS
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1795, 527);
+            this.dgv.Size = new System.Drawing.Size(1795, 525);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -2290,7 +2291,7 @@ namespace SMFS
             this.tabPage12.Controls.Add(this.dgv11);
             this.tabPage12.Location = new System.Drawing.Point(4, 25);
             this.tabPage12.Name = "tabPage12";
-            this.tabPage12.Size = new System.Drawing.Size(1787, 459);
+            this.tabPage12.Size = new System.Drawing.Size(1787, 457);
             this.tabPage12.TabIndex = 3;
             this.tabPage12.Text = "FDLIC Old Webb";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -2304,7 +2305,7 @@ namespace SMFS
             this.dgv11.MainView = this.gridMain11;
             this.dgv11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv11.Name = "dgv11";
-            this.dgv11.Size = new System.Drawing.Size(1787, 459);
+            this.dgv11.Size = new System.Drawing.Size(1787, 457);
             this.dgv11.TabIndex = 10;
             this.dgv11.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain11});
@@ -2721,7 +2722,7 @@ namespace SMFS
             this.tabPage13.Controls.Add(this.dgv12);
             this.tabPage13.Location = new System.Drawing.Point(4, 25);
             this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Size = new System.Drawing.Size(1787, 459);
+            this.tabPage13.Size = new System.Drawing.Size(1787, 457);
             this.tabPage13.TabIndex = 4;
             this.tabPage13.Text = "FDLIC Old CCI";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -2735,7 +2736,7 @@ namespace SMFS
             this.dgv12.MainView = this.gridMain12;
             this.dgv12.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv12.Name = "dgv12";
-            this.dgv12.Size = new System.Drawing.Size(1787, 459);
+            this.dgv12.Size = new System.Drawing.Size(1787, 457);
             this.dgv12.TabIndex = 11;
             this.dgv12.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain12});
@@ -3152,7 +3153,7 @@ namespace SMFS
             this.tabPage14.Controls.Add(this.dgv13);
             this.tabPage14.Location = new System.Drawing.Point(4, 25);
             this.tabPage14.Name = "tabPage14";
-            this.tabPage14.Size = new System.Drawing.Size(1787, 459);
+            this.tabPage14.Size = new System.Drawing.Size(1787, 457);
             this.tabPage14.TabIndex = 5;
             this.tabPage14.Text = "Unity Old Barham";
             this.tabPage14.UseVisualStyleBackColor = true;
@@ -3166,7 +3167,7 @@ namespace SMFS
             this.dgv13.MainView = this.gridMain13;
             this.dgv13.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv13.Name = "dgv13";
-            this.dgv13.Size = new System.Drawing.Size(1787, 459);
+            this.dgv13.Size = new System.Drawing.Size(1787, 457);
             this.dgv13.TabIndex = 12;
             this.dgv13.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain13});
@@ -3583,7 +3584,7 @@ namespace SMFS
             this.tabPage15.Controls.Add(this.dgv14);
             this.tabPage15.Location = new System.Drawing.Point(4, 25);
             this.tabPage15.Name = "tabPage15";
-            this.tabPage15.Size = new System.Drawing.Size(1787, 459);
+            this.tabPage15.Size = new System.Drawing.Size(1787, 457);
             this.tabPage15.TabIndex = 6;
             this.tabPage15.Text = "Unity Old Webb";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -3597,7 +3598,7 @@ namespace SMFS
             this.dgv14.MainView = this.gridMain14;
             this.dgv14.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv14.Name = "dgv14";
-            this.dgv14.Size = new System.Drawing.Size(1787, 459);
+            this.dgv14.Size = new System.Drawing.Size(1787, 457);
             this.dgv14.TabIndex = 10;
             this.dgv14.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain14});
@@ -8286,6 +8287,7 @@ namespace SMFS
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Azure;
+            this.panelTop.Controls.Add(this.chkIgnoreOverruns);
             this.panelTop.Controls.Add(this.chkBalances);
             this.panelTop.Controls.Add(this.chkIncludeDetails);
             this.panelTop.Controls.Add(this.chkMissing);
@@ -8666,7 +8668,7 @@ namespace SMFS
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -8704,7 +8706,7 @@ namespace SMFS
             this.lockSceenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockSceenFormatToolStripMenuItem
@@ -8729,7 +8731,7 @@ namespace SMFS
             this.useCalculatedBeginningBalanceToolStripMenuItem,
             this.useCalculatedEndingBalanceToolStripMenuItem});
             this.editsToolStripMenuItem.Name = "editsToolStripMenuItem";
-            this.editsToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.editsToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
             this.editsToolStripMenuItem.Text = "Edits";
             // 
             // editPolicyToTrustToolStripMenuItem
@@ -8769,7 +8771,7 @@ namespace SMFS
             this.post2002ReportCadenceToolStripMenuItem,
             this.pre2002ReportSNFTToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // post2002ReportUnityToolStripMenuItem
@@ -8806,6 +8808,16 @@ namespace SMFS
             this.pre2002ReportSNFTToolStripMenuItem.Size = new System.Drawing.Size(260, 26);
             this.pre2002ReportSNFTToolStripMenuItem.Text = "Pre 2002 Report";
             this.pre2002ReportSNFTToolStripMenuItem.Click += new System.EventHandler(this.pre2002ReportSNFTToolStripMenuItem_Click);
+            // 
+            // chkIgnoreOverruns
+            // 
+            this.chkIgnoreOverruns.AutoSize = true;
+            this.chkIgnoreOverruns.Location = new System.Drawing.Point(1407, 59);
+            this.chkIgnoreOverruns.Name = "chkIgnoreOverruns";
+            this.chkIgnoreOverruns.Size = new System.Drawing.Size(187, 21);
+            this.chkIgnoreOverruns.TabIndex = 196;
+            this.chkIgnoreOverruns.Text = "Ignore Previous Overruns";
+            this.chkIgnoreOverruns.UseVisualStyleBackColor = true;
             // 
             // TrustDeceased
             // 
@@ -9389,5 +9401,6 @@ namespace SMFS
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn307;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn308;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn309;
+        private System.Windows.Forms.CheckBox chkIgnoreOverruns;
     }
 }

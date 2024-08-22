@@ -711,7 +711,8 @@ namespace SMFS
                 days = nextMonth.Day;
                 if (days > workNextDays)
                 {
-                    //workNextDays = days;
+                    if ( !chkIgnoreOverruns.Checked )
+                        workNextDays = days;
                 }
             }
 
@@ -5841,24 +5842,29 @@ namespace SMFS
 
             activeDt = pullUnityActive(dt);
             double balance = sumUpColumn(activeDt, "endingDeathBenefit");
+            double active = balance;
             //double balance = sumUpColumn(activeDt, "beginningDeathBenefit");
 
             lapsedDt = pullUnityLapsed(dt);
-            balance += sumUpColumn(lapsedDt, "endingDeathBenefit");
-            //balance += sumUpColumn(lapsedDt, "beginningDeathBenefit");
+            //balance += sumUpColumn(lapsedDt, "endingDeathBenefit");
+            double lapsed = sumUpColumn(lapsedDt, "beginningDeathBenefit");
+            balance += lapsed;
+
             activeDt.Merge(lapsedDt);
 
             questionedDt = pullUnityLapsedQuestioned(dt);
-            balance += sumUpColumn(questionedDt, "endingDeathBenefit");
-            //balance += sumUpColumn(questionedDt, "beginningDeathBenefit");
+            double questioned = sumUpColumn(questionedDt, "endingDeathBenefit");
+            //double questioned = sumUpColumn(questionedDt, "beginningDeathBenefit");
+            balance += questioned;
             activeDt.Merge(questionedDt);
 
             pbDt = pullUnityPB(dt);
-            balance += sumUpColumn(pbDt, "endingDeathBenefit");
+            double pb = sumUpColumn(pbDt, "endingDeathBenefit");
+            balance += pb;
             //balance += sumUpColumn(pbDt, "beginningDeathBenefit");
             activeDt.Merge(pbDt);
 
-            balance = sumUpColumn(dt, "endingDeathBenefit");
+            //balance = sumUpColumn(dt, "endingDeathBenefit");
 
             return balance;
         }
