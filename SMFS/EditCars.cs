@@ -11,7 +11,7 @@ using DevExpress.XtraEditors;
 using GeneralLib;
 /****************************************************************************************/
 
-/Comment
+//Comment test
 
 namespace SMFS
 {
