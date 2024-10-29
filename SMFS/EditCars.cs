@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using GeneralLib;
+using DevExpress.XtraPrinting;
+using DevExpress.Utils;
 /****************************************************************************************/
-
-//Comment test
-
 namespace SMFS
 {
     /****************************************************************************************/
@@ -46,7 +45,7 @@ namespace SMFS
         /****************************************************************************************/
         private void pictureBox12_Click(object sender, EventArgs e)
         { // Add New Row
-            DataTable dt = (DataTable) dgv.DataSource;
+            DataTable dt = (DataTable)dgv.DataSource;
             DataRow dRow = dt.NewRow();
             dt.Rows.Add(dRow);
             G1.NumberDataTable(dt);
@@ -83,6 +82,9 @@ namespace SMFS
             gridMain_CellValueChanged(null, null);
         }
         /****************************************************************************************/
+
+        //COMMENT
+
         private void gridMain_CustomRowFilter(object sender, DevExpress.XtraGrid.Views.Base.RowFilterEventArgs e)
         {
             int row = e.ListSourceRow;
@@ -94,6 +96,14 @@ namespace SMFS
             {
                 e.Visible = false;
                 e.Handled = true;
+                return;
+            }
+            string location = dt.Rows[row]["location"].ObjToString();
+            if (string.IsNullOrEmpty(location))
+            {
+                e.Visible = false;
+                e.Handled = true;
+                return;
             }
         }
         /****************************************************************************************/
@@ -113,14 +123,28 @@ namespace SMFS
             string make = "";
             string model = "";
             string color = "";
+            string vin = "";
+            string notes = "";
+            string role = "";
+            string county = "";
+            string licensePlate = "";
+            string expiration = "";
+            string idNumber = "";
 
 
             string cmd = "DELETE from `cars` WHERE `model` = '-1'";
             G1.get_db_data(cmd);
+            DataTable dx = G1.get_db_data("select * from `cars`;");
+            DataRow[] dRows = null;
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 record = dt.Rows[i]["record"].ObjToString();
+                location = dt.Rows[i]["location"].ObjToString();
+                if (string.IsNullOrEmpty(location))
+                {
+                    continue;
+                }
                 mod = dt.Rows[i]["mod"].ObjToString();
                 if (mod == "D")
                 {
@@ -130,7 +154,19 @@ namespace SMFS
                 }
                 if (mod != "Y")
                     continue;
-                if ( String.IsNullOrWhiteSpace ( record ))
+
+                vin = dt.Rows[i]["vin"].ObjToString();
+                dRows = dx.Select("vin = '" + vin + "'");
+                if (dRows.Length > 0)
+                    record = dRows[0]["record"].ObjToString();
+
+                //cmd = "select * from `cars` where `vin` = '" + vin + "';";
+                //dx = G1.get_db_data(cmd);
+                //if (dx.Rows.Count > 0)
+                //    record = dx.Rows[0]["record"].ObjToString();
+
+
+                if (String.IsNullOrWhiteSpace(record))
                     record = G1.create_record("cars", "model", "-1");
                 if (G1.BadRecord("cars", record))
                     return;
@@ -141,7 +177,14 @@ namespace SMFS
                 make = dt.Rows[i]["make"].ObjToString();
                 model = dt.Rows[i]["model"].ObjToString();
                 color = dt.Rows[i]["color"].ObjToString();
-                G1.update_db_table("cars", "record", record, new string[] { "location", location, "companyCode", companyCode, "year", year, "make", make, "model", model, "color", color });
+                vin = dt.Rows[i]["vin"].ObjToString();
+                notes = dt.Rows[i]["notes"].ObjToString();
+                role = dt.Rows[i]["role"].ObjToString();
+                idNumber = dt.Rows[i]["idNumber"].ObjToString();
+                county = dt.Rows[i]["county"].ObjToString();
+                expiration = dt.Rows[i]["expiration"].ObjToString();
+                licensePlate = dt.Rows[i]["licensePlate"].ObjToString();
+                G1.update_db_table("cars", "record", record, new string[] { "location", location, "companyCode", companyCode, "year", year, "make", make, "model", model, "color", color, "vin", vin, "notes", notes, "role", role, "idNumber", idNumber, "county", county, "expiration", expiration, "licensePlate", licensePlate });
             }
             modified = false;
             btnSaveAll.Hide();
@@ -292,6 +335,214 @@ namespace SMFS
                 string year = e.DisplayText;
                 year = year.Replace(",", "");
                 e.DisplayText = year;
+            }
+        }
+        /****************************************************************************************/
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
+        /***********************************************************************************************/
+        private int pageMarginLeft = 0;
+        private int pageMarginRight = 0;
+        private int pageMarginTop = 0;
+        private int pageMarginBottom = 0;
+        /***********************************************************************************************/
+        private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.components == null)
+                this.components = new System.ComponentModel.Container();
+
+            DevExpress.XtraPrinting.PrintingSystem printingSystem1 = new DevExpress.XtraPrinting.PrintingSystem(this.components);
+            DevExpress.XtraPrinting.PrintableComponentLink printableComponentLink1 = new DevExpress.XtraPrinting.PrintableComponentLink(this.components);
+
+            printingSystem1.Links.AddRange(new object[] {
+            printableComponentLink1});
+
+
+            printableComponentLink1.Component = dgv;
+            printableComponentLink1.PrintingSystemBase = printingSystem1;
+
+            printableComponentLink1.EnablePageDialog = true;
+
+            printableComponentLink1.CreateDetailHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateDetailHeaderArea);
+            printableComponentLink1.CreateMarginalHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateMarginalHeaderArea);
+            printableComponentLink1.BeforeCreateAreas += new System.EventHandler(this.printableComponentLink1_BeforeCreateAreas);
+            printableComponentLink1.AfterCreateAreas += new System.EventHandler(this.printableComponentLink1_AfterCreateAreas);
+            printableComponentLink1.Landscape = true;
+
+            Printer.setupPrinterMargins(10, 5, 80, 50);
+
+            pageMarginLeft = Printer.pageMarginLeft;
+            pageMarginRight = Printer.pageMarginRight;
+            pageMarginTop = Printer.pageMarginTop;
+            pageMarginBottom = Printer.pageMarginBottom;
+
+            printableComponentLink1.Margins.Left = pageMarginLeft;
+            printableComponentLink1.Margins.Right = pageMarginRight;
+            printableComponentLink1.Margins.Top = pageMarginTop;
+            printableComponentLink1.Margins.Bottom = pageMarginBottom;
+
+            printingSystem1.Document.AutoFitToPagesWidth = 1;
+
+            printableComponentLink1.CreateDocument();
+            printableComponentLink1.ShowPreview();
+        }
+        /***********************************************************************************************/
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.components == null)
+                this.components = new System.ComponentModel.Container();
+            DevExpress.XtraPrinting.PrintingSystem printingSystem1 = new DevExpress.XtraPrinting.PrintingSystem(this.components);
+            DevExpress.XtraPrinting.PrintableComponentLink printableComponentLink1 = new DevExpress.XtraPrinting.PrintableComponentLink(this.components);
+
+            printingSystem1.Links.AddRange(new object[] {
+            printableComponentLink1});
+
+            printableComponentLink1.Component = dgv;
+            printableComponentLink1.PrintingSystemBase = printingSystem1;
+            printableComponentLink1.CreateDetailHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateDetailHeaderArea);
+            printableComponentLink1.CreateMarginalHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateMarginalHeaderArea);
+            printableComponentLink1.BeforeCreateAreas += new System.EventHandler(this.printableComponentLink1_BeforeCreateAreas);
+            printableComponentLink1.AfterCreateAreas += new System.EventHandler(this.printableComponentLink1_AfterCreateAreas);
+            printableComponentLink1.Landscape = true;
+
+            Printer.setupPrinterMargins(10, 5, 80, 50);
+
+            pageMarginLeft = Printer.pageMarginLeft;
+            pageMarginRight = Printer.pageMarginRight;
+            pageMarginTop = Printer.pageMarginTop;
+            pageMarginBottom = Printer.pageMarginBottom;
+
+            printableComponentLink1.Margins.Left = pageMarginLeft;
+            printableComponentLink1.Margins.Right = pageMarginRight;
+            printableComponentLink1.Margins.Top = pageMarginTop;
+            printableComponentLink1.Margins.Bottom = pageMarginBottom;
+
+            printingSystem1.Document.AutoFitToPagesWidth = 1;
+
+            printableComponentLink1.CreateDocument();
+            printableComponentLink1.PrintDlg();
+        }
+        /***********************************************************************************************/
+        private void printableComponentLink1_BeforeCreateAreas(object sender, EventArgs e)
+        {
+        }
+        /***********************************************************************************************/
+        private void printableComponentLink1_AfterCreateAreas(object sender, EventArgs e)
+        {
+        }
+        /***********************************************************************************************/
+        private void printableComponentLink1_CreateDetailHeaderArea(object sender, CreateAreaEventArgs e)
+        {
+        }
+        /***********************************************************************************************/
+        private void printableComponentLink1_CreateMarginalHeaderArea(object sender, CreateAreaEventArgs e)
+        {
+            Printer.setupPrinterQuads(e, 2, 3);
+            Font font = new Font("Ariel", 16);
+            Printer.DrawQuad(1, 1, Printer.xQuads, 2, "South Mississippi Funeral Services, LLC", Color.Black, BorderSide.Top, font, HorizontalAlignment.Center);
+
+            Printer.SetQuadSize(12, 12);
+
+            font = new Font("Ariel", 8);
+            Printer.DrawGridDate(2, 3, 2, 3, Color.Black, BorderSide.None, font);
+            Printer.DrawGridPage(11, 3, 2, 3, Color.Black, BorderSide.None, font);
+
+            //            Printer.DrawQuad(1, 9, 2, 3, "User : " + LoginForm.username, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Center);
+
+            font = new Font("Ariel", 10, FontStyle.Regular);
+            string title = this.Text;
+            //if (workReport == "ACH Detail Report")
+            //    title = "The First Drafts";
+            //else
+            //    title = "The First (All)";
+            Printer.DrawQuad(6, 7, 4, 3, title, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            Printer.DrawQuad(1, 9, 2, 3, "User : " + LoginForm.username, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+
+
+            //DateTime date = this.dateTimePicker1.Value;
+            //string workDate = date.Month.ToString("D2") + "/" + date.Year.ToString("D4");
+            //Printer.SetQuadSize(24, 12);
+            //font = new Font("Ariel", 9, FontStyle.Regular);
+            //Printer.DrawQuad(20, 8, 5, 4, "Month Closing - " + workDate, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+
+            //Printer.DrawQuad(16, 8, 3, 4, lblPayment.Text, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            //Printer.DrawQuad(19, 8, 3, 4, lblTrust85.Text, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            //Printer.DrawQuad(22, 8, 3, 4, lblTrust100.Text, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+
+            Printer.SetQuadSize(12, 12);
+            Printer.DrawQuadBorder(1, 1, 12, 12, BorderSide.All, 1, Color.Black);
+            Printer.DrawQuadBorder(12, 1, 1, 12, BorderSide.Right, 1, Color.Black);
+        }
+        /****************************************************************************************/
+        string importedFile = "";
+        string actualFile = "";
+
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            DataTable workDt = null;
+            string sheetName = "";
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string file = ofd.FileName;
+                    importedFile = file;
+                    int idx = file.LastIndexOf("\\");
+                    if (idx > 0)
+                    {
+                        actualFile = file.Substring(idx);
+                        actualFile = actualFile.Replace("\\", "");
+                    }
+
+
+                    dgv.DataSource = null;
+                    this.Cursor = Cursors.WaitCursor;
+
+                    try
+                    {
+                        workDt = ExcelWriter.ReadFile2(file, 0, sheetName);
+                        if (workDt == null)
+                            return;
+                        if (workDt.Rows.Count < 2)
+                            return;
+                        workDt.TableName = actualFile;
+
+                        workDt.Columns.Add("mod");
+                        workDt.Columns.Add("record");
+
+                        for (int col = 0; col < workDt.Columns.Count; col++)
+                        {
+                            string name = workDt.Rows[0][col].ObjToString();
+                            if (string.IsNullOrEmpty(name))
+                                continue;
+
+                            workDt.Columns[col].ColumnName = name;
+                        }
+
+                        workDt.Rows.RemoveAt(0);
+                        for (int i = 0; i < workDt.Rows.Count; i++)
+                        {
+                            workDt.Rows[i]["mod"] = "Y";
+                        }
+
+                        G1.NumberDataTable(workDt);
+                        dgv.DataSource = workDt;
+                        dgv.Refresh();
+
+                        btnSaveAll.Show();
+                        btnSaveAll.Refresh();
+                        this.Cursor = Cursors.Default;
+
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
             }
         }
         /****************************************************************************************/
