@@ -2636,7 +2636,6 @@ namespace SMFS
                     G1.update_db_table("effectivedates", "record", record, new string[] { "category", workDescription, "effectiveDate", date.ToString("yyyy-MM-dd") });
                 }
                 //G1.update_db_table("effectivedates", "record", record, new string[] {"category", workDescription, "effectiveDate", date.ToString("yyyy-MM-dd") });
-                // I just Changed This
             }
             if (!chkUseNewVersion.Checked)
                 generateFormattedPriceListToolStripMenuItem_Click(null, null);
