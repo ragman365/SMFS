@@ -29,6 +29,10 @@ namespace SMFS
         private bool loading = true;
         private string workType = "";
         private string LapsedDate = "";
+        private bool modTrusts = false;
+        private bool modInsurance = false;
+        private bool testing = false;
+        private string oldWhat = "";
         /***********************************************************************************************/
         public Customers(bool select = false)
         {
@@ -229,8 +233,16 @@ namespace SMFS
                 gridMain.Columns["lapseDate8"].Visible = true;
             //if (qualify == "DECEASED")
             //    gridMain.Columns["deceasedDate"].Visible = true;
+            
+            if (G1.RobbyServer)
+            {
+                if (testing)
+                    cmd += " LIMIT 300 ";
+            }
+
             cmd += ";";
             cmd = cmd.Replace("WHERE ;", ";");
+
 
             DataTable dt = G1.get_db_data(cmd);
 
@@ -257,6 +269,7 @@ namespace SMFS
             dt.Columns.Add("idate");
             dt.Columns.Add("realDOLP");
             dt.Columns.Add("DDATE");
+            dt.Columns.Add("mod");
 
             DateTime ddate = DateTime.Now;
             //for (int i = 0; i < dt.Rows.Count; i++)
@@ -724,6 +737,13 @@ namespace SMFS
         /***********************************************************************************************/
         private void Customers_Load(object sender, EventArgs e)
         {
+            btnSave.Hide ();
+
+            SetupEdit(false);
+
+            if (!G1.isAdminOrSuper())
+                chkFullEdit.Hide();
+
             labelValue.Hide();
             labValue.Hide();
             btnFixInt.Hide();
@@ -2147,6 +2167,22 @@ namespace SMFS
                     }
                 }
             }
+            if (!chkFullEdit.Checked)
+            {
+                int rowhandle = gridMain.FocusedRowHandle;
+                int row = gridMain.GetDataSourceRowIndex(rowhandle);
+                string column = e.Column.FieldName;
+                return;
+            }
+            string type = cmbType.Text;
+            if (type.ToUpper() == "TRUSTS")
+                modTrusts = true;
+            else
+                modInsurance = true;
+
+            dr["mod"] = "Y";
+            btnSave.Show();
+            btnSave.Refresh();
         }
         /***********************************************************************************************/
         private void txtThreshold_TextChanged(object sender, EventArgs e)
@@ -3570,6 +3606,8 @@ namespace SMFS
                     dgv2.ContextMenuStrip = null;
             }
 
+            SetupEdit(chkFullEdit.Checked );
+
         }
         /****************************************************************************************/
         private void ClearAllPositions(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null)
@@ -4153,6 +4191,177 @@ namespace SMFS
         {
             TrustDeceased trustForm = new TrustDeceased();
             trustForm.Show();
+        }
+        /***********************************************************************************************/
+        private void trustContractLogReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+
+            TrustContractLogReport logReport = new TrustContractLogReport();
+            logReport.Show();
+
+            this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private void chkFullEdit_CheckedChanged(object sender, EventArgs e)
+        {
+            bool fullEdit = false;
+            if (chkFullEdit.Checked)
+                fullEdit = true;
+
+            SetupEdit(fullEdit);
+        }
+        /***********************************************************************************************/
+        private void SetupEdit ( bool allow )
+        {
+            bool fullEdit = allow;
+
+            gridMain.Columns["firstName"].OptionsColumn.AllowEdit = fullEdit;
+            gridMain.Columns["lastName"].OptionsColumn.AllowEdit = fullEdit;
+            if (G1.get_column_number(gridMain, "address1") > 0)
+            {
+                gridMain.Columns["address1"].OptionsColumn.AllowEdit = fullEdit;
+                gridMain.Columns["address2"].OptionsColumn.AllowEdit = fullEdit;
+                gridMain.Columns["city"].OptionsColumn.AllowEdit = fullEdit;
+                gridMain.Columns["state"].OptionsColumn.AllowEdit = fullEdit;
+                gridMain.Columns["zip1"].OptionsColumn.AllowEdit = fullEdit;
+            }
+
+            gridMain2.Columns["firstName"].OptionsColumn.AllowEdit = fullEdit;
+            gridMain2.Columns["lastName"].OptionsColumn.AllowEdit = fullEdit;
+            if (G1.get_column_number(gridMain2, "address1") > 0)
+            {
+                gridMain2.Columns["address1"].OptionsColumn.AllowEdit = fullEdit;
+                gridMain2.Columns["address2"].OptionsColumn.AllowEdit = fullEdit;
+                gridMain2.Columns["city"].OptionsColumn.AllowEdit = fullEdit;
+                gridMain2.Columns["state"].OptionsColumn.AllowEdit = fullEdit;
+                gridMain2.Columns["zip1"].OptionsColumn.AllowEdit = fullEdit;
+            }
+        }
+        /***********************************************************************************************/
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            string type = cmbType.Text;
+            DataTable dt = (DataTable)dgv.DataSource;
+            if ( modTrusts )
+            {
+                string firstName = "";
+                string lastName = "";
+                string address1 = "";
+                string address2 = "";
+                string city = "";
+                string state = "";
+                string zip = "";
+                string record = "";
+                string mod = "";
+                for ( int i=0; i<dt.Rows.Count; i++)
+                {
+                    try
+                    {
+                        mod = dt.Rows[i]["mod"].ObjToString();
+                        if (mod.ToUpper() != "Y")
+                            continue;
+                        firstName = dt.Rows[i]["firstName"].ObjToString();
+                        lastName = dt.Rows[i]["lastName"].ObjToString();
+                        address1 = dt.Rows[i]["address1"].ObjToString();
+                        address2 = dt.Rows[i]["address2"].ObjToString();
+                        city = dt.Rows[i]["city"].ObjToString();
+                        state = dt.Rows[i]["state"].ObjToString();
+                        zip = dt.Rows[i]["zip1"].ObjToString();
+
+                        record = dt.Rows[i]["record"].ObjToString();
+                        G1.update_db_table("customers", "record", record, new string[] { "firstName", firstName, "lastName", lastName, "address1", address1, "address2", address2, "city", city, "state", state, "zip1", zip });
+                    }
+                    catch ( Exception ex)
+                    {
+                    }
+                }
+            }
+
+            if (modInsurance)
+            {
+                dt = (DataTable)dgv2.DataSource;
+
+                string firstName = "";
+                string lastName = "";
+                string address1 = "";
+                string address2 = "";
+                string city = "";
+                string state = "";
+                string zip = "";
+                string record = "";
+                string mod = "";
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    try
+                    {
+                        mod = dt.Rows[i]["mod"].ObjToString();
+                        if (mod.ToUpper() != "Y")
+                            continue;
+                        firstName = dt.Rows[i]["firstName"].ObjToString();
+                        lastName = dt.Rows[i]["lastName"].ObjToString();
+                        address1 = dt.Rows[i]["address1"].ObjToString();
+                        address2 = dt.Rows[i]["address2"].ObjToString();
+                        city = dt.Rows[i]["city"].ObjToString();
+                        state = dt.Rows[i]["state"].ObjToString();
+                        zip = dt.Rows[i]["zip1"].ObjToString();
+
+                        record = dt.Rows[i]["record"].ObjToString();
+                        G1.update_db_table("icustomers", "record", record, new string[] { "firstName", firstName, "lastName", lastName, "address1", address1, "address2", address2, "city", city, "state", state, "zip1", zip });
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+            }
+
+            btnSave.Hide();
+            btnSave.Refresh();
+        }
+        /***********************************************************************************************/
+        private void gridMain2_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            if (loading)
+                return;
+            DataRow dr = gridMain2.GetFocusedDataRow();
+            DataTable dt = (DataTable)dgv2.DataSource;
+            //if (e.Column.FieldName.ToUpper() == "DUEDATE")
+            //{
+            //    int rowhandle = gridMain.FocusedRowHandle;
+            //    int row = gridMain.GetDataSourceRowIndex(rowhandle);
+            //    string cnum = dt.Rows[row]["contractNumber"].ObjToString();
+            //    if (!String.IsNullOrWhiteSpace(cnum))
+            //    {
+            //        string date = e.Value.ObjToString();
+            //        if (G1.validate_date(date))
+            //        {
+            //            MySqlDateTime myDate = (MySqlDateTime)G1.DTtoMySQLDT(date);
+            //            string dueDate = myDate.Month.ToString("D2") + "/" + myDate.Day.ToString("D2") + "/" + myDate.Year.ToString("D4");
+            //            string record = dt.Rows[row]["record1"].ObjToString();
+            //            G1.update_db_table(contractsFile, "record", record, new string[] { "dueDate8", dueDate });
+            //            BandedGridView view = sender as BandedGridView;
+            //            loading = true;
+            //            view.SetRowCellValue(e.RowHandle, view.Columns["dueDate"], dueDate);
+            //            loading = false;
+            //        }
+            //    }
+            //}
+            if (!chkFullEdit.Checked)
+            {
+                int rowhandle = gridMain2.FocusedRowHandle;
+                int row = gridMain2.GetDataSourceRowIndex(rowhandle);
+                string column = e.Column.FieldName;
+                return;
+            }
+            string type = cmbType.Text;
+            if (type.ToUpper() == "TRUSTS")
+                modTrusts = true;
+            else
+                modInsurance = true;
+
+            dr["mod"] = "Y";
+            btnSave.Show();
+            btnSave.Refresh();
         }
         /***********************************************************************************************/
     }

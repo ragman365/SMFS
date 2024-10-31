@@ -142,6 +142,8 @@
             this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn7 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.chkFullEdit = new System.Windows.Forms.CheckBox();
             this.chkShowTEB = new System.Windows.Forms.CheckBox();
             this.chkDownPayment = new System.Windows.Forms.CheckBox();
             this.btnFixInt = new System.Windows.Forms.Button();
@@ -232,6 +234,7 @@
             this.trustInterest15ReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trustContractsWODemographicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verificationModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trustContractLogReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insuranceReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.weekTotalsReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lapseReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -458,6 +461,7 @@
             this.gridMain2.OptionsView.ShowGroupPanel = false;
             this.gridMain2.PaintStyleName = "Skin";
             this.gridMain2.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridMain2_PopupMenuShowing);
+            this.gridMain2.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain2_CellValueChanged);
             this.gridMain2.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain2_CustomColumnDisplayText);
             this.gridMain2.DoubleClick += new System.EventHandler(this.gridMain2_DoubleClick);
             // 
@@ -1678,6 +1682,8 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.panelTop.Controls.Add(this.btnSave);
+            this.panelTop.Controls.Add(this.chkFullEdit);
             this.panelTop.Controls.Add(this.chkShowTEB);
             this.panelTop.Controls.Add(this.chkDownPayment);
             this.panelTop.Controls.Add(this.btnFixInt);
@@ -1705,6 +1711,30 @@
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1674, 78);
             this.panelTop.TabIndex = 1;
+            // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.Lime;
+            this.btnSave.Location = new System.Drawing.Point(1136, 27);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(100, 48);
+            this.btnSave.TabIndex = 141;
+            this.btnSave.Text = "Save Changes";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // chkFullEdit
+            // 
+            this.chkFullEdit.AutoSize = true;
+            this.chkFullEdit.Location = new System.Drawing.Point(1019, 54);
+            this.chkFullEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.chkFullEdit.Name = "chkFullEdit";
+            this.chkFullEdit.Size = new System.Drawing.Size(90, 21);
+            this.chkFullEdit.TabIndex = 140;
+            this.chkFullEdit.Text = "Allow Edit";
+            this.chkFullEdit.UseVisualStyleBackColor = true;
+            this.chkFullEdit.CheckedChanged += new System.EventHandler(this.chkFullEdit_CheckedChanged);
             // 
             // chkShowTEB
             // 
@@ -2409,7 +2439,8 @@
             this.trustTotalsToolStripMenuItem,
             this.trustInterest15ReportToolStripMenuItem,
             this.trustContractsWODemographicsToolStripMenuItem,
-            this.verificationModuleToolStripMenuItem});
+            this.verificationModuleToolStripMenuItem,
+            this.trustContractLogReportToolStripMenuItem});
             this.miscellaneousReportsMenu.Name = "miscellaneousReportsMenu";
             this.miscellaneousReportsMenu.Size = new System.Drawing.Size(240, 26);
             this.miscellaneousReportsMenu.Text = "Miscellaneous Reports";
@@ -2504,6 +2535,13 @@
             this.verificationModuleToolStripMenuItem.Size = new System.Drawing.Size(325, 26);
             this.verificationModuleToolStripMenuItem.Text = "Contracts Diagnostic Tool";
             this.verificationModuleToolStripMenuItem.Click += new System.EventHandler(this.verificationModuleToolStripMenuItem_Click);
+            // 
+            // trustContractLogReportToolStripMenuItem
+            // 
+            this.trustContractLogReportToolStripMenuItem.Name = "trustContractLogReportToolStripMenuItem";
+            this.trustContractLogReportToolStripMenuItem.Size = new System.Drawing.Size(325, 26);
+            this.trustContractLogReportToolStripMenuItem.Text = "Trust Contract Log Report";
+            this.trustContractLogReportToolStripMenuItem.Click += new System.EventHandler(this.trustContractLogReportToolStripMenuItem_Click);
             // 
             // insuranceReportsToolStripMenuItem
             // 
@@ -2955,5 +2993,8 @@
         private System.Windows.Forms.ToolStripMenuItem editAgentMeetingsToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkShowTEB;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem19;
+        private System.Windows.Forms.ToolStripMenuItem trustContractLogReportToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkFullEdit;
+        private System.Windows.Forms.Button btnSave;
     }
 }
