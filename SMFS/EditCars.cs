@@ -45,7 +45,7 @@ namespace SMFS
         /****************************************************************************************/
         private void pictureBox12_Click(object sender, EventArgs e)
         { // Add New Row
-            DataTable dt = (DataTable)dgv.DataSource;
+            DataTable dt = (DataTable) dgv.DataSource;
             DataRow dRow = dt.NewRow();
             dt.Rows.Add(dRow);
             G1.NumberDataTable(dt);
@@ -134,7 +134,7 @@ namespace SMFS
 
             string cmd = "DELETE from `cars` WHERE `model` = '-1'";
             G1.get_db_data(cmd);
-            DataTable dx = G1.get_db_data("select * from `cars`;");
+            DataTable dx = G1.get_db_data ("select * from `cars`;");
             DataRow[] dRows = null;
 
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -165,8 +165,8 @@ namespace SMFS
                 //if (dx.Rows.Count > 0)
                 //    record = dx.Rows[0]["record"].ObjToString();
 
-
-                if (String.IsNullOrWhiteSpace(record))
+               
+                if ( String.IsNullOrWhiteSpace ( record ))
                     record = G1.create_record("cars", "model", "-1");
                 if (G1.BadRecord("cars", record))
                     return;
@@ -343,7 +343,7 @@ namespace SMFS
             this.Close();
         }
 
-
+        
         /***********************************************************************************************/
         private int pageMarginLeft = 0;
         private int pageMarginRight = 0;
@@ -498,11 +498,11 @@ namespace SMFS
                         actualFile = file.Substring(idx);
                         actualFile = actualFile.Replace("\\", "");
                     }
-
+                         
 
                     dgv.DataSource = null;
                     this.Cursor = Cursors.WaitCursor;
-
+                    
                     try
                     {
                         workDt = ExcelWriter.ReadFile2(file, 0, sheetName);
@@ -537,7 +537,7 @@ namespace SMFS
                         btnSaveAll.Show();
                         btnSaveAll.Refresh();
                         this.Cursor = Cursors.Default;
-
+                        
                     }
                     catch (Exception ex)
                     {
