@@ -286,12 +286,12 @@ namespace SMFS
                 {
                     fmrmyform.Text = "";
                     fmrmyform.ShowDialog();
-                    string p = fmrmyform.Answer.Trim();
+                    string p = fmrmyform.Answer.Trim(); //VkjaW3euXJwgZFaV1KZAJg== P@ssword.1090
                     if (!String.IsNullOrWhiteSpace(p))
                     {
                         string PasswordHash = LoginForm.Hash(p);
 
-                        if ( PasswordHash != "wT3VShtuQSL5HGKgnT+RlA==")
+                        if ( PasswordHash != "VkjaW3euXJwgZFaV1KZAJg==")
                         {
                             e.Cancel = true;
                             return;
