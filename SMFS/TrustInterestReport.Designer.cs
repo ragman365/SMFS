@@ -61,6 +61,7 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.btnRun = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.chkExcludeDBR = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -78,7 +79,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1210, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1210, 28);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -89,7 +90,7 @@
             this.menuPreviousData,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -133,10 +134,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1210, 575);
+            this.panelAll.Size = new System.Drawing.Size(1210, 577);
             this.panelAll.TabIndex = 8;
             // 
             // panelBottom
@@ -146,7 +147,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 66);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1210, 509);
+            this.panelBottom.Size = new System.Drawing.Size(1210, 511);
             this.panelBottom.TabIndex = 10;
             // 
             // dgv
@@ -157,7 +158,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1210, 509);
+            this.dgv.Size = new System.Drawing.Size(1210, 511);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -418,6 +419,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.chkExcludeDBR);
             this.panelTop.Controls.Add(this.lblRunOn);
             this.panelTop.Controls.Add(this.cmbRunOn);
             this.panelTop.Controls.Add(this.txtContract);
@@ -561,6 +563,16 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // chkExcludeDBR
+            // 
+            this.chkExcludeDBR.AutoSize = true;
+            this.chkExcludeDBR.Location = new System.Drawing.Point(630, 39);
+            this.chkExcludeDBR.Name = "chkExcludeDBR";
+            this.chkExcludeDBR.Size = new System.Drawing.Size(118, 21);
+            this.chkExcludeDBR.TabIndex = 173;
+            this.chkExcludeDBR.Text = "Exclude DBR\'s";
+            this.chkExcludeDBR.UseVisualStyleBackColor = true;
+            // 
             // TrustInterestReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -621,5 +633,6 @@
         private System.Windows.Forms.Label lblRunOn;
         private System.Windows.Forms.ComboBox cmbRunOn;
         private System.Windows.Forms.ToolStripMenuItem menuPreviousData;
+        private System.Windows.Forms.CheckBox chkExcludeDBR;
     }
 }

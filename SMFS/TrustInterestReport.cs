@@ -588,6 +588,7 @@ namespace SMFS
             string apr = dx.Rows[0]["APR"].ObjToString();
             double dAPR = apr.ObjToDouble() / 100.0D;
             double contractValue = DailyHistory.GetContractValue(dx.Rows[0]);
+            DateTime deceasedDate = dx.Rows[0]["deceasedDate"].ObjToDateTime();
 
             cmd = "Select * from `payments` where `contractNumber` = '" + contractNumber + "' order by `paydate8` DESC, `tmstamp` DESC;";
             dx = G1.get_db_data(cmd);
@@ -595,6 +596,8 @@ namespace SMFS
             if (numPayments <= 0 && dx.Rows.Count > 0)
                 numPayments = dx.Rows.Count;
             double startBalance = DailyHistory.GetFinanceValue(contractNumber);
+
+            bool excludeDBR = chkExcludeDBR.Checked;
 
             DailyHistory.CalculateNewStuff(dx, dAPR, numPayments, startBalance, lastDate);
 
@@ -605,6 +608,11 @@ namespace SMFS
                 {
                     if (iDate > workDate2)
                         break;
+                    if ( excludeDBR )
+                    {
+                        if (iDate.Year == deceasedDate.Year && iDate.Month == deceasedDate.Month)
+                            continue;
+                    }
                     totalInterest += dx.Rows[i]["interestPaid"].ObjToDouble();
                     total15 += dx.Rows[i]["calculatedTrust100"].ObjToDouble() - dx.Rows[i]["calculatedTrust85"].ObjToDouble();
                 }
