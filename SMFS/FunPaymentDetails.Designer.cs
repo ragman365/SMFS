@@ -45,6 +45,7 @@
             this.recalcAmountFiledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goToTBBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goToDailyHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showTrustCompanyMoneyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -222,30 +223,38 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recalcAmountFiledToolStripMenuItem,
             this.goToTBBToolStripMenuItem,
-            this.goToDailyHistoryToolStripMenuItem});
+            this.goToDailyHistoryToolStripMenuItem,
+            this.showTrustCompanyMoneyToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(215, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(266, 100);
             // 
             // recalcAmountFiledToolStripMenuItem
             // 
             this.recalcAmountFiledToolStripMenuItem.Name = "recalcAmountFiledToolStripMenuItem";
-            this.recalcAmountFiledToolStripMenuItem.Size = new System.Drawing.Size(214, 24);
+            this.recalcAmountFiledToolStripMenuItem.Size = new System.Drawing.Size(265, 24);
             this.recalcAmountFiledToolStripMenuItem.Text = "Recalc Amount Filed";
             this.recalcAmountFiledToolStripMenuItem.Click += new System.EventHandler(this.recalcAmountFiledToolStripMenuItem_Click);
             // 
             // goToTBBToolStripMenuItem
             // 
             this.goToTBBToolStripMenuItem.Name = "goToTBBToolStripMenuItem";
-            this.goToTBBToolStripMenuItem.Size = new System.Drawing.Size(214, 24);
+            this.goToTBBToolStripMenuItem.Size = new System.Drawing.Size(265, 24);
             this.goToTBBToolStripMenuItem.Text = "GoTo TBB";
             this.goToTBBToolStripMenuItem.Click += new System.EventHandler(this.goToTBBToolStripMenuItem_Click);
             // 
             // goToDailyHistoryToolStripMenuItem
             // 
             this.goToDailyHistoryToolStripMenuItem.Name = "goToDailyHistoryToolStripMenuItem";
-            this.goToDailyHistoryToolStripMenuItem.Size = new System.Drawing.Size(214, 24);
+            this.goToDailyHistoryToolStripMenuItem.Size = new System.Drawing.Size(265, 24);
             this.goToDailyHistoryToolStripMenuItem.Text = "GoTo Daily History";
             this.goToDailyHistoryToolStripMenuItem.Click += new System.EventHandler(this.goToDailyHistoryToolStripMenuItem_Click);
+            // 
+            // showTrustCompanyMoneyToolStripMenuItem
+            // 
+            this.showTrustCompanyMoneyToolStripMenuItem.Name = "showTrustCompanyMoneyToolStripMenuItem";
+            this.showTrustCompanyMoneyToolStripMenuItem.Size = new System.Drawing.Size(265, 24);
+            this.showTrustCompanyMoneyToolStripMenuItem.Text = "Show Trust Company Money";
+            this.showTrustCompanyMoneyToolStripMenuItem.Click += new System.EventHandler(this.showTrustCompanyMoneyToolStripMenuItem_Click);
             // 
             // gridMain
             // 
@@ -1245,5 +1254,6 @@
         private System.Windows.Forms.ToolStripMenuItem goToDailyHistoryToolStripMenuItem;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn24;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit2;
+        private System.Windows.Forms.ToolStripMenuItem showTrustCompanyMoneyToolStripMenuItem;
     }
 }

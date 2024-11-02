@@ -181,7 +181,10 @@ namespace SMFS
                 cmd += " ORDER BY p.`deceasedDate`;";
 
                 dt = G1.get_db_data(cmd);
+
                 int count = dt.Rows.Count;
+
+                Trust85.FindContract(dt, "M1488");
 
                 dt = SalesTaxReport.ProcessTheData(dt, date1, date2);
             }
@@ -217,6 +220,8 @@ namespace SMFS
 
                 dt.Merge(ddt);
             }
+
+            dt = G1.RemoveDuplicates(dt, "serviceId");
 
             string chart = txtChart.Text.Trim();
             if ( !String.IsNullOrWhiteSpace ( chart ))
@@ -294,7 +299,7 @@ namespace SMFS
                             serviceId = dt.Rows[i]["ServiceId"].ObjToString();
                         else
                             serviceId = dt.Rows[i]["contractNumber"].ObjToString();
-                        if ( serviceId.ToUpper() == "HA23099")
+                        if ( serviceId.ToUpper() == "RA24028")
                         {
                         }
                         if (serviceId == "CT22060")

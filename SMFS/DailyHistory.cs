@@ -2126,7 +2126,7 @@ namespace SMFS
                     paymentAmount = payment + credit - debit;
                     if ( interest == 0D && credit > 0D )
                     {
-                        byPassDueDate = true;
+                        //byPassDueDate = true; // Removed because of M23002LI on 10/15/2024
                     }
                     if (datePaid < majorDate && !recalculateHistory)
                     {
@@ -4180,13 +4180,14 @@ namespace SMFS
             return downPayment;
         }
         /****************************************************************************************/
-        public static bool GetDownPaymentFromPayments(string contractNumber, ref double downPayment, ref DateTime downPaymentDate, ref double trust85P, ref double trust100P, ref double ccFee, ref string record2 )
+        public static bool GetDownPaymentFromPayments(string contractNumber, ref double downPayment, ref DateTime downPaymentDate, ref double trust85P, ref double trust100P, ref double ccFee, ref string record2, ref string depositNumber )
         {
             downPayment = 0D;
             ccFee = 0D;
             trust85P = 0D;
             trust100P = 0D;
             record2 = "";
+            depositNumber = "";
             bool rtn = false;
             string cmd = "Select * from `payments` where `contractNumber` = '" + contractNumber + "' AND `downPayment` > '0.00';";
             DataTable dx = G1.get_db_data(cmd);
@@ -4201,6 +4202,7 @@ namespace SMFS
                 downPaymentDate = dx.Rows[0]["payDate8"].ObjToDateTime();
                 trust85P = dx.Rows[0]["trust85P"].ObjToDouble();
                 trust100P = dx.Rows[0]["trust100P"].ObjToDouble();
+                depositNumber = dx.Rows[0]["depositNumber"].ObjToString();
                 record2 = dx.Rows[0]["record"].ObjToString();
                 rtn = true;
             }

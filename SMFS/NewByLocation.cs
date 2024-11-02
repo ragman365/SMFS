@@ -191,7 +191,7 @@ namespace SMFS
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                if ( contractNumber == "L21129L")
+                if ( contractNumber == "E24063LI")
                 {
                 }
                 contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);

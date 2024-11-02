@@ -197,11 +197,11 @@ namespace SMFS
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                        if (contractNumber == "HT24004L")
+                        if (contractNumber == "C24048LI")
                         {
                         }
                         contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
-                        if (contractNumber == "M23001LI")
+                        if (contractNumber == "E24063LI")
                         {
                         }
                         //if ( loc == "HC" || loc == "NNM" )
@@ -309,7 +309,10 @@ namespace SMFS
                     for (int i = dt.Rows.Count - 1; i >= 0; i--)
                     {
                         contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                        if (contractNumber == "M23001LI")
+                        if (contractNumber == "C24048LI")
+                        {
+                        }
+                        if (contractNumber == "E24063LI")
                         {
                         }
                         deceasedDate = G1.GetSQLDate(dt, i, "deceasedDate");
@@ -980,7 +983,7 @@ namespace SMFS
                 try
                 {
                     contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                    if ( contractNumber == "WM23032LI")
+                    if ( contractNumber == "E24063LI")
                     {
                     }
                     deceasedDate = dt.Rows[i]["deceasedDate"].ObjToDateTime();
@@ -1061,6 +1064,11 @@ namespace SMFS
                         deceasedDate = dt.Rows[i]["deceasedDate"].ObjToDateTime();
                         if (deceasedDate.Year < 1000 && !doTotals )
                             continue;
+                        if (deceasedDate.Year > 100 && contractValue <= 0D)
+                            dbrs += 1;
+                    }
+                    else
+                    {
                         if (deceasedDate.Year > 100 && contractValue <= 0D)
                             dbrs += 1;
                     }

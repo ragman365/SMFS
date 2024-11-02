@@ -82,6 +82,8 @@ namespace SMFS
 
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Reflection.AssemblyName assemblyName = assembly.GetName();
+            string location = assembly.Location;
+            string lastPath = G1.LastPath(location);
             Version version = assemblyName.Version;
 
             DateTime lastMake = File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location);
@@ -89,7 +91,7 @@ namespace SMFS
             string[] Lines = version.ObjToString().Split('.');
             try
             {
-                this.Text += " " + Lines[0] + "." + Lines[1] + "." + Lines[3];
+                this.Text += " " + Lines[0] + "." + Lines[1] + "." + Lines[3] + " " + lastPath;
             }
             catch
             {
@@ -544,8 +546,10 @@ namespace SMFS
         /****************************************************************************************/
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
             EditHelp helpForm = new EditHelp();
             helpForm.Show();
+            this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/
         private void importCustomerData2012AndLaterToolStripMenuItem_Click(object sender, EventArgs e)

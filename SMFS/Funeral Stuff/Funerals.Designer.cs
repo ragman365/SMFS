@@ -49,6 +49,7 @@
             this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn29 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn30 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn31 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridColumn14 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.gridColumn12 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -105,6 +106,7 @@
             this.bandedGridColumn26 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn27 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn28 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn32 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repButton = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.repositoryItemPictureEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
             this.panelTop = new System.Windows.Forms.Panel();
@@ -162,8 +164,6 @@
             this.commissionDirectorArrangerSetupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.funeralsAvailableForCommissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.funeralCommissionsForArrangersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bandedGridColumn31 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn32 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -484,7 +484,7 @@
             this.gridBand3.Name = "gridBand3";
             this.gridBand3.OptionsBand.FixedWidth = true;
             this.gridBand3.VisibleIndex = 0;
-            this.gridBand3.Width = 2004;
+            this.gridBand3.Width = 2098;
             // 
             // Num
             // 
@@ -595,6 +595,16 @@
             this.bandedGridColumn30.Visible = true;
             this.bandedGridColumn30.Width = 94;
             // 
+            // bandedGridColumn31
+            // 
+            this.bandedGridColumn31.Caption = "Director";
+            this.bandedGridColumn31.FieldName = "Funeral Director";
+            this.bandedGridColumn31.MinWidth = 25;
+            this.bandedGridColumn31.Name = "bandedGridColumn31";
+            this.bandedGridColumn31.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn31.Visible = true;
+            this.bandedGridColumn31.Width = 94;
+            // 
             // gridColumn14
             // 
             this.gridColumn14.Caption = "Contract / Payer";
@@ -690,7 +700,6 @@
             this.gridBand2.Columns.Add(this.bandedGridColumn19);
             this.gridBand2.Columns.Add(this.bandedGridColumn17);
             this.gridBand2.Columns.Add(this.bandedGridColumn15);
-            this.gridBand3.Columns.Add(this.bandedGridColumn31);
             this.gridBand2.Columns.Add(this.bandedGridColumn13);
             this.gridBand2.Columns.Add(this.bandedGridColumn14);
             this.gridBand2.Columns.Add(this.bandedGridColumn16);
@@ -1317,6 +1326,16 @@
             this.bandedGridColumn28.Visible = true;
             this.bandedGridColumn28.Width = 149;
             // 
+            // bandedGridColumn32
+            // 
+            this.bandedGridColumn32.Caption = "Director";
+            this.bandedGridColumn32.FieldName = "Funeral Director";
+            this.bandedGridColumn32.MinWidth = 25;
+            this.bandedGridColumn32.Name = "bandedGridColumn32";
+            this.bandedGridColumn32.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn32.Visible = true;
+            this.bandedGridColumn32.Width = 94;
+            // 
             // repButton
             // 
             this.repButton.AutoHeight = false;
@@ -1880,26 +1899,6 @@
             this.funeralCommissionsForArrangersToolStripMenuItem.Size = new System.Drawing.Size(343, 26);
             this.funeralCommissionsForArrangersToolStripMenuItem.Text = "Funeral Commissions for Arrangers";
             this.funeralCommissionsForArrangersToolStripMenuItem.Click += new System.EventHandler(this.funeralCommissionsForArrangersToolStripMenuItem_Click);
-            // 
-            // bandedGridColumn31
-            // 
-            this.bandedGridColumn31.Caption = "Director";
-            this.bandedGridColumn31.FieldName = "Funeral Director";
-            this.bandedGridColumn31.MinWidth = 25;
-            this.bandedGridColumn31.Name = "bandedGridColumn31";
-            this.bandedGridColumn31.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn31.Visible = true;
-            this.bandedGridColumn31.Width = 94;
-            // 
-            // bandedGridColumn32
-            // 
-            this.bandedGridColumn32.Caption = "Director";
-            this.bandedGridColumn32.FieldName = "Funeral Director";
-            this.bandedGridColumn32.MinWidth = 25;
-            this.bandedGridColumn32.Name = "bandedGridColumn32";
-            this.bandedGridColumn32.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn32.Visible = true;
-            this.bandedGridColumn32.Width = 94;
             // 
             // Funerals
             // 

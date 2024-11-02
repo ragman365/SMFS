@@ -575,6 +575,8 @@ namespace SMFS
                         double endingBalance = 0D;
                         double trust85Pending = 0D;
                         string contract = workDR["trust_policy"].ObjToString();
+                        if (String.IsNullOrWhiteSpace(contract))
+                            contract = workContract;
                         //                    CalcTrust2013(workContract, ref endingBalance, ref trust85Pending);
                         unityRefund = getPossibleRefund(contract);
                         CalcTrust2013(contract, ref endingBalance, ref trust85Pending, ref beginningBalance, ref locind);
@@ -586,6 +588,9 @@ namespace SMFS
                         if (dbr > 0D)
                             totalTrust = totalTrust - dbr;
                         totalTrust = G1.RoundValue(totalTrust);
+                        str = G1.ReformatMoney(totalTrust);
+                        tbb.Text = str;
+
                         dr["trustAmtFiled"] = totalTrust; // Dont do this yet/ Need Confirmation from Cliff/Charlotte
                         //dr["trustAmtFiled"] = totalTrust - unityRefund;
 
@@ -3369,6 +3374,98 @@ namespace SMFS
             }
             SetupSave();
             gridMain.RefreshData();
+        }
+        /****************************************************************************************/
+        private void showTrustCompanyMoneyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int rowHandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowHandle);
+            DataRow dr = gridMain.GetFocusedDataRow();
+            string contract = workDR["trust_policy"].ObjToString();
+            if (String.IsNullOrWhiteSpace(contract))
+                contract = workContract;
+            if (!String.IsNullOrWhiteSpace(contract))
+            {
+                this.Cursor = Cursors.WaitCursor;
+                this.Hide();
+                TrustDeceased deceased = new TrustDeceased(contract);
+                deceased.acceptTrustMoney += Deceased_acceptTrustMoney;
+                deceased.ShowDialog();
+                this.Show();
+                this.Cursor = Cursors.Default;
+            }
+        }
+        /****************************************************************************************/
+        private DataTable addTrustRow ( DataTable dx, string trustCompany, double money )
+        {
+            DataRow dRow = null;
+            string trust = "";
+            string type = "";
+            string paidFrom = "";
+            bool found = false;
+            for ( int i=0; i<dx.Rows.Count; i++)
+            {
+                //found = false;
+                trust = dx.Rows[i]["type"].ObjToString();
+                paidFrom = dx.Rows[i]["paidFrom"].ObjToString();
+                if ( trust.Trim().ToUpper() == "TRUST")
+                {
+                    if ( !String.IsNullOrWhiteSpace ( paidFrom ))
+                    {
+                        if (paidFrom.Trim().ToUpper() == trustCompany.Trim().ToUpper())
+                            continue;
+                    }
+                    else
+                    {
+                        dx.Rows[i]["type"] = "Trust";
+                        dx.Rows[i]["paidFrom"] = trustCompany;
+                        dx.Rows[i]["trustAmtFiled"] = money;
+                        dx.Rows[i]["pmtInTransition"] = "0";
+                        dx.Rows[i]["discresionaryACH"] = "0";
+                        found = true;
+                    }
+                }
+            }
+            if (!found)
+            {
+                dRow = dx.NewRow();
+                dRow["type"] = "Trust";
+                dRow["paidFrom"] = trustCompany;
+                dRow["trustAmtFiled"] = money;
+                dRow["pmtInTransition"] = "0";
+                dRow["discresionaryACH"] = "0";
+                dx.Rows.Add(dRow);
+                found = true;
+            }
+            return dx;
+        }
+        /****************************************************************************************/
+        private void Deceased_acceptTrustMoney(DataTable dt)
+        {
+            DataTable dx = (DataTable)dgv.DataSource;
+
+            try
+            {
+                double securityNational = dt.Rows[0]["Security National"].ObjToDouble();
+                double forethought = dt.Rows[0]["Forethought"].ObjToDouble();
+                double unity = dt.Rows[0]["Unity"].ObjToDouble();
+                double fdlic = dt.Rows[0]["FDLIC"].ObjToDouble();
+
+                if (securityNational > 0D)
+                    dx = addTrustRow(dx, "Security National", securityNational);
+                if (forethought > 0D)
+                    dx = addTrustRow(dx, "Forethought", forethought);
+                if (unity > 0D)
+                    dx = addTrustRow(dx, "Unity", unity);
+                if (fdlic > 0D)
+                    dx = addTrustRow(dx, "FDLIC", fdlic);
+            }
+            catch ( Exception ex)
+            {
+            }
+
+            dgv.DataSource = dx;
+            dgv.Refresh();
         }
     }
     /****************************************************************************************/

@@ -618,10 +618,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1430, 534);
+            this.panelAll.Size = new System.Drawing.Size(1430, 532);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -631,7 +631,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 123);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1430, 411);
+            this.panelBottom.Size = new System.Drawing.Size(1430, 409);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -653,7 +653,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1430, 411);
+            this.tabControl1.Size = new System.Drawing.Size(1430, 409);
             this.tabControl1.TabIndex = 5;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -664,7 +664,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(1422, 382);
+            this.tabPage1.Size = new System.Drawing.Size(1422, 380);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Details";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -680,7 +680,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1416, 374);
+            this.dgv.Size = new System.Drawing.Size(1416, 372);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -6128,7 +6128,7 @@
             this.tabCommission.Location = new System.Drawing.Point(4, 25);
             this.tabCommission.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCommission.Name = "tabCommission";
-            this.tabCommission.Size = new System.Drawing.Size(1422, 382);
+            this.tabCommission.Size = new System.Drawing.Size(1422, 380);
             this.tabCommission.TabIndex = 9;
             this.tabCommission.Text = "Commissions";
             this.tabCommission.UseVisualStyleBackColor = true;
@@ -6141,7 +6141,7 @@
             this.panelCommAll.Location = new System.Drawing.Point(0, 0);
             this.panelCommAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelCommAll.Name = "panelCommAll";
-            this.panelCommAll.Size = new System.Drawing.Size(1422, 382);
+            this.panelCommAll.Size = new System.Drawing.Size(1422, 380);
             this.panelCommAll.TabIndex = 0;
             // 
             // panelCommBottom
@@ -6151,7 +6151,7 @@
             this.panelCommBottom.Location = new System.Drawing.Point(0, 48);
             this.panelCommBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelCommBottom.Name = "panelCommBottom";
-            this.panelCommBottom.Size = new System.Drawing.Size(1422, 334);
+            this.panelCommBottom.Size = new System.Drawing.Size(1422, 332);
             this.panelCommBottom.TabIndex = 2;
             // 
             // dgv10
@@ -6165,7 +6165,7 @@
             this.dgv10.MainView = this.gridMain10;
             this.dgv10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv10.Name = "dgv10";
-            this.dgv10.Size = new System.Drawing.Size(1422, 334);
+            this.dgv10.Size = new System.Drawing.Size(1422, 332);
             this.dgv10.TabIndex = 5;
             this.dgv10.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain10});
@@ -8634,7 +8634,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1430, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1430, 30);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -8646,7 +8646,7 @@
             this.toolStripMenuItem2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -8695,7 +8695,7 @@
             // columnsToolStripMenuItem
             // 
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
             this.columnsToolStripMenuItem.Text = "Columns";
             // 
             // reportsToolStripMenuItem
@@ -8705,7 +8705,7 @@
             this.historicCommissionsToolStripMenuItem,
             this.agentsPieChartToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // trustReportsToolStripMenuItem
@@ -8733,7 +8733,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 

@@ -26,6 +26,11 @@ namespace SMFS
         private DataTable feeDt = null;
         private DataTable workDt = null;
         private int workLastRow = -1;
+        private string workContractNumber = "";
+        private string workLastName = "";
+        private string workFirstName = "";
+        private DateTime workDate = DateTime.Now;
+        private bool matching = false;
         /***********************************************************************************************/
         public DownPayments( string title = "", bool verify = false )
         {
@@ -40,6 +45,18 @@ namespace SMFS
             InitializeComponent();
             workDt = dx;
             workTitle = title;
+            SetupTotalsSummary();
+        }
+        /***********************************************************************************************/
+        public DownPayments(string contractNumber, string lastName, string firstName, DateTime depositDate, string title = "")
+        {
+            InitializeComponent();
+            workContractNumber = contractNumber;
+            workLastName = lastName;
+            workFirstName = firstName;
+            workDate = depositDate;
+            workTitle = title;
+            matching = true;
             SetupTotalsSummary();
         }
         /***********************************************************************************************/
@@ -96,6 +113,12 @@ namespace SMFS
             dt.Columns.Add("payer");
             //dt.Columns.Add("localDescription");
             G1.NumberDataTable(dt);
+
+            if (matching)
+                dt = matchData();
+            else
+                dgv.ContextMenu = null;
+
             dgv.DataSource = dt;
             loading = false;
             btnSave.Hide();
@@ -103,6 +126,70 @@ namespace SMFS
                 gridMain.Columns["status"].Visible = false;
             gridMain.Columns["contractNumber"].Visible = false;
             gridMain.Columns["payer"].Visible = false;
+        }
+        /****************************************************************************************/
+        private DataTable matchData ()
+        {
+            bool byName = false;
+            string cmd = "";
+            if (!String.IsNullOrWhiteSpace(workContractNumber))
+                cmd = "Select * from `downpayments` where `trustNumber` = '" + workContractNumber + "';";
+            else
+            {
+                DateTime date = workDate.AddDays(-30);
+                string firstDate = date.ToString("yyyyMMdd");
+                date = workDate.AddDays(30);
+                string lastDate = date.ToString("yyyyMMdd");
+
+                this.dateTimePicker1.Value = firstDate.ObjToDateTime();
+                this.dateTimePicker2.Value = lastDate.ObjToDateTime();
+
+                cmd = "Select * from `downpayments` where `date` >= '" + firstDate + "' AND `date` <= '" + lastDate + " ";
+                cmd += " AND `lastName` = '" + workLastName + "' ";
+                cmd += ";";
+                byName = true;
+            }
+
+            DataTable dt = G1.get_db_data(cmd);
+            if ( dt.Rows.Count <= 0 && !byName )
+            {
+                DateTime date = workDate.AddDays(-30);
+                string firstDate = date.ToString("yyyyMMdd");
+                date = workDate.AddDays(30);
+                string lastDate = date.ToString("yyyyMMdd");
+
+                this.dateTimePicker1.Value = firstDate.ObjToDateTime();
+                this.dateTimePicker2.Value = lastDate.ObjToDateTime();
+
+                cmd = "Select * from `downpayments` where `date` >= '" + firstDate + "' AND `date` <= '" + lastDate + "' ";
+                cmd += " AND `lastName` = '" + workLastName + "' ";
+                cmd += ";";
+                dt = G1.get_db_data(cmd);
+                if ( dt.Rows.Count > 0 )
+                {
+                    DataRow[] dRows = dt.Select("firstName='" + workFirstName + "'");
+                    if (dRows.Length > 0)
+                        dt = dRows.CopyToDataTable();
+                }
+            }
+
+            dt.Columns.Add("num");
+            dt.Columns.Add("myDate");
+            dt.Columns.Add("mod");
+            dt.Columns.Add("status");
+            dt.Columns.Add("contractNumber");
+            dt.Columns.Add("payer");
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dt.Rows[i]["myDate"] = dt.Rows[i]["date"].ObjToDateTime().ToString("MM/dd/yyyy");
+            }
+
+            G1.NumberDataTable(dt);
+
+            gridMain.Columns["trustNumber"].OptionsColumn.AllowEdit = true;
+
+            return dt;
         }
         /****************************************************************************************/
         private void SetupTotalsSummary()
@@ -385,6 +472,12 @@ namespace SMFS
                 gridMain.Columns["status"].Visible = false;
             gridMain.Columns["contractNumber"].Visible = false;
             gridMain.Columns["payer"].Visible = false;
+
+            if ( G1.isAdminOrSuper() )
+            {
+                gridMain.Columns["trustNumber"].OptionsColumn.AllowEdit = true;
+                gridMain.Columns["contractNumber"].OptionsColumn.AllowEdit = true;
+            }
 
 
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -814,6 +907,7 @@ namespace SMFS
             decimal payment = 0;
             decimal totalDeposit = 0;
             decimal ccFee = 0;
+            string trustNumber = "";
             string firstName = "";
             string lastName = "";
             string record = "";
@@ -827,6 +921,8 @@ namespace SMFS
             bool adding = false;
             string what = "";
             string detail = "";
+
+            this.Cursor = Cursors.WaitCursor;
 
             DataTable dt = (DataTable)dgv.DataSource;
             for ( int i=0; i<dt.Rows.Count; i++)
@@ -852,6 +948,7 @@ namespace SMFS
                 if (G1.BadRecord("downpayments", record))
                     continue;
                 dt.Rows[i]["record"] = record;
+                trustNumber = dt.Rows[i]["trustNumber"].ObjToString();
                 date = dt.Rows[i]["myDate"].ObjToDateTime();
                 location = dt.Rows[i]["location"].ObjToString();
                 downPayment = dt.Rows[i]["downPayment"].ObjToDecimal();
@@ -868,6 +965,10 @@ namespace SMFS
 
 
                 G1.update_db_table("downpayments", "record", record, new string[] { "depositNumber", depositNumber, "date", date.ToString("yyyy-MM-dd"), "downPayment", downPayment.ToString(), "lossRecoveryFee", lossRecoveryFee.ToString(), "payment", payment.ToString(), "totalDeposit", totalDeposit.ToString(), "firstName", firstName, "lastName", lastName, "location", location, "paymentType", paymentType, "bankAccount", bankAccount, "localDescription", localDescription, "ccFee", ccFee.ToString(), "user", user } );
+                if ( matching )
+                    G1.update_db_table("downpayments", "record", record, new string[] { "trustNumber", trustNumber });
+                else if ( G1.isAdminOrSuper () )
+                    G1.update_db_table("downpayments", "record", record, new string[] { "trustNumber", trustNumber });
 
                 dt.Rows[i]["mod"] = "";
 
@@ -880,6 +981,7 @@ namespace SMFS
             }
             btnSave.Hide();
             modified = false;
+            this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
         private void DownPayments_FormClosing(object sender, FormClosingEventArgs e)
@@ -1795,6 +1897,18 @@ namespace SMFS
                 if (currentColumn.ToUpper() == "LOCALDESCRIPTION")
                     tryBankSetup( rowHandle );
             }
+        }
+        /***********************************************************************************************/
+        private void updateTrustNumberToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain.GetFocusedDataRow();
+
+            dr["trustNumber"] = workContractNumber;
+            dr["mod"] = "Y";
+            gridMain.RefreshEditor( true );
+
+            btnSave.Show();
+            btnSave.Refresh();
         }
         /***********************************************************************************************/
     }

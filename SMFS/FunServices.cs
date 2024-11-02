@@ -2687,6 +2687,22 @@ namespace SMFS
             bool modified = false;
             return modified;
         }
+        /****************************************************************************************/
+        public delegate void d_FunServicesPrint(string who, DevExpress.XtraGrid.GridControl dgv1);
+        public event d_FunServicesPrint funServicesPrint;
+        /***************************************************************************************/
+        public void FireEventPrintPreview()
+        {
+            if ( btnServices.BackColor == Color.Yellow )
+                funServicesPrint("Services", dgv);
+            else if (btnMerchandise.BackColor == Color.Yellow)
+                funServicesPrint("Merchandise", dgv);
+            else if (btnCashAdvance.BackColor == Color.Yellow)
+                funServicesPrint("Cash Advance", dgv);
+            else if (btnShowAll.BackColor == Color.Yellow)
+                funServicesPrint("All Services", dgv);
+            return;
+        }
         /***************************************************************************************/
         public DataTable FireEventFunServicesReturn()
         {

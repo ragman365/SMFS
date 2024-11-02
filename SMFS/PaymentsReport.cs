@@ -629,8 +629,8 @@ namespace SMFS
 
             AddSummaryColumn("dbr", gridMain6);
 
-            AddSummaryColumn("trust100P", gridMain7);
-            AddSummaryColumn("trust85P", gridMain7);
+            //AddSummaryColumn("trust100P", gridMain7);
+            //AddSummaryColumn("trust85P", gridMain7);
             AddSummaryColumn("downPayment", gridMain7);
             AddSummaryColumn("newBusiness", gridMain7);
             AddSummaryColumn("dbr", gridMain7);
@@ -1642,6 +1642,11 @@ namespace SMFS
         {
             this.Cursor = Cursors.WaitCursor;
 
+            dgv.DataSource = null;
+            dgv.Refresh();
+            dgv7.DataSource = null;
+            dgv7.Refresh();
+
             expandedRun = false;
 
             menuStrip1.BackColor = panelTop.BackColor;
@@ -1990,7 +1995,7 @@ namespace SMFS
                 //}
 
 
-                Trust85.FindContract(dt, "B23011LI");
+                Trust85.FindContract(dt, "ZZ0003043");
 
                 if ( expandedRun && !chkPaidUp.Checked )
                 {
@@ -2045,6 +2050,7 @@ namespace SMFS
                 double trust85_1 = 0D;
                 double trust100_1 = 0D;
                 string record2 = "";
+                string depositNum = "";
 
                 if (workReport.ToUpper() == "NEW BUSINESS REPORT")
                 {
@@ -2059,7 +2065,7 @@ namespace SMFS
                     {
                         record2 = "";
                         contractNumber = ddd.Rows[k]["contractNumber"].ObjToString();
-                        if ( contractNumber == "L24053LI")
+                        if ( contractNumber == "NNM24002")
                         {
                         }
                         dRs = dt.Select("contractNumber='" + contractNumber + "'");
@@ -2080,7 +2086,11 @@ namespace SMFS
                                     downPayment += ccFee;
                             }
                             else
-                                rtn = DailyHistory.GetDownPaymentFromPayments(contractNumber, ref downPayment, ref downPaymentDate, ref trust85_1, ref trust100_1, ref ccFee, ref record2 );
+                            {
+                                rtn = DailyHistory.GetDownPaymentFromPayments(contractNumber, ref downPayment, ref downPaymentDate, ref trust85_1, ref trust100_1, ref ccFee, ref record2, ref depositNum);
+                                if (!rtn)
+                                    continue;
+                            }
                             dt.ImportRow(ddd.Rows[k]);
                             row = dt.Rows.Count - 1;
                             dt.Rows[row]["trust85P"] = trust85_1;
@@ -2089,6 +2099,7 @@ namespace SMFS
                             dt.Rows[row]["ccFee"] = ccFee;
                             dt.Rows[row]["debitAdjustment"] = 0D;
                             dt.Rows[row]["creditAdjustment"] = 0D;
+                            if ( !String.IsNullOrWhiteSpace ( record2 ))
                             dt.Rows[row]["record2"] = record2;
                             try
                             {
@@ -2835,6 +2846,9 @@ namespace SMFS
                         }
                     }
                     contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    if ( contractNumber == "ZZ0003043")
+                    {
+                    }
                     miniContract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
                     dt.Rows[i]["loc"] = loc;
                     if (insurance)
@@ -2934,7 +2948,7 @@ namespace SMFS
             if (chkDownPayments.Checked)
                 SortForDownPayments(dt);
 
-            Trust85.FindContract(dt, "L24053LI");
+            Trust85.FindContract(dt, "zz0003043");
 
             G1.NumberDataTable(dt);
             dt.AcceptChanges();
@@ -3130,6 +3144,9 @@ namespace SMFS
                     numMonths = 0;
                     monthlyPayment = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
                     contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    if ( contractNumber == "ZZ0004047")
+                    {
+                    }
                     if (monthlyPayment > 500D)
                     {
                         monthlyPayment = Policies.CalcMonthlyPremium(contractNumber, "", monthlyPayment);
@@ -3153,7 +3170,9 @@ namespace SMFS
                     depositNumber = dt.Rows[i]["depositNumber"].ObjToString();
                     manual = false;
                     edited = dt.Rows[i]["edited"].ObjToString();
-                    if (edited.Trim().ToUpper() == "MANUAL" || edited.Trim().ToUpper() == "TRUSTADJ" || edited.Trim().ToUpper() == "CEMETERY")
+                    if (edited.Trim().ToUpper() == "MANUAL" || edited.Trim().ToUpper() == "TRUSTADJ" || edited.Trim().ToUpper() == "CEMETERY"  )
+                        manual = true;
+                    if (debit != 0D || credit != 0D)
                         manual = true;
                     depositNumber = dt.Rows[i]["depositNumber"].ObjToString();
                     if (!String.IsNullOrWhiteSpace(depositNumber) && !manual)
@@ -3448,10 +3467,10 @@ namespace SMFS
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                if ( contractNumber == "B20027LI")
+                if ( contractNumber == "CT23030LI")
                 {
                 }
-                if (contractNumber == "FF21050LI")
+                if (contractNumber == "CT24044LI")
                 {
                 }
                 setDBR = false;
@@ -7596,7 +7615,7 @@ namespace SMFS
             dgv6.DataSource = locationDt;
             gridMain6.ExpandAllGroups();
 
-            Trust85.FindContract(dx, "L24064L");
+            Trust85.FindContract(dx, "CT24044LI");
 
             LoadCashDPs(dx);
             LoadCashPayments(dx, trickDt );
@@ -7795,7 +7814,7 @@ namespace SMFS
                 for (int i = 0; i < dx.Rows.Count; i++)
                 {
                     contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
-                    if ( contractNumber == "L24064L")
+                    if ( contractNumber == "CT23030LI")
                     {
                     }
                     newBusiness = dx.Rows[i]["newBusiness"].ObjToDouble();
@@ -7858,7 +7877,7 @@ namespace SMFS
             for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             {
                 contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                if (contractNumber == "E19040LI")
+                if (contractNumber == "CT23030LI")
                 {
                 }
 
@@ -7891,7 +7910,7 @@ namespace SMFS
                 //if (total <= 0D)
                 //    dt.Rows.RemoveAt(i);
             }
-            Trust85.FindContract(dt, "E19040LI");
+            Trust85.FindContract(dt, "CT23030LI");
 
             dgv8.DataSource = dt;
             gridMain8.ExpandAllGroups();
@@ -9454,20 +9473,44 @@ namespace SMFS
         private double totalPrice = 0D;
         private double totalTrust85 = 0D;
         private double localTrust85 = 0D;
+
+        private double totalTrust100 = 0D;
+
+        private double group1 = 0D;
+        private double group2 = 0D;
+        private double group3 = 0D;
         private void gridMain7_CustomSummaryCalculate(object sender, DevExpress.Data.CustomSummaryEventArgs e)
         {
             int summaryID = 0;
+            if ( e.IsTotalSummary )
+            {
+            }
+            if ( e.IsGroupSummary )
+            {
+            }
+
             if (e.SummaryProcess == CustomSummaryProcess.Start)
             {
+                if ( e.IsTotalSummary )
+                {
+                    group1 = 0D;
+                    group2 = 0D;
+                    group3 = 0D;
+                }
                 totalPrice = 0D;
                 totalTrust85 = 0D;
                 GridView view = sender as GridView;
                 summaryID = Convert.ToInt32((e.Item as GridSummaryItem).Tag);
                 if (summaryID == 3)
                     localTrust85 = 0D;
+                if (summaryID == 2)
+                    totalTrust100 = 0D;
             }
             double dbr = 0D;
             double trust85 = 0D;
+            double trust100 = 0D;
+            string location = "";
+            DataTable dt = (DataTable)dgv7.DataSource;
             if (e.SummaryProcess == CustomSummaryProcess.Calculate)
             {
                 GridView view = sender as GridView;
@@ -9477,17 +9520,43 @@ namespace SMFS
                     case 1: // The total summary calculated against the 'UnitPrice' column.  
                         dbr = gridMain7.GetRowCellValue(e.RowHandle, "dbr").ObjToDouble();
                         trust85 = gridMain7.GetRowCellValue(e.RowHandle, "trust85P").ObjToDouble();
-                        totalPrice += trust85 - dbr;
+                        location = gridMain7.GetRowCellValue(e.RowHandle, "Location Name").ObjToString();
+                        //totalPrice += trust85 - dbr;
+                        //totalPrice = -999D;
+                        if ( dbr <= 0D )
+                            totalPrice += trust85;
+
+                        if (e.IsTotalSummary)
+                            group1 = totalPrice;
                         break;
                     case 2: // The total summary calculated against the 'UnitPrice' column.  
                         dbr = gridMain7.GetRowCellValue(e.RowHandle, "dbr").ObjToDouble();
-                        trust85 = gridMain7.GetRowCellValue(e.RowHandle, "trust85P").ObjToDouble();
-                        totalTrust85 += trust85 - dbr;
+                        trust100 = gridMain7.GetRowCellValue(e.RowHandle, "trust100P").ObjToDouble();
+                        location = gridMain7.GetRowCellValue(e.RowHandle, "Location Name").ObjToString();
+                        if ( location.ToUpper().IndexOf ("SHARK") >= 0 )
+                        {
+                        }
+                        //totalTrust85 += trust85 - dbr;
+                        if (dbr <= 0D)
+                            totalTrust85 += trust100;
+                        //totalTrust85 = -888D;
+                        if ( e.IsTotalSummary )
+                        {
+                            if (dbr <= 0D)
+                                totalTrust100 += trust100;
+                        }
+                        if (e.IsTotalSummary )
+                            group2 = totalTrust100;
                         break;
                     case 3: // The total summary calculated against the 'UnitPrice' column.  
                         dbr = gridMain7.GetRowCellValue(e.RowHandle, "dbr").ObjToDouble();
                         trust85 = gridMain7.GetRowCellValue(e.RowHandle, "trust85P").ObjToDouble();
-                        localTrust85 += trust85 - dbr;
+                        //localTrust85 += trust85 - dbr;
+                        if (dbr <= 0D)
+                            localTrust85 += trust85;
+                        if (e.IsTotalSummary)
+                            group3 = localTrust85;
+                        //localTrust85 = -777D;
                         break;
                 }
             }
@@ -9502,8 +9571,13 @@ namespace SMFS
                         break;
                     case 2:
                         e.TotalValue = totalTrust85;
+                        if (e.IsTotalSummary)
+                            e.TotalValue = totalTrust100;
                         break;
                     case 3:
+                        if ( e.IsTotalSummary )
+                        {
+                        }
                         e.TotalValue = localTrust85;
                         break;
                 }
@@ -11266,6 +11340,8 @@ namespace SMFS
                     }
                 }
             }
+            if (dbr <= 0D && currentPayments > 0D)
+                dbr = currentPayments;
             return dbr;
         }
         /****************************************************************************************/

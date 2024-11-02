@@ -168,6 +168,8 @@
             this.bandedGridColumn107 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn108 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.lblTrust = new System.Windows.Forms.Label();
+            this.cmbTrust = new System.Windows.Forms.ComboBox();
             this.chkShowAll = new System.Windows.Forms.CheckBox();
             this.btnImport = new System.Windows.Forms.Button();
             this.lblYear = new System.Windows.Forms.Label();
@@ -314,7 +316,7 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.locateContractNumberToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 28);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 56);
             // 
             // locateContractNumberToolStripMenuItem
             // 
@@ -2689,6 +2691,8 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.lblTrust);
+            this.panelTop.Controls.Add(this.cmbTrust);
             this.panelTop.Controls.Add(this.chkShowAll);
             this.panelTop.Controls.Add(this.btnImport);
             this.panelTop.Controls.Add(this.lblYear);
@@ -2704,10 +2708,35 @@
             this.panelTop.Size = new System.Drawing.Size(1659, 47);
             this.panelTop.TabIndex = 7;
             // 
+            // lblTrust
+            // 
+            this.lblTrust.AutoSize = true;
+            this.lblTrust.Location = new System.Drawing.Point(223, 17);
+            this.lblTrust.Name = "lblTrust";
+            this.lblTrust.Size = new System.Drawing.Size(40, 17);
+            this.lblTrust.TabIndex = 163;
+            this.lblTrust.Text = "Trust";
+            // 
+            // cmbTrust
+            // 
+            this.cmbTrust.FormattingEnabled = true;
+            this.cmbTrust.Items.AddRange(new object[] {
+            "FDLIC",
+            "Unity",
+            "Security National",
+            "Forethought"});
+            this.cmbTrust.Location = new System.Drawing.Point(269, 14);
+            this.cmbTrust.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbTrust.Name = "cmbTrust";
+            this.cmbTrust.Size = new System.Drawing.Size(140, 24);
+            this.cmbTrust.TabIndex = 162;
+            this.cmbTrust.Text = "FDLIC";
+            this.cmbTrust.SelectedIndexChanged += new System.EventHandler(this.cmbTrust_SelectedIndexChanged);
+            // 
             // chkShowAll
             // 
             this.chkShowAll.AutoSize = true;
-            this.chkShowAll.Location = new System.Drawing.Point(749, 17);
+            this.chkShowAll.Location = new System.Drawing.Point(900, 17);
             this.chkShowAll.Name = "chkShowAll";
             this.chkShowAll.Size = new System.Drawing.Size(134, 21);
             this.chkShowAll.TabIndex = 156;
@@ -2729,7 +2758,7 @@
             // lblYear
             // 
             this.lblYear.AutoSize = true;
-            this.lblYear.Location = new System.Drawing.Point(667, 18);
+            this.lblYear.Location = new System.Drawing.Point(818, 18);
             this.lblYear.Name = "lblYear";
             this.lblYear.Size = new System.Drawing.Size(35, 17);
             this.lblYear.TabIndex = 154;
@@ -2738,7 +2767,7 @@
             // cmbYear
             // 
             this.cmbYear.FormattingEnabled = true;
-            this.cmbYear.Location = new System.Drawing.Point(577, 13);
+            this.cmbYear.Location = new System.Drawing.Point(728, 13);
             this.cmbYear.Name = "cmbYear";
             this.cmbYear.Size = new System.Drawing.Size(73, 24);
             this.cmbYear.TabIndex = 153;
@@ -2746,7 +2775,7 @@
             // lblMonth
             // 
             this.lblMonth.AutoSize = true;
-            this.lblMonth.Location = new System.Drawing.Point(524, 17);
+            this.lblMonth.Location = new System.Drawing.Point(675, 17);
             this.lblMonth.Name = "lblMonth";
             this.lblMonth.Size = new System.Drawing.Size(47, 17);
             this.lblMonth.TabIndex = 152;
@@ -2755,7 +2784,7 @@
             // cmbMonth
             // 
             this.cmbMonth.FormattingEnabled = true;
-            this.cmbMonth.Location = new System.Drawing.Point(400, 13);
+            this.cmbMonth.Location = new System.Drawing.Point(551, 13);
             this.cmbMonth.Name = "cmbMonth";
             this.cmbMonth.Size = new System.Drawing.Size(120, 24);
             this.cmbMonth.TabIndex = 151;
@@ -2763,7 +2792,7 @@
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnSave.Location = new System.Drawing.Point(286, 14);
+            this.btnSave.Location = new System.Drawing.Point(437, 14);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 150;
@@ -2969,5 +2998,7 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn109;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn110;
         private System.Windows.Forms.CheckBox chkShowAll;
+        private System.Windows.Forms.Label lblTrust;
+        private System.Windows.Forms.ComboBox cmbTrust;
     }
 }

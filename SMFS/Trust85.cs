@@ -12,6 +12,7 @@ using GeneralLib;
 using MySql.Data.MySqlClient;
 using OfficeOpenXml;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -3192,7 +3193,7 @@ namespace SMFS
                     }
                 }
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
             }
             G1.NumberDataTable(oldMeetingDt);
@@ -4952,6 +4953,26 @@ namespace SMFS
             }
         }
         /****************************************************************************************/
+        private void SetupSplitInfo(DataTable agentDt)
+        {
+            string agentCode = "";
+            DataTable goalDt = G1.get_db_data("Select * from `goals` where `status` = 'CURRENT' ORDER by `effectiveDate`;");
+            if (goalDt.Rows.Count <= 0)
+                return;
+            string splits = "";
+            for (int i = 0; i < agentDt.Rows.Count; i++)
+            {
+                agentCode = agentDt.Rows[i]["agentCode"].ObjToString();
+                DataRow[] dRows = goalDt.Select("agentCode='" + agentCode + "'");
+                for (int j = 0; j < dRows.Length; j++)
+                {
+                    splits = dRows[j]["splits"].ObjToString();
+                    if (!String.IsNullOrWhiteSpace(splits))
+                        agentDt.Rows[i]["splits"] = splits;
+                }
+            }
+        }
+        /****************************************************************************************/
         private void LoadTabDetailAgents()
         {
             chkNoSummary.Hide();
@@ -5104,6 +5125,9 @@ namespace SMFS
                 if (G1.get_column_number(dt, "XXX") < 0)
                     dt.Columns.Add("XXX", Type.GetType("System.Double")); // Actual XXX Agent
             }
+
+            SetupSplitInfo(agentList);
+
             agentCode = "";
             bool theForce = false;
             DataTable lDt = dt.Clone();
@@ -5122,6 +5146,8 @@ namespace SMFS
             try
             {
                 int j = 0;
+                double mainPercent = 0D;
+                double newFBI = 0D;
                 for (int i = 0; i < agentList.Rows.Count; i++)
                 {
                     try
@@ -5129,7 +5155,9 @@ namespace SMFS
                         fbiCommission = agentList.Rows[i]["fbiCommission"].ObjToDouble();
                         lname = agentList.Rows[i]["agentNames"].ObjToString();
                         agentCode = agentList.Rows[i]["agentCode"].ObjToString();
-                        if (agentCode == "XXX" || agentCode == "N05")
+                        mainPercent = agentList.Rows[i]["commission"].ObjToDouble();
+
+                        if (agentCode == "XXX" || agentCode == "L15")
                         {
                         }
                         if (G1.get_column_number(dt, agentCode) < 0)
@@ -5154,6 +5182,9 @@ namespace SMFS
                                 contract = dt.Rows[j]["contractNumber"].ObjToString();
                                 if (String.IsNullOrWhiteSpace(contract))
                                     continue;
+                                if (contract == "L24808" && agentCode == "L15")
+                                {
+                                }
                                 if (agentCode == "XXX" && contract == "HC22001")
                                 {
                                     FindContract(dt, contract);
@@ -5186,7 +5217,9 @@ namespace SMFS
                                 //fbi = 0D;
                                 fbiMoney = 0D;
                                 if (fbi > 0D)
+                                {
                                     fbiMoney = fbiCommission * fbi;
+                                }
                                 actualAgent = dt.Rows[j]["agentNumber"].ObjToString();
                                 if (splitCommission == 0D && dbc == 0D && fbi <= 0D)
                                 {
@@ -5400,6 +5433,10 @@ namespace SMFS
             }
 
             FindContract(lDt, "HC22001");
+
+            ProcessAllFBIsplits(dt, agentList, lDt );
+
+            FindContract(lDt, "HC22001");
             for (int i = 0; i < lDt.Rows.Count; i++)
             {
                 downPayment = lDt.Rows[i]["dpr"].ObjToDouble();
@@ -5456,6 +5493,147 @@ namespace SMFS
             gridMain3.Columns["Split Payment"].Visible = false; // Just for debugging
             gridMain3.Columns["Split DownPayment"].Visible = false; // Just for debugging
                                                                     //            gridMain3.Columns["interestPaid"].Visible = false; // Just for debugging
+        }
+        /****************************************************************************************/
+        private void ProcessAllFBIsplits(DataTable dt, DataTable agentList, DataTable lDt )
+        {
+            try
+            {
+                int j = 0;
+                double mainPercent = 0D;
+                double newFBI = 0D;
+                string splits = "";
+                string agentCode = "";
+                string actualAgent = "";
+                double fbiCommission = 0D;
+                string contract = "";
+                double fbi = 0D;
+                double fbiMoney = 0D;
+                double money = 0D;
+                string splitDone = "";
+                DataRow[] dRows = null;
+
+                lDt.Columns.Add("splitDone");
+
+                for (j = 0; j < lDt.Rows.Count; j++)
+                    lDt.Rows[j]["fbiCommission"] = 0D;
+
+                for (int i = 0; i < agentList.Rows.Count; i++)
+                {
+                    try
+                    {
+                        fbiCommission = agentList.Rows[i]["fbiCommission"].ObjToDouble();
+                        agentCode = agentList.Rows[i]["agentCode"].ObjToString();
+                        mainPercent = agentList.Rows[i]["commission"].ObjToDouble();
+
+                        if (agentCode == "XXX" || agentCode == "L15")
+                        {
+                        }
+                        if (G1.get_column_number(dt, agentCode) < 0)
+                            continue;
+                        splits = agentList.Rows[i]["splits"].ObjToString();
+                        for (j = 0; j < dt.Rows.Count; j++)
+                        {
+                            try
+                            {
+                                contract = dt.Rows[j]["contractNumber"].ObjToString();
+                                if (String.IsNullOrWhiteSpace(contract))
+                                    continue;
+                                if (contract == "L24808" && agentCode == "L15")
+                                {
+                                }
+                                actualAgent = dt.Rows[j]["agentNumber"].ObjToString();
+                                fbi = dt.Rows[j]["fbi"].ObjToDouble();
+                                //dt.Rows[j]["fbiMoney"] = 0D;
+                                fbiMoney = 0D;
+                                if (fbi > 0D)
+                                {
+                                    fbiMoney = fbiCommission * fbi;
+
+                                    if (!String.IsNullOrWhiteSpace(splits))
+                                        ProcessSplitFBI(contract, fbiMoney, agentCode, splits, mainPercent, lDt);
+                                    else
+                                    {
+                                        dRows = lDt.Select("contractNumber='" + contract + "' AND `agentNumber` = '" + agentCode + "'");
+                                        if (dRows.Length > 0)
+                                        {
+                                            splitDone = dRows[0]["splitDone"].ObjToString();
+                                            if (splitDone != "Y")
+                                            {
+                                                money = dRows[0]["fbiCommission"].ObjToDouble();
+                                                money += fbiMoney;
+                                                dRows[0]["fbiCommission"] = money;
+                                            }
+                                        }
+
+                                        //dt.Rows[j]["fbiCommission"] = fbiMoney;
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("***ERROR*** i=" + i.ToString() + " j=" + j.ToString() + " AgentCode=" + agentCode + " " + ex.Message.ToString());
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("***ERROR*** i=" + i.ToString() + " j=" + j.ToString() + " AgentCode=" + agentCode + " " + ex.Message.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("A critical exception has occurred while attempting to run Split Commissions :\n" + ex.Message + "\n", "5% Split Commission Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            }
+        }
+        /****************************************************************************************/
+        private double ProcessSplitFBI ( string contractNumber, double fbi, string thisAgent, string splits, double mainPercent, DataTable dt )
+        {
+            string[] Lines = splits.Split('~');
+            string agent = "";
+            string str = "";
+            double percent = 0D;
+            double commission = 0D;
+            double fbiMoney = 0D;
+            double money = 0D;
+            DataRow[] dRows = null;
+            DataTable tempDt = null;
+
+            for (int j = 0; j < Lines.Length; j = j + 2)
+            {
+                try
+                {
+                    agent = Lines[j].Trim();
+                    if (String.IsNullOrWhiteSpace(agent))
+                        continue;
+                    if (agent == "L15")
+                    {
+                    }
+                    str = Lines[j + 1].ObjToString();
+                    if (G1.validate_numeric(str))
+                    {
+                        percent = str.ObjToDouble() / 100D;
+                        fbiMoney = fbi * percent * 100D / mainPercent;
+                        dRows = dt.Select("contractNumber='" + contractNumber + "' AND `agentNumber` = '" + agent + "'");
+                        if ( dRows.Length > 0 )
+                        {
+                            money = dRows[0]["fbiCommission"].ObjToDouble();
+                            money += fbiMoney;
+                            dRows[0]["fbiCommission"] = money;
+                            dRows[0]["splitDone"] = "Y";
+                            if (contractNumber == "L24808")
+                            {
+                                tempDt = dRows.CopyToDataTable();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            return fbiMoney;
         }
         /****************************************************************************************/
         private bool summaryPressed = false;
@@ -5872,7 +6050,7 @@ namespace SMFS
                 try
                 {
                     agent = agentsDt.Rows[i]["agentCode"].ObjToString();
-                    if (agent == "V25")
+                    if (agent == "L15")
                     {
                     }
                     if (agent != lastAgent)

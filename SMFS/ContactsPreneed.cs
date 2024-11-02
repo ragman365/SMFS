@@ -25,16 +25,11 @@ using DevExpress.XtraPrinting;
 using DevExpress.XtraEditors.ViewInfo;
 using Newtonsoft.Json;
 
-//using Google.Apis.Calendar.v3;
-//using Google.Apis.Calendar.v3.Data;
-//using Google.Apis.Auth.OAuth2;
-//using Google.Apis.Auth.OAuth2.Flows;
-//using Google.Apis.Auth.OAuth2.Web;
-//using Google.Apis.Services;
-//using Google.Apis.Util.Store;
 using System.Threading;
 using System.Net.Http;
 using System.Net;
+using System.Security.AccessControl;
+using System.Security.Principal;
 /****************************************************************************************/
 namespace SMFS
 {
@@ -45,19 +40,43 @@ namespace SMFS
         private bool modified = false;
         private string primaryName = "";
 
-        //CalendarService calService;
         private const string calID = "xxxxxxxxx...@group.calendar.google.com";
         private const string UserId = "user-id";
-        //private static string gFolder = System.Web.HttpContext.Current.Server.MapPath("/App_Data/MyGoogleStorage");
-        //private static string gFolder = System.Web.HttpContext.Current.Server.ObjToString();
         private static string gFolder = "";
         private bool foundLocalPreference = false;
         private bool superuser = false;
         private bool showAgent = true;
+        private DataTable workDt = null;
+        private bool workAuto = false;
+        private string workAgent = "";
+        private string workEmail = "";
+        private string workReport = "";
+        private string sendWhere = "";
+        private string sendUsername = "";
+        private string workFormat = "";
         /****************************************************************************************/
         public ContactsPreneed()
         {
             InitializeComponent();
+        }
+        /****************************************************************************************/
+        public ContactsPreneed( DataTable dt )
+        {
+            InitializeComponent();
+            workDt = dt;
+        }
+        /****************************************************************************************/
+        public ContactsPreneed(DataTable dt, bool auto, string agent, string email, string report, string send, string username, string displayFormat )
+        {
+            InitializeComponent();
+            workDt = dt;
+            workAuto = auto;
+            workAgent = agent;
+            workEmail = email;
+            workReport = report;
+            sendWhere = send;
+            sendUsername = username;
+            workFormat = displayFormat;
         }
         /****************************************************************************************/
         private void SetupToolTips()
@@ -89,7 +108,10 @@ namespace SMFS
             string saveName = "AgentPreneeds Primary";
             string skinName = "";
 
-            SetupSelectedColumns("AgentPreneeds", "Primary", dgv);
+            if (!String.IsNullOrWhiteSpace(workFormat))
+                SetupSelectedColumns("AgentPreneeds", workFormat, dgv);
+            else
+                SetupSelectedColumns("AgentPreneeds", "Primary", dgv);
             foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, saveName, ref skinName);
             if (!String.IsNullOrWhiteSpace(skinName))
             {
@@ -99,8 +121,10 @@ namespace SMFS
 
             RemoveResults();
 
-            loadGroupCombo(cmbSelectColumns, "AgentPreneeds", "Primary");
-            cmbSelectColumns.Text = "Primary";
+            if (String.IsNullOrWhiteSpace(workFormat))
+                workFormat = "Primary";
+            loadGroupCombo(cmbSelectColumns, "AgentPreneeds", workFormat);
+            cmbSelectColumns.Text = workFormat;
 
             DateTime now = DateTime.Now;
 //            now = now.AddMonths(-1);
@@ -142,7 +166,80 @@ namespace SMFS
             modified = false;
             loading = false;
 
-            //cmbSelectColumns_SelectedIndexChanged(null, null);
+            if (workDt != null)
+            {
+                //skinForm_SkinSelected("Skin : Glass Ocean");
+                //skinForm_SkinSelected("Skin : Caramel");
+                skinForm_SkinSelected("Skin : Windows Default");
+                miscToolStripMenuItem.Dispose();
+            }
+
+            if (workFormat != "Primary")
+                cmbSelectColumns_SelectedIndexChanged(cmbSelectColumns, null);
+
+            if ( workAuto )
+            {
+                printPreviewToolStripMenuItem_Click(null, null);
+                this.Close();
+            }
+        }
+        /***********************************************************************************************/
+        void skinForm_SkinSelected(string s)
+        {
+            if (s.ToUpper().IndexOf("SKIN : ") >= 0)
+            {
+                string skin = s.Replace("Skin : ", "");
+                if (skin.Trim().Length == 0)
+                    skin = "Windows Default";
+                if (skin == "Windows Default")
+                {
+                    this.LookAndFeel.SetSkinStyle(skin);
+                    this.gridMain.Appearance.EvenRow.BackColor = System.Drawing.Color.LightGreen;
+                    this.gridMain.Appearance.EvenRow.BackColor2 = System.Drawing.Color.LightGreen;
+                    this.gridMain.Appearance.SelectedRow.BackColor = System.Drawing.Color.Yellow;
+                    this.gridMain.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+                }
+                else
+                {
+                    this.panelClaimTop.BackColor = Color.Transparent;
+                    this.menuStrip1.BackColor = Color.Transparent;
+                    this.gridMain.PaintStyleName = "Skin";
+                    DevExpress.Skins.SkinManager.EnableFormSkins();
+                    this.LookAndFeel.UseDefaultLookAndFeel = true;
+                    DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle(skin);
+                    this.LookAndFeel.SetSkinStyle(skin);
+                    this.dgv.LookAndFeel.SetSkinStyle(skin);
+                    this.dgv.LookAndFeel.SkinName = skin;
+                    gridMain.Appearance.EvenRow.Options.UseBackColor = false;
+                    gridMain.Appearance.OddRow.Options.UseBackColor = false;
+                    this.panelClaimTop.Refresh();
+                    //OnSkinChange(skin);
+
+                    //DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinName = skin;
+                    //this.LookAndFeel.SetSkinStyle(skin);
+                    //this.dgv.LookAndFeel.SetSkinStyle(skin);
+                }
+            }
+            else if (s.ToUpper().IndexOf("COLOR : ") >= 0)
+            {
+                string color = s.Replace("Color : ", "");
+                this.gridMain.Appearance.EvenRow.BackColor = Color.FromName(color);
+                this.gridMain.Appearance.EvenRow.BackColor2 = Color.FromName(color);
+                this.gridMain.Appearance.SelectedRow.BackColor = System.Drawing.Color.Yellow;
+                this.gridMain.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+                this.gridMain.Appearance.EvenRow.Options.UseBackColor = true;
+                this.gridMain.Appearance.OddRow.Options.UseBackColor = true;
+            }
+            else if (s.ToUpper().IndexOf("NO COLOR ON") >= 0)
+            {
+                this.gridMain.Appearance.EvenRow.Options.UseBackColor = false;
+                this.gridMain.Appearance.OddRow.Options.UseBackColor = false;
+            }
+            else if (s.ToUpper().IndexOf("NO COLOR OFF") >= 0)
+            {
+                this.gridMain.Appearance.EvenRow.Options.UseBackColor = true;
+                this.gridMain.Appearance.OddRow.Options.UseBackColor = true;
+            }
         }
         /***********************************************************************************************/
         private void RemoveResults ()
@@ -312,9 +409,24 @@ namespace SMFS
             else
                 cmd += " ORDER BY agent, funeralHome, oldRecord asc, prospectCreationDate DESC;";
 
-            DataTable dt = G1.get_db_data(cmd);
-            dt.Columns.Add("ExtraName");
-            dt.Columns.Add("ExtraName2");
+            DataTable dt = null;
+            if (workDt != null)
+            {
+                dt = workDt;
+                if (location.Trim().ToUpper() != "ALL")
+                {
+                    DataRow[] dRows = dt.Select("funeralhome='" + location + "'");
+                    if (dRows.Length > 0)
+                        dt = dRows.CopyToDataTable();
+                }
+            }
+            else
+                dt = G1.get_db_data(cmd);
+
+            if ( G1.get_column_number ( dt, "ExtraName") < 0 )
+                dt.Columns.Add("ExtraName");
+            if (G1.get_column_number(dt, "ExtraName2") < 0)
+                dt.Columns.Add("ExtraName2");
 
             dt = G1.RemoveDuplicates(dt, "record");
 
@@ -445,7 +557,6 @@ namespace SMFS
             {
                 gridMain.FocusedRowHandle = rowHandle;
             }
-
             this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
@@ -649,7 +760,87 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
-        private void LoadEmployees ()
+        private void LoadEmployees()
+        {
+            string firstName = "";
+            string middleName = "";
+            string lastName = "";
+            string name = "";
+
+            repositoryItemComboBox2.Items.Clear();
+
+            string cmd = "Select * from `agents` WHERE `agentCode` = 'XYZZY'";
+            cmd += ";";
+            DataTable dt = G1.get_db_data(cmd);
+
+            AddOtherAgents(dt);
+            DataView tempview = dt.DefaultView;
+            tempview.Sort = "lastName,firstName";
+            dt = tempview.ToTable();
+
+            dt.Columns.Add("name");
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                firstName = dt.Rows[i]["firstName"].ObjToString();
+                //middleName = dt.Rows[i]["middleName"].ObjToString();
+                lastName = dt.Rows[i]["lastName"].ObjToString();
+
+                if (String.IsNullOrWhiteSpace(lastName))
+                    continue;
+
+                name = lastName;
+                if (!String.IsNullOrWhiteSpace(firstName))
+                    name += ", " + firstName;
+                //if (!String.IsNullOrWhiteSpace(middleName))
+                //    name += " " + middleName;
+
+                //cmbEmployee.Items.Add(name);
+
+                repositoryItemComboBox2.Items.Add(name);
+                dt.Rows[i]["name"] = name;
+            }
+
+            DataRow dR = dt.NewRow();
+            dR["name"] = "All";
+            dt.Rows.InsertAt(dR, 0);
+
+            cmbEmployee.DataSource = dt;
+
+            cmd = "Select * from `users` where `username` = '" + LoginForm.username + "';";
+            DataTable dx = G1.get_db_data(cmd);
+
+            DataRow[] dRows = dx.Select("username='" + LoginForm.username + "'");
+            if (dRows.Length > 0 && !G1.isAdminOrSuper() )
+            {
+                firstName = dRows[0]["firstName"].ObjToString();
+                //middleName = dRows[0]["middleName"].ObjToString();
+                lastName = dRows[0]["lastName"].ObjToString();
+
+                name = lastName;
+                if (!String.IsNullOrWhiteSpace(firstName))
+                    name += ", " + firstName;
+                //if (!String.IsNullOrWhiteSpace(middleName))
+                //    name = " " + middleName;
+
+                cmbEmployee.Text = name;
+                primaryName = name;
+                gridMain.Columns["agent"].Visible = false;
+                dt.Rows.Clear();
+                repositoryItemComboBox2.Items.Clear();
+                dR = dt.NewRow();
+                dR["name"] = name;
+                dt.Rows.Add(dR);
+                cmbEmployee.DataSource = dt;
+                gridMain.Columns["agent"].Visible = false;
+                showAgent = false;
+            }
+            else
+                gridMain.Columns["agent"].Visible = true;
+            cmbEmployee.Text = primaryName;
+        }
+        /***********************************************************************************************/
+        private void LoadEmployeesx ()
         {
             repositoryItemComboBox2.Items.Clear();
 
@@ -668,6 +859,8 @@ namespace SMFS
             string middleName = "";
             string lastName = "";
             string name = "";
+
+            dt = AddOtherAgents(dt);
 
             DataView tempview = dt.DefaultView;
             tempview.Sort = "lastName,firstName,middleName";
@@ -731,6 +924,41 @@ namespace SMFS
                 gridMain.Columns["agent"].Visible = true;
             cmbEmployee.Text = primaryName;
 
+        }
+        /***********************************************************************************************/
+        private DataTable AddOtherAgents ( DataTable dt )
+        {
+            string cmd = "Select * from `agents`;";
+            DataTable agentDt = G1.get_db_data(cmd);
+
+            string firstName = "";
+            string lastName = "";
+            DataRow[] dRows = null;
+            DataRow dRow = null;
+            bool found = false;
+            for ( int i=0; i<agentDt.Rows.Count; i++)
+            {
+                firstName = agentDt.Rows[i]["firstName"].ObjToString();
+                lastName = agentDt.Rows[i]["lastName"].ObjToString();
+
+                dRows = dt.Select("firstName='" + firstName + "' AND `lastName` = '" + lastName + "'");
+                if ( dRows.Length <= 0 )
+                {
+                    dRow = dt.NewRow();
+                    dRow["firstName"] = firstName;
+                    dRow["lastName"] = lastName;
+                    dt.Rows.Add(dRow);
+                    found = true;
+                }
+            }
+
+            if ( found )
+            {
+                DataView tempview = dt.DefaultView;
+                tempview.Sort = "lastName asc, firstName asc";
+                dt = tempview.ToTable();
+            }
+            return dt;
         }
         /***********************************************************************************************/
         private void CleanupFieldColumns()
@@ -1317,6 +1545,33 @@ namespace SMFS
             }
         }
         /****************************************************************************************/
+        public RepositoryItemComboBox FireEventGrabNewSomething(string what)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("item");
+            DataRow dRow = null;
+            string item = "";
+            for (int i = 0; i < gridMain.Columns.Count; i++)
+            {
+                try
+                {
+                    item = gridMain.Columns[i].FieldName.Trim();
+
+                    //item = dgv.RepositoryItems[i].Name.Trim();
+                    if (item == what)
+                    {
+                        RepositoryItemComboBox cBox = (RepositoryItemComboBox) gridMain.Columns[i].ColumnEdit;
+                        return cBox;
+                        //return (DevExpress.XtraEditors.Repository.RepositoryItemComboBox)dgv.RepositoryItems[i];
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            return null;
+        }
+        /****************************************************************************************/
         public RepositoryItemComboBox FireEventGrabSomething(string what)
         {
             DataTable dt = new DataTable();
@@ -1325,10 +1580,16 @@ namespace SMFS
             string item = "";
             for ( int i=0; i< dgv.RepositoryItems.Count; i++)
             {
-                item = dgv.RepositoryItems[i].Name.Trim();
-                if ( item == what )
+                try
                 {
-                    return (DevExpress.XtraEditors.Repository.RepositoryItemComboBox) dgv.RepositoryItems[i];
+                    item = dgv.RepositoryItems[i].Name.Trim();
+                    if (item == what)
+                    {
+                        return (DevExpress.XtraEditors.Repository.RepositoryItemComboBox)dgv.RepositoryItems[i];
+                    }
+                }
+                catch ( Exception ex)
+                {
                 }
             }
             return null;
@@ -1618,7 +1879,67 @@ namespace SMFS
             printingSystem1.Document.AutoFitToPagesWidth = 1;
 
             printableComponentLink1.CreateDocument();
-            printableComponentLink1.ShowPreview();
+            if (workAuto)
+            {
+                //string filename = "";
+                DateTime today = DateTime.Now;
+                string path = "C:/SMFS_Reports/Contact_Preneeds";
+                G1.verify_path(path);
+                string report = CleanupReportName(workReport);
+                string filename = path + @"\" + report + "_" + today.Year.ToString("D4") + today.Month.ToString("D2") + today.Day.ToString("D2") + ".pdf";
+                //filename = workPDFfile;
+                filename = G1.RandomizeFilename(filename);
+
+                if (File.Exists(filename))
+                {
+                    File.SetAttributes(filename, FileAttributes.Normal);
+                    GrantFileAccess(filename);
+
+                    FileAttributes attributes = File.GetAttributes(filename);
+                    if ((attributes & FileAttributes.Archive) == FileAttributes.Archive)
+                    {
+                        attributes = RemoveAttribute(attributes, FileAttributes.Archive);
+                        File.SetAttributes(filename, attributes);
+                    }
+
+                    File.Delete(filename);
+                }
+
+                printableComponentLink1.ExportToPdf(filename);
+
+                RemoteProcessing.AutoRunSend(workReport + " for " + today.ToString("MM/dd/yyyy"), filename, workAgent, sendWhere, "", workEmail, sendUsername);
+            }
+            else
+                printableComponentLink1.ShowPreview();
+        }
+        /***********************************************************************************************/
+        private static void GrantFileAccess(string file)
+        {
+            try
+            {
+                DirectoryInfo dInfo = new DirectoryInfo(file);
+                DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                dInfo.SetAccessControl(dSecurity);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        /***********************************************************************************************/
+        private static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove)
+        {
+            return attributes & ~attributesToRemove;
+        }
+        /***********************************************************************************************/
+        private string CleanupReportName ( string report )
+        {
+            report = report.Replace (">=", "GE");
+            report = report.Replace("<=", "LE");
+            report = report.Replace("=", "Equal");
+            report = report.Replace("<", "Less");
+            report = report.Replace(">", "Greater");
+            return report;
         }
         /***********************************************************************************************/
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2319,7 +2640,15 @@ namespace SMFS
         private void LeadForm_contactListDone(bool updated)
         {
             if (updated)
+            {
                 LoadData();
+                gridMain.Columns["prospectCreationDate"].SortMode = DevExpress.XtraGrid.ColumnSortMode.Value;
+                gridMain.Columns["prospectCreationDate"].SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+                gridMain.Columns["prospectCreationDate"].SortIndex = 0;
+                gridMain.Columns["prospectCreationDate"].OptionsColumn.ImmediateUpdateRowPosition = DefaultBoolean.True;
+                gridMain.RefreshEditor(true);
+                G1.GoToFirstRow(gridMain);
+            }
         }
     /****************************************************************************************/
         private void btnCalendar_Click(object sender, EventArgs e)
@@ -2685,6 +3014,14 @@ namespace SMFS
             RemoveResults();
 
             CleanupFieldColumns();
+
+            if ( workDt != null )
+            {
+                int height = this.Height;
+                this.Location = new Point(100, 100);
+                this.Height = height + 100;
+                this.Refresh();
+            }
         }
         /***********************************************************************************************/
         private void SetupSelectedColumns()
@@ -3097,6 +3434,28 @@ namespace SMFS
                 editForm.editDone += EditForm_editDone;
                 editForm.ShowDialog();
             }
+        }
+        /****************************************************************************************/
+        private void reportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+
+            string agent = cmbEmployee.Text;
+
+            ContactReports reports = new ContactReports( agent, gridMain );
+            reports.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private void toolAgentReportList_Click(object sender, EventArgs e)
+        {
+            DataTable agentDt = (DataTable) cmbEmployee.DataSource;
+            string agent = cmbEmployee.Text.Trim();
+            if (agent.ToUpper() == "ALL")
+                agent = "";
+
+            ContactReportsAgents agentsForm = new ContactReportsAgents(agentDt, gridMain, agent );
+            agentsForm.Show();
         }
         /****************************************************************************************/
     }

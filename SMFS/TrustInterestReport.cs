@@ -73,14 +73,43 @@ namespace SMFS
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             SetSpyGlass(gridMain);
+            CheckBox box = (CheckBox)chkShowDetail;
+            //if (box.Checked)
+            //{
+            //    gridMain.Columns["contractNumber"].Visible = true;
+            //    gridMain.Columns["payDate8"].Visible = true;
+            //    gridMain.Columns["location"].GroupIndex = 0;
+            //    dgv.DataSource = detailDt;
+            //    gridMain.RefreshData();
+            //    gridMain.RefreshEditor(true);
+            //    gridMain.ExpandAllGroups();
+            //    dgv.Refresh();
+            //    chkCollapse.Show();
+            //    chkCollapse.Refresh();
+            //}
+            //else
+            //{
+            //    gridMain.Columns["contractNumber"].Visible = false;
+            //    gridMain.Columns["payDate8"].Visible = false;
+            //    gridMain.Columns["location"].GroupIndex = -1;
+            //    dgv.DataSource = originalDt;
+            //    gridMain.RefreshData();
+            //    gridMain.RefreshEditor(true);
+            //    gridMain.CollapseAllGroups();
+            //    dgv.Refresh();
+            //    chkCollapse.Hide();
+            //    chkCollapse.Refresh();
+            //}
         }
         /***********************************************************************************************/
         private void SetSpyGlass(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView grid)
         {
-            if (grid.OptionsFind.AlwaysVisible == true)
-                grid.OptionsFind.AlwaysVisible = false;
-            else
-                grid.OptionsFind.AlwaysVisible = true;
+            G1.ShowHideFindPanel(grid);
+
+            //if (grid.OptionsFind.AlwaysVisible == true)
+            //    grid.OptionsFind.AlwaysVisible = false;
+            //else
+            //    grid.OptionsFind.AlwaysVisible = true;
         }
         /***********************************************************************************************/
         private int pageMarginLeft = 0;
@@ -279,7 +308,7 @@ namespace SMFS
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 contract = dt.Rows[i]["contractNumber"].ObjToString();
-                if (contract == "M23001LI")
+                if (contract == "P24031LI")
                 {
                 }
                 CalcTrustData(contract, dateTimePicker1.Value, dateTimePicker2.Value, ref totalInterest, ref total15);
@@ -410,11 +439,14 @@ namespace SMFS
             string cmd = "Select * from `contracts` p ";
             cmd += " JOIN `customers` c ON p.`contractNumber` = c.`contractNumber` ";
             cmd += " JOIN `payments` x ON p.`contractNumber` = x.`contractNumber` ";
-            cmd += " where p.`issueDate8` >= '" + date1 + "' ";
-            cmd += " and   p.`issueDate8` <= '" + date2 + "' ";
+            cmd += " where x.`payDate8` >= '" + date1 + "' ";
+            cmd += " and   x.`payDate8` <= '" + date2 + "' ";
+            //cmd += " where p.`issueDate8` >= '" + date1 + "' ";
+            //cmd += " and   p.`issueDate8` <= '" + date2 + "' ";
             cmd += " and p.`downPayment` > '0.00' ";
             cmd += " and x.`downPayment` > '0.00' ";
-            cmd += " ORDER by p.`issueDate8` ";
+            cmd += " ORDER by x.`payDate8` ";
+            //cmd += " ORDER by p.`issueDate8` ";
             cmd += ";";
             DataTable dx = G1.get_db_data(cmd);
 
@@ -483,7 +515,8 @@ namespace SMFS
                 {
                 }
                 payDate = dt.Rows[i]["payDate8"].ObjToDateTime();
-                issueDate = dt.Rows[i]["issueDate8"].ObjToDateTime();
+                //issueDate = dt.Rows[i]["issueDate8"].ObjToDateTime();
+                issueDate = dt.Rows[i]["payDate8"].ObjToDateTime();
                 issueMonth = issueDate.Month;
                 if (issueDate.Year > lDate2.Year)
                     issueMonth += 12;

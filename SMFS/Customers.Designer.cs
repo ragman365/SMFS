@@ -2013,7 +2013,7 @@
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -2048,7 +2048,7 @@
             // columnsToolStripMenuItem
             // 
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.columnsToolStripMenuItem.Text = "Columns";
             // 
             // importToolStripMenuItem
@@ -2058,7 +2058,7 @@
             this.importACHFileToolStripMenuItem1,
             this.importCreditCardPaymentsToolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(68, 24);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // importDailyDepositFileToolStripMenuItem1
@@ -2090,7 +2090,7 @@
             this.yearendReportsToolStripMenuItem,
             this.potentialPaidOffToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // quickLookupToolStripMenuItem
@@ -2138,7 +2138,7 @@
             this.toolStripMenuItem16,
             this.miscellaneousReportsMenu});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // trust85ReportToolStripMenuItem
@@ -2561,7 +2561,7 @@
             this.findProblemInsurancePaymentsToolStripMenuItem,
             this.findMismatchedPayersPoliciesToolStripMenuItem});
             this.insuranceReportsToolStripMenuItem.Name = "insuranceReportsToolStripMenuItem";
-            this.insuranceReportsToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
+            this.insuranceReportsToolStripMenuItem.Size = new System.Drawing.Size(140, 24);
             this.insuranceReportsToolStripMenuItem.Text = "Insurance Reports";
             // 
             // weekTotalsReportToolStripMenuItem
@@ -2671,7 +2671,7 @@
             this.trustCompanyDataToolStripMenuItem,
             this.editAgentMeetingsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // editTrustDownPaymentsToolStripMenuItem1
@@ -2714,7 +2714,7 @@
             this.commonToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bankPaymentsToolStripMenuItem});
             this.commonToolStripMenuItem.Name = "commonToolStripMenuItem";
-            this.commonToolStripMenuItem.Size = new System.Drawing.Size(84, 26);
+            this.commonToolStripMenuItem.Size = new System.Drawing.Size(84, 24);
             this.commonToolStripMenuItem.Text = "Common";
             // 
             // bankPaymentsToolStripMenuItem
@@ -2727,7 +2727,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 

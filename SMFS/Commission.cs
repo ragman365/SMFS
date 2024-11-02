@@ -627,7 +627,7 @@ namespace SMFS
                     for (int j = 0; j < dRows.Length; j++)
                     {
                         contractNumber = dRows[j]["contractNumber"].ObjToString();
-                        if ( contractNumber == "M21001LI")
+                        if ( contractNumber == "L24808")
                         {
                         }
                         commission = dRows[j]["commission"].ObjToDouble();
@@ -1010,7 +1010,7 @@ namespace SMFS
             for ( int i=0; i<dt.Rows.Count; i++)
             {
                 agent = dt.Rows[i]["agentNumber"].ObjToString();
-                if (agent == "N40")
+                if (agent == "L15")
                 {
                 }
                 type = dt.Rows[i]["type"].ObjToString();
@@ -2999,7 +2999,7 @@ namespace SMFS
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 thisAgent = dt.Rows[i]["agentCode"].ObjToString();
-                if ( thisAgent == "N40")
+                if ( thisAgent == "L15")
                 {
                 }
                 commission = dt.Rows[i]["commission"].ObjToDouble();
@@ -3048,7 +3048,7 @@ namespace SMFS
                             agent = Lines[j].Trim();
                             if (String.IsNullOrWhiteSpace(agent))
                                 continue;
-                            if ( agent == "N40")
+                            if ( agent == "L15")
                             {
 
                             }

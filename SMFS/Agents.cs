@@ -171,6 +171,7 @@ namespace SMFS
             string activeStatus = "";
             string employeeStatus = "";
             string locCode = "";
+            string splits = "";
             for ( int i=0; i<dt.Rows.Count; i++)
             {
                 agentCode = dt.Rows[i]["agentCode"].ObjToString();
@@ -205,6 +206,7 @@ namespace SMFS
                 licenseNumber = dt.Rows[i]["licenseNumber"].ObjToString();
                 activeStatus = dt.Rows[i]["activeStatus"].ObjToString();
                 employeeStatus = dt.Rows[i]["employeeStatus"].ObjToString();
+                splits = dt.Rows[i]["splits"].ObjToString();
                 G1.update_db_table("agents", "record", record, new string[] { "super", super, "agentCode", agentCode, "status", status, "firstName", fname, "lastName", lname, "commission", commission.ToString(), "goal", goal.ToString(), "goalpercent", goalpercent.ToString(), "agentIncoming", agentIncoming, "locCode", locCode, "fbiCommission", fbiCommission.ToString(), "licenseNumber", licenseNumber, "gender", gender, "activeStatus", activeStatus, "employeeStatus", employeeStatus });
             }
             modified = false;

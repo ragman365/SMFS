@@ -136,6 +136,9 @@
             this.screenOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unlockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolAgentReportList = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.panelBottomRight.SuspendLayout();
@@ -832,6 +835,7 @@
             this.bandedGridColumn25.FieldName = "prospectCreationDate";
             this.bandedGridColumn25.MinWidth = 25;
             this.bandedGridColumn25.Name = "bandedGridColumn25";
+            this.bandedGridColumn25.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.True;
             this.bandedGridColumn25.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn25.Visible = true;
             this.bandedGridColumn25.Width = 117;
@@ -1444,7 +1448,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.screenOptionsToolStripMenuItem});
+            this.screenOptionsToolStripMenuItem,
+            this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
@@ -1510,6 +1515,29 @@
             this.unlockScreenFormatToolStripMenuItem.Size = new System.Drawing.Size(236, 26);
             this.unlockScreenFormatToolStripMenuItem.Text = "Unlock Screen Format";
             this.unlockScreenFormatToolStripMenuItem.Click += new System.EventHandler(this.unlockScreenFormatToolStripMenuItem_Click);
+            // 
+            // miscToolStripMenuItem
+            // 
+            this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolAgentReportList,
+            this.reportsToolStripMenuItem});
+            this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Text = "Misc";
+            // 
+            // toolAgentReportList
+            // 
+            this.toolAgentReportList.Name = "toolAgentReportList";
+            this.toolAgentReportList.Size = new System.Drawing.Size(207, 26);
+            this.toolAgentReportList.Text = "Agent Report List";
+            this.toolAgentReportList.Click += new System.EventHandler(this.toolAgentReportList_Click);
+            // 
+            // reportsToolStripMenuItem
+            // 
+            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.reportsToolStripMenuItem.Text = "Reports";
+            this.reportsToolStripMenuItem.Click += new System.EventHandler(this.reportsToolStripMenuItem_Click);
             // 
             // ContactsPreneed
             // 
@@ -1664,5 +1692,8 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox7;
         private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit2;
         private System.Windows.Forms.ToolStripMenuItem editDetailMenu;
+        private System.Windows.Forms.ToolStripMenuItem miscToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolAgentReportList;
     }
 }

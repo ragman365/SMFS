@@ -344,11 +344,41 @@
     <Compile Include="Calendar3.Designer.cs">
       <DependentUpon>Calendar3.cs</DependentUpon>
     </Compile>
+    <Compile Include="ContactEditParms.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContactEditParms.Designer.cs">
+      <DependentUpon>ContactEditParms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContactReportsAgents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContactReportsAgents.Designer.cs">
+      <DependentUpon>ContactReportsAgents.cs</DependentUpon>
+    </Compile>
     <Compile Include="ContactsLeadList.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ContactsLeadList.Designer.cs">
       <DependentUpon>ContactsLeadList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContactReports.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContactReports.Designer.cs">
+      <DependentUpon>ContactReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectPermissions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectPermissions.Designer.cs">
+      <DependentUpon>SelectPermissions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrustContractLogReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrustContractLogReport.Designer.cs">
+      <DependentUpon>TrustContractLogReport.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectPayments.cs">
       <SubType>Form</SubType>
@@ -2383,8 +2413,23 @@
     <EmbeddedResource Include="Calendar3.resx">
       <DependentUpon>Calendar3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ContactEditParms.resx">
+      <DependentUpon>ContactEditParms.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContactReportsAgents.resx">
+      <DependentUpon>ContactReportsAgents.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ContactsLeadList.resx">
       <DependentUpon>ContactsLeadList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContactReports.resx">
+      <DependentUpon>ContactReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectPermissions.resx">
+      <DependentUpon>SelectPermissions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrustContractLogReport.resx">
+      <DependentUpon>TrustContractLogReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectPayments.resx">
       <DependentUpon>SelectPayments.cs</DependentUpon>
@@ -3437,6 +3482,14 @@
     <None Include="Resources\arrow_up_16.png" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -3470,6 +3523,15 @@
       <VersionMinor>3</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>

@@ -51,6 +51,7 @@
             this.bandedGridColumn6 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn9 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.txtChart = new System.Windows.Forms.TextBox();
             this.chkPreNeed = new System.Windows.Forms.CheckBox();
             this.chkExcludeHeader = new System.Windows.Forms.CheckBox();
             this.lblTotal = new System.Windows.Forms.Label();
@@ -71,7 +72,6 @@
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtChart = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -87,10 +87,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1750, 371);
+            this.panelAll.Size = new System.Drawing.Size(1750, 369);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -100,7 +100,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 73);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1750, 298);
+            this.panelBottom.Size = new System.Drawing.Size(1750, 296);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -111,7 +111,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1750, 298);
+            this.dgv.Size = new System.Drawing.Size(1750, 296);
             this.dgv.TabIndex = 1;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -482,6 +482,13 @@
             this.panelTop.Size = new System.Drawing.Size(1750, 73);
             this.panelTop.TabIndex = 1;
             // 
+            // txtChart
+            // 
+            this.txtChart.Location = new System.Drawing.Point(1199, 35);
+            this.txtChart.Name = "txtChart";
+            this.txtChart.Size = new System.Drawing.Size(139, 23);
+            this.txtChart.TabIndex = 138;
+            // 
             // chkPreNeed
             // 
             this.chkPreNeed.AutoSize = true;
@@ -640,7 +647,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1750, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1750, 30);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -650,7 +657,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -681,13 +688,6 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
             this.exitToolStripMenuItem.Text = "Exit";
-            // 
-            // txtChart
-            // 
-            this.txtChart.Location = new System.Drawing.Point(1199, 35);
-            this.txtChart.Name = "txtChart";
-            this.txtChart.Size = new System.Drawing.Size(139, 23);
-            this.txtChart.TabIndex = 138;
             // 
             // contextMenuStrip1
             // 

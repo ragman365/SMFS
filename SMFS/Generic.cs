@@ -476,6 +476,7 @@ namespace GeneralLib
         {
             string newPath = "";
             string mainpath = "";
+            string lastpath = "";
             path = path.Replace("\\", "/");
             string str = "";
             for ( int i=path.Length-1; i>=0; i-- )
@@ -484,10 +485,32 @@ namespace GeneralLib
                 if ( str == "/")
                 {
                     newPath = path.Substring(0, i);
+                    lastpath = path.Substring(i);
                     break;
                 }    
             }
             return newPath;
+        }
+        /***********************************************************************************************/
+        public static string LastPath(string path)
+        {
+            string newPath = "";
+            string mainpath = DecodePath(path);
+            string lastpath = "";
+            path = path.Replace("\\", "/");
+            string str = "";
+            for (int i = mainpath.Length - 1; i >= 0; i--)
+            {
+                str = mainpath.Substring(i, 1);
+                if (str == "/")
+                {
+                    newPath = mainpath.Substring(0, i);
+                    lastpath = mainpath.Substring(i);
+                    lastpath = lastpath.Replace("/", "");
+                    break;
+                }
+            }
+            return lastpath;
         }
         /***********************************************************************************************/
         public static string GetReportPath()
@@ -1965,6 +1988,8 @@ namespace GeneralLib
                 string command = "select column_name,data_type,column_key,character_maximum_length,column_default from information_schema.`COLUMNS` where table_schema = 'smfs'";
                 command += " and table_name = '" + db + "' and column_name = '" + field + "' ;";
                 DataTable dx = G1.get_db_data(command);
+                if (dx.Rows.Count <= 0)
+                    continue;
                 string type = "";
                 string def = "";
                 int len = 0;
@@ -4672,10 +4697,14 @@ namespace GeneralLib
         public static void CreateAudit(string file = "")
         {
             DateTime date = DateTime.Now;
-            auditFile = "c:/rag/fix_" + date.ToString("yyyyMMdd_hhmmss") + ".txt";
+            //auditFile = "c:/rag/fix_" + date.ToString("yyyyMMdd_hhmmss") + ".txt";
 
-            if (!String.IsNullOrWhiteSpace(auditFile))
-                auditFile = "c:/rag/" + file + "_" + date.ToString("yyyyMMdd_hhmmss") + ".txt";
+            string path = "C:/rag/audit files/";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            //if (!String.IsNullOrWhiteSpace(auditFile))
+                auditFile = path + file + "_" + date.ToString("yyyyMMdd_hhmmss") + ".txt";
 
             string filename = auditFile;
             if (File.Exists(filename))
@@ -4689,6 +4718,10 @@ namespace GeneralLib
         public static void WriteAudit(string str)
         {
             string filename = auditFile;
+            if (auditFile.IndexOf ( "fix.txt") >= 0 )
+            { 
+            }
+
             if (!File.Exists(filename))
                 CreateAudit();
             using (StreamWriter sw = File.AppendText(filename))
@@ -4698,6 +4731,22 @@ namespace GeneralLib
                 sw.Flush();
                 sw.Close();
             }
+        }
+        /***********************************************************************************************/
+        public static string RandomizeFilename ( string fileName )
+        {
+            if (fileName.ToUpper().IndexOf(".PDF") < 0)
+                return fileName;
+            string newFilename = "";
+            int idx = fileName.IndexOf(".PDF");
+            if (idx < 0)
+                idx = fileName.IndexOf(".pdf");
+            newFilename = fileName.Substring(0, idx);
+            DateTime now = DateTime.Now;
+            string subString = now.ToString("yyyyMMddHHmmss");
+            newFilename += subString;
+            newFilename += ".pdf";
+            return newFilename;
         }
         /***********************************************************************************************/
         public static string getAvailableRAM()

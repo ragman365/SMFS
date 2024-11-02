@@ -834,19 +834,23 @@ namespace SMFS
             if (G1.get_column_number(dt, "specialDP") < 0)
                 dt.Columns.Add("specialDP");
 
-            string cmd = "Select * from `contracts` p ";
-            cmd += " JOIN `customers` c ON p.`contractNumber` = c.`contractNumber` ";
-            cmd += " where p.`issueDate8` >= '" + date1 + "' ";
-            cmd += " and   p.`issueDate8` <= '" + date2 + "' ";
+            string cmd = "Select * from `contracts` x ";
+            cmd += " JOIN `customers` c ON x.`contractNumber` = c.`contractNumber` ";
+            cmd += " JOIN `payments` p on x.`contractNumber` = p.`contractNumber` ";
+            cmd += " where p.`payDate8` >= '" + date1 + "' ";
+            cmd += " and   p.`payDate8` <= '" + date2 + "' ";
+            //cmd += " where p.`issueDate8` >= '" + date1 + "' ";
+            //cmd += " and   p.`issueDate8` <= '" + date2 + "' ";
             cmd += " and p.`downPayment` > '0.00' ";
-            cmd += " ORDER by p.`issueDate8` ";
+            cmd += " ORDER by p.`payDate8` ";
+            //cmd += " ORDER by p.`issueDate8` ";
             cmd += ";";
             DataTable dx = G1.get_db_data(cmd);
             string contract = "";
             for (int i = 0; i < dx.Rows.Count; i++)
             {
                 contract = dx.Rows[i]["contractNumber"].ObjToString();
-                if (contract == "CT19050LI")
+                if (contract == "P24035L")
                 {
                 }
                 DataRow[] dRows = dt.Select("contractNumber='" + contract + "'");
@@ -891,11 +895,12 @@ namespace SMFS
             for (int i = dt.Rows.Count - 1; i >= 0; i--)
             {
                 contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                if ( contractNumber == "HU23006LI")
+                if ( contractNumber == "P24035L")
                 {
                 }
                 payDate = dt.Rows[i]["payDate8"].ObjToDateTime();
-                issueDate = dt.Rows[i]["issueDate8"].ObjToDateTime();
+                //issueDate = dt.Rows[i]["issueDate8"].ObjToDateTime();
+                issueDate = dt.Rows[i]["payDate8"].ObjToDateTime();
                 issueMonth = issueDate.Month;
                 if (issueDate.Year > lDate2.Year)
                     issueMonth += 12;
@@ -1045,7 +1050,7 @@ namespace SMFS
                 if ( contractNumber == "WC23034L")
                 {
                 }
-                if (contractNumber == "C23007LI")
+                if (contractNumber == "P24031LI")
                 {
                 }
                 if ( !previousDateRead )

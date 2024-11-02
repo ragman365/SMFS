@@ -1150,6 +1150,37 @@ namespace SMFS
             dR["depRelationship"] = "DISCLOSURES";
             disclosureDt.Rows.Add(dR);
         }
+        /****************************************************************************************/
+        public delegate void d_FunFamilyNewPrint( string who, DevExpress.XtraGrid.GridControl dgv1 );
+        public event d_FunFamilyNewPrint funFamilyPrint;
+        /***************************************************************************************/
+        public void FireEventPrintPreview( string who)
+        {
+            if (funFamilyPrint != null)
+            {
+                if (who == "Family")
+                {
+                    if (dgvDependent.Visible)
+                        funFamilyPrint("Family Members", dgvDependent);
+                    else if (dgvLegal.Visible)
+                        funFamilyPrint("Legal Members", dgvLegal);
+                }
+                else if (who == "Legal")
+                {
+                    if (dgv2.Visible)
+                        funFamilyPrint("PB", dgv2);
+                    else if (dgv3.Visible)
+                        funFamilyPrint("HPB", dgv3);
+                    else if (dgv4.Visible)
+                        funFamilyPrint("Clergy", dgv4);
+                    else if (dgv5.Visible)
+                        funFamilyPrint("Musicians", dgv5);
+                    else if (dgv6.Visible)
+                        funFamilyPrint("Funeral Details", dgv6);
+                }
+            }
+            return;
+        }
         /***************************************************************************************/
         public bool FireEventFunServicesModified()
         {

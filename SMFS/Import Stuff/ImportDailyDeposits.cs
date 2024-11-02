@@ -1952,8 +1952,8 @@ namespace SMFS
                         rv = dt.Rows[i]["interestPaid"].ObjToDouble();
                         credit = dt.Rows[i]["creditAdjustment"].ObjToDouble();
                         debit = dt.Rows[i]["debitAdjustment"].ObjToDouble();
-                        if (credit > 0D && rv == 0D) // Credits with zero (0.00) Interest do not count as (DOLP)
-                            continue;
+                        //if (credit > 0D && rv == 0D) // Credits with zero (0.00) Interest do not count as (DOLP) // Removed because of M23002LI on 10/15/2024
+                        //    continue;
                         if (credit != 0D || debit != 0D)
                             continue;
                         dolp = dt.Rows[i]["payDate8"].ObjToDateTime();

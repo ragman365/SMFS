@@ -3715,7 +3715,7 @@
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "amtOfMonthlyPayt", this.bandedGridColumn99, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "totalContract", this.bandedGridColumn117, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "balanceDue", this.bandedGridColumn98, "${0:0,0.00}"),
-            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "trust100P", this.bandedGridColumn97, "${0:0,0.00}"),
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "trust100P", this.bandedGridColumn97, "${0:0,0.00}", "2"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "trust85P", this.bandedGridColumn100, "${0:0,0.00}", "1"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "downPayment", this.bandedGridColumn94, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "paymentAmount", this.bandedGridColumn122, "${0:0,0.00}"),
@@ -3882,7 +3882,7 @@
             this.bandedGridColumn84.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn84.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn84.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Custom, "lastName", "T85-DBR=${0:0,0.00}", "2")});
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Custom, "lastName", "T85-DBR=${0:0,0.00}", "3")});
             this.bandedGridColumn84.Width = 175;
             // 
             // bandedGridColumn85
@@ -4044,6 +4044,8 @@
             this.bandedGridColumn97.Name = "bandedGridColumn97";
             this.bandedGridColumn97.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn97.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn97.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Custom, "trust100P", "${0:0,0.00}", "2")});
             this.bandedGridColumn97.Visible = true;
             this.bandedGridColumn97.Width = 87;
             // 
@@ -4082,7 +4084,7 @@
             this.bandedGridColumn100.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn100.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn100.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Custom, "trust85P", "Total=${0:0,0.00}", "1")});
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Custom, "trust85P", "${0:0,0.00}", "1")});
             this.bandedGridColumn100.Visible = true;
             this.bandedGridColumn100.Width = 87;
             // 

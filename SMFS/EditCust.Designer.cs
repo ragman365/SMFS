@@ -78,6 +78,9 @@ namespace SMFS
             this.txtCasketGroup = new System.Windows.Forms.TextBox();
             this.lblFuneralDirector = new System.Windows.Forms.Label();
             this.lblFuneralArranger = new System.Windows.Forms.Label();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
             this.tblLeft.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -156,7 +159,7 @@ namespace SMFS
             this.toolLegal,
             this.toolForms,
             this.toolStripButton1});
-            this.tblLeft.Location = new System.Drawing.Point(0, 69);
+            this.tblLeft.Location = new System.Drawing.Point(0, 67);
             this.tblLeft.MaximumSize = new System.Drawing.Size(58, 489);
             this.tblLeft.Name = "tblLeft";
             this.tblLeft.Size = new System.Drawing.Size(30, 489);
@@ -325,11 +328,11 @@ namespace SMFS
             this.panelAll.Controls.Add(this.panelDesign);
             this.panelAll.Controls.Add(this.panelServices);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(30, 69);
+            this.panelAll.Location = new System.Drawing.Point(30, 67);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.MaximumSize = new System.Drawing.Size(0, 6154);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1352, 534);
+            this.panelAll.Size = new System.Drawing.Size(1352, 536);
             this.panelAll.TabIndex = 6;
             this.panelAll.Paint += new System.Windows.Forms.PaintEventHandler(this.panelAll_Paint);
             // 
@@ -384,7 +387,7 @@ namespace SMFS
             this.btnAdmin,
             this.btnContracts,
             this.btnCustomer});
-            this.tlbMain.Location = new System.Drawing.Point(0, 30);
+            this.tlbMain.Location = new System.Drawing.Point(0, 28);
             this.tlbMain.Name = "tlbMain";
             this.tlbMain.Size = new System.Drawing.Size(1382, 39);
             this.tlbMain.TabIndex = 5;
@@ -392,6 +395,7 @@ namespace SMFS
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
@@ -400,7 +404,7 @@ namespace SMFS
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -446,7 +450,7 @@ namespace SMFS
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1382, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1382, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -559,6 +563,28 @@ namespace SMFS
             this.lblFuneralArranger.TabIndex = 14;
             this.lblFuneralArranger.Text = "Funeral Arranger";
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printPreviewToolStripMenuItem,
+            this.printToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.toolStripMenuItem1.Text = "Print Menu";
+            // 
+            // printPreviewToolStripMenuItem
+            // 
+            this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.printPreviewToolStripMenuItem.Text = "Print Preview";
+            this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.printPreviewToolStripMenuItem_Click);
+            // 
+            // printToolStripMenuItem
+            // 
+            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.printToolStripMenuItem.Text = "Print";
+            // 
             // EditCust
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -647,5 +673,8 @@ namespace SMFS
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripMenuItem savedContractsMenu;
         private System.Windows.Forms.ToolStripMenuItem changeLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem printPreviewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
     }
 }

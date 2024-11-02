@@ -42,6 +42,8 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Mail;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 /****************************************************************************************/
 namespace SMFS
@@ -130,7 +132,13 @@ namespace SMFS
 
             if (autoRun)
             {
-                btnRun_Click(null, null);
+                try
+                {
+                    btnRun_Click(null, null);
+                }
+                catch ( Exception ex)
+                {
+                }
 
                 //G1.AddToAudit("System", "AutoRun", "Funeral Activity Print Preview", "Starting Report . . . . . . . ", "");
                 printPreviewToolStripMenuItem_Click(null, null);
@@ -1351,9 +1359,34 @@ namespace SMFS
                 //string filename = "C:/SMFS_Reports/" + workReport + "_" + today.Year.ToString("D4") + today.Month.ToString("D2") + today.Day.ToString("D2") + "_" + today.Hour.ToString("D2") + today.Minute.ToString("D2") + ".pdf";
                 workReport = "Funeral Activity Report";
                 //string filename = "C:/SMFS_Reports/" + workReport + "_" + today.Year.ToString("D4") + today.Month.ToString("D2") + today.Day.ToString("D2") + "_" + today.Hour.ToString("D2") + today.Minute.ToString("D2") + ".pdf";
-                string filename = "C:/SMFS_Reports/" + workReport + ".pdf";
+                path = "C:/SMFS_Reports/Funeral_Activity/";
+                G1.verify_path(path);
+                string filename = path + workReport + ".pdf";
+                filename = G1.RandomizeFilename(filename);
                 if (File.Exists(filename))
-                    File.Delete(filename);
+                {
+                    GrantFileAccess(filename);
+
+                    FileAttributes attributes = File.GetAttributes(filename);
+                    if ((attributes & FileAttributes.Archive) == FileAttributes.Archive)
+                    {
+                        // Show the file.
+                        attributes = RemoveAttribute(attributes, FileAttributes.Archive);
+                        File.SetAttributes(filename, attributes);
+                        //Console.WriteLine("The {0} file is no longer hidden.", path);
+                    }
+
+
+                    //if ( IsFileLocked ( filename ))
+                    //{
+                    //    if (!NativeMethods.MoveFileEx ( filename, null, MoveFileFlags.DelayUntilReboot))
+                    //    {
+                    //        //Console.Error.WriteLine("Unable to schedule 'a.txt' for deletion");
+                    //    }
+                    //}
+                    //else
+                        File.Delete(filename);
+                }
 
                 //G1.AddToAudit("System", "AutoRun", "Funeral Activity PDF", filename, "");
                 //G1.AddToAudit("System", "AutoRun", "Funeral Activity Send to", sendTo, "");
@@ -1367,6 +1400,16 @@ namespace SMFS
                     //    G1.AddToAudit("System", "AutoRun", "Funeral Activity", "FILE WAS CREATED!!!!!", "");
                     //else
                     //    G1.AddToAudit("System", "AutoRun", "Funeral Activity", "No File Created", "");
+
+                    GrantFileAccess(filename);
+
+                    FileAttributes attributes = File.GetAttributes(filename);
+                    if ((attributes & FileAttributes.Archive) == FileAttributes.Archive)
+                    {
+                        attributes = RemoveAttribute(attributes, FileAttributes.Archive);
+                        File.SetAttributes(filename, attributes);
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -1389,6 +1432,38 @@ namespace SMFS
 
             G1.AdjustColumnWidths(gridMain, 0.65D, false);
             gridMain.Appearance.Row.Font = saveFont;
+        }
+        /***********************************************************************************************/
+        public static bool IsFileLocked(string file)
+        {
+            try
+            {
+                using (var stream = File.OpenRead(file))
+                    return false;
+            }
+            catch (IOException)
+            {
+                return true;
+            }
+        }
+        /***********************************************************************************************/
+        private static void GrantFileAccess(string file)
+        {
+            try
+            {
+                DirectoryInfo dInfo = new DirectoryInfo(file);
+                DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                dInfo.SetAccessControl(dSecurity);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        /***********************************************************************************************/
+        private static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove)
+        {
+            return attributes & ~attributesToRemove;
         }
         /***********************************************************************************************/
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2039,7 +2114,7 @@ namespace SMFS
                 if ( frequency <= 0 )
                 {
                     frequency = 3;
-                    dRows = ctDt.Select("contactType='" + contactType + "'");
+                    dRows = ctDt.Select("contactTypes='" + contactType + "'");
                     if (dRows.Length > 0)
                     {
                         usingDefaultFrequency = true;

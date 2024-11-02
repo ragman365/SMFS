@@ -51,6 +51,7 @@
             this.bandedGridColumn22 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn21 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
             this.btnRunReports = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.picRowDown = new System.Windows.Forms.PictureBox();
@@ -459,6 +460,7 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Bisque;
+            this.panelTop.Controls.Add(this.btnSave);
             this.panelTop.Controls.Add(this.btnRunReports);
             this.panelTop.Controls.Add(this.btnInsert);
             this.panelTop.Controls.Add(this.picRowDown);
@@ -472,6 +474,18 @@
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1357, 59);
             this.panelTop.TabIndex = 1;
+            // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.LightGreen;
+            this.btnSave.Location = new System.Drawing.Point(635, 15);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(87, 28);
+            this.btnSave.TabIndex = 22;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnRunReports
             // 
@@ -693,5 +707,6 @@
         private System.Windows.Forms.ToolStripMenuItem runReportToolStripMenuItem;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn6;
+        private System.Windows.Forms.Button btnSave;
     }
 }

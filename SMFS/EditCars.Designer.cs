@@ -46,6 +46,9 @@
             this.bandedGridColumn9 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn10 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn7 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn13 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn11 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn12 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridView5 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelTop = new System.Windows.Forms.Panel();
@@ -64,9 +67,6 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bandedGridColumn11 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn12 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn13 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -88,28 +88,32 @@
             this.panelAll.Controls.Add(this.menuStrip1);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAll.Location = new System.Drawing.Point(0, 0);
+            this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1196, 368);
+            this.panelAll.Size = new System.Drawing.Size(1395, 453);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
             // 
             this.panelBottom.Controls.Add(this.dgv);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 67);
+            this.panelBottom.Location = new System.Drawing.Point(0, 83);
+            this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1196, 301);
+            this.panelBottom.Size = new System.Drawing.Size(1395, 370);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
             // 
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Location = new System.Drawing.Point(0, 0);
             this.dgv.LookAndFeel.SkinName = "Foggy";
             this.dgv.LookAndFeel.UseDefaultLookAndFeel = false;
             this.dgv.MainView = this.gridMain;
+            this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1196, 301);
+            this.dgv.Size = new System.Drawing.Size(1395, 370);
             this.dgv.TabIndex = 12;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain,
@@ -263,6 +267,7 @@
             this.bandedGridColumn11,
             this.bandedGridColumn12,
             this.bandedGridColumn13});
+            this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.Name = "gridMain";
             this.gridMain.OptionsBehavior.AutoPopulateColumns = false;
@@ -301,59 +306,59 @@
             this.gridBand4.Columns.Add(this.bandedGridColumn11);
             this.gridBand4.Columns.Add(this.bandedGridColumn12);
             this.gridBand4.Columns.Add(this.bandedGridColumn8);
-            this.gridBand4.MinWidth = 12;
+            this.gridBand4.MinWidth = 14;
             this.gridBand4.Name = "gridBand4";
             this.gridBand4.VisibleIndex = 0;
-            this.gridBand4.Width = 1733;
+            this.gridBand4.Width = 2021;
             // 
             // bandedGridColumn70
             // 
             this.bandedGridColumn70.Caption = "Num";
             this.bandedGridColumn70.FieldName = "num";
-            this.bandedGridColumn70.MinWidth = 23;
+            this.bandedGridColumn70.MinWidth = 27;
             this.bandedGridColumn70.Name = "bandedGridColumn70";
             this.bandedGridColumn70.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn70.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn70.Visible = true;
-            this.bandedGridColumn70.Width = 51;
+            this.bandedGridColumn70.Width = 59;
             // 
             // bandedGridColumn71
             // 
             this.bandedGridColumn71.Caption = "record";
             this.bandedGridColumn71.FieldName = "record";
-            this.bandedGridColumn71.MinWidth = 23;
+            this.bandedGridColumn71.MinWidth = 27;
             this.bandedGridColumn71.Name = "bandedGridColumn71";
             this.bandedGridColumn71.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn71.Width = 87;
+            this.bandedGridColumn71.Width = 101;
             // 
             // bandedGridColumn73
             // 
             this.bandedGridColumn73.Caption = "Time Stamp";
             this.bandedGridColumn73.FieldName = "tmstamp";
-            this.bandedGridColumn73.MinWidth = 23;
+            this.bandedGridColumn73.MinWidth = 27;
             this.bandedGridColumn73.Name = "bandedGridColumn73";
             this.bandedGridColumn73.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn73.Width = 140;
+            this.bandedGridColumn73.Width = 163;
             // 
             // bandedGridColumn1
             // 
             this.bandedGridColumn1.Caption = "Location";
             this.bandedGridColumn1.FieldName = "location";
-            this.bandedGridColumn1.MinWidth = 25;
+            this.bandedGridColumn1.MinWidth = 29;
             this.bandedGridColumn1.Name = "bandedGridColumn1";
             this.bandedGridColumn1.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn1.Visible = true;
-            this.bandedGridColumn1.Width = 144;
+            this.bandedGridColumn1.Width = 168;
             // 
             // bandedGridColumn2
             // 
             this.bandedGridColumn2.Caption = "Company Code";
             this.bandedGridColumn2.FieldName = "companyCode";
-            this.bandedGridColumn2.MinWidth = 25;
+            this.bandedGridColumn2.MinWidth = 29;
             this.bandedGridColumn2.Name = "bandedGridColumn2";
             this.bandedGridColumn2.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn2.Visible = true;
-            this.bandedGridColumn2.Width = 121;
+            this.bandedGridColumn2.Width = 141;
             // 
             // bandedGridColumn3
             // 
@@ -361,80 +366,115 @@
             this.bandedGridColumn3.DisplayFormat.FormatString = "N0";
             this.bandedGridColumn3.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn3.FieldName = "year";
-            this.bandedGridColumn3.MinWidth = 25;
+            this.bandedGridColumn3.MinWidth = 29;
             this.bandedGridColumn3.Name = "bandedGridColumn3";
             this.bandedGridColumn3.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn3.Visible = true;
-            this.bandedGridColumn3.Width = 67;
+            this.bandedGridColumn3.Width = 78;
             // 
             // bandedGridColumn4
             // 
             this.bandedGridColumn4.Caption = "Make";
             this.bandedGridColumn4.FieldName = "make";
-            this.bandedGridColumn4.MinWidth = 25;
+            this.bandedGridColumn4.MinWidth = 29;
             this.bandedGridColumn4.Name = "bandedGridColumn4";
             this.bandedGridColumn4.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn4.Visible = true;
-            this.bandedGridColumn4.Width = 131;
+            this.bandedGridColumn4.Width = 153;
             // 
             // bandedGridColumn5
             // 
             this.bandedGridColumn5.Caption = "Model";
             this.bandedGridColumn5.FieldName = "model";
-            this.bandedGridColumn5.MinWidth = 25;
+            this.bandedGridColumn5.MinWidth = 29;
             this.bandedGridColumn5.Name = "bandedGridColumn5";
             this.bandedGridColumn5.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn5.Visible = true;
-            this.bandedGridColumn5.Width = 132;
+            this.bandedGridColumn5.Width = 154;
             // 
             // bandedGridColumn6
             // 
             this.bandedGridColumn6.Caption = "Color";
             this.bandedGridColumn6.FieldName = "color";
-            this.bandedGridColumn6.MinWidth = 25;
+            this.bandedGridColumn6.MinWidth = 29;
             this.bandedGridColumn6.Name = "bandedGridColumn6";
             this.bandedGridColumn6.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn6.Visible = true;
-            this.bandedGridColumn6.Width = 96;
+            this.bandedGridColumn6.Width = 112;
             // 
             // bandedGridColumn9
             // 
             this.bandedGridColumn9.Caption = "Role";
             this.bandedGridColumn9.FieldName = "role";
+            this.bandedGridColumn9.MinWidth = 23;
             this.bandedGridColumn9.Name = "bandedGridColumn9";
             this.bandedGridColumn9.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn9.Visible = true;
-            this.bandedGridColumn9.Width = 103;
+            this.bandedGridColumn9.Width = 120;
             // 
             // bandedGridColumn10
             // 
             this.bandedGridColumn10.Caption = "ID Number";
             this.bandedGridColumn10.FieldName = "idNumber";
+            this.bandedGridColumn10.MinWidth = 23;
             this.bandedGridColumn10.Name = "bandedGridColumn10";
             this.bandedGridColumn10.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn10.Visible = true;
-            this.bandedGridColumn10.Width = 94;
+            this.bandedGridColumn10.Width = 110;
             // 
             // bandedGridColumn7
             // 
             this.bandedGridColumn7.Caption = "VIN";
             this.bandedGridColumn7.FieldName = "vin";
+            this.bandedGridColumn7.MinWidth = 23;
             this.bandedGridColumn7.Name = "bandedGridColumn7";
             this.bandedGridColumn7.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn7.Visible = true;
-            this.bandedGridColumn7.Width = 175;
+            this.bandedGridColumn7.Width = 204;
+            // 
+            // bandedGridColumn13
+            // 
+            this.bandedGridColumn13.Caption = "License Plate";
+            this.bandedGridColumn13.FieldName = "licensePlate";
+            this.bandedGridColumn13.MinWidth = 23;
+            this.bandedGridColumn13.Name = "bandedGridColumn13";
+            this.bandedGridColumn13.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn13.Visible = true;
+            this.bandedGridColumn13.Width = 161;
+            // 
+            // bandedGridColumn11
+            // 
+            this.bandedGridColumn11.Caption = "County";
+            this.bandedGridColumn11.FieldName = "county";
+            this.bandedGridColumn11.MinWidth = 23;
+            this.bandedGridColumn11.Name = "bandedGridColumn11";
+            this.bandedGridColumn11.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn11.Visible = true;
+            this.bandedGridColumn11.Width = 134;
+            // 
+            // bandedGridColumn12
+            // 
+            this.bandedGridColumn12.Caption = "Expiration";
+            this.bandedGridColumn12.FieldName = "expiration";
+            this.bandedGridColumn12.MinWidth = 23;
+            this.bandedGridColumn12.Name = "bandedGridColumn12";
+            this.bandedGridColumn12.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn12.Visible = true;
+            this.bandedGridColumn12.Width = 134;
             // 
             // bandedGridColumn8
             // 
             this.bandedGridColumn8.Caption = "Notes";
             this.bandedGridColumn8.FieldName = "notes";
+            this.bandedGridColumn8.MinWidth = 23;
             this.bandedGridColumn8.Name = "bandedGridColumn8";
             this.bandedGridColumn8.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn8.Visible = true;
-            this.bandedGridColumn8.Width = 251;
+            this.bandedGridColumn8.Width = 293;
             // 
             // gridView5
             // 
+            this.gridView5.DetailHeight = 431;
             this.gridView5.GridControl = this.dgv;
             this.gridView5.Name = "gridView5";
             // 
@@ -449,18 +489,20 @@
             this.panelTop.Controls.Add(this.pictureBox12);
             this.panelTop.Controls.Add(this.pictureBox11);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Location = new System.Drawing.Point(0, 24);
+            this.panelTop.Location = new System.Drawing.Point(0, 30);
+            this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1196, 43);
+            this.panelTop.Size = new System.Drawing.Size(1395, 53);
             this.panelTop.TabIndex = 1;
             // 
             // btnInsert
             // 
             this.btnInsert.BackColor = System.Drawing.Color.Aquamarine;
             this.btnInsert.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInsert.Location = new System.Drawing.Point(170, 10);
+            this.btnInsert.Location = new System.Drawing.Point(198, 12);
+            this.btnInsert.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnInsert.Name = "btnInsert";
-            this.btnInsert.Size = new System.Drawing.Size(31, 23);
+            this.btnInsert.Size = new System.Drawing.Size(36, 28);
             this.btnInsert.TabIndex = 34;
             this.btnInsert.Tag = "Insert";
             this.btnInsert.Text = "~";
@@ -471,9 +513,10 @@
             // picRowDown
             // 
             this.picRowDown.Image = ((System.Drawing.Image)(resources.GetObject("picRowDown.Image")));
-            this.picRowDown.Location = new System.Drawing.Point(132, 10);
+            this.picRowDown.Location = new System.Drawing.Point(154, 12);
+            this.picRowDown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.picRowDown.Name = "picRowDown";
-            this.picRowDown.Size = new System.Drawing.Size(31, 23);
+            this.picRowDown.Size = new System.Drawing.Size(36, 28);
             this.picRowDown.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picRowDown.TabIndex = 33;
             this.picRowDown.TabStop = false;
@@ -483,9 +526,10 @@
             // picRowUp
             // 
             this.picRowUp.Image = ((System.Drawing.Image)(resources.GetObject("picRowUp.Image")));
-            this.picRowUp.Location = new System.Drawing.Point(95, 9);
+            this.picRowUp.Location = new System.Drawing.Point(111, 11);
+            this.picRowUp.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.picRowUp.Name = "picRowUp";
-            this.picRowUp.Size = new System.Drawing.Size(31, 23);
+            this.picRowUp.Size = new System.Drawing.Size(36, 28);
             this.picRowUp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picRowUp.TabIndex = 32;
             this.picRowUp.TabStop = false;
@@ -495,9 +539,10 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(18, 9);
+            this.pictureBox1.Location = new System.Drawing.Point(21, 11);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(28, 22);
+            this.pictureBox1.Size = new System.Drawing.Size(33, 27);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 31;
             this.pictureBox1.TabStop = false;
@@ -506,9 +551,10 @@
             // btnSaveAll
             // 
             this.btnSaveAll.BackColor = System.Drawing.Color.Lime;
-            this.btnSaveAll.Location = new System.Drawing.Point(222, 10);
+            this.btnSaveAll.Location = new System.Drawing.Point(259, 12);
+            this.btnSaveAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnSaveAll.Name = "btnSaveAll";
-            this.btnSaveAll.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveAll.Size = new System.Drawing.Size(87, 28);
             this.btnSaveAll.TabIndex = 30;
             this.btnSaveAll.Text = "Save All Members";
             this.btnSaveAll.UseVisualStyleBackColor = false;
@@ -517,9 +563,10 @@
             // pictureBox12
             // 
             this.pictureBox12.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox12.Image")));
-            this.pictureBox12.Location = new System.Drawing.Point(52, 9);
+            this.pictureBox12.Location = new System.Drawing.Point(61, 11);
+            this.pictureBox12.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pictureBox12.Name = "pictureBox12";
-            this.pictureBox12.Size = new System.Drawing.Size(31, 23);
+            this.pictureBox12.Size = new System.Drawing.Size(36, 28);
             this.pictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox12.TabIndex = 20;
             this.pictureBox12.TabStop = false;
@@ -529,9 +576,10 @@
             // pictureBox11
             // 
             this.pictureBox11.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox11.Image")));
-            this.pictureBox11.Location = new System.Drawing.Point(365, 11);
+            this.pictureBox11.Location = new System.Drawing.Point(426, 14);
+            this.pictureBox11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pictureBox11.Name = "pictureBox11";
-            this.pictureBox11.Size = new System.Drawing.Size(31, 23);
+            this.pictureBox11.Size = new System.Drawing.Size(36, 28);
             this.pictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox11.TabIndex = 21;
             this.pictureBox11.TabStop = false;
@@ -545,7 +593,8 @@
             this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1196, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1395, 30);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -555,7 +604,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -564,27 +613,27 @@
             this.printPreviewToolStripMenuItem,
             this.printToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(99, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(122, 26);
             this.toolStripMenuItem1.Text = "Print";
             // 
             // printPreviewToolStripMenuItem
             // 
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.printPreviewToolStripMenuItem.Text = "Print Preview";
             this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.printPreviewToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -593,49 +642,23 @@
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
             this.importToolStripMenuItem.Text = "Import";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
-            // bandedGridColumn11
-            // 
-            this.bandedGridColumn11.Caption = "County";
-            this.bandedGridColumn11.FieldName = "county";
-            this.bandedGridColumn11.Name = "bandedGridColumn11";
-            this.bandedGridColumn11.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn11.Visible = true;
-            this.bandedGridColumn11.Width = 115;
-            // 
-            // bandedGridColumn12
-            // 
-            this.bandedGridColumn12.Caption = "Expiration";
-            this.bandedGridColumn12.FieldName = "expiration";
-            this.bandedGridColumn12.Name = "bandedGridColumn12";
-            this.bandedGridColumn12.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn12.Visible = true;
-            this.bandedGridColumn12.Width = 115;
-            // 
-            // bandedGridColumn13
-            // 
-            this.bandedGridColumn13.Caption = "License Plate";
-            this.bandedGridColumn13.FieldName = "licensePlate";
-            this.bandedGridColumn13.Name = "bandedGridColumn13";
-            this.bandedGridColumn13.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn13.Visible = true;
-            this.bandedGridColumn13.Width = 138;
-            // 
             // EditCars
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1196, 368);
+            this.ClientSize = new System.Drawing.Size(1395, 453);
             this.Controls.Add(this.panelAll);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "EditCars";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EditTable";

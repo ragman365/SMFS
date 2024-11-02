@@ -1191,6 +1191,11 @@ namespace SMFS
             CalculateAmountDue( true );
         }
         /***************************************************************************************/
+        public DevExpress.XtraGrid.GridControl FireEventPrintPreview()
+        {
+            return dgv;
+        }
+        /***************************************************************************************/
         public void FireEventUpdateServiceId ( string newServiceId )
         {
             workServiceId = newServiceId;

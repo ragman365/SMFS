@@ -90,8 +90,8 @@
             this.bandedGridColumn37 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn36 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn43 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+            this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
             this.chkDueDate = new System.Windows.Forms.CheckBox();
             this.txtDOFP = new System.Windows.Forms.TextBox();
@@ -173,10 +173,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1514, 654);
+            this.panelAll.Size = new System.Drawing.Size(1514, 656);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -186,7 +186,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 160);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1514, 494);
+            this.panelBottom.Size = new System.Drawing.Size(1514, 496);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -202,7 +202,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemMemoEdit1});
-            this.dgv.Size = new System.Drawing.Size(1514, 494);
+            this.dgv.Size = new System.Drawing.Size(1514, 496);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1089,6 +1089,12 @@
             this.bandedGridColumn43.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn43.Width = 200;
             // 
+            // repositoryItemMemoEdit1
+            // 
+            this.repositoryItemMemoEdit1.Appearance.Options.UseTextOptions = true;
+            this.repositoryItemMemoEdit1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
+            // 
             // bandedGridColumn1
             // 
             this.bandedGridColumn1.Caption = "record";
@@ -1097,12 +1103,6 @@
             this.bandedGridColumn1.Name = "bandedGridColumn1";
             this.bandedGridColumn1.RowCount = 2;
             this.bandedGridColumn1.Width = 161;
-            // 
-            // repositoryItemMemoEdit1
-            // 
-            this.repositoryItemMemoEdit1.Appearance.Options.UseTextOptions = true;
-            this.repositoryItemMemoEdit1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
             // 
             // panelTop
             // 
@@ -1677,7 +1677,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1514, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1514, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1688,7 +1688,7 @@
             this.toolStripMenuItem2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -1730,7 +1730,7 @@
             // columnsToolStripMenuItem
             // 
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.columnsToolStripMenuItem.Text = "Columns";
             // 
             // miscToolStripMenuItem
@@ -1741,7 +1741,7 @@
             this.lockScreenDetailsToolStripMenuItem,
             this.unLockScreenDetailsToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // enterTrustAdjustmentToolStripMenuItem
@@ -1779,7 +1779,7 @@
             this.lockScreenDetailsToolStripMenuItem1,
             this.unlockScreenDetailsToolStripMenuItem1});
             this.miscToolStripMenuItem1.Name = "miscToolStripMenuItem1";
-            this.miscToolStripMenuItem1.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem1.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem1.Text = "Misc";
             // 
             // showOldDetailsToolStripMenuItem1

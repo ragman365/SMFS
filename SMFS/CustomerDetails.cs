@@ -224,7 +224,7 @@ namespace SMFS
             }
             else
             {
-                if (!LoginForm.administrator)
+                if (!LoginForm.administrator && !G1.isHR() )
                     xtraTabControl1.TabPages.Remove(tabContract);
                 string preference = G1.getPreference(LoginForm.username, "DailyHistory", "View Daily History");
                 if (G1.RobbyServer)
@@ -4814,6 +4814,7 @@ namespace SMFS
             }
             else if (page.Name.ObjToString().ToUpper() == "TABTRUSTS")
             {
+                string statusReason = "";
                 string cmd = "Select * from `trust_data` where `contractNumber` = '" + workContract + "' ORDER by `date` DESC;";
                 DataTable dt = G1.get_db_data(cmd);
                 if (dt.Rows.Count > 0)
@@ -4823,6 +4824,13 @@ namespace SMFS
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
                             dt.Rows[i]["endingDeathBenefit"] = 0D;
+                    }
+
+                    for ( int i=0; i<dt.Rows.Count; i++)
+                    {
+                        statusReason = dt.Rows[i]["statusReason"].ObjToString();
+                        if (statusReason.ToUpper() == "DC")
+                            dt.Rows[i]["deathClaimAmount"] = 0D;
                     }
 
                     dt = LoadTrustDetails(dt);
@@ -4953,6 +4961,7 @@ namespace SMFS
 
             DataRow[] dRows = null;
             double dValue = 0D;
+            string statusReason = "";
 
             DateTime datePaidDate = DateTime.Now;
             if (dt.Rows.Count > 0)
@@ -4969,6 +4978,7 @@ namespace SMFS
                         datePaid = "";
                         if (datePaidDate.Year > 1000)
                             datePaid = datePaidDate.ToString("MM/dd/yyyy");
+                        statusReason = dt.Rows[i]["statusReason"].ObjToString();
                         endingDeathBenefit = dt.Rows[i]["endingDeathBenefit"].ObjToDouble();
                         reducedPaidUpAmount = dt.Rows[i]["reducedPaidUpAmount"].ObjToDouble();
                         tbb = dt.Rows[i]["beginningPaymentBalance"].ObjToDouble();
@@ -4992,6 +5002,18 @@ namespace SMFS
                         }
                         else if (teb < (tbb + payments))
                             teb = tbb + payments;
+                        if (statusReason.ToUpper() == "DC")
+                        {
+                            teb = 0D;
+                            dt.Rows[i]["beginningDeathBenefit"] = 0D;
+                            dt.Rows[i]["endingPaymentBalance"] = 0D;
+                        }
+                        else if ( datePaidDate.Year > 1000 )
+                        {
+                            teb = 0D;
+                            dt.Rows[i]["beginningDeathBenefit"] = 0D;
+                            dt.Rows[i]["endingPaymentBalance"] = 0D;
+                        }
                         total += teb;
                         trustCompany = dt.Rows[i]["trustCompany"].ObjToString();
                         str = G1.ReformatMoney(teb);
@@ -5110,6 +5132,24 @@ namespace SMFS
             str = G1.ReformatMoney(total);
             txtTotalTrust.Text = str;
 
+            DateTime firstDate = DateTime.MinValue;
+            total = 0D;
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                date = dt.Rows[i]["date"].ObjToDateTime();
+                if (firstDate == DateTime.MinValue)
+                    firstDate = date;
+                if (date != firstDate)
+                    break;
+                dValue = dt.Rows[i]["beginningPaymentBalance"].ObjToDouble();
+                if ( dValue <= 0D )
+                    dValue = dt.Rows[i]["endingPaymentBalance"].ObjToDouble();
+                total += dValue;
+            }
+
+            str = G1.ReformatMoney(total);
+            txtTotalTrust.Text = str;
+
             cmd = "Select * from `trust2013r` WHERE `contractNumber` = '" + workContract + "' AND `endingBalance` > '0.00' ORDER by `payDate8` DESC LIMIT 1;";
             dx = G1.get_db_data(cmd);
             if ( dx.Rows.Count > 0 )
@@ -5118,115 +5158,228 @@ namespace SMFS
                 str = G1.ReformatMoney(total);
                 txtTBB.Text = str;
             }
+
+            FindFuneralPayments();
+
             btnSave.Visible = saveVisible;
             return dt;
         }
         /***********************************************************************************************/
-        private void OldLoadTrustDetails(DataTable dt)
+        //private void OldLoadTrustDetails(DataTable dt)
+        //{
+        //    DateTime lastDate = DateTime.Now;
+        //    DateTime date = DateTime.Now;
+
+        //    bool saveVisible = false;
+        //    if (btnSave.Visible)
+        //        saveVisible = true;
+
+        //    int count = 1;
+        //    string str = "";
+        //    string field = "";
+
+        //    double tbb = 0D;
+        //    double teb = 0D;
+        //    double total = 0D;
+        //    double payments = 0D;
+        //    double endingDeathBenefit = 0D;
+        //    double reducedPaidUpAmount = 0D;
+        //    string trustCompany = "";
+        //    string datePaid = "";
+        //    double fdlic = 0D;
+        //    double unity = 0D;
+        //    double cd = 0D;
+        //    double forethought = 0D;
+        //    double secnat = 0D;
+        //    DateTime datePaidDate = DateTime.Now;
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        lastDate = dt.Rows[0]["date"].ObjToDateTime();
+        //        for (int i = 0; i < dt.Rows.Count; i++)
+        //        {
+        //            date = dt.Rows[i]["date"].ObjToDateTime();
+        //            if (date < lastDate)
+        //                break;
+        //            datePaidDate = dt.Rows[i]["deathPaidDate"].ObjToDateTime();
+        //            datePaid = "";
+        //            if (datePaidDate.Year > 1000)
+        //                datePaid = datePaidDate.ToString("MM/dd/yyyy");
+        //            endingDeathBenefit = dt.Rows[i]["endingDeathBenefit"].ObjToDouble();
+        //            reducedPaidUpAmount = dt.Rows[i]["reducedPaidUpAmount"].ObjToDouble();
+        //            tbb = dt.Rows[i]["beginningPaymentBalance"].ObjToDouble();
+        //            payments = dt.Rows[i]["payments"].ObjToDouble();
+        //            teb = dt.Rows[i]["endingPaymentBalance"].ObjToDouble();
+        //            if (datePaidDate.Year > 1000)
+        //                teb = dt.Rows[i]["deathClaimAmount"].ObjToDouble();
+        //            if (reducedPaidUpAmount > 0D)
+        //            {
+        //                teb = reducedPaidUpAmount;
+        //                endingDeathBenefit = reducedPaidUpAmount;
+        //            }
+        //            if (teb < tbb && payments <= 0D)
+        //            {
+
+        //            }
+        //            else if (teb < (tbb + payments))
+        //                teb = tbb + payments;
+        //            total += teb;
+        //            trustCompany = dt.Rows[i]["trustCompany"].ObjToString();
+        //            str = G1.ReformatMoney(teb);
+        //            if (count == 1)
+        //            {
+        //                txtMoney1.Text = str;
+        //                cmbTrustPaid1.Text = trustCompany;
+        //                dateMoneyPaid1.Text = datePaid;
+        //            }
+        //            else if (count == 2)
+        //            {
+        //                txtMoney2.Text = str;
+        //                cmbTrustPaid2.Text = trustCompany;
+        //                dateMoneyPaid2.Text = datePaid;
+        //            }
+        //            else if (count == 3)
+        //            {
+        //                txtMoney3.Text = str;
+        //                cmbTrustPaid3.Text = trustCompany;
+        //                dateMoneyPaid3.Text = datePaid;
+        //            }
+        //            else if (count == 4)
+        //            {
+        //                txtMoney4.Text = str;
+        //                cmbTrustPaid4.Text = trustCompany;
+        //                dateMoneyPaid4.Text = datePaid;
+        //            }
+        //            else if (count == 5)
+        //            {
+        //                txtMoney5.Text = str;
+        //                cmbTrustPaid5.Text = trustCompany;
+        //                dateMoneyPaid5.Text = datePaid;
+        //            }
+        //            count++;
+        //        }
+        //    }
+        //    str = G1.ReformatMoney(total);
+        //    txtTotalTrust.Text = str;
+
+        //    string cmd = "Select * from `trust2013r` WHERE `contractNumber` = '" + workContract + "' AND `endingBalance` > '0.00' ORDER by `payDate8` DESC LIMIT 1;";
+        //    DataTable dx = G1.get_db_data(cmd);
+        //    if (dx.Rows.Count > 0)
+        //    {
+        //        total = dx.Rows[0]["endingBalance"].ObjToDouble();
+        //        str = G1.ReformatMoney(total);
+        //        txtTBB.Text = str;
+        //    }
+
+        //    btnSave.Visible = saveVisible;
+        //}
+        /***********************************************************************************************/
+        private void FindFuneralPayments ()
         {
-            DateTime lastDate = DateTime.Now;
-            DateTime date = DateTime.Now;
+            txtMoney1.Text = "";
+            cmbTrustPaid1.Text = "";
+            dateMoneyPaid1.Text = "";
 
-            bool saveVisible = false;
-            if (btnSave.Visible)
-                saveVisible = true;
+            txtMoney2.Text = "";
+            cmbTrustPaid2.Text = "";
+            dateMoneyPaid2.Text = "";
 
-            int count = 1;
+            txtMoney3.Text = "";
+            cmbTrustPaid3.Text = "";
+            dateMoneyPaid3.Text = "";
+
+            txtMoney4.Text = "";
+            cmbTrustPaid4.Text = "";
+            dateMoneyPaid4.Text = "";
+
+            txtMoney5.Text = "";
+            cmbTrustPaid5.Text = "";
+            dateMoneyPaid5.Text = "";
+
+            string cmd = "Select * from `fcustomers` where `contractNumber` = '" + workContract + "';";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+                return;
+
+            string serviceId = dt.Rows[0]["serviceId"].ObjToString();
+
+            if (String.IsNullOrWhiteSpace(serviceId))
+                return;
+
+            DataTable dx = null;
+            string record = "";
+            string paidFrom = "";
+            string status = "";
+            DateTime dateFiled = DateTime.Now;
+            DateTime dateReceived = DateTime.Now;
+            double amtActuallyReceived = 0D;
+            double trustAmtFiled = 0D;
             string str = "";
-            string field = "";
+            string paidMoney = "";
+            string paidDate = "";
 
-            double tbb = 0D;
-            double teb = 0D;
-            double total = 0D;
-            double payments = 0D;
-            double endingDeathBenefit = 0D;
-            double reducedPaidUpAmount = 0D;
-            string trustCompany = "";
-            string datePaid = "";
-            double fdlic = 0D;
-            double unity = 0D;
-            double cd = 0D;
-            double forethought = 0D;
-            double secnat = 0D;
-            DateTime datePaidDate = DateTime.Now;
-            if (dt.Rows.Count > 0)
+            try
             {
-                lastDate = dt.Rows[0]["date"].ObjToDateTime();
+                cmd = "Select * from `cust_payments` where `contractNumber` = '" + workContract + "' and `type` = 'Trust';";
+                dt = G1.get_db_data(cmd);
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    date = dt.Rows[i]["date"].ObjToDateTime();
-                    if (date < lastDate)
-                        break;
-                    datePaidDate = dt.Rows[i]["deathPaidDate"].ObjToDateTime();
-                    datePaid = "";
-                    if (datePaidDate.Year > 1000)
-                        datePaid = datePaidDate.ToString("MM/dd/yyyy");
-                    endingDeathBenefit = dt.Rows[i]["endingDeathBenefit"].ObjToDouble();
-                    reducedPaidUpAmount = dt.Rows[i]["reducedPaidUpAmount"].ObjToDouble();
-                    tbb = dt.Rows[i]["beginningPaymentBalance"].ObjToDouble();
-                    payments = dt.Rows[i]["payments"].ObjToDouble();
-                    teb = dt.Rows[i]["endingPaymentBalance"].ObjToDouble();
-                    if (datePaidDate.Year > 1000)
-                        teb = dt.Rows[i]["deathClaimAmount"].ObjToDouble();
-                    if (reducedPaidUpAmount > 0D)
+                    record = dt.Rows[i]["record"].ObjToString();
+                    cmd = "Select * from `cust_payment_details` WHERE `contractNumber` = '" + workContract + "' AND `paymentRecord` = '" + record + "' AND `type` = 'Trust';";
+                    dx = G1.get_db_data(cmd);
+                    for (int j = 0; j < dx.Rows.Count; j++)
                     {
-                        teb = reducedPaidUpAmount;
-                        endingDeathBenefit = reducedPaidUpAmount;
-                    }
-                    if (teb < tbb && payments <= 0D)
-                    {
+                        paidFrom = dx.Rows[j]["paidFrom"].ObjToString();
+                        status = dx.Rows[j]["status"].ObjToString();
+                        dateFiled = dx.Rows[j]["dateFiled"].ObjToDateTime();
+                        dateReceived = dx.Rows[j]["dateReceived"].ObjToDateTime();
+                        amtActuallyReceived = dx.Rows[j]["amtActuallyReceived"].ObjToDouble();
+                        trustAmtFiled = dx.Rows[j]["trustAmtFiled"].ObjToDouble();
 
+                        str = G1.ReformatMoney(trustAmtFiled);
+                        if (dateReceived.Year > 1000)
+                            str = G1.ReformatMoney(amtActuallyReceived);
+                        paidMoney = str;
+
+                        paidDate = dateFiled.ToString("MM/dd/yyyy");
+                        if (dateReceived.Year > 1000)
+                            paidDate = dateReceived.ToString("MM/dd/yyyy");
+
+                        if (j == 0)
+                        {
+                            txtMoney1.Text = paidMoney;
+                            cmbTrustPaid1.Text = paidFrom;
+                            dateMoneyPaid1.Text = paidDate;
+                        }
+                        else if (j == 1)
+                        {
+                            txtMoney2.Text = paidMoney;
+                            cmbTrustPaid2.Text = paidFrom;
+                            dateMoneyPaid2.Text = paidDate;
+                        }
+                        else if (j == 2)
+                        {
+                            txtMoney3.Text = paidMoney;
+                            cmbTrustPaid3.Text = paidFrom;
+                            dateMoneyPaid3.Text = paidDate;
+                        }
+                        else if (j == 3)
+                        {
+                            txtMoney4.Text = paidMoney;
+                            cmbTrustPaid4.Text = paidFrom;
+                            dateMoneyPaid4.Text = paidDate;
+                        }
+                        else if (j == 4)
+                        {
+                            txtMoney5.Text = paidMoney;
+                            cmbTrustPaid5.Text = paidFrom;
+                            dateMoneyPaid5.Text = paidDate;
+                        }
                     }
-                    else if (teb < (tbb + payments))
-                        teb = tbb + payments;
-                    total += teb;
-                    trustCompany = dt.Rows[i]["trustCompany"].ObjToString();
-                    str = G1.ReformatMoney(teb);
-                    if (count == 1)
-                    {
-                        txtMoney1.Text = str;
-                        cmbTrustPaid1.Text = trustCompany;
-                        dateMoneyPaid1.Text = datePaid;
-                    }
-                    else if (count == 2)
-                    {
-                        txtMoney2.Text = str;
-                        cmbTrustPaid2.Text = trustCompany;
-                        dateMoneyPaid2.Text = datePaid;
-                    }
-                    else if (count == 3)
-                    {
-                        txtMoney3.Text = str;
-                        cmbTrustPaid3.Text = trustCompany;
-                        dateMoneyPaid3.Text = datePaid;
-                    }
-                    else if (count == 4)
-                    {
-                        txtMoney4.Text = str;
-                        cmbTrustPaid4.Text = trustCompany;
-                        dateMoneyPaid4.Text = datePaid;
-                    }
-                    else if (count == 5)
-                    {
-                        txtMoney5.Text = str;
-                        cmbTrustPaid5.Text = trustCompany;
-                        dateMoneyPaid5.Text = datePaid;
-                    }
-                    count++;
                 }
             }
-            str = G1.ReformatMoney(total);
-            txtTotalTrust.Text = str;
-
-            string cmd = "Select * from `trust2013r` WHERE `contractNumber` = '" + workContract + "' AND `endingBalance` > '0.00' ORDER by `payDate8` DESC LIMIT 1;";
-            DataTable dx = G1.get_db_data(cmd);
-            if (dx.Rows.Count > 0)
+            catch ( Exception ex)
             {
-                total = dx.Rows[0]["endingBalance"].ObjToDouble();
-                str = G1.ReformatMoney(total);
-                txtTBB.Text = str;
             }
-            btnSave.Visible = saveVisible;
         }
         /***********************************************************************************************/
         private void btnAdd_Click(object sender, EventArgs e)
@@ -6728,6 +6881,43 @@ namespace SMFS
                     {
                         //CustomerDetails.ShowPDfImage(record, title, title, workContract);
                         Customers.ShowPDfImage(record, title, filename);
+                    }
+                }
+            }
+        }
+        /***********************************************************************************************/
+        private void gridTrust_RowStyle(object sender, RowStyleEventArgs e)
+        {
+            GridView view = sender as GridView;
+            if (e.RowHandle > 0)
+            {
+                string trust = view.GetRowCellDisplayText(e.RowHandle, view.Columns["trustCompany"]);
+                if (trust != null)
+                {
+                    if (trust.ToUpper().IndexOf ( "FDLIC" ) >= 0  )
+                    {
+                        e.Appearance.BackColor = Color.Pink;
+                        e.Appearance.BackColor2 = Color.Pink;
+                        e.HighPriority = true;
+                    }
+                    else if (trust.ToUpper().IndexOf("UNITY") >= 0)
+                    {
+                        e.Appearance.BackColor = Color.LightGreen;
+                        e.Appearance.BackColor2 = Color.LightGreen;
+                        e.HighPriority = true;
+                    }
+                    else if (trust.ToUpper().IndexOf("SECURITY") >= 0)
+                    {
+                        e.Appearance.BackColor = Color.LightBlue;
+                        e.Appearance.BackColor2 = Color.LightBlue;
+                        e.HighPriority = true;
+                    }
+                    else if (trust.ToUpper().IndexOf("FORETHOUGHT") >= 0)
+                    {
+                        e.Appearance.BackColor = Color.LightYellow;
+                        e.Appearance.BackColor2 = Color.LightYellow;
+                        e.Appearance.ForeColor = Color.Black;
+                        e.HighPriority = true;
                     }
                 }
             }

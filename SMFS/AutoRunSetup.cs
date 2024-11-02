@@ -56,6 +56,7 @@ namespace SMFS
             dgv.DataSource = dt;
             this.Cursor = Cursors.Default;
             modified = false;
+            btnSave.Hide();
         }
         /***********************************************************************************************/
         private void LoadUsers ()
@@ -296,6 +297,9 @@ namespace SMFS
 
             gridMain.FocusedRowHandle = firstRow;
             gridMain.SelectRow(firstRow);
+
+            btnSave.Show();
+            btnSave.Refresh();
         }
         /***********************************************************************************************/
         private void picRowUp_Click(object sender, EventArgs e)
@@ -353,6 +357,9 @@ namespace SMFS
             //            gridMain.FocusedRowHandle = firstRow;
             gridMain.SelectRow(firstRow);
             dgv.DataSource = dt;
+
+            btnSave.Show();
+            btnSave.Refresh();
         }
         /***********************************************************************************************/
         private void picRowDown_Click(object sender, EventArgs e)
@@ -465,6 +472,8 @@ namespace SMFS
         private void gridMain_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             modified = true;
+            btnSave.Show();
+            btnSave.Refresh();
         }
         /***********************************************************************************************/
         private void gridMain_CustomRowFilter(object sender, DevExpress.XtraGrid.Views.Base.RowFilterEventArgs e)
@@ -529,6 +538,8 @@ namespace SMFS
             int rowHandle = gridMain.FocusedRowHandle;
             int row = gridMain.GetDataSourceRowIndex(rowHandle);
             string report = dr["report"].ObjToString();
+            string sendWhere = dr["sendWhere"].ObjToString();
+            //string sendUsername = dr["username"].ObjToString();
             DialogResult result = MessageBox.Show("Are you sure you want to run Report (" + report + ") ?", "Run Report Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
             if (result == DialogResult.No)
                 return;
@@ -538,6 +549,8 @@ namespace SMFS
 
             //if (!CheckOkToRun(dayToRun, frequency))
             //    return;
+
+            G1.CreateAudit("AutoRun");
 
             if (report.ToUpper() == "POTENTIAL LAPSE")
             {
@@ -571,6 +584,12 @@ namespace SMFS
             {
                 FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
             }
+            else if (report.ToUpper() == "AGENT PROSPECT REPORTS")
+            {
+                //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
+                //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
+                ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, "" );
+            }
         }
         /***********************************************************************************************/
         public static bool CheckOkToRun ( int dayToRun, string frequency )
@@ -601,6 +620,13 @@ namespace SMFS
                     rv = true;
             }
             return rv;
+        }
+        /***********************************************************************************************/
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            SaveSetup();
+            modified = false;
+            btnSave.Hide();
         }
         /***********************************************************************************************/
     }

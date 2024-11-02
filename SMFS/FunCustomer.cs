@@ -1169,6 +1169,11 @@ namespace SMFS
             this.btnSaveAll.Show();
             this.btnSaveAll.Refresh();
         }
+        /***************************************************************************************/
+        public DevExpress.XtraGrid.GridControl FireEventPrintPreview()
+        {
+            return dgv6;
+        }
         /***********************************************************************************************/
         private int ValidateSSN(string ssn)
         {

@@ -20,21 +20,24 @@ using Ionic.Zip;
 using System.Runtime.InteropServices;
 using GeneralLib;
 using EMRControlLib;
+using System.Windows.Documents;
+using DevExpress.XtraRichEdit;
 /***********************************************************************************************/
 namespace SMFS
 {
-/***********************************************************************************************/
+    /***********************************************************************************************/
     public partial class EditHelp : Form
     {
         private string lastRecord = "";
         private string lastTitle = "";
         private string lastFile = "";
         private string lastWho = "";
-/***********************************************************************************************/
+        private string helpRecord = "";
+        /***********************************************************************************************/
         private bool AllowAddChangeDelete = false;
         private bool AllowConfigure = false;
         private bool AllowAssignUsers = false;
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private string SystemHelp = "";
         private bool HelpInterface = false;
         private bool loading = false;
@@ -45,15 +48,27 @@ namespace SMFS
         public static string HelpTitle = "";
         public static bool HelpEdit = false;
         private string workSystem = "";
+
         /***********************************************************************************************/
-        public EditHelp( string system = "" )
+        public EditHelp(string system = "")
         {
             InitializeComponent();
             workSystem = system;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void EditHelp_Load(object sender, EventArgs e)
         {
+            this.Text = "SMFS Help System";
+
+            panelVideoAll.Hide();
+
+            rtb2.RichTextBox.DoubleClick += RichTextBox_DoubleClick;
+            rtb2.RichTextBox.MouseDown += RichTextBox_MouseDown;
+
+            SetupToolTips();
+
+            SetupPermissions();
+
             rtb2.RichTextBox.Multiline = true;
             HelpEdit = true;
             pleaseForm = new PleaseWait();
@@ -80,7 +95,7 @@ namespace SMFS
                     rtb2.Dock = DockStyle.Fill;
                     rtb2.RichTextBox.Dock = DockStyle.Fill;
                     panelRTB2.Dock = DockStyle.Fill;
-//                    rtb1.Hide();
+                    //                    rtb1.Hide();
                 }
                 else
                 {
@@ -131,7 +146,7 @@ namespace SMFS
                     }
                 }
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 MessageBox.Show("***ERROR*** " + ex.Message);
             }
@@ -143,6 +158,54 @@ namespace SMFS
             }
             pleaseForm.FireEvent1();
             panelSystemAll.Visible = true;
+        }
+        /****************************************************************************************/
+        private void SetupPermissions ()
+        {
+            string classification = LoginForm.classification;
+            if (classification.ToUpper() == "ADMIN" || classification.ToUpper() == "HR" )
+                return;
+
+            btnAdd.Hide();
+            btnAddSystem.Hide();
+            btnAddNewHelp.Hide();
+
+            btnDown.Hide();
+            btnHelpDown.Hide();
+            btnSystemDown.Hide();
+
+            btnUp.Hide();
+            btnHelpUp.Hide();
+            btnSystemUp.Hide();
+
+            btnDelete.Hide();
+            btnDeleteSystem.Hide();
+            btnRemoveHelp.Hide();
+
+            selectPermissionsToolStripMenuItem.Dispose();
+            SystemtoolStripMenuItem1.Dispose();
+            menuAdmin.Dispose();
+
+            contextMenuStrip1.Dispose();
+            contextMenuStrip2.Dispose();
+            contextMenuStrip3.Dispose();
+        }
+        /****************************************************************************************/
+        private void SetupToolTips()
+        {
+            ToolTip tt = new ToolTip();
+            tt.SetToolTip(this.btnHelpDown, "Move Help Down");
+            tt.SetToolTip(this.btnHelpUp, "Move Help Up");
+
+            tt.SetToolTip(this.btnDown, "Move Help Down");
+            tt.SetToolTip(this.btnUp, "Move Help Up");
+
+            tt.SetToolTip(this.btnSystemDown, "Move Help Down");
+            tt.SetToolTip(this.btnSystemUp, "Move Help Up");
+
+            btnExpand.Hide();
+            btnExpandHelp.Hide();
+            btnExpandSystem.Hide();
         }
         /***********************************************************************************************/
         private bool SetupConfiguration()
@@ -166,7 +229,7 @@ namespace SMFS
             AllowConfigure = true;
             AllowAssignUsers = true;
 
-            if (!AllowAddChangeDelete && !AllowConfigure && !AllowAssignUsers )
+            if (!AllowAddChangeDelete && !AllowConfigure && !AllowAssignUsers)
             {
                 MessageBox.Show("***ERROR*** You do not have permission to run this module! Call I/T");
                 return false;
@@ -186,7 +249,7 @@ namespace SMFS
             }
             return true;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void LoadSystem()
         {
             dgv2.Dock = DockStyle.Fill;
@@ -204,8 +267,8 @@ namespace SMFS
             for (int i = 0; i < dx.Rows.Count; i++)
             {
                 string record = dx.Rows[i]["record"].ToString();
-                string system = dx.Rows[i]["system"].ToString().Replace('\n',';');
-                string module = dx.Rows[i]["module"].ToString().Replace('\n',';');
+                string system = dx.Rows[i]["system"].ToString().Replace('\n', ';');
+                string module = dx.Rows[i]["module"].ToString().Replace('\n', ';');
                 dx.Rows[i]["system"] = system;
                 dx.Rows[i]["module"] = module;
                 dx.Rows[i]["num"] = (i + 1).ToString();
@@ -239,8 +302,8 @@ namespace SMFS
                     SystemHelp = dx.Rows[0]["system"].ObjToString();
             }
         }
-/***********************************************************************************************/
-        private void LoadHelp( bool allow = true )
+        /***********************************************************************************************/
+        private void LoadHelp(bool allow = true)
         {
             dgv.Dock = DockStyle.Fill;
             DataRow dr = gridView2.GetFocusedDataRow();
@@ -260,7 +323,7 @@ namespace SMFS
             for (int i = 0; i < dx.Rows.Count; i++)
             {
                 record = dx.Rows[i]["record"].ToString();
-                module = dx.Rows[i]["module"].ToString().Replace('\n',';');
+                module = dx.Rows[i]["module"].ToString().Replace('\n', ';');
                 dx.Rows[i]["module"] = module;
                 dx.Rows[i]["num"] = (i + 1).ToString();
                 dx.Rows[i]["mod"] = "";
@@ -284,28 +347,28 @@ namespace SMFS
                     }
                 }
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 MessageBox.Show("***ERROR*** Loading Help " + ex.Message.ToString());
             }
         }
-/***********************************************************************************************/
-        private DataTable get_help_data( string cmd )
+        /***********************************************************************************************/
+        private DataTable get_help_data(string cmd)
         {
             if (HelpSystem == "Local")
                 return G1.get_db_data(cmd);
             else
                 return G1.get_db_data(cmd);
         }
-/***********************************************************************************************/
-        private string create_help_record( string tablename, string fieldname, string initvalue )
+        /***********************************************************************************************/
+        private string create_help_record(string tablename, string fieldname, string initvalue)
         {
             if (HelpSystem == "Local")
                 return G1.create_record(tablename, fieldname, initvalue);
             else
                 return G1.create_record(tablename, fieldname, initvalue);
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private bool update_help_table(string db, string keyfield, string record, string[] fields)
         {
             if (HelpSystem == "Local")
@@ -313,10 +376,10 @@ namespace SMFS
             else
                 return G1.update_db_table(db, keyfield, record, fields);
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void LoadCurrentHelp()
         {
-            if (rtb2.RichTextBox.Modified )
+            if (rtb2.RichTextBox.Modified)
             {
                 if (DevExpress.XtraEditors.XtraMessageBox.Show("Current Help File Modified!\nDo you want to save it now?", "Help File Modified Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                     btnSaveFile_Click(null, null);
@@ -335,8 +398,8 @@ namespace SMFS
 
             string module = dr["module"].ObjToString();
             string record = dr["record"].ObjToString();
-            string p      = dr["p"].ObjToString();
-            if (ValidatePassword(p, module ))
+            string p = dr["p"].ObjToString();
+            if (ValidatePassword(p, module))
             {
                 string cmd = "Select * from `help` where `backRecord` = '" + record + "' and `type` = 'file' and `removed` = '0' order by `sequence`;";
                 DataTable dx = get_help_data(cmd);
@@ -361,13 +424,43 @@ namespace SMFS
             rtb1.Modified = false;
             rtb2.RichTextBox.Modified = false;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void LoadCurrentFile()
         {
-            if (rtb2.RichTextBox.Modified )
+            if (rtb2.RichTextBox.Modified)
             {
                 if (DevExpress.XtraEditors.XtraMessageBox.Show("Current Help File Modified called " + lastTitle + "!\nDo you want to save it now?", "Help File Modified Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                    SaveFile(lastRecord, lastFile);
+                {
+                    if (String.IsNullOrWhiteSpace(helpRecord))
+                    {
+                        string newRecord = G1.create_record("help_files", "spare", "-1");
+                        if (G1.BadRecord("help_files", newRecord))
+                            return;
+                        G1.update_db_table("help_files", "record", newRecord, new string[] { "spare", "", "helpRecord", lastRecord });
+                        G1.update_db_table("help", "record", lastRecord, new string[] { "helpRecord", newRecord });
+
+                        string rtfText = rtb2.RichTextBox.Rtf;
+                        byte[] b = Encoding.UTF8.GetBytes(rtfText);
+
+                        G1.update_blob("help_files", "record", newRecord, "image", b);
+
+                        DataTable dd = (DataTable)dgv6.DataSource;
+                        DataRow[] dRows = dd.Select("record='" + lastRecord + "'");
+                        if ( dRows.Length > 0 )
+                        {
+                            dRows[0]["helpRecord"] = newRecord;
+                        }
+                    }
+                    else
+                    {
+                        string rtfText = rtb2.RichTextBox.Rtf;
+                        byte[] b = Encoding.UTF8.GetBytes(rtfText);
+
+                        G1.update_blob("help_files", "record", helpRecord, "image", b);
+
+                        SaveFile(lastRecord, lastFile);
+                    }
+                }
             }
 
             DataTable dt = (DataTable)dgv6.DataSource;
@@ -378,6 +471,7 @@ namespace SMFS
                 lastTitle = "";
                 lastWho = "";
                 lastRecord = "";
+                helpRecord = "";
                 rtb1.Clear();
                 rtb2.RichTextBox.Clear();
                 rtb2.RichTextBox.Modified = false;
@@ -389,10 +483,12 @@ namespace SMFS
 
             if (dr != null)
             {
+                DataTable dd = (DataTable)dgv6.DataSource;
                 string module = dr["module"].ObjToString();
                 string record = dr["record"].ObjToString();
-                string title  = dr["title"].ObjToString();
-                string who    = dr["assigned"].ObjToString();
+                string helpRec = dr["helpRecord"].ObjToString();
+                string title = dr["title"].ObjToString();
+                string who = dr["assigned"].ObjToString();
                 string filename = dr["filename"].ObjToString();
                 rtb1.Clear();
                 rtb2.RichTextBox.Clear();
@@ -403,17 +499,18 @@ namespace SMFS
                     lastTitle = title;
                     lastWho = who;
                     lastRecord = record;
+                    helpRecord = helpRec;
                     if (!String.IsNullOrWhiteSpace(filename))
                     {
 
-                        ReadRtbFile(filename);
+                        ReadRtbFile(filename, helpRecord );
                     }
                 }
                 rtb1.Modified = false;
                 rtb2.RichTextBox.Modified = false;
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private bool ValidatePassword(string p, string area = "")
         {
             if (!String.IsNullOrWhiteSpace(p))
@@ -435,7 +532,7 @@ namespace SMFS
             }
             return true;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void RemoveRtbFile(string filename)
         {
             if (!String.IsNullOrWhiteSpace(filename))
@@ -450,18 +547,23 @@ namespace SMFS
                     else if (File.Exists(fullpath + ".zip"))
                         File.Delete(fullpath + ".zip");
                 }
-                catch ( Exception ex )
+                catch (Exception ex)
                 {
                     MessageBox.Show("***ERROR*** Deleting File " + ex.ToString());
                 }
             }
         }
-/***********************************************************************************************/
-        private RichTextBox ReadStraightRtbFile(string filename)
+        /***********************************************************************************************/
+        private RichTextBox ReadStraightRtbFile(string filename, string helpRecord )
         {
             RichTextBox rtb1 = new RichTextBox();
             rtb1.Clear();
-            if (!String.IsNullOrWhiteSpace(filename))
+            if ( !String.IsNullOrWhiteSpace ( helpRecord ))
+            {
+                string str = G1.get_db_blob("help_files", helpRecord, "image");
+                rtb1.Rtf = str;
+            }
+            else if (!String.IsNullOrWhiteSpace(filename))
             {
                 string path = G1.spreadpath + "/help/";
                 G1.verify_path(path);
@@ -482,12 +584,28 @@ namespace SMFS
             rtb1.Modified = false;
             return rtb1;
         }
-/***********************************************************************************************/
-        private void ReadRtbFile(string filename)
+        /***********************************************************************************************/
+        private void ReadRtbFile(string filename, string helpRecord )
         {
             rtb1.Clear();
             rtb2.RichTextBox.Clear();
-            if (!String.IsNullOrWhiteSpace(filename))
+            if (!String.IsNullOrWhiteSpace(helpRecord) )
+            {
+                string str = G1.get_db_blob("help_files", helpRecord, "image");
+                rtb1.Rtf = str;
+                rtb2.RichTextBox.Rtf = str;
+                //byte[] b = Encoding.ASCII.GetBytes(str);
+                //MemoryStream stream = new MemoryStream(b);
+
+                //RichEditControl rrtb = new RichEditControl();
+                //rrtb.Document.Delete(rrtb.Document.Range);
+
+                //rrtb.Document.LoadDocument(stream, DevExpress.XtraRichEdit.DocumentFormat.Rtf);
+
+                //rtb1.Rtf = rrtb.Document.RtfText;
+                //rtb2.RichTextBox.Rtf = rrtb.Document.RtfText;
+            }
+            else if (!String.IsNullOrWhiteSpace(filename))
             {
                 string path = G1.spreadpath + "/help/";
                 G1.verify_path(path);
@@ -497,26 +615,12 @@ namespace SMFS
                     rtb1.LoadFile(fullpath);
                     rtb2.RichTextBox.LoadFile(fullpath);
                 }
-                //else if (File.Exists(fullpath + ".zip"))
-                //{
-                //    OpenZipFile(fullpath);
-                //    string extraDirectory = G1.spreadpath;
-                //    extraDirectory = extraDirectory.Replace("C:", "");
-
-                //    string newpath = G1.spreadpath + "/help/" + filename + extraDirectory + "/help/" + filename;
-                //    if (File.Exists(newpath))
-                //    {
-                //        rtb1.LoadFile(newpath);
-                //        rtb2.RichTextBox.LoadFile(newpath);
-                //        Directory.Delete(fullpath, true ); // Cleanup Unzipped Stuff
-                //    }
-                //}
             }
             lastFile = filename;
             rtb1.Modified = false;
             rtb2.RichTextBox.Modified = false;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void WriteRtbFile(string record, string filename)
         {
             if (!String.IsNullOrWhiteSpace(filename))
@@ -524,22 +628,10 @@ namespace SMFS
                 string path = G1.spreadpath + "/help/";
                 G1.verify_path(path);
                 string fullpath = path + filename;
-                rtb2.RichTextBox.SaveFile(fullpath);
-                //if (File.Exists(fullpath))
-                //{
-                //    if (File.Exists(fullpath + ".zip"))
-                //        File.Delete(fullpath + ".zip");
-                //    using (ZipFile zip = new ZipFile(fullpath + ".zip"))
-                //    {
-                //        zip.Password = GetEncriptedWord();
-                //        zip.AddFile(fullpath);
-                //        zip.Save();
-                //    }
-                //    File.Delete(fullpath);
-                //}
+                //rtb2.RichTextBox.SaveFile(fullpath);
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void NumberDataTable(DataTable dt)
         {
             try
@@ -554,25 +646,25 @@ namespace SMFS
             {
             }
         }
-/***********************************************************************************************/
-        private void SaveFile( string record, string filename )
+        /***********************************************************************************************/
+        private void SaveFile(string record, string filename)
         {
             if (String.IsNullOrWhiteSpace(filename))
                 return;
             try
             {
-                WriteRtbFile(record, filename);
+                //WriteRtbFile(record, filename);
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 MessageBox.Show("***ERROR*** Writing Help File " + ex.Message.ToString());
             }
             rtb2.RichTextBox.Modified = false;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnSaveFile_Click(object sender, EventArgs e)
         {
-			DataRow dr = gridView3.GetFocusedDataRow();
+            DataRow dr = gridView3.GetFocusedDataRow();
             if (dr == null)
                 return;
             int rowHandle = gridView3.FocusedRowHandle;
@@ -584,32 +676,32 @@ namespace SMFS
             {
                 WriteRtbFile(record, filename);
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 MessageBox.Show("***ERROR*** Writing Help File " + ex.Message.ToString());
             }
             rtb2.RichTextBox.Modified = false;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnAbortFile_Click(object sender, EventArgs e)
         {
             LoadCurrentFile();
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnAddNewHelp_Click(object sender, EventArgs e)
         {
-			DataRow drr = gridView2.GetFocusedDataRow();
+            DataRow drr = gridView2.GetFocusedDataRow();
             int rowHandle = gridView2.FocusedRowHandle;
             string systemrecord = drr["record"].ToString(); // Assign this record as the Modules backrecord
-            
-            
+
+
             DataTable dt = (DataTable)(dgv.DataSource);
             DataRow dr = dt.NewRow();
             string module = "New Module " + dt.Rows.Count.ToString();
             string record = G1.create_record("help", "system", "-1");
             if (record != "")
             {
-                G1.update_db_table ( "help", "record", record, new string[] { "module", module, "type", "help", "sequence", dt.Rows.Count.ToString(), "backrecord", systemrecord } );
+                G1.update_db_table("help", "record", record, new string[] { "module", module, "type", "help", "sequence", dt.Rows.Count.ToString(), "backrecord", systemrecord });
                 dr["record"] = record;
                 dr["module"] = module;
                 dr["sequence"] = dt.Rows.Count;
@@ -625,7 +717,7 @@ namespace SMFS
                 }
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnRemoveHelp_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv.DataSource);
@@ -633,7 +725,7 @@ namespace SMFS
                 return;
             if (DevExpress.XtraEditors.XtraMessageBox.Show("Do you want to DELETE this Entire Help Module now?", "Delete Current Help Module Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                 return;
-			DataRow dr = gridView1.GetFocusedDataRow();
+            DataRow dr = gridView1.GetFocusedDataRow();
             int rowHandle = gridView1.FocusedRowHandle;
             string record = dr["record"].ToString();
 
@@ -656,61 +748,61 @@ namespace SMFS
             for (int i = 0; i < dt.Rows.Count; i++)
                 dr["num"] = (i + 1).ToString();
             dgv.DataSource = dt;
-            if (rowHandle > (dt.Rows.Count-1) )
+            if (rowHandle > (dt.Rows.Count - 1))
             {
                 gridView1.FocusedRowHandle = rowHandle - 1;
                 gridView1.RefreshData();
                 dgv.Refresh();
             }
         }
-/***************************************************************************************/
+        /***************************************************************************************/
         private void MoveRowUp(DataTable dt, int row)
         {
-            dt.Columns.Add( "Count", Type.GetType ( "System.Int32" ));
+            dt.Columns.Add("Count", Type.GetType("System.Int32"));
             for (int i = 0; i < dt.Rows.Count; i++)
                 dt.Rows[i]["Count"] = i.ToString();
             dt.Rows[row]["Count"] = (row - 1).ToString();
             string record = dt.Rows[row]["record"].ObjToString();
-            G1.update_db_table("help", "record", record, new string[] { "sequence", (row-1).ToString() });
+            G1.update_db_table("help", "record", record, new string[] { "sequence", (row - 1).ToString() });
 
             dt.Rows[row - 1]["Count"] = row.ToString();
-            record = dt.Rows[row-1]["record"].ObjToString();
+            record = dt.Rows[row - 1]["record"].ObjToString();
             G1.update_db_table("help", "record", record, new string[] { "sequence", (row).ToString() });
 
             G1.sortTable(dt, "Count", "asc");
             dt.Columns.Remove("Count");
             NumberDataTable(dt);
         }
-/***************************************************************************************/
+        /***************************************************************************************/
         private void MoveRowDown(DataTable dt, int row)
         {
-            dt.Columns.Add( "Count", Type.GetType ( "System.Int32" ));
+            dt.Columns.Add("Count", Type.GetType("System.Int32"));
             for (int i = 0; i < dt.Rows.Count; i++)
                 dt.Rows[i]["Count"] = i.ToString();
 
             dt.Rows[row]["Count"] = (row + 1).ToString();
             string record = dt.Rows[row]["record"].ObjToString();
-            G1.update_db_table("help", "record", record, new string[] { "sequence", (row+1).ToString() });
+            G1.update_db_table("help", "record", record, new string[] { "sequence", (row + 1).ToString() });
 
             dt.Rows[row + 1]["Count"] = row.ToString();
-            record = dt.Rows[row+1]["record"].ObjToString();
+            record = dt.Rows[row + 1]["record"].ObjToString();
             G1.update_db_table("help", "record", record, new string[] { "sequence", (row).ToString() });
 
             G1.sortTable(dt, "Count", "asc");
             dt.Columns.Remove("Count");
             NumberDataTable(dt);
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnUp_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv6.DataSource);
             if (dt.Rows.Count <= 0)
                 return;
-			DataRow dr = gridView3.GetFocusedDataRow();
+            DataRow dr = gridView3.GetFocusedDataRow();
             if (dr == null)
                 return;
             int rowHandle = gridView3.FocusedRowHandle;
-            if (rowHandle == 0 )
+            if (rowHandle == 0)
                 return; // Already at the first row
             dgv6.DataSource = null;
             MoveRowUp(dt, rowHandle);
@@ -720,17 +812,17 @@ namespace SMFS
             gridView3.UnselectRow(0);
             gridView3.SelectRow(rowHandle - 1);
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnDown_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv6.DataSource);
             if (dt.Rows.Count <= 0)
                 return;
-			DataRow dr = gridView3.GetFocusedDataRow();
+            DataRow dr = gridView3.GetFocusedDataRow();
             if (dr == null)
                 return;
             int rowHandle = gridView3.FocusedRowHandle;
-            if (rowHandle == (dt.Rows.Count-1) )
+            if (rowHandle == (dt.Rows.Count - 1))
                 return; // Already at the last row
             dgv6.DataSource = null;
             MoveRowDown(dt, rowHandle);
@@ -740,17 +832,17 @@ namespace SMFS
             gridView3.UnselectRow(0);
             gridView3.SelectRow(rowHandle + 1);
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnHelpUp_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv.DataSource);
             if (dt.Rows.Count <= 0)
                 return;
-			DataRow dr = gridView1.GetFocusedDataRow();
+            DataRow dr = gridView1.GetFocusedDataRow();
             if (dr == null)
                 return;
             int rowHandle = gridView1.FocusedRowHandle;
-            if (rowHandle == 0 )
+            if (rowHandle == 0)
                 return; // Already at the first row
             dgv.DataSource = null;
             MoveRowUp(dt, rowHandle);
@@ -760,17 +852,17 @@ namespace SMFS
             gridView1.UnselectRow(0);
             gridView1.SelectRow(rowHandle - 1);
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnHelpDown_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv.DataSource);
             if (dt.Rows.Count <= 0)
                 return;
-			DataRow dr = gridView1.GetFocusedDataRow();
+            DataRow dr = gridView1.GetFocusedDataRow();
             if (dr == null)
                 return;
             int rowHandle = gridView1.FocusedRowHandle;
-            if (rowHandle == (dt.Rows.Count-1) )
+            if (rowHandle == (dt.Rows.Count - 1))
                 return; // Already at the last row
             dgv.DataSource = null;
             MoveRowDown(dt, rowHandle);
@@ -780,32 +872,34 @@ namespace SMFS
             gridView1.UnselectRow(0);
             gridView1.SelectRow(rowHandle + 1);
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void gridView3_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
-			DataRow dr = gridView3.GetFocusedDataRow();
+            DataRow dr = gridView3.GetFocusedDataRow();
             if (dr == null)
                 return;
             int rowHandle = gridView3.FocusedRowHandle;
             string record = dr["record"].ToString();
             string module = dr["module"].ToString();
             string filename = dr["filename"].ObjToString();
+            string helpRec = dr["helpRecord"].ObjToString();
             lastWho = dr["assigned"].ObjToString();
             lastTitle = dr["title"].ObjToString();
             lastRecord = record;
+            helpRecord = helpRec;
             lastFile = filename;
             if (!String.IsNullOrWhiteSpace(record))
                 G1.update_db_table("help", "record", record, new string[] { "title", lastTitle, "assigned", lastWho });
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void gridView3_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
             LoadCurrentFile();
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnAdd_Click(object sender, EventArgs e)
         {
-			DataRow dd = gridView1.GetFocusedDataRow();
+            DataRow dd = gridView1.GetFocusedDataRow();
             string module = dd["module"].ObjToString();
             string record = dd["record"].ObjToString();
             if (String.IsNullOrWhiteSpace(record))
@@ -815,12 +909,12 @@ namespace SMFS
             DataRow dr = dt.NewRow();
             string title = "New Title " + dt.Rows.Count.ToString();
             string newrecord = G1.create_record("help", "system", "-1");
-            if (!String.IsNullOrWhiteSpace ( newrecord ) )
+            if (!String.IsNullOrWhiteSpace(newrecord))
             {
                 string filepath = G1.spreadpath + "/help";
                 G1.verify_path(filepath);
                 string filename = Path.GetRandomFileName();
-                G1.update_db_table ( "help", "record", newrecord, new string[] { "module", module, "type", "file", "sequence", dt.Rows.Count.ToString(), "backRecord", record, "title", title, "filename", filename } );
+                G1.update_db_table("help", "record", newrecord, new string[] { "module", module, "type", "file", "sequence", dt.Rows.Count.ToString(), "backRecord", record, "title", title, "filename", filename });
                 dr["record"] = newrecord;
                 dr["module"] = module;
                 dr["title"] = title;
@@ -837,7 +931,7 @@ namespace SMFS
                 NumberDataTable(dt);
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (DevExpress.XtraEditors.XtraMessageBox.Show("Do you want to DELETE this Help File now?", "Delete Current Help File Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
@@ -845,16 +939,21 @@ namespace SMFS
             DataTable dt = (DataTable)(dgv6.DataSource);
             if (dt.Rows.Count <= 0)
                 return;
-			DataRow dr = gridView3.GetFocusedDataRow();
+            DataRow dr = gridView3.GetFocusedDataRow();
             string record = dr["record"].ObjToString();
+            string helpRecord = dr["helpRecord"].ObjToString();
             if (!String.IsNullOrWhiteSpace(record))
             {
                 string filename = dr["filename"].ObjToString();
                 if (!String.IsNullOrWhiteSpace(filename))
                 {
                     string fullpath = G1.spreadpath + "/help/" + filename;
-                    if (File.Exists(fullpath))
-                        File.Delete(fullpath);
+                    //if (File.Exists(fullpath))
+                    //    File.Delete(fullpath);
+                    if ( !String.IsNullOrWhiteSpace ( helpRecord ))
+                    {
+                        G1.delete_db_table("help_files", "record", helpRecord);
+                    }
                 }
                 string cmd = "DELETE from `help` where `record` = '" + record + "';";
                 get_help_data(cmd);
@@ -864,19 +963,19 @@ namespace SMFS
             dt.AcceptChanges();
             NumberDataTable(dt);
             dgv6.DataSource = dt;
-            if (rowHandle > (dt.Rows.Count-1) )
+            if (rowHandle > (dt.Rows.Count - 1))
             {
                 gridView3.FocusedRowHandle = rowHandle - 1;
                 gridView3.RefreshData();
                 dgv6.Refresh();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void gridView1_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
             LoadCurrentHelp();
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void gridView1_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
             if (loading)
@@ -886,11 +985,11 @@ namespace SMFS
                 return;
             string module = dr["module"].ObjToString();
             string record = dr["record"].ObjToString();
-            string who    = dr["assigned"].ObjToString();
+            string who = dr["assigned"].ObjToString();
             if (!String.IsNullOrWhiteSpace(record))
                 G1.update_db_table("help", "record", record, new string[] { "module", module, "assigned", who });
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void gridView2_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
             DataRow dr = gridView2.GetFocusedDataRow();
@@ -910,11 +1009,11 @@ namespace SMFS
             else
             { // Can't Access This System
                 SystemHelp = system;
-                LoadHelp( false );
+                LoadHelp(false);
                 LoadCurrentHelp();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void gridView2_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
             if (loading)
@@ -924,11 +1023,11 @@ namespace SMFS
                 return;
             string system = dr["system"].ObjToString();
             string record = dr["record"].ObjToString();
-            string who    = dr["assigned"].ObjToString();
+            string who = dr["assigned"].ObjToString();
             if (!String.IsNullOrWhiteSpace(record))
                 G1.update_db_table("help", "record", record, new string[] { "system", system, "assigned", who });
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnAddSystem_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv2.DataSource);
@@ -959,11 +1058,11 @@ namespace SMFS
         {
             DataTable dt = (DataTable)(dgv2.DataSource);
             DataRow dr = dt.NewRow();
-            string system =  "New System " + dt.Rows.Count.ToString();
+            string system = "New System " + dt.Rows.Count.ToString();
             string record = G1.create_record("help", "system", "-1");
             if (record != "")
             {
-                G1.update_db_table ( "help", "record", record, new string[] { "system", system, "type", "system", "sequence", dt.Rows.Count.ToString() } );
+                G1.update_db_table("help", "record", record, new string[] { "system", system, "type", "system", "sequence", dt.Rows.Count.ToString() });
                 dr["record"] = record;
                 dr["system"] = system;
                 dr["module"] = system;
@@ -980,7 +1079,7 @@ namespace SMFS
                 }
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnDeleteSystem_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv2.DataSource);
@@ -988,46 +1087,46 @@ namespace SMFS
                 return;
             if (DevExpress.XtraEditors.XtraMessageBox.Show("Do you want to DELETE this Entire Help System now?", "Delete Current Help System Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                 return;
-			DataRow dr = gridView2.GetFocusedDataRow();
+            DataRow dr = gridView2.GetFocusedDataRow();
             int rowHandle = gridView2.FocusedRowHandle;
             string record = dr["record"].ToString();
-            DataTable dx = get_help_data ( "SELECT * from `help` where `backrecord` = '" + record + "';" );
+            DataTable dx = get_help_data("SELECT * from `help` where `backrecord` = '" + record + "';");
 
-            for ( int i=0; i<dx.Rows.Count; i++ )
+            for (int i = 0; i < dx.Rows.Count; i++)
             {
                 string modulerecord = dx.Rows[i]["record"].ObjToString();
-                DataTable dxx = get_help_data ( "SELECT * from `help` where `backrecord` = '" + modulerecord + "';" );
-                for ( int j=0; j<dxx.Rows.Count; j++ )
+                DataTable dxx = get_help_data("SELECT * from `help` where `backrecord` = '" + modulerecord + "';");
+                for (int j = 0; j < dxx.Rows.Count; j++)
                 {
                     string titlerecord = dxx.Rows[j]["record"].ObjToString();
                     string filename = dxx.Rows[j]["filename"].ObjToString();
-                    get_help_data ( "DELETE from `help` where `record` = '" + titlerecord + "';" );
+                    get_help_data("DELETE from `help` where `record` = '" + titlerecord + "';");
                     RemoveRtbFile(filename);
                 }
             }
             get_help_data("DELETE from `help` where `backrecord` = '" + record + "';"); // Delete All Module Records
-            get_help_data("DELETE from `help` where `record` = '" + record + "';" ); // Delete Actual System Record
+            get_help_data("DELETE from `help` where `record` = '" + record + "';"); // Delete Actual System Record
 
             dt.Rows.RemoveAt(rowHandle);
             dt.AcceptChanges();
             NumberDataTable(dt);
             dgv2.DataSource = dt;
-            if (rowHandle > (dt.Rows.Count-1) )
+            if (rowHandle > (dt.Rows.Count - 1))
             {
                 gridView2.FocusedRowHandle = rowHandle - 1;
                 gridView2.RefreshData();
                 dgv2.Refresh();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnSystemUp_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv2.DataSource);
             if (dt.Rows.Count <= 0)
                 return;
-			DataRow dr = gridView2.GetFocusedDataRow();
+            DataRow dr = gridView2.GetFocusedDataRow();
             int rowHandle = gridView2.FocusedRowHandle;
-            if (rowHandle == 0 )
+            if (rowHandle == 0)
                 return; // Already at the first row
             dgv2.DataSource = null;
             MoveRowUp(dt, rowHandle);
@@ -1035,17 +1134,17 @@ namespace SMFS
             dgv2.DataSource = dt;
             gridView2.FocusedRowHandle = rowHandle - 1;
             gridView2.UnselectRow(0);
-            gridView2.SelectRow ( rowHandle - 1 );
+            gridView2.SelectRow(rowHandle - 1);
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnSystemDown_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv2.DataSource);
             if (dt.Rows.Count <= 0)
                 return;
-			DataRow dr = gridView2.GetFocusedDataRow();
+            DataRow dr = gridView2.GetFocusedDataRow();
             int rowHandle = gridView2.FocusedRowHandle;
-            if (rowHandle == (dt.Rows.Count-1) )
+            if (rowHandle == (dt.Rows.Count - 1))
                 return; // Already at the last row
             dgv2.DataSource = null;
             MoveRowDown(dt, rowHandle);
@@ -1053,10 +1152,10 @@ namespace SMFS
             dgv2.DataSource = dt;
             gridView2.FocusedRowHandle = rowHandle + 1;
             gridView2.UnselectRow(0);
-            gridView2.SelectRow ( rowHandle + 1 );
+            gridView2.SelectRow(rowHandle + 1);
         }
-/***********************************************************************************************/
-        private void OpenZipFile( string fullpath )
+        /***********************************************************************************************/
+        private void OpenZipFile(string fullpath)
         {
             try
             {
@@ -1067,34 +1166,34 @@ namespace SMFS
                         zip.Password = GetEncriptedWord();
                         zip.ExtractAll(fullpath);
                     }
-                    catch( Exception ex )
+                    catch (Exception ex)
                     {
                         MessageBox.Show("***ERROR*** Opening Zip File " + ex.Message.ToString());
                     }
                 }
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 MessageBox.Show("***ERROR*** Reading Zip File " + ex.Message.ToString());
             }
         }
-/***********************************************************************************************/
-        private string GetEncriptedWord( string word = "" )
+        /***********************************************************************************************/
+        private string GetEncriptedWord(string word = "")
         {
             if (String.IsNullOrWhiteSpace(word))
                 word = "xyzzy";
             string encryptedString = EncryptStringSample.StringCipher.Encrypt(word, "GSYAHAGCBDUUADIADKOPAAAW");
             return encryptedString;
         }
-/***********************************************************************************************/
-        private string GetDecriptedWord( string word )
+        /***********************************************************************************************/
+        private string GetDecriptedWord(string word)
         {
             if (String.IsNullOrWhiteSpace(word))
                 return "";
             string decryptedString = EncryptStringSample.StringCipher.Decrypt(word, "GSYAHAGCBDUUADIADKOPAAAW");
             return decryptedString;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void setPasswordToolStripMenuItem_Click(object sender, EventArgs e)
         { // Set Password for a Title
             DataTable dt = (DataTable)(dgv6.DataSource);
@@ -1115,7 +1214,7 @@ namespace SMFS
                 dt.AcceptChanges();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void clearPasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv6.DataSource);
@@ -1136,7 +1235,7 @@ namespace SMFS
                 dt.AcceptChanges();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void setPasswordToolStripMenuItem1_Click(object sender, EventArgs e)
         { // Set Password for a Module
             DataTable dt = (DataTable)(dgv.DataSource);
@@ -1157,7 +1256,7 @@ namespace SMFS
                 dt.AcceptChanges();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void clearPasswordToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv.DataSource);
@@ -1178,7 +1277,7 @@ namespace SMFS
                 dt.AcceptChanges();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void setPasswordToolStripMenuItem2_Click(object sender, EventArgs e)
         { // Set Password for a System
             DataTable dt = (DataTable)(dgv2.DataSource);
@@ -1199,7 +1298,7 @@ namespace SMFS
                 dt.AcceptChanges();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void clearPasswordToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)(dgv2.DataSource);
@@ -1220,7 +1319,7 @@ namespace SMFS
                 dt.AcceptChanges();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private string SetUserPassword(string record)
         {
             if (!String.IsNullOrWhiteSpace(record))
@@ -1235,7 +1334,7 @@ namespace SMFS
                         if (DevExpress.XtraEditors.XtraMessageBox.Show("Are you sure you want to add a password to this entry?\nYou must remember this because it is not reversible!!!", "Help Password Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                         {
                             string pas = GetEncriptedWord(p);
-                            G1.update_db_table ( "help", "record", record, new string[] { "p", pas } );
+                            G1.update_db_table("help", "record", record, new string[] { "p", pas });
                             return pas;
                         }
                     }
@@ -1243,21 +1342,21 @@ namespace SMFS
             }
             return "";
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void menuExit_ItemClick(object sender, ItemClickEventArgs e)
         {
             this.Close();
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private int LineLength = 80;
         private string CreateLine()
         {
             string str = "";
             str = str.PadRight(LineLength);
-//            string str = rptr.blank_fill("", LineLength);
+            //            string str = rptr.blank_fill("", LineLength);
             return str;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private string CopyString(string target, int position, string source)
         {
             string result = target.Substring(0, position);
@@ -1267,42 +1366,42 @@ namespace SMFS
                 result += target.Substring(position + source.Length, remaining);
             return result;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void SetCenter()
         {
             rtbPrint.RichTextBox.SelectionAlignment = HorizontalAlignment.Center;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void SetLeft()
         {
             rtbPrint.RichTextBox.SelectionAlignment = HorizontalAlignment.Left;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void CenterString(ref string str, string data)
         {
             int len = data.Length;
             int pos = (LineLength / 2) - (len / 2);
             str = CopyString(str, pos, data);
         }
-/***********************************************************************************************/
-        private void AddLineToRTB(string line, string font, float size = 9F )
+        /***********************************************************************************************/
+        private void AddLineToRTB(string line, string font, float size = 9F)
         {
-            if ( String.IsNullOrWhiteSpace ( font ) )
+            if (String.IsNullOrWhiteSpace(font))
                 G1.Toggle_Font(rtbPrint.RichTextBox, "Times New Roman", size);
             else
                 G1.Toggle_Font(rtbPrint.RichTextBox, font, size);
             rtbPrint.RichTextBox.AppendText(line);
         }
-/***********************************************************************************************/
-        private void AddLineToRTB(string line, float size = 9F )
+        /***********************************************************************************************/
+        private void AddLineToRTB(string line, float size = 9F)
         {
             G1.Toggle_Font(rtbPrint.RichTextBox, "Times New Roman", size);
             rtbPrint.RichTextBox.AppendText(line);
         }
-/***********************************************************************************************/
-        private void BuildPrintReport( bool clear = true )
+        /***********************************************************************************************/
+        private void BuildPrintReport(bool clear = true)
         {
-            if ( clear )
+            if (clear)
                 rtbPrint.RichTextBox.Clear();
             int[] rows = gridView1.GetSelectedRows();
             EMRRichTextBox rich = new EMRRichTextBox();
@@ -1320,11 +1419,15 @@ namespace SMFS
                 DataTable dt = get_help_data("Select * from `help` where `backrecord` = '" + record + "' order by `sequence`;");
                 int[] pages = new int[dt.Rows.Count];
                 int totalPages = 0;
-                for ( int j=0; j<dt.Rows.Count; j++ )
+                string helpRecord = "";
+                for (int j = 0; j < dt.Rows.Count; j++)
                 {
                     string title = dt.Rows[j]["title"].ObjToString();
                     string filename = dt.Rows[j]["filename"].ObjToString();
-                    RichTextBox rtb = ReadStraightRtbFile(filename);
+                    helpRecord = dt.Rows[j]["helpRecord"].ObjToString();
+
+                    RichTextBox rtb = ReadStraightRtbFile(filename, helpRecord );
+
                     rich.RichTextBox.Clear();
                     rich.RichTextBox.AppendRtf(rtb.Rtf);
                     int numberOfPages = rich.RichTextBox.Count(rich.RichTextBox.TextLength);
@@ -1342,7 +1445,7 @@ namespace SMFS
                 int count = 0;
                 page++;
 
-                for ( int j=0; j<dt.Rows.Count; j++ )
+                for (int j = 0; j < dt.Rows.Count; j++)
                 {
                     string title = dt.Rows[j]["title"].ObjToString();
                     count++;
@@ -1350,17 +1453,20 @@ namespace SMFS
                     int len = title.Length;
                     int fill = 70 - len;
                     title = title + new String('.', fill);
-//                    title = rptr.fill_string(title, ".", fill);
+                    //                    title = rptr.fill_string(title, ".", fill);
                     title += page.ToString();
                     AddLineToRTB(title + "\n", "Lucida Console", 10F);
                     page += pages[j];
                 }
                 AddLineToRTB("\f");
-                for ( int j=0; j<dt.Rows.Count; j++ )
+                for (int j = 0; j < dt.Rows.Count; j++)
                 {
                     string title = dt.Rows[j]["title"].ObjToString();
                     string filename = dt.Rows[j]["filename"].ObjToString();
-                    RichTextBox rtb = ReadStraightRtbFile(filename);
+                    helpRecord = dt.Rows[j]["helpRecord"].ObjToString();
+
+                    RichTextBox rtb = ReadStraightRtbFile(filename, helpRecord );
+
                     rtbPrint.RichTextBox.AppendRtf(rtb.Rtf);
                     AddLineToRTB("\f");
                     rtb.Clear();
@@ -1369,30 +1475,30 @@ namespace SMFS
                 }
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnPrint_ItemClick(object sender, ItemClickEventArgs e)
         {
         }
-/***********************************************************************************************/
-		private EMRRichTextBox rtbPrint = new EMRRichTextBox();
-		private int checkPrint;
-		private int pageNumber;
-/***********************************************************************************************/
+        /***********************************************************************************************/
+        private EMRRichTextBox rtbPrint = new EMRRichTextBox();
+        private int checkPrint;
+        private int pageNumber;
+        /***********************************************************************************************/
         private void printDocument1_BeginPrint(object sender, PrintEventArgs e)
         {
-			pageNumber = 1;
+            pageNumber = 1;
             string str = txtStartPage.Text;
             if (G1.validate_numeric(str))
                 pageNumber = str.ObjToInt32();
-			checkPrint = 0;
+            checkPrint = 0;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnPrintPreview_ItemClick(object sender, ItemClickEventArgs e)
         {
             DataTable dt = (DataTable)(dgv2.DataSource);
             if (dt.Rows.Count <= 0)
                 return;
-			DataRow dr = gridView2.GetFocusedDataRow();
+            DataRow dr = gridView2.GetFocusedDataRow();
             int rowHandle = gridView2.FocusedRowHandle;
             if (rowHandle < 0)
                 return;
@@ -1402,14 +1508,22 @@ namespace SMFS
             SetCenter();
             AddLineToRTB(system + "\n", 12F);
             AddLineToRTB("\n\n");
-            BuildPrintReport( false );
-			printPreviewDialog1.ShowDialog();
+
+            BuildPrintReport(false);
+
+            if (SMFS.SMFS_MainForm != null)
+                SMFS.SMFS_MainForm.WindowState = FormWindowState.Minimized;
+
+            printPreviewDialog1.ShowDialog();
+
+            if (SMFS.SMFS_MainForm != null)
+                SMFS.SMFS_MainForm.WindowState = FormWindowState.Normal;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             e.PageSettings.Margins.Bottom = 10;
-			checkPrint = rtbPrint.RichTextBox.Print(checkPrint, rtbPrint.RichTextBox.TextLength, e);
+            checkPrint = rtbPrint.RichTextBox.Print(checkPrint, rtbPrint.RichTextBox.TextLength, e);
 
             string page = "Page - " + pageNumber.ToString();
 
@@ -1424,13 +1538,13 @@ namespace SMFS
                 e.HasMorePages = false;
             pageNumber++;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BuildPrintReport();
-			printPreviewDialog1.ShowDialog();
+            printPreviewDialog1.ShowDialog();
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void printToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             BuildPrintReport();
@@ -1441,13 +1555,13 @@ namespace SMFS
                     printDocument1.Print();
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void menuShowOpenFiles_ItemClick(object sender, ItemClickEventArgs e)
         {
             //ShowOpenedFiles showForm = new ShowOpenedFiles();
             //showForm.Show();
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnExpandSystem_Click(object sender, EventArgs e)
         {
             if (gridView2.Columns["assigned"].Visible == true)
@@ -1455,7 +1569,7 @@ namespace SMFS
             else
                 gridView2.Columns["assigned"].Visible = true;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnExpandHelp_Click(object sender, EventArgs e)
         {
             if (gridView1.Columns["assigned"].Visible == true)
@@ -1463,13 +1577,196 @@ namespace SMFS
             else
                 gridView1.Columns["assigned"].Visible = true;
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
         private void btnExpand_Click(object sender, EventArgs e)
         {
             if (gridView3.Columns["assigned"].Visible == true)
                 gridView3.Columns["assigned"].Visible = false;
             else
                 gridView3.Columns["assigned"].Visible = true;
+        }
+        /***********************************************************************************************/
+        private void btnVideo_Click(object sender, EventArgs e)
+        {
+            axWindowsMediaPlayer2.close();
+            panelVideoAll.Hide();
+        }
+        /***********************************************************************************************/
+        private void RichTextBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            positionX = e.X;
+            positionY = e.Y;
+        }
+        /***********************************************************************************************/
+        private int positionX = 0;
+        private int positionY = 0;
+        /***********************************************************************************************/
+        private void RichTextBox_DoubleClick(object sender, EventArgs e)
+        {
+            string searchString = "mp4";
+            // Determine whether the user clicks the left mouse button and whether it is a double click.
+            // Obtain the character index where the user clicks on the control.
+            int positionToSearch = rtb2.RichTextBox.GetCharIndexFromPosition(new Point(positionX, positionY));
+            // Search for the search string text within the control from the point the user clicked.
+            int textLocation = rtb2.RichTextBox.Find(searchString, positionToSearch, RichTextBoxFinds.None);
+            if ( textLocation < 0 )
+            {
+                searchString = "mp3";
+                textLocation = rtb2.RichTextBox.Find(searchString, positionToSearch, RichTextBoxFinds.None);
+            }
+
+            // If the search string is found (value greater than -1), display the index the string was found at.
+            if (textLocation >= 0)
+            {
+                string text = rtb2.RichTextBox.Text;
+                string filename = "";
+                string str = "";
+                for (int i = textLocation; i >= 0; i--)
+                {
+                    str = text.Substring(i, 1);
+                    filename = str + filename;
+                    if (filename.IndexOf("Video :") >= 0)
+                        break;
+                }
+                if (filename.IndexOf("Video :") == 0)
+                {
+                    filename = filename.Replace("Video :", "");
+                    if (searchString == "mp3")
+                        filename += "p3";
+                    else
+                        filename += "p4";
+                    panelVideoBottom.Dock = DockStyle.Fill;
+                    panelVideoAll.Dock = DockStyle.Fill;
+                    panelVideoAll.Show();
+                    panelVideoAll.Refresh();
+                    axWindowsMediaPlayer2.Dock = DockStyle.Fill;
+                    axWindowsMediaPlayer2.Show();
+                    axWindowsMediaPlayer2.Refresh();
+                    string file = filename;
+                    axWindowsMediaPlayer2.URL = file;
+                }
+            }
+        }
+        /***********************************************************************************************/
+        private void btnSelectVideo_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string file = ofd.FileName;
+                    string hyperlink = @"HYPERLINK ""file://" + @file.Replace("\\", "/") + @"""";
+                    hyperlink = "Video : " + file;
+                    rtb2.RichTextBox.AppendText(hyperlink + Environment.NewLine);
+                    rtb2.RichTextBox.Refresh();
+                }
+            }
+        }
+        /***********************************************************************************************/
+        private void EditHelp_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            rtb2.RichTextBox.DoubleClick -= RichTextBox_DoubleClick;
+            rtb2.RichTextBox.MouseDown -= RichTextBox_MouseDown;
+        }
+        /***********************************************************************************************/
+        private void selectPermissionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int row = gridView2.FocusedRowHandle;
+            DataRow dR = (DataRow) gridView2.GetFocusedDataRow();
+            string groups = dR["userGroup"].ObjToString();
+            SelectPermissions permissions = new SelectPermissions(groups, row );
+            permissions.SelectDone += Permissions_SelectDone;
+            permissions.Show();
+        }
+        /***********************************************************************************************/
+        private void Permissions_SelectDone(DataTable dt, int row )
+        {
+            DataTable dx = (DataTable)dgv2.DataSource;
+            string groups = "";
+            string select = "";
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                select = dt.Rows[i]["select"].ObjToString();
+                if (select == "1")
+                    groups += dt.Rows[i]["userGroup"].ObjToString() + "~";
+            }
+            dx.Rows[row]["userGroup"] = groups;
+
+            string record = dx.Rows[row]["record"].ObjToString();
+            if (!String.IsNullOrWhiteSpace(record))
+                G1.update_db_table("help", "record", record, new string[] { "userGroup", groups});
+        }
+        /***********************************************************************************************/
+        private void gridView2_CustomRowFilter(object sender, RowFilterEventArgs e)
+        {
+            int row = e.ListSourceRow;
+            DataTable dt = (DataTable)dgv2.DataSource;
+
+            string groups = dt.Rows[row]["userGroup"].ObjToString().Trim();
+            if (String.IsNullOrWhiteSpace(groups))
+                return;
+
+            string classification = LoginForm.classification;
+            if (classification.ToUpper() == "ADMIN")
+                return;
+            if (classification.ToUpper() == "HR")
+                return;
+
+            if (groups.Contains(classification))
+                return;
+
+            e.Visible = false;
+            e.Handled = true;
+        }
+        /***********************************************************************************************/
+        private void SystemtoolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            int row = gridView1.FocusedRowHandle;
+            DataRow dR = (DataRow)gridView1.GetFocusedDataRow();
+            string groups = dR["userGroup"].ObjToString();
+            SelectPermissions permissions = new SelectPermissions(groups, row);
+            permissions.SelectDone += Permissions_SelectDone1;
+            permissions.Show();
+        }
+        /***********************************************************************************************/
+        private void Permissions_SelectDone1(DataTable dt, int row)
+        {
+            DataTable dx = (DataTable)dgv.DataSource;
+            string groups = "";
+            string select = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                select = dt.Rows[i]["select"].ObjToString();
+                if (select == "1")
+                    groups += dt.Rows[i]["userGroup"].ObjToString() + "~";
+            }
+            dx.Rows[row]["userGroup"] = groups;
+
+            string record = dx.Rows[row]["record"].ObjToString();
+            if (!String.IsNullOrWhiteSpace(record))
+                G1.update_db_table("help", "record", record, new string[] { "userGroup", groups });
+        }
+        /***********************************************************************************************/
+        private void gridView1_CustomRowFilter(object sender, RowFilterEventArgs e)
+        {
+            int row = e.ListSourceRow;
+            DataTable dt = (DataTable)dgv.DataSource;
+
+            string groups = dt.Rows[row]["userGroup"].ObjToString().Trim();
+            if (String.IsNullOrWhiteSpace(groups))
+                return;
+
+            string classification = LoginForm.classification;
+            if (classification.ToUpper() == "ADMIN")
+                return;
+            if (classification.ToUpper() == "HR")
+                return;
+
+            if (groups.Contains(classification))
+                return;
+
+            e.Visible = false;
+            e.Handled = true;
         }
         /***********************************************************************************************/
     }

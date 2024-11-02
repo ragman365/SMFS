@@ -1276,7 +1276,9 @@ namespace SMFS
                 if (dR.Length > 0)
                 {
                     double packagePrice = dR[0]["price"].ObjToDouble();
+                    double packageFuture = dR[0]["futurePrice"].ObjToDouble();
                     double totalPrice = 0D;
+                    double totalFuture = 0D;
                     service = "";
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
@@ -1291,20 +1293,30 @@ namespace SMFS
                         if (service == "PACKAGE PRICE")
                             continue;
                         totalPrice += dt.Rows[i]["price"].ObjToDouble();
+                        totalFuture += dt.Rows[i]["futurePrice"].ObjToDouble();
                     }
                     double totalListedPrice = totalPrice;
                     double packageDiscount = totalPrice - packagePrice;
                     if (packageDiscount > 0D)
                         packageDiscount = packageDiscount * (-1D);
 
+                    double totalListedFuture = totalFuture;
+                    double packageFutureDiscount = totalFuture - packageFuture;
+                    if (packageFutureDiscount > 0D)
+                        packageFutureDiscount = packageFutureDiscount * (-1D);
+
                     dR = dt.Select("service='Total Listed Price'");
                     if (dR.Length > 0)
+                    {
                         dR[0]["price"] = totalListedPrice.ToString();
+                        dR[0]["futurePrice"] = totalListedFuture;
+                    }
 
                     dR = dt.Select("service='Package Discount'");
                     if (dR.Length > 0)
                     {
                         dR[0]["price"] = packageDiscount.ToString();
+                        dR[0]["futurePrice"] = packageFutureDiscount;
                         if ( mainPackageDiscount == 0D)
                             mainPackageDiscount = packageDiscount;
                     }

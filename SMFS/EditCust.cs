@@ -15,6 +15,8 @@ using System.Runtime.Remoting.Messaging;
 using DevExpress.XtraCharts.Native;
 using MySql.Data.MySqlClient;
 using java.security;
+using DevExpress.XtraPrinting;
+using DevExpress.Utils;
 /****************************************************************************************/
 namespace SMFS
 {
@@ -1236,6 +1238,8 @@ namespace SMFS
             editFunFamilyNew = new FunFamilyNew(this, workContract, true, false );
             editFunFamilyNew.FamModified += EditFunFamilyNew_FamModified;
             editFunFamilyNew.SomethingChanged += EditFunFamilyNew_SomethingChanged;
+            editFunFamilyNew.funFamilyPrint += EditFunFamilyNew_funFamilyPrint;
+
 
             if (!this.LookAndFeel.UseDefaultLookAndFeel)
             {
@@ -1345,6 +1349,7 @@ namespace SMFS
             editFunServices.servicesClosing += EditFunServices_servicesClosing;
             editFunServices.serialReleasedClosing += EditFunServices_serialReleasedClosing;
             editFunServices.servicesSizeChanged += EditFunServices_servicesSizeChanged;
+            editFunServices.funServicesPrint += EditFunServices_funServicesPrint;
             if (!this.LookAndFeel.UseDefaultLookAndFeel)
             {
                 editFunServices.LookAndFeel.UseDefaultLookAndFeel = false;
@@ -1382,6 +1387,20 @@ namespace SMFS
             ////panelServices.TopMost = true;
             //if (!justLoading)
                 //panelServices.Visible = true;
+        }
+        /***********************************************************************************************/
+        private void EditFunServices_funServicesPrint(string who, DevExpress.XtraGrid.GridControl dgv1)
+        {
+            string myTitle = BuildTitle();
+
+            DataTable dt = (DataTable)dgv1.DataSource;
+            if (dt.Rows.Count > 0)
+            {
+                DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView mainGrid = (DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView)dgv1.MainView;
+                title = who + " " + myTitle;
+
+                printPreviewMenuItem(mySender, myEventArgs, dgv1, false );
+            }
         }
         /***********************************************************************************************/
         private void EditFunServices_servicesSizeChanged()
@@ -2374,6 +2393,233 @@ namespace SMFS
             FuneralsChanges fForm = new FuneralsChanges( contract );
             fForm.Show();
             this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private int pageMarginLeft = 0;
+        private int pageMarginRight = 0;
+        private int pageMarginTop = 0;
+        private int pageMarginBottom = 0;
+        /***********************************************************************************************/
+        private void printPreviewMenuItem(object sender, EventArgs e, DevExpress.XtraGrid.GridControl dgv, bool landscape = false )
+        {
+            if (this.components == null)
+                this.components = new System.ComponentModel.Container();
+
+            DevExpress.XtraPrinting.PrintingSystem printingSystem1 = new DevExpress.XtraPrinting.PrintingSystem(this.components);
+            DevExpress.XtraPrinting.PrintableComponentLink printableComponentLink1 = new DevExpress.XtraPrinting.PrintableComponentLink(this.components);
+
+            printingSystem1.Links.AddRange(new object[] {
+            printableComponentLink1});
+
+
+            printableComponentLink1.Component = dgv;
+            printableComponentLink1.PrintingSystemBase = printingSystem1;
+
+            printableComponentLink1.EnablePageDialog = true;
+
+            printableComponentLink1.CreateDetailHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateDetailHeaderArea);
+            printableComponentLink1.CreateMarginalHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateMarginalHeaderArea);
+            printableComponentLink1.BeforeCreateAreas += new System.EventHandler(this.printableComponentLink1_BeforeCreateAreas);
+            printableComponentLink1.AfterCreateAreas += new System.EventHandler(this.printableComponentLink1_AfterCreateAreas);
+            printableComponentLink1.Landscape = landscape;
+
+            Printer.setupPrinterMargins(50, 50, 80, 50);
+
+            pageMarginLeft = Printer.pageMarginLeft;
+            pageMarginRight = Printer.pageMarginRight;
+            pageMarginTop = Printer.pageMarginTop;
+            pageMarginBottom = Printer.pageMarginBottom;
+
+            printableComponentLink1.Margins.Left = pageMarginLeft;
+            printableComponentLink1.Margins.Right = pageMarginRight;
+            printableComponentLink1.Margins.Top = pageMarginTop;
+            printableComponentLink1.Margins.Bottom = pageMarginBottom;
+
+            printableComponentLink1.CreateDocument();
+            printableComponentLink1.ShowPreview();
+        }
+        /***********************************************************************************************/
+        private void printMenuItem(object sender, EventArgs e, DevExpress.XtraGrid.GridControl dgv, bool landscape = false )
+        {
+            if (this.components == null)
+                this.components = new System.ComponentModel.Container();
+            DevExpress.XtraPrinting.PrintingSystem printingSystem1 = new DevExpress.XtraPrinting.PrintingSystem(this.components);
+            DevExpress.XtraPrinting.PrintableComponentLink printableComponentLink1 = new DevExpress.XtraPrinting.PrintableComponentLink(this.components);
+
+            printingSystem1.Links.AddRange(new object[] {
+            printableComponentLink1});
+
+            printableComponentLink1.Component = dgv;
+            printableComponentLink1.PrintingSystemBase = printingSystem1;
+            printableComponentLink1.CreateDetailHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateDetailHeaderArea);
+            printableComponentLink1.CreateMarginalHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateMarginalHeaderArea);
+            printableComponentLink1.BeforeCreateAreas += new System.EventHandler(this.printableComponentLink1_BeforeCreateAreas);
+            printableComponentLink1.AfterCreateAreas += new System.EventHandler(this.printableComponentLink1_AfterCreateAreas);
+            printableComponentLink1.Landscape = landscape;
+
+            Printer.setupPrinterMargins(50, 50, 80, 50);
+
+            pageMarginLeft = Printer.pageMarginLeft;
+            pageMarginRight = Printer.pageMarginRight;
+            pageMarginTop = Printer.pageMarginTop;
+            pageMarginBottom = Printer.pageMarginBottom;
+
+            printableComponentLink1.Margins.Left = pageMarginLeft;
+            printableComponentLink1.Margins.Right = pageMarginRight;
+            printableComponentLink1.Margins.Top = pageMarginTop;
+            printableComponentLink1.Margins.Bottom = pageMarginBottom;
+
+            printableComponentLink1.CreateDocument();
+            printableComponentLink1.PrintDlg();
+        }
+        /***********************************************************************************************/
+        private void printableComponentLink1_BeforeCreateAreas(object sender, EventArgs e)
+        {
+        }
+        /***********************************************************************************************/
+        private void printableComponentLink1_AfterCreateAreas(object sender, EventArgs e)
+        {
+        }
+        /***********************************************************************************************/
+        private void printableComponentLink1_CreateDetailHeaderArea(object sender, CreateAreaEventArgs e)
+        {
+        }
+        /***********************************************************************************************/
+        private void printableComponentLink1_CreateMarginalHeaderArea(object sender, CreateAreaEventArgs e)
+        {
+            Printer.setupPrinterQuads(e, 2, 3);
+            Font font = new Font("Ariel", 16);
+            Printer.DrawQuad(1, 1, Printer.xQuads, 2, "South Mississippi Funeral Services, LLC", Color.Black, BorderSide.Top, font, HorizontalAlignment.Center);
+
+            Printer.SetQuadSize(12, 12);
+
+            font = new Font("Ariel", 8);
+            Printer.DrawGridDate(2, 3, 2, 3, Color.Black, BorderSide.None, font);
+            Printer.DrawGridPage(11, 3, 2, 3, Color.Black, BorderSide.None, font);
+
+            Printer.DrawQuad(1, 9, 2, 3, "User : " + LoginForm.username, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Center);
+
+            font = new Font("Ariel", 10, FontStyle.Bold);
+            if (!String.IsNullOrWhiteSpace(title))
+                Printer.DrawQuad(4, 8, 6, 4, title, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            else
+                Printer.DrawQuad(6, 8, 4, 4, "Print Details", Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+
+
+            //            Printer.DrawQuadTicks();
+            DateTime date = DateTime.Now;
+            string workDate = date.Month.ToString("D2") + "/" + date.Year.ToString("D4");
+            Printer.SetQuadSize(24, 12);
+            font = new Font("Ariel", 9, FontStyle.Bold);
+            //            Printer.DrawQuad(20, 8, 5, 4, "Report Month:" + workDate, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            //Printer.DrawQuad(16, 8, 3, 4, lblPayment.Text, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            //Printer.DrawQuad(19, 8, 3, 4, lblTrust85.Text, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            //Printer.DrawQuad(22, 8, 3, 4, lblTrust100.Text, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+
+            Printer.SetQuadSize(12, 12);
+            Printer.DrawQuadBorder(1, 1, 12, 12, BorderSide.All, 1, Color.Black);
+            Printer.DrawQuadBorder(12, 1, 1, 12, BorderSide.Right, 1, Color.Black);
+        }
+        /****************************************************************************************/
+        private string BuildTitle()
+        {
+            string title = "";
+            string contract = "";
+            string serviceId = "";
+
+            string str = this.Text;
+            string temp = "";
+            string[] Lines = str.Split(')');
+            if (Lines.Length > 0)
+            {
+                temp = Lines[0].Trim();
+                temp = temp.Replace("(", "");
+                temp = temp.Replace(")", "");
+                contract = temp;
+            }
+
+            int idx = str.IndexOf(":");
+            if (idx > 0)
+            {
+                str = str.Substring(idx);
+                idx = str.IndexOf("[");
+                if (idx > 0)
+                    str = str.Substring(0, idx);
+                serviceId = str;
+                serviceId = serviceId.Replace(":", "");
+                serviceId = serviceId.Trim();
+            }
+
+            title = contract + " " + serviceId;
+            return title;
+        }
+        /****************************************************************************************/
+        private string title = "";
+        private object mySender = null;
+        private EventArgs myEventArgs = null;
+        private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string myTitle = BuildTitle();
+            mySender = sender;
+            myEventArgs = e;
+
+            if (panelCustomerActive)
+            {
+                DevExpress.XtraGrid.GridControl dgv = editFunCustomer.FireEventPrintPreview();
+                if (dgv != null)
+                {
+                    DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView mainGrid = (DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView)dgv.MainView;
+                    mainGrid.Columns["help"].Visible = false;
+                    mainGrid.Columns["data"].OptionsColumn.FixedWidth = true;
+                    title = "Customer Demographics " + myTitle;
+                    printPreviewMenuItem(sender, e, dgv);
+                    mainGrid.Columns["help"].Visible = true;
+                    mainGrid.Columns["data"].OptionsColumn.FixedWidth = false;
+                }
+            }
+            else if (panelFamilyActive)
+                editFunFamilyNew.FireEventPrintPreview("Family");
+            else if (panelLegalActive)
+                editFunFamilyNew.FireEventPrintPreview("Legal");
+            else if (panelServicesActive)
+                editFunServices.FireEventPrintPreview();
+            else if ( panelPaymentsActive )
+            {
+                DevExpress.XtraGrid.GridControl dgv = editFunPayments.FireEventPrintPreview();
+                if (dgv != null)
+                {
+                    DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView mainGrid = (DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView)dgv.MainView;
+                    title = "Funeral Payments " + myTitle;
+                    printPreviewMenuItem(sender, e, dgv, true );
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void EditFunFamilyNew_funFamilyPrint( string who, DevExpress.XtraGrid.GridControl dgv1 )
+        {
+            string myTitle = BuildTitle();
+
+            DataTable dt = (DataTable) dgv1.DataSource;
+            if (dt.Rows.Count > 0)
+            {
+                DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView mainGrid = (DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView)dgv1.MainView;
+                title = who + " " + myTitle;
+                bool landscape = true;
+                if (who.ToUpper() == "FUNERAL DETAILS")
+                {
+                    mainGrid.Columns["help"].Visible = false;
+                    mainGrid.Columns["data"].OptionsColumn.FixedWidth = true;
+                    landscape = false;
+                }
+
+                printPreviewMenuItem(mySender, myEventArgs, dgv1, landscape);
+
+                if (who.ToUpper() == "FUNERAL DETAILS")
+                {
+                    mainGrid.Columns["help"].Visible = true;
+                    mainGrid.Columns["data"].OptionsColumn.FixedWidth = false;
+                }
+            }
         }
         /****************************************************************************************/
     }

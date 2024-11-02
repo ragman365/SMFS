@@ -549,10 +549,10 @@ namespace SMFS
                                 continue;
                             credit = dx.Rows[j]["creditAdjustment"].ObjToDouble();
                             interest = dx.Rows[j]["interestPaid"].ObjToDouble();
-                            if ( credit > 0D && interest == 0D ) // Fix for Credit/Debit Issue (DOLP)
-                            {
-                                continue;
-                            }
+                            //if ( credit > 0D && interest == 0D ) // Fix for Credit/Debit Issue (DOLP) // Removed for M23002LI on 10/15/2024
+                            //{
+                            //    continue;
+                            //}
                             totalMonths += dx.Rows[j]["NumPayments"].ObjToDecimal();
                             dMonths += dx.Rows[j]["NumPayments"].ObjToDouble();
                             //totalMonths = (decimal) G1.RoundValue((double) totalMonths);
@@ -832,8 +832,8 @@ namespace SMFS
                         continue;
                     interest = dx.Rows[j]["interestPaid"].ObjToDouble();
                     credit = dx.Rows[j]["creditAdjustment"].ObjToDouble();
-                    if (credit > 0D && interest == 0D) // Fix for Credit/Interest issue (DOLP)
-                        continue;
+                    //if (credit > 0D && interest == 0D) // Fix for Credit/Interest issue (DOLP) // Removed for M23002LI on 10/15/2024
+                    //    continue;
                     totalMonths += dx.Rows[j]["NumPayments"].ObjToDecimal();
                     dMonths += dx.Rows[j]["NumPayments"].ObjToDouble();
                     //totalMonths = (decimal) G1.RoundValue((double) totalMonths);
@@ -952,11 +952,11 @@ namespace SMFS
                     debit = dt.Rows[i]["debitAdjustment"].ObjToDouble();
                     credit = dt.Rows[i]["creditAdjustment"].ObjToDouble();
                     interest = dt.Rows[i]["interestPaid"].ObjToDouble();
-                    if ( credit > 0D && interest == 0D ) // Adjust for Credit/Interest issue (DOLP)
-                    {
-                        dt.Rows[i]["numMonthPaid"] = 0D;
-                        continue;
-                    }
+                    //if ( credit > 0D && interest == 0D ) // Adjust for Credit/Interest issue (DOLP) // Remove for M23002LI on 10/15/2024
+                    //{
+                    //    dt.Rows[i]["numMonthPaid"] = 0D;
+                    //    continue;
+                    //}
                     if (payment == 0D)
                     {
                         if (credit > 0D)

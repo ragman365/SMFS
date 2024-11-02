@@ -38,6 +38,13 @@ namespace SMFS
         private void FunLookup_Load(object sender, EventArgs e)
         {
             chkFilter.Hide();
+            if ( !G1.isAdminOrSuper() )
+            {
+                chkHonor.Hide();
+                chkPayersOnly.Hide();
+                chkSecNat.Hide();
+                chkThirdOnly.Hide();
+            }
             chkPayersOnly.Hide();
             dgv.Hide();
             dgv2.Hide();
@@ -895,6 +902,11 @@ namespace SMFS
                         birthDate = dx.Rows[j]["birthDate"].ObjToDateTime();
                         companyCode = dx.Rows[j]["companyCode"].ObjToString();
                         report = dx.Rows[j]["report"].ObjToString();
+                        if (!G1.isAdminOrSuper())
+                        {
+                            if (report.ToUpper() != "NOT THIRD PARTY")
+                                continue;
+                        }
                         G1.HardCopyDtRow(dt, i, ddx, ddx.Rows.Count);
                         row = ddx.Rows.Count - 1;
                         ddx.Rows[row]["policyNumber"] = policy;

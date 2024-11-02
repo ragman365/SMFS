@@ -1274,6 +1274,8 @@ namespace SMFS
 
             try
             {
+                G1.AddToAudit(LoginForm.username, "GenerateACH", "Create ACH File", "Starting New ACH Create File!" );
+
                 string achDirectory = AdminOptions.GetOptionAnswer("BANKPLUS Path");
                 if (String.IsNullOrWhiteSpace(achDirectory))
                 {
@@ -1393,7 +1395,9 @@ namespace SMFS
                 {
 
                 }
+                G1.AddToAudit(LoginForm.username, "GenerateACH", "Create ACH File", "Creating CSV File!");
                 CreateCSVfile(dt, fullPath, true, ",", true);
+                G1.AddToAudit(LoginForm.username, "GenerateACH", "Create ACH File", "Finished CSV File!");
             }
             catch (Exception ex)
             {

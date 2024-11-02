@@ -39,6 +39,7 @@
             this.fixAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.locateDownpaymentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.locateDownpaymentMatchingNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainGrid = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -167,30 +168,38 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fixAgentToolStripMenuItem,
             this.deleteRowToolStripMenuItem,
-            this.locateDownpaymentToolStripMenuItem});
+            this.locateDownpaymentToolStripMenuItem,
+            this.locateDownpaymentMatchingNameToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(224, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(334, 100);
             // 
             // fixAgentToolStripMenuItem
             // 
             this.fixAgentToolStripMenuItem.Name = "fixAgentToolStripMenuItem";
-            this.fixAgentToolStripMenuItem.Size = new System.Drawing.Size(223, 24);
+            this.fixAgentToolStripMenuItem.Size = new System.Drawing.Size(333, 24);
             this.fixAgentToolStripMenuItem.Text = "Fix Agent";
             this.fixAgentToolStripMenuItem.Click += new System.EventHandler(this.fixAgentToolStripMenuItem_Click);
             // 
             // deleteRowToolStripMenuItem
             // 
             this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
-            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(223, 24);
+            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(333, 24);
             this.deleteRowToolStripMenuItem.Text = "Delete Row";
             this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
             // 
             // locateDownpaymentToolStripMenuItem
             // 
             this.locateDownpaymentToolStripMenuItem.Name = "locateDownpaymentToolStripMenuItem";
-            this.locateDownpaymentToolStripMenuItem.Size = new System.Drawing.Size(223, 24);
+            this.locateDownpaymentToolStripMenuItem.Size = new System.Drawing.Size(333, 24);
             this.locateDownpaymentToolStripMenuItem.Text = "Locate Downpayment";
             this.locateDownpaymentToolStripMenuItem.Click += new System.EventHandler(this.locateDownpaymentToolStripMenuItem_Click);
+            // 
+            // locateDownpaymentMatchingNameToolStripMenuItem
+            // 
+            this.locateDownpaymentMatchingNameToolStripMenuItem.Name = "locateDownpaymentMatchingNameToolStripMenuItem";
+            this.locateDownpaymentMatchingNameToolStripMenuItem.Size = new System.Drawing.Size(333, 24);
+            this.locateDownpaymentMatchingNameToolStripMenuItem.Text = "Locate Downpayment Matching Name";
+            this.locateDownpaymentMatchingNameToolStripMenuItem.Click += new System.EventHandler(this.locateDownpaymentMatchingNameToolStripMenuItem_Click);
             // 
             // mainGrid
             // 
@@ -910,5 +919,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn30;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit8;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit9;
+        private System.Windows.Forms.ToolStripMenuItem locateDownpaymentMatchingNameToolStripMenuItem;
     }
 }

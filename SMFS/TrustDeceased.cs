@@ -40,6 +40,7 @@ namespace SMFS
         private string workReport = "";
         private int workNextDays = 0;
         private int workNextRow = 0;
+        private string workContract = "";
         private CheckedComboBoxEdit workCompanies = null;
         private bool useCalculatedBeginningBalance = false;
         private bool useCalculatedEndingBalance = false;
@@ -71,6 +72,13 @@ namespace SMFS
         /****************************************************************************************/
         public TrustDeceased()
         {
+            InitializeComponent();
+            SetupTotalsSummary();
+        }
+        /****************************************************************************************/
+        public TrustDeceased( string contractNumnber )
+        {
+            workContract = contractNumnber;
             InitializeComponent();
             SetupTotalsSummary();
         }
@@ -486,6 +494,8 @@ namespace SMFS
         {
             try
             {
+                btnAccept.Hide();
+
                 dgv2.Dock = DockStyle.Fill;
                 dgv6.Hide();
                 dgv6.Dock = DockStyle.Fill;
@@ -544,6 +554,14 @@ namespace SMFS
             }
             catch (Exception ex)
             {
+            }
+
+            if ( !String.IsNullOrWhiteSpace ( workContract ))
+            {
+                txtContract.Text = workContract;
+                tabControl1.SelectedTab = tabPage7;
+                button6_Click( null, null );
+                dgv8.Refresh();
             }
         }
         /***********************************************************************************************/
@@ -1839,7 +1857,7 @@ namespace SMFS
         /***********************************************************************************************/
         private DataTable policyTrustsDt = null;
         /***********************************************************************************************/
-        private DataTable verifyContracts(DataTable dt)
+        private DataTable verifyContracts(DataTable dt, bool full = false )
         {
             if (dt == null)
                 return dt;
@@ -1872,6 +1890,19 @@ namespace SMFS
                             record = dt.Rows[i]["record"].ObjToString();
                             if (!String.IsNullOrWhiteSpace(record))
                                 G1.update_db_table("trust_data", "record", record, new string[] { "contractNumber", contractNumber });
+                        }
+                    }
+                    else if ( full )
+                    {
+                        policyNumber = dt.Rows[i]["policyNumber"].ObjToString();
+                        company = dt.Rows[i]["trustCompany"].ObjToString();
+                        contractNumber = FindContractNumber(policyNumber, company, ref type);
+                        if (!String.IsNullOrWhiteSpace(contractNumber))
+                        {
+                            dt.Rows[i]["contractNumber"] = contractNumber;
+                            record = dt.Rows[i]["record"].ObjToString();
+                            //if (!String.IsNullOrWhiteSpace(record))
+                            //    G1.update_db_table("trust_data", "record", record, new string[] { "contractNumber", contractNumber });
                         }
                     }
                 }
@@ -3198,6 +3229,13 @@ namespace SMFS
             {
                 manual = dt.Rows[i]["manual"].ObjToString();
                 month = dt.Rows[i]["month"].ObjToString();
+                if (trustCompany == "CD")
+                {
+                    if (i == 0)
+                        month = "BEGINNING BALANCE";
+                    else if (month.ToUpper() == "BALANCE")
+                        month = "ENDING BALANCE";
+                }
                 if (month.ToUpper() == "BEGINNING BALANCE")
                 {
                     record = dt.Rows[i]["record"].ObjToString();
@@ -5613,6 +5651,103 @@ namespace SMFS
                 gridMain2.Columns["smfsBalance"].Visible = false;
                 gridMain2.Columns["received"].Caption = trustCompany + " Trust Principal";
             }
+
+            dt = loadBalanceDifferences(dt, "BEGINNING");
+            dt = loadCadenceDeathBenefits(dt, "BEGINNING");
+        }
+        /****************************************************************************************/
+        private DataTable loadBalanceDifferences ( DataTable dt, string which )
+        {
+            if (G1.get_column_number(dt, "diff") < 0)
+                dt.Columns.Add("diff", Type.GetType("System.Double"));
+            if (G1.get_column_number(dt, "cadenceDeathBenefits") < 0)
+                dt.Columns.Add("cadenceDeathBenefits", Type.GetType("System.Double"));
+
+            DataRow[] dRows = null;
+            double received = 0D;
+            double balance = 0D;
+            double diff = 0D;
+
+            if ( which.ToUpper() == "BEGINNING")
+            {
+                dRows = dt.Select("month='Beginning Balance'");
+                if ( dRows.Length > 0 )
+                {
+                    received = dRows[0]["value"].ObjToDouble();
+                    balance = dRows[0]["received"].ObjToDouble();
+                    diff = balance - received;
+                    dRows[0]["diff"] = diff;
+                }
+            }
+            else
+            {
+                dRows = dt.Select("month='Ending Balance'");
+                if (dRows.Length > 0)
+                {
+                    received = dRows[0]["value"].ObjToDouble();
+                    balance = dRows[0]["received"].ObjToDouble();
+                    diff = balance - received;
+                    dRows[0]["diff"] = diff;
+                }
+            }
+            return dt;
+        }
+        /****************************************************************************************/
+        private DataTable loadCadenceDeathBenefits(DataTable dt, string which)
+        {
+            if (G1.get_column_number(dt, "diff") < 0)
+                dt.Columns.Add("diff", Type.GetType("System.Double"));
+            if (G1.get_column_number(dt, "cadenceDeathBenefits") < 0)
+                dt.Columns.Add("cadenceDeathBenefits", Type.GetType("System.Double"));
+
+            DataRow[] dRows = null;
+            double received = 0D;
+            double balance = 0D;
+            double diff = 0D;
+            DataTable activeDt = null;
+
+            string preOrPost = "Post";
+            DateTime date = this.dateTimePicker2.Value;
+
+            if (which.ToUpper() == "BEGINNING")
+            {
+                dRows = dt.Select("month='Beginning Balance'");
+                if (dRows.Length > 0)
+                {
+                    if (workReport == "Post 2002 Report - Unity")
+                    {
+                        date = this.dateTimePicker1.Value;
+                        date = date.AddDays(-1);
+                        double deathBenefit = loadUnityDeathBenefit(date, preOrPost, ref activeDt);
+                        dRows[0]["cadenceDeathBenefits"] = deathBenefit;
+                    }
+                    else if (workReport == "Post 2002 Report - FDLIC")
+                    {
+                        date = this.dateTimePicker1.Value;
+                        date = date.AddDays(-1);
+                        double deathBenefit = loadFDLICDeathBenefit(date, preOrPost, ref activeDt);
+                        dRows[0]["cadenceDeathBenefits"] = deathBenefit;
+                    }
+                }
+            }
+            else
+            {
+                dRows = dt.Select("month='Ending Balance'");
+                if (dRows.Length > 0)
+                {
+                    if (workReport == "Post 2002 Report - Unity")
+                    {
+                        double deathBenefit = loadUnityDeathBenefit(date, preOrPost, ref activeDt);
+                        dRows[0]["cadenceDeathBenefits"] = deathBenefit;
+                    }
+                    else if (workReport == "Post 2002 Report - FDLIC")
+                    {
+                        double deathBenefit = loadFDLICDeathBenefit(date, preOrPost, ref activeDt);
+                        dRows[0]["cadenceDeathBenefits"] = deathBenefit;
+                    }
+                }
+            }
+            return dt;
         }
         /****************************************************************************************/
         //private void LoadBeginningAdjustment(DataTable dt)
@@ -6637,6 +6772,8 @@ namespace SMFS
                 {
                 }
             }
+            dt = loadBalanceDifferences(dt, "ENDING");
+            dt = loadCadenceDeathBenefits(dt, "ENDING");
         }
         /****************************************************************************************/
         private void gridMain_MouseDown(object sender, MouseEventArgs e)
@@ -7296,6 +7433,7 @@ namespace SMFS
         /****************************************************************************************/
         private void LoadSplit()
         {
+            this.Cursor = Cursors.WaitCursor;
             G1.SetupToolTip(btnDelete, "Delete Row");
             G1.SetupToolTip(btnInsert, "Insert Row");
 
@@ -7401,6 +7539,9 @@ namespace SMFS
                 gridMain2.Columns["dateReceived"].Visible = true;
 
                 gridMain2.Columns["smfsBalance"].Visible = false;
+
+                gridMain2.Columns["diff"].Visible = true;
+                gridMain2.Columns["cadenceDeathBenefits"].Visible = true;
             }
             else if (workReport == "Post 2002 Report - Unity")
             {
@@ -7415,6 +7556,9 @@ namespace SMFS
                 gridMain2.Columns["dateReceived"].Visible = true;
 
                 gridMain2.Columns["smfsBalance"].Visible = false;
+
+                gridMain2.Columns["diff"].Visible = true;
+                gridMain2.Columns["cadenceDeathBenefits"].Visible = true;
             }
             else if (workReport == "Post 2002 Report - CD")
             {
@@ -7623,6 +7767,7 @@ namespace SMFS
             G1.NumberDataTable(dx);
             dgv2.DataSource = dx;
             dgv2.Refresh();
+            this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/
         private void SetupPostPositions ()
@@ -7654,6 +7799,8 @@ namespace SMFS
                 G1.SetColumnPosition(gridMain2, "otherdesc", i++);
                 G1.SetColumnPosition(gridMain2, "received", i++);
                 G1.SetColumnPosition(gridMain2, "otherFuneral", i++);
+                G1.SetColumnPosition(gridMain2, "diff", i++);
+                G1.SetColumnPosition(gridMain2, "cadenceDeathBenefits", i++);
                 //G1.SetColumnPosition(gridMain2, "cashPaid2", i++);
                 //G1.SetColumnPosition(gridMain2, "dateReceived", i++);
                 //G1.SetColumnPosition(gridMain2, "otherContract", i++);
@@ -7678,6 +7825,8 @@ namespace SMFS
                 G1.SetColumnPosition(gridMain2, "received", i++);
                 G1.SetColumnPosition(gridMain2, "junk2", i++);
                 G1.SetColumnPosition(gridMain2, "otherFuneral", i++);
+                G1.SetColumnPosition(gridMain2, "diff", i++);
+                G1.SetColumnPosition(gridMain2, "cadenceDeathBenefits", i++);
                 //G1.SetColumnPosition(gridMain2, "cashPaid2", i++);
                 //G1.SetColumnPosition(gridMain2, "dateReceived", i++);
                 //G1.SetColumnPosition(gridMain2, "otherContract", i++);
@@ -9250,6 +9399,8 @@ namespace SMFS
             if (dt == null)
                 return;
 
+            this.Cursor = Cursors.WaitCursor;
+
             string trust = "trust";
             if (G1.get_column_number(dt, "trust") < 0)
                 trust = "trust";
@@ -9693,6 +9844,7 @@ namespace SMFS
             G1.NumberDataTable(dx);
             dgv6.DataSource = dx;
             dgv6.Refresh();
+            this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
         private void SetupTab ( TabPage tp, bool include )
@@ -12064,17 +12216,45 @@ namespace SMFS
             string sDate1 = startDate.ToString("yyyy-MM-dd");
             string sDate2 = stopDate.ToString("yyyy-MM-dd");
 
-            string cmd = "Select * from `trust_data` WHERE `date` >= '" + sDate1 + "' AND `date` <= '" + sDate2 + "' AND `preOrPost` = '" + preOrPost + "' ORDER BY `contractNumber`;";
+            string cmd = "Select * from `trust_data` WHERE `date` >= '" + sDate1 + "' AND `date` <= '" + sDate2 + "' AND `preOrPost` = '" + preOrPost + "' ";
+            cmd += " ORDER BY `contractNumber`;";
+            string contractNumber = txtContract.Text.Trim();
+            if (!String.IsNullOrWhiteSpace(contractNumber))
+            {
+                cmd = "Select * from `trust_data` WHERE `contractNumber` = '" + contractNumber + "' ORDER BY `date` desc;";
+            }
             DataTable dt = G1.get_db_data(cmd);
             if (dt.Rows.Count <= 0)
+            {
+                this.Close();
                 return;
+            }
+            if (!String.IsNullOrWhiteSpace(contractNumber))
+            {
+                startDate = dt.Rows[0]["date"].ObjToDateTime();
+                sDate1 = startDate.ToString("yyyy-MM-01");
+                int dayss = DateTime.DaysInMonth(startDate.Year, startDate.Month);
+                stopDate = new DateTime(startDate.Year, startDate.Month, dayss);
+                sDate2 = stopDate.ToString("yyyy-MM-dd");
+                cmd = "Select * from `trust_data` WHERE `date` >= '" + sDate1 + "' AND `date` <= '" + sDate2 + "' AND `contractNumber` = '" + contractNumber + "';";
+                dt = G1.get_db_data(cmd);
+                if (dt.Rows.Count <= 0)
+                {
+                    this.Close();
+                    return;
+                }
+                btnAccept.Show();
+                btnAccept.Refresh();
+            }
 
             this.Cursor = Cursors.WaitCursor;
+
+            dt = verifyContracts(dt, true );
 
             DateTime lastMonth = stopDate.AddMonths(-1);
             int days = DateTime.DaysInMonth(lastMonth.Year, lastMonth.Month);
             lastMonth = new DateTime(lastMonth.Year, lastMonth.Month, days);
-            cmd = "Select * from `trust2013r` WHERE `payDate8` = '" + lastMonth.ToString("yyyyMMdd") + "' ORDER BY `contractNumber`;";
+            cmd = "Select * from `trust2013r` r JOIN `customers` c ON r.`contractNumber` = c.`contractNumber` WHERE `payDate8` = '" + lastMonth.ToString("yyyyMMdd") + "' ORDER BY r.`contractNumber`;";
             //cmd = "Select * from `trust2013r` WHERE `payDate8` = '" + sDate2 + "' ORDER BY `contractNumber`;";
             DataTable rDt = G1.get_db_data(cmd);
 
@@ -12083,6 +12263,8 @@ namespace SMFS
             DataTable dx = new DataTable();
             dx.Columns.Add("contractNumber");
             dx.Columns.Add("month");
+            dx.Columns.Add("deceasedDate");
+            dx.Columns.Add("serviceId");
             dx.Columns.Add("Security National", Type.GetType("System.Double"));
             dx.Columns.Add("Forethought", Type.GetType("System.Double"));
             dx.Columns.Add("CD", Type.GetType("System.Double"));
@@ -12112,7 +12294,7 @@ namespace SMFS
             dx.Columns.Add("year");
             dx.Columns.Add("date");
 
-            string contractNumber = "";
+            contractNumber = "";
             string oldContract = "";
             string trustCompany = "";
             double beginningPaymentBalance = 0D;
@@ -12129,65 +12311,85 @@ namespace SMFS
 
             DataRow dRow = null;
 
+            DateTime deceasedDate = DateTime.Now;
+            DateTime oldDeceasedDate = DateTime.Now;
+            string serviceId = "";
+            string oldServiceId = "";
+
             for ( int i=0; i<dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                if (String.IsNullOrWhiteSpace(contractNumber))
-                    continue;
-                if ( contractNumber == "B04002")
+                try
                 {
-                }
-                if (String.IsNullOrWhiteSpace(oldContract))
-                    oldContract = contractNumber;
-                if (dRow == null)
-                    dRow = dx.NewRow();
-                if (oldContract != contractNumber)
-                {
-                    dRow["contractNumber"] = oldContract;
-                    dx.Rows.Add(dRow);
-                    dRow = dx.NewRow();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(contractNumber))
+                        continue;
+                    if (contractNumber == "B04002")
+                    {
+                    }
+                    if (String.IsNullOrWhiteSpace(oldContract))
+                    {
+                        oldContract = contractNumber;
+                    }
+                    if (dRow == null)
+                        dRow = dx.NewRow();
+                    if (oldContract != contractNumber)
+                    {
+                        dRow["contractNumber"] = oldContract;
+                        dx.Rows.Add(dRow);
+                        dRow = dx.NewRow();
 
-                    total_beginningPaymentBalance = 0D;
-                    total_endingPaymentBalance = 0D;
-                    total_beginningDeathBenefit = 0D;
-                    total_endingDeathBenefit = 0D;
+                        total_beginningPaymentBalance = 0D;
+                        total_endingPaymentBalance = 0D;
+                        total_beginningDeathBenefit = 0D;
+                        total_endingDeathBenefit = 0D;
 
-                    oldContract = contractNumber;
-                }
-                trustCompany = dt.Rows[i]["trustCompany"].ObjToString();
+                        oldContract = contractNumber;
+                        oldDeceasedDate = deceasedDate;
+                        oldServiceId = serviceId;
+                    }
+                    trustCompany = dt.Rows[i]["trustCompany"].ObjToString();
 
-                beginningPaymentBalance = dt.Rows[i]["beginningPaymentBalance"].ObjToDouble();
-                endingPaymentBalance = dt.Rows[i]["endingPaymentBalance"].ObjToDouble();
-                beginningDeathBenefit = dt.Rows[i]["beginningDeathBenefit"].ObjToDouble();
-                endingDeathBenefit = dt.Rows[i]["endingDeathBenefit"].ObjToDouble();
-                if (endingDeathBenefit == 0D)
-                    continue;
-                if (endingPaymentBalance == 0D)
-                    continue;
+                    beginningPaymentBalance = dt.Rows[i]["beginningPaymentBalance"].ObjToDouble();
+                    endingPaymentBalance = dt.Rows[i]["endingPaymentBalance"].ObjToDouble();
+                    beginningDeathBenefit = dt.Rows[i]["beginningDeathBenefit"].ObjToDouble();
+                    endingDeathBenefit = dt.Rows[i]["endingDeathBenefit"].ObjToDouble();
+                    if (endingDeathBenefit == 0D)
+                        continue;
+                    if (endingPaymentBalance == 0D)
+                        continue;
 
-                if ( trustCompany == "Security National")
-                {
-                    dValue = dRow["Security National"].ObjToDouble();
-                    dValue += beginningPaymentBalance;
-                    dRow["Security National"] = dValue;
+                    if (trustCompany == "Security National")
+                    {
+                        dValue = dRow["Security National"].ObjToDouble();
+                        dValue += beginningPaymentBalance;
+                        dRow["Security National"] = dValue;
+                    }
+                    else if (trustCompany == "Forethought")
+                    {
+                        dValue = dRow["Forethought"].ObjToDouble();
+                        dValue += endingPaymentBalance;
+                        dRow["Forethought"] = dValue;
+                    }
+                    else if (trustCompany == "Unity" || trustCompany == "Unity PB")
+                    {
+                        dValue = dRow["Unity"].ObjToDouble();
+                        dValue += endingPaymentBalance;
+                        dRow["Unity"] = dValue;
+                    }
+                    else if (trustCompany == "FDLIC" || trustCompany == "FDLIC PB")
+                    {
+                        dValue = dRow["FDLIC"].ObjToDouble();
+                        dValue += endingPaymentBalance;
+                        dRow["FDLIC"] = dValue;
+                    }
+                    if (i == dt.Rows.Count - 1)
+                    {
+                        dRow["contractNumber"] = oldContract;
+                        dx.Rows.Add(dRow);
+                    }
                 }
-                else if (trustCompany == "Forethought")
+                catch ( Exception ex)
                 {
-                    dValue = dRow["Forethought"].ObjToDouble();
-                    dValue += endingPaymentBalance;
-                    dRow["Forethought"] = dValue;
-                }
-                else if (trustCompany == "Unity" || trustCompany == "Unity PB" )
-                {
-                    dValue = dRow["Unity"].ObjToDouble();
-                    dValue += endingPaymentBalance;
-                    dRow["Unity"] = dValue;
-                }
-                else if (trustCompany == "FDLIC" || trustCompany == "FDLIC PB" )
-                {
-                    dValue = dRow["FDLIC"].ObjToDouble();
-                    dValue += endingPaymentBalance;
-                    dRow["FDLIC"] = dValue;
                 }
             }
 
@@ -12207,6 +12409,9 @@ namespace SMFS
                     //if (dValue == 0D)
                     //    dValue = dRows[0]["beginningBalance"].ObjToDouble();
                     dx.Rows[i]["endingBalance"] = dValue;
+
+                    dx.Rows[i]["deceasedDate"] = dRows[0]["deceasedDate"].ObjToDateTime().ToString("MM/dd/yyyy");
+                    dx.Rows[i]["serviceId"] = dRows[0]["serviceId1"].ObjToString();
                 }
             }
 
@@ -13232,6 +13437,37 @@ namespace SMFS
         private void gridMain10_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
         {
             ColumnView view = sender as ColumnView;
+            if (e.Column.FieldName.ToUpper().IndexOf("DATE") >= 0 && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            {
+                if (e.DisplayText.IndexOf("0000") >= 0 || e.DisplayText.IndexOf("0001") >= 0)
+                    e.DisplayText = "";
+                else
+                {
+                    DateTime date = e.DisplayText.ObjToString().ObjToDateTime();
+                    e.DisplayText = date.ToString("MM/dd/yyyy");
+                    if (date.Year < 1500)
+                        e.DisplayText = "";
+                }
+            }
+        }
+        /***************************************************************************************/
+        public delegate void d_void_acceptTrustMoney ( DataTable dt );
+        public event d_void_acceptTrustMoney acceptTrustMoney;
+        protected void OnSaveSelected()
+        {
+            DataTable dt = (DataTable)dgv8.DataSource;
+            acceptTrustMoney?.Invoke( dt );
+
+            this.Close();
+        }
+        /****************************************************************************************/
+        private void btnAccept_Click(object sender, EventArgs e)
+        {
+            OnSaveSelected();
+        }
+        /****************************************************************************************/
+        private void gridMain8_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
+        {
             if (e.Column.FieldName.ToUpper().IndexOf("DATE") >= 0 && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
             {
                 if (e.DisplayText.IndexOf("0000") >= 0 || e.DisplayText.IndexOf("0001") >= 0)

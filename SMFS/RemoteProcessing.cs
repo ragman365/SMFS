@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using System.IO;
 /****************************************************************************/
 namespace SMFS
 {
@@ -16,6 +17,9 @@ namespace SMFS
         {
             //            MessageBox.Show("***REMOTE***");
             G1.AddToAudit("System", "AutoRun", "remote_processing", "Starting Remote . . . . . . . ", "");
+
+            //G1.CreateAudit("AutoRun");
+
             string cmd = "Select * from `remote_processing`;";
             DataTable dt = G1.get_db_data(cmd);
             string report = "";
@@ -25,6 +29,7 @@ namespace SMFS
             string status = "";
             bool foundReport = false;
             string frequency = "";
+            string sendWhere = "";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 status = dt.Rows[i]["status"].ObjToString();
@@ -46,6 +51,10 @@ namespace SMFS
                     foundReport = true;
                 }
                 report = dt.Rows[i]["report"].ObjToString();
+                sendWhere = dt.Rows[i]["sendWhere"].ObjToString();
+
+                //G1.WriteAudit("Run Report " + report + "!");
+
                 if (report.ToUpper() == "POTENTIAL LAPSE")
                 {
                     PastDue pastForm = new PastDue(true, false, "Potential Lapse Report (3.0)");
@@ -87,15 +96,26 @@ namespace SMFS
                     FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
                     continue;
                 }
+                else if (report.ToUpper() == "AGENT PROSPECT REPORTS")
+                {
+                    //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
+                    //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
+                    ContactReportsAgents reportForm = new ContactReportsAgents (true, true, sendWhere, "" );
+                    continue;
+                }
             }
         }
         /***********************************************************************************************/
-        public static void AutoRunSend(string title, string filename, string sendTo, string sendWhere, string da = "", string emailLocations = "")
+        public static void AutoRunSend(string title, string filename, string sendTo, string sendWhere, string da = "", string emailLocations = "", string username = "" )
         {
             if (String.IsNullOrWhiteSpace(sendTo))
                 return;
             if (String.IsNullOrWhiteSpace(sendWhere))
                 return;
+
+            //G1.WriteAudit("AutoSend " + title + " " + filename + " " + sendTo + " " + sendWhere + " " + username + " " + emailLocations + "!");
+            //G1.WriteAudit("AutoSend HERE AT AutoRunSend!");
+
             string[] Lines = sendTo.Split('~');
             string userName = "";
             string name = "";
@@ -123,7 +143,7 @@ namespace SMFS
                     userName = userName.Replace(")", "");
                     cmd = "Select * from `users` where `userName` = 'SMFS';";
                     dt = G1.get_db_data(cmd);
-                    if (dt.Rows.Count < 0)
+                    if (dt.Rows.Count <= 0)
                         break;
                     string fromRecord = dt.Rows[0]["record"].ObjToString();
                     da = "cvtncquxnwjllljk";
@@ -142,14 +162,18 @@ namespace SMFS
                         }
                         continue;
                     }
+                    if (String.IsNullOrWhiteSpace(userName))
+                        userName = username;
                     cmd = "Select * from `users` where `userName` = '" + userName + "';";
                     dt = G1.get_db_data(cmd);
+                    //G1.WriteAudit("AutoSend Report to User ->" + userName + " Count=" + dt.Rows.Count.ToString() + "!");
                     if (dt.Rows.Count > 0)
                     {
                         email = dt.Rows[0]["email"].ObjToString();
                         //MessageBox.Show("AutoRun Send to Email " + email + "Send Where = " + sendWhere);
                         if ((sendWhere.ToUpper() == "BOTH" || sendWhere.ToUpper() == "LOCAL") && !doLocation)
                         {
+                            //G1.WriteAudit("AutoSend Sending Report to Local Messages !");
                             string record = G1.create_record("messages", "fromUser", "-1");
                             if (G1.BadRecord("messages", record))
                                 continue;
@@ -158,71 +182,61 @@ namespace SMFS
                             string localFile = filename;
                             localFile = localFile.Replace("\\", "/");
                             G1.update_db_table("messages", "record", record, new string[] { "fromUser", "SMFS", "toUser", sendTo, "subject", title, "message", "AutoRun Report", "senddate", sendDate.ToString("MM/dd/yyyy"), "fromRecord", fromRecord, "toRecord", toRecord, "attachment", "Y", "filename", localFile });
+                            //G1.WriteAudit("AutoSend Sent Report to Local Messages From SMFS to " + sendTo + " Record =" + record + "!" );
                         }
 
                         if (sendWhere.ToUpper() == "BOTH" || sendWhere.ToUpper() == "EMAIL")
                         {
                             SendEmailToSomewhere(title, filename, email, da);
-                            ////MessageBox.Show("AutoRun Starting Email Send to");
-                            //string from = "robbyxyzzy@gmail.com";
-                            //string pw = "Xyzzy@0483";
-                            //pw = "xkiypozlptspspwr";
-                            //string to = email;
-                            //string subject = title;
-                            //string body = title + " Generated";
-
-                            //string senderID = from;
-                            //string senderPassword = pw;
-                            //if (String.IsNullOrWhiteSpace(from))
-                            //{
-                            //    //MessageBox.Show("***ERROR*** Email From Address is empty!");
-                            //    return;
-                            //}
-                            //if (String.IsNullOrWhiteSpace(pw))
-                            //{
-                            //    //MessageBox.Show("***ERROR*** Email PW is empty!");
-                            //    return;
-                            //}
-                            //RemoteCertificateValidationCallback orgCallback = ServicePointManager.ServerCertificateValidationCallback;
-                            ////            string body = "Test";
-                            //try
-                            //{
-                            //    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(OnValidateCertificate);
-                            //    ServicePointManager.Expect100Continue = false;
-                            //    MailMessage mail = new MailMessage();
-
-                            //    mail.To.Add(email);
-
-                            //    mail.From = new MailAddress(senderID);
-                            //    mail.Subject = subject;
-                            //    mail.Body = body;
-                            //    mail.IsBodyHtml = true;
-                            //    mail.Attachments.Add(new Attachment(filename));
-                            //    SmtpClient smtp = new SmtpClient();
-                            //    smtp.Host = "smtp.gmail.com";
-                            //    smtp.Port = 587;
-                            //    smtp.EnableSsl = true;
-                            //    smtp.Credentials = new System.Net.NetworkCredential(senderID, senderPassword);
-                            //    smtp.Send(mail);
-                            //    string audit = "Sent to " + email + " Successful";
-                            //    G1.AddToAudit("System", title, "AutoRun", audit, "");
-
-                            //    //MessageBox.Show("Email Sent Successfully");
-                            //    //                Console.WriteLine("Email Sent Successfully");
-                            //}
-                            //catch (Exception ex)
-                            //{
-                            //    string audit = "Sent to " + email + " " + ex.Message.ToString();
-                            //    G1.AddToAudit("System", title, "AutoRun", audit, "");
-                            //    //MessageBox.Show("***ERROR*** Email Unsuccessful\n\n" + ex.Message.ToString());
-                            //    //                Console.WriteLine(ex.Message);
-                            //}
-                            //finally
-                            //{
-                            //    ServicePointManager.ServerCertificateValidationCallback = orgCallback;
-                            //}
                         }
                     }
+                }
+                else
+                {
+                    cmd = "Select * from `users` where `userName` = 'SMFS';";
+                    dt = G1.get_db_data(cmd);
+                    //G1.WriteAudit("AutoSend Report to User => SMFS Count=" + dt.Rows.Count.ToString() + "!");
+                    if (dt.Rows.Count <= 0)
+                        break;
+                    string fromRecord = dt.Rows[0]["record"].ObjToString();
+
+                    cmd = "Select * from `users` where `userName` = '" + username + "';";
+                    dt = G1.get_db_data(cmd);
+                    //G1.WriteAudit("AutoSend Report to User =>" + username + " Count=" + dt.Rows.Count.ToString() + "!");
+                    if (dt.Rows.Count > 0)
+                    {
+                        email = dt.Rows[0]["email"].ObjToString();
+                        //MessageBox.Show("AutoRun Send to Email " + email + "Send Where = " + sendWhere);
+                        if ((sendWhere.ToUpper() == "BOTH" || sendWhere.ToUpper() == "LOCAL") && !doLocation)
+                        {
+                            //G1.WriteAudit("AutoSend Sending Report to Local Messages !");
+                            string record = G1.create_record("messages", "fromUser", "-1");
+                            if (G1.BadRecord("messages", record))
+                                continue;
+                            DateTime sendDate = DateTime.Now;
+                            string toRecord = dt.Rows[0]["record"].ObjToString();
+                            string localFile = filename;
+                            localFile = localFile.Replace("\\", "/");
+                            G1.update_db_table("messages", "record", record, new string[] { "fromUser", "SMFS", "toUser", sendTo, "subject", title, "message", "AutoRun Report", "senddate", sendDate.ToString("MM/dd/yyyy"), "fromRecord", fromRecord, "toRecord", toRecord, "attachment", "Y", "filename", localFile });
+                            //G1.WriteAudit("AutoSend Sent Report to Local Messages From SMFS to " + sendTo + " Record =" + record + "!");
+                        }
+                    }
+                    if ((sendWhere.ToUpper() == "BOTH" || sendWhere.ToUpper() == "EMAIL"))
+                    {
+                        da = "hranncwgetlvkxoi";
+                        if (!String.IsNullOrWhiteSpace(emailLocations))
+                        {
+                            xLines = emailLocations.Split(';');
+                            for (int k = 0; k < xLines.Length; k++)
+                            {
+                                email = xLines[k].Trim();
+                                //G1.WriteAudit("AutoSend Sending Report to Email " + email + " !");
+                                if (!String.IsNullOrWhiteSpace(email))
+                                    SendEmailToSomewhere(title, filename, email, da);
+                            }
+                        }
+                    }
+                    continue;
                 }
             }
         }
@@ -293,6 +307,7 @@ namespace SMFS
                             string localFile = filename;
                             localFile = localFile.Replace("\\", "/");
                             G1.update_db_table("messages", "record", record, new string[] { "fromUser", "Robby", "toUser", sendTo, "subject", title, "message", "AutoRun Report", "senddate", sendDate.ToString("MM/dd/yyyy"), "fromRecord", fromRecord, "toRecord", toRecord, "attachment", "Y", "filename", localFile });
+                            //G1.WriteAudit("Send Report to " + sendTo );
                         }
 
                         if (sendWhere.ToUpper() == "BOTH" || sendWhere.ToUpper() == "EMAIL")
@@ -366,14 +381,38 @@ namespace SMFS
         {
             return true;
         }
+        /****************************************************************************************/
+        public static string GetEmailSecurityKey ()
+        {
+            string cmd = "Select * from `options` where `option` = 'Email Security Key';";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+                return "";
+            string str = dt.Rows[0]["answer"].ObjToString();
+            return str;
+        }
         /****************************************************************************/
         public static void SendEmailToSomewhere( string title, string filename, string email, string da, string extraBody = "" )
         {
+
             //MessageBox.Show("AutoRun Starting Email Send to");
             string from = "robbyxyzzy@gmail.com";
+            //from = "";
+            //if ( 1 == 1 )
+            //{
+            //    SendJunkEmailToSomewhere(title, filename, email, da, extraBody);
+            //    return;
+            //}
             string pw = "Xyzzy@0483";
             pw = "xkiypozlptspspwr";
             pw = da;
+            //pw = "perdcyztpeqvooey";
+            pw = GetEmailSecurityKey();
+            if ( String.IsNullOrWhiteSpace ( pw ))
+            {
+                G1.AddToAudit("System", title, "AutoRun", "Empty Email Security Key", "");
+                return;
+            }
             string to = email;
             string subject = title;
             string body = title + " Generated";
@@ -416,6 +455,8 @@ namespace SMFS
                 smtp.Send(mail);
                 string audit = "Sent to " + email + " Successful";
                 G1.AddToAudit("System", title, "AutoRun", audit, "");
+                //G1.WriteAudit(audit);
+
 
                 //MessageBox.Show("Email Sent Successfully");
                 //                Console.WriteLine("Email Sent Successfully");
@@ -424,6 +465,7 @@ namespace SMFS
             {
                 string audit = "Sent to " + email + " " + ex.Message.ToString();
                 G1.AddToAudit("System", title, "AutoRun", audit, "");
+                //G1.WriteAudit(audit);
                 //MessageBox.Show("***ERROR*** Email Unsuccessful\n\n" + ex.Message.ToString());
                 //                Console.WriteLine(ex.Message);
             }

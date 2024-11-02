@@ -1097,6 +1097,7 @@
             this.gridTrust.OptionsView.EnableAppearanceOddRow = true;
             this.gridTrust.OptionsView.ShowBands = false;
             this.gridTrust.OptionsView.ShowGroupPanel = false;
+            this.gridTrust.RowStyle += new DevExpress.XtraGrid.Views.Grid.RowStyleEventHandler(this.gridTrust_RowStyle);
             // 
             // gridBand5
             // 

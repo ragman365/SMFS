@@ -34,10 +34,17 @@ namespace SMFS
         private bool listUpdated = false;
         private DataTable originalDt = null;
         private string newUser = "";
+        private DataTable workDt = null;
         /****************************************************************************************/
         public ContactsLeadList()
         {
             InitializeComponent();
+        }
+        /****************************************************************************************/
+        public ContactsLeadList( DataTable dt )
+        {
+            InitializeComponent();
+            workDt = dt;
         }
         /****************************************************************************************/
         private void SetupToolTips()
@@ -61,9 +68,16 @@ namespace SMFS
 
             //LoadData();
 
-            LoadEmployees();
-            //LoadLocations();
-            loadLocatons();
+            if (workDt == null)
+            {
+                LoadEmployees();
+                //LoadLocations();
+                loadLocatons();
+            }
+            else
+            {
+                dgv.DataSource = workDt;
+            }
 
             modified = false;
             loading = false;

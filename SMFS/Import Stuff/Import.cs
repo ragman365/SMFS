@@ -303,7 +303,7 @@ namespace SMFS
                 dgv2.DataSource = tempDt;
             }
 
-            if (preference == "YES")
+            if (preference == "YES" && !G1.RobbyServer )
             {
                 MessageBox.Show("*** INFO *** Forcing Duplicate Print!", "Force Duplicate Print Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
@@ -3508,9 +3508,12 @@ namespace SMFS
             string FUNDED_AMOUNT = "";
             string TOTAL_TO_PAY = "";
             string DOWN_PAYMENT = "";
+            string PAYMENT_PREMIUM_TYPE = "";
             string PREMIUM = "";
             double fullDownPayment = 0D;
             double oldDownPayment = 0D;
+
+            string[] Lines = null;
 
 
             string SERVICES_BASIC_SERVICES = ""; // (1) BASIC SERVICES OF FUNERAL DIRECTOR AND STAFF
@@ -3523,7 +3526,7 @@ namespace SMFS
             string SERVICES_AUTOMOTIVE_EQUIPMENT = ""; // (11)(12)
             string SERVICES_TRANSPORTATION = ""; // (10) HEARSE
             string SERVICES_IMMEDIATE_BURIAL = "";
-            string SERVICES_GRAVESIDE_SERVICE = ""; // (8) STAFF AND EQUIPMENT FOR GRAVESIDE SERVICE
+            string SERVICES_GRAVESIDE_SERVICE = ""; // (8) STAFF AND EQUIPMENT FOR GRAVESIDE SERVICEtrustDPR
             string SERVICES_FORWARDING_REMAINS = ""; // (28) FORWARDING REMAINS TO ANOTHER FUNERAL HOME
             string SERVICES_BODY_PREP = ""; // (3) OTHER PREPARATION OF THE BODY
             string SERVICES_FACILITIES = ""; // (6)(7)
@@ -3579,6 +3582,7 @@ namespace SMFS
             DateTime deceasedDate = DateTime.Now;
             DateTime serviceDate = DateTime.Now;
             DateTime arrangementDate = DateTime.Now;
+            string notes = "";
 
             bool duplicate = false;
 
@@ -3611,6 +3615,7 @@ namespace SMFS
                     record = "";
                     try
                     {
+                        notes = "";
                         duplicate = false;
                         trustNumber = dt.Rows[i]["TRUST_NUMBER"].ObjToString();
                         trustNumber = trustNumber.Trim();
@@ -3633,7 +3638,28 @@ namespace SMFS
                         ccFee = G1.RoundValue(ccFee);
 
                         bankAccount = dt.Rows[i]["bankAccount"].ObjToString();
+                        notes = "";
                         depositNumber = dt.Rows[i]["deposit #"].ObjToString();
+                        if ( depositNumber.IndexOf ( "~") > 0 )
+                        {
+                            int j = depositNumber.IndexOf('~');
+                            if (j > 0)
+                            {
+                                notes = "DP " + depositNumber;
+                                notes = notes.Replace("~", " ~ ");
+                                str = depositNumber.Substring(0, j);
+                                j = str.IndexOf("-");
+                                if ( j > 0 )
+                                    depositNumber = str.Substring(0, j);
+                            }
+                        }
+                        else if ( depositNumber.IndexOf ("-") > 0 )
+                        {
+                            str = depositNumber;
+                            int j = str.IndexOf("-");
+                            if (j > 0)
+                                depositNumber = str.Substring(0, j);
+                        }
                         trustLocation = dt.Rows[i]["trustLocation"].ObjToString();
                         trustDpRecord = dt.Rows[i]["trustDpRecord"].ObjToString();
 
@@ -3687,6 +3713,7 @@ namespace SMFS
                         }
 
                         FUNDED_AMOUNT = dt.Rows[i]["FUNDED_AMOUNT"].ObjToString();
+                        PAYMENT_PREMIUM_TYPE = dt.Rows[i]["PAYMENT_PREMIUM_TYPE"].ObjToString();
                         TOTAL_TO_PAY = dt.Rows[i]["TOTAL_TO_PAY"].ObjToString();
 
                         SERVICES_BASIC_SERVICES = dt.Rows[i]["SERVICES_BASIC_SERVICES"].ObjToString();
@@ -3879,7 +3906,7 @@ namespace SMFS
                         }
 
                         G1.update_db_table("customers", "record", record, new string[] { "contractNumber", trustNumber, "firstName", INSURED_FIRST_NAME, "lastName", INSURED_LAST_NAME, "middleName", INSURED_MIDDLE_INITIAL, "suffix", INSURED_SUFFIX, "prefix", INSURED_PREFIX, "areaCode", AREA_CODE, "phoneNumber", PHONE_NUMBER });
-                        G1.update_db_table("customers", "record", record, new string[] { "birthDate", dob, "sex", INSURED_GENDER, "address1", INSURED_ADDRESS1, "address2", INSURED_ADDRESS2, "city", INSURED_CITY, "state", INSURED_STATE, "zip1", INSURED_ZIP, "agentCode", agentCode, "coverageType", instr, "ssn", INSURED_SSN });
+                        G1.update_db_table("customers", "record", record, new string[] { "birthDate", dob, "sex", INSURED_GENDER, "address1", INSURED_ADDRESS1, "address2", INSURED_ADDRESS2, "city", INSURED_CITY, "state", INSURED_STATE, "zip1", INSURED_ZIP, "agentCode", agentCode, "coverageType", instr, "ssn", INSURED_SSN, "payment_premium_type", PAYMENT_PREMIUM_TYPE });
 
                         picLoader.Refresh();
                         if (downPayment > 0D)
@@ -3895,7 +3922,7 @@ namespace SMFS
                             {
                                 if (!G1.validate_date(dateDPPaid))
                                     dateDPPaid = issueDate.ObjToDateTime();
-                                G1.update_db_table("payments", "record", paymentRecord, new string[] { "contractNumber", trustNumber, "firstName", INSURED_FIRST_NAME, "lastName", INSURED_LAST_NAME });
+                                G1.update_db_table("payments", "record", paymentRecord, new string[] { "contractNumber", trustNumber, "firstName", INSURED_FIRST_NAME, "lastName", INSURED_LAST_NAME, "notes", notes });
                                 G1.update_db_table("payments", "record", paymentRecord, new string[] { "downPayment", downPayment.ToString(), "trust85P", trust85P.ToString(), "trust100P", trust100P.ToString(), "agentNumber", agentCode, "payDate8", dateDPPaid.ToString("MM/dd/yyyy"), "dueDate8", dueDate, "bank_account", bankAccount, "depositNumber", depositNumber, "ccFee", ccFee.ToString() });
                                 if ( ccFee > 0D )
                                     G1.AddToAudit(LoginForm.username, "FDLIC Import", "CCFee", "CCfee = " + ccFee.ToString(), trustNumber);
@@ -3954,7 +3981,18 @@ namespace SMFS
                         if (!String.IsNullOrWhiteSpace(trustDpRecord) && !String.IsNullOrWhiteSpace(trustLocation))
                         {
                             string locationDetail = GetLocationDetail(trustLocation);
-                            G1.update_db_table("downpayments", "record", trustDpRecord, new string[] { "location", locationDetail });
+                            if ( trustDpRecord.IndexOf ( "~") > 0 )
+                            {
+                                Lines = trustDpRecord.Split('~');
+                                for ( int k=0; k<Lines.Length; k++)
+                                {
+                                    trustDpRecord = Lines[k].Trim();
+                                    if ( !String.IsNullOrWhiteSpace ( trustDpRecord ))
+                                        G1.update_db_table("downpayments", "record", trustDpRecord, new string[] { "location", locationDetail, "trustNumber", trustNumber, "firstName", INSURED_FIRST_NAME, "lastName", INSURED_LAST_NAME });
+                                }
+                            }
+                            else
+                                G1.update_db_table("downpayments", "record", trustDpRecord, new string[] { "location", locationDetail, "trustNumber", trustNumber, "firstName", INSURED_FIRST_NAME, "lastName", INSURED_LAST_NAME });
                         }
 
                         if (gotFuneral)
@@ -6692,7 +6730,13 @@ namespace SMFS
                 DateTime date2 = dateDpPaid.AddDays(14);
                 string cmd = "Select * from `downpayments` WHERE ";
                 cmd += " `date` >= '" + date1.ToString("yyyy-MM-dd") + "' AND `date` <= '" + date2.ToString("yyyy-MM-dd") + "' ";
-                cmd += " AND `firstName` = '" + firstName + "' AND `lastName` = '" + lastName + "' AND `downPayment` = '" + sPayment + "' ";
+                if (!matchByName)
+                    cmd += " AND `firstName` = '" + firstName + "' AND `lastName` = '" + lastName + "' AND `downPayment` = '" + sPayment + "' ";
+                else
+                {
+                    //cmd += " AND `firstName` = '" + firstName + "' AND `lastName` = '" + lastName + "' ";
+                    cmd += " AND `lastName` = '" + lastName + "' ";
+                }
                 cmd += ";";
                 DataTable dd = G1.get_db_data(cmd);
                 if (dd.Rows.Count <= 0)
@@ -6706,14 +6750,17 @@ namespace SMFS
                 }
                 else if ( dd.Rows.Count > 0 )
                 {
-                    cmd = "Select * from `downpayments` WHERE ";
-                    cmd += " `date` >= '" + date1.ToString("yyyy-MM-dd") + "' AND `date` <= '" + date2.ToString("yyyy-MM-dd") + "' ";
-                    cmd += " AND `lastName` = '" + lastName + "' ";
-                    cmd += ";";
+                    if (!matchByName)
+                    {
+                        cmd = "Select * from `downpayments` WHERE ";
+                        cmd += " `date` >= '" + date1.ToString("yyyy-MM-dd") + "' AND `date` <= '" + date2.ToString("yyyy-MM-dd") + "' ";
+                        cmd += " AND `lastName` = '" + lastName + "' ";
+                        cmd += ";";
 
-                    DataTable ddd = G1.get_db_data(cmd);
-                    if (ddd.Rows.Count > 0)
-                        dd = ddd.Copy();
+                        DataTable ddd = G1.get_db_data(cmd);
+                        if (ddd.Rows.Count > 0)
+                            dd = ddd.Copy();
+                    }
                 }
                 if (dd.Rows.Count > 0)
                 {
@@ -6739,11 +6786,13 @@ namespace SMFS
             if (dx == null)
             {
                 string depositNumber = "";
+                string trustDPrecord = "";
                 DateTime date = DateTime.Now;
                 double totalDP = 0D;
                 double totalccFee = 0D;
                 double downPayment = 0D;
                 double dp = 0D;
+                string dn = "";
                 double ccFee = 0D;
                 string record = "";
                 string bankAccount = "";
@@ -6760,6 +6809,47 @@ namespace SMFS
                         viewForm.Close();
                         viewForm = null;
                     }
+                    if ( matchByName )
+                    {
+                        int firstRow = -1;
+                        for (int i = 0; i < dd.Rows.Count; i++)
+                        {
+                            select = dd.Rows[i]["SelectedRow"].ObjToString();
+                            if (select != "Y")
+                                continue;
+
+                            dn = dd.Rows[i]["depositNumber"].ObjToString();
+                            dp = dd.Rows[i]["downPayment"].ObjToDouble();
+                            dd.Rows[i]["depositNumber"] = dn + "-" + G1.ReformatMoney(dp);
+                            if (firstRow < 0)
+                            {
+                                firstRow = i;
+                                trustDPrecord = dd.Rows[i]["record"].ObjToString();
+                                continue;
+                            }
+
+                            downPayment = dd.Rows[firstRow]["downPayment"].ObjToDouble();
+                            dp = downPayment;
+                            downPayment += dd.Rows[i]["downPayment"].ObjToDouble();
+                            dd.Rows[firstRow]["downPayment"] = downPayment;
+
+                            ccFee = dd.Rows[firstRow]["ccFee"].ObjToDouble();
+                            ccFee += dd.Rows[i]["ccFee"].ObjToDouble();
+                            dd.Rows[firstRow]["ccFee"] = ccFee;
+
+                            depositNumber = dd.Rows[firstRow]["depositNumber"].ObjToString();
+                            depositNumber += "~" + dd.Rows[i]["depositNumber"].ObjToString();
+                            dd.Rows[firstRow]["depositNumber"] = depositNumber;
+
+                            trustDPrecord += "~" + dd.Rows[i]["record"].ObjToString();
+                        }
+
+                        for (int i = dd.Rows.Count - 1; i >= 0; i--)
+                        {
+                            if ( i != firstRow )
+                                dd.Rows.RemoveAt(i);
+                        }
+                    }
                     downPayment = dt.Rows[viewRow]["down_Payment"].ObjToDouble();
                     date = dt.Rows[viewRow].ObjToDateTime();
                     for (int i = 0; i < dd.Rows.Count; i++)
@@ -6775,7 +6865,22 @@ namespace SMFS
                             continue;
                         dp = ddx.Rows[0]["downPayment"].ObjToDouble();
                         depositNumber = ddx.Rows[0]["depositNumber"].ObjToString();
-                        if (dp != downPayment)
+                        if (matchByName)
+                        {
+                            dt.Rows[viewRow]["down_Payment"] = dd.Rows[i]["downPayment"].ObjToDouble();
+                            dt.Rows[viewRow]["ccFee"] = dd.Rows[i]["ccFee"].ObjToDouble();
+                            dt.Rows[viewRow]["deposit #"] = dd.Rows[i]["depositNumber"].ObjToString();
+                            dt.Rows[viewRow]["bankAccount"] = ddx.Rows[0]["bankAccount"].ObjToString();
+                            dt.Rows[viewRow]["dateDPPaid"] = ddx.Rows[0]["date"].ObjToDateTime().ToString("MM/dd/yyyy");
+                            //dt.Rows[viewRow]["duplicate"] = "Y";
+                            dt.Rows[viewRow]["trustlocation"] = ddx.Rows[0]["location"].ObjToString();
+                            dt.Rows[viewRow]["trustDPrecord"] = trustDPrecord;
+                            //dgv.DataSource = dt;
+                            dt.AcceptChanges();
+                            dgv.RefreshDataSource();
+                            dgv.Refresh();
+                        }
+                        else if (dp != downPayment)
                         {
                             G1.copy_dt_row(dt, viewRow, dt, dt.Rows.Count);
                             if (G1.get_column_number(dt, "duplicate") < 0)
@@ -6788,6 +6893,7 @@ namespace SMFS
                             dt.Rows[row]["dateDPPaid"] = ddx.Rows[0]["date"].ObjToDateTime().ToString("MM/dd/yyyy");
                             dt.Rows[row]["duplicate"] = "Y";
                             dt.Rows[row]["trustlocation"] = ddx.Rows[0]["location"].ObjToString();
+                            dt.Rows[viewRow]["trustDPrecord"] = trustDPrecord;
                             dgv.DataSource = dt;
                             dgv.RefreshDataSource();
                             dgv.Refresh();
@@ -6797,6 +6903,7 @@ namespace SMFS
                         {
                             dt.Rows[viewRow]["dateDPPaid"] = ddx.Rows[0]["date"].ObjToDateTime().ToString("MM/dd/yyyy");
                             dt.Rows[viewRow]["deposit #"] = depositNumber;
+                            dt.Rows[viewRow]["trustDPrecord"] = trustDPrecord;
                             GetDPDetail(viewRow);
                         }
                     }
@@ -6850,6 +6957,7 @@ namespace SMFS
                     }
                 }
             }
+            matchByName = false;
         }
         /***********************************************************************************************/
         private void gridMain2_DoubleClick(object sender, EventArgs e)
@@ -6927,6 +7035,13 @@ namespace SMFS
                     }
                 }
             }
+        }
+        private bool matchByName = false;
+        /***********************************************************************************************/
+        private void locateDownpaymentMatchingNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            matchByName = true;
+            locateDownpaymentToolStripMenuItem_Click(null, null);
         }
         /***********************************************************************************************/
     }

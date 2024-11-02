@@ -44,6 +44,8 @@ namespace SMFS
             //workDt = dt;
             workWhat = what;
 
+            cmbTrust.Text = what;
+
             SetupTotalsSummary();
 
             chkShowAll.Hide();
@@ -59,6 +61,9 @@ namespace SMFS
             workCompany = company;
             workContract = contractNumber;
             workDate = date;
+
+            cmbTrust.Hide();
+            lblTrust.Hide();
 
             SetupTotalsSummary();
         }
@@ -1030,6 +1035,12 @@ namespace SMFS
                     try
                     {
                         workDt = ExcelWriter.ReadFile2(file, 0, sheetName );
+                        if (workDt == null )
+                        {
+                            MessageBox.Show("***ERROR*** Cannot Locate " + sheetName + " in Excel File!!", "Excel Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            this.Cursor = Cursors.Default;
+                            return;
+                        }
 
                         workDt.TableName = actualFile;
                         LoadMonths();
@@ -1054,6 +1065,9 @@ namespace SMFS
                     }
                     catch (Exception ex)
                     {
+                        MessageBox.Show("***ERROR*** Cannot Locate " + sheetName + " in Excel File!!", "Excel Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        this.Cursor = Cursors.Default;
+                        return;
                     }
                     workDt.TableName = actualFile;
 
@@ -4941,6 +4955,11 @@ namespace SMFS
         {
             LoadContractData();
             gridMain.Columns["date"].Visible = true;
+        }
+        /***********************************************************************************************/
+        private void cmbTrust_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            workWhat = cmbTrust.Text;
         }
         /***********************************************************************************************/
     }
