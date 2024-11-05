@@ -1421,6 +1421,7 @@ namespace SMFS
                                     message += "Policy # " + policyNumber + " Policy Name " + names;
 
                                     Messages.SendTheMessage(LoginForm.username, "cjenkins", "Insurance Assignment Payer (" + payer + ") Policy (" + policyNumber + ")", message);
+                                    Messages.SendTheMessage(LoginForm.username, "Tim", "Insurance Assignment Payer (" + payer + ") Policy (" + policyNumber + ")", message);
                                 }
                             }
                         }
@@ -2236,6 +2237,7 @@ namespace SMFS
                     {
                         string message = "Payer " + payer + " Deceased but all Policies are not!";
                         Messages.SendTheMessage(LoginForm.username, "cjenkins", "Payer Deceased Information", message);
+                        Messages.SendTheMessage(LoginForm.username, "Tim", "Payer Deceased Information", message);
                     }
                     //G1.update_db_table("payers", "record", record, new string[] { "deceasedDate", "0000-00-00" });
 
