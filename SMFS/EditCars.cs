@@ -484,7 +484,8 @@ namespace SMFS
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            // This could be somwthing else
+            // This could be something else
+            // Tim's comment
             DataTable workDt = null;
             string sheetName = "";
             using (OpenFileDialog ofd = new OpenFileDialog())
