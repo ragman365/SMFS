@@ -217,7 +217,7 @@
       <HintPath>..\..\..\..\..\Downloads\EPPlus\sourceCode\epplus\EPPlus\bin\Debug\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="ExcelLibrary">
-      <HintPath>..\..\..\..\AMS\New Folder\ExcelLibrary.dll</HintPath>
+      <HintPath>..\..\..\SMFS\bin\Debug\ExcelLibrary.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Core">
       <HintPath>..\..\..\..\..\Downloads\Pdf2Text\lib\references\IKVM.OpenJDK.Core.dll</HintPath>
@@ -231,7 +231,7 @@
       <HintPath>..\..\Help\Help\Resources\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
-      <HintPath>..\..\Pine Belt EHR Client\MAIN\bin\x86\Debug\itextsharp.dll</HintPath>
+      <HintPath>..\..\..\SMFS\bin\Debug\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Ink, Version=6.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
@@ -247,7 +247,7 @@
       <HintPath>bin\Debug\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="NetSpell.SpellChecker">
-      <HintPath>..\..\Help\Help\bin\Debug\NetSpell.SpellChecker.DLL</HintPath>
+      <HintPath>..\..\..\SMFS\bin\Debug\NetSpell.SpellChecker.DLL</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
