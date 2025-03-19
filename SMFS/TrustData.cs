@@ -4172,6 +4172,7 @@ namespace SMFS
 
             string cmd = "Select * from `policytrusts`;";
             DataTable dx = G1.get_db_data(cmd);
+            DataTable ddt = null;
 
             string oldContract = "";
 
@@ -4181,7 +4182,21 @@ namespace SMFS
                 {
                     policy = dt.Rows[i]["policyNumber"].ObjToString();
                     if (String.IsNullOrWhiteSpace(policy))
-                        continue;
+                    {
+                        //contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                        //if (!String.IsNullOrWhiteSpace(contractNumber))
+                        //{
+                        //    cmd = "Select * from `trust_data` WHERE `contractNumber` = '" + contractNumber + "';";
+                        //    ddt = G1.get_db_data(cmd);
+                        //    if (ddt.Rows.Count > 0)
+                        //    {
+                        //        policy = ddt.Rows[0]["policyNumber"].ObjToString();
+                        //        dt.Rows[i]["policyNumber"] = policy;
+                        //    }
+                        //}
+                        //if ( String.IsNullOrWhiteSpace ( policy ))
+                            continue;
+                    }
                     if (policy == "SM1533865")
                     {
                         //dRows = dx.Select("policyNumber='" + policy + "'");
