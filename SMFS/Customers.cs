@@ -33,6 +33,7 @@ namespace SMFS
         private bool modInsurance = false;
         private bool testing = false;
         private string oldWhat = "";
+        private string specialReport = "";
         /***********************************************************************************************/
         public Customers(bool select = false)
         {
@@ -272,15 +273,18 @@ namespace SMFS
             dt.Columns.Add("mod");
 
             DateTime ddate = DateTime.Now;
-            //for (int i = 0; i < dt.Rows.Count; i++)
-            //{
-            //    ddate = dt.Rows[i]["dueDate8"].ObjToDateTime();
-            //    dt.Rows[i]["dueDate"] = ddate.ToString("yyyy-MM-dd");
-            //    ddate = dt.Rows[i]["issueDate8"].ObjToDateTime();
-            //    dt.Rows[i]["idate"] = ddate.ToString("yyyy-MM-dd");
-            //    ddate = dt.Rows[i]["lastDatePaid8"].ObjToDateTime();
-            //    dt.Rows[i]["realDOLP"] = ddate.ToString("yyyy-MM-dd");
-            //}
+            if ( what.ToUpper() == "INSURANCE")
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    ddate = dt.Rows[i]["dueDate8"].ObjToDateTime();
+                    dt.Rows[i]["dueDate"] = ddate.ToString("yyyy-MM-dd");
+                    ddate = dt.Rows[i]["issueDate8"].ObjToDateTime();
+                    dt.Rows[i]["idate"] = ddate.ToString("yyyy-MM-dd");
+                    ddate = dt.Rows[i]["lastDatePaid8"].ObjToDateTime();
+                    dt.Rows[i]["realDOLP"] = ddate.ToString("yyyy-MM-dd");
+                }
+            }
 
 
             labelValue.Hide();
@@ -410,29 +414,60 @@ namespace SMFS
             double historicPremium = 0D;
             double monthlySecNat = 0D;
             double monthly3rdParty = 0D;
+            double balanceDue = 0D;
+            DateTime dueDate = DateTime.Now;
+            bool gotPayer1 = true;
+            bool got81 = true;
+            if (G1.get_column_number(dt, "amtOfMonthlyPay1") < 0)
+                gotPayer1 = false;
+            if (G1.get_column_number(dt, "nowDue") < 0)
+                dt.Columns.Add("nowDue", Type.GetType("System.Double"));
+            if (G1.get_column_number(dt, "dueDate81") < 0)
+                got81 = false;
+
             for ( int i=0; i<dt.Rows.Count; i++)
             {
-                payer = dt.Rows[i]["payer"].ObjToString();
-                if ( !String.IsNullOrWhiteSpace ( payer ))
+                try
                 {
-                    if ( payer == "BB-0472T")
+                    payer = dt.Rows[i]["payer"].ObjToString();
+                    if (!String.IsNullOrWhiteSpace(payer))
                     {
-                    }
-                    premium = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
-                    premium2 = dt.Rows[i]["amtOfMonthlyPayt1"].ObjToDouble();
-                    if (premium != premium2)
-                    {
-                        premium = Policies.CalcMonthlyPremium(payer);
-                        dt.Rows[i]["amtOfMonthlyPayt"] = premium;
-                    }
-                    else
-                    {
-                        premium = Policies.CalcMonthlyPremium(payer, DateTime.Now);
+                        if (payer == "790127")
+                        {
+                        }
+                        premium = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
+                        premium2 = premium;
+                        if (gotPayer1)
+                            premium2 = dt.Rows[i]["amtOfMonthlyPayt1"].ObjToDouble();
+                        if (premium != premium2)
+                        {
+                            //premium = Policies.CalcMonthlyPremium(payer);
+                            premium = Policies.CalcMonthlyPremium(payer, DateTime.Now);
+                            dt.Rows[i]["amtOfMonthlyPayt"] = premium;
+                        }
+                        else
+                        {
+                            premium = Policies.CalcMonthlyPremium(payer, DateTime.Now);
 
-                        //CustomerDetails.CalcMonthlyPremium ( payer, ref monthlyPremium, ref historicPremium, ref monthlySecNat, ref monthly3rdParty );
+                            //CustomerDetails.CalcMonthlyPremium ( payer, ref monthlyPremium, ref historicPremium, ref monthlySecNat, ref monthly3rdParty );
 
-                        dt.Rows[i]["amtOfMonthlyPayt"] = premium;
+                            dt.Rows[i]["amtOfMonthlyPayt"] = premium;
+                        }
+
+                        if (got81)
+                        {
+                            dueDate = dt.Rows[i]["dueDate81"].ObjToDateTime();
+                            dt.Rows[i]["dueDate8"] = G1.DTtoMySQLDT(dueDate.ToString("yyyy-MM-dd"));
+                        }
+
+                        balanceDue = DailyHistory.GetDueNow(payer, premium);
+                        dt.Rows[i]["nowDue"] = premium;
                     }
+                }
+                catch ( Exception ex )
+                {
+                    MessageBox.Show("*** ERROR *** " + ex.Message.ToString(), "Payer DueDate Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    break;
                 }
             }
         }
@@ -451,6 +486,9 @@ namespace SMFS
             cmd += ";";
 
             DataTable dx = G1.get_db_data(cmd);
+
+            LoadPremiums(dx);
+
             G1.NumberDataTable(dx);
             dgv2.DataSource = dx;
             this.Cursor = Cursors.Default;
@@ -1012,6 +1050,7 @@ namespace SMFS
         /***********************************************************************************************/
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            specialReport = "";
             string text = btnRefresh.Text;
             if (text.ToUpper() == "FIX")
                 FixData();
@@ -1080,7 +1119,7 @@ namespace SMFS
             }
             else if (e.Column.FieldName.ToUpper() == "LAPSED")
             {
-                if (e.RowHandle >= 0)
+                if (e.RowHandle >= 0 && String.IsNullOrWhiteSpace ( specialReport ) )
                 {
                     if (!String.IsNullOrWhiteSpace(e.DisplayText))
                     {
@@ -1967,7 +2006,13 @@ namespace SMFS
                 title = "Lapsed Customer Report";
             else if (qualify == "DECEASED")
                 title = "Deceased Customer Report";
-            Printer.DrawQuad(6, 8, 2, 4, title, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            if (specialReport == "1")
+                title = "Scenario 1 Duplicate SSN's";
+            else if (specialReport == "2")
+                title = "Scenario 2 Empty SSN's Duplicate Last Name";
+            else if (specialReport == "3")
+                title = "Scenario 3 Empty SSN's Duplicate Address";
+            Printer.DrawQuad(6, 8, 4, 4, title, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
 
 
             //            Printer.DrawQuadTicks();
@@ -4189,8 +4234,12 @@ namespace SMFS
         /***********************************************************************************************/
         private void toolStripMenuItem19_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
+
             TrustDeceased trustForm = new TrustDeceased();
             trustForm.Show();
+
+            this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
         private void trustContractLogReportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4362,6 +4411,172 @@ namespace SMFS
             dr["mod"] = "Y";
             btnSave.Show();
             btnSave.Refresh();
+        }
+        /***********************************************************************************************/
+        private void duplicateSSNsAndNotDeceasedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dx = null;
+
+            string cmd = "SELECT c.contractNumber,firstName,lastName, address1, address2, city, state, zip1, c.lapsed, r.serviceTotal,r.merchandiseTotal,r.cashAdvance,r.nowDue,c.ssn ";
+            cmd += " FROM customers c RIGHT JOIN contracts r ON c.contractNumber = r.contractNumber INNER JOIN(SELECT q.ssn FROM   customers q GROUP BY q.ssn HAVING COUNT(*) > 1) dup ";
+            cmd += " ON c.ssn = dup.ssn WHERE c.ssn <> '' AND c.ssn <> '0' ORDER BY c.ssn;";
+
+            try
+            {
+                dx = G1.get_db_data(cmd);
+                double total = 0D;
+                dx.Columns.Add("totalValue", Type.GetType("System.Double"));
+
+                for ( int i=0; i<dx.Rows.Count; i++)
+                {
+                    total = dx.Rows[i]["serviceTotal"].ObjToDouble() + dx.Rows[i]["merchandiseTotal"].ObjToDouble();
+                    dx.Rows[i]["totalValue"] = total;
+                }
+
+                dx.Columns["ssn"].ColumnName = "ssno";
+
+                G1.NumberDataTable(dx);
+                ClearAllPositions(gridMain);
+
+                G1.AddNewColumn(gridMain, "address1", "Address", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "city", "City", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "state", "State", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "zip1", "Zip", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "totalValue", "Trust Total Value", "N2", FormatType.Numeric, 80, true);
+
+                int j = 0;
+                G1.SetColumnPosition(gridMain, "num", ++j, 50);
+                G1.SetColumnPosition(gridMain, "contractNumber", ++j, 100);
+                G1.SetColumnPosition(gridMain, "firstName", ++j, 100);
+                G1.SetColumnPosition(gridMain, "lastName", ++j, 100);
+                G1.SetColumnPosition(gridMain, "ssno", ++j, 70);
+                G1.SetColumnPosition(gridMain, "address1", ++j, 120);
+                G1.SetColumnPosition(gridMain, "city", ++j, 80);
+                G1.SetColumnPosition(gridMain, "state", ++j, 60);
+                G1.SetColumnPosition(gridMain, "zip1", ++j, 50);
+                G1.SetColumnPosition(gridMain, "lapsed", ++j, 50);
+                G1.SetColumnPosition(gridMain, "totalValue", ++j, 80);
+
+                dgv.DataSource = dx;
+
+                specialReport = "1";
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        /***********************************************************************************************/
+        private void ifspecialReport1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dx = null;
+
+            string cmd = "SELECT c.contractNumber,firstName,c.lastName, c.address1, address2, city, state, zip1, c.lapsed, r.serviceTotal,r.merchandiseTotal,r.cashAdvance,c.ssn ";
+            cmd += " FROM customers c RIGHT JOIN contracts r ON c.contractNumber = r.contractNumber INNER JOIN(SELECT q.lastName FROM   customers q ";
+            cmd += " GROUP BY q.lastName HAVING COUNT(*) > 1) dup ON c.lastName = dup.lastName  WHERE(c.ssn = '' OR c.ssn = '0') AND c.address1 <> '' ORDER BY c.ssn;";
+
+            try
+            {
+                dx = G1.get_db_data(cmd);
+                double total = 0D;
+                dx.Columns.Add("totalValue", Type.GetType("System.Double"));
+
+                for (int i = 0; i < dx.Rows.Count; i++)
+                {
+                    total = dx.Rows[i]["serviceTotal"].ObjToDouble() + dx.Rows[i]["merchandiseTotal"].ObjToDouble();
+                    dx.Rows[i]["totalValue"] = total;
+                }
+
+                dx.Columns["ssn"].ColumnName = "ssno";
+
+                G1.NumberDataTable(dx);
+                ClearAllPositions(gridMain);
+
+                G1.AddNewColumn(gridMain, "address1", "Address", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "city", "City", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "state", "State", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "zip1", "Zip", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "totalValue", "Trust Total Value", "N2", FormatType.Numeric, 80, true);
+                G1.AddNewColumn(gridMain, "sex", "Gender", "", FormatType.None, 80, true);
+
+                int j = 0;
+                G1.SetColumnPosition(gridMain, "num", ++j, 50);
+                G1.SetColumnPosition(gridMain, "contractNumber", ++j, 100);
+                G1.SetColumnPosition(gridMain, "firstName", ++j, 100);
+                G1.SetColumnPosition(gridMain, "lastName", ++j, 100);
+                G1.SetColumnPosition(gridMain, "sex", ++j, 70);
+                G1.SetColumnPosition(gridMain, "ssno", ++j, 70);
+                G1.SetColumnPosition(gridMain, "address1", ++j, 120);
+                G1.SetColumnPosition(gridMain, "city", ++j, 80);
+                G1.SetColumnPosition(gridMain, "state", ++j, 60);
+                G1.SetColumnPosition(gridMain, "zip1", ++j, 50);
+                G1.SetColumnPosition(gridMain, "lapsed", ++j, 50);
+                G1.SetColumnPosition(gridMain, "totalValue", ++j, 80);
+
+                dgv.DataSource = dx;
+
+                specialReport = "2";
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        /***********************************************************************************************/
+        private void scenario2EmptySSNDuplicateAddressToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dx = null;
+
+
+            string cmd = "SELECT c.contractNumber,firstName, lastName, c.address1, address2, city, state, zip1, c.lapsed, r.serviceTotal,r.merchandiseTotal,r.cashAdvance, c.ssn ";
+            cmd += " FROM customers c RIGHT JOIN contracts r ON c.contractNumber = r.contractNumber INNER JOIN(SELECT q.address1  FROM   customers q ";
+            cmd += " GROUP BY q.address1 HAVING COUNT(*) > 1) dup ON c.address1 = dup.address1 WHERE(c.ssn = '' OR c.ssn = '0') AND c.address1 <> '' ORDER BY c.ssn;";
+
+            //string cmd = "SELECT c.contractNumber,firstName,c.lastName, c.address1, address2, city, state, zip1, c.lapsed, r.serviceTotal,r.merchandiseTotal,r.cashAdvance,c.ssn ";
+            //cmd += " FROM customers c RIGHT JOIN contracts r ON c.contractNumber = r.contractNumber INNER JOIN(SELECT q.lastName FROM   customers q ";
+            //cmd += " GROUP BY q.lastName HAVING COUNT(*) > 1) dup ON c.lastName = dup.lastName  WHERE(c.ssn = '' OR c.ssn = '0') AND c.address1 <> '' ORDER BY c.ssn;";
+
+            try
+            {
+                dx = G1.get_db_data(cmd);
+                double total = 0D;
+                dx.Columns.Add("totalValue", Type.GetType("System.Double"));
+
+                for (int i = 0; i < dx.Rows.Count; i++)
+                {
+                    total = dx.Rows[i]["serviceTotal"].ObjToDouble() + dx.Rows[i]["merchandiseTotal"].ObjToDouble();
+                    dx.Rows[i]["totalValue"] = total;
+                }
+
+                dx.Columns["ssn"].ColumnName = "ssno";
+
+                G1.NumberDataTable(dx);
+                ClearAllPositions(gridMain);
+
+                G1.AddNewColumn(gridMain, "address1", "Address", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "city", "City", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "state", "State", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "zip1", "Zip", "", FormatType.None, 80, true);
+                G1.AddNewColumn(gridMain, "totalValue", "Trust Total Value", "N2", FormatType.Numeric, 80, true);
+
+                int j = 0;
+                G1.SetColumnPosition(gridMain, "num", ++j, 50);
+                G1.SetColumnPosition(gridMain, "contractNumber", ++j, 100);
+                G1.SetColumnPosition(gridMain, "firstName", ++j, 100);
+                G1.SetColumnPosition(gridMain, "lastName", ++j, 100);
+                G1.SetColumnPosition(gridMain, "ssno", ++j, 70);
+                G1.SetColumnPosition(gridMain, "address1", ++j, 120);
+                G1.SetColumnPosition(gridMain, "city", ++j, 80);
+                G1.SetColumnPosition(gridMain, "state", ++j, 60);
+                G1.SetColumnPosition(gridMain, "zip1", ++j, 50);
+                G1.SetColumnPosition(gridMain, "lapsed", ++j, 50);
+                G1.SetColumnPosition(gridMain, "totalValue", ++j, 80);
+
+                dgv.DataSource = dx;
+
+                specialReport = "3";
+            }
+            catch (Exception ex)
+            {
+            }
         }
         /***********************************************************************************************/
     }

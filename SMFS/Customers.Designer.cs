@@ -183,6 +183,10 @@
             this.yearendReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.yearendDeathReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.potentialPaidOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trustLookupQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.duplicateSSNsAndNotDeceasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ifspecialReport1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scenario2EmptySSNDuplicateAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trust85ReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
@@ -2013,7 +2017,7 @@
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -2048,7 +2052,7 @@
             // columnsToolStripMenuItem
             // 
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
             this.columnsToolStripMenuItem.Text = "Columns";
             // 
             // importToolStripMenuItem
@@ -2058,7 +2062,7 @@
             this.importACHFileToolStripMenuItem1,
             this.importCreditCardPaymentsToolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(68, 24);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // importDailyDepositFileToolStripMenuItem1
@@ -2088,9 +2092,10 @@
             this.quickLookupToolStripMenuItem,
             this.previousContractsToolStripMenuItem,
             this.yearendReportsToolStripMenuItem,
-            this.potentialPaidOffToolStripMenuItem});
+            this.potentialPaidOffToolStripMenuItem,
+            this.trustLookupQueriesToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // quickLookupToolStripMenuItem
@@ -2128,6 +2133,37 @@
             this.potentialPaidOffToolStripMenuItem.Text = "Potential Paid-Off";
             this.potentialPaidOffToolStripMenuItem.Click += new System.EventHandler(this.potentialPaidOffToolStripMenuItem_Click);
             // 
+            // trustLookupQueriesToolStripMenuItem
+            // 
+            this.trustLookupQueriesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.duplicateSSNsAndNotDeceasedToolStripMenuItem,
+            this.ifspecialReport1ToolStripMenuItem,
+            this.scenario2EmptySSNDuplicateAddressToolStripMenuItem});
+            this.trustLookupQueriesToolStripMenuItem.Name = "trustLookupQueriesToolStripMenuItem";
+            this.trustLookupQueriesToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
+            this.trustLookupQueriesToolStripMenuItem.Text = "Trust Lookup Queries";
+            // 
+            // duplicateSSNsAndNotDeceasedToolStripMenuItem
+            // 
+            this.duplicateSSNsAndNotDeceasedToolStripMenuItem.Name = "duplicateSSNsAndNotDeceasedToolStripMenuItem";
+            this.duplicateSSNsAndNotDeceasedToolStripMenuItem.Size = new System.Drawing.Size(380, 26);
+            this.duplicateSSNsAndNotDeceasedToolStripMenuItem.Text = "Scenario 1 Duplicate SSN\'s";
+            this.duplicateSSNsAndNotDeceasedToolStripMenuItem.Click += new System.EventHandler(this.duplicateSSNsAndNotDeceasedToolStripMenuItem_Click);
+            // 
+            // ifspecialReport1ToolStripMenuItem
+            // 
+            this.ifspecialReport1ToolStripMenuItem.Name = "ifspecialReport1ToolStripMenuItem";
+            this.ifspecialReport1ToolStripMenuItem.Size = new System.Drawing.Size(380, 26);
+            this.ifspecialReport1ToolStripMenuItem.Text = "Scenario 2 Empty SSN Duplicate Last Name";
+            this.ifspecialReport1ToolStripMenuItem.Click += new System.EventHandler(this.ifspecialReport1ToolStripMenuItem_Click);
+            // 
+            // scenario2EmptySSNDuplicateAddressToolStripMenuItem
+            // 
+            this.scenario2EmptySSNDuplicateAddressToolStripMenuItem.Name = "scenario2EmptySSNDuplicateAddressToolStripMenuItem";
+            this.scenario2EmptySSNDuplicateAddressToolStripMenuItem.Size = new System.Drawing.Size(380, 26);
+            this.scenario2EmptySSNDuplicateAddressToolStripMenuItem.Text = "Scenario 3 Empty SSN Duplicate Address";
+            this.scenario2EmptySSNDuplicateAddressToolStripMenuItem.Click += new System.EventHandler(this.scenario2EmptySSNDuplicateAddressToolStripMenuItem_Click);
+            // 
             // reportsToolStripMenuItem
             // 
             this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2138,7 +2174,7 @@
             this.toolStripMenuItem16,
             this.miscellaneousReportsMenu});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // trust85ReportToolStripMenuItem
@@ -2561,7 +2597,7 @@
             this.findProblemInsurancePaymentsToolStripMenuItem,
             this.findMismatchedPayersPoliciesToolStripMenuItem});
             this.insuranceReportsToolStripMenuItem.Name = "insuranceReportsToolStripMenuItem";
-            this.insuranceReportsToolStripMenuItem.Size = new System.Drawing.Size(140, 24);
+            this.insuranceReportsToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
             this.insuranceReportsToolStripMenuItem.Text = "Insurance Reports";
             // 
             // weekTotalsReportToolStripMenuItem
@@ -2671,7 +2707,7 @@
             this.trustCompanyDataToolStripMenuItem,
             this.editAgentMeetingsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // editTrustDownPaymentsToolStripMenuItem1
@@ -2714,7 +2750,7 @@
             this.commonToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bankPaymentsToolStripMenuItem});
             this.commonToolStripMenuItem.Name = "commonToolStripMenuItem";
-            this.commonToolStripMenuItem.Size = new System.Drawing.Size(84, 24);
+            this.commonToolStripMenuItem.Size = new System.Drawing.Size(84, 26);
             this.commonToolStripMenuItem.Text = "Common";
             // 
             // bankPaymentsToolStripMenuItem
@@ -2727,7 +2763,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
@@ -2996,5 +3032,9 @@
         private System.Windows.Forms.ToolStripMenuItem trustContractLogReportToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkFullEdit;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.ToolStripMenuItem trustLookupQueriesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem duplicateSSNsAndNotDeceasedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ifspecialReport1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scenario2EmptySSNDuplicateAddressToolStripMenuItem;
     }
 }
