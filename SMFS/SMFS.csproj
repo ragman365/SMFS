@@ -344,6 +344,10 @@
     <Compile Include="Calendar3.Designer.cs">
       <DependentUpon>Calendar3.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClarifyService.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClarifyService.Designer.cs" />
     <Compile Include="ContactEditParms.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2413,6 +2417,7 @@
     <EmbeddedResource Include="Calendar3.resx">
       <DependentUpon>Calendar3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ClarifyService.resx" />
     <EmbeddedResource Include="ContactEditParms.resx">
       <DependentUpon>ContactEditParms.cs</DependentUpon>
     </EmbeddedResource>
