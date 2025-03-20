@@ -841,6 +841,11 @@ namespace SMFS
             btnRun.Refresh();
             allAgentsDt = G1.get_db_data("Select * from `agents`;");
 
+            DateTime beginTime = DateTime.Now;
+            DateTime endTime = DateTime.Now;
+            TimeSpan ts = endTime - beginTime;
+
+
             try
             {
                 DateTime date = dateTimePicker1.Value;
@@ -908,6 +913,10 @@ namespace SMFS
                 {
                     dt.ImportRow(ddt.Rows[i]);
                 }
+
+                endTime = DateTime.Now;
+                ts = endTime - beginTime;
+
                 barImport.Value++;
 
                 LoadTrustAdjustments(dt, this.dateTimePicker1.Value, this.dateTimePicker2.Value);
@@ -919,7 +928,7 @@ namespace SMFS
                 //FindContract(dt, "M17119UI");
 
                 CalculateNewContracts(dt, this.dateTimePicker1.Value, this.dateTimePicker2.Value);
-                FindContract(dt, "C22028LI");
+                //FindContract(dt, "C22028LI");
                 //if ( 1 == 1)
                 //{
                 //    dgv.DataSource = dt;
@@ -957,7 +966,7 @@ namespace SMFS
 
                 ProcessCashAdvances(dt);
                 barImport.Value++;
-                FindContract(dt);
+                //FindContract(dt);
 
                 if (commissionRan)
                 {
@@ -1020,7 +1029,7 @@ namespace SMFS
 
                 dgv.DataSource = dt;
                 dt = (DataTable)dgv.DataSource;
-                FindContract(dt);
+                //FindContract(dt);
                 btnRun.BackColor = backColor;
                 btnRun.Refresh();
                 barImport.Value++;
@@ -1031,7 +1040,7 @@ namespace SMFS
                 this.Refresh();
 
                 originalDt = dt;
-                FindContract(dt);
+                //FindContract(dt);
                 this.Cursor = Cursors.Default;
                 trustReportsToolStripMenuItem.Enabled = true;
                 if (batchProcess)
@@ -1052,7 +1061,7 @@ namespace SMFS
                     this.Refresh();
                 }
                 dt = (DataTable)dgv.DataSource;
-                FindContract(dt);
+                //FindContract(dt);
             }
             catch (Exception ex)
             {
@@ -1060,6 +1069,9 @@ namespace SMFS
             }
             btnCalc.Show();
             chkMainDoSplits.Show();
+
+            endTime = DateTime.Now;
+            ts = endTime - beginTime;
         }
         /***********************************************************************************************/
         public static DataTable FilterForCemetery(DataTable dt, string cemetery = "")
@@ -1585,7 +1597,7 @@ namespace SMFS
         /****************************************************************************************/
         public static void CalculateNewContracts(DataTable dt, DateTime date1, DateTime date2)
         {
-            FindContract(dt);
+            //FindContract(dt);
 
             int days = 0;
 
@@ -1930,14 +1942,14 @@ namespace SMFS
 
             G1.NumberDataTable(dt);
 
-            FindContract(dt, "B18035LI");
+            //FindContract(dt, "B18035LI");
             LoadOtherCombos(dt);
-            FindContract(dt);
+            //FindContract(dt);
 
             LoadPaidContracts(dt, date1, date2);
             GuaranteeContractsIssued(dt, date1, date2);
 
-            FindContract(dt);
+            //FindContract(dt);
 
             //string locations = getLocationQuery();
             //if (!String.IsNullOrWhiteSpace(locations))
@@ -2231,7 +2243,7 @@ namespace SMFS
             cmd += ";";
             DataTable dx = G1.get_db_data(cmd);
 
-            FindContract(dx);
+            //FindContract(dx);
 
             //DataRow[] ddr = dx.Select("contractNumber='CT17041'");
             //for (int i = 0; i < ddr.Length; i++)
@@ -2414,7 +2426,7 @@ namespace SMFS
             cmd += ";";
             DataTable ddx = G1.get_db_data(cmd);
 
-            FindContract(ddx);
+            //FindContract(ddx);
 
             int rows = ddx.Rows.Count;
             int count = 0;
@@ -3425,7 +3437,7 @@ namespace SMFS
 
             double totalPayment = 0D;
             double downPayment = 0D;
-            FindContract(dt, "N18021LI");
+            //FindContract(dt, "N18021LI");
             //for (int i = 0; i < dt.Rows.Count; i++)
             //{
             //    dbc = dt.Rows[i]["dbc"].ObjToDouble();
@@ -3443,7 +3455,7 @@ namespace SMFS
             //        }
             //    }
             //}
-            FindContract(dt, "HC22001");
+            //FindContract(dt, "HC22001");
 
 
             gridMain.Columns["commission"].Visible = true;
@@ -5187,11 +5199,11 @@ namespace SMFS
                                 }
                                 if (agentCode == "XXX" && contract == "HC22001")
                                 {
-                                    FindContract(dt, contract);
+                                    //FindContract(dt, contract);
                                 }
                                 if (agentCode == "S46" && contract == "HC22001")
                                 {
-                                    FindContract(dt, contract);
+                                    //FindContract(dt, contract);
                                 }
                                 theForce = false;
                                 downPayment = dt.Rows[j]["downPayment"].ObjToDouble();
@@ -5432,11 +5444,11 @@ namespace SMFS
                 //MessageBox.Show("***ERROR*** " + ex.Message.ToString());
             }
 
-            FindContract(lDt, "HC22001");
+            //FindContract(lDt, "HC22001");
 
             ProcessAllFBIsplits(dt, agentList, lDt );
 
-            FindContract(lDt, "HC22001");
+            //FindContract(lDt, "HC22001");
             for (int i = 0; i < lDt.Rows.Count; i++)
             {
                 downPayment = lDt.Rows[i]["dpr"].ObjToDouble();
@@ -5463,7 +5475,7 @@ namespace SMFS
             if (G1.get_column_number(lDt, "percentComm") < 0)
                 lDt.Columns.Add("percentComm", Type.GetType("System.Decimal"));
 
-            FindContract(lDt, "FF19009L");
+            //FindContract(lDt, "FF19009L");
 
             //for ( int i=0; i<lDt.Rows.Count; i++)
             //{
@@ -6633,7 +6645,7 @@ namespace SMFS
             cmd += " ;";
 
             DataTable lapseDt = G1.get_db_data(cmd);
-            FindContract(lapseDt, "B19010LI");
+            //FindContract(lapseDt, "B19010LI");
             double lapseRecap = 0D;
             double contractValue = 0D;
             double downPayment = 0D;

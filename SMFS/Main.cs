@@ -97,9 +97,13 @@ namespace SMFS
             {
             }
 
+            //G1.OpenConnection10();
+
             //string record = "24082";
             //string date = "20080101 0000";
             //G1.update_db_table("customers", "record", record, new string[] { "birthDate", date });
+
+            G1.get_db_data("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
             if (!LoginForm.administrator && !G1.isHR())
             {
                 btnUsers.Dispose();
@@ -6017,6 +6021,22 @@ namespace SMFS
             Import importForm = new Import();
             importForm.SelectDone += ImportForm_DBRDone;
             importForm.Show();
+        }
+        /****************************************************************************************/
+        private void editBatesvilleInventoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            EditDbTable invForm = new EditDbTable("batesville_inventory", "itemnumber,casketCode,casketDescription,cost", "150,160,400,100");
+            invForm.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private void editSecondaryInventoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            EditDbTable invForm = new EditDbTable("secondary_inventory", "casketCode,casketDesc,cost,type", "160,400,80,120");
+            invForm.Show();
+            this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/
     }
