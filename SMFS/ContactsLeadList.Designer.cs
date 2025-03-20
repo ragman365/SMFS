@@ -451,7 +451,6 @@
             this.gridMain.OptionsView.ShowGroupPanel = false;
             this.gridMain.PaintStyleName = "Style3D";
             this.gridMain.RowHeight = 1;
-            this.gridMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain_CustomColumnDisplayText_1);
             this.gridMain.DoubleClick += new System.EventHandler(this.gridMain_DoubleClick);
             // 
             // gridBand3
