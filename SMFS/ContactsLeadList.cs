@@ -129,6 +129,8 @@ namespace SMFS
 
             dt.Columns.Add("num");
 
+            Trust85.FindContract(dt, "SX25098");
+
             //DataView tempview = dt.DefaultView;
             //tempview.Sort = "serviceId, lastName, firstName";
             //dt = tempview.ToTable();
@@ -631,7 +633,7 @@ namespace SMFS
 
             string agent = cmbEmployee.Text.Trim();
 
-            using ( PreneedContactLeadList leadForm = new PreneedContactLeadList ( contractNumber, agent ))
+            using ( PreneedContactLeadList leadForm = new PreneedContactLeadList ( contractNumber, agent, dt ))
             {
                 leadForm.contactLeadDone += leadForm_contactLeadDone;
                 leadForm.ShowDialog();
@@ -665,8 +667,13 @@ namespace SMFS
             string zip = "";
             string email = "";
             string phone = "";
+            string phoneType = "";
+            string homePhone = "";
+            string mobilePhone = "";
+            string workPhone = "";
             string relationship = "";
             string str = "";
+            string contactStatus = "";
             DateTime dob = DateTime.Now;
             int age = 0;
 
@@ -674,6 +681,7 @@ namespace SMFS
             G1.get_db_data(cmd);
 
             DataTable oldDt = null;
+            DataTable dx = null;
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -695,28 +703,60 @@ namespace SMFS
 
                 email = dt.Rows[i]["email"].ObjToString();
                 phone = dt.Rows[i]["phone"].ObjToString();
+                phoneType = dt.Rows[i]["phoneType"].ObjToString();
+                homePhone = "";
+                mobilePhone = "";
+                workPhone = "";
+                if (phoneType.ToUpper() == "HOME")
+                    homePhone = phone;
+                else if (phoneType == "Cell")
+                    mobilePhone = phone;
+                else if (phoneType == "WORK")
+                    workPhone = phone;
 
                 dob = dt.Rows[i]["depDOB"].ObjToDateTime();
                 age = G1.CalculateAgeCorrect(dob, date);
 
                 cmd = "Select * from `contacts_preneed` WHERE `firstName` = '" + firstName + "' AND `lastName` = '" + lastName + "' AND `middleName` = '" + middleName + "';";
                 oldDt = G1.get_db_data(cmd);
-                if ( oldDt.Rows.Count > 0 )
+                if (oldDt.Rows.Count > 0)
                 {
-                    //str = lastName + ", " + firstName + " " + middleName;
-                    //DialogResult result = MessageBox.Show("Pre-Need Contact Already Exists for " + str + "\nCreate New Contact ANYWAY?", "Duplicate Contact Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                    //if (result == DialogResult.No)
-                    //    continue;
-                    continue;
+                    record = oldDt.Rows[0]["record"].ObjToString();
+                    contactStatus = oldDt.Rows[0]["contactStatus"].ObjToString();
+                    G1.update_db_table("contacts_preneed", "record", record, new string[] { "agent", agent });
+                    contactStatus = oldDt.Rows[0]["contactStatus"].ObjToString();
+                    if (contactStatus.Trim().ToUpper() == "RELEASED")
+                        G1.update_db_table("contacts_preneed", "record", record, new string[] { "contactStatus", "" });
+                    //continue;
                 }
+                else
+                {
 
-                record = G1.create_record("contacts_preneed", "agent", "-1");
-                if (G1.BadRecord("contacts_preneed", record))
-                    return;
+                    record = G1.create_record("contacts_preneed", "agent", "-1");
+                    if (G1.BadRecord("contacts_preneed", record))
+                        return;
+                }
                 G1.update_db_table("contacts_preneed", "record", record, new string[] { "agent", agent, "prospectCreationDate", apptDate, "funeralHome", location, "totalTouches", "1" });
                 G1.update_db_table("contacts_preneed", "record", record, new string[] { "lastName", lastName, "firstName", firstName, "middleName", middleName, "email", email, "prefix", prefix, "suffix", suffix });
-                G1.update_db_table("contacts_preneed", "record", record, new string[] { "city", city, "state", state, "zip", zip, "phone", phone });
+                G1.update_db_table("contacts_preneed", "record", record, new string[] { "city", city, "state", state, "zip", zip, "address", address });
+                G1.update_db_table("contacts_preneed", "record", record, new string[] { "homePhone", homePhone, "workPhone", workPhone, "mobilePhone", mobilePhone, "primaryPhone", phone });
                 G1.update_db_table("contacts_preneed", "record", record, new string[] { "referenceFuneral", workServiceId, "referenceTrust", workContract, "funeralRelationship", relationship });
+
+                if (!String.IsNullOrWhiteSpace(workContract))
+                {
+                    cmd = "Select * from `fcustomers` where `contractNumber` = '" + workContract + "';";
+                    dx = G1.get_db_data(cmd);
+                    if ( dx.Rows.Count > 0 )
+                    {
+                        firstName = dx.Rows[0]["firstName"].ObjToString();
+                        lastName = dx.Rows[0]["lastName"].ObjToString();
+                        middleName = dx.Rows[0]["middleName"].ObjToString();
+                        prefix = dx.Rows[0]["prefix"].ObjToString();
+                        suffix = dx.Rows[0]["suffix"].ObjToString();
+
+                        G1.update_db_table("contacts_preneed", "record", record, new string[] { "refDeceasedPrefix", prefix, "refDeceasedFirstName", firstName, "refDeceasedMiddleName", middleName, "refDeceasedLastName", lastName, "refDeceasedSuffix", suffix });
+                    }
+                }
 
                 listUpdated = true;
             }
@@ -1303,6 +1343,35 @@ namespace SMFS
                 }
             }
             return procLoc.Length > 0 ? " loc IN (" + procLoc + ") " : "";
+        }
+        /****************************************************************************************/
+        private void gridMain_CustomColumnDisplayText_1(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
+        {
+            if (e.ListSourceRowIndex == DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+                return;
+            string name = e.Column.FieldName;
+            if (name.ToUpper().IndexOf("DATE") >= 0)
+            {
+                if (e.DisplayText.IndexOf("0000") >= 0 || e.DisplayText.IndexOf("0001") >= 0)
+                    e.DisplayText = "";
+                else
+                {
+                    DateTime date = e.DisplayText.ObjToString().ObjToDateTime();
+                    e.DisplayText = date.ToString("MM/dd/yyyy");
+                    if (date.Year < 30)
+                        e.DisplayText = "";
+                }
+            }
+            else if (name.ToUpper() == "LOCATION")
+            {
+                string str = e.DisplayText;
+                if (str.IndexOf("-") > 0)
+                {
+                    int idx = str.IndexOf("-");
+                    str = str.Substring(idx + 1);
+                    e.DisplayText = str.Trim();
+                }
+            }
         }
         /****************************************************************************************/
     }
