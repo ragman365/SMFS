@@ -552,6 +552,22 @@ namespace SMFS
 
             G1.CreateAudit("AutoRun");
 
+            string reportName = "";
+            if ( report.IndexOf ( "{") > 0 )
+            {
+                int idx = report.IndexOf("{");
+                if ( idx > 0 )
+                {
+                    reportName = report.Substring(idx);
+                    report = report.Substring(0, idx);
+                    reportName = reportName.Replace("{", "");
+                    reportName = reportName.Replace("}", "");
+                    reportName = reportName.Trim();
+                    report = report.Replace("{", "");
+                    report = report.Trim();
+                }
+            }
+
             if (report.ToUpper() == "POTENTIAL LAPSE")
             {
                 PastDue pastForm = new PastDue(true, true, "Potential Lapse Report (3.0)");
@@ -588,7 +604,7 @@ namespace SMFS
             {
                 //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
                 //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
-                ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, "" );
+                ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, "", reportName );
             }
         }
         /***********************************************************************************************/
