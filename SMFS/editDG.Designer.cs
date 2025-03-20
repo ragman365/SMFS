@@ -38,9 +38,10 @@
             this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
             this.gridView5 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAccept = new System.Windows.Forms.Button();
             this.panelAll.SuspendLayout();
@@ -48,7 +49,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView5)).BeginInit();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -83,8 +83,7 @@
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemComboBox1,
-            this.repositoryItemMemoEdit1});
+            this.repositoryItemComboBox1});
             this.dgv.Size = new System.Drawing.Size(976, 363);
             this.dgv.TabIndex = 13;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -225,12 +224,12 @@
             this.bandedGridColumn1});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
+            this.gridMain.GroupFormat = "[#image]{1} {2}";
             this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "dbr", null, "${0:0,0.00}")});
             this.gridMain.Name = "gridMain";
             this.gridMain.OptionsBehavior.AutoPopulateColumns = false;
-            this.gridMain.OptionsBehavior.EditingMode = DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace;
-            this.gridMain.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.MouseDown;
+            this.gridMain.OptionsCustomization.ShowBandsInCustomizationForm = false;
             this.gridMain.OptionsNavigation.EnterMoveNextColumn = true;
             this.gridMain.OptionsPrint.AutoWidth = false;
             this.gridMain.OptionsView.ColumnAutoWidth = true;
@@ -238,13 +237,15 @@
             this.gridMain.OptionsView.EnableAppearanceEvenRow = true;
             this.gridMain.OptionsView.EnableAppearanceOddRow = true;
             this.gridMain.OptionsView.ShowBands = false;
-            this.gridMain.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.gridMain.OptionsView.ShowGroupPanel = false;
             this.gridMain.PaintStyleName = "Style3D";
+            this.gridMain.RowHeight = 4;
             this.gridMain.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridMain_CustomDrawCell);
             this.gridMain.CalcRowHeight += new DevExpress.XtraGrid.Views.Grid.RowHeightEventHandler(this.gridMain_CalcRowHeight);
+            this.gridMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridMain_ShowingEditor);
             this.gridMain.ShownEditor += new System.EventHandler(this.gridMain_ShownEditor);
             this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
+            this.gridMain.ShowFilterPopupCheckedListBox += new DevExpress.XtraGrid.Views.Grid.FilterPopupCheckedListBoxEventHandler(this.gridMain_ShowFilterPopupCheckedListBox);
             this.gridMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain_CustomColumnDisplayText);
             this.gridMain.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridMain_KeyDown);
             this.gridMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridMain_MouseDown);
@@ -312,19 +313,6 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
             // 
-            // repositoryItemMemoEdit1
-            // 
-            this.repositoryItemMemoEdit1.AllowHtmlDraw = DevExpress.Utils.DefaultBoolean.True;
-            this.repositoryItemMemoEdit1.Appearance.Options.UseTextOptions = true;
-            this.repositoryItemMemoEdit1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.repositoryItemMemoEdit1.AppearanceDisabled.Options.UseTextOptions = true;
-            this.repositoryItemMemoEdit1.AppearanceDisabled.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.repositoryItemMemoEdit1.AppearanceFocused.Options.UseTextOptions = true;
-            this.repositoryItemMemoEdit1.AppearanceFocused.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.repositoryItemMemoEdit1.AppearanceReadOnly.Options.UseTextOptions = true;
-            this.repositoryItemMemoEdit1.AppearanceReadOnly.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
-            // 
             // gridView5
             // 
             this.gridView5.DetailHeight = 431;
@@ -333,6 +321,8 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.comboBox1);
+            this.panelTop.Controls.Add(this.textBox1);
             this.panelTop.Controls.Add(this.btnCancel);
             this.panelTop.Controls.Add(this.btnAccept);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -340,6 +330,22 @@
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(976, 49);
             this.panelTop.TabIndex = 1;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(646, 16);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(174, 24);
+            this.comboBox1.TabIndex = 3;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(513, 16);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(108, 23);
+            this.textBox1.TabIndex = 2;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // btnCancel
             // 
@@ -380,9 +386,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView5)).EndInit();
             this.panelTop.ResumeLayout(false);
+            this.panelTop.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -398,11 +404,12 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn70;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn4;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn8;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView5;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnAccept;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn1;
-        private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
