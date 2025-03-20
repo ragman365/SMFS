@@ -43,16 +43,19 @@ namespace SMFS
         private GridView workGV = null;
         private DataTable workDt = null;
         private int workRow = -1;
+        private string workRecord = "";
         public bool isModified = false;
+        public string lastRecord = "";
         private editDG editForm = null;
         private DataTable originalGV = null;
         /****************************************************************************************/
-        public PreneedContactHistory(DevExpress.XtraGrid.Views.Grid.GridView gv, DataTable dt, int row, string lastName, string firstName, string middleName, string location, DataRow dr )
+        public PreneedContactHistory(DevExpress.XtraGrid.Views.Grid.GridView gv, DataTable dt, int row, string record, string lastName, string firstName, string middleName, string location, DataRow dr )
         {
             InitializeComponent();
             workGV = gv;
             workDt = dt;
             workRow = row;
+            workRecord = record;
             workFirstName = firstName;
             workLastName = lastName;
             workMiddleName = middleName;
@@ -122,6 +125,9 @@ namespace SMFS
             for ( int i=0; i<gridMain.Columns.Count; i++)
             {
                 str = gridMain.Columns[i].FieldName.ObjToString();
+                if ( str.ToUpper() == "DOB")
+                {
+                }
                 if (gridMain.Columns[i].Visible == false)
                     continue;
                 if ( str.ToUpper() == "NOTES")
@@ -136,7 +142,23 @@ namespace SMFS
                 }
             }
 
-            string record = workDt.Rows[workRow]["record"].ObjToString();
+            string record = "";
+            if (!String.IsNullOrWhiteSpace(workRecord))
+            {
+                for (int i = 0; i < workDt.Rows.Count; i++)
+                {
+                    record = workDt.Rows[i]["record"].ObjToString();
+                    if (record == workRecord)
+                    {
+                        workRow = i;
+                        break;
+                    }
+                }
+            }
+
+
+            record = workDt.Rows[workRow]["record"].ObjToString();
+            lastRecord = record;
 
             editForm = new editDG(workGV, workDt, workRow, record, true );
             editForm.editDone += EditForm_editDone;
@@ -165,7 +187,6 @@ namespace SMFS
             gridMain.DestroyCustomization();
             G1.HideGridChooser(gridMain);
 
-
             modified = false;
             loading = false;
         }
@@ -182,6 +203,14 @@ namespace SMFS
             pleaseForm.Refresh();
 
             DataTable dt = (DataTable)dgv.DataSource;
+            if (dt.Rows.Count <= 0)
+            {
+                pleaseForm.FireEvent1();
+                pleaseForm.Dispose();
+                pleaseForm = null;
+                this.Close();
+                return;
+            }
 
             string caption = "";
             string data = "";
@@ -317,13 +346,70 @@ namespace SMFS
             DataTable dt = (DataTable)dgv.DataSource;
             DataTable newDt = new DataTable();
             newDt.Columns.Add("notes");
+            newDt.Columns.Add("record");
+            DataRow dR = null;
+            string notes = "";
+            string record = "";
+            string majorNotes = "";
+            DateTime date = DateTime.Now;
+            string[] Lines = null;
+
+            string str = "";
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                record = dt.Rows[i]["record"].ObjToString();
+                date = dt.Rows[i]["prospectCreationDate"].ObjToDateTime();
+                notes = "";
+                if (dt.Rows[i]["notes"] != null)
+                {
+                    str = dt.Rows[i]["notes"].ObjToString();
+                    if (!String.IsNullOrWhiteSpace(notes))
+                        notes += "\n";
+                    notes += str;
+                    Lines = notes.Split('\n');
+                    for (int j = Lines.Length - 1; j >= 0; j--)
+                    {
+                        str = Lines[j].Trim();
+                        if (String.IsNullOrWhiteSpace(str))
+                            continue;
+                        dR = newDt.NewRow();
+                        dR["notes"] = str;
+                        dR["record"] = record;
+                        newDt.Rows.Add(dR);
+                    }
+                }
+            }
+            if ( newDt.Rows.Count > 0 )
+            {
+                dgv2.DataSource = newDt;
+                return;
+            }
+            //Lines = notes.Split('\n');
+            //for ( int i=Lines.Length-1; i>=0; i--)
+            //{
+            //    str = Lines[i].Trim();
+            //    if (String.IsNullOrWhiteSpace(str))
+            //        continue;
+            //    dR = newDt.NewRow();
+            //    dR["notes"] = str;
+            //    newDt.Rows.Add(dR);
+            //}
+            G1.NumberDataTable(newDt);
+            dgv2.DataSource = newDt;
+        }
+        /***********************************************************************************************/
+        private void LoadNotesx()
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            DataTable newDt = new DataTable();
+            newDt.Columns.Add("notes");
             DataRow dR = null;
             string notes = "";
             string majorNotes = "";
             DateTime date = DateTime.Now;
 
             string str = "";
-            for ( int i=0; i<dt.Rows.Count; i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
                 date = dt.Rows[i]["prospectCreationDate"].ObjToDateTime();
                 if (dt.Rows[i]["notes"] != null)
@@ -334,13 +420,13 @@ namespace SMFS
                     notes += str;
                 }
             }
-            if ( String.IsNullOrWhiteSpace ( notes ))
+            if (String.IsNullOrWhiteSpace(notes))
             {
                 dgv2.DataSource = newDt;
                 return;
             }
             string[] Lines = notes.Split('\n');
-            for ( int i=Lines.Length-1; i>=0; i--)
+            for (int i = Lines.Length - 1; i >= 0; i--)
             {
                 str = Lines[i].Trim();
                 if (String.IsNullOrWhiteSpace(str))
@@ -467,6 +553,8 @@ namespace SMFS
 
 
             string record = workDt.Rows[workRow]["oldRecord"].ObjToString();
+            if (String.IsNullOrWhiteSpace(record))
+                record = workDt.Rows[workRow]["record"].ObjToString();
             string cmd = "Select * from `contacts_preneed` WHERE `oldRecord` = '" + record + "' ";
             cmd += " ORDER by `record` desc, `oldRecord`, `nextScheduledTouchDate` DESC, `lastTouchDate` DESC";
             cmd += ";";
@@ -597,6 +685,8 @@ namespace SMFS
                 bool doDate = false;
                 if (e.Column.FieldName == "apptDate")
                     doDate = true;
+                else if (e.Column.FieldName == "Birthdate")
+                    doDate = true;
                 //else if (e.Column.FieldName == "lastContactDate")
                 //    doDate = true;
 
@@ -725,11 +815,26 @@ namespace SMFS
             {
                 e.Cancel = true;
 
+                string record = "";
+
+                for (int i = 0; i < workDt.Rows.Count; i++)
+                {
+                    record = workDt.Rows[i]["oldRecord"].ObjToString();
+                    if (record == workRecord)
+                    {
+                        workRow = i;
+                        break;
+                    }
+                }
+
                 LoadData();
 
                 LoadNotes();
 
-                string record = workDt.Rows[workRow]["record"].ObjToString();
+
+
+                record = workDt.Rows[workRow]["oldRecord"].ObjToString();
+                //lastRecord = record;
 
                 editForm = new editDG(workGV, workDt, workRow, record, true);
                 editForm.editDone += EditForm_editDone;
@@ -922,7 +1027,7 @@ namespace SMFS
         /***************************************************************************************/
         public delegate string d_contactHistoryDone( DataTable dt, bool somethingDeleted );
         public event d_contactHistoryDone contactHistoryDone;
-        private string nextCompleted = "";
+        public string nextCompleted = "";
         protected void OnDone()
         {
             nextCompleted = "";
@@ -954,6 +1059,8 @@ namespace SMFS
             if (contactHistoryDone != null)
             {
                 nextCompleted = contactHistoryDone(dx, somethingDeleted);
+                if ( somethingDeleted )
+                    nextCompleted = "somethingDeleted";
             }
             isModified = false;
         }
@@ -1134,6 +1241,8 @@ namespace SMFS
 
             if (name.ToUpper().IndexOf("DATE") >= 0)
                 doDate = true;
+            else if (name.ToUpper() == "DOB" )
+                doDate = true;
 
             if (doDate)
             {
@@ -1262,6 +1371,8 @@ namespace SMFS
         private void addNewNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)dgv.DataSource;
+            if (dt.Rows.Count <= 0)
+                return;
             string data = dt.Rows[0]["notes"].ObjToString();
             data = data.TrimEnd('\n');
             string field = "Notes";
@@ -1306,24 +1417,31 @@ namespace SMFS
             row = gridMain2.GetDataSourceRowIndex(row);
             string note = dr["notes"].ObjToString();
 
+            string deleteRecord = dt.Rows[row]["record"].ObjToString();
+
             dt.Rows.Remove(dr);
             dt.AcceptChanges();
 
             string notes = "";
             string str = "";
+            string record = "";
             for ( int i=dt.Rows.Count-1; i>=0; i--)
             {
-                str = dt.Rows[i]["notes"].ObjToString().Trim();
-                if (String.IsNullOrWhiteSpace(str))
-                    continue;
-                str += "\n";
-                notes += str;
+                record = dt.Rows[i]["record"].ObjToString();
+                if (record == deleteRecord)
+                {
+                    str = dt.Rows[i]["notes"].ObjToString().Trim();
+                    if (String.IsNullOrWhiteSpace(str))
+                        continue;
+                    str += "\n";
+                    notes += str;
+                }
             }
             dt = (DataTable)dgv.DataSource;
             dt.Rows[0]["notes"] = notes;
             dgv.DataSource = dt;
 
-            LoadNotes();
+            //LoadNotes();
 
             gridMain.RefreshEditor(true);
             gridMain.RefreshData();
@@ -1397,6 +1515,9 @@ namespace SMFS
                         {
                             dt.Rows.RemoveAt(row);
                             dt.AcceptChanges();
+                            record = dt.Rows[0]["record"].ObjToString();
+                            workRecord = record;
+                            lastRecord = record;
                             //gridMain.DeleteRow(gridMain.FocusedRowHandle);
                         }
                         catch (Exception ex)
@@ -1436,6 +1557,80 @@ namespace SMFS
                         e.DisplayText = "";
                 }
             }
+        }
+        /****************************************************************************************/
+        private void repositoryItemCheckEdit1_CheckedChanged_1(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain.GetFocusedDataRow();
+            int rowhandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowhandle);
+            try
+            {
+                string record = dr["record"].ObjToString();
+                string oldWhat = dr["contactStatus"].ObjToString();
+
+                DevExpress.XtraEditors.CheckEdit box = (DevExpress.XtraEditors.CheckEdit)sender;
+                if (box.Checked)
+                {
+                    //Update_PreNeed(record, "completed", "1");
+                    dr["completed"] = "1";
+                    //Update_PreNeed(record, "contactStatus", "Presentation Made, Sold, Finalized");
+                    dr["contactStatus"] = "Presentation Made, Sold, Finalized";
+                    gridMain.RefreshEditor(true);
+                    dgv.Refresh();
+                }
+                else
+                {
+                    //Update_PreNeed(record, "completed", "0");
+                    dr["completed"] = "0";
+                    //Update_PreNeed(record, "contactStatus", "");
+                    dr["contactStatus"] = "";
+                    gridMain.RefreshEditor(true);
+                    dgv.Refresh();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            gridMain.RefreshData();
+            gridMain.PostEditor();
+            if (editForm != null)
+                editForm.FireEventModified();
+        }
+        /****************************************************************************************/
+        private void repositoryItemComboBox4_EditValueChanged(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain.GetFocusedDataRow();
+            int rowhandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowhandle);
+            string record = dr["record"].ObjToString();
+            string oldWhat = dr["contactStatus"].ObjToString();
+
+            ComboBoxEdit box = (ComboBoxEdit)sender;
+            string what = box.Text.Trim();
+            if (what == "Presentation Made, Sold, Finalized")
+            {
+                //Update_PreNeed(record, "completed", "1");
+                dr["completed"] = "1";
+                //Update_PreNeed(record, "contactStatus", "Presentation Made, Sold, Finalized");
+                dr["contactStatus"] = "Presentation Made, Sold, Finalized";
+                gridMain.RefreshEditor(true);
+                dgv.Refresh();
+            }
+            else
+            {
+                string completed = dr["completed"].ObjToString();
+                //Update_PreNeed(record, "completed", "0");
+                dr["completed"] = "0";
+                //Update_PreNeed(record, "contactStatus", what);
+                dr["contactStatus"] = what;
+                gridMain.RefreshEditor(true);
+                dgv.Refresh();
+            }
+            gridMain.RefreshData();
+            gridMain.PostEditor();
+            if (editForm != null)
+                editForm.FireEventModified();
         }
         /****************************************************************************************/
     }

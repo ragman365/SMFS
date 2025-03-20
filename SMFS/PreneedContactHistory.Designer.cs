@@ -45,6 +45,7 @@
             this.bandedGridColumn18 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn17 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn39 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn42 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn16 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn22 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn21 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -96,6 +97,7 @@
             this.gridMain2 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn5 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn43 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn38 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemMemoEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
             this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -383,7 +385,8 @@
             this.bandedGridColumn35,
             this.bandedGridColumn36,
             this.bandedGridColumn37,
-            this.bandedGridColumn39});
+            this.bandedGridColumn39,
+            this.bandedGridColumn42});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
@@ -417,6 +420,7 @@
             this.gridBand1.Columns.Add(this.bandedGridColumn18);
             this.gridBand1.Columns.Add(this.bandedGridColumn17);
             this.gridBand1.Columns.Add(this.bandedGridColumn39);
+            this.gridBand1.Columns.Add(this.bandedGridColumn42);
             this.gridBand1.Columns.Add(this.bandedGridColumn16);
             this.gridBand1.Columns.Add(this.bandedGridColumn22);
             this.gridBand1.Columns.Add(this.bandedGridColumn21);
@@ -533,6 +537,17 @@
             this.bandedGridColumn39.OptionsColumn.ShowInCustomizationForm = false;
             this.bandedGridColumn39.Width = 149;
             // 
+            // bandedGridColumn42
+            // 
+            this.bandedGridColumn42.Caption = "Birthday";
+            this.bandedGridColumn42.DisplayFormat.FormatString = "MM/dd/yyyy";
+            this.bandedGridColumn42.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.bandedGridColumn42.FieldName = "dob";
+            this.bandedGridColumn42.MinWidth = 25;
+            this.bandedGridColumn42.Name = "bandedGridColumn42";
+            this.bandedGridColumn42.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn42.Width = 94;
+            // 
             // bandedGridColumn16
             // 
             this.bandedGridColumn16.Caption = "Phone Number";
@@ -631,6 +646,7 @@
             this.repositoryItemComboBox4.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemComboBox4.Name = "repositoryItemComboBox4";
+            this.repositoryItemComboBox4.EditValueChanged += new System.EventHandler(this.repositoryItemComboBox4_EditValueChanged);
             // 
             // bandedGridColumn29
             // 
@@ -763,6 +779,7 @@
             // 
             this.repositoryItemCheckEdit1.AutoHeight = false;
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
+            this.repositoryItemCheckEdit1.CheckedChanged += new System.EventHandler(this.repositoryItemCheckEdit1_CheckedChanged_1);
             // 
             // bandedGridColumn33
             // 
@@ -1168,7 +1185,8 @@
             this.gridMain2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
             this.gridMain2.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
             this.bandedGridColumn5,
-            this.bandedGridColumn38});
+            this.bandedGridColumn38,
+            this.bandedGridColumn43});
             this.gridMain2.DetailHeight = 431;
             this.gridMain2.GridControl = this.dgv2;
             this.gridMain2.GroupFormat = "[#image]{1} {2}";
@@ -1191,22 +1209,32 @@
             // 
             this.gridBand5.Caption = "gridBand1";
             this.gridBand5.Columns.Add(this.bandedGridColumn5);
+            this.gridBand5.Columns.Add(this.bandedGridColumn43);
             this.gridBand5.Columns.Add(this.bandedGridColumn38);
-            this.gridBand5.MinWidth = 19;
+            this.gridBand5.MinWidth = 22;
             this.gridBand5.Name = "gridBand5";
             this.gridBand5.VisibleIndex = 0;
-            this.gridBand5.Width = 693;
+            this.gridBand5.Width = 744;
             // 
             // bandedGridColumn5
             // 
             this.bandedGridColumn5.Caption = "Num";
             this.bandedGridColumn5.FieldName = "num";
-            this.bandedGridColumn5.MinWidth = 29;
+            this.bandedGridColumn5.MinWidth = 34;
             this.bandedGridColumn5.Name = "bandedGridColumn5";
             this.bandedGridColumn5.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn5.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn5.Visible = true;
-            this.bandedGridColumn5.Width = 55;
+            this.bandedGridColumn5.Width = 64;
+            // 
+            // bandedGridColumn43
+            // 
+            this.bandedGridColumn43.Caption = "record";
+            this.bandedGridColumn43.FieldName = "record";
+            this.bandedGridColumn43.MinWidth = 29;
+            this.bandedGridColumn43.Name = "bandedGridColumn43";
+            this.bandedGridColumn43.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn43.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn43.Width = 110;
             // 
             // bandedGridColumn38
             // 
@@ -1215,10 +1243,10 @@
             this.bandedGridColumn38.Caption = "Notes";
             this.bandedGridColumn38.ColumnEdit = this.repositoryItemMemoEdit2;
             this.bandedGridColumn38.FieldName = "notes";
-            this.bandedGridColumn38.MinWidth = 34;
+            this.bandedGridColumn38.MinWidth = 40;
             this.bandedGridColumn38.Name = "bandedGridColumn38";
             this.bandedGridColumn38.Visible = true;
-            this.bandedGridColumn38.Width = 638;
+            this.bandedGridColumn38.Width = 744;
             // 
             // repositoryItemMemoEdit2
             // 
@@ -1227,20 +1255,20 @@
             // gridBand7
             // 
             this.gridBand7.Caption = "gridBand2";
-            this.gridBand7.MinWidth = 19;
+            this.gridBand7.MinWidth = 22;
             this.gridBand7.Name = "gridBand7";
             this.gridBand7.Visible = false;
             this.gridBand7.VisibleIndex = -1;
-            this.gridBand7.Width = 99;
+            this.gridBand7.Width = 115;
             // 
             // gridBand8
             // 
             this.gridBand8.Caption = "gridBand3";
-            this.gridBand8.MinWidth = 19;
+            this.gridBand8.MinWidth = 22;
             this.gridBand8.Name = "gridBand8";
             this.gridBand8.Visible = false;
             this.gridBand8.VisibleIndex = -1;
-            this.gridBand8.Width = 125;
+            this.gridBand8.Width = 146;
             // 
             // panelTopTop
             // 
@@ -1494,10 +1522,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem addNewNoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteCurrentNoteToolStripMenuItem;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn5;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand8;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.PictureBox pictureBox12;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -1511,5 +1536,10 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem deleteCurrentRecordToolStripMenuItem;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn42;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn43;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand8;
     }
 }

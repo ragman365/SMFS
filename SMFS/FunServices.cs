@@ -5,6 +5,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.BandedGrid;
 using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using DocumentFormat.OpenXml.Bibliography;
@@ -141,8 +142,11 @@ namespace SMFS
             if ( !didTimer )
                 _resizeTimer.Tick += _resizeTimer_Tick;
 
-            if (!G1.isAdmin() )
+            if (!G1.isAdmin())
+            {
                 chkAll.Hide();
+                clarifyItemToolStripMenuItem.Dispose();
+            }
 
             dgv.ProcessGridKey += Dgv_ProcessGridKey;
 
@@ -256,7 +260,14 @@ namespace SMFS
 
             DataTable rx = (DataTable)dgv.DataSource;
 
+            DataRow[] dRows = rx.Select("SerialNumber<>''");
+            if (dRows.Length > 0)
+                fixSerialNumber = dRows[0]["SerialNumber"].ObjToString();
+
+
             this.Tag = workContract;
+
+            RefreshTopText();
 
             //this.ForceRefresh();
             //Application.DoEvents();
@@ -267,6 +278,23 @@ namespace SMFS
             //int height = this.Height;
             //this.Size = new Size(width - 50, height - 50);
 
+        }
+        /***************************************************************************************/
+        private void RefreshTopText ()
+        {
+            try
+            {
+                txtServices.Refresh();
+                txtMerchandise.Refresh();
+                txtCashAdvance.Refresh();
+                txtDiscount.Refresh();
+                txtSalesTax.Refresh();
+                txtSubtotal.Refresh();
+                txtTotal.Refresh();
+            }
+            catch ( Exception ex)
+            {
+            }
         }
         /***************************************************************************************/
         private DataTable ClearEmptyDisc ()
@@ -1771,6 +1799,9 @@ namespace SMFS
                         }
                         else if (type.ToUpper() == "MERCHANDISE")
                         {
+                            if ( service == "Monticello")
+                            {
+                            }
                             if (service.ToUpper().IndexOf("URN CREDIT") >= 0)
                             {
                                 continue;
@@ -6961,31 +6992,76 @@ namespace SMFS
 
             if (dt.Rows.Count <= 0)
                 return;
+            DataRow[] dRows = null;
+            if (title == "Vault Presentation")
+                dRows = dt.Select("MyColumn LIKE '%Vault Presentation%'");
+            else if ( title == "Casket Presentation")
+                dRows = dt.Select("MyColumn LIKE '%Casket Presentation%'");
+            else if (title == "Urn Presentation")
+                dRows = dt.Select("MyColumn LIKE '%Urn Presentation%'");
+            if (dRows.Length <= 0)
+                return;
+            dt = dRows.CopyToDataTable();
 
             string loc = "";
             DataRow[] dR = null;
             try
             {
-                if (title == "Vault Presentation")
-                    dR = dt.Select("MyColumn LIKE 'Vault%'");
-                else if (title == "Urn Presentation")
-                    dR = dt.Select("MyColumn LIKE 'Urn%'");
-                else
-                {
-                    string cmd = "Select * from `fcust_extended` where `contractNumber` = '" + workContract + "';";
-                    DataTable dx = G1.get_db_data(cmd);
-                    if (dx.Rows.Count <= 0)
-                        return;
-                    string serviceId = dx.Rows[0]["serviceId"].ObjToString();
-                    if (String.IsNullOrWhiteSpace(serviceId))
-                        return;
-                    string trust = "";
-                    loc = "";
-                    string junk = "";
-                    junk = Trust85.decodeContractNumber(serviceId, true, ref trust, ref loc);
+                string cmd = "Select * from `fcust_extended` where `contractNumber` = '" + workContract + "';";
+                DataTable dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count <= 0)
+                    return;
+                string serviceId = dx.Rows[0]["serviceId"].ObjToString();
+                if (String.IsNullOrWhiteSpace(serviceId))
+                    return;
+                string trust = "";
+                loc = "";
+                string junk = "";
+                junk = Trust85.decodeContractNumber(serviceId, true, ref trust, ref loc);
 
-                    dR = dt.Select("MyColumn LIKE '%" + loc + "%'");
-                }
+                dR = dt.Select("MyColumn LIKE '%" + loc + "%'");
+                if (dR.Length <= 0)
+                    return;
+
+                //if (title == "Vault Presentation")
+                //{
+                //    string cmd = "Select * from `fcust_extended` where `contractNumber` = '" + workContract + "';";
+                //    DataTable dx = G1.get_db_data(cmd);
+                //    if (dx.Rows.Count <= 0)
+                //        return;
+                //    string serviceId = dx.Rows[0]["serviceId"].ObjToString();
+                //    if (String.IsNullOrWhiteSpace(serviceId))
+                //        return;
+                //    string trust = "";
+                //    loc = "";
+                //    string junk = "";
+                //    junk = Trust85.decodeContractNumber(serviceId, true, ref trust, ref loc);
+
+                //    dR = dt.Select("MyColumn LIKE '%" + loc + "%'");
+                //    if ( dR.Length <= 0 )
+                //    {
+                //        dR = dt.Select("MyColumn LIKE '%Vault Presentation All Locations%'");
+                //    }
+                //    //dR = dt.Select("MyColumn LIKE 'Vault%'");
+                //}
+                //else if (title == "Urn Presentation")
+                //    dR = dt.Select("MyColumn LIKE 'Urn%'");
+                //else
+                //{
+                //    string cmd = "Select * from `fcust_extended` where `contractNumber` = '" + workContract + "';";
+                //    DataTable dx = G1.get_db_data(cmd);
+                //    if (dx.Rows.Count <= 0)
+                //        return;
+                //    string serviceId = dx.Rows[0]["serviceId"].ObjToString();
+                //    if (String.IsNullOrWhiteSpace(serviceId))
+                //        return;
+                //    string trust = "";
+                //    loc = "";
+                //    string junk = "";
+                //    junk = Trust85.decodeContractNumber(serviceId, true, ref trust, ref loc);
+
+                //    dR = dt.Select("MyColumn LIKE '%" + loc + "%'");
+                //}
 
                 if (dR.Length <= 0)
                 {
@@ -7436,9 +7512,7 @@ namespace SMFS
                 if (view.FocusedColumn.FieldName.ToUpper() != "SELECT" && view.FocusedColumn.FieldName.ToUpper() != "SERIALNUMBER")
                     e.Cancel = true;
                 else
-                {
                     return;
-                }
             }
             if (!showCashAdvanced)
             {
@@ -9849,7 +9923,10 @@ namespace SMFS
             if ( !String.IsNullOrWhiteSpace ( record ))
             {
                 if (record != "0" && record != "-1")
-                    G1.update_db_table("fcust_services", "record", record, new string[] {"SerialNumber", "" });
+                {
+                    G1.update_db_table("fcust_services", "record", record, new string[] { "SerialNumber", "" });
+                    fixSerialNumber = "";
+                }
             }
             fixSerialNumber = "";
             totalModified = true;
@@ -10167,10 +10244,21 @@ namespace SMFS
             int row = gridMain.FocusedRowHandle;
             row = gridMain.GetDataSourceRowIndex(row);
             string field = view.FocusedColumn.FieldName.ToUpper();
+
+            DataTable dt = (DataTable)dgv.DataSource;
+
+            CheckSerialNumber(dt, row, field);
+
             if (field.ToUpper() == "SERIALNUMBER")
             {
                 string serialNumber = dr["SerialNumber"].ObjToString();
-                DataTable dt = (DataTable)dgv.DataSource;
+
+                //if ( !VerifyInventory ( serialNumber, workServiceId ))
+                //{
+                //    DialogResult results = MessageBox.Show("***INFO*** Serial Number cannot be located!", "Serial Number Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                //    if (results == DialogResult.No)
+                //        return;
+                //}
                 string oldSerialNumber = dt.Rows[row]["SerialNumber"].ObjToString();
                 thisSerialNumber = oldSerialNumber;
                 //if (!G1.validate_numeric(serialNumber))
@@ -10189,6 +10277,11 @@ namespace SMFS
             }
         }
         /****************************************************************************************/
+        private int lastSerialNumberRow = -1;
+        private string lastSerialNumberCol = "";
+        private string oldWhat = "";
+        private int oldWhatRow = -1;
+        /****************************************************************************************/
         private void gridMain_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
         {
             GridView view = sender as GridView;
@@ -10196,15 +10289,32 @@ namespace SMFS
             int row = gridMain.FocusedRowHandle;
             row = gridMain.GetDataSourceRowIndex(row);
             string field = view.FocusedColumn.FieldName.ToUpper();
+
+            DataTable dt = (DataTable)dgv.DataSource;
+
             if ( field.ToUpper() == "SERIALNUMBER")
             {
+                oldWhat = dt.Rows[row]["SerialNumber"].ObjToString();
+                oldWhatRow = row;
+
                 if (didSummary)
                 {
                     didSummary = false;
                     return;
                 }
                 string serialNumber = dr["SerialNumber"].ObjToString();
-                DataTable dt = (DataTable)dgv.DataSource;
+
+                if (!VerifyInventory(serialNumber, workServiceId))
+                {
+                    DialogResult results = MessageBox.Show("***INFO*** Serial Number cannot be located!", "Serial Number Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    if (results == DialogResult.No)
+                    {
+                        dr["serialNumber"] = fixSerialNumber;
+                        gridMain.RefreshEditor(true);
+                        return;
+                    }
+                }
+
                 string oldSerialNumber = dt.Rows[row]["SerialNumber"].ObjToString();
                 thisSerialNumber = oldSerialNumber;
                 //if (!G1.validate_numeric(serialNumber))
@@ -10309,17 +10419,126 @@ namespace SMFS
             //gridMain.RefreshData();
         }
         /****************************************************************************************/
+        private void CheckSerialNumber ( DataTable dt, int row, string field)
+        {
+            if (lastSerialNumberRow == -1)
+            {
+                lastSerialNumberRow = row;
+                lastSerialNumberCol = field;
+            }
+
+            if (row != lastSerialNumberRow)
+            {
+            }
+            if (field != lastSerialNumberCol)
+            {
+            }
+
+            if (lastSerialNumberRow != row || lastSerialNumberCol != field)
+            {
+                try
+                {
+                    DataRow dr = dt.Rows[lastSerialNumberRow];
+                    string serialNumber = dt.Rows[lastSerialNumberRow]["SerialNumber"].ObjToString();
+                    if (!String.IsNullOrWhiteSpace(serialNumber))
+                    {
+                        if (serialNumber != fixSerialNumber && fixSerialNumber.Length > 2)
+                        {
+                            if (!String.IsNullOrWhiteSpace(serialNumber) && !String.IsNullOrWhiteSpace(fixSerialNumber))
+                            {
+                                MessageBox.Show("***ERROR*** Looks like you are trying to change existing inventory!\nFirst Use (Right-Click) Release Inventory!", "Merchandie Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                                dr[lastSerialNumberCol] = fixSerialNumber;
+                                dt.Rows[lastSerialNumberRow]["serialNumber"] = fixSerialNumber;
+                                gridMain.RefreshData();
+                                return;
+                            }
+                        }
+                        string cmd = "Select * from `inventory` where `SerialNumber` = '" + serialNumber + "';";
+                        DataTable dx = G1.get_db_data(cmd);
+                        if (dx.Rows.Count <= 0)
+                        {
+                            //DialogResult result = MessageBox.Show("***INFO*** Serial Number " + serialNumber + " is not in current inventory!?", "Invalid Serial Number", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+
+
+                            DialogResult result = MessageBox.Show("***ERROR*** Serial Number " + serialNumber + " is not in current inventory!\nAdd Anyway?", "Invalid Serial Number", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            if (result == DialogResult.No)
+                            {
+                                if (!String.IsNullOrWhiteSpace(oldWhat))
+                                {
+                                    dr[lastSerialNumberCol] = oldWhat;
+                                    dt.Rows[lastSerialNumberRow]["serialNumber"] = oldWhat;
+                                    dr[lastSerialNumberCol] = fixSerialNumber;
+                                    dt.Rows[lastSerialNumberRow]["serialNumber"] = fixSerialNumber;
+                                    gridMain.RefreshData();
+                                }
+                                else
+                                    dr[lastSerialNumberCol] = "";
+                                lastSerialNumberCol = field;
+                                lastSerialNumberRow = row;
+                                return;
+                            }
+                            else
+                            {
+                                dr["mod"] = "1";
+                                funModified = true;
+                                btnSaveServices.Show();
+                                gridMain.RefreshData();
+                                return;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            lastSerialNumberCol = field;
+            lastSerialNumberRow = row;
+        }
+        /****************************************************************************************/
         private void gridMain_MouseUp(object sender, MouseEventArgs e)
         {
             if (!workFuneral)
                 return;
 
-            ChangeInventory();
+            GridView view = sender as GridView;
+            DataRow dr = gridMain.GetFocusedDataRow();
+            int row = gridMain.FocusedRowHandle;
+            row = gridMain.GetDataSourceRowIndex(row);
+            string field = view.FocusedColumn.FieldName.ToUpper();
 
-            string field = gridMain.FocusedColumn.FieldName.ToUpper();
+            DataTable dt = (DataTable)dgv.DataSource;
+
+            CheckSerialNumber(dt, row, field);
+
+            if ( !String.IsNullOrWhiteSpace ( saveSerialNumber ))
+            {
+                string cmd = "Select * from `inventory` where `SerialNumber` = '" + saveSerialNumber + "';";
+                DataTable dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count <= 0)
+                {
+                    DialogResult result = MessageBox.Show("***INFO*** Serial Number " + saveSerialNumber + " is not in current inventory!?", "Invalid Serial Number", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    //if (result == DialogResult.No)
+                    //{
+                    //    if (!String.IsNullOrWhiteSpace(oldSerialNumber))
+                    //    {
+                    //        dr[field] = fixSerialNumber;
+                    //        dt.Rows[row]["serialNumber"] = oldSerialNumber;
+                    //        gridMain.RefreshData();
+                    //    }
+                    //    else
+                    //        dr[field] = "";
+                    //    return;
+                    //}
+                }
+            }
+
+            ChangeInventory ();
+
+            field = gridMain.FocusedColumn.FieldName.ToUpper();
             if (field == "LOCATION")
             {
-                DataRow dr = gridMain.GetFocusedDataRow();
+                dr = gridMain.GetFocusedDataRow();
                 if (dr == null)
                     return;
                 string service = dr["service"].ObjToString();
@@ -10341,7 +10560,7 @@ namespace SMFS
                     return;
                 //cmd += " AND `qty` > '0' GROUP BY `LocationCode`;";
                 cmd += " AND `qty` > '0' ORDER BY `LocationCode`;";
-                DataTable dt = G1.get_db_data(cmd);
+                dt = G1.get_db_data(cmd);
                 if (dt.Rows.Count <= 0)
                     return;
 
@@ -10379,7 +10598,7 @@ namespace SMFS
                 return;
             string type = dr["type"].ObjToString().ToUpper();
             string field = gridMain.FocusedColumn.FieldName.ToUpper();
-            if (field.ToUpper() != "SERIALNUMBER")
+            if (field.ToUpper() != "SERIALNUMBER" )
                 return;
 
             string oldSerialNumber = dr[field].ObjToString();
@@ -11051,6 +11270,64 @@ namespace SMFS
             btnSaveServices.Refresh();
             funModified = true;
             ReCalcTotal(workDt);
+        }
+        /****************************************************************************************/
+        private string saveSerialNumber = "";
+        private void gridMain_MouseLeave(object sender, EventArgs e)
+        {
+            if (!workFuneral)
+                return;
+
+            string field = gridMain.FocusedColumn.FieldName.ToUpper();
+            if (field.ToUpper() != "SERIALNUMBER")
+                return;
+
+            DataRow dr = gridMain.GetFocusedDataRow();
+            if (dr == null)
+                return;
+
+            //saveSerialNumber = dr["serialNumber"].ObjToString();
+        }
+        /****************************************************************************************/
+        private void clarifyItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!workFuneral)
+                return;
+
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt.Rows.Count <= 0)
+                return;
+            DataRow dr = gridMain.GetFocusedDataRow();
+            if (dr == null)
+                return;
+            int rowHandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowHandle);
+
+            string service = dr["service"].ObjToString();
+            if (service.IndexOf("D-") == 0)
+                service = service.Replace("D-", "").Trim();
+
+            ClarifyService clarifyForm = new ClarifyService(service);
+            clarifyForm.ClarifyDone += ClarifyForm_ClarifyDone;
+            clarifyForm.Show();
+        }
+        /****************************************************************************************/
+        private void ClarifyForm_ClarifyDone(string workService, string casketCode, string casketDesc, string casketCost, string Type, string casketType, string casketGauge )
+        {
+            string record = "";
+            string cmd = "Select * from `secondary_inventory` WHERE `casketDesc` = '" + casketDesc + "';";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+            {
+                record = G1.create_record("secondary_inventory", "order", "-1");
+                if (G1.BadRecord("secondary_inventory", record))
+                {
+                    return;
+                }
+            }
+            else
+                record = dt.Rows[0]["record"].ObjToString();
+            G1.update_db_table("secondary_inventory", "record", record, new string[] { "record", record, "casketCode", casketCode, "casketDesc", casketDesc, "cost", casketCost, "type", Type, "casketType", casketType, "casketGauge", casketGauge, "order", record });
         }
         /****************************************************************************************/
     }
