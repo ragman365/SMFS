@@ -22,18 +22,21 @@ namespace SMFS
         private bool loading = true;
         private DataTable workDt = null;
         private string workManager = "";
+        private string workLocation = "";
         private string workArranger = "";
         private string workWho = "";
         private bool workBatch = false;
         private bool finale = false;
         private bool workPDF = false;
         private double workCommission = 0D;
+        private bool showAgent = false;
         /***********************************************************************************************/
-        public FunCommissions( DataTable dt, string manager, string arranger, string who, bool batchRun )
+        public FunCommissions( DataTable dt, string manager, string location, string arranger, string who, bool batchRun )
         {
             InitializeComponent();
             workDt = dt;
             workManager = manager;
+            workLocation = location;
             workArranger = arranger;
             workWho = who;
             workBatch = batchRun;
@@ -50,6 +53,15 @@ namespace SMFS
             workBatch = false;
             workCommission = commission;
             finale = true;
+        }
+        /***********************************************************************************************/
+        public FunCommissions(DataTable dt, string arranger )
+        {
+            InitializeComponent();
+            workDt = dt;
+            workManager = arranger;
+            workArranger = arranger;
+            showAgent = true;
         }
         /***********************************************************************************************/
         private void FunCommissions_Load(object sender, EventArgs e)
@@ -100,6 +112,12 @@ namespace SMFS
 
                 modified = false;
                 loading = false;
+            }
+            else if ( showAgent )
+            {
+                G1.NumberDataTable(workDt);
+                dgv.DataSource = workDt;
+                dgv.Refresh();
             }
 
             else
@@ -836,7 +854,7 @@ namespace SMFS
 
             font = new Font("Ariel", 10, FontStyle.Regular);
             string title = this.Text;
-            Printer.DrawQuad(5, 8, 4, 4, title, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            Printer.DrawQuad(5, 8, 6, 4, title, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
 
             //            Printer.DrawQuadTicks();
             DateTime date = DateTime.Now;

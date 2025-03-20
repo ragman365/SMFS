@@ -209,6 +209,7 @@
             this.menuClearLapsed = new System.Windows.Forms.ToolStripMenuItem();
             this.changePayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearDeceasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewFamilyMembersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain5 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn22 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -2728,9 +2729,10 @@
             this.toolStripMenuItem3,
             this.menuClearLapsed,
             this.changePayerToolStripMenuItem,
-            this.clearDeceasedToolStripMenuItem});
+            this.clearDeceasedToolStripMenuItem,
+            this.viewFamilyMembersToolStripMenuItem});
             this.contextMenuStrip4.Name = "contextMenuStrip4";
-            this.contextMenuStrip4.Size = new System.Drawing.Size(285, 148);
+            this.contextMenuStrip4.Size = new System.Drawing.Size(285, 172);
             // 
             // menuSetLapsed
             // 
@@ -2773,6 +2775,13 @@
             this.clearDeceasedToolStripMenuItem.Size = new System.Drawing.Size(284, 24);
             this.clearDeceasedToolStripMenuItem.Text = "Clear Deceased";
             this.clearDeceasedToolStripMenuItem.Click += new System.EventHandler(this.clearDeceasedToolStripMenuItem_Click);
+            // 
+            // viewFamilyMembersToolStripMenuItem
+            // 
+            this.viewFamilyMembersToolStripMenuItem.Name = "viewFamilyMembersToolStripMenuItem";
+            this.viewFamilyMembersToolStripMenuItem.Size = new System.Drawing.Size(284, 24);
+            this.viewFamilyMembersToolStripMenuItem.Text = "View Family Members";
+            this.viewFamilyMembersToolStripMenuItem.Click += new System.EventHandler(this.viewFamilyMembersToolStripMenuItem_Click);
             // 
             // gridMain5
             // 
@@ -3257,7 +3266,7 @@
             // 
             // bandedGridColumn81
             // 
-            this.bandedGridColumn81.Caption = "Policy Service ID";
+            this.bandedGridColumn81.Caption = "Policy Funeral";
             this.bandedGridColumn81.FieldName = "ServiceId";
             this.bandedGridColumn81.MinWidth = 29;
             this.bandedGridColumn81.Name = "bandedGridColumn81";
@@ -6561,5 +6570,6 @@
         private DevExpress.XtraEditors.TextEdit txtMeetingNumber;
         private DevExpress.XtraEditors.LabelControl labelControl49;
         private System.Windows.Forms.PictureBox picAgreement;
+        private System.Windows.Forms.ToolStripMenuItem viewFamilyMembersToolStripMenuItem;
     }
 }

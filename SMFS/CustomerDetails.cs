@@ -56,6 +56,11 @@ namespace SMFS
         private int saveRow = -1;
         private bool policiesModified = false;
 
+        private bool workPDF = false;
+        private string workPDFfile = "";
+        private string workWhat = "";
+
+
         //public object MySQLDatetime { get; private set; }
         //public object MySQLFormatDate { get; private set; }
 
@@ -88,6 +93,25 @@ namespace SMFS
             saveServices = false;
             btnSaveServices.Hide();
             btnSave.Hide();
+        }
+        /***********************************************************************************************/
+        public CustomerDetails(string payer, string pdfFileName, bool generatePDF )
+        {
+            InitializeComponent();
+            workPayer = payer;
+            workPolicy = true;
+            contractsFile = "icontracts";
+            customersFile = "icustomers";
+            paymentsFile = "ipayments";
+
+            workPDFfile = pdfFileName;
+            workPDF = generatePDF;
+            workWhat = "Policies";
+
+            //SetupTotalsSummary();
+
+            ClientDetails_Load(null, null);
+            this.Close();
         }
         /***********************************************************************************************/
         public static string BuildClientTitle(DataRow dRow)
@@ -152,6 +176,13 @@ namespace SMFS
         private bool majorError = false;
         private void ClientDetails_Load(object sender, EventArgs e)
         {
+            if ( workWhat == "Policies")
+            {
+                LoadPolicies ( DateTime.Now );
+
+                printPreviewToolStripMenuItem_Click(null, null);
+                return;
+            }
             policiesModified = false;
             btnSavePolicies.Hide();
             DateTime now = DateTime.Now;
@@ -551,6 +582,24 @@ namespace SMFS
                 //dx = G1.get_db_data(cmd);
                 //if (dx.Rows.Count <= 0)
                 //    return;
+            }
+            else
+            {
+                if ( DailyHistory.isInsurance ( workContract ) )
+                {
+                    DataTable payDt = G1.get_db_data("Select * from `icustomers` WHERE `contractNumber` = '" + workContract + "';");
+                    if (payDt.Rows.Count > 0)
+                    {
+                        workPayer = payDt.Rows[0]["payer"].ObjToString();
+                        payDt = G1.get_db_data("Select * from `payers` WHERE `payer` = '" + workPayer + "';");
+                        if (payDt.Rows.Count > 0)
+                        {
+                            workContract = payDt.Rows[0]["contractNumber"].ObjToString();
+                            cmd = "Select * from `" + contractsFile + "` where `contractNumber` = '" + workContract + "';";
+                            dx = G1.get_db_data(cmd);
+                        }
+                    }
+                }
             }
             loading = true;
             DateTime dueDate8 = dx.Rows[0]["dueDate8"].ObjToDateTime();
@@ -988,7 +1037,7 @@ namespace SMFS
         private void LoadPolicies(DateTime dueDate8)
         {
             //            if (workContract.ToUpper().IndexOf("ZZ") != 0)
-            if (!workPolicy)
+            if (!workPolicy && workWhat != "Policies" )
             {
                 RemoveMainTabPage("POLICIES");
                 return;
@@ -1039,7 +1088,7 @@ namespace SMFS
 
             FixOrphanPolicies(dt);
 
-            if (chkHonor.Checked)
+            if (chkHonor.Checked || workWhat == "Policies")
             {
                 DataTable testDt = filterSecNat(chkSecNat.Checked, dt);
                 dt = testDt.Copy();
@@ -1095,6 +1144,14 @@ namespace SMFS
 
             FastLookup.FilterPolicies(dt);
 
+            if ( workWhat == "Policies")
+            {
+                DataView tempview1 = dt.DefaultView;
+                tempview1.Sort = "policyfullname";
+                dt = tempview1.ToTable();
+
+            }
+
             dgv5.DataSource = dt;
             //gridMain5.Columns["num"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
             //gridMain5.Columns["contractNumber"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
@@ -1112,7 +1169,7 @@ namespace SMFS
                 gridMain5.RefreshData();
                 dgv5.Refresh();
             }
-            if (G1.isField())
+            if (G1.isField() || workWhat == "Policies" )
             {
                 chkUseLockPositions.Hide();
                 chkSecNat.Hide();
@@ -1121,8 +1178,8 @@ namespace SMFS
                 chkFilterInactive.Hide();
             }
             saveRow = -1;
-            if (G1.isField())
-                cmbSelectColumns.Text = "Policy Summary 2";
+            if (G1.isField() || workWhat == "Policies" )
+                cmbSelectColumns.Text = "Policy Summary 2A";
         }
         /****************************************************************************************/
         public static void FixOrphanPolicies(DataTable dt)
@@ -2422,6 +2479,31 @@ namespace SMFS
             catch ( Exception ex)
             {
             }
+
+            if ( DailyHistory.isInsurance ( workContract ))
+            {
+                double premium = Policies.CalcMonthlyPremium(workPayer, DateTime.Now);
+                DataRow[] dRows = dx.Select("parameter='amtOfMonthlyPayt'");
+                if (dRows.Length > 0)
+                {
+                    string money = G1.ReformatMoney(premium);
+                    dRows[0]["data"] = money;
+                }
+
+                double balanceDue = DailyHistory.GetDueNow(workPayer, premium);
+                dRows = dx.Select("parameter='BalanceDue'");
+                if ( dRows.Length > 0 )
+                {
+                    string money = G1.ReformatMoney(balanceDue);
+                    dRows[0]["data"] = money;
+                }
+                dRows = dx.Select("parameter='nowDue'");
+                if (dRows.Length > 0)
+                {
+                    string money = G1.ReformatMoney(balanceDue);
+                    dRows[0]["data"] = money;
+                }
+            }
             G1.NumberDataTable(dx);
             dgv2.DataSource = dx;
             contractModified = false;
@@ -2760,6 +2842,9 @@ namespace SMFS
             if (dgv7.Visible)
                 printableComponentLink1.Component = dgv7;
 
+            if ( workWhat == "Policies")
+                printableComponentLink1.Component = dgv5;
+
             printableComponentLink1.PrintingSystemBase = printingSystem1;
 
             printableComponentLink1.EnablePageDialog = true;
@@ -2769,7 +2854,7 @@ namespace SMFS
             printableComponentLink1.BeforeCreateAreas += new System.EventHandler(this.printableComponentLink1_BeforeCreateAreas);
             printableComponentLink1.AfterCreateAreas += new System.EventHandler(this.printableComponentLink1_AfterCreateAreas);
             printableComponentLink1.Landscape = false;
-            if (dgv5.Visible || dgv7.Visible)
+            if (dgv5.Visible || dgv7.Visible|| workWhat == "Policies" )
             {
                 //printingSystem1.Document.AutoFitToPagesWidth = 1;
                 printableComponentLink1.Landscape = true;
@@ -2793,7 +2878,22 @@ namespace SMFS
                 G1.AdjustColumnWidths(gridMain7, 0.65D, true);
 
             printableComponentLink1.CreateDocument();
-            printableComponentLink1.ShowPreview();
+
+            if (workPDF)
+            {
+                string filename = "";
+                //string filename = path + @"\" + workReport + "_" + today.Year.ToString("D4") + today.Month.ToString("D2") + today.Day.ToString("D2") + ".pdf";
+                filename = workPDFfile;
+                if (File.Exists(filename))
+                {
+                    File.SetAttributes(filename, FileAttributes.Normal);
+                    File.Delete(filename);
+                }
+                printableComponentLink1.ExportToPdf(filename);
+                return;
+            }
+            else
+                printableComponentLink1.ShowPreview();
 
             if (dgv5.Visible)
                 G1.AdjustColumnWidths(gridMain5, 0.65D, false );
@@ -6921,6 +7021,40 @@ namespace SMFS
                     }
                 }
             }
+        }
+        /***********************************************************************************************/
+        private void viewFamilyMembersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain5.GetFocusedDataRow();
+            int rowHandle = gridMain5.FocusedRowHandle;
+            int row = gridMain5.GetDataSourceRowIndex(rowHandle);
+            string contract = dr["contractNumber"].ObjToString();
+            string payer = dr["payer"].ObjToString();
+            string name = dr["policyfullname"].ObjToString();
+            string serviceId = dr["ServiceId"].ObjToString();
+            if ( String.IsNullOrWhiteSpace ( serviceId ))
+            {
+                MessageBox.Show("***ERROR*** This Policy is not in a Funeral!", "Empty ServiceId Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            string cmd = "Select * from `fcust_extended` WHERE `ServiceId` = '" + serviceId + "';";
+            DataTable dt = G1.get_db_data(cmd);
+            if ( dt.Rows.Count <= 0 )
+            {
+                MessageBox.Show("***ERROR*** Cannot locate for Funeral for Service Id!", "Funeral ServiceId Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            contract = dt.Rows[0]["contractNumber"].ObjToString();
+
+            this.Cursor = Cursors.WaitCursor;
+
+            FunFamilyNew funForm = new FunFamilyNew (contract, "Family Members", true);
+            funForm.StartPosition = FormStartPosition.CenterScreen;
+            funForm.Show();
+
+            this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
     }
