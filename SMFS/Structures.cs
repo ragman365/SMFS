@@ -879,6 +879,8 @@ namespace SMFS
                             newstr = "alter table `" + tablename + "` add `" + original + "` BIGINT NOT NULL DEFAULT '0' ;";
                         else if (type == "SYSTEM.DATE")
                             newstr = "alter table `" + tablename + "` add `" + original + "` DATE NOT NULL DEFAULT '0000-00-00' ;";
+                        else if (type == "SYSTEM.DATETIME")
+                            newstr = "alter table `" + tablename + "` add `" + original + "` DATETIME NOT NULL DEFAULT '0000-00-00' ;";
                         else if (type.ToUpper().IndexOf("SYSTEM.BYTE") >= 0)
                             newstr = "alter table `" + tablename + "` add `" + original + "` BLOB ;";
                         else if (type == "MYSQL.DATA.TYPES.MYSQLDATETIME")

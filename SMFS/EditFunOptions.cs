@@ -49,8 +49,10 @@ namespace SMFS
         private void LoadData ()
         {
             string manager = "";
+            string location = "";
             DataTable manDt = new DataTable();
             manDt.Columns.Add("num");
+            manDt.Columns.Add("location");
             manDt.Columns.Add("ma");
             manDt.Columns.Add("name");
 
@@ -59,20 +61,23 @@ namespace SMFS
 
             string cmd = "Select * from `funeralhomes`;";
             DataTable funDt = G1.get_db_data(cmd);
-            for ( int i=0; i<funDt.Rows.Count; i++)
+            for (int i = 0; i < funDt.Rows.Count; i++)
             {
                 manager = funDt.Rows[i]["manager"].ObjToString();
                 if (String.IsNullOrWhiteSpace(manager))
                     continue;
 
-                dRows = manDt.Select("name='" + manager + "'");
-                if (dRows.Length <= 0)
-                {
-                    dR = manDt.NewRow();
-                    dR["ma"] = "M";
-                    dR["name"] = manager;
-                    manDt.Rows.Add(dR);
-                }
+                location = funDt.Rows[i]["LocationCode"].ObjToString();
+
+                //dRows = manDt.Select("name='" + manager + "'");
+                //if (dRows.Length <= 0)
+                //{
+                dR = manDt.NewRow();
+                dR["ma"] = "M";
+                dR["name"] = manager;
+                dR["location"] = location;
+                manDt.Rows.Add(dR);
+                //}
             }
 
             string firstName = "";
@@ -123,6 +128,7 @@ namespace SMFS
             G1.SetColumnWidth(gridMain, "num", 65);
             G1.SetColumnWidth(gridMain, "ma", 65);
             G1.SetColumnWidth(gridMain, "name", 150);
+            G1.SetColumnWidth(gridMain, "location", 150);
         }
         /****************************************************************************************/
         DataTable optionDt = null;
@@ -158,6 +164,7 @@ namespace SMFS
         {
             string mod = "";
             string name = "";
+            string location = "";
             string who = "";
             string option = "";
             string answer = "";
@@ -175,11 +182,12 @@ namespace SMFS
                 try
                 {
                     name = dt.Rows[i]["name"].ObjToString();
+                    location = dt.Rows[i]["location"].ObjToString();
                     who = dt.Rows[i]["ma"].ObjToString();
                     if (who == "M" || who == "A")
-                        dRows = dx.Select("name='" + name + "' AND ma='" + who + "'");
+                        dRows = dx.Select("name='" + name + "' AND ma='" + who + "' AND `location` = '" + location + "'");
                     else
-                        dRows = dx.Select("name='" + name + "' AND (ma='M' OR ma='A')");
+                        dRows = dx.Select("name='" + name + "' AND (ma='M' OR ma='A') AND `location` = '" + location + "'");
                     if (dRows.Length > 0)
                     {
                         for (int j = 0; j < dRows.Length; j++)
@@ -285,6 +293,7 @@ namespace SMFS
         {
             string mod = "";
             string name = "";
+            string location = "";
             string who = "";
             string option = "";
             string answer = "";
@@ -305,8 +314,12 @@ namespace SMFS
                 if (mod != "Y")
                     continue;
                 name = dt.Rows[i]["name"].ObjToString();
+                location = dt.Rows[i]["location"].ObjToString();
                 who = dt.Rows[i]["ma"].ObjToString();
+                location = dt.Rows[i]["location"].ObjToString();
                 cmd = "Select * from `funcommissiondata` where `name` = '" + name + "' AND (`ma` = 'M' OR `ma` = 'A');";
+                if ( !String.IsNullOrWhiteSpace ( location ))
+                    cmd = "Select * from `funcommissiondata` where `name` = '" + name + "' AND `location` = '" + location + "' AND (`ma` = 'M' OR `ma` = 'A');";
                 dx = G1.get_db_data(cmd);
 
                 for ( int j=startColumn; j<dt.Columns.Count; j++)
@@ -324,14 +337,14 @@ namespace SMFS
                         if (dRows.Length > 0)
                         {
                             record = dRows[0]["record"].ObjToString();
-                            G1.update_db_table("funcommissiondata", "record", record, new string[] { "name", name, "ma", who, "option", option, "answer", answer });
+                            G1.update_db_table("funcommissiondata", "record", record, new string[] { "name", name, "ma", who, "location", location, "option", option, "answer", answer });
                         }
                         else
                         {
                             record = G1.create_record("funcommissiondata", "option", "-1");
                             if (G1.BadRecord("funcommissiondata", record))
                                 continue;
-                            G1.update_db_table("funcommissiondata", "record", record, new string[] { "name", name, "ma", who, "option", option, "answer", answer });
+                            G1.update_db_table("funcommissiondata", "record", record, new string[] { "name", name, "ma", who, "location", location, "option", option, "answer", answer });
                         }
                     }
                     catch ( Exception ex)

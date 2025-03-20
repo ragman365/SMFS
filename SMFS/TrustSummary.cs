@@ -86,6 +86,9 @@ namespace SMFS
                 printPreviewToolStripMenuItem_Click(null, null);
                 this.Close();
             }
+
+            barImport.Hide();
+            label1.Hide();
         }
         /***********************************************************************************************/
         private void btnRun_Click(object sender, EventArgs e)
@@ -100,13 +103,31 @@ namespace SMFS
 
             dt.Columns.Add("num");
             dt.Columns.Add("issueDate");
+            dt.Columns.Add("contractValue", Type.GetType("System.Double"));
+            dt.Columns.Add("totalFinanced", Type.GetType("System.Double"));
+
 
             DateTime date = DateTime.Now;
             DateTime deceasedDate = DateTime.Now;
             string contractNumber = "";
+            double contractValue = 0D;
+            double totalFinanced = 0D;
+
+            int lastRow = dt.Rows.Count;
+            barImport.Show();
+            barImport.Minimum = 0;
+            barImport.Maximum = lastRow;
+            barImport.Refresh();
+
+            label1.Text = lastRow.ToString();
+            label1.Show();
+            label1.Refresh();
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
+                barImport.Value = i + 1;
+                barImport.Refresh();
+
                 //deceasedDate = dt.Rows[i]["deceasedDate"].ObjToDateTime();
                 //if ( deceasedDate.Year > 100)
                 //{
@@ -117,14 +138,27 @@ namespace SMFS
                 date = dt.Rows[i]["issueDate8"].ObjToDateTime();
                 date = DailyHistory.GetIssueDate(date, contractNumber, dt);
                 dt.Rows[i]["issueDate"] = date.ToString("MM/dd/yyyy");
+
+                contractValue = DailyHistory.GetContractValue(contractNumber);
+                dt.Rows[i]["contractValue"] = contractValue;
+
+                totalFinanced = DailyHistory.GetFinanceValue(dt.Rows[i]);
+                dt.Rows[i]["totalFinanced"] = contractValue;
             }
 
             //for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             //{
             //    contractNumber = dt.Rows[i]["contractNumnber"].ObjToString();
-            //    if ( String.IsNullOrWhiteSpace ( contractNumber))
+            //    if (String.IsNullOrWhiteSpace(contractNumber))
+            //        dt.Rows.RemoveAt(i);
+
+            //    contractValue = dt.Rows[i]["contractValue"].ObjToDouble();
+            //    if (contractValue <= 0D)
             //        dt.Rows.RemoveAt(i);
             //}
+
+            barImport.Value = lastRow;
+            barImport.Refresh();
 
             G1.NumberDataTable(dt);
             dgv.DataSource = dt;
@@ -377,6 +411,24 @@ namespace SMFS
                 if (e.DisplayText.IndexOf("0000") >= 0 || e.DisplayText.IndexOf("0001") >= 0)
                     e.DisplayText = "";
             }
+        }
+        /***********************************************************************************************/
+        private void gridMain_DoubleClick_1(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt == null)
+                return;
+
+            DataRow dr = gridMain.GetFocusedDataRow();
+            string cnum = dr["contractNumber"].ObjToString();
+            if (String.IsNullOrWhiteSpace(cnum))
+                return;
+
+            this.Cursor = Cursors.WaitCursor;
+            DailyHistory dailyForm = new DailyHistory(cnum);
+            dailyForm.Show();
+
+            this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
     }
