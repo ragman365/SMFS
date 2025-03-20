@@ -383,10 +383,38 @@ namespace SMFS
             return true;
         }
         /***************************************************************************************/
+        private bool CheckDueDate ()
+        {
+            bool rtn = true;
+            string nextDueDate = GetData("Next Due Date");
+            DateTime date = nextDueDate.ObjToDateTime();
+            int day = date.Day;
+            if (DailyHistory.isInsurance(workContract))
+            {
+                if ( day != 1 && day != 15 )
+                {
+                    MessageBox.Show("*** ERROR *** Next Due Date for Insurance\nmust be set on 1st or 15th!", "Next Due Date Date Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    rtn = false;
+                }
+            }
+            else
+            {
+                if ( day != 1 )
+                {
+                    MessageBox.Show("*** ERROR *** Next Due Date for Trust\nmust be set on 1st!", "Next Due Date Date Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    rtn = false;
+                }
+            }
+                return rtn;
+        }
+        /***************************************************************************************/
         private void btnPost_Click(object sender, EventArgs e)
         {
             try
             {
+                if (!CheckDueDate())
+                    return;
+
                 if (!CheckTrustBeginningBalance())
                     return;
 

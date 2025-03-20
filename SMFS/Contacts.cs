@@ -220,7 +220,7 @@ namespace SMFS
             DataTable dt = G1.get_db_data(cmd);
             for ( int i=0; i<dt.Rows.Count; i++)
             {
-                contactType = dt.Rows[i]["contactTypes"].ObjToString();
+                contactType = dt.Rows[i]["contactType"].ObjToString();
                 if (!String.IsNullOrWhiteSpace(contactType))
                 {
                     repositoryItemComboBox1.Items.Add(contactType);

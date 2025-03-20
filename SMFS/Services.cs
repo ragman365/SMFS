@@ -27,6 +27,8 @@ namespace SMFS
     public partial class Services : DevExpress.XtraEditors.XtraForm
     {
         /***********************************************************************************************/
+        private PleaseWait pleaseForm = null;
+
         private bool alreadyLoaded = false;
         private string savePackage = "";
         private bool modified = false;
@@ -128,6 +130,9 @@ namespace SMFS
             gotPackage = false;
 
             labBalDue.Text = "Total Charges :";
+
+            G1.SetupToolTip ( picMoveFuture, "Move Future to Current");
+            G1.SetupToolTip ( picMovePast, "Move Past to Current");
 
             btnSave.Hide();
             btnAllOff.Show();
@@ -1238,6 +1243,8 @@ namespace SMFS
                                 dR[0]["price"] = newddx.Rows[i]["price"].ObjToString();
                             if (dR[0]["futurePrice"].ObjToDouble() <= 0D)
                                 dR[0]["futurePrice"] = newddx.Rows[i]["futurePrice"].ObjToString();
+                            if (dR[0]["pastPrice"].ObjToDouble() <= 0D)
+                                dR[0]["pastPrice"] = newddx.Rows[i]["pastPrice"].ObjToString();
                         }
                     }
                 }
@@ -3907,6 +3914,7 @@ namespace SMFS
             txtMarkup.Text = str;
         }
         /***********************************************************************************************/
+        private bool byPassQuestion = false;
         private void picMoveFuture_Click(object sender, EventArgs e)
         {
             if (loading)
@@ -3933,6 +3941,90 @@ namespace SMFS
             btnSave.Show();
             picMoveFuture.Hide();
             picMovePast.Show();
+
+            if (!byPassQuestion)
+            {
+
+                DialogResult result = MessageBox.Show("***Question***\nMove GPL Cremation Packages too?", "Move GLP Cremation Package Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                if (result == DialogResult.Yes)
+                {
+                    result = MessageBox.Show("***Question***\nThis will cause the Master and Cremation Packages to be saved!\nOkay?", "Save All Data Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    if (result == DialogResult.Yes)
+                        MoveEverything(dt, true );
+                }
+            }
+        }
+        /***********************************************************************************************/
+        private void MoveEverything ( DataTable dt, bool future )
+        {
+            this.Cursor = Cursors.WaitCursor;
+
+            pleaseForm = new PleaseWait("Please Wait for Mass Cremation Packages to be Saved!");
+            pleaseForm.Show();
+            pleaseForm.Refresh();
+
+            btnSave_Click(null, null);
+
+            //cmbPackage
+            //SIMPLE DISPOSITION PACKAGE
+            //MEMORIAL SERVICES WITH CREMATION PACKAGE
+            //TRADITIONAL FUNERAL SERVICE WITH CREMATION
+
+            byPassQuestion = true;
+
+            modified = false;
+            cmbPackage.Text = "SIMPLE DISPOSITION PACKAGE";
+            workPackage = cmbPackage.Text;
+            modified = false;
+            LoadData();
+            if ( future )
+                picMoveFuture_Click(null, null);
+            else
+                picMovePast_Click(null, null);
+            btnSave_Click(null, null);
+            modified = false;
+
+            cmbPackage.Text = "MEMORIAL SERVICES WITH CREMATION PACKAGE";
+            workPackage = cmbPackage.Text;
+            modified = false;
+            LoadData();
+            if (future)
+                picMoveFuture_Click(null, null);
+            else
+                picMovePast_Click(null, null);
+            btnSave_Click(null, null);
+            modified = false;
+
+            cmbPackage.Text = "TRADITIONAL FUNERAL SERVICE WITH CREMATION";
+            workPackage = cmbPackage.Text;
+            modified = false;
+            LoadData();
+            if (future)
+                picMoveFuture_Click(null, null);
+            else
+                picMovePast_Click(null, null);
+            btnSave_Click(null, null);
+            modified = false;
+
+            byPassQuestion = false;
+
+            cmbPackage.Text = "MASTER";
+            workPackage = cmbPackage.Text;
+            modified = false;
+            LoadData();
+            modified = false;
+
+            picMoveFuture.Show();
+            picMoveFuture.Refresh();
+
+            dgv.DataSource = dt;
+            dgv.Refresh();
+
+            this.Cursor = Cursors.Default;
+
+            pleaseForm.FireEvent1();
+            pleaseForm.Dispose();
+            pleaseForm = null;
         }
         /***********************************************************************************************/
         private void picMovePast_Click(object sender, EventArgs e)
@@ -3957,6 +4049,18 @@ namespace SMFS
             btnSave.Show();
             picMoveFuture.Show();
             picMovePast.Hide();
+
+            if (!byPassQuestion)
+            {
+
+                DialogResult result = MessageBox.Show("***Question***\nRestore GPL Cremation Packages too?", "Rerstore GLP Cremation Package Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                if (result == DialogResult.Yes)
+                {
+                    result = MessageBox.Show("***Question***\nThis will cause the Master and Cremation Packages to be saved!\nOkay?", "Save All Data Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    if (result == DialogResult.Yes)
+                        MoveEverything(dt, false );
+                }
+            }
         }
         /***********************************************************************************************/
         private void btnAddLocation_Click(object sender, EventArgs e)

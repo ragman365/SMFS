@@ -2019,8 +2019,25 @@ namespace SMFS
             return true;
         }
         /****************************************************************************************/
+        public static void GeneratePayerDeathLapse ( string payer )
+        {
+            string path = "C:/SMFS Reports/Class A Death Reports/";
+            DateTime date = DateTime.Now;
+            string tempName = payer + "_" + date.ToString("MM-dd-yyyy") + ".PDF";
+            string filename = path + tempName;
+            if (!File.Exists(filename))
+            {
+                CustomerDetails details = new CustomerDetails(payer, filename, true);
+                details.Dispose();
+                details = null;
+            }
+        }
+        /****************************************************************************************/
         public static void UpdatePayerPolicies ( string payer, string policyNumber, string policyFirstName, string policyLastName, string deceasedDate, string serviceId, bool reverse = false )
         {
+            if ( !reverse )
+                GeneratePayerDeathLapse(payer);
+
             string record = "";
             string cmd = "Select * from `policies` where `payer` = '" + payer+ "' AND `policyNumber` = '" + policyNumber + "' AND `policyLastName` = '" + policyLastName + "' AND `policyFirstName` = '" + policyFirstName + "' ORDER BY `contractNumber` DESC;";
             DataTable ddx = G1.get_db_data(cmd);
