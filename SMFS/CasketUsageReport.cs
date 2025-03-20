@@ -139,7 +139,11 @@ namespace SMFS
         /****************************************************************************************/
         private void btnRun_Click(object sender, EventArgs e)
         {
+            DateTime startTime = DateTime.Now;
             LoadData();
+            DateTime stopTime = DateTime.Now;
+
+            TimeSpan ts = stopTime - startTime;
         }
         /****************************************************************************************/
         private void LoadData()
