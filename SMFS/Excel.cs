@@ -58,177 +58,177 @@ namespace GeneralLib
         public static int hoursserviceCol = 33;
         public static int unionCol = 34;
 /***********************************************************************************************/
-        public static void WriteExcelData( DateTime date, DataTable dt, bool yearend = false )
-        {
-            string filename = "c:/rag/p" + date.Day.ToString("D2") + date.Month.ToString("D2") + date.Year.ToString("D4") + ".xls";
-            if (yearend)
-            {
-                filename = "c:/rag/PS3112" + date.Year.ToString("D4") + ".xls";
-            }
-            if (File.Exists(filename))
-                File.Delete(filename);
-            string templateFile = "c:/rag/Blank TR Excel.xls";
-            File.Copy(templateFile, filename);
-            //string tempfile = "c:/rag/TempBlank.xls";
-            //if (File.Exists(tempfile))
-            //    File.Delete(tempfile);
-            //File.Copy(templateFile, tempfile);
+//        public static void WriteExcelData( DateTime date, DataTable dt, bool yearend = false )
+//        {
+//            string filename = "c:/rag/p" + date.Day.ToString("D2") + date.Month.ToString("D2") + date.Year.ToString("D4") + ".xls";
+//            if (yearend)
+//            {
+//                filename = "c:/rag/PS3112" + date.Year.ToString("D4") + ".xls";
+//            }
+//            if (File.Exists(filename))
+//                File.Delete(filename);
+//            string templateFile = "c:/rag/Blank TR Excel.xls";
+//            File.Copy(templateFile, filename);
+//            //string tempfile = "c:/rag/TempBlank.xls";
+//            //if (File.Exists(tempfile))
+//            //    File.Delete(tempfile);
+//            //File.Copy(templateFile, tempfile);
 
-            object misValue = System.Reflection.Missing.Value;
-            var excelApp = new Excel.Application();
-            excelApp.Workbooks.Open(filename);
-            Excel.Worksheet myExcelWorkSheet = (Excel.Worksheet)excelApp.ActiveSheet;
-            excelApp.Visible = true;
+//            object misValue = System.Reflection.Missing.Value;
+//            var excelApp = new Excel.Application();
+//            excelApp.Workbooks.Open(filename);
+//            Excel.Worksheet myExcelWorkSheet = (Excel.Worksheet)excelApp.ActiveSheet;
+//            excelApp.Visible = true;
 
-            if (yearend)
-                LoadYearendTable(date, dt, excelApp);
-            else
-                LoadDataTable(date, dt, excelApp); // This is the guy that does the work
+//            if (yearend)
+//                LoadYearendTable(date, dt, excelApp);
+//            else
+//                LoadDataTable(date, dt, excelApp); // This is the guy that does the work
             
-//            excelApp.SaveWorkspace(filename);
-            excelApp.Workbooks.Close();
-            MessageBox.Show("Press 'Return' to continue . . .");
-        }
+////            excelApp.SaveWorkspace(filename);
+//            excelApp.Workbooks.Close();
+//            MessageBox.Show("Press 'Return' to continue . . .");
+//        }
 /***********************************************************************************************/
-        public static void WriteCensusData( DateTime date, DataTable dt )
-        {
-            string filename = "c:/rag/PS3112" + date.Year.ToString("D4") + ".xls";
-            if (File.Exists(filename))
-                File.Delete(filename);
-            string templateFile = "c:/rag/Blank TR Excel.xls";
-            File.Copy(templateFile, filename);
-            //string tempfile = "c:/rag/TempBlank.xls";
-            //if (File.Exists(tempfile))
-            //    File.Delete(tempfile);
-            //File.Copy(templateFile, tempfile);
+//        public static void WriteCensusData( DateTime date, DataTable dt )
+//        {
+//            string filename = "c:/rag/PS3112" + date.Year.ToString("D4") + ".xls";
+//            if (File.Exists(filename))
+//                File.Delete(filename);
+//            string templateFile = "c:/rag/Blank TR Excel.xls";
+//            File.Copy(templateFile, filename);
+//            //string tempfile = "c:/rag/TempBlank.xls";
+//            //if (File.Exists(tempfile))
+//            //    File.Delete(tempfile);
+//            //File.Copy(templateFile, tempfile);
 
-            object misValue = System.Reflection.Missing.Value;
-            var excelApp = new Excel.Application();
-            excelApp.Workbooks.Open(filename);
-            Excel.Worksheet myExcelWorkSheet = (Excel.Worksheet)excelApp.ActiveSheet;
-            excelApp.Visible = true;
+//            object misValue = System.Reflection.Missing.Value;
+//            var excelApp = new Excel.Application();
+//            excelApp.Workbooks.Open(filename);
+//            Excel.Worksheet myExcelWorkSheet = (Excel.Worksheet)excelApp.ActiveSheet;
+//            excelApp.Visible = true;
 
-            LoadDataTable(date, dt, excelApp); // This is the guy that does the work
+//            LoadDataTable(date, dt, excelApp); // This is the guy that does the work
             
-//            excelApp.SaveWorkspace(filename);
-            excelApp.Workbooks.Close();
-            MessageBox.Show("Press 'Return' to continue . . .");
-        }
+////            excelApp.SaveWorkspace(filename);
+//            excelApp.Workbooks.Close();
+//            MessageBox.Show("Press 'Return' to continue . . .");
+//        }
 /***********************************************************************************************/
-        public static void JunkExcel( string templateFile, string filename )
-        {
-            //            var fileName = @"C:\calc\dev\jmapro\2012 Contribution File.xls";
-            Excel.Application myExcelApp;Excel.Workbooks myExcelWorkbooks;
-            Excel.Workbook myExcelWorkBook;
-            object misValue = System.Reflection.Missing.Value;
-            myExcelApp = new Excel.Application();
-            myExcelApp.Visible = true;
-            myExcelWorkbooks = myExcelApp.Workbooks;
-            myExcelWorkBook = myExcelWorkbooks.Open(templateFile, misValue, false, misValue, misValue, false, true, misValue, misValue, true, false, misValue, misValue, misValue, misValue);
-            Excel.Worksheet myExcelWorkSheet = (Excel.Worksheet)myExcelWorkBook.ActiveSheet;
+//        public static void JunkExcel( string templateFile, string filename )
+//        {
+//            //            var fileName = @"C:\calc\dev\jmapro\2012 Contribution File.xls";
+//            Excel.Application myExcelApp;Excel.Workbooks myExcelWorkbooks;
+//            Excel.Workbook myExcelWorkBook;
+//            object misValue = System.Reflection.Missing.Value;
+//            myExcelApp = new Excel.Application();
+//            myExcelApp.Visible = true;
+//            myExcelWorkbooks = myExcelApp.Workbooks;
+//            myExcelWorkBook = myExcelWorkbooks.Open(templateFile, misValue, false, misValue, misValue, false, true, misValue, misValue, true, false, misValue, misValue, misValue, misValue);
+//            Excel.Worksheet myExcelWorkSheet = (Excel.Worksheet)myExcelWorkBook.ActiveSheet;
 
-            myExcelWorkSheet.get_Range("C22", misValue).Formula = "New Value";
-            myExcelWorkSheet.Cells[1, 1] = "Blah";
-            myExcelWorkSheet.SaveAs(filename, misValue, misValue, false, false, false, false, false, false, false);
-            myExcelWorkBook.Close();
-
-
+//            myExcelWorkSheet.get_Range("C22", misValue).Formula = "New Value";
+//            myExcelWorkSheet.Cells[1, 1] = "Blah";
+//            myExcelWorkSheet.SaveAs(filename, misValue, misValue, false, false, false, false, false, false, false);
+//            myExcelWorkBook.Close();
 
 
-            DataTable dt = new DataTable();
-            var connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Extended Properties=\"Excel 12.0;IMEX=1;HDR=NO;TypeGuessRows=0;ImportMixedTypes=Text\""; ;
-            using (var conn = new OleDbConnection(connectionString))
-            {
-                conn.Open();
 
-                var sheets = conn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "SELECT * FROM [" + sheets.Rows[0]["TABLE_NAME"].ToString() + "] ";
 
-                    var adapter = new OleDbDataAdapter(cmd);
-                    var ds = new DataSet();
-                    adapter.Fill(ds);
-                    dt = ds.Tables[0].Copy();
-                    dt.Rows[0][0] = "This is my stuff here";
-                    using (var conn2 = new OleDbConnection(connectionString))
-                    {
-                        OleDbCommand updateCmd = new OleDbCommand("UPDATE [" + sheets.Rows[0]["TABLE_NAME"].ToString() + "] ");
-                        updateCmd.Connection = conn2;
-                        adapter.UpdateCommand = updateCmd;
-                        conn2.Open();
-                        adapter.Update(dt);
-                        conn2.Close();
-                    }
-                }
-                conn.Close();
-            }
-            return;
-        }
-/***********************************************************************************************/
-        public static void LoadDataTable(DateTime date, DataTable dt, Excel.Application excelApp )
-        {
-            excelApp.Cells[2, 2] = "Jefferson Medical Profit Sharing Plan";
-            excelApp.Cells[3, 2] = "218871";
-            excelApp.Cells[4, 2] = date.Month.ToString("D2") + "/" + date.Day.ToString("D2") + "/" + date.Year.ToString("D4");
-            int row = RowOffset;
-            double k401 = 0D;
-            double safe = 0D;
-            double loan = 0D;
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                string num = dt.Rows[i]["num"].ToString();
-                if (num.Trim().Length == 0)
-                    continue;
-                string ssn = dt.Rows[i]["ssn"].ToString();
-                if (ssn.Trim().Length == 0 && i == (dt.Rows.Count - 1))
-                    continue;
-                string lastname = dt.Rows[i]["lastname"].ToString();
-                string firstname = dt.Rows[i]["firstname"].ToString();
-                string mi = dt.Rows[i]["mi"].ToString();
-                string gross = dt.Rows[i]["gross"].ToString();
-                string safepaid = dt.Rows[i]["safepaid"].ToString();
-                string reductionpaid = dt.Rows[i]["reductionpaid"].ToString();
-                string loanpaid = dt.Rows[i]["loanpaid"].ToString();
-                string birthdate = fixDate(dt.Rows[i]["bdate"].ToString());
-                string hiredate = fixDate(dt.Rows[i]["hdate"].ToString());
-                string termdate = fixDate(dt.Rows[i]["tdate"].ToString());
-                string eligibledate = fixDate(dt.Rows[i]["eligible"].ToString());
-                string hours = dt.Rows[i]["hours"].ToString();
-                string address1 = dt.Rows[i]["address1"].ToString();
-                string address2 = dt.Rows[i]["address2"].ToString();
-                string city     = dt.Rows[i]["city"].ToString();
-                string state    = dt.Rows[i]["state"].ToString();
-                string zip      = dt.Rows[i]["zip"].ToString();
-                excelApp.Cells[row,ssnCol] = ssn;
-                excelApp.Cells[row,lastnameCol] = lastname;
-                excelApp.Cells[row,firstnameCol] = firstname;
-                excelApp.Cells[row,miCol] = mi;
-                excelApp.Cells[row,grossCol] = gross;
-                excelApp.Cells[row,safeCol] = safepaid;
-                excelApp.Cells[row,k401Col] = reductionpaid;
-                excelApp.Cells[row,loanCol] = loanpaid;
-                excelApp.Cells[row, bdateCol] = birthdate;
-                excelApp.Cells[row, hdateCol] = hiredate;
-                excelApp.Cells[row, termdateCol] = termdate;
-                excelApp.Cells[row, elidateCol] = eligibledate;
-                excelApp.Cells[row, hoursCol] = hours;
-                excelApp.Cells[row,add1Col] = address1;
-                excelApp.Cells[row,add2Col] = address2;
-                excelApp.Cells[row,cityCol] = city;
-                excelApp.Cells[row,stateCol] = state;
-                excelApp.Cells[row,zipCol] = zip;
-                if (G1.validate_numeric(safepaid))
-                    safe += Convert.ToDouble(safepaid);
-                if (G1.validate_numeric(reductionpaid))
-                    k401 += Convert.ToDouble(reductionpaid);
-                if (G1.validate_numeric(loanpaid))
-                    loan += Convert.ToDouble(loanpaid);
-                row++;
-            }
-            double total = safe + loan + k401;
-            excelApp.Cells[2, 10] = total.ToString();
-        }
+//            DataTable dt = new DataTable();
+//            var connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + ";Extended Properties=\"Excel 12.0;IMEX=1;HDR=NO;TypeGuessRows=0;ImportMixedTypes=Text\""; ;
+//            using (var conn = new OleDbConnection(connectionString))
+//            {
+//                conn.Open();
+
+//                var sheets = conn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
+//                using (var cmd = conn.CreateCommand())
+//                {
+//                    cmd.CommandText = "SELECT * FROM [" + sheets.Rows[0]["TABLE_NAME"].ToString() + "] ";
+
+//                    var adapter = new OleDbDataAdapter(cmd);
+//                    var ds = new DataSet();
+//                    adapter.Fill(ds);
+//                    dt = ds.Tables[0].Copy();
+//                    dt.Rows[0][0] = "This is my stuff here";
+//                    using (var conn2 = new OleDbConnection(connectionString))
+//                    {
+//                        OleDbCommand updateCmd = new OleDbCommand("UPDATE [" + sheets.Rows[0]["TABLE_NAME"].ToString() + "] ");
+//                        updateCmd.Connection = conn2;
+//                        adapter.UpdateCommand = updateCmd;
+//                        conn2.Open();
+//                        adapter.Update(dt);
+//                        conn2.Close();
+//                    }
+//                }
+//                conn.Close();
+//            }
+//            return;
+//        }
+///***********************************************************************************************/
+//        public static void LoadDataTable(DateTime date, DataTable dt, Excel.Application excelApp )
+//        {
+//            excelApp.Cells[2, 2] = "SMFS Colonial Chapel";
+//            excelApp.Cells[3, 2] = "218871";
+//            excelApp.Cells[4, 2] = date.Month.ToString("D2") + "/" + date.Day.ToString("D2") + "/" + date.Year.ToString("D4");
+//            int row = RowOffset;
+//            double k401 = 0D;
+//            double safe = 0D;
+//            double loan = 0D;
+//            for (int i = 0; i < dt.Rows.Count; i++)
+//            {
+//                string num = dt.Rows[i]["num"].ToString();
+//                if (num.Trim().Length == 0)
+//                    continue;
+//                string ssn = dt.Rows[i]["ssn"].ToString();
+//                if (ssn.Trim().Length == 0 && i == (dt.Rows.Count - 1))
+//                    continue;
+//                string lastname = dt.Rows[i]["lastname"].ToString();
+//                string firstname = dt.Rows[i]["firstname"].ToString();
+//                string mi = dt.Rows[i]["mi"].ToString();
+//                string gross = dt.Rows[i]["gross"].ToString();
+//                string safepaid = dt.Rows[i]["safepaid"].ToString();
+//                string reductionpaid = dt.Rows[i]["reductionpaid"].ToString();
+//                string loanpaid = dt.Rows[i]["loanpaid"].ToString();
+//                string birthdate = fixDate(dt.Rows[i]["bdate"].ToString());
+//                string hiredate = fixDate(dt.Rows[i]["hdate"].ToString());
+//                string termdate = fixDate(dt.Rows[i]["tdate"].ToString());
+//                string eligibledate = fixDate(dt.Rows[i]["eligible"].ToString());
+//                string hours = dt.Rows[i]["hours"].ToString();
+//                string address1 = dt.Rows[i]["address1"].ToString();
+//                string address2 = dt.Rows[i]["address2"].ToString();
+//                string city     = dt.Rows[i]["city"].ToString();
+//                string state    = dt.Rows[i]["state"].ToString();
+//                string zip      = dt.Rows[i]["zip"].ToString();
+//                excelApp.Cells[row,ssnCol] = ssn;
+//                excelApp.Cells[row,lastnameCol] = lastname;
+//                excelApp.Cells[row,firstnameCol] = firstname;
+//                excelApp.Cells[row,miCol] = mi;
+//                excelApp.Cells[row,grossCol] = gross;
+//                excelApp.Cells[row,safeCol] = safepaid;
+//                excelApp.Cells[row,k401Col] = reductionpaid;
+//                excelApp.Cells[row,loanCol] = loanpaid;
+//                excelApp.Cells[row, bdateCol] = birthdate;
+//                excelApp.Cells[row, hdateCol] = hiredate;
+//                excelApp.Cells[row, termdateCol] = termdate;
+//                excelApp.Cells[row, elidateCol] = eligibledate;
+//                excelApp.Cells[row, hoursCol] = hours;
+//                excelApp.Cells[row,add1Col] = address1;
+//                excelApp.Cells[row,add2Col] = address2;
+//                excelApp.Cells[row,cityCol] = city;
+//                excelApp.Cells[row,stateCol] = state;
+//                excelApp.Cells[row,zipCol] = zip;
+//                if (G1.validate_numeric(safepaid))
+//                    safe += Convert.ToDouble(safepaid);
+//                if (G1.validate_numeric(reductionpaid))
+//                    k401 += Convert.ToDouble(reductionpaid);
+//                if (G1.validate_numeric(loanpaid))
+//                    loan += Convert.ToDouble(loanpaid);
+//                row++;
+//            }
+//            double total = safe + loan + k401;
+//            excelApp.Cells[2, 10] = total.ToString();
+//        }
 /***********************************************************************************************/
         public static string fixDate(string date)
         {
@@ -240,176 +240,176 @@ namespace GeneralLib
             date = dd.Month.ToString("D2") + "/" + dd.Day.ToString("D2") + "/" + dd.Year.ToString("D4");
             return date;
         }
-/***********************************************************************************************/
-        public static void LoadYearendTable(DateTime date, DataTable dt, Excel.Application excelApp )
-        {
-            excelApp.Cells[2, 2] = "Jefferson Medical Yearend Profit Sharing Plan";
-            excelApp.Cells[3, 2] = "218871";
-            excelApp.Cells[4, 2] = date.Month.ToString("D2") + "/" + date.Day.ToString("D2") + "/" + date.Year.ToString("D4");
-            int row = RowOffset;
-            double k401 = 0D;
-            double safe = 0D;
-            double loan = 0D;
-            double gateway = 0D;
-            double psyear = 0D;
-            string lastname = "";
-            string firstname = "";
-            string mi = "";
-            string gross = ""; ;
-            string safepaid = ""; ;
-            string reductionpaid = "";
-            string ps = "";
-            string gw = "";
-            string loanpaid = "";
-            string birthdate = "";
-            string hiredate = "";
-            string termdate = "";
-            string eligibledate = "";
-            string hours = "";
-            string address1 = "";
-            string address2 = "";
-            string city     = "";
-            string state    = "";
-            string zip      = "";
-            double dvalue = 0D;
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                string num = dt.Rows[i]["num"].ToString();
-                if (num.Trim().Length == 0)
-                    continue;
-                string ssn = dt.Rows[i]["ssn"].ToString();
-                if (ssn.Trim().Length == 0 && i == (dt.Rows.Count - 1))
-                    continue;
-                lastname = dt.Rows[i]["lastname"].ToString();
-                firstname = dt.Rows[i]["firstname"].ToString();
-                mi = dt.Rows[i]["mi"].ToString();
-                gross = dt.Rows[i]["gross"].ToString();
-//                safepaid = dt.Rows[i]["safepaid"].ToString();
-                safepaid = dt.Rows[i]["safediff"].ToString();
-//                reductionpaid = dt.Rows[i]["reductionpaid"].ToString();
-                ps = dt.Rows[i]["profitsharing"].ToString();
-                if (string.IsNullOrEmpty(ps))
-                    ps = "0.00";
-                gw = dt.Rows[i]["gateway"].ToString();
-                if (string.IsNullOrEmpty(gw))
-                    gw = "0.00";
-                dvalue = Convert.ToDouble(ps) + Convert.ToDouble(gw);
+///***********************************************************************************************/
+//        public static void LoadYearendTable(DateTime date, DataTable dt, Excel.Application excelApp )
+//        {
+//            excelApp.Cells[2, 2] = "SMFS Colonial Chapel";
+//            excelApp.Cells[3, 2] = "218871";
+//            excelApp.Cells[4, 2] = date.Month.ToString("D2") + "/" + date.Day.ToString("D2") + "/" + date.Year.ToString("D4");
+//            int row = RowOffset;
+//            double k401 = 0D;
+//            double safe = 0D;
+//            double loan = 0D;
+//            double gateway = 0D;
+//            double psyear = 0D;
+//            string lastname = "";
+//            string firstname = "";
+//            string mi = "";
+//            string gross = ""; ;
+//            string safepaid = ""; ;
+//            string reductionpaid = "";
+//            string ps = "";
+//            string gw = "";
+//            string loanpaid = "";
+//            string birthdate = "";
+//            string hiredate = "";
+//            string termdate = "";
+//            string eligibledate = "";
+//            string hours = "";
+//            string address1 = "";
+//            string address2 = "";
+//            string city     = "";
+//            string state    = "";
+//            string zip      = "";
+//            double dvalue = 0D;
+//            for (int i = 0; i < dt.Rows.Count; i++)
+//            {
+//                string num = dt.Rows[i]["num"].ToString();
+//                if (num.Trim().Length == 0)
+//                    continue;
+//                string ssn = dt.Rows[i]["ssn"].ToString();
+//                if (ssn.Trim().Length == 0 && i == (dt.Rows.Count - 1))
+//                    continue;
+//                lastname = dt.Rows[i]["lastname"].ToString();
+//                firstname = dt.Rows[i]["firstname"].ToString();
+//                mi = dt.Rows[i]["mi"].ToString();
+//                gross = dt.Rows[i]["gross"].ToString();
+////                safepaid = dt.Rows[i]["safepaid"].ToString();
+//                safepaid = dt.Rows[i]["safediff"].ToString();
+////                reductionpaid = dt.Rows[i]["reductionpaid"].ToString();
+//                ps = dt.Rows[i]["profitsharing"].ToString();
+//                if (string.IsNullOrEmpty(ps))
+//                    ps = "0.00";
+//                gw = dt.Rows[i]["gateway"].ToString();
+//                if (string.IsNullOrEmpty(gw))
+//                    gw = "0.00";
+//                dvalue = Convert.ToDouble(ps) + Convert.ToDouble(gw);
 
-//                loanpaid = dt.Rows[i]["loanpaid"].ToString();
-                birthdate = fixDate(dt.Rows[i]["bdate"].ToString());
-                hiredate = fixDate(dt.Rows[i]["hdate"].ToString());
-                termdate = fixDate(dt.Rows[i]["tdate"].ToString());
-                eligibledate = fixDate(dt.Rows[i]["eligible"].ToString());
-                //hours = dt.Rows[i]["hours"].ToString();
-                address1 = dt.Rows[i]["address1"].ToString();
-                address2 = dt.Rows[i]["address2"].ToString();
-                city     = dt.Rows[i]["city"].ToString();
-                state    = dt.Rows[i]["state"].ToString();
-                zip      = dt.Rows[i]["zip"].ToString();
-                excelApp.Cells[row,ssnCol] = ssn;
-                excelApp.Cells[row,lastnameCol] = lastname;
-                excelApp.Cells[row,firstnameCol] = firstname;
-                excelApp.Cells[row,miCol] = mi;
-                excelApp.Cells[row,grossCol] = gross;
-                excelApp.Cells[row,safeCol] = safepaid;
-                excelApp.Cells[row,k401Col] = reductionpaid;
-                excelApp.Cells[row, psCol] = dvalue.ToString();
-                excelApp.Cells[row,loanCol] = loanpaid;
-                excelApp.Cells[row, bdateCol] = birthdate;
-                excelApp.Cells[row, hdateCol] = hiredate;
-                excelApp.Cells[row, termdateCol] = termdate;
-                excelApp.Cells[row, elidateCol] = eligibledate;
-                excelApp.Cells[row, hoursCol] = hours;
-                excelApp.Cells[row,add1Col] = address1;
-                excelApp.Cells[row,add2Col] = address2;
-                excelApp.Cells[row,cityCol] = city;
-                excelApp.Cells[row,stateCol] = state;
-                excelApp.Cells[row,zipCol] = zip;
-                if (G1.validate_numeric(safepaid))
-                    safe += Convert.ToDouble(safepaid);
-                if (G1.validate_numeric(gw))
-                    gateway += Convert.ToDouble(gw);
-                if (G1.validate_numeric(reductionpaid))
-                    k401 += Convert.ToDouble(reductionpaid);
-                if (G1.validate_numeric(loanpaid))
-                    loan += Convert.ToDouble(loanpaid);
-                if (G1.validate_numeric(ps))
-                    psyear += Convert.ToDouble(ps);
-                row++;
-            }
-            double total = safe + psyear + gateway;
-            excelApp.Cells[2, 10] = total.ToString();
-        }
-/***********************************************************************************************/
-        public static DataTable ReadExcelFile(string dir, string filename)
-        {
-            DataTable dt = new DataTable();
-            //Directory.SetCurrentDirectory(dir);
-            object misValue = System.Reflection.Missing.Value;
-            var excelApp = new Excel.Application();
-            //excelApp.Workbooks.Open(dir + "/" + filename);
-            excelApp.Workbooks.Open(filename);
-            Excel.Worksheet myExcelWorkSheet = (Excel.Worksheet)excelApp.ActiveSheet;
-            excelApp.Visible = false;
-            string data = "";
-            string cname = "";
-            string[] List = new string [] { "C 1", "C 3", "C 45", "C 46", "C 47", "C 48", "C 49", "C 98", "C 146", "C 147", "C 148", "C 149", "C 150", "C 162" };
-            try
-            {
-                for (int col = 0; col < List.Length; col++)
-                {
-                    string name = List[col].ObjToString();
-                    dt.Columns.Add(name);
-                }
-                //for (int col = 1; col <= myExcelWorkSheet.Columns.Count; col++)
-                //    dt.Columns.Add("C " + col.ToString());
-                for (int row = 1; row <= myExcelWorkSheet.Rows.Count; row++)
-                {
-                    DataRow dr = dt.NewRow();
-                    for (int col = 0; col < List.Length; col++)
-                    {
-                        string name = List[col].ObjToString();
-                        int actualcol = name.Replace ( "C ", "" ).ObjToInt32();
+////                loanpaid = dt.Rows[i]["loanpaid"].ToString();
+//                birthdate = fixDate(dt.Rows[i]["bdate"].ToString());
+//                hiredate = fixDate(dt.Rows[i]["hdate"].ToString());
+//                termdate = fixDate(dt.Rows[i]["tdate"].ToString());
+//                eligibledate = fixDate(dt.Rows[i]["eligible"].ToString());
+//                //hours = dt.Rows[i]["hours"].ToString();
+//                address1 = dt.Rows[i]["address1"].ToString();
+//                address2 = dt.Rows[i]["address2"].ToString();
+//                city     = dt.Rows[i]["city"].ToString();
+//                state    = dt.Rows[i]["state"].ToString();
+//                zip      = dt.Rows[i]["zip"].ToString();
+//                excelApp.Cells[row,ssnCol] = ssn;
+//                excelApp.Cells[row,lastnameCol] = lastname;
+//                excelApp.Cells[row,firstnameCol] = firstname;
+//                excelApp.Cells[row,miCol] = mi;
+//                excelApp.Cells[row,grossCol] = gross;
+//                excelApp.Cells[row,safeCol] = safepaid;
+//                excelApp.Cells[row,k401Col] = reductionpaid;
+//                excelApp.Cells[row, psCol] = dvalue.ToString();
+//                excelApp.Cells[row,loanCol] = loanpaid;
+//                excelApp.Cells[row, bdateCol] = birthdate;
+//                excelApp.Cells[row, hdateCol] = hiredate;
+//                excelApp.Cells[row, termdateCol] = termdate;
+//                excelApp.Cells[row, elidateCol] = eligibledate;
+//                excelApp.Cells[row, hoursCol] = hours;
+//                excelApp.Cells[row,add1Col] = address1;
+//                excelApp.Cells[row,add2Col] = address2;
+//                excelApp.Cells[row,cityCol] = city;
+//                excelApp.Cells[row,stateCol] = state;
+//                excelApp.Cells[row,zipCol] = zip;
+//                if (G1.validate_numeric(safepaid))
+//                    safe += Convert.ToDouble(safepaid);
+//                if (G1.validate_numeric(gw))
+//                    gateway += Convert.ToDouble(gw);
+//                if (G1.validate_numeric(reductionpaid))
+//                    k401 += Convert.ToDouble(reductionpaid);
+//                if (G1.validate_numeric(loanpaid))
+//                    loan += Convert.ToDouble(loanpaid);
+//                if (G1.validate_numeric(ps))
+//                    psyear += Convert.ToDouble(ps);
+//                row++;
+//            }
+//            double total = safe + psyear + gateway;
+//            excelApp.Cells[2, 10] = total.ToString();
+//        }
+///***********************************************************************************************/
+//        public static DataTable ReadExcelFile(string dir, string filename)
+//        {
+//            DataTable dt = new DataTable();
+//            //Directory.SetCurrentDirectory(dir);
+//            object misValue = System.Reflection.Missing.Value;
+//            var excelApp = new Excel.Application();
+//            //excelApp.Workbooks.Open(dir + "/" + filename);
+//            excelApp.Workbooks.Open(filename);
+//            Excel.Worksheet myExcelWorkSheet = (Excel.Worksheet)excelApp.ActiveSheet;
+//            excelApp.Visible = false;
+//            string data = "";
+//            string cname = "";
+//            string[] List = new string [] { "C 1", "C 3", "C 45", "C 46", "C 47", "C 48", "C 49", "C 98", "C 146", "C 147", "C 148", "C 149", "C 150", "C 162" };
+//            try
+//            {
+//                for (int col = 0; col < List.Length; col++)
+//                {
+//                    string name = List[col].ObjToString();
+//                    dt.Columns.Add(name);
+//                }
+//                //for (int col = 1; col <= myExcelWorkSheet.Columns.Count; col++)
+//                //    dt.Columns.Add("C " + col.ToString());
+//                for (int row = 1; row <= myExcelWorkSheet.Rows.Count; row++)
+//                {
+//                    DataRow dr = dt.NewRow();
+//                    for (int col = 0; col < List.Length; col++)
+//                    {
+//                        string name = List[col].ObjToString();
+//                        int actualcol = name.Replace ( "C ", "" ).ObjToInt32();
 
-                        data = GetCell(myExcelWorkSheet, row, actualcol);
-                        if (!String.IsNullOrWhiteSpace ( data ) )
-                            dr[name] = data;
-                    }
-                    //for (int col = 1; col <= myExcelWorkSheet.Columns.Count; col++)
-                    //{
-                    //    data = GetCell(myExcelWorkSheet, row, col);
-                    //    if (!String.IsNullOrWhiteSpace ( data ) )
-                    //    {
-                    //        cname = "C " + col.ToString();
-                    //        dr[cname] = data;
-                    //    }
-                    //}
-                    dt.Rows.Add(dr);
-                    int maxrow = dt.Rows.Count-1;
-                    string total = dt.Rows[maxrow]["C 1"].ObjToString().Trim().ToUpper();
-                    if (total == "TOTALS")
-                        break;
-                }
-            }
-            catch
-            {
-            }
-            return dt;
-        }
-/****************************************************************************************/
-        public static string GetCell(Excel.Worksheet myExcelWorkSheet, int row, int col)
-        {
-            string str = "";
-            try
-            {
-                object var = (object)(myExcelWorkSheet.Cells[row, col] as Excel.Range).Value;
-                str = var.ObjToString();
-            }
-            catch
-            {
-            }
-            return str;
-        }
+//                        data = GetCell(myExcelWorkSheet, row, actualcol);
+//                        if (!String.IsNullOrWhiteSpace ( data ) )
+//                            dr[name] = data;
+//                    }
+//                    //for (int col = 1; col <= myExcelWorkSheet.Columns.Count; col++)
+//                    //{
+//                    //    data = GetCell(myExcelWorkSheet, row, col);
+//                    //    if (!String.IsNullOrWhiteSpace ( data ) )
+//                    //    {
+//                    //        cname = "C " + col.ToString();
+//                    //        dr[cname] = data;
+//                    //    }
+//                    //}
+//                    dt.Rows.Add(dr);
+//                    int maxrow = dt.Rows.Count-1;
+//                    string total = dt.Rows[maxrow]["C 1"].ObjToString().Trim().ToUpper();
+//                    if (total == "TOTALS")
+//                        break;
+//                }
+//            }
+//            catch
+//            {
+//            }
+//            return dt;
+//        }
+///****************************************************************************************/
+//        public static string GetCell(Excel.Worksheet myExcelWorkSheet, int row, int col)
+//        {
+//            string str = "";
+//            try
+//            {
+//                object var = (object)(myExcelWorkSheet.Cells[row, col] as Excel.Range).Value;
+//                str = var.ObjToString();
+//            }
+//            catch
+//            {
+//            }
+//            return str;
+//        }
 /***********************************************************************************************/
     }
 }

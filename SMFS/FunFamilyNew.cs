@@ -44,7 +44,7 @@ namespace SMFS
         private bool newFamilyPB = true;
         private DataTable workDt6 = null;
         private bool gameOver = false;
-
+        private bool noSave = false;
         /****************************************************************************************/
         EditCust editCust = null;
         /****************************************************************************************/
@@ -76,6 +76,7 @@ namespace SMFS
             workContract = contract;
             workWhat = what;
             workFuneral = funeral;
+            noSave = true;
         }
         /****************************************************************************************/
         public FunFamilyNew(string contract, bool funeral, bool legal = false, string what = "", string filter = "")
@@ -94,6 +95,19 @@ namespace SMFS
             SetupMainGrid();
             funModified = false;
             otherModified = false;
+
+            if ( noSave )
+            {
+                pictureBox11.Hide();
+                pictureBox12.Hide();
+                picRowDown.Hide();
+                picRowUp.Hide();
+
+                gridMainDep.OptionsBehavior.Editable = false;
+                gridMainDep.OptionsBehavior.ReadOnly = true;
+
+                textBox1.Hide();
+            }
 
             panelClergyStuff.Hide();
             btnHold.Hide();
@@ -1191,6 +1205,8 @@ namespace SMFS
         /***************************************************************************************/
         public void FireEventFunServicesSetModified()
         {
+            if (noSave)
+                return;
             funModified = true;
             this.btnSaveAll.Show();
             this.btnSaveAll.Refresh();
@@ -1932,6 +1948,9 @@ namespace SMFS
         /****************************************************************************************/
         private void gridMainDep_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
+            if (noSave)
+                return;
+
             if (whichTab != "MAIN")
             {
                 if (dgv4.Visible)
@@ -2605,6 +2624,9 @@ namespace SMFS
         /****************************************************************************************/
         private void repositoryItemCheckEdit1_Click(object sender, EventArgs e)
         {
+            if (noSave)
+                return;
+
             DevExpress.XtraEditors.CheckEdit checkBox = (DevExpress.XtraEditors.CheckEdit)sender;
 
             DataRow dr = gridMainLegal.GetFocusedDataRow();
@@ -4861,6 +4883,9 @@ namespace SMFS
         /****************************************************************************************/
         private void repositoryItemCheckEdit6_Click(object sender, EventArgs e)
         {
+            if (noSave)
+                return;
+
             DataRow dr = gridMainDep.GetFocusedDataRow();
             DataTable dx = (DataTable)dgvDependent.DataSource;
             int rowHandle = gridMainDep.FocusedRowHandle;
@@ -6399,6 +6424,9 @@ namespace SMFS
         /****************************************************************************************/
         private void repositoryItemCheckEdit7_CheckedChanged(object sender, EventArgs e)
         {
+            if (noSave)
+                return;
+
             DataTable dt = (DataTable)dgvDependent.DataSource;
 
             //            SaveMembers(dt, "FAM");
@@ -6475,6 +6503,9 @@ namespace SMFS
         /****************************************************************************************/
         private void repositoryItemCheckEdit12_CheckedChanged(object sender, EventArgs e)
         {
+            if (noSave)
+                return;
+
             DataTable dt = (DataTable)dgvDependent.DataSource;
 
             //SaveMembers(dt, "FAM");
