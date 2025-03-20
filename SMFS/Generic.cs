@@ -300,6 +300,15 @@ namespace GeneralLib
             return retval;
         }
         /********************************************************************************************/
+        public static MySqlConnection conn10
+        {
+            get
+            {
+                MySqlConnection mySQL = new MySqlConnection("host=localhost;database=smfs;uid=root;password=P@ssword.1090;allow zero datetime = yes");
+                return mySQL;
+            }
+        } 
+        /********************************************************************************************/
         public static bool firstSQL = true;
         public static MySqlConnection conn1
         {
@@ -360,6 +369,12 @@ namespace GeneralLib
             {
             }
             return database;
+        }
+        /***********************************************************************************************/
+        public static void OpenConnection10()
+        {
+            if (conn10.State != ConnectionState.Open)
+                conn10.Open();
         }
         /***********************************************************************************************/
         public static void OpenConnection()
@@ -2236,13 +2251,59 @@ namespace GeneralLib
                 dt.ImportRow(dRows[i]);
         }
         /***************************************************************************************/
+        public static void duplicate_dt_column(DataTable fromdt, string from, DataTable todt )
+        {
+            if (G1.get_column_number(fromdt, from) < 0)
+                return;
+            if (G1.get_column_number ( todt, from ) < 0)
+            {
+                try
+                {
+                    string type = fromdt.Columns[from].DataType.ToString();
+                    if (type.ToUpper().IndexOf("MYSQLDATETIME") >= 0)
+                        type = "System.DateTime";
+                    todt.Columns.Add(from, Type.GetType(type));
+                }
+                catch ( Exception ex)
+                {
+                }
+            }
+
+            if ( fromdt.Rows.Count > todt.Rows.Count )
+            {
+                int rows = fromdt.Rows.Count - todt.Rows.Count;
+                for ( int i=0; i<rows; i++)
+                {
+                    try
+                    {
+                        DataRow dRow = todt.NewRow();
+                        todt.Rows.Add(dRow);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+            }
+
+            try
+            {
+                copy_dt_column(fromdt, from, todt, from);
+            }
+            catch ( Exception ex)
+            {
+            }
+        }
+        /***************************************************************************************/
         public static void copy_dt_column(DataTable fromdt, string from, DataTable todt, string to)
         {
             if (G1.get_column_number(fromdt, from) < 0)
                 return;
             if (G1.get_column_number(todt, to) < 0)
                 return;
+
             string type = fromdt.Columns[from].DataType.ToString().ToUpper();
+
+
             for (int i = 0; i < fromdt.Rows.Count; i++)
             {
                 if (type.IndexOf("MYSQLDATETIME") >= 0)
@@ -2251,6 +2312,10 @@ namespace GeneralLib
                     todt.Rows[i][to] = fromdt.Rows[i][from].ObjToDouble();
                 else if (type.IndexOf("DECIMAL") >= 0)
                     todt.Rows[i][to] = fromdt.Rows[i][from].ObjToDecimal();
+                else if (type.IndexOf("INT32") >= 0)
+                    todt.Rows[i][to] = fromdt.Rows[i][from].ObjToInt32();
+                else if (type.IndexOf("INT64") >= 0)
+                    todt.Rows[i][to] = fromdt.Rows[i][from].ObjToInt64();
                 else
                     todt.Rows[i][to] = fromdt.Rows[i][from].ObjToString();
             }
@@ -3193,9 +3258,15 @@ namespace GeneralLib
         {
             if (!CheckGridColumnExists(grid, name))
                 return;
-            grid.Columns[name].MinWidth = 5;
-            grid.Columns[name].MaxWidth = width * 2;
-            grid.Columns[name].Width = width;
+            try
+            {
+                grid.Columns[name].MinWidth = 5;
+                grid.Columns[name].MaxWidth = width * 2;
+                grid.Columns[name].Width = width;
+            }
+            catch ( Exception ex)
+            {
+            }
         }
         /***********************************************************************************************/
         public static void AddNewColumn(DevExpress.XtraGrid.Views.BandedGrid.BandedGridView grid, string name, string caption, string format, FormatType type, int width, bool visible = true)
@@ -3309,7 +3380,44 @@ namespace GeneralLib
                 gridView.Columns[name].AbsoluteIndex = position;
                 gridView.Columns[name].VisibleIndex = position;
                 if (width > 0)
+                {
                     gridView.SetColumnWidth(column, width);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("***ERROR*** Setting Column Position for Column " + name + " Position " + position.ToString() + "!");
+            }
+        }
+        /***********************************************************************************************/
+        public static void SetColumnPosition(DevExpress.XtraGrid.Views.BandedGrid.BandedGridView gridView, string name, int position, int width = 0)
+        {
+            try
+            {
+                if (String.IsNullOrWhiteSpace(name))
+                    return;
+                BandedGridColumn column = gridView.Columns[name];
+                if (column == null)
+                {
+                    if (name == "Num")
+                    {
+                        column = gridView.Columns["num"];
+                        name = "num";
+                    }
+                    if (column == null)
+                        return;
+                }
+                column.Visible = true;
+                //column.AbsoluteIndex = position;
+
+                //gridView.SetColumnPosition(column, 0, position);
+                gridView.Columns[name].AbsoluteIndex = position;
+                gridView.Columns[name].VisibleIndex = position;
+                if (width > 0)
+                {
+                    gridView.Columns[name].Width = width;
+                    //gridView.SetColumnWidth(column, width);
+                }
             }
             catch (Exception ex)
             {
