@@ -55,6 +55,8 @@ namespace SMFS
 
                 //G1.WriteAudit("Run Report " + report + "!");
 
+                G1.AddToAudit("System", "AutoRun", report, "Starting Report . . . . . . . ", "");
+
                 if (report.ToUpper() == "POTENTIAL LAPSE")
                 {
                     PastDue pastForm = new PastDue(true, false, "Potential Lapse Report (3.0)");
@@ -397,6 +399,7 @@ namespace SMFS
 
             //MessageBox.Show("AutoRun Starting Email Send to");
             string from = "robbyxyzzy@gmail.com";
+            from = "reports.smfs@gmail.com";
             //from = "";
             //if ( 1 == 1 )
             //{
@@ -408,6 +411,7 @@ namespace SMFS
             pw = da;
             //pw = "perdcyztpeqvooey";
             pw = GetEmailSecurityKey();
+            pw = "wsxeniigxesqwxmr";
             if ( String.IsNullOrWhiteSpace ( pw ))
             {
                 G1.AddToAudit("System", title, "AutoRun", "Empty Email Security Key", "");

@@ -49,6 +49,7 @@ namespace SMFS
         private string sendWhere = "";
         private string sendUsername = "";
         private string da = "";
+        private string forceReportName = "";
         /****************************************************************************************/
         EditCust editCust = null;
         /****************************************************************************************/
@@ -62,21 +63,26 @@ namespace SMFS
             workAgent = agent;
         }
         /****************************************************************************************/
-        public ContactReportsAgents(bool auto, bool force, string send, string username )
+        public ContactReportsAgents(bool auto, bool force, string send, string username, string ReportName = "" )
         {
             InitializeComponent();
             autoRun = auto;
             autoForce = force;
             sendWhere = send;
             sendUsername = username;
+            forceReportName = ReportName;
             RunAutoReports();
         }
         /****************************************************************************************/
         private void RunAutoReports()
         {
-            //G1.AddToAudit("System", "AutoRun", "AT Funeral Activity Report", "Starting Funeral Autorun . . . . . . . ", "");
+            G1.AddToAudit("System", "AutoRun", "AT Agent Contacts Report", "Starting Agent Contacts Autorun . . . . . . . ", "");
             workReport = "Agent Contacts Report for " + DateTime.Now.ToString("MM/dd/yyyy");
-            string cmd = "Select * from `contacts_reports_data` WHERE `agent` <> '' ;";
+            string cmd = "Select * from `contacts_reports_data` WHERE `agent` <> '' ";
+            if (!String.IsNullOrWhiteSpace(forceReportName))
+                cmd += " AND `report` = '" + forceReportName + "' ";
+            cmd += ";";
+
             DataTable dt = G1.get_db_data(cmd);
             DateTime date = DateTime.Now;
             int presentDay = date.Day;
@@ -1239,7 +1245,10 @@ namespace SMFS
         {
             string record = getCurrentReportRecord();
             if (String.IsNullOrWhiteSpace(record))
+            {
+                gridMain_DoubleClick ( null, null );
                 return;
+            }
 
             string cmd = "Select * from `contacts_reports_data` WHERE `reportRecord` = '" + record + "' ORDER by `order`;";
             DataTable dt = G1.get_db_data(cmd);
@@ -1263,135 +1272,150 @@ namespace SMFS
 
             DataTable workDt = null;
 
-            string cmd = "Select * from `contacts_preneed` WHERE ";
-            bool found = false;
+            //string cmd = "Select * from `contacts_preneed` WHERE ";
+            //bool found = false;
 
-            for ( int i=0; i<dt.Rows.Count; i++)
-            {
-                field = dt.Rows[i]["field"].ObjToString();
-                data = dt.Rows[i]["data"].ObjToString();
-                if (String.IsNullOrWhiteSpace(data))
-                    continue;
-                status = dt.Rows[i]["status"].ObjToString();
-                if (status.ToUpper() == "OFF")
-                    continue;
+            //for ( int i=0; i<dt.Rows.Count; i++)
+            //{
+            //    field = dt.Rows[i]["field"].ObjToString();
+            //    data = dt.Rows[i]["data"].ObjToString();
+            //    if (String.IsNullOrWhiteSpace(data))
+            //        continue;
+            //    status = dt.Rows[i]["status"].ObjToString();
+            //    if (status.ToUpper() == "OFF")
+            //        continue;
 
-                operand = dt.Rows[i]["operand"].ObjToString();
+            //    operand = dt.Rows[i]["operand"].ObjToString();
 
-                body = data.Trim();
+            //    body = data.Trim();
 
-                date = body.ObjToDateTime();
-                if ( date.Year < 1000 )
-                {
-                    if (!G1.validate_numeric(body))
-                    {
-                        if (found)
-                            cmd += " AND ";
-                        cmd += " `" + field + "` " + operand + " '" + body + "' ";
-                        found = true;
-                        continue;
-                    }
-                    today = DateTime.Now;
-                    if (operand == ">")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1);
-                        if (field.ToUpper() != "AGE")
-                            operand = "<";
-                    }
-                    else if (operand == ">=")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1);
-                        if (field.ToUpper() != "AGE")
-                            operand = "<=";
-                    }
-                    else if (operand == "<")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1 );
-                        if (field.ToUpper() != "AGE")
-                            operand = ">";
-                    }
-                    else if (operand == "<=")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1);
-                        if (field.ToUpper() != "AGE")
-                            operand = ">=";
-                    }
-                    else if (operand == "!=")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1);
-                        if (field.ToUpper() != "AGE")
-                            operand = ">=";
-                    }
-                    else if (operand == "=")
-                    {
-                        iBody = body.ObjToInt32();
-                    }
-                    else
-                        continue;
-                    if (found)
-                        cmd += " AND ";
-                    if ( field.ToUpper() == "AGE")
-                        cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
-                    else
-                        cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
-                    found = true;
-                }
-                else
-                {
-                    if (!G1.validate_numeric(body))
-                    {
-                        if ( G1.validate_date ( body ))
-                        {
-                            date = body.ObjToDateTime();
-                            body = date.ToString("yyyy-MM-dd");
-                        }
-                        if (found)
-                            cmd += " AND ";
-                        cmd += " `" + field + "` " + operand + " '" + body + "' ";
-                        found = true;
-                        continue;
-                    }
-                    else
-                        continue;
-                    if (found)
-                        cmd += " AND ";
-                    if (field.ToUpper() == "AGE")
-                        cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
-                    else
-                        cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
-                    found = true;
-                }
-            }
+            //    date = body.ObjToDateTime();
+            //    if ( date.Year < 1000 )
+            //    {
+            //        if (!G1.validate_numeric(body))
+            //        {
+            //            if (found)
+            //                cmd += " AND ";
+            //            cmd += " `" + field + "` " + operand + " '" + body + "' ";
+            //            found = true;
+            //            continue;
+            //        }
+            //        today = DateTime.Now;
+            //        if (operand == ">")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1);
+            //            if (field.ToUpper() != "AGE")
+            //                operand = "<";
+            //        }
+            //        else if (operand == ">=")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1);
+            //            if (field.ToUpper() != "AGE")
+            //                operand = "<=";
+            //        }
+            //        else if (operand == "<")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1 );
+            //            if (field.ToUpper() != "AGE")
+            //                operand = ">";
+            //        }
+            //        else if (operand == "<=")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1);
+            //            if (field.ToUpper() != "AGE")
+            //                operand = ">=";
+            //        }
+            //        else if (operand == "!=")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1);
+            //            if (field.ToUpper() != "AGE")
+            //                operand = ">=";
+            //        }
+            //        else if (operand == "=")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //        }
+            //        else
+            //            continue;
+            //        if (found)
+            //            cmd += " AND ";
+            //        if ( field.ToUpper() == "AGE")
+            //            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
+            //        else
+            //            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
+            //        found = true;
+            //    }
+            //    else
+            //    {
+            //        if (!G1.validate_numeric(body))
+            //        {
+            //            if ( G1.validate_date ( body ))
+            //            {
+            //                date = body.ObjToDateTime();
+            //                body = date.ToString("yyyy-MM-dd");
+            //            }
+            //            if (found)
+            //                cmd += " AND ";
+            //            cmd += " `" + field + "` " + operand + " '" + body + "' ";
+            //            found = true;
+            //            continue;
+            //        }
+            //        else
+            //            continue;
+            //        if (found)
+            //            cmd += " AND ";
+            //        if (field.ToUpper() == "AGE")
+            //            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
+            //        else
+            //            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
+            //        found = true;
+            //    }
+            //}
 
-            if ( !found )
-            {
-                if ( !autoRun )
-                    MessageBox.Show("Search Criteria is Empty!", "Search Criteria Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                return;
-            }
-            if (!String.IsNullOrWhiteSpace(workAgent))
-            {
-                if (workAgent.ToUpper() != "ALL")
-                    cmd += " AND `agent` = '" + workAgent + "' ";
-            }
+            //if ( !found )
+            //{
+            //    if ( !autoRun )
+            //        MessageBox.Show("Search Criteria is Empty!", "Search Criteria Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            //    return;
+            //}
+            //if (!String.IsNullOrWhiteSpace(workAgent))
+            //{
+            //    if (workAgent.ToUpper() != "ALL")
+            //        cmd += " AND `agent` = '" + workAgent + "' ";
+            //}
 
-            cmd += ";";
+            //cmd += ";";
+
+            bool isCustom = false;
+
+            string cmd = ContactReports.BuildReportQuery(dt, workAgent, ref isCustom);
+
             dx = G1.get_db_data(cmd);
+
+            if ( !String.IsNullOrWhiteSpace ( agent) && agent.ToUpper() != "ALL")
+            {
+                DataRow[] dRows = dx.Select("agent='" + agent + "'");
+                if (dRows.Length > 0)
+                    dx = dRows.CopyToDataTable();
+            }
 
             if ( dx != null )
             {
                 this.Cursor = Cursors.WaitCursor;
                 int height = this.Height;
 
-                ContactsPreneed form = new ContactsPreneed( dx, autoRun, agent, email, report, sendWhere, sendUsername, displayFormat );
+                ContactsPreneed form = new ContactsPreneed( dx, autoRun, agent, email, report, sendWhere, sendUsername, displayFormat, isCustom, dt );
                 form.Text = report;
                 //leadForm.StartPosition = FormStartPosition.CenterParent;
                 form.Show();
+
+                G1.AddToAudit("System", "AutoRun", "Agent Contacts Report Ran", "RAN Agent Contacts Autorun . . . . . . . ", "");
+
                 //form.Anchor = AnchorStyles.None;
 
                 form.AutoSize = true; //this causes the form to grow only. Don't set it if you want to resize automatically using AnchorStyles, as I did below.

@@ -120,7 +120,7 @@ namespace SMFS
             DailyHistory_Load(null, null);
         }
         /****************************************************************************************/
-        public DailyHistory(bool isPayer, string payer)
+        public DailyHistory( bool isPayer, string payer )
         {
             InitializeComponent();
             loading = true;
@@ -215,7 +215,7 @@ namespace SMFS
             majorSwitch = false;
             recalculateHistory = false;
             enterTrustAdjustmentToolStripMenuItem.Enabled = false;
-            if (paymentdRow == null)
+            if (paymentdRow == null )
             {
                 if ( workWhat.Trim().ToUpper().IndexOf ("PACKET PAYOFF") == 0 )
                     foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, "DailyHistory Primary", ref skinName);
@@ -336,6 +336,7 @@ namespace SMFS
                 allowDueDateFix = true;
             if (LoginForm.username.ToUpper() == "CJENKINS")
                 allowDueDateFix = true;
+
             if (allowDueDateFix)
             {
                 gridMain.OptionsBehavior.Editable = true;
@@ -1469,8 +1470,8 @@ namespace SMFS
                             else if (debit != 0D)
                             {
                                 principal = principal - ccFee;
-                                if (ccFee < 0D)
-                                    principal = 0D;
+                                //if (ccFee < 0D)
+                                //    principal = 0D; // Commented out because of contract M20050LI on 12/3/2024
                             }
                         }
                         saveRetained = dt.Rows[i]["retained"].ObjToDouble();
@@ -2922,7 +2923,10 @@ namespace SMFS
                 labDownPayment.Text = "Down Payment: $" + G1.ReformatMoney(downPayment);
                 labRemainingBalance.Text = "Total Finance: $" + G1.ReformatMoney(totalPurchase);
                 if (isInsurance(workContract))
+                {
                     balanceDue = Policies.CalcMonthlyPremium(workPayer, DateTime.Now);
+                    balanceDue = Policies.CalcMonthlyPremium(workPayer);
+                }
                 labBalanceDue.Text = "$" + G1.ReformatMoney(balanceDue);
                 lblLapsed.Text = "";
                 if (lapsed.ToUpper() == "Y")
@@ -2940,8 +2944,27 @@ namespace SMFS
                 if (isInsurance ( workContract))
                     payment = Policies.CalcMonthlyPremium(workPayer, DateTime.Now);
                 ExpectedPayment = payment;
-                if ( isInsurance ( workContract ))
+                if (isInsurance(workContract))
+                {
                     lblPayment.Text = "Premium :$" + G1.ReformatMoney(payment);
+
+                    DateTime dueDate8 = DateTime.Now;
+                    string payerContract = "";
+                    DateTime lapseDate8 = DateTime.Now;
+                    DateTime reinstateDate8 = DateTime.Now;
+                    DateTime deceasedDate = DateTime.Now;
+
+                    lapsed = "";
+                    DateTime lastPaidDate = DailyHistory.GetInsuranceLastPaid(workPayer, ref dueDate8, ref payerContract, ref lapseDate8, ref reinstateDate8, ref lapsed, ref deceasedDate );
+
+                    int imonths = G1.GetMonthsBetween(DateTime.Now, dueDate8);
+
+                    double premium = imonths * payment;
+                    premium += payment; // Add another month
+                    premium = ExpectedPayment;
+
+                    labBalanceDue.Text = "$" + G1.ReformatMoney(premium);
+                }
                 else
                     lblPayment.Text = "Payment :$" + G1.ReformatMoney(payment);
                 numPayments = dx.Rows[0]["numberOfPayments"].ObjToString().ObjToInt32();
@@ -3104,15 +3127,57 @@ namespace SMFS
             CalcTrust85Header(contractDt, dx);
         }
         /****************************************************************************************/
+        public static double GetDueNow ( string workPayer, double premium = 0D )
+        {
+            if ( premium == 0D )
+                premium = Policies.CalcMonthlyPremium(workPayer, DateTime.Now);
+
+            DateTime dueDate8 = DateTime.Now;
+            string payerContract = "";
+            DateTime lapseDate8 = DateTime.Now;
+            DateTime reinstateDate8 = DateTime.Now;
+            DateTime deceasedDate = DateTime.Now;
+
+            string lapsed = "";
+            DateTime lastPaidDate = DailyHistory.GetInsuranceLastPaid(workPayer, ref dueDate8, ref payerContract, ref lapseDate8, ref reinstateDate8, ref lapsed, ref deceasedDate );
+
+            int imonths = G1.GetMonthsBetween(DateTime.Now, dueDate8);
+
+            double balanceDue = imonths * premium;
+            balanceDue += premium; // Add another month
+            return balanceDue;
+        }
+        /****************************************************************************************/
         private void CalcTrust85Header(DataTable contractDt, DataTable paymentsDt)
         {
             if (workPolicy)
                 return;
+            DateTime lastPaidDate = DateTime.Now;
+
             if (isInsurance(workContract))
             {
                 double balanceDue = Policies.CalcMonthlyPremium(workPayer, DateTime.Now );
-                labBalanceDue.Text = "$" + G1.ReformatMoney(balanceDue);
+
+                DateTime dueDate8 = DateTime.Now;
+                string payerContract = "";
+                DateTime lapseDate8 = DateTime.Now;
+                DateTime reinstateDate8 = DateTime.Now;
+                DateTime deceasedDate = DateTime.Now;
+
+                string lapsed = "";
+                lastPaidDate = DailyHistory.GetInsuranceLastPaid(workPayer, ref dueDate8, ref payerContract, ref lapseDate8, ref reinstateDate8, ref lapsed, ref deceasedDate );
+
+                int imonths = G1.GetMonthsBetween(DateTime.Now, dueDate8);
+
+                double premium = imonths * balanceDue;
+                premium += balanceDue; // Add another month
+                premium = Policies.CalcMonthlyPremium(workPayer, DateTime.Now );
+
+                labBalanceDue.Text = "$" + G1.ReformatMoney(premium);
+
+                //labBalanceDue.Text = "$" + G1.ReformatMoney(balanceDue);
                 labBalanceDue.Refresh();
+
                 lblPayment.Text = "Premium :$" + G1.ReformatMoney(balanceDue);
                 lblPayment.Refresh();
             }
@@ -3164,7 +3229,7 @@ namespace SMFS
             double beginningBalance = 0D;
             double endingBalance = 0D;
 
-            DateTime lastPaidDate = GetTrustLastPaid(workContract, ref beginningBalance, ref endingBalance);
+            lastPaidDate = GetTrustLastPaid(workContract, ref beginningBalance, ref endingBalance);
             lblTrust85.Text = "Trust85P:$" + G1.ReformatMoney(endingBalance);
 
             double Trust85Paid = 0D;
@@ -3272,6 +3337,30 @@ namespace SMFS
                 beginningBalance = dt.Rows[0]["beginningBalance"].ObjToDouble();
                 endingBalance = dt.Rows[0]["endingBalance"].ObjToDouble();
                 payDate8 = dt.Rows[0]["payDate8"].ObjToDateTime();
+            }
+            return payDate8;
+        }
+        /****************************************************************************************/
+        public static DateTime GetInsuranceLastPaid(string payer, ref DateTime dueDate8, ref string payerContract, ref DateTime lapseDate8, ref DateTime reinstateDate8, ref string lapsed, ref DateTime deceasedDate )
+        {
+            DateTime payDate8 = DateTime.Now;
+            dueDate8 = DateTime.Now;
+            lapseDate8 = DateTime.Now;
+            reinstateDate8 = DateTime.Now;
+            deceasedDate = DateTime.Now;
+            payerContract = "";
+            lapsed = "";
+            string cmd = "Select * from `payers` where `payer` = '" + payer + "';";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count > 0)
+            {
+                payDate8 = dt.Rows[0]["lastDatePaid8"].ObjToDateTime();
+                dueDate8 = dt.Rows[0]["dueDate8"].ObjToDateTime();
+                payerContract = dt.Rows[0]["contractNumber"].ObjToString();
+                lapseDate8 = dt.Rows[0]["lapseDate8"].ObjToDateTime();
+                reinstateDate8 = dt.Rows[0]["reinstateDate8"].ObjToDateTime();
+                deceasedDate = dt.Rows[0]["deceasedDate"].ObjToDateTime();
+                lapsed = dt.Rows[0]["lapsed"].ObjToString();
             }
             return payDate8;
         }
@@ -3412,6 +3501,8 @@ namespace SMFS
                         {
 
                         }
+                        if (pDate <= killSecNatDate)
+                            continue;
                         if (pDate > killSecNatDate)
                             ExpectedPayment = GetInsuranceExpectedPayment (policyDt, pDate);
                         double months = CheckMonthsForInsurance(workContract, workPayer, ExpectedPayment, payment, pDate, dDate);
@@ -3484,6 +3575,8 @@ namespace SMFS
                     insDueDate8 = lastDueDate.AddMonths(imonths);
                     if (!insurance)
                         dt.Rows[i]["dueDate8"] = G1.DTtoMySQLDT(insDueDate8);
+                    //else
+                    //    dt.Rows[i]["dueDate8"] = G1.DTtoMySQLDT(insDueDate8);
                     lastDueDate = insDueDate8;
                     nextDueDate = lastDueDate.AddMonths(imonths);
                 }
@@ -3512,6 +3605,9 @@ namespace SMFS
                 interest = dt.Rows[i]["interestPaid"].ObjToString().ObjToDouble();
                 ccFee = dt.Rows[i]["ccFee"].ObjToString().ObjToDouble();
                 edited = dt.Rows[i]["edited"].ObjToString();
+                if ( credit > 0D )
+                {
+                }
                 if (credit > 0D && payment == 0D && ccFee != 0D )
                     payment = credit - ccFee;
                 else if (debit > 0D && payment == 0D)
@@ -3523,6 +3619,8 @@ namespace SMFS
                 {
                     if (downPayment == 0D && payment == 0D && ccFee != 0D)
                         payment = ccFee;
+                    else if (credit > 0D && payment == 0D)
+                        payment = credit;
                 }
                 principal = payment - interest;
                 balance = sBalance - principal + debit - credit;
@@ -3565,7 +3663,10 @@ namespace SMFS
             GetTotals(dt, downPay);
 
             if (isInsurance(workContract))
+            {
                 LoadExpectedPremiums(dt, workPayer);
+                //CalcInsuranceDueDates(dt, workPayer );
+            }
 
             G1.NumberDataTable(dt);
             dgv.DataSource = dt;
@@ -3573,6 +3674,68 @@ namespace SMFS
 
             if (isInsurance(workContract))
                 this.bandedGridColumn31.Caption = "Expected Premium";
+        }
+        /****************************************************************************************/
+        private void CalcInsuranceDueDates ( DataTable dt, string payer )
+        {
+            string cmd = "Select * from `policies` where `payer` = '" + payer + "';";
+            DataTable dx = G1.get_db_data(cmd);
+            if (dx.Rows.Count <= 0)
+                return;
+
+            DateTime payDate = DateTime.Now;
+            DateTime dueDate = DateTime.Now;
+            DateTime lastDueDate = DateTime.MinValue;
+            double expectedPremium = 0D;
+            double payment = 0D;
+            double creditBalance = 0D;
+            double runningCredit = 0D;
+            double months = 0D;
+            double remainder = 0D;
+
+            for (int i = (dt.Rows.Count - 1); i >= 0; i--)
+            {
+                payDate = dt.Rows[i]["payDate8"].ObjToDateTime();
+
+                dueDate = dt.Rows[i]["dueDate8"].ObjToDateTime();
+                if (lastDueDate == DateTime.MinValue)
+                    lastDueDate = dueDate;
+
+                if (payDate <= killSecNatDate)
+                    continue;
+                if (payDate >= secondDate)
+                {
+                    months = dt.Rows[i]["numPayments"].ObjToDouble();
+                    if (months == 2D)
+                    {
+                    }
+                }
+
+                payment = dt.Rows[i]["paymentAmount"].ObjToDouble();
+                expectedPremium = GetInsuranceExpectedPayment(dx, payDate);
+                dt.Rows[i]["retained"] = expectedPremium;
+
+                months = dt.Rows[i]["numPayments"].ObjToDouble();
+                months = payment / expectedPremium;
+                //dt.Rows[i]["numPayments"] = Convert.ToInt32(months);
+                remainder = months % 1D;
+                if (remainder != 0D)
+                {
+
+                    payment = expectedPremium * remainder;
+
+                    creditBalance = payment;
+                    creditBalance = G1.RoundValue(creditBalance);
+                    dt.Rows[i]["creditBalance"] = creditBalance;
+                    runningCredit += creditBalance;
+
+                    if (runningCredit > expectedPremium)
+                        runningCredit = runningCredit % expectedPremium;
+                    G1.RoundValue(runningCredit);
+                }
+                dt.Rows[i]["runningCB"] = runningCredit;
+                dt.Rows[i]["NumPayments"] = months;
+            }
         }
         /****************************************************************************************/
         private void LoadMainData2()
@@ -4441,6 +4604,20 @@ namespace SMFS
             }
 
             printableComponentLink1.CreateDocument();
+            bool test = true;
+            //if ( test )
+            //{
+            //    string filename = "c:/ragware/adam.xlsx";
+            //    try
+            //    {
+            //        printableComponentLink1.ExportToXlsx(filename);
+            //    }
+            //    catch ( Exception ex)
+            //    {
+
+            //    }
+            //    return;
+            //}
 
             if (workPDF)
             {
@@ -6998,10 +7175,13 @@ namespace SMFS
             DateTime payDate = DateTime.Now;
             double expectedPremium = 0D;
             double payment = 0D;
+            double debit = 0D;
+            double credit = 0D;
             double creditBalance = 0D;
             double runningCredit = 0D;
             double months = 0D;
             double remainder = 0D;
+            double money = 0D;
             if (G1.get_column_number(dt, "runningCB") < 0)
                 dt.Columns.Add("runningCB", Type.GetType("System.Double"));
 
@@ -7009,6 +7189,8 @@ namespace SMFS
             for ( int i=(dt.Rows.Count-1); i>=0; i--)
             {
                 payDate = dt.Rows[i]["payDate8"].ObjToDateTime();
+                if (payDate <= killSecNatDate)
+                    continue;
                 if ( payDate >= secondDate )
                 {
                     months = dt.Rows[i]["numPayments"].ObjToDouble();
@@ -7017,6 +7199,14 @@ namespace SMFS
                     }
                 }
                 payment = dt.Rows[i]["paymentAmount"].ObjToDouble();
+                debit = dt.Rows[i]["debitAdjustment"].ObjToDouble();
+                credit = dt.Rows[i]["creditAdjustment"].ObjToDouble();
+
+                if (debit != 0D)
+                    payment = debit * -1D;
+                else if (credit != 0D)
+                    payment = credit;
+
                 expectedPremium = GetInsuranceExpectedPayment(dx, payDate);
                 dt.Rows[i]["retained"] = expectedPremium;
 
@@ -7032,13 +7222,33 @@ namespace SMFS
                     creditBalance = payment;
                     creditBalance = G1.RoundValue(creditBalance);
                     dt.Rows[i]["creditBalance"] = creditBalance;
-                    runningCredit += creditBalance;
+
+                    if ( payment > 0D )
+                        runningCredit += creditBalance;
+                    else
+                    {
+                        if (debit != 0D)
+                        {
+                            money = expectedPremium - (Math.Abs(payment));
+                            //money = money * -1D;
+                            runningCredit += money;
+                        }
+                    }
 
                     if (runningCredit > expectedPremium)
+                    {
                         runningCredit = runningCredit % expectedPremium;
+                    }
+                    else
+                    {
+                        //money = expectedPremium - (Math.Abs(payment));
+                        //money = money * -1D;
+                        //    runningCredit += money;
+                    }
                     G1.RoundValue(runningCredit);
                 }
                 dt.Rows[i]["runningCB"] = runningCredit;
+                dt.Rows[i]["NumPayments"] = months;
             }
         }
         /***********************************************************************************************/
@@ -8746,6 +8956,7 @@ namespace SMFS
             else if (e.Column.FieldName.Trim().ToUpper() == "NOTES")
             {
                 string notes = dr["notes"].ObjToString();
+                notes = notes.Replace("\n", " ");
                 string record = dr["record"].ObjToString();
                 string payments = "payments";
                 if (isInsurance(workContract))

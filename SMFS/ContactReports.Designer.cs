@@ -103,6 +103,8 @@
             this.lblFamily = new System.Windows.Forms.Label();
             this.pictureBox12 = new System.Windows.Forms.PictureBox();
             this.pictureBox11 = new System.Windows.Forms.PictureBox();
+            this.picDataDown = new System.Windows.Forms.PictureBox();
+            this.picDataUp = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).BeginInit();
             this.panelAll.SuspendLayout();
@@ -145,6 +147,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.chkReports.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picDataDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picDataUp)).BeginInit();
             this.SuspendLayout();
             // 
             // repositoryItemComboBox9
@@ -1150,6 +1154,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.picDataDown);
+            this.panel1.Controls.Add(this.picDataUp);
             this.panel1.Controls.Add(this.btnRunReport);
             this.panel1.Controls.Add(this.pictureBox3);
             this.panel1.Controls.Add(this.pictureBox4);
@@ -1322,6 +1328,32 @@
             this.pictureBox11.TabStop = false;
             this.pictureBox11.Click += new System.EventHandler(this.pictureBox11_Click);
             // 
+            // picDataDown
+            // 
+            this.picDataDown.Image = ((System.Drawing.Image)(resources.GetObject("picDataDown.Image")));
+            this.picDataDown.Location = new System.Drawing.Point(162, 11);
+            this.picDataDown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.picDataDown.Name = "picDataDown";
+            this.picDataDown.Size = new System.Drawing.Size(36, 28);
+            this.picDataDown.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picDataDown.TabIndex = 38;
+            this.picDataDown.TabStop = false;
+            this.picDataDown.Tag = "Add Client";
+            this.picDataDown.Click += new System.EventHandler(this.picDataDown_Click);
+            // 
+            // picDataUp
+            // 
+            this.picDataUp.Image = ((System.Drawing.Image)(resources.GetObject("picDataUp.Image")));
+            this.picDataUp.Location = new System.Drawing.Point(119, 11);
+            this.picDataUp.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.picDataUp.Name = "picDataUp";
+            this.picDataUp.Size = new System.Drawing.Size(36, 28);
+            this.picDataUp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picDataUp.TabIndex = 37;
+            this.picDataUp.TabStop = false;
+            this.picDataUp.Tag = "Add Client";
+            this.picDataUp.Click += new System.EventHandler(this.picDataUp_Click);
+            // 
             // ContactReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1379,6 +1411,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.chkReports.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picDataDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picDataUp)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1458,5 +1492,7 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.ToolStripMenuItem runReportToolStripMenuItem;
         private System.Windows.Forms.Button btnRunReport;
+        private System.Windows.Forms.PictureBox picDataDown;
+        private System.Windows.Forms.PictureBox picDataUp;
     }
 }
