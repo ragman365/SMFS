@@ -38,12 +38,14 @@ namespace SMFS
         private string workAgent = "";
         private DateTime workDOB = DateTime.Now;
         private DateTime workDOD = DateTime.Now;
+        private DataTable workDt = null;
         /****************************************************************************************/
-        public PreneedContactLeadList( string contractNumber, string agent )
+        public PreneedContactLeadList( string contractNumber, string agent, DataTable dt )
         {
             InitializeComponent();
             workContractNumber = contractNumber;
             workAgent = agent;
+            workDt = dt;
         }
         /****************************************************************************************/
         private void SetupToolTips()
@@ -162,18 +164,21 @@ namespace SMFS
             cmd += " AND `depRelationship` <> 'MUSICIAN' ";
             cmd += " AND `depRelationship` <> 'FUNERAL DIRECTOR' ";
             cmd += " AND `depRelationship` <> 'PALLBEARER' ";
+            cmd += " AND `deceased` <> '1' ";
             cmd += " ORDER by `depLastName`,`depFirstName`,`depMI` ";
 
             DataTable dt = G1.get_db_data(cmd);
 
             dt.Columns.Add("addContact");
             dt.Columns.Add("pp");
+            dt.Columns.Add("agent");
 
             string firstName = "";
             string lastName = "";
             string middleName = "";
             string prefix = "";
             string suffix = "";
+            string contactStatus = "";
             DataTable dx = null;
 
             AddMod(dt, gridMain);
@@ -205,7 +210,19 @@ namespace SMFS
                     cmd += " AND `middleName` = '" + middleName + "' AND `prefix` = '" + prefix + "' AND `suffix` = '" + suffix + "';";
                     dx = G1.get_db_data(cmd);
                     if (dx.Rows.Count > 0)
-                        dt.Rows[i]["addContact"] = "1";
+                    {
+                        contactStatus = dx.Rows[0]["contactStatus"].ObjToString();
+                        if (contactStatus.Trim().ToUpper() == "RELEASED")
+                        {
+                            dt.Rows[i]["addContact"] = "0";
+                            dt.Rows[i]["mod"] = "Y";
+                            dt.Rows[i]["agent"] = workAgent;
+                            modified = true;
+                        }
+                        else
+                            dt.Rows[i]["addContact"] = "1";
+                        dt.Rows[i]["agent"] = dx.Rows[i]["agent"].ObjToString();
+                    }
                 }
             }
 
@@ -653,12 +670,35 @@ namespace SMFS
         /****************************************************************************************/
         private void repositoryItemCheckEdit1_CheckedChanged(object sender, EventArgs e)
         {
-            DataRow dr = gridMain.GetFocusedDataRow();
-            if (dr["completed"].ObjToString() != "1")
-                dr["completed"] = "1";
-            else
-                dr["completed"] = "0";
-            dr["mod"] = "Y";
+            try
+            {
+                DataRow dr = gridMain.GetFocusedDataRow();
+                DataTable dt = (DataTable)dgv.DataSource;
+                string agent = dr["agent"].ObjToString();
+                string addContact = dr["addContact"].ObjToString();
+                if (!String.IsNullOrWhiteSpace(agent))
+                {
+                    if (workAgent != agent)
+                    {
+                        MessageBox.Show("This contact is already on another contact List!", "Contact Issue Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        if (addContact == "1")
+                        {
+                            dr["addContact"] = "1";
+                            gridMain.RefreshData();
+                            gridMain.RefreshEditor(true);
+                        }
+                        return;
+                    }
+                }
+                if (dr["addContact"].ObjToString() != "1")
+                    dr["addContact"] = "1";
+                else
+                    dr["addContact"] = "0";
+                dr["mod"] = "Y";
+            }
+            catch ( Exception ex)
+            {
+            }
 
             gridMain_CellValueChanged(null, null);
         }
@@ -749,6 +789,12 @@ namespace SMFS
 
             string what = dr[currentColumn].ObjToString();
             string record = dr["record"].ObjToString();
+            string agent = dr["agent"].ObjToString();
+            //if (!String.IsNullOrWhiteSpace(agent))
+            //{
+            //    MessageBox.Show("This contact is already on a contact List!", "Contact Issue Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            //    return;
+            //}
 
             try
             {

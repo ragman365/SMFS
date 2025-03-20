@@ -44,6 +44,7 @@
             this.changeToMiscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.releaseInventoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.upgradeForToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.subsituteServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -108,7 +109,7 @@
             this.btnSaveServices = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.subsituteServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clarifyItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.panelBottomRight.SuspendLayout();
@@ -192,9 +193,10 @@
             this.changeToMiscToolStripMenuItem,
             this.releaseInventoryToolStripMenuItem,
             this.upgradeForToolStripMenuItem,
-            this.subsituteServiceToolStripMenuItem});
+            this.subsituteServiceToolStripMenuItem,
+            this.clarifyItemToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(235, 272);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(235, 296);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // menuSubstitute
@@ -258,6 +260,13 @@
             this.upgradeForToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
             this.upgradeForToolStripMenuItem.Text = "Combine With . . .";
             this.upgradeForToolStripMenuItem.Click += new System.EventHandler(this.upgradeForToolStripMenuItem_Click);
+            // 
+            // subsituteServiceToolStripMenuItem
+            // 
+            this.subsituteServiceToolStripMenuItem.Name = "subsituteServiceToolStripMenuItem";
+            this.subsituteServiceToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.subsituteServiceToolStripMenuItem.Text = "Subsitute Service";
+            this.subsituteServiceToolStripMenuItem.Click += new System.EventHandler(this.subsituteServiceToolStripMenuItem_Click);
             // 
             // gridMain
             // 
@@ -434,6 +443,7 @@
             this.gridMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain_CustomColumnDisplayText);
             this.gridMain.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridMain_KeyDown);
             this.gridMain.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridMain_MouseUp);
+            this.gridMain.MouseLeave += new System.EventHandler(this.gridMain_MouseLeave);
             this.gridMain.DoubleClick += new System.EventHandler(this.gridMain_DoubleClick);
             this.gridMain.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridMain_ValidatingEditor);
             // 
@@ -1154,12 +1164,12 @@
             this.pictureBox4.TabStop = false;
             this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
             // 
-            // subsituteServiceToolStripMenuItem
+            // clarifyItemToolStripMenuItem
             // 
-            this.subsituteServiceToolStripMenuItem.Name = "subsituteServiceToolStripMenuItem";
-            this.subsituteServiceToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
-            this.subsituteServiceToolStripMenuItem.Text = "Subsitute Service";
-            this.subsituteServiceToolStripMenuItem.Click += new System.EventHandler(this.subsituteServiceToolStripMenuItem_Click);
+            this.clarifyItemToolStripMenuItem.Name = "clarifyItemToolStripMenuItem";
+            this.clarifyItemToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.clarifyItemToolStripMenuItem.Text = "Clarify Item";
+            this.clarifyItemToolStripMenuItem.Click += new System.EventHandler(this.clarifyItemToolStripMenuItem_Click);
             // 
             // FunServices
             // 
@@ -1276,5 +1286,6 @@
         private System.Windows.Forms.CheckBox chkAll;
         private System.Windows.Forms.Button btnShowMissing;
         private System.Windows.Forms.ToolStripMenuItem subsituteServiceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clarifyItemToolStripMenuItem;
     }
 }

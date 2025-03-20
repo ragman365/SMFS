@@ -34,9 +34,12 @@ namespace SMFS
             DataTable dt = G1.get_db_data(cmd);
             dt.Columns.Add("num");
             dt.Columns.Add("mod");
-            dt.Columns[workColumns].Caption = workColumns;
-            dt.Columns[workColumns].ColumnName = "data";
-            gridMain.Columns["data"].Caption = workColumns;
+            if (G1.get_column_number(dt, workColumns) >= 0)
+            {
+                dt.Columns[workColumns].Caption = workColumns;
+                dt.Columns[workColumns].ColumnName = "data";
+                gridMain.Columns["data"].Caption = workColumns;
+            }
             G1.NumberDataTable(dt);
             dgv.DataSource = dt;
 

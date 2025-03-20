@@ -217,7 +217,25 @@
       <HintPath>..\..\..\..\..\Downloads\EPPlus\sourceCode\epplus\EPPlus\bin\Debug\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="ExcelLibrary">
-      <HintPath>..\..\..\SMFS\bin\Debug\ExcelLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\AMS\New Folder\ExcelLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis, Version=1.62.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.62.0\lib\net45\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.62.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.62.0\lib\net45\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.62.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.62.0\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Calendar.v3, Version=1.62.0.3171, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Calendar.v3.1.62.0.3171\lib\net45\Google.Apis.Calendar.v3.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.62.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.62.0\lib\net45\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.62.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.62.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Core">
       <HintPath>..\..\..\..\..\Downloads\Pdf2Text\lib\references\IKVM.OpenJDK.Core.dll</HintPath>
@@ -231,7 +249,7 @@
       <HintPath>..\..\Help\Help\Resources\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
-      <HintPath>..\..\..\SMFS\bin\Debug\itextsharp.dll</HintPath>
+      <HintPath>..\..\Pine Belt EHR Client\MAIN\bin\x86\Debug\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Ink, Version=6.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
@@ -247,7 +265,7 @@
       <HintPath>bin\Debug\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="NetSpell.SpellChecker">
-      <HintPath>..\..\..\SMFS\bin\Debug\NetSpell.SpellChecker.DLL</HintPath>
+      <HintPath>..\..\Help\Help\bin\Debug\NetSpell.SpellChecker.DLL</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -338,16 +356,18 @@
     <Compile Include="AgentMeetings.Designer.cs">
       <DependentUpon>AgentMeetings.cs</DependentUpon>
     </Compile>
+    <Compile Include="BurialDetailiReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BurialDetailiReport.Designer.cs">
+      <DependentUpon>BurialDetailiReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Calendar3.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Calendar3.Designer.cs">
       <DependentUpon>Calendar3.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClarifyService.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ClarifyService.Designer.cs" />
     <Compile Include="ContactEditParms.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -371,6 +391,48 @@
     </Compile>
     <Compile Include="ContactReports.Designer.cs">
       <DependentUpon>ContactReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditDbTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditDbTable.Designer.cs">
+      <DependentUpon>EditDbTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditManagerCommissions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditManagerCommissions.Designer.cs">
+      <DependentUpon>EditManagerCommissions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FunArrangerTotals.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FunArrangerTotals.Designer.cs">
+      <DependentUpon>FunArrangerTotals.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClarifyService.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClarifyService.Designer.cs">
+      <DependentUpon>ClarifyService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShowZeros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowZeros.Designer.cs">
+      <DependentUpon>ShowZeros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportCasketCosts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportCasketCosts.Designer.cs">
+      <DependentUpon>ImportCasketCosts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrustSplit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrustSplit.designer.cs">
+      <DependentUpon>TrustSplit.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectPermissions.cs">
       <SubType>Form</SubType>
@@ -2414,10 +2476,12 @@
     <EmbeddedResource Include="AgentMeetings.resx">
       <DependentUpon>AgentMeetings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BurialDetailiReport.resx">
+      <DependentUpon>BurialDetailiReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Calendar3.resx">
       <DependentUpon>Calendar3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ClarifyService.resx" />
     <EmbeddedResource Include="ContactEditParms.resx">
       <DependentUpon>ContactEditParms.cs</DependentUpon>
     </EmbeddedResource>
@@ -2429,6 +2493,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ContactReports.resx">
       <DependentUpon>ContactReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditDbTable.resx">
+      <DependentUpon>EditDbTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditManagerCommissions.resx">
+      <DependentUpon>EditManagerCommissions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FunArrangerTotals.resx">
+      <DependentUpon>FunArrangerTotals.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClarifyService.resx">
+      <DependentUpon>ClarifyService.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowZeros.resx">
+      <DependentUpon>ShowZeros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportCasketCosts.resx">
+      <DependentUpon>ImportCasketCosts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrustSplit.resx">
+      <DependentUpon>TrustSplit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectPermissions.resx">
       <DependentUpon>SelectPermissions.cs</DependentUpon>
