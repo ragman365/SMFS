@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Agents));
             this.panelAll = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -131,7 +131,7 @@
             this.panelAll.Location = new System.Drawing.Point(3, 3);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1800, 564);
+            this.panelAll.Size = new System.Drawing.Size(1800, 566);
             this.panelAll.TabIndex = 1;
             // 
             // splitContainer1
@@ -151,8 +151,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dgv2);
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(1800, 564);
-            this.splitContainer1.SplitterDistance = 309;
+            this.splitContainer1.Size = new System.Drawing.Size(1800, 566);
+            this.splitContainer1.SplitterDistance = 310;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 4;
             // 
@@ -173,7 +173,7 @@
             this.repositoryItemMemoEdit1,
             this.repositoryItemComboBox3,
             this.repositoryItemComboBox4});
-            this.dgv.Size = new System.Drawing.Size(1800, 271);
+            this.dgv.Size = new System.Drawing.Size(1800, 272);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -620,10 +620,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton1.Caption = "contextButton1";
-            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton1.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton1);
+            contextButton2.Caption = "contextButton1";
+            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton2.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // panelTop
@@ -714,7 +714,7 @@
             this.dgv2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1,
             this.repositoryItemComboBox2});
-            this.dgv2.Size = new System.Drawing.Size(1800, 207);
+            this.dgv2.Size = new System.Drawing.Size(1800, 208);
             this.dgv2.TabIndex = 5;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1132,7 +1132,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1814, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1814, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1142,7 +1142,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -1151,27 +1151,27 @@
             this.printPreviewToolStripMenuItem,
             this.printToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(122, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.toolStripMenuItem1.Text = "Print";
             // 
             // printPreviewToolStripMenuItem
             // 
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.printPreviewToolStripMenuItem.Text = "Print Preview";
             this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.printPreviewToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -1181,10 +1181,10 @@
             this.tabControl1.Controls.Add(this.tabPageAtNeed);
             this.tabControl1.Controls.Add(this.tabPagePreNeed);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 30);
+            this.tabControl1.Location = new System.Drawing.Point(0, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1814, 599);
+            this.tabControl1.Size = new System.Drawing.Size(1814, 601);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPageAgents
@@ -1193,7 +1193,7 @@
             this.tabPageAgents.Location = new System.Drawing.Point(4, 25);
             this.tabPageAgents.Name = "tabPageAgents";
             this.tabPageAgents.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAgents.Size = new System.Drawing.Size(1806, 570);
+            this.tabPageAgents.Size = new System.Drawing.Size(1806, 572);
             this.tabPageAgents.TabIndex = 0;
             this.tabPageAgents.Text = "Agent Commissions";
             this.tabPageAgents.UseVisualStyleBackColor = true;

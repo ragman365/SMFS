@@ -473,6 +473,7 @@ namespace SMFS
 
 
             DataTable dt = G1.get_db_data(cmd);
+            Trust85.FindContract(dt, "ZZ0012851");
             dt.Columns.Add("num");
             dt.Columns.Add("customer");
             dt.Columns.Add("daysLate", Type.GetType("System.Int32"));
@@ -480,6 +481,7 @@ namespace SMFS
             dt.Columns.Add("agentName");
             dt.Columns.Add("totalContract", Type.GetType("System.Double"));
             dt.Columns.Add("calcDueDate");
+            //dt.Columns.Add("SDICode");
             string fname = "";
             string lname = "";
             string name = "";
@@ -501,12 +503,27 @@ namespace SMFS
 
             double premium = 0D;
             double months = 0D;
+            int imonths = 0;
+            string payerContract = "";
+            string lapsed = "";
+            string SDICode = "";
+            string oldloc = "";
+            string funeralHome = "";
+            DateTime lapseDate8 = DateTime.Now;
+            DateTime reinstateDate8 = DateTime.Now;
+            DateTime deceasedDate = DateTime.Now;
+            TimeSpan ts;
 
             DateTime pastDueDate = new DateTime(2020, 7, 1);
+            DateTime dueDate8 = DateTime.Now;
 
             DateTimeSpan dateSpan;
 
             string payer = "";
+            double beginningBalance = 0D;
+            double endingBalance = 0D;
+            DateTime lastPaidDate = DateTime.Now;
+            int daysLate = 0;
 
             this.Cursor = Cursors.WaitCursor;
 
@@ -525,9 +542,6 @@ namespace SMFS
                 try
                 {
                     payer = dt.Rows[i]["payer"].ObjToString();
-                    if (payer == "100300")
-                    {
-                    }
                     fname = dt.Rows[i]["firstName"].ObjToString();
                     lname = dt.Rows[i]["lastName"].ObjToString();
                     name = fname + " " + lname;
@@ -552,7 +566,7 @@ namespace SMFS
                     balance = dt.Rows[i]["balanceDue"].ObjToDouble();
                     totalBalance += balance;
                     date = dt.Rows[i]["dueDate8"].ObjToDateTime();
-                    TimeSpan ts = now - date;
+                    ts = now - date;
                     dt.Rows[i]["daysLate"] = (int)ts.Days;
                     area = dt.Rows[i]["areaCode"].ObjToString();
                     phone = dt.Rows[i]["phoneNumber"].ObjToString();
@@ -565,18 +579,44 @@ namespace SMFS
                     }
                     dt.Rows[i]["phone"] = phone;
 
-                    if ( contractNumber == "ZZ0034129")
+                    if ( payer == "UC-86" )
                     {
                     }
 
-                    dateSpan = DateTimeSpan.CompareDates(date, now);
+                    lastPaidDate = DailyHistory.GetInsuranceLastPaid( payer, ref dueDate8, ref payerContract, ref lapseDate8, ref reinstateDate8, ref lapsed, ref deceasedDate );
+
+                    if (payerContract == "ZZ0012851")
+                    {
+                    }
+
+                    imonths = G1.GetMonthsBetween( now, dueDate8);
+
+                    dt.Rows[i]["lastDatePaid8"] = G1.DTtoMySQLDT(lastPaidDate.ToString("yyyy-MM-dd"));
+                    dt.Rows[i]["dueDate8"] = G1.DTtoMySQLDT(dueDate8.ToString("yyyy-MM-dd"));
+                    dt.Rows[i]["contractNumber"] = payerContract;
+                    dt.Rows[i]["lapseDate8"] = G1.DTtoMySQLDT(lapseDate8.ToString("yyyy-MM-dd"));
+                    dt.Rows[i]["reinstateDate8"] = G1.DTtoMySQLDT(reinstateDate8.ToString("yyyy-MM-dd"));
+                    dt.Rows[i]["deceasedDate"] = G1.DTtoMySQLDT(deceasedDate.ToString("yyyy-MM-dd"));
+                    dt.Rows[i]["lapsed"] = lapsed;
+
+                    ts = now - dueDate8;
+                    dt.Rows[i]["daysLate"] = (int)ts.Days;
+
+
+                    dateSpan = DateTimeSpan.CompareDates( lastPaidDate, dueDate8 );
                     months = dateSpan.Months;
-                    premium = months * payment;
+                    premium = imonths * payment;
                     premium += payment; // Add another month
                     dt.Rows[i]["balanceDue"] = premium;
 
                     agentCode = dt.Rows[i]["agentCode"].ObjToString();
                     dt.Rows[i]["agentName"] = GetAgentName(agentCode);
+
+                    oldloc = dt.Rows[i]["oldloc1"].ObjToString();
+                    SDICode = dt.Rows[i]["SDICode"].ObjToString();
+                    if ( String.IsNullOrWhiteSpace ( SDICode ))
+                        SDICode = InsuranceCoupons.getSDICode(agentCode, oldloc);
+                    dt.Rows[i]["SDICode"] = SDICode;
 
                 }
                 catch ( Exception ex )
@@ -634,6 +674,9 @@ namespace SMFS
                 if ( payer == "UC-4251A")
                 {
                 }
+                if (payer == "UC-2642")
+                {
+                }
                 firstName = dt.Rows[i]["firstName"].ObjToString();
                 lastName = dt.Rows[i]["lastName"].ObjToString();
                 //cmd = "Select * from `policies` p where `payer` = '" + payer + "' and `firstName` = '" + firstName + "' AND `lastName` = '" + lastName + "' AND `tmstamp` > '2020-01-01'";
@@ -655,6 +698,9 @@ namespace SMFS
                     dt.Rows.RemoveAt(i);
                 else
                 {
+                    if (payer == "UC-2642")
+                    {
+                    }
                     premium = Policies.CalcMonthlyPremium(payer, DateTime.Now);
                     dt.Rows[i]["amtOfMonthlyPayt"] = premium;
                 }
@@ -1523,8 +1569,10 @@ namespace SMFS
             string money = "";
             RichTextBox rtb3 = new RichTextBox();
             rtb3.Font = new Font("Lucida Console", 9);
+            //rtb3.Font = new Font("Lucida Console", 8);
 
             int padright = GetLapseNoticeValues("Lapse Notices Left Side Width", "30");
+            padright += 1;
             int padTop = GetLapseNoticeValues("Lapse Notices Top Border Lines");
             int padLeft = GetLapseNoticeValues("Lapse Notices Left Border Spaces");
             int padBottom = GetLapseNoticeValues("Lapse Notices Bottom Border Lines");
@@ -1543,6 +1591,7 @@ namespace SMFS
             int noticeCount = 0;
             string contractNumber = "";
             string contractList = "";
+            string SDICode = "";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 daysLate = dt.Rows[i]["daysLate"].ObjToInt32();
@@ -1553,18 +1602,24 @@ namespace SMFS
                     contract = dt.Rows[i]["payer"].ObjToString();
                     balanceDue = dt.Rows[i]["balanceDue"].ObjToDouble();
                     payment = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
+                    SDICode = dt.Rows[i]["SDICode"].ObjToString();
+                    if (SDICode == "06")
+                        SDICode = "13";
                     if ( payment > 500D)
                     {
                         contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
                         payment = Policies.CalcMonthlyPremium(contractNumber, "", payment);
                     }
                     miniContract = Trust85.decodeContractNumber(contract, ref trust, ref loc);
-//                    LocateFuneralHome(loc, ref name, ref address, ref city, ref state, ref zip);
-                    name = "South MS Funeral Services";
-                    address = "P.O. Box 727";
-                    city = "Bay Springs";
-                    state = "MS";
-                    zip = "39422";
+                    LocateFuneralHome( SDICode, ref name, ref address, ref city, ref state, ref zip);
+                    if (String.IsNullOrWhiteSpace(name))
+                    {
+                        name = "South MS Funeral Services";
+                        address = "P.O. Box 727";
+                        city = "Bay Springs";
+                        state = "MS";
+                        zip = "39422";
+                    }
 
                     try
                     {
@@ -1749,37 +1804,31 @@ namespace SMFS
             GenerateNotices( dt );
         }
         /****************************************************************************************/
-        private void LocateFuneralHome( string loc, ref string name, ref string address, ref string city, ref string state, ref string zip )
+        private DataTable funDt = null;
+        /****************************************************************************************/
+        private void LocateFuneralHome(string SDICode, ref string name, ref string address, ref string city, ref string state, ref string zip)
         {
             name = "";
             address = "";
             city = "";
             state = "";
             zip = "";
-            DataTable dx = G1.get_db_data("Select * from `funeralhomes` where `keycode` = '" + loc + "';");
-            if (dx.Rows.Count <= 0)
-            {
-                dx = G1.get_db_data("Select * from `funeralhomes` where `keycode` = 'B';");
-                if (dx.Rows.Count > 0)
-                {
-                    name = dx.Rows[0]["LocationCode"].ObjToString();
-                    address = dx.Rows[0]["address"].ObjToString();
-                    city = dx.Rows[0]["city"].ObjToString();
-                    state = dx.Rows[0]["state"].ObjToString();
-                    zip = dx.Rows[0]["zip"].ObjToString();
-                }
-            }
-            else
-            {
-                if (dx.Rows.Count > 0)
-                {
-                    name = dx.Rows[0]["name"].ObjToString();
-                    address = dx.Rows[0]["address"].ObjToString();
-                    city = dx.Rows[0]["city"].ObjToString();
-                    state = dx.Rows[0]["state"].ObjToString();
-                    zip = dx.Rows[0]["zip"].ObjToString();
-                }
-            }
+
+            if (funDt == null)
+                funDt = G1.get_db_data("Select * from `funeralhomes`;");
+
+            DataRow[] dRows = funDt.Select("SDICode='" + SDICode + "'");
+            if (dRows.Length <= 0)
+                dRows = funDt.Select("keycode='B'");
+            if (dRows.Length <= 0)
+                return;
+
+            //name = dRows[0]["LocationCode"].ObjToString();
+            name = dRows[0]["name"].ObjToString();
+            address = dRows[0]["address"].ObjToString();
+            city = dRows[0]["city"].ObjToString();
+            state = dRows[0]["state"].ObjToString();
+            zip = dRows[0]["zip"].ObjToString();
         }
         /****************************************************************************************/
         private void generateNoticesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1866,6 +1915,7 @@ namespace SMFS
             //G1.SetColumnPosition(gridMain, "totalContract", 13);
             G1.SetColumnPosition(gridMain, "daysLate", 13);
             G1.SetColumnPosition(gridMain, "reinstateDate8", 14);
+            G1.SetColumnPosition(gridMain, "SDICode", 15);
             //G1.SetColumnPosition(gridMain, "address1", 15);
             //G1.SetColumnPosition(gridMain, "address2", 16);
             txtPastDue.Visible = true;
@@ -1958,8 +2008,31 @@ namespace SMFS
                 if ( dt.Rows.Count > 0 )
                 {
                     DateTime date = dt.Rows[0]["lapseDate8"].ObjToDateTime();
-                    MessageBox.Show("***INFO*** The Last Lapse Date was set to " + date.ToString("MM/dd/yyyy") + " !", "Last Lapse Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("***INFO*** The Last Lapse Date was set to " + date.ToString("MM/dd/yyyy") + " !", "Last Lapse Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
+            }
+        }
+        /****************************************************************************************/
+        private void gridMain_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            DataRow dr = gridMain.GetFocusedDataRow();
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (e.Column.FieldName.ToUpper() == "SDICODE")
+            {
+                string SDICode = dr["SDICode"].ObjToString();
+                if ( SDICode.Length != 2 )
+                {
+                    MessageBox.Show("***ERROR*** SDICode must be exactly 2 characters!", "SDICode Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
+                if ( !G1.validate_numeric ( SDICode ))
+                {
+                    MessageBox.Show("***ERROR*** SDICode must be numeric!", "SDICode Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
+                string record = dr["record"].ObjToString();
+                string payer = dr["payer"].ObjToString();
+                G1.update_db_table("payers", "record", record, new string[] {"SDICode", SDICode });
             }
         }
         /****************************************************************************************/

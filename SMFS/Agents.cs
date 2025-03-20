@@ -724,6 +724,10 @@ namespace SMFS
         /***********************************************************************************************/
         private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            TabPage tabpage = tabControl1.SelectedTab;
+            string name = tabpage.Name.ToUpper();
+            if (name != "TABPAGEAGENTS")
+                return;
             isPrinting = true;
             if (this.components == null)
                 this.components = new System.ComponentModel.Container();
@@ -803,6 +807,11 @@ namespace SMFS
         /****************************************************************************************/
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            TabPage tabpage = tabControl1.SelectedTab;
+            string name = tabpage.Name.ToUpper();
+            if (name != "TABPAGEAGENTS")
+                return;
+
             isPrinting = true;
             if (this.components == null)
                 this.components = new System.ComponentModel.Container();

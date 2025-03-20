@@ -40,6 +40,7 @@
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.Num = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn9 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn23 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn22 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn16 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.cnum = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -113,10 +114,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1477, 414);
+            this.panelAll.Size = new System.Drawing.Size(1477, 416);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -126,7 +127,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 87);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1477, 327);
+            this.panelBottom.Size = new System.Drawing.Size(1477, 329);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -140,7 +141,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1477, 327);
+            this.dgv.Size = new System.Drawing.Size(1477, 329);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -324,7 +325,8 @@
             this.bandedGridColumn19,
             this.bandedGridColumn20,
             this.bandedGridColumn21,
-            this.bandedGridColumn22});
+            this.bandedGridColumn22,
+            this.bandedGridColumn23});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
@@ -332,8 +334,6 @@
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "totalContract", this.totalContract11, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "balanceDue", this.balanceDue12, "${0:0,0.00}")});
             this.gridMain.Name = "gridMain";
-            this.gridMain.OptionsBehavior.Editable = false;
-            this.gridMain.OptionsBehavior.ReadOnly = true;
             this.gridMain.OptionsCustomization.ShowBandsInCustomizationForm = false;
             this.gridMain.OptionsPrint.AllowMultilineHeaders = true;
             this.gridMain.OptionsPrint.PrintBandHeader = false;
@@ -346,6 +346,7 @@
             this.gridMain.OptionsView.ShowGroupPanel = false;
             this.gridMain.PaintStyleName = "Style3D";
             this.gridMain.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridMain_CustomDrawCell);
+            this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
             this.gridMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain_CustomColumnDisplayText);
             this.gridMain.DoubleClick += new System.EventHandler(this.gridMain_DoubleClick);
             // 
@@ -354,6 +355,7 @@
             this.gridBand1.Caption = "gridBand1";
             this.gridBand1.Columns.Add(this.Num);
             this.gridBand1.Columns.Add(this.bandedGridColumn9);
+            this.gridBand1.Columns.Add(this.bandedGridColumn23);
             this.gridBand1.Columns.Add(this.bandedGridColumn22);
             this.gridBand1.Columns.Add(this.bandedGridColumn16);
             this.gridBand1.Columns.Add(this.cnum);
@@ -382,7 +384,7 @@
             this.gridBand1.MinWidth = 14;
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 2219;
+            this.gridBand1.Width = 2313;
             // 
             // Num
             // 
@@ -404,6 +406,16 @@
             this.bandedGridColumn9.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn9.Visible = true;
             this.bandedGridColumn9.Width = 71;
+            // 
+            // bandedGridColumn23
+            // 
+            this.bandedGridColumn23.Caption = "SDICode";
+            this.bandedGridColumn23.FieldName = "SDICode";
+            this.bandedGridColumn23.MinWidth = 25;
+            this.bandedGridColumn23.Name = "bandedGridColumn23";
+            this.bandedGridColumn23.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn23.Visible = true;
+            this.bandedGridColumn23.Width = 94;
             // 
             // bandedGridColumn22
             // 
@@ -960,7 +972,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1477, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1477, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -970,7 +982,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -1014,7 +1026,7 @@
             // columnsToolStripMenuItem
             // 
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.columnsToolStripMenuItem.Text = "Columns";
             // 
             // PastDueInsurance
@@ -1114,5 +1126,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private System.Windows.Forms.CheckBox chkDueDate;
         private System.Windows.Forms.ProgressBar barImport;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn23;
     }
 }
