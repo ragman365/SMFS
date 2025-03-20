@@ -150,6 +150,20 @@ namespace SMFS
                     cmd = "Select * from `contracts` where `contractNumber` = '" + workContract + "';";
                 dx = G1.get_db_data(cmd);
             }
+            else
+            {
+                if (insurance)
+                {
+                    cmd = "Select * from `payers` WHERE `payer` = '" + workPayer + "';";
+                    DataTable payDt = G1.get_db_data(cmd);
+                    if (payDt.Rows.Count > 0)
+                    {
+                        workContract = payDt.Rows[0]["contractNumber"].ObjToString();
+                        cmd = "Select * from `" + contractsFile + "` where `contractNumber` = '" + workContract + "';";
+                        dx = G1.get_db_data(cmd);
+                    }
+                }
+            }
             if (dx.Rows.Count <= 0)
             {
                 MessageBox.Show("***ERROR*** Reading Customer Contract " + workContract.ToString() + "!", "Reading Customer Problem Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);

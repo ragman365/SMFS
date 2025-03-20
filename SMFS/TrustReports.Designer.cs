@@ -827,7 +827,7 @@
             this.tabAllData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabAllData.Name = "tabAllData";
             this.tabAllData.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabAllData.Size = new System.Drawing.Size(1636, 389);
+            this.tabAllData.Size = new System.Drawing.Size(1636, 391);
             this.tabAllData.TabIndex = 0;
             this.tabAllData.Text = "All Data";
             this.tabAllData.UseVisualStyleBackColor = true;
@@ -840,7 +840,7 @@
             this.panel1All.Location = new System.Drawing.Point(3, 4);
             this.panel1All.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1All.Name = "panel1All";
-            this.panel1All.Size = new System.Drawing.Size(1630, 381);
+            this.panel1All.Size = new System.Drawing.Size(1630, 383);
             this.panel1All.TabIndex = 7;
             // 
             // panel1Bottom
@@ -850,7 +850,7 @@
             this.panel1Bottom.Location = new System.Drawing.Point(0, 42);
             this.panel1Bottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1Bottom.Name = "panel1Bottom";
-            this.panel1Bottom.Size = new System.Drawing.Size(1630, 339);
+            this.panel1Bottom.Size = new System.Drawing.Size(1630, 341);
             this.panel1Bottom.TabIndex = 9;
             // 
             // dgv6
@@ -864,7 +864,7 @@
             this.dgv6.MainView = this.gridMain6;
             this.dgv6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv6.Name = "dgv6";
-            this.dgv6.Size = new System.Drawing.Size(1630, 339);
+            this.dgv6.Size = new System.Drawing.Size(1630, 341);
             this.dgv6.TabIndex = 6;
             this.dgv6.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain6});
@@ -1692,7 +1692,7 @@
             this.tabPlacedInTrust.Location = new System.Drawing.Point(4, 25);
             this.tabPlacedInTrust.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPlacedInTrust.Name = "tabPlacedInTrust";
-            this.tabPlacedInTrust.Size = new System.Drawing.Size(1636, 389);
+            this.tabPlacedInTrust.Size = new System.Drawing.Size(1636, 391);
             this.tabPlacedInTrust.TabIndex = 5;
             this.tabPlacedInTrust.Text = "Payments Placed in Trust";
             this.tabPlacedInTrust.UseVisualStyleBackColor = true;
@@ -1708,7 +1708,7 @@
             this.dgv2.MainView = this.gridMain2;
             this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv2.Name = "dgv2";
-            this.dgv2.Size = new System.Drawing.Size(1636, 389);
+            this.dgv2.Size = new System.Drawing.Size(1636, 391);
             this.dgv2.TabIndex = 7;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -2417,7 +2417,7 @@
             this.tabBeginning.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabBeginning.Name = "tabBeginning";
             this.tabBeginning.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabBeginning.Size = new System.Drawing.Size(1636, 389);
+            this.tabBeginning.Size = new System.Drawing.Size(1636, 391);
             this.tabBeginning.TabIndex = 1;
             this.tabBeginning.Text = "Beginning Period Trust Report";
             this.tabBeginning.UseVisualStyleBackColor = true;
@@ -2432,7 +2432,7 @@
             this.dgv7.MainView = this.gridMain7;
             this.dgv7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv7.Name = "dgv7";
-            this.dgv7.Size = new System.Drawing.Size(1630, 381);
+            this.dgv7.Size = new System.Drawing.Size(1630, 383);
             this.dgv7.TabIndex = 7;
             this.dgv7.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain7});
@@ -3727,7 +3727,7 @@
             this.tabDiff.Location = new System.Drawing.Point(4, 25);
             this.tabDiff.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabDiff.Name = "tabDiff";
-            this.tabDiff.Size = new System.Drawing.Size(1636, 389);
+            this.tabDiff.Size = new System.Drawing.Size(1636, 391);
             this.tabDiff.TabIndex = 3;
             this.tabDiff.Text = "Trust Difference";
             this.tabDiff.UseVisualStyleBackColor = true;
@@ -3740,7 +3740,7 @@
             this.panelDiffAll.Location = new System.Drawing.Point(0, 0);
             this.panelDiffAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelDiffAll.Name = "panelDiffAll";
-            this.panelDiffAll.Size = new System.Drawing.Size(1636, 389);
+            this.panelDiffAll.Size = new System.Drawing.Size(1636, 391);
             this.panelDiffAll.TabIndex = 0;
             // 
             // panelDiffBottom
@@ -3750,7 +3750,7 @@
             this.panelDiffBottom.Location = new System.Drawing.Point(0, 52);
             this.panelDiffBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelDiffBottom.Name = "panelDiffBottom";
-            this.panelDiffBottom.Size = new System.Drawing.Size(1636, 337);
+            this.panelDiffBottom.Size = new System.Drawing.Size(1636, 339);
             this.panelDiffBottom.TabIndex = 2;
             // 
             // dgv9
@@ -3763,7 +3763,7 @@
             this.dgv9.MainView = this.gridMain9;
             this.dgv9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv9.Name = "dgv9";
-            this.dgv9.Size = new System.Drawing.Size(1636, 337);
+            this.dgv9.Size = new System.Drawing.Size(1636, 339);
             this.dgv9.TabIndex = 8;
             this.dgv9.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain9});
@@ -4340,7 +4340,7 @@
             this.tabCompare.Location = new System.Drawing.Point(4, 25);
             this.tabCompare.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCompare.Name = "tabCompare";
-            this.tabCompare.Size = new System.Drawing.Size(1636, 389);
+            this.tabCompare.Size = new System.Drawing.Size(1636, 391);
             this.tabCompare.TabIndex = 4;
             this.tabCompare.Text = "Compare Payments";
             this.tabCompare.UseVisualStyleBackColor = true;
@@ -4353,7 +4353,7 @@
             this.panelCompareAll.Location = new System.Drawing.Point(0, 0);
             this.panelCompareAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelCompareAll.Name = "panelCompareAll";
-            this.panelCompareAll.Size = new System.Drawing.Size(1636, 389);
+            this.panelCompareAll.Size = new System.Drawing.Size(1636, 391);
             this.panelCompareAll.TabIndex = 0;
             // 
             // panelCompareBottom
@@ -4363,7 +4363,7 @@
             this.panelCompareBottom.Location = new System.Drawing.Point(0, 42);
             this.panelCompareBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelCompareBottom.Name = "panelCompareBottom";
-            this.panelCompareBottom.Size = new System.Drawing.Size(1636, 347);
+            this.panelCompareBottom.Size = new System.Drawing.Size(1636, 349);
             this.panelCompareBottom.TabIndex = 2;
             // 
             // dgv10
@@ -4377,7 +4377,7 @@
             this.dgv10.MainView = this.gridMain10;
             this.dgv10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv10.Name = "dgv10";
-            this.dgv10.Size = new System.Drawing.Size(1636, 347);
+            this.dgv10.Size = new System.Drawing.Size(1636, 349);
             this.dgv10.TabIndex = 7;
             this.dgv10.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain10});
@@ -4647,7 +4647,7 @@
             this.tabCompareBalance.Location = new System.Drawing.Point(4, 25);
             this.tabCompareBalance.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCompareBalance.Name = "tabCompareBalance";
-            this.tabCompareBalance.Size = new System.Drawing.Size(1636, 389);
+            this.tabCompareBalance.Size = new System.Drawing.Size(1636, 391);
             this.tabCompareBalance.TabIndex = 6;
             this.tabCompareBalance.Text = "Compare Balance to Last Month";
             this.tabCompareBalance.UseVisualStyleBackColor = true;
@@ -4663,7 +4663,7 @@
             this.dgv11.MainView = this.gridMain11;
             this.dgv11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv11.Name = "dgv11";
-            this.dgv11.Size = new System.Drawing.Size(1636, 389);
+            this.dgv11.Size = new System.Drawing.Size(1636, 391);
             this.dgv11.TabIndex = 8;
             this.dgv11.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain11});

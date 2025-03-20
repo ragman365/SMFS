@@ -2010,8 +2010,11 @@ namespace SMFS
                                 {
                                     if (iDate >= thisMonth && iDate <= runDate)
                                     {
-                                        if (dateDpPaid < thisMonth)
-                                            doit = true;
+                                        if (downPayment > 0D)
+                                        {
+                                            if (dateDpPaid < thisMonth)
+                                                doit = true;
+                                        }
                                     }
                                 }
                                 //else if (iDate >= thisMonth && iDate <= runDate)
