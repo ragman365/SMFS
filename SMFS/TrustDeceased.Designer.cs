@@ -36,6 +36,8 @@ namespace SMFS
             this.panelBottom = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panelMainAll = new System.Windows.Forms.Panel();
+            this.panelMainBottom = new System.Windows.Forms.Panel();
             this.dgv = new DevExpress.XtraGrid.GridControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goToPaymentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,6 +78,10 @@ namespace SMFS
             this.bandedGridColumn40 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn41 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn12 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.panelMainTop = new System.Windows.Forms.Panel();
+            this.btnRP = new System.Windows.Forms.Button();
+            this.picMainDelete = new System.Windows.Forms.PictureBox();
+            this.btnMainInsert = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panelSplitAll = new System.Windows.Forms.Panel();
             this.panelSplitBottom = new System.Windows.Forms.Panel();
@@ -519,13 +525,21 @@ namespace SMFS
             this.post2002ReportSNFTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.post2002ReportCadenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pre2002ReportSNFTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.massPrintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.massPrintPost2002ReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.massPrintPre2002ReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printingSystem1 = new DevExpress.XtraPrinting.PrintingSystem(this.components);
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panelMainAll.SuspendLayout();
+            this.panelMainBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
+            this.panelMainTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picMainDelete)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.panelSplitAll.SuspendLayout();
             this.panelSplitBottom.SuspendLayout();
@@ -597,6 +611,7 @@ namespace SMFS
             ((System.ComponentModel.ISupportInitialize)(this.chkCmbCompany.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.printingSystem1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelAll
@@ -640,7 +655,7 @@ namespace SMFS
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.dgv);
+            this.tabPage1.Controls.Add(this.panelMainAll);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -649,16 +664,35 @@ namespace SMFS
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // panelMainAll
+            // 
+            this.panelMainAll.Controls.Add(this.panelMainBottom);
+            this.panelMainAll.Controls.Add(this.panelMainTop);
+            this.panelMainAll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMainAll.Location = new System.Drawing.Point(3, 3);
+            this.panelMainAll.Name = "panelMainAll";
+            this.panelMainAll.Size = new System.Drawing.Size(1795, 525);
+            this.panelMainAll.TabIndex = 7;
+            // 
+            // panelMainBottom
+            // 
+            this.panelMainBottom.Controls.Add(this.dgv);
+            this.panelMainBottom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMainBottom.Location = new System.Drawing.Point(0, 47);
+            this.panelMainBottom.Name = "panelMainBottom";
+            this.panelMainBottom.Size = new System.Drawing.Size(1795, 478);
+            this.panelMainBottom.TabIndex = 9;
+            // 
             // dgv
             // 
             this.dgv.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgv.Location = new System.Drawing.Point(3, 3);
+            this.dgv.Location = new System.Drawing.Point(0, 0);
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1795, 525);
+            this.dgv.Size = new System.Drawing.Size(1795, 478);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -873,10 +907,10 @@ namespace SMFS
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "value", this.bandedGridColumn28, "${0:0,0.00}"),
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "value", this.bandedGridColumn28, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "received", this.bandedGridColumn9, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "refunds", this.bandedGridColumn13, "${0:0,0.00}"),
-            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "principal", this.bandedGridColumn14, "${0:0,0.00}"),
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "principal", this.bandedGridColumn14, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "sandraMoney", this.bandedGridColumn114, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "sandraPrincipal", this.bandedGridColumn115, "${0:0,0.00}")});
             this.gridMain.Name = "gridMain";
@@ -891,10 +925,13 @@ namespace SMFS
             this.gridMain.PaintStyleName = "Style3D";
             this.gridMain.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridMain_CustomDrawCell);
             this.gridMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridMain_RowCellStyle);
+            this.gridMain.CustomSummaryCalculate += new DevExpress.Data.CustomSummaryEventHandler(this.gridMain_CustomSummaryCalculate_1);
+            this.gridMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridMain_ShowingEditor);
             this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
             this.gridMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain_CustomColumnDisplayText_1);
             this.gridMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridMain_MouseDown);
             this.gridMain.DoubleClick += new System.EventHandler(this.gridMain_DoubleClick);
+            this.gridMain.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.gridMain_ValidatingEditor_1);
             // 
             // gridBand1
             // 
@@ -1289,6 +1326,60 @@ namespace SMFS
             this.bandedGridColumn12.Name = "bandedGridColumn12";
             this.bandedGridColumn12.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn12.Width = 94;
+            // 
+            // panelMainTop
+            // 
+            this.panelMainTop.Controls.Add(this.btnRP);
+            this.panelMainTop.Controls.Add(this.picMainDelete);
+            this.panelMainTop.Controls.Add(this.btnMainInsert);
+            this.panelMainTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelMainTop.Location = new System.Drawing.Point(0, 0);
+            this.panelMainTop.Name = "panelMainTop";
+            this.panelMainTop.Size = new System.Drawing.Size(1795, 47);
+            this.panelMainTop.TabIndex = 8;
+            // 
+            // btnRP
+            // 
+            this.btnRP.BackColor = System.Drawing.Color.Transparent;
+            this.btnRP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRP.Location = new System.Drawing.Point(174, 12);
+            this.btnRP.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnRP.Name = "btnRP";
+            this.btnRP.Size = new System.Drawing.Size(61, 28);
+            this.btnRP.TabIndex = 25;
+            this.btnRP.Tag = "Insert Row";
+            this.btnRP.Text = "RP";
+            this.btnRP.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnRP.UseVisualStyleBackColor = false;
+            this.btnRP.Click += new System.EventHandler(this.btnRP_Click);
+            // 
+            // picMainDelete
+            // 
+            this.picMainDelete.Image = ((System.Drawing.Image)(resources.GetObject("picMainDelete.Image")));
+            this.picMainDelete.Location = new System.Drawing.Point(90, 12);
+            this.picMainDelete.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.picMainDelete.Name = "picMainDelete";
+            this.picMainDelete.Size = new System.Drawing.Size(36, 28);
+            this.picMainDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picMainDelete.TabIndex = 24;
+            this.picMainDelete.TabStop = false;
+            this.picMainDelete.Tag = "Delete Row";
+            this.picMainDelete.Click += new System.EventHandler(this.picMainDelete_Click);
+            // 
+            // btnMainInsert
+            // 
+            this.btnMainInsert.BackColor = System.Drawing.Color.Transparent;
+            this.btnMainInsert.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMainInsert.Location = new System.Drawing.Point(36, 12);
+            this.btnMainInsert.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnMainInsert.Name = "btnMainInsert";
+            this.btnMainInsert.Size = new System.Drawing.Size(36, 28);
+            this.btnMainInsert.TabIndex = 23;
+            this.btnMainInsert.Tag = "Insert Row";
+            this.btnMainInsert.Text = "~";
+            this.btnMainInsert.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnMainInsert.UseVisualStyleBackColor = false;
+            this.btnMainInsert.Click += new System.EventHandler(this.btnMainInsert_Click);
             // 
             // tabPage2
             // 
@@ -4222,6 +4313,7 @@ namespace SMFS
             this.gridMain6.OptionsView.ShowFooter = true;
             this.gridMain6.OptionsView.ShowGroupPanel = false;
             this.gridMain6.PaintStyleName = "Style3D";
+            this.gridMain6.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridMain6_RowCellStyle);
             this.gridMain6.CustomSummaryCalculate += new DevExpress.Data.CustomSummaryEventHandler(this.gridMain6_CustomSummaryCalculate);
             this.gridMain6.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain6_CellValueChanged);
             this.gridMain6.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain6_CustomColumnDisplayText);
@@ -8761,7 +8853,8 @@ namespace SMFS
             this.fileToolStripMenuItem,
             this.screenOptionsToolStripMenuItem,
             this.editsToolStripMenuItem,
-            this.reportsToolStripMenuItem});
+            this.reportsToolStripMenuItem,
+            this.massPrintToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
@@ -8916,6 +9009,29 @@ namespace SMFS
             this.pre2002ReportSNFTToolStripMenuItem.Text = "Pre 2002 Report";
             this.pre2002ReportSNFTToolStripMenuItem.Click += new System.EventHandler(this.pre2002ReportSNFTToolStripMenuItem_Click);
             // 
+            // massPrintToolStripMenuItem
+            // 
+            this.massPrintToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.massPrintPost2002ReportsToolStripMenuItem,
+            this.massPrintPre2002ReportsToolStripMenuItem});
+            this.massPrintToolStripMenuItem.Name = "massPrintToolStripMenuItem";
+            this.massPrintToolStripMenuItem.Size = new System.Drawing.Size(90, 26);
+            this.massPrintToolStripMenuItem.Text = "Mass Print";
+            // 
+            // massPrintPost2002ReportsToolStripMenuItem
+            // 
+            this.massPrintPost2002ReportsToolStripMenuItem.Name = "massPrintPost2002ReportsToolStripMenuItem";
+            this.massPrintPost2002ReportsToolStripMenuItem.Size = new System.Drawing.Size(281, 26);
+            this.massPrintPost2002ReportsToolStripMenuItem.Text = "Mass Print Post 2002 Reports";
+            this.massPrintPost2002ReportsToolStripMenuItem.Click += new System.EventHandler(this.massPrintPost2002ReportsToolStripMenuItem_Click);
+            // 
+            // massPrintPre2002ReportsToolStripMenuItem
+            // 
+            this.massPrintPre2002ReportsToolStripMenuItem.Name = "massPrintPre2002ReportsToolStripMenuItem";
+            this.massPrintPre2002ReportsToolStripMenuItem.Size = new System.Drawing.Size(281, 26);
+            this.massPrintPre2002ReportsToolStripMenuItem.Text = "Mass Print Pre 2002 Reports";
+            this.massPrintPre2002ReportsToolStripMenuItem.Click += new System.EventHandler(this.massPrintPre2002ReportsToolStripMenuItem_Click);
+            // 
             // TrustDeceased
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -8932,9 +9048,13 @@ namespace SMFS
             this.panelBottom.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.panelMainAll.ResumeLayout(false);
+            this.panelMainBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).EndInit();
+            this.panelMainTop.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picMainDelete)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.panelSplitAll.ResumeLayout(false);
             this.panelSplitBottom.ResumeLayout(false);
@@ -9012,6 +9132,7 @@ namespace SMFS
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.printingSystem1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -9506,5 +9627,15 @@ namespace SMFS
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn310;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn312;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn313;
+        private System.Windows.Forms.ToolStripMenuItem massPrintToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem massPrintPost2002ReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem massPrintPre2002ReportsToolStripMenuItem;
+        private DevExpress.XtraPrinting.PrintingSystem printingSystem1;
+        private System.Windows.Forms.Panel panelMainAll;
+        private System.Windows.Forms.Panel panelMainBottom;
+        private System.Windows.Forms.Panel panelMainTop;
+        private System.Windows.Forms.PictureBox picMainDelete;
+        private System.Windows.Forms.Button btnMainInsert;
+        private System.Windows.Forms.Button btnRP;
     }
 }
