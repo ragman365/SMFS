@@ -40,6 +40,8 @@
             this.editDetailMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.assignNewAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goToPreneedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.duplicateContactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goToFuneralToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -73,6 +75,11 @@
             this.bandedGridColumn25 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn26 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox4 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.bandedGridColumn2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.bandedGridColumn48 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn49 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn50 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn29 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn28 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn42 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -98,11 +105,12 @@
             this.bandedGridColumn7 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
             this.bandedGridColumn14 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.panelBottomRightChecksTop = new System.Windows.Forms.Panel();
             this.panelClaimTop = new System.Windows.Forms.Panel();
+            this.btnTestGoogle = new System.Windows.Forms.Button();
+            this.chkLocations = new DevExpress.XtraEditors.CheckedComboBoxEdit();
+            this.btnInitialSetup = new System.Windows.Forms.Button();
             this.cmbSelectColumns = new System.Windows.Forms.ComboBox();
             this.btnSelectColumns = new System.Windows.Forms.Button();
             this.chkDoNotCall = new System.Windows.Forms.CheckBox();
@@ -117,7 +125,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cmbEmployee = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cmbContractType = new System.Windows.Forms.ComboBox();
+            this.cmbContactType = new System.Windows.Forms.ComboBox();
+            this.chkContactType = new DevExpress.XtraEditors.CheckedComboBoxEdit();
             this.btnRun = new System.Windows.Forms.Button();
             this.btnRight = new System.Windows.Forms.Button();
             this.btnLeft = new System.Windows.Forms.Button();
@@ -153,13 +162,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
             this.panelClaimTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chkLocations.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkContactType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -171,10 +182,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1742, 617);
+            this.panelAll.Size = new System.Drawing.Size(1742, 619);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -184,7 +195,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 119);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1742, 498);
+            this.panelBottom.Size = new System.Drawing.Size(1742, 500);
             this.panelBottom.TabIndex = 3;
             // 
             // panelBottomRight
@@ -194,7 +205,7 @@
             this.panelBottomRight.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRight.Name = "panelBottomRight";
-            this.panelBottomRight.Size = new System.Drawing.Size(1742, 498);
+            this.panelBottomRight.Size = new System.Drawing.Size(1742, 500);
             this.panelBottomRight.TabIndex = 8;
             // 
             // panelBottomRightChecks
@@ -205,7 +216,7 @@
             this.panelBottomRightChecks.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecks.Name = "panelBottomRightChecks";
-            this.panelBottomRightChecks.Size = new System.Drawing.Size(1742, 498);
+            this.panelBottomRightChecks.Size = new System.Drawing.Size(1742, 500);
             this.panelBottomRightChecks.TabIndex = 7;
             // 
             // panelBottomRightChecksBottom
@@ -215,7 +226,7 @@
             this.panelBottomRightChecksBottom.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksBottom.Name = "panelBottomRightChecksBottom";
-            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1742, 498);
+            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1742, 500);
             this.panelBottomRightChecksBottom.TabIndex = 9;
             // 
             // dgv
@@ -241,7 +252,7 @@
             this.repositoryItemComboBox6,
             this.repositoryItemComboBox7,
             this.repositoryItemMemoEdit2});
-            this.dgv.Size = new System.Drawing.Size(1742, 498);
+            this.dgv.Size = new System.Drawing.Size(1742, 500);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -252,9 +263,12 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editDetailMenu,
             this.assignNewAgentToolStripMenuItem,
-            this.goToPreneedToolStripMenuItem});
+            this.goToPreneedToolStripMenuItem,
+            this.duplicateContactToolStripMenuItem,
+            this.goToFuneralToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(200, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(200, 124);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // editDetailMenu
             // 
@@ -276,6 +290,20 @@
             this.goToPreneedToolStripMenuItem.Size = new System.Drawing.Size(199, 24);
             this.goToPreneedToolStripMenuItem.Text = "Go To Preneed";
             this.goToPreneedToolStripMenuItem.Click += new System.EventHandler(this.goToPreneedToolStripMenuItem_Click);
+            // 
+            // duplicateContactToolStripMenuItem
+            // 
+            this.duplicateContactToolStripMenuItem.Name = "duplicateContactToolStripMenuItem";
+            this.duplicateContactToolStripMenuItem.Size = new System.Drawing.Size(199, 24);
+            this.duplicateContactToolStripMenuItem.Text = "Duplicate Contact";
+            this.duplicateContactToolStripMenuItem.Click += new System.EventHandler(this.duplicateContactToolStripMenuItem_Click);
+            // 
+            // goToFuneralToolStripMenuItem
+            // 
+            this.goToFuneralToolStripMenuItem.Name = "goToFuneralToolStripMenuItem";
+            this.goToFuneralToolStripMenuItem.Size = new System.Drawing.Size(199, 24);
+            this.goToFuneralToolStripMenuItem.Text = "Go To Funeral";
+            this.goToFuneralToolStripMenuItem.Click += new System.EventHandler(this.goToFuneralToolStripMenuItem_Click);
             // 
             // gridMain
             // 
@@ -331,8 +359,8 @@
             this.gridMain.Appearance.FocusedCell.ForeColor = System.Drawing.Color.Black;
             this.gridMain.Appearance.FocusedCell.Options.UseBackColor = true;
             this.gridMain.Appearance.FocusedCell.Options.UseForeColor = true;
-            this.gridMain.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(160)))), ((int)(((byte)(112)))));
-            this.gridMain.Appearance.FocusedRow.ForeColor = System.Drawing.Color.White;
+            this.gridMain.Appearance.FocusedRow.BackColor = System.Drawing.Color.Yellow;
+            this.gridMain.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
             this.gridMain.Appearance.FocusedRow.Options.UseBackColor = true;
             this.gridMain.Appearance.FocusedRow.Options.UseForeColor = true;
             this.gridMain.Appearance.FooterPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(247)))), ((int)(((byte)(222)))));
@@ -463,7 +491,10 @@
             this.bandedGridColumn43,
             this.bandedGridColumn44,
             this.bandedGridColumn45,
-            this.bandedGridColumn47});
+            this.bandedGridColumn47,
+            this.bandedGridColumn48,
+            this.bandedGridColumn49,
+            this.bandedGridColumn50});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
@@ -481,6 +512,8 @@
             this.gridMain.OptionsView.ShowGroupPanel = false;
             this.gridMain.PaintStyleName = "Flat";
             this.gridMain.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridMain_CustomDrawCell);
+            this.gridMain.CustomDrawGroupRow += new DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventHandler(this.gridMain_CustomDrawGroupRow);
+            this.gridMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridMain_RowCellStyle);
             this.gridMain.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridMain_CustomRowCellEdit);
             this.gridMain.CalcRowHeight += new DevExpress.XtraGrid.Views.Grid.RowHeightEventHandler(this.gridMain_CalcRowHeight);
             this.gridMain.ShownEditor += new System.EventHandler(this.gridMain_ShownEditor);
@@ -556,6 +589,8 @@
             this.repositoryItemComboBox6.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemComboBox6.Name = "repositoryItemComboBox6";
+            this.repositoryItemComboBox6.SelectedValueChanged += new System.EventHandler(this.repositoryItemComboBox6_SelectedValueChanged);
+            this.repositoryItemComboBox6.Validating += new System.ComponentModel.CancelEventHandler(this.repositoryItemComboBox6_Validating);
             // 
             // bandedGridColumn40
             // 
@@ -648,6 +683,10 @@
             this.gridBand1.Columns.Add(this.bandedGridColumn23);
             this.gridBand1.Columns.Add(this.bandedGridColumn25);
             this.gridBand1.Columns.Add(this.bandedGridColumn26);
+            this.gridBand1.Columns.Add(this.bandedGridColumn2);
+            this.gridBand1.Columns.Add(this.bandedGridColumn48);
+            this.gridBand1.Columns.Add(this.bandedGridColumn49);
+            this.gridBand1.Columns.Add(this.bandedGridColumn50);
             this.gridBand1.Columns.Add(this.bandedGridColumn29);
             this.gridBand1.Columns.Add(this.bandedGridColumn28);
             this.gridBand1.Columns.Add(this.bandedGridColumn42);
@@ -670,11 +709,10 @@
             this.gridBand1.Columns.Add(this.bandedGridColumn6);
             this.gridBand1.Columns.Add(this.bandedGridColumn7);
             this.gridBand1.Columns.Add(this.bandedGridColumn14);
-            this.gridBand1.Columns.Add(this.bandedGridColumn2);
             this.gridBand1.MinWidth = 121;
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 1;
-            this.gridBand1.Width = 3884;
+            this.gridBand1.Width = 4351;
             // 
             // bandedGridColumn18
             // 
@@ -857,6 +895,58 @@
             this.repositoryItemComboBox4.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemComboBox4.Name = "repositoryItemComboBox4";
+            this.repositoryItemComboBox4.EditValueChanged += new System.EventHandler(this.repositoryItemComboBox4_EditValueChanged);
+            // 
+            // bandedGridColumn2
+            // 
+            this.bandedGridColumn2.Caption = "Contact Type";
+            this.bandedGridColumn2.ColumnEdit = this.repositoryItemComboBox1;
+            this.bandedGridColumn2.FieldName = "contactType";
+            this.bandedGridColumn2.MinWidth = 25;
+            this.bandedGridColumn2.Name = "bandedGridColumn2";
+            this.bandedGridColumn2.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn2.Visible = true;
+            this.bandedGridColumn2.Width = 153;
+            // 
+            // repositoryItemComboBox1
+            // 
+            this.repositoryItemComboBox1.AutoHeight = false;
+            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
+            this.repositoryItemComboBox1.SelectedIndexChanged += new System.EventHandler(this.repositoryItemComboBox1_SelectedIndexChanged);
+            // 
+            // bandedGridColumn48
+            // 
+            this.bandedGridColumn48.Caption = "Organization";
+            this.bandedGridColumn48.FieldName = "organization";
+            this.bandedGridColumn48.MinWidth = 25;
+            this.bandedGridColumn48.Name = "bandedGridColumn48";
+            this.bandedGridColumn48.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn48.Visible = true;
+            this.bandedGridColumn48.Width = 110;
+            // 
+            // bandedGridColumn49
+            // 
+            this.bandedGridColumn49.Caption = "Job Title";
+            this.bandedGridColumn49.FieldName = "jobtitle";
+            this.bandedGridColumn49.MinWidth = 25;
+            this.bandedGridColumn49.Name = "bandedGridColumn49";
+            this.bandedGridColumn49.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn49.Visible = true;
+            this.bandedGridColumn49.Width = 110;
+            // 
+            // bandedGridColumn50
+            // 
+            this.bandedGridColumn50.Caption = "Birthday";
+            this.bandedGridColumn50.DisplayFormat.FormatString = "MM/dd/yyyy";
+            this.bandedGridColumn50.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.bandedGridColumn50.FieldName = "dob";
+            this.bandedGridColumn50.MinWidth = 25;
+            this.bandedGridColumn50.Name = "bandedGridColumn50";
+            this.bandedGridColumn50.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn50.Visible = true;
+            this.bandedGridColumn50.Width = 94;
             // 
             // bandedGridColumn29
             // 
@@ -1072,6 +1162,7 @@
             // 
             this.repositoryItemCheckEdit1.AutoHeight = false;
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
+            this.repositoryItemCheckEdit1.CheckedChanged += new System.EventHandler(this.repositoryItemCheckEdit1_CheckedChanged);
             // 
             // bandedGridColumn7
             // 
@@ -1106,23 +1197,6 @@
             this.bandedGridColumn14.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn14.Width = 45;
             // 
-            // bandedGridColumn2
-            // 
-            this.bandedGridColumn2.Caption = "Contact Type";
-            this.bandedGridColumn2.ColumnEdit = this.repositoryItemComboBox1;
-            this.bandedGridColumn2.FieldName = "contactType";
-            this.bandedGridColumn2.MinWidth = 25;
-            this.bandedGridColumn2.Name = "bandedGridColumn2";
-            this.bandedGridColumn2.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn2.Width = 330;
-            // 
-            // repositoryItemComboBox1
-            // 
-            this.repositoryItemComboBox1.AutoHeight = false;
-            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
-            // 
             // repositoryItemDateEdit1
             // 
             this.repositoryItemDateEdit1.AutoHeight = false;
@@ -1138,13 +1212,16 @@
             this.panelBottomRightChecksTop.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksTop.Name = "panelBottomRightChecksTop";
-            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1742, 498);
+            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1742, 500);
             this.panelBottomRightChecksTop.TabIndex = 8;
             this.panelBottomRightChecksTop.Visible = false;
             // 
             // panelClaimTop
             // 
             this.panelClaimTop.BackColor = System.Drawing.Color.Honeydew;
+            this.panelClaimTop.Controls.Add(this.btnTestGoogle);
+            this.panelClaimTop.Controls.Add(this.chkLocations);
+            this.panelClaimTop.Controls.Add(this.btnInitialSetup);
             this.panelClaimTop.Controls.Add(this.cmbSelectColumns);
             this.panelClaimTop.Controls.Add(this.btnSelectColumns);
             this.panelClaimTop.Controls.Add(this.chkDoNotCall);
@@ -1159,7 +1236,8 @@
             this.panelClaimTop.Controls.Add(this.label3);
             this.panelClaimTop.Controls.Add(this.cmbEmployee);
             this.panelClaimTop.Controls.Add(this.label2);
-            this.panelClaimTop.Controls.Add(this.cmbContractType);
+            this.panelClaimTop.Controls.Add(this.cmbContactType);
+            this.panelClaimTop.Controls.Add(this.chkContactType);
             this.panelClaimTop.Controls.Add(this.btnRun);
             this.panelClaimTop.Controls.Add(this.btnRight);
             this.panelClaimTop.Controls.Add(this.btnLeft);
@@ -1175,6 +1253,45 @@
             this.panelClaimTop.Name = "panelClaimTop";
             this.panelClaimTop.Size = new System.Drawing.Size(1742, 119);
             this.panelClaimTop.TabIndex = 2;
+            // 
+            // btnTestGoogle
+            // 
+            this.btnTestGoogle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnTestGoogle.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestGoogle.Location = new System.Drawing.Point(1368, 8);
+            this.btnTestGoogle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnTestGoogle.Name = "btnTestGoogle";
+            this.btnTestGoogle.Size = new System.Drawing.Size(142, 31);
+            this.btnTestGoogle.TabIndex = 154;
+            this.btnTestGoogle.Text = "Test Google";
+            this.btnTestGoogle.UseVisualStyleBackColor = false;
+            // 
+            // chkLocations
+            // 
+            this.chkLocations.EditValue = "";
+            this.chkLocations.Location = new System.Drawing.Point(6, 55);
+            this.chkLocations.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkLocations.Name = "chkLocations";
+            this.chkLocations.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.chkLocations.Properties.DisplayMember = "locationCode";
+            this.chkLocations.Properties.DropDownRows = 10;
+            this.chkLocations.Properties.SeparatorChar = '|';
+            this.chkLocations.Size = new System.Drawing.Size(173, 22);
+            this.chkLocations.TabIndex = 153;
+            this.chkLocations.EditValueChanged += new System.EventHandler(this.chkLocations_EditValueChanged);
+            // 
+            // btnInitialSetup
+            // 
+            this.btnInitialSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnInitialSetup.Location = new System.Drawing.Point(805, 83);
+            this.btnInitialSetup.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnInitialSetup.Name = "btnInitialSetup";
+            this.btnInitialSetup.Size = new System.Drawing.Size(138, 26);
+            this.btnInitialSetup.TabIndex = 152;
+            this.btnInitialSetup.Text = "Pending Touches";
+            this.btnInitialSetup.UseVisualStyleBackColor = false;
+            this.btnInitialSetup.Click += new System.EventHandler(this.btnInitialSetup_Click);
             // 
             // cmbSelectColumns
             // 
@@ -1286,7 +1403,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(155, 60);
+            this.label4.Location = new System.Drawing.Point(186, 61);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(60, 17);
             this.label4.TabIndex = 141;
@@ -1298,16 +1415,16 @@
             this.cmbLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbLocation.DisplayMember = "LocationCode";
             this.cmbLocation.FormattingEnabled = true;
-            this.cmbLocation.Location = new System.Drawing.Point(6, 53);
+            this.cmbLocation.Location = new System.Drawing.Point(1540, 39);
             this.cmbLocation.Name = "cmbLocation";
-            this.cmbLocation.Size = new System.Drawing.Size(143, 24);
+            this.cmbLocation.Size = new System.Drawing.Size(173, 24);
             this.cmbLocation.TabIndex = 140;
             this.cmbLocation.SelectedIndexChanged += new System.EventHandler(this.cmbLocation_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(547, 57);
+            this.label3.Location = new System.Drawing.Point(550, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 17);
             this.label3.TabIndex = 139;
@@ -1319,7 +1436,7 @@
             this.cmbEmployee.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbEmployee.DisplayMember = "name";
             this.cmbEmployee.FormattingEnabled = true;
-            this.cmbEmployee.Location = new System.Drawing.Point(282, 54);
+            this.cmbEmployee.Location = new System.Drawing.Point(288, 53);
             this.cmbEmployee.Name = "cmbEmployee";
             this.cmbEmployee.Size = new System.Drawing.Size(259, 24);
             this.cmbEmployee.TabIndex = 138;
@@ -1330,20 +1447,34 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(153, 87);
+            this.label2.Location = new System.Drawing.Point(185, 88);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(97, 17);
+            this.label2.Size = new System.Drawing.Size(92, 17);
             this.label2.TabIndex = 137;
-            this.label2.Text = "Contract Type";
+            this.label2.Text = "Contact Type";
             // 
-            // cmbContractType
+            // cmbContactType
             // 
-            this.cmbContractType.FormattingEnabled = true;
-            this.cmbContractType.Location = new System.Drawing.Point(6, 83);
-            this.cmbContractType.Name = "cmbContractType";
-            this.cmbContractType.Size = new System.Drawing.Size(143, 24);
-            this.cmbContractType.TabIndex = 136;
-            this.cmbContractType.SelectedIndexChanged += new System.EventHandler(this.cmbContractType_SelectedIndexChanged);
+            this.cmbContactType.FormattingEnabled = true;
+            this.cmbContactType.Location = new System.Drawing.Point(1540, 9);
+            this.cmbContactType.Name = "cmbContactType";
+            this.cmbContactType.Size = new System.Drawing.Size(143, 24);
+            this.cmbContactType.TabIndex = 136;
+            // 
+            // chkContactType
+            // 
+            this.chkContactType.EditValue = "";
+            this.chkContactType.Location = new System.Drawing.Point(6, 85);
+            this.chkContactType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkContactType.Name = "chkContactType";
+            this.chkContactType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.chkContactType.Properties.DisplayMember = "contactType";
+            this.chkContactType.Properties.DropDownRows = 10;
+            this.chkContactType.Properties.SeparatorChar = '|';
+            this.chkContactType.Size = new System.Drawing.Size(173, 22);
+            this.chkContactType.TabIndex = 151;
+            this.chkContactType.EditValueChanged += new System.EventHandler(this.chkContactType_EditValueChanged);
             // 
             // btnRun
             // 
@@ -1453,7 +1584,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1742, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1742, 28);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1462,7 +1593,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1491,7 +1622,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
             // 
             // screenOptionsToolStripMenuItem
             // 
@@ -1499,7 +1630,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -1522,7 +1653,7 @@
             this.toolAgentReportList,
             this.reportsToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // toolAgentReportList
@@ -1566,14 +1697,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
             this.panelClaimTop.ResumeLayout(false);
             this.panelClaimTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chkLocations.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkContactType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -1619,7 +1752,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cmbContractType;
+        private System.Windows.Forms.ComboBox cmbContactType;
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbEmployee;
@@ -1695,5 +1828,14 @@
         private System.Windows.Forms.ToolStripMenuItem miscToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolAgentReportList;
+        private DevExpress.XtraEditors.CheckedComboBoxEdit chkContactType;
+        private System.Windows.Forms.Button btnInitialSetup;
+        private DevExpress.XtraEditors.CheckedComboBoxEdit chkLocations;
+        private System.Windows.Forms.Button btnTestGoogle;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn48;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn49;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn50;
+        private System.Windows.Forms.ToolStripMenuItem duplicateContactToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem goToFuneralToolStripMenuItem;
     }
 }
