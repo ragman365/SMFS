@@ -83,7 +83,7 @@ namespace SMFS
 
             if (!String.IsNullOrWhiteSpace(workContactType))
             {
-                cmd = "Select * from `contactTypes` WHERE `contactTypes` = '" + workContactType + "';";
+                cmd = "Select * from `contacttypes` WHERE `contactType` = '" + workContactType + "';";
                 dt = G1.get_db_data(cmd);
                 if (dt.Rows.Count <= 0)
                     return;

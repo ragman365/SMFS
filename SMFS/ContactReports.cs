@@ -1325,9 +1325,15 @@ namespace SMFS
         /****************************************************************************************/
         private void runReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DataTable reportDt = (DataTable)dgv.DataSource;
             string record = getCurrentReportRecord();
             if (String.IsNullOrWhiteSpace(record))
                 return;
+
+            string customReport = "";
+            DataRow[] dRows = reportDt.Select("record='" + record + "'");
+            if (dRows.Length > 0)
+                customReport = dRows[0]["report"].ObjToString();
 
             string cmd = "Select * from `contacts_reports_data` WHERE `reportRecord` = '" + record + "' ORDER by `order`;";
             DataTable dt = G1.get_db_data(cmd);
@@ -1344,15 +1350,208 @@ namespace SMFS
             DateTime date = DateTime.Now;
             DateTime today = DateTime.Now;
 
-            cmd = "Select * from `contacts_preneed` WHERE ";
-            bool found = false;
+            //cmd = "Select * from `contacts_preneed` WHERE ";
+            //bool found = false;
 
+            ////bool isCustom = false;
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    field = dt.Rows[i]["field"].ObjToString();
+            //    if ( field.ToUpper() == "{CUSTOM}")
+            //    {
+            //        isCustom = true;
+            //        continue;
+            //    }
+            //    data = dt.Rows[i]["data"].ObjToString();
+            //    if (String.IsNullOrWhiteSpace(data))
+            //        continue;
+            //    status = dt.Rows[i]["status"].ObjToString();
+            //    if (status.ToUpper() == "OFF")
+            //        continue;
+
+            //    operand = dt.Rows[i]["operand"].ObjToString();
+
+            //    body = data.Trim();
+
+            //    date = body.ObjToDateTime();
+            //    if (date.Year < 1000)
+            //    {
+            //        if (!G1.validate_numeric(body))
+            //        {
+            //            if (found)
+            //                cmd += " AND ";
+            //            cmd += " `" + field + "` " + operand + " '" + body + "' ";
+            //            found = true;
+            //            continue;
+            //        }
+            //        today = DateTime.Now;
+            //        if (operand == ">")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1);
+            //            if (field.ToUpper() != "AGE")
+            //                operand = "<";
+            //        }
+            //        else if (operand == ">=")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1);
+            //            if (field.ToUpper() != "AGE")
+            //                operand = "<=";
+            //        }
+            //        else if (operand == "<")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1);
+            //            if (field.ToUpper() != "AGE")
+            //                operand = ">";
+            //        }
+            //        else if (operand == "<=")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1);
+            //            if (field.ToUpper() != "AGE")
+            //                operand = ">=";
+            //        }
+            //        else if (operand == "!=")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //            today = today.AddDays(iBody * -1);
+            //            if (field.ToUpper() != "AGE")
+            //                operand = ">=";
+            //        }
+            //        else if (operand == "=")
+            //        {
+            //            iBody = body.ObjToInt32();
+            //        }
+            //        else
+            //            continue;
+            //        if (found)
+            //            cmd += " AND ";
+            //        if (field.ToUpper() == "AGE")
+            //            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
+            //        else
+            //            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
+            //        found = true;
+            //    }
+            //    else
+            //    {
+            //        if (!G1.validate_numeric(body))
+            //        {
+            //            if (G1.validate_date(body))
+            //            {
+            //                date = body.ObjToDateTime();
+            //                body = date.ToString("yyyy-MM-dd");
+            //            }
+            //            if (found)
+            //                cmd += " AND ";
+            //            cmd += " `" + field + "` " + operand + " '" + body + "' ";
+            //            found = true;
+            //            continue;
+            //        }
+            //        else
+            //            continue;
+            //        if (found)
+            //            cmd += " AND ";
+            //        if (field.ToUpper() == "AGE")
+            //            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
+            //        else
+            //            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
+            //        found = true;
+            //    }
+            //}
+
+            //if (!found)
+            //{
+            //    MessageBox.Show("Search Criteria is Empty!", "Search Criteria Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            //    return;
+            //}
+            //if (!String.IsNullOrWhiteSpace(workAgent))
+            //{
+            //    if (workAgent.ToUpper() != "ALL")
+            //        cmd += " AND `agent` = '" + workAgent + "' ";
+            //}
+
+            //cmd += ";";
+
+            bool isCustom = false;
+
+            cmd = BuildReportQuery(dt, workAgent, ref isCustom);
+            dx = G1.get_db_data(cmd);
+
+            if (dx != null)
+            {
+                this.Cursor = Cursors.WaitCursor;
+                int height = this.Height;
+
+                ContactsPreneed form = null;
+                if (!isCustom)
+                    form = new ContactsPreneed(dx);
+                else
+                    form = new ContactsPreneed(dx, dt, true, customReport);
+
+                //leadForm.StartPosition = FormStartPosition.CenterParent;
+                form.Show();
+                //form.Anchor = AnchorStyles.None;
+
+                form.AutoSize = true; //this causes the form to grow only. Don't set it if you want to resize automatically using AnchorStyles, as I did below.
+                form.FormBorderStyle = FormBorderStyle.Sizable; //I think this is not necessary to solve the problem, but I have left it there just in case :-)
+                form.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                    | System.Windows.Forms.AnchorStyles.Left)
+                                    | System.Windows.Forms.AnchorStyles.Right)));
+
+                //form.Show();
+                form.Location = new Point(100, 100);
+                form.Height = height + 100;
+                form.Refresh();
+
+                this.Cursor = Cursors.Default;
+            }
+        }
+        /****************************************************************************************/
+        public static string BuildReportQuery ( DataTable dt, string workAgent, ref bool isCustom )
+        {
+            string cmd = "Select * from `contacts_preneed` WHERE ";
+            bool found = false;
+            string field = "";
+            string operand = "";
+            string data = "";
+            string status = "";
+            string body = "";
+            DateTime date = DateTime.Now;
+            DateTime today = DateTime.Now;
+            int iBody = 0;
+            string[] Lines = null;
+            bool gotToday = false;
+
+            isCustom = false;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
+                gotToday = false;
                 field = dt.Rows[i]["field"].ObjToString();
+                if (field.ToUpper() == "{CUSTOM}")
+                {
+                    isCustom = true;
+                    continue;
+                }
                 data = dt.Rows[i]["data"].ObjToString();
                 if (String.IsNullOrWhiteSpace(data))
                     continue;
+                if ( data.ToUpper().IndexOf ( "TODAY") == 0 )
+                {
+                    date = DateTime.Now;
+                    data = data.ToUpper().Replace("TODAY", "").Trim();
+                    Lines = data.Split(' ');
+                    if ( Lines.Length >= 2 )
+                    {
+                        int days = Lines[1].Trim().ObjToInt32();
+                        if (Lines[0].Trim() == "-")
+                            days = days * -1;
+                        date = date.AddDays(days);
+                        data = date.ToString("yyyy-MM-dd");
+                        gotToday = true;
+                    }
+                }
                 status = dt.Rows[i]["status"].ObjToString();
                 if (status.ToUpper() == "OFF")
                     continue;
@@ -1362,7 +1561,7 @@ namespace SMFS
                 body = data.Trim();
 
                 date = body.ObjToDateTime();
-                if (date.Year < 1000)
+                if (date.Year < 1000 || gotToday )
                 {
                     if (!G1.validate_numeric(body))
                     {
@@ -1377,36 +1576,46 @@ namespace SMFS
                     {
                         iBody = body.ObjToInt32();
                         today = today.AddDays(iBody * -1);
-                        if (field.ToUpper() != "AGE")
-                            operand = "<";
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = "<";
                     }
                     else if (operand == ">=")
                     {
                         iBody = body.ObjToInt32();
                         today = today.AddDays(iBody * -1);
-                        if (field.ToUpper() != "AGE")
-                            operand = "<=";
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = "<=";
                     }
                     else if (operand == "<")
                     {
                         iBody = body.ObjToInt32();
                         today = today.AddDays(iBody * -1);
-                        if (field.ToUpper() != "AGE")
-                            operand = ">";
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = ">";
                     }
                     else if (operand == "<=")
                     {
                         iBody = body.ObjToInt32();
                         today = today.AddDays(iBody * -1);
-                        if (field.ToUpper() != "AGE")
-                            operand = ">=";
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = ">=";
                     }
                     else if (operand == "!=")
                     {
                         iBody = body.ObjToInt32();
                         today = today.AddDays(iBody * -1);
-                        if (field.ToUpper() != "AGE")
-                            operand = ">=";
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = ">=";
                     }
                     else if (operand == "=")
                     {
@@ -1449,10 +1658,10 @@ namespace SMFS
                 }
             }
 
-            if (!found)
+            if (!found && !isCustom )
             {
                 MessageBox.Show("Search Criteria is Empty!", "Search Criteria Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                return;
+                return "";
             }
             if (!String.IsNullOrWhiteSpace(workAgent))
             {
@@ -1461,31 +1670,7 @@ namespace SMFS
             }
 
             cmd += ";";
-            dx = G1.get_db_data(cmd);
-
-            if (dx != null)
-            {
-                this.Cursor = Cursors.WaitCursor;
-                int height = this.Height;
-
-                ContactsPreneed form = new ContactsPreneed(dx);
-                //leadForm.StartPosition = FormStartPosition.CenterParent;
-                form.Show();
-                //form.Anchor = AnchorStyles.None;
-
-                form.AutoSize = true; //this causes the form to grow only. Don't set it if you want to resize automatically using AnchorStyles, as I did below.
-                form.FormBorderStyle = FormBorderStyle.Sizable; //I think this is not necessary to solve the problem, but I have left it there just in case :-)
-                form.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                    | System.Windows.Forms.AnchorStyles.Left)
-                                    | System.Windows.Forms.AnchorStyles.Right)));
-
-                //form.Show();
-                form.Location = new Point(100, 100);
-                form.Height = height + 100;
-                form.Refresh();
-
-                this.Cursor = Cursors.Default;
-            }
+            return cmd;
         }
         /****************************************************************************************/
         //private void runReport(DataTable dt, string report, string agent = "", string email = "", string sendWhere = "", string sendUsername = "", string displayFormat = "")
@@ -1831,6 +2016,63 @@ namespace SMFS
             {
                 currCol.ColumnEdit = null;
             }
+        }
+        /****************************************************************************************/
+        private void picDataUp_Click(object sender, EventArgs e)
+        {
+            if (dgv6 == null)
+                return;
+            if (gridMain6 == null)
+                return;
+
+            DataTable dt = (DataTable)dgv6.DataSource;
+            if (dt.Rows.Count <= 0)
+                return;
+            DataRow dr = gridMain6.GetFocusedDataRow();
+            int rowHandle = gridMain6.FocusedRowHandle;
+            if (rowHandle == 0)
+                return; // Already at the first row
+            int row = gridMain6.GetDataSourceRowIndex(rowHandle);
+
+            MoveRowUp(dt, row);
+
+            dt.AcceptChanges();
+            dgv6.DataSource = dt;
+            gridMain6.ClearSelection();
+            gridMain6.SelectRow(rowHandle - 1);
+            gridMain6.FocusedRowHandle = rowHandle - 1;
+            gridMain6.RefreshData();
+            dgv6.Refresh();
+            btnSaveData.Show();
+            //funModified = true;
+        }
+        /****************************************************************************************/
+        private void picDataDown_Click(object sender, EventArgs e)
+        {
+            if (dgv6 == null)
+                return;
+            if (gridMain6 == null)
+                return;
+
+            DataTable dt = (DataTable)dgv6.DataSource;
+            if (dt.Rows.Count <= 0)
+                return;
+            DataRow dr = gridMain6.GetFocusedDataRow();
+            int rowHandle = gridMain6.FocusedRowHandle;
+            if (rowHandle == (dt.Rows.Count - 1))
+                return; // Already at the last row
+            int row = gridMain6.GetDataSourceRowIndex(rowHandle);
+
+            MoveRowDown(dt, row);
+
+            dt.AcceptChanges();
+            dgv6.DataSource = dt;
+            gridMain6.ClearSelection();
+            gridMain6.SelectRow(rowHandle + 1);
+            gridMain6.FocusedRowHandle = rowHandle + 1;
+            gridMain6.RefreshData();
+            dgv.Refresh();
+            //funModified = true;
         }
         /****************************************************************************************/
     }

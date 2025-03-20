@@ -1436,11 +1436,11 @@ namespace SMFS
             }
             else if (chkDownPayments.Checked)
             {
-                if ( workTitle == "New Business Report (1.2)")
+                if (workTitle == "New Business Report (1.2)")
                 {
                     if (majorRunOn.ToUpper() == "TRUSTS")
                         Printer.DrawQuad(6, 8, 5, 4, "Trust - " + workTitle, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
-                    else if ( majorRunOn.ToUpper() == "CEMETERIES")
+                    else if (majorRunOn.ToUpper() == "CEMETERIES")
                     {
                         Printer.SetQuadSize(24, 24);
                         string title = workTitle;
@@ -1457,7 +1457,13 @@ namespace SMFS
             else if (chkPayments.Checked)
                 Printer.DrawQuad(5, 8, 5, 4, workTitle, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
             else if (chkPaidUp.Checked)
+            {
                 Printer.DrawQuad(5, 8, 5, 4, workTitle, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+                string lock1 = this.dateTimePicker1.Value.ToString("MM/dd/yyyy");
+                string lock2 = this.dateTimePicker2.Value.ToString("MM/dd/yyyy");
+                Printer.DrawQuad(11, 4, 5, 4, "Stop Date " + lock2, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+                Printer.DrawQuad(11, 1, 5, 4, "Start Date " + lock1, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            }
             else if (chkDeaths.Checked)
                 Printer.DrawQuad(5, 8, 5, 4, workTitle, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
             else if (chkBalanceLessPayment.Checked)
@@ -3596,7 +3602,39 @@ namespace SMFS
                 dt.Rows.RemoveAt(i);
             }
             LabelSinglePremiumContracts(dt);
-            Trust85.FindContract(dt, "HT16038UI");
+            //Trust85.FindContract(dt, "HT16038UI");
+
+            DataTable dx = null;
+            string fill = "";
+            double interest = 0D;
+            double credit = 0D;
+            double dMonths = 0D;
+            decimal totalMonths = 0;
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                monthlyPayment = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
+                dx = FindMismatches.LoadMainData2(contractNumber, "", monthlyPayment);
+                if (dx.Rows.Count <= 0)
+                    continue;
+                totalMonths = 0;
+                dMonths = 0D;
+                for ( int j=0; j<dx.Rows.Count; j++)
+                {
+                        fill = dx.Rows[j]["fill"].ObjToString().ToUpper();
+                        if (fill == "D")
+                            continue;
+                        interest = dx.Rows[j]["interestPaid"].ObjToDouble();
+                        credit = dx.Rows[j]["creditAdjustment"].ObjToDouble();
+                        //if (credit > 0D && interest == 0D) // Fix for Credit/Interest issue (DOLP) // Removed for M23002LI on 10/15/2024
+                        //    continue;
+                        totalMonths += dx.Rows[j]["NumPayments"].ObjToDecimal();
+                        dMonths += dx.Rows[j]["NumPayments"].ObjToDouble();
+                        //totalMonths = (decimal) G1.RoundValue((double) totalMonths);
+                }
+                dt.Rows[i]["numMonths"] = dMonths;
+            }
+            gridMain.Columns["numMonths"].DisplayFormat.FormatString = "N2";
             int rows = dt.Rows.Count;
             G1.NumberDataTable(dt);
         }
@@ -5863,6 +5901,7 @@ namespace SMFS
             G1.SetColumnPosition(gridMain, "where", i++);
             G1.SetColumnPosition(gridMain, "contractValue", i++);
             G1.SetColumnPosition(gridMain, "amtOfMonthlyPayt", i++);
+            G1.SetColumnPosition(gridMain, "numMonths", i++);
             G1.SetColumnPosition(gridMain, "balanceDue", i++);
             G1.SetColumnPosition(gridMain, "payDate8", i++);
             G1.SetColumnPosition(gridMain, "dueDate8", i++);

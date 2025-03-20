@@ -941,6 +941,10 @@ namespace SMFS
                     ddx = dRows.CopyToDataTable();
             }
 
+            tempview = ddx.DefaultView;
+            tempview.Sort = "policyLastName, policyFirstName";
+            ddx = tempview.ToTable();
+
             G1.NumberDataTable(ddx);
             dgv2.DataSource = ddx;
             dgv2.Visible = true;
