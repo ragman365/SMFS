@@ -50,6 +50,8 @@ namespace SMFS
         /****************************************************************************************/
         private void gridMain_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
+            DataRow dr = gridMain.GetFocusedDataRow();
+            dr["mod"] = "Y";
             modified = true;
             btnSaveAll.Show();
         }
@@ -101,23 +103,51 @@ namespace SMFS
             string mod = "";
             string contactType= "";
             string detail = "";
+            string category = "";
             int frequency = 0;
 
-            string cmd = "DELETE from `contactTypes` WHERE `record` >= '0'";
-            G1.get_db_data(cmd);
+            string cmd = "";
+
+            //cmd = "DELETE from `contactTypes` WHERE `record` >= '0'";
+            //G1.get_db_data(cmd);
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                mod = dt.Rows[i]["mod"].ObjToString();
-                if (mod == "D")
-                    continue;
-                record = G1.create_record("contactTypes", "contactType", "-1");
-                if (G1.BadRecord("contactTypes", record))
-                    return;
-                contactType = dt.Rows[i]["contactType"].ObjToString();
-                detail = dt.Rows[i]["detail"].ObjToString();
-                frequency = dt.Rows[i]["frequency"].ObjToInt32();
-                G1.update_db_table("contactTypes", "record", record, new string[] { "contactType", contactType,  "detail", detail, "frequency", frequency.ToString(), "order", i.ToString() });
+                try
+                {
+                    record = dt.Rows[i]["record"].ObjToString();
+                    mod = dt.Rows[i]["mod"].ObjToString();
+
+                    if (mod == "D")
+                    {
+                        if (record == "-1")
+                            continue;
+                        if (!String.IsNullOrWhiteSpace(record))
+                        {
+                            G1.delete_db_table("contactTypes", "record", record);
+                            dt.Rows[i]["record"] = "-1";
+                        }
+                        continue;
+                    }
+
+                    if (String.IsNullOrWhiteSpace(mod))
+                        continue;
+
+                    if (String.IsNullOrWhiteSpace(record))
+                        record = G1.create_record("contactTypes", "contactType", "-1");
+                    if (G1.BadRecord("contactTypes", record))
+                        continue;
+                    contactType = dt.Rows[i]["contactType"].ObjToString();
+                    detail = dt.Rows[i]["detail"].ObjToString();
+                    frequency = dt.Rows[i]["frequency"].ObjToInt32();
+                    category = dt.Rows[i]["category"].ObjToString();
+                    G1.update_db_table("contactTypes", "record", record, new string[] { "contactType", contactType, "detail", detail, "category", category, "frequency", frequency.ToString(), "order", i.ToString() });
+
+                    dt.Rows[i]["record"] = record;
+                }
+                catch (Exception ex)
+                {
+                }
             }
             modified = false;
             btnSaveAll.Hide();

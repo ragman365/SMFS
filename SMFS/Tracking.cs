@@ -108,6 +108,20 @@ namespace Tracking
                 catch (Exception ex)
                 {
                 }
+
+                //if (funeral)
+                //{
+                //    DataRow[] dRows = dt.Select("dbfield='Funeral Arranger'");
+                //    if (dRows.Length > 0)
+                //    {
+                //        string arranger = dRows[0]["data"].ObjToString();
+                //        if (String.IsNullOrWhiteSpace(arranger))
+                //        {
+                //            string serviceId = dx.Rows[0]["serviceId"].ObjToString();
+                //            Messages.SendTheMessage(LoginForm.username, "cjenkins", "Blank Arranger for Service Id " + serviceId, "Funeral Service Id " + serviceId );
+                //        }
+                //    } 
+                //}
                 //            myList = myList.TrimEnd(',');
                 if (String.IsNullOrWhiteSpace(myList))
                     return;

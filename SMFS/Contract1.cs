@@ -64,7 +64,7 @@ namespace SMFS
         private int servicesLeftSide = 0;
         private int servicesRightSide = 0;
         public DataTable[] allDt = null;
-        private Image [] Images = new Image[10];
+        private Image[] Images = new Image[10];
         private int imageCount = 0;
         private bool workActuallyPrint = false;
         public static bool workJustViewing = false;
@@ -72,13 +72,13 @@ namespace SMFS
         private int printNumber = 0;
         //private int yOffset = 0;
         /****************************************************************************************/
-        public Contract1( string contract, DataTable dt, DataTable payDt, bool separate = false, bool actuallyPrint = false, bool justViewing = false )
+        public Contract1(string contract, DataTable dt, DataTable payDt, bool separate = false, bool actuallyPrint = false, bool justViewing = false)
         {
             try
             {
                 InitializeComponent();
             }
-            catch ( Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -95,7 +95,7 @@ namespace SMFS
             workJustViewing = justViewing;
         }
         /****************************************************************************************/
-        private void CheckForPackageDiscount ( DataTable dt)
+        private void CheckForPackageDiscount(DataTable dt)
         {
             PackagePrice = 0D;
             totalListedPrice = 0D;
@@ -106,7 +106,7 @@ namespace SMFS
             PackageDiscount = dR[0]["price"].ObjToDouble();
 
             dR = dt.Select("service='Package Price'");
-            if ( dR.Length > 0 )
+            if (dR.Length > 0)
                 PackagePrice = dR[0]["price"].ObjToDouble();
 
             dR = dt.Select("service='Total Listed Price'");
@@ -353,7 +353,7 @@ namespace SMFS
                 signatureDt = ContractSignatures.BuildSignatureTable(workContract, fdName, signatureDt);
             }
 
-            PleaseWait pleaseForm = G1.StartWait ("Please Wait!\nGenerating G&&S Contract!");
+            PleaseWait pleaseForm = G1.StartWait("Please Wait!\nGenerating G&&S Contract!");
 
             rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%SIG1%", "");
             rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%SIG2%", "");
@@ -426,7 +426,7 @@ namespace SMFS
 
             string doMultiPage = G1.getPreference(LoginForm.username, "MultiPage GS Contracts", "Allow", false);
 
-            if ( signatureDt.Rows.Count <= 1 || workActuallyPrint  || workJustViewing || generateRTF )
+            if (signatureDt.Rows.Count <= 1 || workActuallyPrint || workJustViewing || generateRTF)
             {
                 LoadGeneralForm("SIGNATUREPAGE3", rtbFinale);
                 rtbx.Document.RtfText = rtbFinale.Rtf;
@@ -443,14 +443,14 @@ namespace SMFS
                 LoadFuneralDirector();
 
                 rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%Page%", "Page 1 of 1 ");
-                if ( signatureDt.Rows.Count == 1 && !String.IsNullOrWhiteSpace ( fdName ))
+                if (signatureDt.Rows.Count == 1 && !String.IsNullOrWhiteSpace(fdName))
                 {
                     Image signature4 = new Bitmap(1, 1);
                     Image image = MergeImages(fdSig, signature4, 1);
-                    if (doingSignatures && image.Width > 3 )
+                    if (doingSignatures && image.Width > 3)
                         rtbFinale.Rtf = ArrangementForms.ReplaceField2(rtbFinale.Rtf, "[%FUNSIG5%", "", image, 925);
                 }
-                else if (signatureDt.Rows.Count == 1 )
+                else if (signatureDt.Rows.Count == 1)
                 {
                     name = signatureDt.Rows[0]["name"].ObjToString();
                     relationType1 = signatureDt.Rows[0]["relationType"].ToString();
@@ -497,7 +497,7 @@ namespace SMFS
                 rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%CSZ2%", "");
                 rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%PHONE2%", "");
 
-                if ( generateRTF )
+                if (generateRTF)
                 {
                     PrintableComponentLink p2 = printPreview(sender, e);
                     p2.PrintingSystemBase = printingSystem1;
@@ -546,7 +546,7 @@ namespace SMFS
                     totalPages = 1;
 
                 int fdIndx = -1;
-                for ( int i=0; i<signatureDt.Rows.Count; i++)
+                for (int i = 0; i < signatureDt.Rows.Count; i++)
                 {
                     who = signatureDt.Rows[i]["relationType"].ObjToString();
                     if (who.ToUpper() == "FD")
@@ -571,7 +571,7 @@ namespace SMFS
 
                     page++;
 
-                    rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%Page%", "Page " + page.ToString() + " of " + totalPages.ToString() );
+                    rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%Page%", "Page " + page.ToString() + " of " + totalPages.ToString());
 
                     if (!String.IsNullOrWhiteSpace(activeFuneralHome))
                         rtbFinale.Rtf = rtbFinale.Rtf.Replace("*FUNERALHOME*", activeFuneralHome);
@@ -580,8 +580,8 @@ namespace SMFS
 
                     Image signature4 = new Bitmap(1, 1);
                     Image image = MergeImages(fdSig, signature4, 1);
-                    if ( doingSignatures )
-                        rtbFinale.Rtf = ArrangementForms.ReplaceField2(rtbFinale.Rtf, "[%FUNSIG5%", "", image, 925 );
+                    if (doingSignatures)
+                        rtbFinale.Rtf = ArrangementForms.ReplaceField2(rtbFinale.Rtf, "[%FUNSIG5%", "", image, 925);
 
                     signature1 = new Bitmap(1, 1);
                     bytes = signatureDt.Rows[sigCount]["signature"].ObjToBytes();
@@ -632,8 +632,8 @@ namespace SMFS
 
                     rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%Signature of Purchaser%", relationType1);
 
-                    if ( signature1.Width <= 3 )
-                        signature1 = new Bitmap(365, 1 );
+                    if (signature1.Width <= 3)
+                        signature1 = new Bitmap(365, 1);
 
                     image = MergeImages(signature1, signature2, 900);
                     if (doingSignatures)
@@ -657,8 +657,8 @@ namespace SMFS
                     rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%FUNSIG2%", "");
                     rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%Signature of Co-Purchaser%", "Signature of Co-Purchaser   ");
 
-                     //if (foundFirstPurchaser && !foundSecondPurchaser)
-                     //{
+                    //if (foundFirstPurchaser && !foundSecondPurchaser)
+                    //{
                     rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%ADDRESS2%", "");
                     rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%CSZ2%", "");
                     rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%PHONE2%", "");
@@ -709,19 +709,19 @@ namespace SMFS
                 }
             }
 
-            if ( pageCount > 0 )
+            if (pageCount > 0)
             {
                 string outFile = "";
                 filename = filename = filePath + "_" + "0_GS.pdf";
                 newFile = filename;
-                for ( int i=1; i<pageCount; i++)
+                for (int i = 1; i < pageCount; i++)
                 {
                     oldFile = filePath + "_" + i.ToString() + "_GS.pdf";
                     outFile = filePath + "_" + "X_GS.pdf";
                     if (File.Exists(outFile))
                         File.Delete(outFile);
                     //G1.WriteAudit("Generate GS Merge PDF");
-                    outFile = MergePDF(newFile, oldFile, outFile );
+                    outFile = MergePDF(newFile, oldFile, outFile);
                     if (File.Exists(newFile))
                         File.Delete(newFile);
 
@@ -810,7 +810,7 @@ namespace SMFS
 
                         File.Delete(filename);
                     }
-                    catch ( Exception ex )
+                    catch (Exception ex)
                     {
                     }
                 }
@@ -844,7 +844,7 @@ namespace SMFS
             return attributes & ~attributesToRemove;
         }
         /***********************************************************************************************/
-        private void DeleteFile ( string fileName )
+        private void DeleteFile(string fileName)
         {
             //using (File.Create(@"c:\Temp\txt.txt")) ; // File.Create wrapped in a using() to ensure disposing the stream.
 
@@ -854,18 +854,35 @@ namespace SMFS
                 File.Delete(fileName);
                 File.Delete(fileName + "2.txt");
             }
-            catch ( Exception ex)
+            catch (Exception ex)
             {
             }
         }
         /***********************************************************************************************/
-        private void MyView_GSDone( bool printed )
+        private void CheckArranger ()
         {
+            if (String.IsNullOrWhiteSpace(workContract))
+                return;
+            string cmd = "Select * from `fcust_extended` WHERE `contractNumber` = '" + workContract + "';";
+            DataTable dx = G1.get_db_data(cmd);
+            if ( dx.Rows.Count > 0 )
+            {
+                string arranger = dx.Rows[0]["Funeral Arranger"].ObjToString();
+                string serviceId = dx.Rows[0]["serviceId"].ObjToString();
+                if ( String.IsNullOrWhiteSpace ( arranger ))
+                    Messages.SendTheMessage(LoginForm.username, "cjenkins", "Blank Arranger for Service Id " + serviceId, "Funeral Service Id " + serviceId);
+            }
+        }
+        /***********************************************************************************************/
+        private void MyView_GSDone(bool printed)
+        {
+            if (printed)
+                CheckArranger();
             if (GSDone != null)
                 GSDone.Invoke(printed);
         }
         /***********************************************************************************************/
-        private static string MergePDF (string File1, string File2, string outputPdfPath )
+        private static string MergePDF(string File1, string File2, string outputPdfPath)
         {
             string[] fileArray = new string[3];
             fileArray[0] = File1;
@@ -962,7 +979,7 @@ namespace SMFS
                 dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
                 dInfo.SetAccessControl(dSecurity);
             }
-            catch ( Exception ex)
+            catch (Exception ex)
             {
             }
         }
@@ -1042,7 +1059,7 @@ namespace SMFS
             //}
             string cmd = "Select * from `fcust_extended` where `contractNumber` = '" + workContract + "';";
             DataTable dt = G1.get_db_data(cmd);
-            if ( dt.Rows.Count <= 0 )
+            if (dt.Rows.Count <= 0)
             {
                 rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%FUNDIR%", "");
                 rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%FUNSIG1%", "");
@@ -1111,7 +1128,7 @@ namespace SMFS
                 width = (int)(((float)(width)) * xFactor);
                 myThumbnail = b.GetThumbnailImage(width, height, null, IntPtr.Zero);
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
             }
             return myThumbnail;
@@ -1140,7 +1157,7 @@ namespace SMFS
         }
         /***********************************************************************************************/
         public static bool noSigsFound = true;
-        private void LoadSignatures(DataTable dt, bool gotPreviousContract )
+        private void LoadSignatures(DataTable dt, bool gotPreviousContract)
         {
             noSigsFound = true;
             string text = "";
@@ -1166,7 +1183,7 @@ namespace SMFS
                     noSigsFound = false;
                 text = dt.Rows[i]["purchaser"].ObjToString();
                 purchaser = false;
-                if ( !String.IsNullOrWhiteSpace ( text ))
+                if (!String.IsNullOrWhiteSpace(text))
                 {
                     if (text.Trim().ToUpper() == "1")
                         purchaser = true;
@@ -1180,7 +1197,7 @@ namespace SMFS
                         if (gotPreviousContract)
                         {
                             sigTime = dt.Rows[i]["sigTime"].ObjToDateTime();
-                            if (sigTime.Year > 100 || 1 == 1 )
+                            if (sigTime.Year > 100 || 1 == 1)
                             {
                                 //enterSignatureOrPurchaserToolStripMenuItem_Click(null, null);
 
@@ -1220,7 +1237,7 @@ namespace SMFS
                         if (gotPreviousContract)
                         {
                             sigTime = dt.Rows[i]["sigTime"].ObjToDateTime();
-                            if (sigTime.Year > 100 || 1 == 1 )
+                            if (sigTime.Year > 100 || 1 == 1)
                             {
                                 Byte[] bytes = dt.Rows[i]["signature"].ObjToBytes();
                                 //if (bytes == null)
@@ -1256,7 +1273,7 @@ namespace SMFS
                         if (gotPreviousContract)
                         {
                             sigTime = dt.Rows[i]["sigTime"].ObjToDateTime();
-                            if (sigTime.Year > 100 || 1 == 1 )
+                            if (sigTime.Year > 100 || 1 == 1)
                             {
                                 Byte[] bytes = dt.Rows[i]["signature"].ObjToBytes();
                                 if (bytes != null)
@@ -1323,7 +1340,7 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
-        private void LoadSignatureDetails(DataTable dx, string name, int side )
+        private void LoadSignatureDetails(DataTable dx, string name, int side)
         {
             string address = "";
             string city = "";
@@ -1388,7 +1405,7 @@ namespace SMFS
         //    return myThumbnail;
         //}
         /***********************************************************************************************/
-        public static void LoadFuneralDisclosures (EMRControlLib.RichTextBoxEx rtb)
+        public static void LoadFuneralDisclosures(EMRControlLib.RichTextBoxEx rtb)
         {
             string cmd = "Select * from `relatives` where `depRelationship` = 'Disclosures' AND `contractNumber` = '" + workContractNumber + "';";
             DataTable dt = G1.get_db_data(cmd);
@@ -1397,7 +1414,7 @@ namespace SMFS
                 string str = "";
                 string what = "";
                 string select = "";
-                for ( int i=0; i<dt.Rows.Count; i++)
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     what = dt.Rows[i]["depFirstName"].ObjToString();
                     str = dt.Rows[i]["depLastName"].ObjToString();
@@ -1413,7 +1430,7 @@ namespace SMFS
                 string str = "";
                 cmd = "Select * from `disclosures`;";
                 dt = G1.get_db_data(cmd);
-                for ( int i=0; i<dt.Rows.Count; i++)
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     what = dt.Rows[i]["disclosure"].ObjToString();
                     rtb.Rtf = rtb.Rtf.Replace("%" + what + "%", str);
@@ -1460,7 +1477,7 @@ namespace SMFS
             string address = dt.Rows[0]["address"].ObjToString();
             if (!String.IsNullOrWhiteSpace(poBox))
                 address = "P.O.Box  " + poBox + "     " + address;
-            if ( !String.IsNullOrWhiteSpace ( address ))
+            if (!String.IsNullOrWhiteSpace(address))
                 rtb.Rtf = rtb.Rtf.Replace("%FUNERALADDRESS%", address);
 
             string city = dt.Rows[0]["city"].ObjToString();
@@ -1500,7 +1517,7 @@ namespace SMFS
         private double TotalPackage = 0D;
         private double urnCredit = 0D;
         private double alternateCredit = 0D;
-        private double GetTotalCredits ()
+        private double GetTotalCredits()
         {
             double totalCredits = 0D;
             if (paymentsDt == null)
@@ -1523,7 +1540,7 @@ namespace SMFS
                     paymentsDt.Rows[i]["payment"] = dValue;
                     payment = dValue.ObjToString();
                 }
-                if ( status == "ACCEPT" || status == "DEPOSITED" || status == "FILED" )
+                if (status == "ACCEPT" || status == "DEPOSITED" || status == "FILED")
                 {
                     if (G1.validate_numeric(payment))
                         totalCredits += payment.ObjToDouble();
@@ -1627,7 +1644,7 @@ namespace SMFS
 
                 if (service.ToUpper().IndexOf("URN CREDIT") >= 0)
                 {
-                    if (myPackage )
+                    if (myPackage)
                     {
                         string pSelect = dt.Rows[i]["pSelect"].ObjToString();
                         if (pSelect == "0")
@@ -1652,13 +1669,13 @@ namespace SMFS
                             alternateCredit = dt.Rows[i]["price"].ObjToDouble();
                     }
                 }
-                if ( myPackage && price > 0D)
+                if (myPackage && price > 0D)
                 {
                     if (dt.Rows[i]["isPackage"].ObjToString().ToUpper() != "P")
                         added += price;
                 }
 
-                if (price > 0D || upgradeDifference > 0D || database.ToUpper() != "SMFS" )
+                if (price > 0D || upgradeDifference > 0D || database.ToUpper() != "SMFS")
                 {
                     select = dt.Rows[i]["select"].ObjToString();
                     if (select == "1")
@@ -1671,11 +1688,11 @@ namespace SMFS
                             totalIgnore += dt.Rows[i]["currentprice"].ObjToDouble();
                     }
                 }
-                else if ( price < 0D)
+                else if (price < 0D)
                 {
                     discount += dt.Rows[i]["difference"].ObjToDouble();
                 }
-                else if ( zeroData == "ZERO")
+                else if (zeroData == "ZERO")
                     discount += dt.Rows[i]["difference"].ObjToDouble();
             }
 
@@ -1689,7 +1706,7 @@ namespace SMFS
             //    price = dt.Rows[i]["price"].ObjToDouble();
             //    discount += dt.Rows[i]["difference"].ObjToDouble();
             //}
-//            discount = G1.RoundValue(discount - totalIgnore + urnCredit );
+            //            discount = G1.RoundValue(discount - totalIgnore + urnCredit );
             discount = G1.RoundValue(discount - totalIgnore + urnCredit + alternateCredit - upgradeDifference);
             //discount -= upgradeDifference;
 
@@ -1738,7 +1755,7 @@ namespace SMFS
                 if (PackageDiscount < 0D)
                     PackageDiscount = PackageDiscount * (-1D);
 
-//                PackageDiscount = (totalServices + totalMerchandise + totalCashAdvance) - packagePrice + urnCredit;
+                //                PackageDiscount = (totalServices + totalMerchandise + totalCashAdvance) - packagePrice + urnCredit;
                 double newDiscount = (totalServices + totalMerchandise + totalCashAdvance) - packagePrice + urnCredit + alternateCredit;
                 //if ( newDiscount <= PackageDiscount )
                 //    PackageDiscount = (totalServices + totalMerchandise + totalCashAdvance) - packagePrice + urnCredit + alternateCredit;
@@ -1754,10 +1771,10 @@ namespace SMFS
 
             string[] Lines = null;
             string money = "";
-            for ( int i=0; i<paymentsDt.Rows.Count; i++)
+            for (int i = 0; i < paymentsDt.Rows.Count; i++)
             {
                 status = paymentsDt.Rows[i]["status"].ObjToString().ToUpper();
-                if (status != "ACCEPT" && status != "DEPOSITED" && status != "PENDING" && status != "FILED" )
+                if (status != "ACCEPT" && status != "DEPOSITED" && status != "PENDING" && status != "FILED")
                     continue;
                 payment = paymentsDt.Rows[i]["payment"].ObjToString();
                 if (payment == "0")
@@ -1765,7 +1782,7 @@ namespace SMFS
                 if (String.IsNullOrWhiteSpace(payment))
                     payment = "0.00";
                 type = paymentsDt.Rows[i]["type"].ObjToString();
-                if ( type.ToUpper() == "REFUND")
+                if (type.ToUpper() == "REFUND")
                 {
                 }
 
@@ -1799,7 +1816,7 @@ namespace SMFS
                     date = paymentsDt.Rows[i]["dateModified"].ObjToDateTime();
                 //                line = date.ToString("MM/dd/yyyy") + " " + status + " " + description;
                 line = date.ToString("MM/dd/yyyy");
-                if ( type.ToUpper().IndexOf ( "CASH") >= 0 )
+                if (type.ToUpper().IndexOf("CASH") >= 0)
                     line = date.ToString("MM/dd/yyyy") + " CASH";
                 else if (type.ToUpper().IndexOf("CHECK") >= 0)
                     line = date.ToString("MM/dd/yyyy") + " CHECK";
@@ -1809,7 +1826,7 @@ namespace SMFS
                     line = date.ToString("MM/dd/yyyy") + " DISCOUNT ";
                 else if (type.ToUpper().IndexOf("REFUND") >= 0)
                     line = date.ToString("MM/dd/yyyy") + " REFUND ";
-                if (status.ToUpper() == "PENDING" || status.ToUpper() == "FILED" )
+                if (status.ToUpper() == "PENDING" || status.ToUpper() == "FILED")
                 {
                     payment = payment.Replace("$", "");
                     payment = payment.Replace(",", "");
@@ -1829,7 +1846,7 @@ namespace SMFS
                         else if (type.ToUpper().IndexOf("OTHER") >= 0)
                             line = date.ToString("MM/dd/yyyy") + " PENDING OTHER " + " (" + payment + ")";
                     }
-                    else if ( status.ToUpper() == "FILED")
+                    else if (status.ToUpper() == "FILED")
                     {
                         if (type.ToUpper().IndexOf("TRUST") >= 0)
                             line = date.ToString("MM/dd/yyyy") + " FILED PRENEED TRUST " + " (" + payment + ")";
@@ -1849,7 +1866,7 @@ namespace SMFS
                     //line = date.ToString("MM/dd/yyyy") + " TRUST " + paymentsDt.Rows[i]["trust_policy"].ObjToString() + " (" + payment + ")";
                     line = date.ToString("MM/dd/yyyy") + " TRUST";
                 }
-                else if ( status.ToUpper() == "ACCEPT")
+                else if (status.ToUpper() == "ACCEPT")
                 {
                     money = payment;
                     money = money.Replace("$", "");
@@ -1904,7 +1921,7 @@ namespace SMFS
             //AppendToTable(allowDt, "ALLOWANCES:", "", "Arial Black", largeFontSize);
 
             DataRow[] dRows = dt.Select("service LIKE '%Package Discount'");
-            if ( dRows.Length > 0 )
+            if (dRows.Length > 0)
             {
                 for (int i = 0; i < dRows.Length; i++)
                     dRows[i]["price"] = allDiscount;
@@ -1950,7 +1967,7 @@ namespace SMFS
             double totalAllow = 0D;
             totalAllowances = 0D;
 
-            for ( int i=0; i<dt.Rows.Count; i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
                 service = dt.Rows[i]["service"].ObjToString();
                 type = dt.Rows[i]["type"].ObjToString().ToUpper();
@@ -1964,7 +1981,7 @@ namespace SMFS
                     if (service.ToUpper().IndexOf("PACKAGE DISCOUNT") >= 0)
                     {
                         //if ( !gotPD )
-                            packageDiscount += payment;
+                        packageDiscount += payment;
                         gotPD = true;
                     }
                 }
@@ -1976,15 +1993,15 @@ namespace SMFS
                         payment = dt.Rows[i]["price"].ObjToDouble();
                         //if (!gotPD)
                         //{
-                            totalAllowances += payment;
-                            packageDiscount += payment;
+                        totalAllowances += payment;
+                        packageDiscount += payment;
                         //}
                         gotPD = true;
                     }
                 }
             }
             totalAllowances += totalAllow;
-            for ( int i=(dt.Rows.Count-1); i>=0; i--)
+            for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             {
                 type = dt.Rows[i]["type"].ObjToString().ToUpper();
                 if (type == "XXX")
@@ -2085,10 +2102,10 @@ namespace SMFS
             }
         }
         /****************************************************************************************/
-        private void RemovePreviousPayments ( DataTable dt)
+        private void RemovePreviousPayments(DataTable dt)
         {
             string type = "";
-            for ( int i=dt.Rows.Count-1; i>= 0; i--)
+            for (int i = dt.Rows.Count - 1; i >= 0; i--)
             {
                 type = dt.Rows[i]["type"].ObjToString().ToUpper();
                 if (type == "PAYMENT")
@@ -2158,7 +2175,7 @@ namespace SMFS
             //    dt = serviceDt;
 
 
-            LoadPayments( dt );
+            LoadPayments(dt);
 
             workDt = dt;
             urnCredit = FilterZeros(dt);
@@ -2215,7 +2232,7 @@ namespace SMFS
             for (int i = 0; i < funDt.Rows.Count; i++)
             {
                 service = funDt.Rows[i]["service"].ObjToString().ToUpper().Trim();
-                if ( service.IndexOf ( "B.") == 0 )
+                if (service.IndexOf("B.") == 0)
                 {
                     funDt.Rows[i]["Order"] = -1;
                     continue;
@@ -2309,7 +2326,7 @@ namespace SMFS
             DataRow dR = null;
 
             string chr = casketCode.Substring(0, 1).ToUpper();
-            if (chr == "V" || casketCode.IndexOf("URN") == 0 || casketCode.ToUpper().IndexOf( "UV") == 0 )
+            if (chr == "V" || casketCode.IndexOf("URN") == 0 || casketCode.ToUpper().IndexOf("UV") == 0)
             {
                 //                currentPrice = dx.Rows[0]["casketprice"].ObjToDouble();
                 if (service.IndexOf(casketCode) < 0)
@@ -2358,7 +2375,7 @@ namespace SMFS
                 casketPrice = str.ObjToDouble();
                 dR[0]["price"] = casketPrice;
             }
-            
+
 
             string[] Lines = casketName.Split(' ');
             if (Lines.Length < 1)
@@ -2436,10 +2453,10 @@ namespace SMFS
                 if (myPackage)
                 {
                     packageName = "";
-                    if ( G1.get_column_number ( dt, "PackageName") >= 0 )
+                    if (G1.get_column_number(dt, "PackageName") >= 0)
                         packageName = dt.Rows[i]["PackageName"].ObjToString().Trim();
                     //if ( !String.IsNullOrWhiteSpace ( packageName ))
-                        dt.Rows[i]["select"] = dt.Rows[i]["pSelect"].ObjToString();
+                    dt.Rows[i]["select"] = dt.Rows[i]["pSelect"].ObjToString();
                 }
 
                 record = dt.Rows[i]["record"].ObjToString();
@@ -2667,10 +2684,10 @@ namespace SMFS
                     continue;
                 price = dt.Rows[i]["price"].ObjToDouble();
                 zero = dt.Rows[i]["data"].ObjToString().ToUpper();
-                if ( zero == "ZERO" )
+                if (zero == "ZERO")
                 {
                 }
-                if (price > 0D || zero == "ZERO" )
+                if (price > 0D || zero == "ZERO")
                 {
                     currentprice = dt.Rows[i]["currentprice"].ObjToDouble();
                     difference = currentprice - price;
@@ -2706,7 +2723,7 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
-        private bool ReCalcTotalAll(DataTable dtt, ref double mainPackageDiscount, ref double allServices, ref double allMerchandise, ref double allCashAdvance, ref double salesTax, ref double allDiscount, ref double subtotal, ref double total )
+        private bool ReCalcTotalAll(DataTable dtt, ref double mainPackageDiscount, ref double allServices, ref double allMerchandise, ref double allCashAdvance, ref double salesTax, ref double allDiscount, ref double subtotal, ref double total)
         {
             if (dtt == null)
                 return false;
@@ -2894,7 +2911,7 @@ namespace SMFS
                                     {
                                         if (type == "SERVICE")
                                             ignoreServices += price;
-                                        else if (type == "MERCHANDISE" && upgrade <= 0D )
+                                        else if (type == "MERCHANDISE" && upgrade <= 0D)
                                             ignoreMerchandise += price;
                                         else if (type == "CASH ADVANCE")
                                             ignoreCashAdvance += price;
@@ -3148,7 +3165,7 @@ namespace SMFS
                     else
                     {
                         double newDiscount = subtotal - total;
-                        if (newDiscount > Math.Abs (actualDiscount))
+                        if (newDiscount > Math.Abs(actualDiscount))
                         {
                             allDiscount = actualDiscount;
                             money = G1.ReformatMoney(actualDiscount);
@@ -3163,7 +3180,7 @@ namespace SMFS
                 }
                 else
                 {
-                    if ( customerDiscount > 0D)
+                    if (customerDiscount > 0D)
                     {
                         double newDiscount = G1.RoundValue(customerDiscount - totalIgnore - totalUpgrades);
                         customerDiscount = newDiscount;
@@ -3278,7 +3295,7 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
-        private double FilterZeros( DataTable dt)
+        private double FilterZeros(DataTable dt)
         {
             if (!chkZeros.Checked)
                 return 0D;
@@ -3297,7 +3314,7 @@ namespace SMFS
 
             string database = G1.conn1.Database.ObjToString();
 
-            for ( int i=dt.Rows.Count-1; i>=0; i--)
+            for (int i = dt.Rows.Count - 1; i >= 0; i--)
             {
                 deleted = dt.Rows[i]["deleted"].ObjToString().ToUpper();
                 if (deleted == "DELETED" || deleted == "D")
@@ -3338,7 +3355,7 @@ namespace SMFS
                 if (amount <= 0D && upgrade <= 0D)
                 {
                     data = dt.Rows[i]["data"].ObjToString().ToUpper();
-                    if ( data != "ZERO")
+                    if (data != "ZERO")
                         dt.Rows.RemoveAt(i);
                     else
                     {
@@ -3370,10 +3387,10 @@ namespace SMFS
             DevExpress.XtraPrinting.PrintingSystem printingSystem3 = new DevExpress.XtraPrinting.PrintingSystem(this.components);
 
             DevExpress.XtraPrinting.PrintableComponentLink Link1 = null;
-            Link1 = printPreview(sender, e );
+            Link1 = printPreview(sender, e);
         }
         /***********************************************************************************************/
-        private DevExpress.XtraPrinting.PrintableComponentLink printPreview(object sender, EventArgs e )
+        private DevExpress.XtraPrinting.PrintableComponentLink printPreview(object sender, EventArgs e)
         {
             //if (this.components == null)
             //    this.components = new System.ComponentModel.Container();
@@ -3501,7 +3518,7 @@ namespace SMFS
         /***********************************************************************************************/
         private void printableComponentLink1_BeforeCreateAreas(object sender, EventArgs e)
         {
-//            GridView view = sender as GridView;
+            //            GridView view = sender as GridView;
             DateTime date = DateTime.Now;
             string dateStr = "";
             DataTable dt = (DataTable)dgv.DataSource;
@@ -3564,7 +3581,7 @@ namespace SMFS
             //Printer.DrawQuadBorder(12, 1, 1, 6, BorderSide.Right, 1, Color.Black);
 
             font = new Font("Ariel", 8);
-//            Printer.DrawGridDate(2, 1, 2, 3, Color.Black, BorderSide.None, font);
+            //            Printer.DrawGridDate(2, 1, 2, 3, Color.Black, BorderSide.None, font);
             //Printer.DrawGridPage(11, 1, 2, 3, Color.Black, BorderSide.None, font);
 
             //Printer.DrawQuad(1, 3, 2, 2, "User : " + LoginForm.username, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Center);
@@ -3750,12 +3767,12 @@ namespace SMFS
             majorStartY = 0;
             majorHeaderY = 0;
 
-        //if (servicesLeftSide > servicesRightSide)
-        //{
-        //    int diff = (servicesLeftSide - servicesRightSide) * 2;
-        //    yOffset = (diff * -1) + 1;
-        //}
-        int zeroMajor = 0;
+            //if (servicesLeftSide > servicesRightSide)
+            //{
+            //    int diff = (servicesLeftSide - servicesRightSide) * 2;
+            //    yOffset = (diff * -1) + 1;
+            //}
+            int zeroMajor = 0;
             yOffset = yOffset + 4;
             int h = Convert.ToInt32(Col2_TotalHeight);
             if (Col2_TotalHeight < Col1_TotalHeight)
@@ -3777,7 +3794,7 @@ namespace SMFS
                 h = Convert.ToInt32(Col2_TotalHeight);
 
             yOffset = 0;
-            if ( h > 0 )
+            if (h > 0)
                 yOffset = 0 - h;
             //yOffset = 0 - majorStartY + Convert.ToInt32(Col2_TotalHeight);
             //if (rows == 0)
@@ -3827,7 +3844,7 @@ namespace SMFS
             //    yOffset = 160;
 
             Col2_TotalHeight += (float)diff;
-            if ( Col2_TotalHeight > Col1_TotalHeight )
+            if (Col2_TotalHeight > Col1_TotalHeight)
                 h = Convert.ToInt32(Col2_TotalHeight);
             else
                 h = Convert.ToInt32(Col1_TotalHeight);
@@ -3897,10 +3914,10 @@ namespace SMFS
 
         }
         /****************************************************************************************/
-        private Image GetSignature ( string what )
+        private Image GetSignature(string what)
         {
             Image signature = new Bitmap(1, 1);
-            using (SignatureForm signatureForm = new SignatureForm( what, signature))
+            using (SignatureForm signatureForm = new SignatureForm(what, signature))
             {
                 if (signatureForm.ShowDialog() == DialogResult.OK)
                 {
@@ -3938,10 +3955,10 @@ namespace SMFS
             }
         }
         /****************************************************************************************/
-        private void AddSignature( Image signature, RichTextBoxEx rtb )
+        private void AddSignature(Image signature, RichTextBoxEx rtb)
         {
             string text = "[%SIG1%";
-//            RichTextBoxEx rtb = this.rtbFinale;
+            //            RichTextBoxEx rtb = this.rtbFinale;
             //            rtb.ScrollToCaret();
             if (signature != null)
             {
@@ -3953,16 +3970,16 @@ namespace SMFS
                 pic.Image = ScaleImage(pic.Image, 0.30F, 0.30F);
                 pic.SizeMode = PictureBoxSizeMode.AutoSize;
                 rtb.Controls.Add(pic);
-//                rtb.InsertImage(signature);
+                //                rtb.InsertImage(signature);
                 //picPurchaser.Image = signature;
                 //picCoPurchaser.Image = signature;
-//                pic.Image = signature;
+                //                pic.Image = signature;
             }
         }
         /****************************************************************************************/
         private void chkShowSummary_CheckedChanged(object sender, EventArgs e)
         {
-            if ( chkShowSummary.Checked )
+            if (chkShowSummary.Checked)
             {
                 //if (firstSummary)
                 BuildSummary();
@@ -3976,7 +3993,7 @@ namespace SMFS
             }
         }
         /****************************************************************************************/
-        private void BuildSummary ()
+        private void BuildSummary()
         {
             firstSummary = false;
             gridMain.OptionsView.AutoCalcPreviewLineCount = true;
@@ -4035,7 +4052,7 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
-        private void LoadServicesTable( DataTable maindt )
+        private void LoadServicesTable(DataTable maindt)
         {
             DateTime start = DateTime.Now;
             float tinyFontSize = 2.5F;
@@ -4078,7 +4095,7 @@ namespace SMFS
                 {
                     if (gotPayments)
                     {
-                        if ( gotDiscounts )
+                        if (gotDiscounts)
                             AppendToTable(allDt[i], "", "", "Dubai Medium", tinyFontSize);
                         AppendToTable(allDt[i], "PAYMENTS:", "", "Arial Black", largeFontSize);
                     }
@@ -4092,7 +4109,7 @@ namespace SMFS
                 dt = serviceDt;
                 string sel = "";
                 string pSel = "";
-                for ( int i=0; i<dt.Rows.Count; i++ )
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     if (dt.Rows[i]["mod"].ObjToString() == "1")
                     {
@@ -4337,10 +4354,10 @@ namespace SMFS
 
             double professionalServices = TotalUpTable(allDt[0], ref ignoreProcessions);
             double additionalServices = TotalUpTable(allDt[1], ref ignoreAdditional);
-            double automotiveServices = TotalUpTable(allDt[2], ref ignoreAuto );
-            double merchandice = TotalUpTable(allDt[3], ref ignoreMerchandise );
-            double specialCharges = TotalUpTable(allDt[4], ref ignoreSpecial );
-            double cashAdvance = TotalUpTable(allDt[5], ref ignoreCashAdvance );
+            double automotiveServices = TotalUpTable(allDt[2], ref ignoreAuto);
+            double merchandice = TotalUpTable(allDt[3], ref ignoreMerchandise);
+            double specialCharges = TotalUpTable(allDt[4], ref ignoreSpecial);
+            double cashAdvance = TotalUpTable(allDt[5], ref ignoreCashAdvance);
 
             double totalIgnore = ignoreProcessions + ignoreAdditional + ignoreAuto + ignoreMerchandise + ignoreSpecial + ignoreCashAdvance;
 
@@ -4351,19 +4368,19 @@ namespace SMFS
             TotalPackage = totalTotal - totalIgnore;
             TotalPackage = totalTotal;
 
-            data = G1.ReformatMoney(totalServices - (ignoreProcessions+ignoreAdditional+ignoreAuto));
+            data = G1.ReformatMoney(totalServices - (ignoreProcessions + ignoreAdditional + ignoreAuto));
             data = G1.ReformatMoney(totalServices);
             data = data.PadLeft(12);
             AppendToTable(allDt[6], "   A. CHARGES FOR SERVICES:", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
-            data = G1.ReformatMoney(merchandice - ignoreMerchandise );
+            data = G1.ReformatMoney(merchandice - ignoreMerchandise);
             data = G1.ReformatMoney(merchandice);
             data = data.PadLeft(12);
             AppendToTable(allDt[6], "   B. CHARGES FOR MERCHANDISE:", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
-            data = G1.ReformatMoney(specialCharges - ignoreSpecial );
+            data = G1.ReformatMoney(specialCharges - ignoreSpecial);
             data = G1.ReformatMoney(specialCharges);
             data = data.PadLeft(12);
             AppendToTable(allDt[6], "   C. SPECIAL CHARGES:", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
-            data = G1.ReformatMoney(cashAdvance - ignoreCashAdvance );
+            data = G1.ReformatMoney(cashAdvance - ignoreCashAdvance);
             data = G1.ReformatMoney(cashAdvance);
             data = data.PadLeft(12);
             AppendToTable(allDt[6], "   D. CASH ADVANCES:", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
@@ -4414,7 +4431,7 @@ namespace SMFS
             //        balanceDue = PackagePrice;
             //}
 
-            if ( gotDiscounts || gotPayments )
+            if (gotDiscounts || gotPayments)
             {
                 AppendToTable(allDt[8], "       ", " ", "Arial Black", tinyFontSize, "Lucida Console", tinyFontSize);
             }
@@ -4476,25 +4493,25 @@ namespace SMFS
             //if ( SecondRows > 0 )
             //        servicesRightSide = rightSize + SecondRows + 1;
             //else
-                servicesRightSide = rightSize;
+            servicesRightSide = rightSize;
 
 
             DateTime afterLoad = DateTime.Now;
 
-//            LoadRtfTable(allDt, "");
+            //            LoadRtfTable(allDt, "");
 
             TimeSpan tsAfterStart = afterStart - start;
             TimeSpan tsAfterLoad = afterLoad - afterStart;
         }
         /***********************************************************************************************/
-        private void SortServicesTable ( DataTable dt )
+        private void SortServicesTable(DataTable dt)
         {
             DataTable dt1 = dt.Clone();
             DataTable dt2 = dt.Clone();
 
             string data = "";
 
-            for ( int i=0; i< dt.Rows.Count; i++)
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
                 data = dt.Rows[i]["data"].ObjToString();
                 if (String.IsNullOrEmpty(data))
@@ -4513,7 +4530,7 @@ namespace SMFS
                 dt.ImportRow(dt2.Rows[i]);
         }
         /***********************************************************************************************/
-        private string QualifyServices ( string type, string service )
+        private string QualifyServices(string type, string service)
         {
             if (service == "Basic Services Of Funeral Director And Staff".ToUpper())
                 type = "SERVICE";
@@ -4689,7 +4706,7 @@ namespace SMFS
         }
         /***********************************************************************************************/
         private int SecondRows = 0;
-        private int LoadTable ( DataTable inDt, int side, DataTable outDt, int outRow = -1 )
+        private int LoadTable(DataTable inDt, int side, DataTable outDt, int outRow = -1)
         {
             string service = ""; // RAMMA ZAMMA
             string ignore = "";
@@ -4731,7 +4748,7 @@ namespace SMFS
                 }
 
                 data = inDt.Rows[i]["data"].ObjToString();
-                if (G1.validate_numeric ( data))
+                if (G1.validate_numeric(data))
                 {
                     money = data.ObjToDouble();
                     data = G1.ReformatMoney(money);
@@ -4756,7 +4773,7 @@ namespace SMFS
                         {
                             dRow = outDt.Rows[outRow];
                         }
-                        catch ( Exception ex )
+                        catch (Exception ex)
                         {
 
                         }
@@ -4803,13 +4820,13 @@ namespace SMFS
                     dRow["2size"] = size;
                     dRow["2font2"] = font2;
                     dRow["2size2"] = size2;
-                    if ( service.Length > wordBreak && !addrow )
+                    if (service.Length > wordBreak && !addrow)
                     {
                         WordBreak(service, wordBreak, ref str, ref str2);
                         dRow["description2"] = "  " + str;
                         //outRow++;
                         dRow = outDt.Rows[outRow];
-                        if ( gotPayments)
+                        if (gotPayments)
                             dRow["description2"] = "                     " + str2;
                         else
                             dRow["description2"] = "  " + str2;
@@ -4825,7 +4842,7 @@ namespace SMFS
                 }
                 if (addrow)
                 {
-                    if ( service.Length > wordBreak )
+                    if (service.Length > wordBreak)
                     {
                         WordBreak(service, wordBreak, ref str, ref str2);
                         dR = outDt.NewRow();
@@ -4846,13 +4863,13 @@ namespace SMFS
             return outRow;
         }
         /***********************************************************************************************/
-        private void WordBreak ( string str, int breakLength, ref string str1, ref string str2 )
+        private void WordBreak(string str, int breakLength, ref string str1, ref string str2)
         {
             str1 = "";
             str2 = "";
             string word = "";
             string[] words = str.Split(' ');
-            for ( int i=0; i<words.Length; i++)
+            for (int i = 0; i < words.Length; i++)
             {
                 word = words[i].Trim();
                 if (String.IsNullOrWhiteSpace(word))
@@ -4861,7 +4878,7 @@ namespace SMFS
                     str2 += " " + word;
                 else
                 {
-                    if ((str1.Length + (word.Length+1)) > breakLength)
+                    if ((str1.Length + (word.Length + 1)) > breakLength)
                         str2 = word;
                     else
                         str1 += " " + word;
@@ -4881,7 +4898,7 @@ namespace SMFS
             dt.Rows.InsertAt(dR, row);
         }
         /***********************************************************************************************/
-        private void AppendToTable(DataTable dt, string service, string data, string font, float size, string font2 = "", float size2 = 0f, string ignore = "" )
+        private void AppendToTable(DataTable dt, string service, string data, string font, float size, string font2 = "", float size2 = 0f, string ignore = "")
         {
             DataRow dR = dt.NewRow();
             dR["service"] = service;
@@ -4894,7 +4911,7 @@ namespace SMFS
             dt.Rows.Add(dR);
         }
         /***********************************************************************************************/
-        private double TotalUpTable(DataTable dt, ref double ignoreAmount )
+        private double TotalUpTable(DataTable dt, ref double ignoreAmount)
         {
             double dValue = 0D;
             double total = 0D;
@@ -4921,7 +4938,7 @@ namespace SMFS
                 }
                 data = G1.ReformatMoney(total);
                 //                AppendToTable(dt, "       TOTAL :", data, "Arial", 7f, "Lucida Console", 7f);
-                if ( data != "0.00")
+                if (data != "0.00")
                     AppendToTable(dt, "              ", "", "Arial", 7f, "Lucida Console", 7f);
                 AppendToTable(dt, "              ", data, "Arial", 7f, "Lucida Console", 7f);
             }
@@ -4938,7 +4955,7 @@ namespace SMFS
             {
                 //                string location = View.GetRowCellDisplayText(e.RowHandle, View.Columns["location"]);
                 string fieldName = e.Column.FieldName;
-                if (fieldName.ToUpper() == "DESCRIPTION" )
+                if (fieldName.ToUpper() == "DESCRIPTION")
                 {
                     DataTable dt = (DataTable)dgv2.DataSource;
                     string name = dt.Rows[e.RowHandle]["1font"].ObjToString();
@@ -4982,7 +4999,7 @@ namespace SMFS
                     int width = View.Columns["description2"].Width;
                     int length = data.Length;
                 }
-                else if (fieldName.ToUpper() == "DETAILS" )
+                else if (fieldName.ToUpper() == "DETAILS")
                 {
                     DataTable dt = (DataTable)dgv2.DataSource;
                     string name = dt.Rows[e.RowHandle]["1font2"].ObjToString();
@@ -4993,7 +5010,7 @@ namespace SMFS
                     //string ssize = View.GetRowCellDisplayText(e.RowHandle, View.Columns["2size"]);
                     if (!String.IsNullOrWhiteSpace(data))
                     {
-                        if ( G1.validate_numeric ( data))
+                        if (G1.validate_numeric(data))
                         {
                             double money = data.ObjToDouble();
                             data = G1.ReformatMoney(money);
@@ -5005,7 +5022,7 @@ namespace SMFS
                         //if (size <= 7F)
                         //    size = 8F;
                         Font font = new Font(name, size);
-                        if ( desc.Trim().ToUpper().IndexOf ( "TOTAL") >= 0 )
+                        if (desc.Trim().ToUpper().IndexOf("TOTAL") >= 0)
                             e.Appearance.FontStyleDelta = FontStyle.Bold;
                         e.Appearance.Font = font;
                     }
@@ -5087,7 +5104,7 @@ namespace SMFS
         private void btnSeparate_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            Contract1 con1 = new Contract1(workContract, serviceDt, paymentsDt, true );
+            Contract1 con1 = new Contract1(workContract, serviceDt, paymentsDt, true);
             con1.Show();
             this.Cursor = Cursors.Default;
         }
@@ -5265,13 +5282,13 @@ namespace SMFS
                         StringFormat sf = new StringFormat(StringFormat.GenericTypographic);
                         string myString = "XYZZY";
                         SizeF fsize = g.MeasureString(myString, font, 40, sf);
-                        SizeF hT = TextRenderer.MeasureText(myString, font );
+                        SizeF hT = TextRenderer.MeasureText(myString, font);
                         float hh = font.GetHeight();
                         //if (!String.IsNullOrEmpty(data))
                         //{
-                            //Col1_TotalHeight += fsize.Height;
-                            Col1_TotalHeight += hT.Height;
-                            c1_height = Col1_TotalHeight;
+                        //Col1_TotalHeight += fsize.Height;
+                        Col1_TotalHeight += hT.Height;
+                        c1_height = Col1_TotalHeight;
                         //}
                         int h = Convert.ToInt32(fsize.Height);
                         int width = View.Columns["description"].Width;
@@ -5299,8 +5316,8 @@ namespace SMFS
                         SizeF hT = TextRenderer.MeasureText("XYZZY", font);
                         //if (!String.IsNullOrEmpty(data))
                         //{
-                            //Col2_TotalHeight += fsize.Height;
-                            if ( !stopCol2 )
+                        //Col2_TotalHeight += fsize.Height;
+                        if (!stopCol2)
                         {
                             Col2_TotalHeight += hT.Height;
                             c2_height = Col2_TotalHeight;
@@ -5387,7 +5404,7 @@ namespace SMFS
                             if (size <= 0F)
                                 size = 7F;
                             Font font = new Font(name, size);
-                            if ( desc.Trim().ToUpper().IndexOf("BALANCE") >= 0 )
+                            if (desc.Trim().ToUpper().IndexOf("BALANCE") >= 0)
                             {
 
                             }
@@ -5415,7 +5432,7 @@ namespace SMFS
                     }
                 }
             }
-            catch ( Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -5449,8 +5466,8 @@ namespace SMFS
                 if (sizeText.Height < e.RowHeight)
                     e.RowHeight = sizeText.Height;
                 int height = e.RowHeight;
-//                if (height == 20)
-//                    e.RowHeight = 10;
+                //                if (height == 20)
+                //                    e.RowHeight = 10;
                 //gridMain2.BandPanelRowHeight = 5;
             }
             catch (Exception exception)
@@ -5465,12 +5482,12 @@ namespace SMFS
             rtbStatementOfFuneral.Rtf = text;
         }
         /****************************************************************************************/
-        private string RemoveEmpties ( string text, string start, string stop )
+        private string RemoveEmpties(string text, string start, string stop)
         {
             int idx = -1;
             string firstHalf = "";
             string lastHalf = "";
-            for (;;)
+            for (; ; )
             {
                 idx = text.IndexOf(start);
                 if (idx < 0)
@@ -5486,9 +5503,9 @@ namespace SMFS
             return text;
         }
         /****************************************************************************************/
-        public void FireEventFunServicesChanged( string contract, DataTable dt )
+        public void FireEventFunServicesChanged(string contract, DataTable dt)
         {
-            if ( contract == workContract )
+            if (contract == workContract)
             {
                 serviceDt = dt;
                 //Contract1_Load(null,null);

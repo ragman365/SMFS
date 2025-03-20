@@ -245,18 +245,22 @@ namespace SMFS
                 name = name.Replace(".xls", "");
                 name = name.Replace(".XLSX", "");
                 name = name.Replace(".XLS", "");
-                string[] Lines = name.Split(' ');
-                string str = Lines[1].Trim();
                 string year = cmbYear.Text.Trim();
-                if (G1.validate_numeric(str))
+                string str = "";
+                string[] Lines = name.Split(' ');
+                for (int i = 0; i < Lines.Length; i++)
                 {
-                    int iyear = str.ObjToInt32();
-                    if (iyear < 100)
-                        iyear += 2000;
-                    cmbYear.Text = iyear.ToString();
+                    str = Lines[i].Trim();
+                    if (G1.validate_numeric(str))
+                    {
+                        int iyear = str.ObjToInt32();
+                        if (iyear < 100)
+                            iyear += 2000;
+                        cmbYear.Text = iyear.ToString();
+                    }
                 }
-                else
-                    str = year;
+
+                str = year;
 
                 int startYear = DateTime.Now.Year - 2;
 
@@ -3928,6 +3932,7 @@ namespace SMFS
             string middleName = "";
             string lastName = "";
             string preOrPost = "";
+            string newPreOrPost = "";
             string trustName = "";
 
             double payments = 0D;
@@ -4003,6 +4008,9 @@ namespace SMFS
                             }
                         }
                     }
+                    newPreOrPost = determinePrePostByYear(contractNumber);
+                    if (newPreOrPost == "Pre" && preOrPost != newPreOrPost)
+                        dt.Rows[i]["preOrPost"] = newPreOrPost;
                 }
             }
             catch (Exception ex)
@@ -4109,6 +4117,7 @@ namespace SMFS
             string middleName = "";
             string lastName = "";
             string preOrPost = "";
+            string newPreOrPost = "";
             string trustName = "";
 
             double payments = 0D;
@@ -4184,6 +4193,9 @@ namespace SMFS
                             }
                         }
                     }
+                    newPreOrPost = determinePrePostByYear(contractNumber);
+                    if ( newPreOrPost == "Pre" && preOrPost != newPreOrPost )
+                        dt.Rows[i]["preOrPost"] = newPreOrPost;
                 }
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
@@ -4348,6 +4360,7 @@ namespace SMFS
             string cmd = "";
             DataTable dx = null;
             string contractNumber = "";
+            string newPreOrPost = "";
 
             try
             {
@@ -4415,6 +4428,11 @@ namespace SMFS
                 }
                 if (dx.Rows.Count <= 0)
                     dt.Rows[i]["contractNumber"] = contractNumber + " NF";
+
+                preOrPost = dt.Rows[i]["preOrPost"].ObjToString();
+                newPreOrPost = determinePrePostByYear(contractNumber);
+                if (newPreOrPost == "Pre" && preOrPost != newPreOrPost)
+                    dt.Rows[i]["preOrPost"] = newPreOrPost;
 
             }
             return dt;

@@ -805,11 +805,13 @@ namespace SMFS
                 if (runOn.ToUpper() != "RILES")
                     dt = SMFS.FilterForRiles(dt);
 
+                bool excludeDBR = chkExcludeDBR.Checked;
+
                 dt = Trust85.FilterForCemetery(dt, runOn);
 
                 dt = CleanupFutureReporting(dt, date1, date2);
 
-                DataTable newDt = BuildData(dt, date1, date2);
+                DataTable newDt = BuildData(dt, date1, date2, excludeDBR );
 
                 //FindNewContracts(newDt, date1, date2);
 
@@ -946,7 +948,7 @@ namespace SMFS
             return dt;
         }
         /****************************************************************************************/
-        private DataTable BuildData ( DataTable dt, string date1, string date2 )
+        private DataTable BuildData ( DataTable dt, string date1, string date2, bool excludeDBR )
         {
             dt = AddColumn(dt, "num");
             dt = AddColumn(dt,"Year");
@@ -1038,6 +1040,7 @@ namespace SMFS
             double debit = 0D;
             double credit = 0D;
             bool gotit = false;
+            bool gotDBR = false;
 
             for ( int i=0; i<dt.Rows.Count; i++)
             {
@@ -1106,31 +1109,34 @@ namespace SMFS
                         for (int j = 0; j < dp.Rows.Count; j++)
                         {
                             date = dp.Rows[j]["payDate8"].ObjToDateTime();
-                            if (date >= mDate1 && date <= mDate2 )
+                            if (date >= mDate1 && date <= mDate2)
                             {
-                                trust85 = dp.Rows[j]["trust85P"].ObjToDouble();
-                                if ( deceasedDate.Year > 1000 )
+                                //trust85 = dp.Rows[j]["trust85P"].ObjToDouble();
+                                if (deceasedDate.Year > 1000)
                                 {
-                                    if (dbrContractDt.Rows.Count > 0)
+                                    if ( excludeDBR )
                                     {
-                                        gotit = false;
-                                        for (int k = 0; k < dbrContractDt.Rows.Count; k++)
+                                        gotDBR = TrustInterestReport.isDBR(contractNumber, mDate1, mDate2, date, ref dbrDt);
+                                        if (gotDBR)
                                         {
-                                            if (trust85 == dbrContractDt.Rows[k]["dbr"].ObjToDouble())
-                                            {
-                                                dbr += dp.Rows[j]["trust85P"].ObjToDouble();
-                                                totalInterest += dp.Rows[j]["interestPaid"].ObjToDouble();
-                                                gotit = true;
-                                            }
-                                        }
-                                        if (gotit)
+                                            totalInterest += dp.Rows[j]["interestPaid"].ObjToDouble();
                                             continue;
+                                        }
                                     }
-                                    //if ( date >= deceasedDate1 )
+                                    //if (dbrContractDt.Rows.Count > 0)
                                     //{
-                                    //    dbr += dp.Rows[j]["trust85P"].ObjToDouble();
-                                    //    totalInterest += dp.Rows[j]["interestPaid"].ObjToDouble();
-                                    //    continue;
+                                    //    gotit = false;
+                                    //    for (int k = 0; k < dbrContractDt.Rows.Count; k++)
+                                    //    {
+                                    //        if (trust85 == dbrContractDt.Rows[k]["dbr"].ObjToDouble())
+                                    //        {
+                                    //            dbr += dp.Rows[j]["trust85P"].ObjToDouble();
+                                    //            totalInterest += dp.Rows[j]["interestPaid"].ObjToDouble();
+                                    //            gotit = true;
+                                    //        }
+                                    //    }
+                                    //    if (gotit)
+                                    //        continue;
                                     //}
                                 }
                                 totalInterest += dp.Rows[j]["interestPaid"].ObjToDouble();
@@ -1139,9 +1145,9 @@ namespace SMFS
                                 debit += dp.Rows[j]["debitAdjustment"].ObjToDouble();
                                 credit += dp.Rows[j]["creditAdjustment"].ObjToDouble();
                             }
-                            else if ( special == "Y" )
+                            else if (special == "Y")
                             {
-                                if ( date.AddDays ( 7 ) >= mDate1 && date.AddDays ( 7 ) <= mDate2)
+                                if (date.AddDays(7) >= mDate1 && date.AddDays(7) <= mDate2)
                                 {
                                     totalInterest += dp.Rows[j]["interestPaid"].ObjToDouble();
                                     totalTrust85P += dp.Rows[j]["trust85P"].ObjToDouble();
