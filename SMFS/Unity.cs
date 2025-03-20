@@ -92,6 +92,7 @@ namespace SMFS
             chkExcludeHeader.Hide();
             btnSave.Hide();
             chkHonorPrevious.Hide();
+            btnImportData.Hide();
 
             HideOrShowTabs(false);
 
@@ -575,12 +576,12 @@ namespace SMFS
             ClearAllPositions(gMain);
             int i = 1;
             G1.SetColumnPosition(gMain, "Num", i++);
-            G1.SetColumnPosition(gMain, "contractNumber", i++);
             G1.SetColumnPosition(gMain, "FH Name", i++);
             G1.SetColumnPosition(gMain, "Policy Extract_Policy Status", i++);
             G1.SetColumnPosition(gMain, "Policy Number", i++);
             G1.SetColumnPosition(gMain, "Insured Last Name", i++);
             G1.SetColumnPosition(gMain, "Insured First Name", i++);
+            G1.SetColumnPosition(gMain, "contractNumber", i++);
             G1.SetColumnPosition(gMain, "Death Benefit", i++);
             G1.SetColumnPosition(gMain, "Face Amount", i++);
             G1.SetColumnPosition(gMain, "Prior Premiums Paid", i++);
@@ -604,6 +605,33 @@ namespace SMFS
             G1.SetColumnPosition(gMain, "Reconciling", i++);
             G1.SetColumnPosition(gMain, "explanaition", i++);
             G1.SetColumnPosition(gMain, "Date Claim Processed", i++);
+
+            GridView gridView = (GridView)gMain;
+            bool autoWidth = false, columnAutoWidth = false;
+            Dictionary<GridColumn, int> widthByColumn = null;
+            if (gridView != null)
+            {
+                autoWidth = gridView.OptionsPrint.AutoWidth;
+                columnAutoWidth = gridView.OptionsView.ColumnAutoWidth;
+                widthByColumn = gridView.Columns.ToDictionary(x => x, x => x.Width);
+
+                gridView.OptionsPrint.AutoWidth = false;
+                gridView.OptionsView.ColumnAutoWidth = false;
+                string str = "";
+                int width = 0;
+
+                foreach (var item in widthByColumn)
+                {
+                    str = (item.Key).ObjToString();
+                    width = (item.Value).ObjToInt32();
+
+                    G1.SetColumnWidth ( gMain, str, width);
+                }
+
+                //gridView.OptionsPrint.AutoWidth = false;
+                //gridView.OptionsView.ColumnAutoWidth = false;
+                //gridView.BestFitColumns();
+            }
         }
         /***********************************************************************************************/
         private void SetupLapsedPolicies(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null)
@@ -2109,7 +2137,236 @@ namespace SMFS
         /***********************************************************************************************/
         private void btnExportToExcel_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Do you REALLY want to SAVE this data to an Excel File?", "Save Unity to Excel Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            DialogResult result = MessageBox.Show("Do you REALLY want to SAVE these tabs to Excel Files?", "Save Unity Tabs to Excel Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            if (result == DialogResult.No)
+                return;
+
+            PleaseWait pleaseForm = new PleaseWait("Please Wait!\nExporting Unity to Excel Files!");
+            pleaseForm.TopMost = true;
+            pleaseForm.Show();
+            pleaseForm.Refresh();
+
+            string directory = G1.DecodePath(importedFile);
+
+            ExportUnityActive(directory);
+            ExportUnityCancelled(directory);
+            ExportUnityDeceased(directory);
+            ExportUnityLapsed(directory);
+            ExportUnityOldBarhamAndWEbbDeceased(directory);
+
+            ExportTab(gridMain9, tabPageBarham, directory, "Unity Old Barham", "num,contractNumber");
+            ExportTab(gridMain10, tabPageWebb, directory, "Unity Old Webb", "num,contractNumber" );
+            ExportTab(gridMain7, tabPagePBUnityAC, directory, "Unity PB Active", "num,contractNumber");
+            ExportTab(gridMain8, tabPagePBUnityDEC, directory, "Unity PB Deceased", "num,contractNumber");
+            ExportTab(gridMain12, tabPagePBDirectIssue, directory, "Unity Pine Belp Direct Issue", "num,contractNumber");
+            ExportTab(gridMain14, tabPageSummary, directory, "Unity Summary Counts" );
+
+            this.tabControl1.SelectedTab = tabPage1;
+
+            pleaseForm.FireEvent1();
+            pleaseForm.Dispose();
+            pleaseForm = null;
+        }
+        /***********************************************************************************************/
+        private void ExportUnityActive ( string directory )
+        {
+            G1.SetColumnWidth(gridMain2, "Policy Extract_Policy Status", 50);
+            G1.SetColumnWidth(gridMain2, "Policy Number", 100);
+            G1.SetColumnWidth(gridMain2, "contract Number", 75);
+            G1.SetColumnWidth(gridMain2, "Prior Unapplied Cash", 50);
+            G1.SetColumnWidth(gridMain2, "Prior IBA", 50);
+            G1.SetColumnWidth(gridMain2, "Prior Cash Received", 75);
+            G1.SetColumnWidth(gridMain2, "Prior Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain2, "Current Monthly Premium", 75);
+            G1.SetColumnWidth(gridMain2, "Current New Business", 75);
+            G1.SetColumnWidth(gridMain2, "Policy Extract_Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain2, "Current Unapplied Cash", 75);
+            G1.SetColumnWidth(gridMain2, "Current IBA", 75);
+            G1.SetColumnWidth(gridMain2, "Current Cash Received", 75);
+            ExportTab(gridMain2, tabPageUnityActive, directory, "Unity Active", "num,Balancing, O/S under $2,Paid Up Policies Refunded,Charlotte spreadsheet shows reversal,Other Reversal on Charlotte Spreadsheet,IBA/Unapplied Cash paid out at death claim,Change in status from Terminated to Reinstated cash value reapplied at reinstatement on lapsed policies,Diff in cash value in lapsed policy,Reconciling,explanaition,Date Claim Processed");
+        }
+        /***********************************************************************************************/
+        private void ExportUnityCancelled(string directory)
+        {
+            G1.SetColumnWidth(gridMain6, "Policy Extract_Policy Status", 50);
+            G1.SetColumnWidth(gridMain6, "Policy Number", 100);
+            G1.SetColumnWidth(gridMain6, "contract Number", 75);
+            G1.SetColumnWidth(gridMain6, "Prior Unapplied Cash", 50);
+            G1.SetColumnWidth(gridMain6, "Prior IBA", 50);
+            G1.SetColumnWidth(gridMain6, "Prior Cash Received", 100);
+            G1.SetColumnWidth(gridMain6, "Prior Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain6, "Current Monthly Premium", 75);
+            G1.SetColumnWidth(gridMain6, "Current New Business", 75);
+            G1.SetColumnWidth(gridMain6, "Policy Extract_Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain6, "Current Unapplied Cash", 75);
+            G1.SetColumnWidth(gridMain6, "Current IBA", 75);
+            G1.SetColumnWidth(gridMain6, "Current Cash Received", 75);
+
+            G1.SetColumnWidth(gridMain6, "FH Name", 200);
+            G1.SetColumnWidth(gridMain6, "Insured First Name", 200);
+            G1.SetColumnWidth(gridMain6, "Insured Last Name", 200);
+            ExportTab(gridMain6, tabPageUnityCancelled, directory, "Unity Cancelled", "num,Balancing, O/S under $2,Paid Up Policies Refunded,Charlotte spreadsheet shows reversal,Other Reversal on Charlotte Spreadsheet,IBA/Unapplied Cash paid out at death claim,Change in status from Terminated to Reinstated cash value reapplied at reinstatement on lapsed policies,Diff in cash value in lapsed policy,Reconciling,explanaition,Date Claim Processed");
+        }
+        /***********************************************************************************************/
+        private void ExportUnityDeceased(string directory)
+        {
+            G1.SetColumnWidth(gridMain5, "Policy Extract_Policy Status", 50);
+            G1.SetColumnWidth(gridMain5, "Policy Number", 100);
+            G1.SetColumnWidth(gridMain5, "contract Number", 75);
+            G1.SetColumnWidth(gridMain5, "Prior Unapplied Cash", 50);
+            G1.SetColumnWidth(gridMain5, "Prior IBA", 50);
+            G1.SetColumnWidth(gridMain5, "Prior Cash Received", 100);
+            G1.SetColumnWidth(gridMain5, "Prior Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain5, "Current Monthly Premium", 75);
+            G1.SetColumnWidth(gridMain5, "Current New Business", 75);
+            G1.SetColumnWidth(gridMain5, "Policy Extract_Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain5, "Current Unapplied Cash", 75);
+            G1.SetColumnWidth(gridMain5, "Current IBA", 75);
+            G1.SetColumnWidth(gridMain5, "Current Cash Received", 75);
+
+            G1.SetColumnWidth(gridMain5, "FH Name", 200);
+            G1.SetColumnWidth(gridMain5, "Insured First Name", 200);
+            G1.SetColumnWidth(gridMain5, "Insured Last Name", 200);
+            ExportTab(gridMain5, tabPageUnityDeceased, directory, "Unity Deceased", "num,Balancing, O/S under $2,Paid Up Policies Refunded,Charlotte spreadsheet shows reversal,Other Reversal on Charlotte Spreadsheet,IBA/Unapplied Cash paid out at death claim,Change in status from Terminated to Reinstated cash value reapplied at reinstatement on lapsed policies,Diff in cash value in lapsed policy,Reconciling,explanaition,Date Claim Processed");
+        }
+        /***********************************************************************************************/
+        private void ExportUnityLapsed(string directory)
+        {
+            G1.SetColumnWidth(gridMain3, "Policy Extract_Policy Status", 50);
+            G1.SetColumnWidth(gridMain3, "Policy Number", 100);
+            G1.SetColumnWidth(gridMain3, "contract Number", 75);
+            G1.SetColumnWidth(gridMain3, "Prior Unapplied Cash", 50);
+            G1.SetColumnWidth(gridMain3, "Prior IBA", 50);
+            G1.SetColumnWidth(gridMain3, "Prior Cash Received", 100);
+            G1.SetColumnWidth(gridMain3, "Prior Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain3, "Current Monthly Premium", 75);
+            G1.SetColumnWidth(gridMain3, "Current New Business", 75);
+            G1.SetColumnWidth(gridMain3, "Policy Extract_Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain3, "Current Unapplied Cash", 75);
+            G1.SetColumnWidth(gridMain3, "Current IBA", 75);
+            G1.SetColumnWidth(gridMain3, "Current Cash Received", 75);
+
+            G1.SetColumnWidth(gridMain3, "FH Name", 200);
+            G1.SetColumnWidth(gridMain3, "Insured First Name", 200);
+            G1.SetColumnWidth(gridMain3, "Insured Last Name", 200);
+            ExportTab(gridMain3, tabPageUnityLapsed, directory, "Unity Lapsed", "num,Balancing, O/S under $2,Paid Up Policies Refunded,Charlotte spreadsheet shows reversal,Other Reversal on Charlotte Spreadsheet,IBA/Unapplied Cash paid out at death claim,Change in status from Terminated to Reinstated cash value reapplied at reinstatement on lapsed policies,Diff in cash value in lapsed policy,Reconciling,explanaition,Date Claim Processed");
+        }
+        /***********************************************************************************************/
+        private void ExportUnityOldBarhamAndWEbbDeceased(string directory)
+        {
+            G1.SetColumnWidth(gridMain11, "Policy Extract_Policy Status", 50);
+            G1.SetColumnWidth(gridMain11, "Policy Number", 100);
+            G1.SetColumnWidth(gridMain11, "contract Number", 75);
+            G1.SetColumnWidth(gridMain11, "Prior Unapplied Cash", 50);
+            G1.SetColumnWidth(gridMain11, "Prior IBA", 50);
+            G1.SetColumnWidth(gridMain11, "Prior Cash Received", 100);
+            G1.SetColumnWidth(gridMain11, "Prior Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain11, "Current Monthly Premium", 75);
+            G1.SetColumnWidth(gridMain11, "Current New Business", 75);
+            G1.SetColumnWidth(gridMain11, "Policy Extract_Premiums Paid", 75);
+            G1.SetColumnWidth(gridMain11, "Current Unapplied Cash", 75);
+            G1.SetColumnWidth(gridMain11, "Current IBA", 75);
+            G1.SetColumnWidth(gridMain11, "Current Cash Received", 75);
+
+            G1.SetColumnWidth(gridMain11, "FH Name", 200);
+            G1.SetColumnWidth(gridMain11, "Insured First Name", 200);
+            G1.SetColumnWidth(gridMain11, "Insured Last Name", 200);
+            ExportTab(gridMain11, tabPageBarhamWebbDEC, directory, "UNITY OLD BARHAM AND WEBB DEC", "num,Balancing, O/S under $2,Paid Up Policies Refunded,Charlotte spreadsheet shows reversal,Other Reversal on Charlotte Spreadsheet,IBA/Unapplied Cash paid out at death claim,Change in status from Terminated to Reinstated cash value reapplied at reinstatement on lapsed policies,Diff in cash value in lapsed policy,Reconciling,explanaition,Date Claim Processed");
+        }
+        /***********************************************************************************************/
+        private void ExportTab (DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain, TabPage tabPage, string directory, string title, string hideColumns = "" )
+        {
+            try
+            {
+                this.tabControl1.SelectedTab = tabPage;
+
+                //GridView gridView = (GridView)gridMain;
+                //bool autoWidth = false, columnAutoWidth = false;
+                //Dictionary<GridColumn, int> widthByColumn = null;
+                //if (gridView != null)
+                //{
+                //    autoWidth = gridView.OptionsPrint.AutoWidth;
+                //    columnAutoWidth = gridView.OptionsView.ColumnAutoWidth;
+                //    widthByColumn = gridView.Columns.ToDictionary(x => x, x => x.Width);
+                //    gridView.OptionsPrint.AutoWidth = false;
+                //    gridView.OptionsView.ColumnAutoWidth = false;
+                //    gridView.BestFitColumns();
+                //}
+
+                string toName = tabPage.Text;
+                if (!String.IsNullOrWhiteSpace(title))
+                    toName = title;
+
+                string outputFile = directory + "/" + "X" + toName + ".xlsx";
+                string fullPath = outputFile;
+                if (File.Exists(fullPath))
+                    File.Delete(fullPath);
+
+                gridMain.AppearancePrint.Row.Font = new Font("Calibri", 12F, FontStyle.Bold);
+                gridMain.AppearancePrint.HeaderPanel.Font = new Font("Calibri", 12F, FontStyle.Bold);
+                gridMain.AppearancePrint.BandPanel.Font = new Font("Calibri", 12F, FontStyle.Bold);
+                gridMain.OptionsPrint.AllowMultilineHeaders = true;
+                gridMain.OptionsView.ColumnHeaderAutoHeight = DefaultBoolean.True;
+                gridMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+                gridMain.ColumnPanelRowHeight = 100;
+
+
+                DevExpress.XtraGrid.GridControl dgv = (DevExpress.XtraGrid.GridControl)gridMain.GridControl;
+
+                string[] Lines = hideColumns.Split(',');
+                string str = "";
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    str = Lines[i].Trim();
+                    if (String.IsNullOrWhiteSpace(str))
+                        continue;
+                    if (G1.get_column_number(gridMain, str) < 0)
+                        continue;
+                    gridMain.Columns[str].Visible = false;
+                }
+
+                gridMain.RefreshEditor(true);
+                gridMain.RefreshData();
+                dgv.Refresh();
+
+                XlsxExportOptions options = new XlsxExportOptions();
+                options.FitToPrintedPageWidth = true;
+                options.ShowGridLines = true;
+
+                printableComponentLink1.Component = dgv;
+                printableComponentLink1.Landscape = true;
+                printableComponentLink1.Margins.Bottom = 0;
+                printableComponentLink1.Margins.Top = 0;
+                printableComponentLink1.Margins.Left = 0;
+                printableComponentLink1.Margins.Right = 0;
+
+                printingSystem1.Document.AutoFitToPagesWidth = 2; //Does not work
+
+
+                printableComponentLink1.CreateDocument();
+                printableComponentLink1.ExportToXlsx(fullPath, options );
+
+                gridMain.ColumnPanelRowHeight = -1;
+
+
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    str = Lines[i].Trim();
+                    if (String.IsNullOrWhiteSpace(str))
+                        continue;
+                    if (G1.get_column_number(gridMain, str) < 0)
+                        continue;
+                    gridMain.Columns[str].Visible = true;
+                }
+            }
+            catch ( Exception ex)
+            {
+            }
+        }
+        /***********************************************************************************************/
+        private void btnExportToExcel_Clickx(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Do you REALLY want to SAVE these tabs to Excel Files?", "Save Unity Tabs to Excel Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             if (result == DialogResult.No)
                 return;
             printToExcel = true;
@@ -2117,9 +2374,36 @@ namespace SMFS
 
             string iFile = importedFile;
             string aFile = actualFile;
+            string directory = G1.DecodePath(importedFile);
             TabPage tabPage = null;
             string toName = "";
-            for (int i = 0; i < tabControl1.TabPages.Count; i++)
+            string outputFile = "";
+            string fullPath = "";
+
+            XlsxExportOptions junk = new XlsxExportOptions();
+            junk.ShowGridLines = false;
+            junk.FitToPrintedPageWidth = false;
+            junk.FitToPrintedPageHeight = false;
+            junk.ExportHyperlinks = false;
+            junk.ExportMode = XlsxExportMode.SingleFile;
+
+            GridView gridView = (GridView) gridMain9;
+            bool autoWidth = false, columnAutoWidth = false;
+            Dictionary<GridColumn, int> widthByColumn = null;
+            //if (bestFitColumns && gridView != null)
+            if (gridView != null)
+            {
+                autoWidth = gridView.OptionsPrint.AutoWidth;
+                columnAutoWidth = gridView.OptionsView.ColumnAutoWidth;
+                widthByColumn = gridView.Columns.ToDictionary(x => x, x => x.Width);
+                gridView.OptionsPrint.AutoWidth = false;
+                gridView.OptionsView.ColumnAutoWidth = false;
+                gridView.BestFitColumns();
+            }
+
+            DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView workGridMain = null;
+
+            for (int i = 1; i < tabControl1.TabPages.Count; i++)
             {
                 if (i >= 2)
                     break;
@@ -2134,7 +2418,35 @@ namespace SMFS
                 if (i == 0)
                     printableComponentLink1.Component = dgv;
                 else if (i == 1)
-                    printableComponentLink1.Component = dgv2;
+                {
+                    workGridMain = gridMain2;
+                    outputFile = directory + "/" + "X" + toName + ".xlsx";
+                    fullPath = outputFile;
+                    if (File.Exists(fullPath))
+                        File.Delete(fullPath);
+
+                    //gridMain2.Columns["num"].Visible = false;
+
+                    gridMain9.AppearancePrint.Row.Font = new Font("Calibri", 13.8F, FontStyle.Bold);
+                    gridMain9.AppearancePrint.HeaderPanel.Font = new Font("Calibri", 13.8F, FontStyle.Bold);
+                    //gridMain2.OptionsPrint.AllowMultilineHeaders = true;
+
+
+                    //printingSystem1.Document.AutoFitToPagesWidth = 1;
+                    gridMain9.Columns["num"].Visible = false;
+                    gridMain9.Columns["contractNumber"].Visible = false;
+
+                    printableComponentLink1.Component = dgv9;
+                    DataTable dx = (DataTable) dgv9.DataSource;
+
+                    printableComponentLink1.CreateDocument();
+                    printableComponentLink1.ExportToXlsx(fullPath, junk );
+
+                    //gridMain2.Columns["num"].Visible = true;
+                    //gridMain2.Appearance.Row.Font = new Font("Tahoma", 7.8F, FontStyle.Regular);
+                    //gridMain2.Appearance.HeaderPanel.Font = new Font("Tahoma", 7.8F, FontStyle.Regular);
+
+                }
                 else if (i == 2)
                     printableComponentLink1.Component = dgv3;
                 else if (i == 3)
@@ -2165,23 +2477,59 @@ namespace SMFS
                 tabTitle = tabPage.Text.Trim();
                 tabName = tabPage.Name;
 
-                string outputDirectory = @"C:\SMFSData\Unity Reports";
-                G1.verify_path(outputDirectory);
-                outputDirectory += "/" + importYear + " " + importMonth;
-                G1.verify_path(outputDirectory);
+                //string outputDirectory = @"C:\SMFSData\Unity Reports";
+                //G1.verify_path(outputDirectory);
+                //outputDirectory += "/" + importYear + " " + importMonth;
+                //G1.verify_path(outputDirectory);
 
-                string fullPath = outputDirectory + "/" + importYear + " " + importMonth + " " + tabTitle + ".xls";
+                //string fullPath = outputDirectory + "/" + importYear + " " + importMonth + " " + tabTitle + ".xls";
+                fullPath = outputFile;
                 if (File.Exists(fullPath))
                     File.Delete(fullPath);
 
+                //SetNewFont(workGridMain, "Calibri", 13.8F); // FT - SN
+
                 printableComponentLink1.CreateDocument();
-                printableComponentLink1.ExportToXls(fullPath);
+                printableComponentLink1.ExportToXlsx(fullPath);
+
+                //ResetOldFont(workGridMain);
 
                 pleaseForm.FireEvent1();
                 pleaseForm.Dispose();
                 pleaseForm = null;
             }
             printToExcel = false;
+        }
+        /****************************************************************************************/
+        private void SetNewFont(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain, string font, float size)
+        {
+            try
+            {
+                gridMain.Columns["num"].Visible = false;
+
+                //gridMain.Appearance.Row.Font = new Font(font, size, FontStyle.Bold);
+                gridMain.AppearancePrint.Row.Font = new Font(font, size, FontStyle.Bold);
+                gridMain.AppearancePrint.HeaderPanel.Font = new Font(font, size, FontStyle.Bold);
+                //gridMain.RefreshEditor(true);
+                //gridMain.RefreshData();
+            }
+            catch ( Exception ex )
+            {
+            }
+        }
+        /****************************************************************************************/
+        private void ResetOldFont(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain )
+        {
+            try
+            {
+                gridMain.Columns["num"].Visible = true;
+
+                gridMain.Appearance.Row.Font = new Font("Tahoma", 7.8F, FontStyle.Regular);
+                gridMain.Appearance.HeaderPanel.Font = new Font("Tahoma", 7.8F, FontStyle.Regular);
+            }
+            catch (Exception ex)
+            {
+            }
         }
         /***********************************************************************************************/
         private void SetupTabFormat(string name, string caption)

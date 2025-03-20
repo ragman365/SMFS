@@ -57,6 +57,7 @@ namespace SMFS
             this.bandedGridColumn57 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkExcludeDBR = new System.Windows.Forms.CheckBox();
             this.chkGroupLocation = new System.Windows.Forms.CheckBox();
             this.lblRunOn = new System.Windows.Forms.Label();
             this.cmbRunOn = new System.Windows.Forms.ComboBox();
@@ -585,6 +586,7 @@ namespace SMFS
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.PeachPuff;
+            this.panelTop.Controls.Add(this.chkExcludeDBR);
             this.panelTop.Controls.Add(this.chkGroupLocation);
             this.panelTop.Controls.Add(this.lblRunOn);
             this.panelTop.Controls.Add(this.cmbRunOn);
@@ -615,6 +617,16 @@ namespace SMFS
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1809, 83);
             this.panelTop.TabIndex = 1;
+            // 
+            // chkExcludeDBR
+            // 
+            this.chkExcludeDBR.AutoSize = true;
+            this.chkExcludeDBR.Location = new System.Drawing.Point(906, 20);
+            this.chkExcludeDBR.Name = "chkExcludeDBR";
+            this.chkExcludeDBR.Size = new System.Drawing.Size(118, 21);
+            this.chkExcludeDBR.TabIndex = 174;
+            this.chkExcludeDBR.Text = "Exclude DBR\'s";
+            this.chkExcludeDBR.UseVisualStyleBackColor = true;
             // 
             // chkGroupLocation
             // 
@@ -1046,5 +1058,6 @@ namespace SMFS
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn11;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn12;
         private System.Windows.Forms.CheckBox chkGroupLocation;
+        private System.Windows.Forms.CheckBox chkExcludeDBR;
     }
 }

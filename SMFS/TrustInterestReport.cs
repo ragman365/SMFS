@@ -26,6 +26,7 @@ namespace SMFS
     {
         /***********************************************************************************************/
         private DataTable originalDt = null;
+        private DataTable dbrDt = null;
         private DataTable detailDt = null;
         private bool previousDateRead = false;
 
@@ -610,14 +611,40 @@ namespace SMFS
                         break;
                     if ( excludeDBR )
                     {
-                        if (iDate.Year == deceasedDate.Year && iDate.Month == deceasedDate.Month)
+                        if (isDBR(contractNumber, workDate1, workDate2, iDate, ref dbrDt))
                             continue;
+                        //if (iDate.Year == deceasedDate.Year && iDate.Month == deceasedDate.Month)
+                        //    continue;
                     }
                     totalInterest += dx.Rows[i]["interestPaid"].ObjToDouble();
                     total15 += dx.Rows[i]["calculatedTrust100"].ObjToDouble() - dx.Rows[i]["calculatedTrust85"].ObjToDouble();
                 }
             }
             return;
+        }
+        /****************************************************************************************/
+        public static bool isDBR (string contractNumber, DateTime workDate1, DateTime workDate2, DateTime payDate8, ref DataTable dbrDt )
+        {
+            bool dbr = false;
+            if ( dbrDt == null )
+            {
+                string cmd = "Select * from `dbrs` WHERE `payDate8` >= '" + workDate1.ToString("yyyyMMdd") + "' AND `payDate8` <= '" + workDate2.ToString("yyyyMMdd") + "';";
+                dbrDt = G1.get_db_data(cmd);
+            }
+            DataRow[] dRows = dbrDt.Select("contractNumber='" + contractNumber + "'");
+            DateTime startDate = DateTime.Now;
+            DateTime stopDate = DateTime.Now;
+            for ( int i=0; i<dRows.Length; i++)
+            {
+                startDate = dRows[i]["cashRemitStartDate"].ObjToDateTime();
+                stopDate = dRows[i]["cashRemitStopDate"].ObjToDateTime();
+                if ( payDate8 >= startDate && payDate8 <= stopDate )
+                {
+                    dbr = true;
+                    break;
+                }
+            }
+            return dbr;
         }
         /****************************************************************************************/
         private DataTable RemoveCemeteries(DataTable dt)

@@ -477,6 +477,7 @@
             this.gridMain.FixedLineWidth = 4;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.Name = "gridMain";
+            this.gridMain.OptionsPrint.AllowMultilineHeaders = true;
             this.gridMain.OptionsView.BestFitMode = DevExpress.XtraGrid.Views.Grid.GridBestFitMode.Full;
             this.gridMain.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
             this.gridMain.OptionsView.EnableAppearanceEvenRow = true;
@@ -525,7 +526,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(368, 8);
+            this.button1.Location = new System.Drawing.Point(5, 7);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(178, 37);
             this.button1.TabIndex = 124;
@@ -535,7 +536,7 @@
             // 
             // btnImportData
             // 
-            this.btnImportData.Location = new System.Drawing.Point(5, 8);
+            this.btnImportData.Location = new System.Drawing.Point(897, 7);
             this.btnImportData.Name = "btnImportData";
             this.btnImportData.Size = new System.Drawing.Size(158, 37);
             this.btnImportData.TabIndex = 123;
@@ -744,14 +745,19 @@
             this.gridMain2.Appearance.TopNewRow.Options.UseFont = true;
             this.gridMain2.Appearance.VertLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(213)))), ((int)(((byte)(157)))));
             this.gridMain2.Appearance.VertLine.Options.UseBackColor = true;
+            this.gridMain2.AppearancePrint.HeaderPanel.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.AppearancePrint.HeaderPanel.Options.UseFont = true;
             this.gridMain2.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
             this.gridMain2.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridMain2.AppearancePrint.Row.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.AppearancePrint.Row.Options.UseFont = true;
             this.gridMain2.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand1});
             this.gridMain2.DetailHeight = 268;
             this.gridMain2.FixedLineWidth = 4;
             this.gridMain2.GridControl = this.dgv2;
             this.gridMain2.Name = "gridMain2";
+            this.gridMain2.OptionsPrint.AllowMultilineHeaders = true;
             this.gridMain2.OptionsView.BestFitMode = DevExpress.XtraGrid.Views.Grid.GridBestFitMode.Full;
             this.gridMain2.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
             this.gridMain2.OptionsView.EnableAppearanceEvenRow = true;
@@ -989,8 +995,12 @@
             this.gridMain3.Appearance.TopNewRow.Options.UseFont = true;
             this.gridMain3.Appearance.VertLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(213)))), ((int)(((byte)(157)))));
             this.gridMain3.Appearance.VertLine.Options.UseBackColor = true;
+            this.gridMain3.AppearancePrint.HeaderPanel.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain3.AppearancePrint.HeaderPanel.Options.UseFont = true;
             this.gridMain3.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
             this.gridMain3.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridMain3.AppearancePrint.Row.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain3.AppearancePrint.Row.Options.UseFont = true;
             this.gridMain3.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand2});
             this.gridMain3.DetailHeight = 268;
@@ -1215,8 +1225,12 @@
             this.gridMain4.Appearance.TopNewRow.Options.UseFont = true;
             this.gridMain4.Appearance.VertLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(213)))), ((int)(((byte)(157)))));
             this.gridMain4.Appearance.VertLine.Options.UseBackColor = true;
+            this.gridMain4.AppearancePrint.HeaderPanel.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain4.AppearancePrint.HeaderPanel.Options.UseFont = true;
             this.gridMain4.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
             this.gridMain4.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridMain4.AppearancePrint.Row.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain4.AppearancePrint.Row.Options.UseFont = true;
             this.gridMain4.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand3});
             this.gridMain4.DetailHeight = 268;
@@ -2300,8 +2314,12 @@
             this.gridMain9.Appearance.TopNewRow.Options.UseFont = true;
             this.gridMain9.Appearance.VertLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(213)))), ((int)(((byte)(157)))));
             this.gridMain9.Appearance.VertLine.Options.UseBackColor = true;
+            this.gridMain9.AppearancePrint.HeaderPanel.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain9.AppearancePrint.HeaderPanel.Options.UseFont = true;
             this.gridMain9.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
             this.gridMain9.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridMain9.AppearancePrint.Row.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain9.AppearancePrint.Row.Options.UseFont = true;
             this.gridMain9.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand8});
             this.gridMain9.DetailHeight = 268;
@@ -2320,7 +2338,7 @@
             // gridBand8
             // 
             this.gridBand8.AppearanceHeader.BackColor = System.Drawing.Color.DarkKhaki;
-            this.gridBand8.AppearanceHeader.Font = new System.Drawing.Font("Times New Roman", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.gridBand8.AppearanceHeader.Font = new System.Drawing.Font("Calibri", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gridBand8.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
             this.gridBand8.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand8.AppearanceHeader.Options.UseBorderColor = true;
@@ -2330,11 +2348,11 @@
             this.gridBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridBand8.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.gridBand8.Caption = "Barham";
-            this.gridBand8.MinWidth = 66;
+            this.gridBand8.MinWidth = 77;
             this.gridBand8.Name = "gridBand8";
             this.gridBand8.OptionsBand.FixedWidth = true;
             this.gridBand8.VisibleIndex = 0;
-            this.gridBand8.Width = 80;
+            this.gridBand8.Width = 93;
             // 
             // tabPageWebb
             // 
@@ -3998,7 +4016,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand6;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand8;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand9;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand10;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand11;
@@ -4008,5 +4025,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.ToolStripMenuItem menuReadOldData;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand8;
     }
 }
