@@ -882,9 +882,11 @@ namespace GeneralLib
             Col1.SetOrdinal(0);// to put the column in position 0;
 
             int t1Col = G1.get_column_number(orderDetail, "tmstamp1");
+            int n1Col = G1.get_column_number(orderDetail, "notes");
             DateTime myDate = DateTime.Now;
             DateTime oldDate = DateTime.MinValue;
             string str = "";
+            string notes = "";
 
             for (int i = 0; i < orderDetail.Rows.Count; i++)
             {
@@ -893,6 +895,13 @@ namespace GeneralLib
                 orderDetail.Rows[i]["runNumber"] = runNumber.ObjToInt32();
                 if (t1Col > 0)
                     orderDetail.Rows[i][t1Col] = myDate.ToString("yyyy-MM-dd HH:mm:ss");
+                if (n1Col > 0)
+                {
+                    notes = orderDetail.Rows[i][n1Col].ObjToString();
+                    notes = notes.Replace("\n", " ");
+                    orderDetail.Rows[i][n1Col] = notes;
+                }
+
                 //orderDetail.Rows[i]["resultCommission"] = "0.00";
                 //str = orderDetail.Rows[i]["pastFailures"].ObjToString();
                 //if (String.IsNullOrWhiteSpace(str))
@@ -940,6 +949,9 @@ namespace GeneralLib
                 fs.Dispose();
             }
 
+
+            VerifyDbTable(tableName, orderDetail);
+
             //Generate csv file from where data read
             CreateCSVfile(orderDetail, Server + strFile);
             //using (MySqlConnection cn1 = new MySqlConnection(connectMySQL))
@@ -971,6 +983,103 @@ namespace GeneralLib
                 str = ex.Message;
             }
             //}
+        }
+        /***********************************************************************************************/
+        public static bool VerifyDbTable(string tablename, DataTable dt)
+        {
+            //string cmd = "select column_name,data_type,column_key,character_maximum_length,column_default,extra from information_schema.`COLUMNS` where `table_schema` = 'JMAPATIENTS'";
+            //cmd += " and `table_name` = '" + tablename.ToUpper() + "';";
+            //            tablename = "options_test";
+            string command = "SHOW COLUMNS FROM `" + tablename + "`;";
+            DataTable rx = G1.get_db_data(command);
+            //            DataTable rx = G1.get_db2_data(cmd);
+            if (rx == null || rx.Rows == null || rx.Rows.Count == 0)
+                return false; // Somehow the table does not exist
+            string original = "";
+            string name = "";
+            string type = "";
+            string length = "";
+            string mod = "";
+            string columnname = "";
+            string newstr = "";
+            int row = 0;
+            try
+            {
+                int limit = dt.Columns.Count;
+                for (int i = 0; i < limit; i++)
+                {
+                    row = i;
+                    bool found = false;
+                    original = dt.Columns[i].ColumnName.Trim();
+                    name = original.ToUpper();
+                    type = dt.Columns[i].DataType.ObjToString().ToUpper();
+                    length = "100";
+                    if (name.Trim().Length == 0)
+                        continue;
+                    for (int j = 0; j < rx.Rows.Count; j++)
+                    {
+                        columnname = rx.Rows[j]["field"].ToString().Trim().ToUpper();
+                        if (columnname.Trim().Length == 0)
+                            continue;
+                        if (columnname == name)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    { // Didn't find the column, so create it.
+                        newstr = "";
+                        //if (type == "SYSTEM.STRING")
+                        //    newstr = "alter table `" + tablename + "` add `" + original + "` VARCHAR (" + length + ") NOT NULL DEFAULT '';";
+                        //else if (type == "SYSTEM.DOUBLE")
+                        //    newstr = "alter table `" + tablename + "` add `" + original + "` DOUBLE NOT NULL DEFAULT '0' ;";
+                        //else if (type == "SYSTEM.DECIMAL")
+                        //    newstr = "alter table `" + tablename + "` add `" + original + "` DECIMAL (10,2) NOT NULL DEFAULT '0' ;";
+                        //else if (type == "SYSTEM.INT32")
+                        //    newstr = "alter table `" + tablename + "` add `" + original + "` INT NOT NULL DEFAULT '0' ;";
+                        //else if (type == "SYSTEM.INT64")
+                        //    newstr = "alter table `" + tablename + "` add `" + original + "` BIGINT NOT NULL DEFAULT '0' ;";
+                        //else if (type == "SYSTEM.DATE")
+                        //    newstr = "alter table `" + tablename + "` add `" + original + "` DATE NOT NULL DEFAULT '0000-00-00' ;";
+                        //else if (type.ToUpper().IndexOf("SYSTEM.BYTE") >= 0)
+                        //    newstr = "alter table `" + tablename + "` add `" + original + "` BLOB ;";
+                        //else if (type == "MYSQL.DATA.TYPES.MYSQLDATETIME")
+                        //{
+                        //    //                            newstr = "alter table `" + tablename + "` add `" + original + "` VARCHAR (" + length + ") NOT NULL DEFAULT '' ;";
+                        //    newstr = "alter table `" + tablename + "` add `" + original + "` DATE NOT NULL DEFAULT '0000-00-00' ;";
+                        //}
+                        try
+                        {
+                            if (String.IsNullOrWhiteSpace(newstr))
+                            {
+                                MessageBox.Show("***ERROR*** Cannot locate field " + original + "!");
+                                break;
+                            }
+                            //DataTable ddx = G1.get_db_data(newstr);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("***ERROR*** Adding New Field to Table" + original + " " + ex.Message.ToString());
+                        }
+                    }
+                    else
+                    {
+                        if (mod == "D")
+                        {
+                        }
+                        else
+                        {
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("***ERROR*** Adding to table " + tablename + " " + original + " " + row.ToString() + " Error " + ex.Data.ToString());
+                return false;
+            }
+            return true;
         }
         /***********************************************************************************************/
         public static bool CleanupTable(DataTable dt)

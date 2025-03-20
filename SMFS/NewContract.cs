@@ -434,13 +434,39 @@ namespace SMFS
                 DataTable ddd = G1.get_db_data(cmd);
                 if (ddd.Rows.Count > 0)
                 {
+                    string name = GetUserFirstLastName();
                     record = ddd.Rows[0]["record"].ObjToString();
-                    G1.update_db_table("fcust_extended", "record", record, new string[] { "OpenCloseFuneral", "Y" });
+                    G1.update_db_table("fcust_extended", "record", record, new string[] { "OpenCloseFuneral", "Y", "Funeral Creator", name });
+                }
+            }
+            else
+            {
+                cmd = "Select * from `fcust_extended` WHERE `contractNumber` = '" + contract + "';";
+                DataTable ddd = G1.get_db_data(cmd);
+                if (ddd.Rows.Count > 0)
+                {
+                    string name = GetUserFirstLastName();
+                    record = ddd.Rows[0]["record"].ObjToString();
+                    G1.update_db_table("fcust_extended", "record", record, new string[] { "Funeral Creator", name });
                 }
             }
 
             OnSelectDone(contract);
             this.Close();
+        }
+        /***********************************************************************************************/
+        public static string GetUserFirstLastName ()
+        {
+            string name = "";
+            string user = LoginForm.username.Trim();
+            string cmd = "Select * from `users` WHERE `username` = '" + user + "';";
+            DataTable dt = G1.get_db_data(cmd);
+            if ( dt.Rows.Count > 0 )
+            {
+                name = dt.Rows[0]["firstName"].ObjToString() + " " + dt.Rows[0]["lastName"].ObjToString();
+                name = name.Trim();
+            }
+            return name;
         }
         /***********************************************************************************************/
         public static bool CheckForOtherDeceased ( string contractNumber )
