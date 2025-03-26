@@ -822,9 +822,13 @@ namespace SMFS
 
             DateTime sDate = DateTime.Now;
             string str = "";
+            string lastName = "";
             for (int i = 0; i < ddt.Rows.Count; i++)
             {
+                lastName = ddt.Rows[i]["lastName"].ObjToString().Trim();
                 str = ddt.Rows[i]["insuredName"].ObjToString().Trim();
+                if (str.IndexOf("PD -") == 0 && !String.IsNullOrWhiteSpace ( lastName ) )
+                    str = lastName;
                 ddt.Rows[i]["lastName"] = str;
                 ddt.Rows[i]["manual"] = "Y";
             }
@@ -957,7 +961,7 @@ namespace SMFS
                 double payments = 0D;
                 double value = 0D;
                 string firstName = "";
-                string lastName = "";
+                lastName = "";
                 string insuredName = "";
                 double trustAmtFiled = 0D;
                 double amtActuallyReceived = 0D;
@@ -1257,7 +1261,7 @@ namespace SMFS
                         paidFrom = ddx.Rows[j]["trust_policy"].ObjToString().ToUpper();
                         if (!String.IsNullOrWhiteSpace(paidFrom))
                             contract = paidFrom;
-                        if (contract == "FR24033LI")
+                        if (contract == "M1591")
                         {
                         }
                         if (contract == "L24015L")
@@ -1482,10 +1486,10 @@ namespace SMFS
                                 policyNumber = dddd.Rows[lastRow]["policyNumber"].ObjToString();
                                 trustCompany = dddd.Rows[lastRow]["trustCompany"].ObjToString().ToUpper();
                                 record = dddd.Rows[lastRow]["record"].ObjToString();
-                                date = dddd.Rows[0]["reportDate"].ObjToDateTime();
+                                date = dddd.Rows[lastRow]["reportDate"].ObjToDateTime();
                                 if (date.Year > 1000 && date != workDate)
                                     continue;
-                                date = dddd.Rows[0]["date"].ObjToDateTime();
+                                date = dddd.Rows[lastRow]["date"].ObjToDateTime();
                                 if (date.Year > 1000 && date != workDate)
                                     continue;
                                 if (trustCompany == "UNITY DI")
@@ -3922,20 +3926,20 @@ namespace SMFS
                     FdlicOldCCI = dt.Rows[i]["FDLIC Old CCI"].ObjToDouble();
                     UnityOldBarham = dt.Rows[i]["Unity Old Barham"].ObjToDouble();
                     UnityOldWebb = dt.Rows[i]["Unity Old Webb"].ObjToDouble();
-                    cmd = "Select * from `trust_data_edits` where `status` = 'BeginningBalance' AND `trustName` = '" + trustCompany + "' AND `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `preOrPost` = 'Pre';";
-                    dx = G1.get_db_data(cmd);
-                    if (dx.Rows.Count > 0)
-                        record = dx.Rows[0]["record"].ObjToString();
-                    if (String.IsNullOrWhiteSpace(record))
-                    {
-                        record = G1.create_record("trust_data_edits", "status", "-1");
-                        dt.Rows[i]["record"] = record.ObjToInt32();
-                        G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "preOrPost", "Pre" });
-                    }
-                    if (G1.BadRecord("trust_data_edits", record))
-                        return;
-                    //G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "beginningPaymentBalance", Forethought.ToString(), "beginningDeathBenefit", SecurityNational.ToString(), "endingPaymentBalance", FdlicOldWebb.ToString(), "endingDeathBenefit", FdlicOldCCI.ToString(), "priorUnappliedCash", UnityOldBarham.ToString(), "currentUnappliedCash", UnityOldWebb.ToString(), "downPayments", CD.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
-                    G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "beginningPaymentBalance", Forethought.ToString(), "beginningDeathBenefit", SecurityNational.ToString(), "endingPaymentBalance", FdlicOldWebb.ToString(), "endingDeathBenefit", FdlicOldCCI.ToString(), "priorUnappliedCash", UnityOldBarham.ToString(), "currentUnappliedCash", UnityOldWebb.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
+                    //cmd = "Select * from `trust_data_edits` where `status` = 'BeginningBalance' AND `trustName` = '" + trustCompany + "' AND `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `preOrPost` = 'Pre';";
+                    //dx = G1.get_db_data(cmd);
+                    //if (dx.Rows.Count > 0)
+                    //    record = dx.Rows[0]["record"].ObjToString();
+                    //if (String.IsNullOrWhiteSpace(record))
+                    //{
+                    //    record = G1.create_record("trust_data_edits", "status", "-1");
+                    //    dt.Rows[i]["record"] = record.ObjToInt32();
+                    //    G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "preOrPost", "Pre" });
+                    //}
+                    //if (G1.BadRecord("trust_data_edits", record))
+                    //    return;
+                    ////G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "beginningPaymentBalance", Forethought.ToString(), "beginningDeathBenefit", SecurityNational.ToString(), "endingPaymentBalance", FdlicOldWebb.ToString(), "endingDeathBenefit", FdlicOldCCI.ToString(), "priorUnappliedCash", UnityOldBarham.ToString(), "currentUnappliedCash", UnityOldWebb.ToString(), "downPayments", CD.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
+                    //G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "beginningPaymentBalance", Forethought.ToString(), "beginningDeathBenefit", SecurityNational.ToString(), "endingPaymentBalance", FdlicOldWebb.ToString(), "endingDeathBenefit", FdlicOldCCI.ToString(), "priorUnappliedCash", UnityOldBarham.ToString(), "currentUnappliedCash", UnityOldWebb.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
                     //                    G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "beginningPaymentBalance", balance.ToString(), "beginningDeathBenefit", received.ToString(), "endingPaymentBalance", smfsBalance.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
 
                     continue;
@@ -4366,20 +4370,30 @@ namespace SMFS
         private void goToPaymentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataTable dt = (DataTable)dgv.DataSource;
-            if (dgv2.Visible)
+
+            int selectedIndex = tabControl1.SelectedIndex;
+            string pageName = tabControl1.TabPages[selectedIndex].Name.Trim();
+
+            if ( pageName.ToUpper() == "TABPAGE1")
+                dt = (DataTable)dgv.DataSource;
+           else if (pageName.ToUpper() == "TABPAGE2")
                 dt = (DataTable)dgv2.DataSource;
+            else if (pageName.ToUpper() == "TABPAGE5")
+                dt = (DataTable)dgv5.DataSource;
             if (dt == null)
                 return;
             if (dt.Rows.Count <= 0)
                 return;
 
             DataRow dr = gridMain.GetFocusedDataRow();
-            if (dgv2.Visible)
+            if (pageName.ToUpper() == "TABPAGE2")
                 dr = gridMain2.GetFocusedDataRow();
+            else if (pageName.ToUpper() == "TABPAGE5")
+                dr = gridMain5.GetFocusedDataRow();
 
             string contractNumber = dr["contract"].ObjToString();
             string serviceId = dr["funeral"].ObjToString();
-            if (dgv5.Visible)
+            if (pageName.ToUpper() == "TABPAGE5")
             {
                 dr = gridMain5.GetFocusedDataRow();
                 contractNumber = dr["Trust"].ObjToString();

@@ -619,10 +619,10 @@ namespace SMFS
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1809, 702);
+            this.panelAll.Size = new System.Drawing.Size(1809, 704);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -632,7 +632,7 @@ namespace SMFS
             this.panelBottom.Location = new System.Drawing.Point(0, 142);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1809, 560);
+            this.panelBottom.Size = new System.Drawing.Size(1809, 562);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -649,7 +649,7 @@ namespace SMFS
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1809, 560);
+            this.tabControl1.Size = new System.Drawing.Size(1809, 562);
             this.tabControl1.TabIndex = 7;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -659,7 +659,7 @@ namespace SMFS
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage1.Size = new System.Drawing.Size(1801, 533);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -671,7 +671,7 @@ namespace SMFS
             this.panelMainAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainAll.Location = new System.Drawing.Point(3, 3);
             this.panelMainAll.Name = "panelMainAll";
-            this.panelMainAll.Size = new System.Drawing.Size(1795, 525);
+            this.panelMainAll.Size = new System.Drawing.Size(1795, 527);
             this.panelMainAll.TabIndex = 7;
             // 
             // panelMainBottom
@@ -680,7 +680,7 @@ namespace SMFS
             this.panelMainBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainBottom.Location = new System.Drawing.Point(0, 47);
             this.panelMainBottom.Name = "panelMainBottom";
-            this.panelMainBottom.Size = new System.Drawing.Size(1795, 478);
+            this.panelMainBottom.Size = new System.Drawing.Size(1795, 480);
             this.panelMainBottom.TabIndex = 9;
             // 
             // dgv
@@ -692,7 +692,7 @@ namespace SMFS
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1795, 478);
+            this.dgv.Size = new System.Drawing.Size(1795, 480);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1387,7 +1387,7 @@ namespace SMFS
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage2.Size = new System.Drawing.Size(1801, 533);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Split";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1399,7 +1399,7 @@ namespace SMFS
             this.panelSplitAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelSplitAll.Location = new System.Drawing.Point(3, 3);
             this.panelSplitAll.Name = "panelSplitAll";
-            this.panelSplitAll.Size = new System.Drawing.Size(1795, 525);
+            this.panelSplitAll.Size = new System.Drawing.Size(1795, 527);
             this.panelSplitAll.TabIndex = 9;
             // 
             // panelSplitBottom
@@ -1408,7 +1408,7 @@ namespace SMFS
             this.panelSplitBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelSplitBottom.Location = new System.Drawing.Point(0, 39);
             this.panelSplitBottom.Name = "panelSplitBottom";
-            this.panelSplitBottom.Size = new System.Drawing.Size(1795, 486);
+            this.panelSplitBottom.Size = new System.Drawing.Size(1795, 488);
             this.panelSplitBottom.TabIndex = 1;
             // 
             // tabControl2
@@ -1424,7 +1424,7 @@ namespace SMFS
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1795, 486);
+            this.tabControl2.Size = new System.Drawing.Size(1795, 488);
             this.tabControl2.TabIndex = 10;
             // 
             // tabPage9
@@ -1433,7 +1433,7 @@ namespace SMFS
             this.tabPage9.Location = new System.Drawing.Point(4, 25);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1787, 457);
+            this.tabPage9.Size = new System.Drawing.Size(1787, 459);
             this.tabPage9.TabIndex = 0;
             this.tabPage9.Text = "Post-2002";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1449,7 +1449,7 @@ namespace SMFS
             this.dgv2.Name = "dgv2";
             this.dgv2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1});
-            this.dgv2.Size = new System.Drawing.Size(1781, 451);
+            this.dgv2.Size = new System.Drawing.Size(1781, 453);
             this.dgv2.TabIndex = 7;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -2419,7 +2419,7 @@ namespace SMFS
             this.tabPage12.Controls.Add(this.dgv11);
             this.tabPage12.Location = new System.Drawing.Point(4, 25);
             this.tabPage12.Name = "tabPage12";
-            this.tabPage12.Size = new System.Drawing.Size(1787, 459);
+            this.tabPage12.Size = new System.Drawing.Size(1787, 457);
             this.tabPage12.TabIndex = 3;
             this.tabPage12.Text = "FDLIC Old Webb";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -2433,7 +2433,7 @@ namespace SMFS
             this.dgv11.MainView = this.gridMain11;
             this.dgv11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv11.Name = "dgv11";
-            this.dgv11.Size = new System.Drawing.Size(1787, 459);
+            this.dgv11.Size = new System.Drawing.Size(1787, 457);
             this.dgv11.TabIndex = 10;
             this.dgv11.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain11});
@@ -2850,7 +2850,7 @@ namespace SMFS
             this.tabPage13.Controls.Add(this.dgv12);
             this.tabPage13.Location = new System.Drawing.Point(4, 25);
             this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Size = new System.Drawing.Size(1787, 459);
+            this.tabPage13.Size = new System.Drawing.Size(1787, 457);
             this.tabPage13.TabIndex = 4;
             this.tabPage13.Text = "FDLIC Old CCI";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -2864,7 +2864,7 @@ namespace SMFS
             this.dgv12.MainView = this.gridMain12;
             this.dgv12.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv12.Name = "dgv12";
-            this.dgv12.Size = new System.Drawing.Size(1787, 459);
+            this.dgv12.Size = new System.Drawing.Size(1787, 457);
             this.dgv12.TabIndex = 11;
             this.dgv12.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain12});
@@ -3281,7 +3281,7 @@ namespace SMFS
             this.tabPage14.Controls.Add(this.dgv13);
             this.tabPage14.Location = new System.Drawing.Point(4, 25);
             this.tabPage14.Name = "tabPage14";
-            this.tabPage14.Size = new System.Drawing.Size(1787, 459);
+            this.tabPage14.Size = new System.Drawing.Size(1787, 457);
             this.tabPage14.TabIndex = 5;
             this.tabPage14.Text = "Unity Old Barham";
             this.tabPage14.UseVisualStyleBackColor = true;
@@ -3295,7 +3295,7 @@ namespace SMFS
             this.dgv13.MainView = this.gridMain13;
             this.dgv13.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv13.Name = "dgv13";
-            this.dgv13.Size = new System.Drawing.Size(1787, 459);
+            this.dgv13.Size = new System.Drawing.Size(1787, 457);
             this.dgv13.TabIndex = 12;
             this.dgv13.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain13});
@@ -3712,7 +3712,7 @@ namespace SMFS
             this.tabPage15.Controls.Add(this.dgv14);
             this.tabPage15.Location = new System.Drawing.Point(4, 25);
             this.tabPage15.Name = "tabPage15";
-            this.tabPage15.Size = new System.Drawing.Size(1787, 459);
+            this.tabPage15.Size = new System.Drawing.Size(1787, 457);
             this.tabPage15.TabIndex = 6;
             this.tabPage15.Text = "Unity Old Webb";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -3726,7 +3726,7 @@ namespace SMFS
             this.dgv14.MainView = this.gridMain14;
             this.dgv14.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv14.Name = "dgv14";
-            this.dgv14.Size = new System.Drawing.Size(1787, 459);
+            this.dgv14.Size = new System.Drawing.Size(1787, 457);
             this.dgv14.TabIndex = 10;
             this.dgv14.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain14});
@@ -4137,7 +4137,7 @@ namespace SMFS
             this.tabPage16.Location = new System.Drawing.Point(4, 25);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(1787, 459);
+            this.tabPage16.Size = new System.Drawing.Size(1787, 457);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "FT / SN";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -4151,7 +4151,7 @@ namespace SMFS
             this.dgv6.MainView = this.gridMain6;
             this.dgv6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv6.Name = "dgv6";
-            this.dgv6.Size = new System.Drawing.Size(1781, 453);
+            this.dgv6.Size = new System.Drawing.Size(1781, 451);
             this.dgv6.TabIndex = 8;
             this.dgv6.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain6});
@@ -4628,7 +4628,7 @@ namespace SMFS
             this.tabPage3.Controls.Add(this.panelDiffAll);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1801, 533);
+            this.tabPage3.Size = new System.Drawing.Size(1801, 531);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Differences";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -4640,7 +4640,7 @@ namespace SMFS
             this.panelDiffAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDiffAll.Location = new System.Drawing.Point(0, 0);
             this.panelDiffAll.Name = "panelDiffAll";
-            this.panelDiffAll.Size = new System.Drawing.Size(1801, 533);
+            this.panelDiffAll.Size = new System.Drawing.Size(1801, 531);
             this.panelDiffAll.TabIndex = 6;
             // 
             // panelDiffBottom
@@ -4649,7 +4649,7 @@ namespace SMFS
             this.panelDiffBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDiffBottom.Location = new System.Drawing.Point(0, 45);
             this.panelDiffBottom.Name = "panelDiffBottom";
-            this.panelDiffBottom.Size = new System.Drawing.Size(1801, 488);
+            this.panelDiffBottom.Size = new System.Drawing.Size(1801, 486);
             this.panelDiffBottom.TabIndex = 8;
             // 
             // dgv3
@@ -4663,7 +4663,7 @@ namespace SMFS
             this.dgv3.Name = "dgv3";
             this.dgv3.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.dgv3.Size = new System.Drawing.Size(1801, 488);
+            this.dgv3.Size = new System.Drawing.Size(1801, 486);
             this.dgv3.TabIndex = 5;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -5409,7 +5409,7 @@ namespace SMFS
             this.tabPage4.Controls.Add(this.dgv4);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1801, 533);
+            this.tabPage4.Size = new System.Drawing.Size(1801, 531);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Active";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -5425,7 +5425,7 @@ namespace SMFS
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit2});
-            this.dgv4.Size = new System.Drawing.Size(1801, 533);
+            this.dgv4.Size = new System.Drawing.Size(1801, 531);
             this.dgv4.TabIndex = 6;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -6515,7 +6515,7 @@ namespace SMFS
             this.tabPage6.Controls.Add(this.panelHistAll);
             this.tabPage6.Location = new System.Drawing.Point(4, 25);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1801, 533);
+            this.tabPage6.Size = new System.Drawing.Size(1801, 531);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "History";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -6527,7 +6527,7 @@ namespace SMFS
             this.panelHistAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelHistAll.Location = new System.Drawing.Point(0, 0);
             this.panelHistAll.Name = "panelHistAll";
-            this.panelHistAll.Size = new System.Drawing.Size(1801, 533);
+            this.panelHistAll.Size = new System.Drawing.Size(1801, 531);
             this.panelHistAll.TabIndex = 0;
             // 
             // panelHistBottom
@@ -6536,7 +6536,7 @@ namespace SMFS
             this.panelHistBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelHistBottom.Location = new System.Drawing.Point(0, 59);
             this.panelHistBottom.Name = "panelHistBottom";
-            this.panelHistBottom.Size = new System.Drawing.Size(1801, 474);
+            this.panelHistBottom.Size = new System.Drawing.Size(1801, 472);
             this.panelHistBottom.TabIndex = 2;
             // 
             // dgv7
@@ -6547,7 +6547,7 @@ namespace SMFS
             this.dgv7.MainView = this.gridMain7;
             this.dgv7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv7.Name = "dgv7";
-            this.dgv7.Size = new System.Drawing.Size(1801, 474);
+            this.dgv7.Size = new System.Drawing.Size(1801, 472);
             this.dgv7.TabIndex = 6;
             this.dgv7.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain7});
@@ -7268,7 +7268,7 @@ namespace SMFS
             this.tabPage7.Controls.Add(this.panelTbbAll);
             this.tabPage7.Location = new System.Drawing.Point(4, 25);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(1801, 533);
+            this.tabPage7.Size = new System.Drawing.Size(1801, 531);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "TBB Info";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -7280,7 +7280,7 @@ namespace SMFS
             this.panelTbbAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTbbAll.Location = new System.Drawing.Point(0, 0);
             this.panelTbbAll.Name = "panelTbbAll";
-            this.panelTbbAll.Size = new System.Drawing.Size(1801, 533);
+            this.panelTbbAll.Size = new System.Drawing.Size(1801, 531);
             this.panelTbbAll.TabIndex = 0;
             // 
             // panelTbbBottom
@@ -7289,7 +7289,7 @@ namespace SMFS
             this.panelTbbBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTbbBottom.Location = new System.Drawing.Point(0, 61);
             this.panelTbbBottom.Name = "panelTbbBottom";
-            this.panelTbbBottom.Size = new System.Drawing.Size(1801, 472);
+            this.panelTbbBottom.Size = new System.Drawing.Size(1801, 470);
             this.panelTbbBottom.TabIndex = 2;
             // 
             // dgv8
@@ -7301,7 +7301,7 @@ namespace SMFS
             this.dgv8.MainView = this.gridMain8;
             this.dgv8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv8.Name = "dgv8";
-            this.dgv8.Size = new System.Drawing.Size(1801, 472);
+            this.dgv8.Size = new System.Drawing.Size(1801, 470);
             this.dgv8.TabIndex = 7;
             this.dgv8.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain8});
@@ -8091,7 +8091,7 @@ namespace SMFS
             this.tabPage8.Controls.Add(this.panelTDT);
             this.tabPage8.Location = new System.Drawing.Point(4, 25);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1801, 533);
+            this.tabPage8.Size = new System.Drawing.Size(1801, 531);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "Daily Trust Deposits";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -8103,7 +8103,7 @@ namespace SMFS
             this.panelTDT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTDT.Location = new System.Drawing.Point(0, 0);
             this.panelTDT.Name = "panelTDT";
-            this.panelTDT.Size = new System.Drawing.Size(1801, 533);
+            this.panelTDT.Size = new System.Drawing.Size(1801, 531);
             this.panelTDT.TabIndex = 0;
             // 
             // panelTDTBottom
@@ -8112,7 +8112,7 @@ namespace SMFS
             this.panelTDTBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTDTBottom.Location = new System.Drawing.Point(0, 60);
             this.panelTDTBottom.Name = "panelTDTBottom";
-            this.panelTDTBottom.Size = new System.Drawing.Size(1801, 473);
+            this.panelTDTBottom.Size = new System.Drawing.Size(1801, 471);
             this.panelTDTBottom.TabIndex = 2;
             // 
             // dgv9
@@ -8126,7 +8126,7 @@ namespace SMFS
             this.dgv9.Name = "dgv9";
             this.dgv9.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit4});
-            this.dgv9.Size = new System.Drawing.Size(1801, 473);
+            this.dgv9.Size = new System.Drawing.Size(1801, 471);
             this.dgv9.TabIndex = 8;
             this.dgv9.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain9});
@@ -8858,7 +8858,7 @@ namespace SMFS
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1809, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1809, 28);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -8868,7 +8868,7 @@ namespace SMFS
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -8906,7 +8906,7 @@ namespace SMFS
             this.lockSceenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockSceenFormatToolStripMenuItem
@@ -8931,7 +8931,7 @@ namespace SMFS
             this.useCalculatedBeginningBalanceToolStripMenuItem,
             this.useCalculatedEndingBalanceToolStripMenuItem});
             this.editsToolStripMenuItem.Name = "editsToolStripMenuItem";
-            this.editsToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
+            this.editsToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.editsToolStripMenuItem.Text = "Edits";
             // 
             // editPolicyToTrustToolStripMenuItem
@@ -8971,7 +8971,7 @@ namespace SMFS
             this.post2002ReportCadenceToolStripMenuItem,
             this.pre2002ReportSNFTToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // post2002ReportUnityToolStripMenuItem
@@ -9015,7 +9015,7 @@ namespace SMFS
             this.massPrintPost2002ReportsToolStripMenuItem,
             this.massPrintPre2002ReportsToolStripMenuItem});
             this.massPrintToolStripMenuItem.Name = "massPrintToolStripMenuItem";
-            this.massPrintToolStripMenuItem.Size = new System.Drawing.Size(90, 26);
+            this.massPrintToolStripMenuItem.Size = new System.Drawing.Size(90, 24);
             this.massPrintToolStripMenuItem.Text = "Mass Print";
             // 
             // massPrintPost2002ReportsToolStripMenuItem
