@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "helpful-kingdom-399717",
+  "private_key_id": "3757963bc63bf11c4bed1c590edbdf27107720cd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDDhgFGB4o48Vnz\nj6OAUPI4S8BpYyaYgD00aOjhUoGLb43eDZfbCX/gCXfc48vHjdPUKdOrvL9z/lxJ\nhdS8GYV9+sqGtiKTq1QK7Sa/KWgZvrZvrXpKRpvupY5d9WOZrwfpk3Tr/8mYWHA6\nrZkHGUyfARYjSQ/ZTA3tMkyxr0GQFGcXCQZ2Qx/OHFti6ZOp6bCx/i8j1Ih807jb\n2TaC6EqIddVhIcGR4590fasEfGsHoFSijS3nbS6O+mLcgHIF8x7UunQwqu3gOtxs\nHkZjsHKtJOdUIGOClexPy1HBUx+0v9jCJ1rtsv0lVdKsQplcfe7JkdOalLqxk4XU\nBmh/bTfVAgMBAAECggEAWM+/N1iIa+oRMkVd/pSGGZUrDpO3fdDOPEak9Wg9KKFg\nvurMvfUYLSMP23lrYDbnb7kaCSmgiycQM2NDaLds//bRVJRZq1rIv3fOQEmmG/+Z\nLawOXruo66MuwjYK6k1rWikdFG+o2fbd74FX/7X5rEXZkOiIdusJbmMJHDKfpLob\nHRHd/ZZYnwO2SedhWwg/lqcGLeVKmLHNoy03LYUrCcy/QnjJ2maUUCw/StPV3zPC\nNvYc8JO4emiXh7CbriDnUvQOl8OPtgr+SvEc4xotyyMw8xJYHd7qyLDr/m2pXmpC\n/GL+q5t3qJyzRX12yEByTrEz5sJiVMqPFiaMw+5KtwKBgQD7mIo/0xH7mDkwQp7U\nhVLhp5uoY1+wJLhrKMyhZ385k0wH9dKZXLtgXHdh9WGlrGORrr/+aDP4fTiejnuj\nxmlTaJjk9Z2KuGMzRIiHSv15LE9Vuf8YTqlQ+x01R7KlLJzcSUobUtt1r2p7ncuM\nO22v9pKeow4f1GJ6Y7zcNF74PwKBgQDG8jD9vYr2pW5fl4Vfcj9sAvrEqWNT3Jgr\nEHbvpZz16XKzlo6BAI2vxgI9UdznK4m72w/JZlbBRpsQfcfA1KSx4wb10oAMGZux\nNFodBT78tU4v9F9qlM3GiOMYvn8F9T1nw9La8LRR2FteiV6uhIwLzRAidNVzURuZ\nHMvGHzsq6wKBgEjbOV2WH6T9xcHF6Pydxwx1Xsv6SuFVINpXLDqpH9xqXSAI/X1P\nrysOW7vQNQCm1QaA1jQztKkGifjQRdl9QU7YAT58KazcDE3yUJ7tBk2qmSa3/7jo\nPnum3CRrqL3QF3Rq/LzA17BSpcE6RpFLPE4yVu79RL/O3t2WOECEIeQ9AoGAKyYA\nJihj6Va795OfY7Idu0lyJhEu79NaVYy+nv9maZd2PykaQzRhhowFlFMa/DBfMRUz\n+VRu4IB1xT/igRodlk9NBSfgib9MG0TlfoHSxXB1QsVXpIAdmT+7MXSvjBVCeizo\noH+wPEgWmQxmMqeg0DZrl22LlfUzbSPntlKzvH0CgYEAsPLLf/14b1hxd5lSlkat\nK0x6EaE0I/4Zu5ufND0h7twdmmZsGTV5dIV6oGK76+8zxdbcDwK0sOebd0K/IMys\nOVJZxnBj35KPyYxMPOQxGOs3bd9nhzSYNWjDl9kSSfT6+3mCzhZuXetIqlBqCpwC\n2uPcdhxA3abMze1DWm/3KJo=\n-----END PRIVATE KEY-----\n",
+  "client_email": "rgraham1952@helpful-kingdom-399717.iam.gserviceaccount.com",
+  "client_id": "108947701548156573216",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rgraham1952%40helpful-kingdom-399717.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
