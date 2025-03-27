@@ -14,6 +14,7 @@ using DevExpress.Utils;
 /****************************************************************************************/
 namespace SMFS
 {
+    //***************This is a comment***************//
     /****************************************************************************************/
     public partial class EditCars : DevExpress.XtraEditors.XtraForm
     {
