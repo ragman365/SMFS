@@ -36,6 +36,7 @@ using System.Security.Principal;
 using MySql.Data.Types;
 using DevExpress.XtraGrid.Views.BandedGrid;
 using DevExpress.Export;
+using System.Globalization;
 //using Google.Apis.Services;
 //using Google.Apis.Util.Store;
 /****************************************************************************************/
@@ -564,7 +565,7 @@ namespace SMFS
 
             //string cmd = "SELECT contacts_preneed.*FROM contacts_preneed INNER JOIN(SELECT agent, funeralHome, MAX(prospectCreationDate) AS latest FROM contacts_preneed GROUP BY agent, funeralHome) r ";
 
-            string cmd = "SELECT contacts_preneed.* FROM contacts_preneed ";
+            string cmd = "SELECT contacts_preneed.*, date_format(dob,'%Y-%m-%d 00:00:00') as s1 FROM contacts_preneed ";
             //cmd += " WHERE ";
 
             bool needWhere = true;
@@ -598,6 +599,10 @@ namespace SMFS
                         cmd += " WHERE contacts_preneed.`funeralHome` = '" + location + "' ";
                 }
             }
+
+            string saveCmd = cmd;
+
+            //cmd += " AND `dob` > '2001-01-01' ";
 
             if (searchBy == "Creation Date")
             {
@@ -808,6 +813,13 @@ namespace SMFS
             for (int i = 0; i < dt.Rows.Count; i++)
                 dt.Rows[i]["color"] = 0D;
 
+            if (G1.get_column_number(dt, "dateofbirth") < 0)
+                dt.Columns.Add("dateofbirth");
+
+            DateTime dob = DateTime.Now;
+            DateTime birth = DateTime.Now;
+            int month = 0;
+            int day = 0;
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -826,10 +838,21 @@ namespace SMFS
                 }
                 else
                     dt.Rows[i]["color"] = 3D;
+
+                dob = dt.Rows[i]["dob"].ObjToDateTime();
+                month = dob.Month;
+                day = dob.Day;
+
+                birth = new DateTime(today.Year, month, day);
+                if (birth >= today && birth <= today.AddDays(7))
+                {
+                    dt.Rows[i]["dateofbirth"] = "1";
+                    dt.Rows[i]["color"] = 5D;
+                }
             }
 
             DataView tempview = dt.DefaultView;
-            tempview.Sort = "nextScheduledTouchDate asc, color asc";
+            tempview.Sort = "dateofbirth desc, nextScheduledTouchDate asc, color asc";
             dt = tempview.ToTable();
 
             return dt;
@@ -4703,6 +4726,11 @@ namespace SMFS
                         e.Appearance.BackColor = Color.LightGreen;
                         ColorizeCell(e.Appearance, Color.LightGreen );
                     }
+                    else if (color == 5D)
+                    {
+                        e.Appearance.BackColor = Color.Blue;
+                        ColorizeCell(e.Appearance, Color.Blue);
+                    }
                     else
                     {
                         e.Appearance.BackColor = Color.Transparent;
@@ -4788,6 +4816,34 @@ namespace SMFS
                         contextMenuStrip1.Items[i].Visible = true;
                 }
             }
+        }
+        /****************************************************************************************/
+        private DataTable ProcessBirthdays(DataTable dt, string cmd, string saveCmd)
+        {
+            //dt.Columns.Add("Int32_s1", typeof(int), "s1");
+
+            DataTable dx = null;
+            DataRow[] xRows = dt.Select("s1<>'0000-00-00 00:00:00'");
+            if (xRows.Length > 0)
+                dx = xRows.CopyToDataTable();
+            else
+                dx = dt.Copy();
+
+            dx.Columns.Add("sDate", typeof(DateTime), "s1");
+
+            DataRow[] dRows = dx.Select("sDate>#1800-01-01#");
+            if (dRows.Length <= 0)
+                return dt;
+
+            dx = dRows.CopyToDataTable();
+
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                dx.Rows[i]["firstName"] = "Birthday";
+                dt.ImportRow(dx.Rows[i]);
+            }
+
+            return dt;
         }
         /****************************************************************************************/
     }
