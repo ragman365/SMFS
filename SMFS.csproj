@@ -392,6 +392,12 @@
     <Compile Include="ContactReports.Designer.cs">
       <DependentUpon>ContactReports.cs</DependentUpon>
     </Compile>
+    <Compile Include="Customers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Customers.designer.cs">
+      <DependentUpon>Customers.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditDbTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2089,12 +2095,6 @@
     <Compile Include="CustomerDetails.designer.cs">
       <DependentUpon>CustomerDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Customers.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Customers.Designer.cs">
-      <DependentUpon>Customers.cs</DependentUpon>
-    </Compile>
     <Compile Include="EditHelp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2493,6 +2493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ContactReports.resx">
       <DependentUpon>ContactReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Customers.resx">
+      <DependentUpon>Customers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditDbTable.resx">
       <DependentUpon>EditDbTable.cs</DependentUpon>
@@ -3337,9 +3340,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomerDetails.resx">
       <DependentUpon>CustomerDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Customers.resx">
-      <DependentUpon>Customers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditHelp.resx">
       <DependentUpon>EditHelp.cs</DependentUpon>
