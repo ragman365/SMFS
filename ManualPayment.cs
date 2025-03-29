@@ -383,7 +383,7 @@ namespace SMFS
             return true;
         }
         /***************************************************************************************/
-        private bool CheckDueDate ()
+        private bool CheckDueDate()
         {
             bool rtn = true;
             string nextDueDate = GetData("Next Due Date");
@@ -391,7 +391,7 @@ namespace SMFS
             int day = date.Day;
             if (DailyHistory.isInsurance(workContract))
             {
-                if ( day != 1 && day != 15 )
+                if (day != 1 && day != 15)
                 {
                     MessageBox.Show("*** ERROR *** Next Due Date for Insurance\nmust be set on 1st or 15th!", "Next Due Date Date Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     rtn = false;
@@ -399,13 +399,16 @@ namespace SMFS
             }
             else
             {
-                if ( day != 1 )
+                if (nextDueDate != "12/31/2039")
                 {
-                    MessageBox.Show("*** ERROR *** Next Due Date for Trust\nmust be set on 1st!", "Next Due Date Date Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                    rtn = false;
+                    if (day != 1)
+                    {
+                        MessageBox.Show("*** ERROR *** Next Due Date for Trust\nmust be set on 1st!", "Next Due Date Date Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        rtn = false;
+                    }
                 }
             }
-                return rtn;
+            return rtn;
         }
         /***************************************************************************************/
         private void btnPost_Click(object sender, EventArgs e)

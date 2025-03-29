@@ -119,6 +119,8 @@ namespace SMFS
         {
             oldWhat = "";
 
+            btnShowAnniversary.BackColor = Color.Transparent;
+
             SetupToolTips();
 
             //if (!G1.isAdmin())
@@ -802,6 +804,17 @@ namespace SMFS
             this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
+        private int GetNextDays ()
+        {
+            string str = cmbNextDays.Text.ToUpper();
+            int nextDays = 7;
+            if (str == "14 DAYS")
+                nextDays = 14;
+            else if (str == "30 DAYS")
+                nextDays = 30;
+            return nextDays;
+        }
+        /***********************************************************************************************/
         private DataTable SetupGreenAndRed ( DataTable dt)
         {
             DateTime nextDate = DateTime.Now;
@@ -816,10 +829,17 @@ namespace SMFS
             if (G1.get_column_number(dt, "dateofbirth") < 0)
                 dt.Columns.Add("dateofbirth");
 
+            if (G1.get_column_number(dt, "funeralDeceased") < 0)
+                dt.Columns.Add("funeralDeceased");
+
             DateTime dob = DateTime.Now;
             DateTime birth = DateTime.Now;
             int month = 0;
             int day = 0;
+            int nextDays = GetNextDays();
+
+            DataTable birthDt = dt.Clone();
+            int lastRow = 0;
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -844,17 +864,79 @@ namespace SMFS
                 day = dob.Day;
 
                 birth = new DateTime(today.Year, month, day);
-                if (birth >= today && birth <= today.AddDays(7))
+                if (birth >= today && birth <= today.AddDays(nextDays))
                 {
-                    dt.Rows[i]["dateofbirth"] = "1";
-                    dt.Rows[i]["color"] = 5D;
+                    //dt.Rows[i]["dateofbirth"] = "1";
+                    //dt.Rows[i]["color"] = 5D;
+                    birthDt.ImportRow(dt.Rows[i]);
+                    lastRow = birthDt.Rows.Count;
+                    birthDt.Rows[lastRow - 1]["notes"] = "Birthday Soon";
+                }
+            }
+
+            dt = ProcessDeceased(dt, ref birthDt );
+
+            if ( birthDt.Rows.Count > 0 )
+            {
+                for ( int i=0; i<birthDt.Rows.Count; i++)
+                {
+                    dt.ImportRow(birthDt.Rows[i]);
+                    lastRow = dt.Rows.Count;
+                    dt.Rows[lastRow-1]["color"] = 0;
                 }
             }
 
             DataView tempview = dt.DefaultView;
-            tempview.Sort = "dateofbirth desc, nextScheduledTouchDate asc, color asc";
+            tempview.Sort = "color asc, nextScheduledTouchDate asc";
             dt = tempview.ToTable();
 
+            return dt;
+        }
+        /***********************************************************************************************/
+        private DataTable ProcessDeceased(DataTable dt, ref DataTable birthDt )
+        {
+            string funeral = "";
+            string cmd = "";
+            DateTime deceasedDate = DateTime.Now;
+            DataTable dx = null;
+            if (G1.get_column_number(dt, "funeralDeceased") < 0)
+                dt.Columns.Add("funeralDeceased");
+
+            int nextDays = GetNextDays();
+            int month = 0;
+            int day = 0;
+            DateTime dDay = DateTime.Now;
+            DateTime today = DateTime.Now;
+            int lastRow = 0;
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                funeral = dt.Rows[i]["referenceFuneral"].ObjToString();
+                if ( !String.IsNullOrWhiteSpace ( funeral ))
+                {
+                    cmd = "Select * from `fcustomers` WHERE `serviceId` = '" + funeral + "';";
+                    dx = G1.get_db_data(cmd);
+                    if ( dx.Rows.Count > 0 )
+                    {
+                        deceasedDate = dx.Rows[0]["deceasedDate"].ObjToDateTime();
+                        if (deceasedDate.Year > 1000)
+                        {
+                            //dt.Rows[i]["funeralDeceased"] = deceasedDate.ToString("yyyy-MM-dd");
+                            month = deceasedDate.Month;
+                            day = deceasedDate.Day;
+
+                            dDay = new DateTime(today.Year, month, day);
+                            if (dDay >= today && dDay <= today.AddDays(nextDays))
+                            {
+                                birthDt.ImportRow(dt.Rows[i]);
+                                lastRow = birthDt.Rows.Count;
+                                birthDt.Rows[lastRow - 1]["notes"] = "DOD Anniversary";
+                                birthDt.Rows[lastRow-1]["funeralDeceased"] = deceasedDate.ToString("yyyy-MM-dd");
+                            }
+                        }
+                    }
+                }
+            }
             return dt;
         }
         /***********************************************************************************************/
@@ -1587,6 +1669,38 @@ namespace SMFS
                     e.Handled = true;
                 }
             }
+
+            if ( btnShowAnniversary.BackColor == Color.PaleGreen )
+            {
+                if (e.Visible)
+                {
+                    string showWhat = cmbAnniversary.Text.ToUpper();
+                    DateTime today = DateTime.Now;
+                    DateTime dob = dt.Rows[row]["dob"].ObjToDateTime();
+                    if (showWhat.ToUpper() == "DECEASED ANNIVERSARY")
+                    {
+                        if (G1.get_column_number(dt, "funeralDeceased") < 0)
+                            return;
+                        dob = dt.Rows[row]["funeralDeceased"].ObjToDateTime();
+                    }
+                    int month = dob.Month;
+                    int day = dob.Day;
+
+                    int days = 7;
+                    string str = cmbNextDays.Text.ToUpper();
+                    if (str == "14 DAYS")
+                        days = 14;
+                    else if (str == "30 DAYS" )
+                        days = 30;
+
+                    DateTime birth = new DateTime(today.Year, month, day);
+                    if (birth < today || birth > today.AddDays(days))
+                    {
+                        e.Visible = false;
+                        e.Handled = true;
+                    }
+                }
+            }
         }
         /****************************************************************************************/
         private bool CheckRowFiltered( int row )
@@ -2305,11 +2419,6 @@ namespace SMFS
         /****************************************************************************************/
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-            //if (gridMain.OptionsFind.AlwaysVisible == true)
-            //    gridMain.OptionsFind.AlwaysVisible = false;
-            //else
-            //    gridMain.OptionsFind.AlwaysVisible = true;
-
             G1.SpyGlass(gridMain);
         }
         /****************************************************************************************/
@@ -2429,6 +2538,7 @@ namespace SMFS
                 bool modified = historyForm.isModified;
                 string nextCompleted = historyForm.nextCompleted;
                 lastRecord = historyForm.lastRecord;
+                DataRow[] dRows = null;
                 if (!String.IsNullOrWhiteSpace(lastRecord))
                     record = lastRecord;
                 if (modified)
@@ -2436,7 +2546,7 @@ namespace SMFS
                 else
                 {
                     dt = (DataTable)dgv.DataSource;
-                    DataRow[] dRows = dt.Select("oldRecord='" + record + "'");
+                    dRows = dt.Select("oldRecord='" + record + "'");
                     if (dRows.Length > 0)
                         record = dRows[0]["record"].ObjToString();
                     PositionToRow(record);
@@ -2444,16 +2554,28 @@ namespace SMFS
                 }
                 string cmd = "Select * from `contacts_preneed` WHERE `record` = '" + record + "';";
                 DataTable dx = G1.get_db_data(cmd);
-                if ( dx.Rows.Count > 0 )
+                if (dx.Rows.Count > 0)
                 {
                     string notes = dx.Rows[0]["notes"].ObjToString();
                     if ( notes != oldNotes )
                     {
-                        dr["notes"] = notes;
-                        dt.Rows[row]["notes"] = notes;
-                        //gridMain.RefreshEditor(true);
-                        //gridMain.RefreshData();
-                        //dgv.Refresh();
+                        if (dRows.Length > 1)
+                        {
+                            for ( int i=0; i<dRows.Length; i++)
+                            {
+                                dr["notes"] = notes;
+                                dRows[i]["notes"] = notes;
+                            }
+                        }
+                        else
+                        {
+                            dr["notes"] = notes;
+                            dt.Rows[row]["notes"] = notes;
+                        }
+                        if ( oldNotes == "Birthday Soon" || oldNotes == "DOD Anniversary")
+                        {
+                            dr["notes"] = oldNotes;
+                        }
                     }
                 }
             }
@@ -2849,10 +2971,16 @@ namespace SMFS
         private void gridMain_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
         {
             GridView view = sender as GridView;
+            DataRow dr = gridMain.GetFocusedDataRow();
+            string record = dr["record"].ObjToString();
+            if (record == "-1")
+            {
+                e.Valid = false;
+                return;
+            }
+
             if (view.FocusedColumn.FieldName.ToUpper().IndexOf("PHONE") > 0 )
             {
-                //DataTable dt = (DataTable)dgv.DataSource;
-                DataRow dr = gridMain.GetFocusedDataRow();
                 int rowhandle = gridMain.FocusedRowHandle;
                 int row = gridMain.GetDataSourceRowIndex(rowhandle);
                 string phone = e.Value.ObjToString();
@@ -2869,22 +2997,12 @@ namespace SMFS
                     //sDate = date.Year.ToString("D4") + "-" + date.Month.ToString("D2") + "-" + date.Day.ToString("D2");
                     //e.Value = sDate;
                     e.Value = G1.DTtoMySQLDT(date);
-                    DataRow dr = gridMain.GetFocusedDataRow();
                     int rowhandle = gridMain.FocusedRowHandle;
                     int row = gridMain.GetDataSourceRowIndex(rowhandle);
                     //dr["dob"] = (MySqlDateTime) G1.DTtoMySQLDT(date);
                     e.Valid = true;
                 }
             }
-            //else if(view.FocusedColumn.FieldName.ToUpper().IndexOf("FUNERALHOME") >= 0)
-            //{
-            //    DataRow dr = gridMain.GetFocusedDataRow();
-            //    int rowhandle = gridMain.FocusedRowHandle;
-            //    int row = gridMain.GetDataSourceRowIndex(rowhandle);
-            //    string funeralHome = e.Value.ObjToString();
-            //    oldWhat = funeralHome;
-            //    e.Value = funeralHome;
-            //}
         }
         private string oldWhat = "";
         /****************************************************************************************/
@@ -3161,7 +3279,6 @@ namespace SMFS
             gridMain.RefreshEditor(true);
             dgv.Refresh();
         }
-        /****************************************************************************************/
         /****************************************************************************************/
         private void gridMain_CalcRowHeight(object sender, RowHeightEventArgs e)
         {
@@ -4412,6 +4529,9 @@ namespace SMFS
             DataRow dr = gridMain.GetFocusedDataRow();
             int rowhandle = gridMain.FocusedRowHandle;
             int row = gridMain.GetDataSourceRowIndex(rowhandle);
+            string record = dr["record"].ObjToString();
+            if (record == "-1")
+                return;
 
             ComboBoxEdit combo = (ComboBoxEdit)sender;
             string contactType = combo.Text.Trim();
@@ -4423,7 +4543,6 @@ namespace SMFS
             string currentColumn = currCol.FieldName;
 
             string what = dr[currentColumn].ObjToString();
-            string record = dr["record"].ObjToString();
 
             Update_PreNeed(record, "contactType", what);
 
@@ -4462,6 +4581,8 @@ namespace SMFS
             try
             {
                 string record = dr["record"].ObjToString();
+                if (record == "-1")
+                    return;
                 string oldWhat = dr["contactStatus"].ObjToString();
 
                 DevExpress.XtraEditors.CheckEdit box = (DevExpress.XtraEditors.CheckEdit)sender;
@@ -4497,6 +4618,8 @@ namespace SMFS
             int rowhandle = gridMain.FocusedRowHandle;
             int row = gridMain.GetDataSourceRowIndex(rowhandle);
             string record = dr["record"].ObjToString();
+            if (record == "-1")
+                return;
             string oldWhat = dr["contactStatus"].ObjToString();
 
             ComboBoxEdit box = (ComboBoxEdit)sender;
@@ -4605,7 +4728,9 @@ namespace SMFS
             DataTable dt = (DataTable)dgv.DataSource;
             int rowHandle = gridMain.FocusedRowHandle;
             int row = gridMain.GetFocusedDataSourceRowIndex();
-            //string record = dr["record"].ObjToString();
+            string rec = dr["record"].ObjToString();
+            if ( rec == "-1")
+                return;
             string lastName = dr["lastName"].ObjToString();
             string firstName = dr["firstName"].ObjToString();
             string middleName = dr["middleName"].ObjToString();
@@ -4844,6 +4969,44 @@ namespace SMFS
             }
 
             return dt;
+        }
+        /****************************************************************************************/
+        private void btnShowAnniversary_Click(object sender, EventArgs e)
+        {
+            if (btnShowAnniversary.BackColor == Color.Transparent)
+                btnShowAnniversary.BackColor = Color.PaleGreen;
+            else
+                btnShowAnniversary.BackColor = Color.Transparent;
+
+            gridMain.RefreshData();
+            gridMain.RefreshEditor(true);
+            dgv.Refresh();
+
+            this.Refresh();
+
+            gridMain.PostEditor();
+        }
+        /****************************************************************************************/
+        private void cmbNextDays_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gridMain.RefreshData();
+            gridMain.RefreshEditor(true);
+            dgv.Refresh();
+
+            this.Refresh();
+
+            gridMain.PostEditor();
+        }
+        /****************************************************************************************/
+        private void cmbAnniversary_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gridMain.RefreshData();
+            gridMain.RefreshEditor(true);
+            dgv.Refresh();
+
+            this.Refresh();
+
+            gridMain.PostEditor();
         }
         /****************************************************************************************/
     }

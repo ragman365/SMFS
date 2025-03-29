@@ -35,6 +35,7 @@
             this.panelBottomRight = new System.Windows.Forms.Panel();
             this.panelBottomRightChecks = new System.Windows.Forms.Panel();
             this.panelBottomRightChecksBottom = new System.Windows.Forms.Panel();
+            this.panelBottomBottom = new System.Windows.Forms.Panel();
             this.dgv = new DevExpress.XtraGrid.GridControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editDetailMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,6 +109,10 @@
             this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.panelBottomRightChecksTop = new System.Windows.Forms.Panel();
             this.panelClaimTop = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cmbNextDays = new System.Windows.Forms.ComboBox();
+            this.btnShowAnniversary = new System.Windows.Forms.Button();
+            this.cmbAnniversary = new System.Windows.Forms.ComboBox();
             this.chkLocations = new DevExpress.XtraEditors.CheckedComboBoxEdit();
             this.btnInitialSetup = new System.Windows.Forms.Button();
             this.cmbSelectColumns = new System.Windows.Forms.ComboBox();
@@ -152,6 +157,7 @@
             this.panelBottomRight.SuspendLayout();
             this.panelBottomRightChecks.SuspendLayout();
             this.panelBottomRightChecksBottom.SuspendLayout();
+            this.panelBottomBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
@@ -181,10 +187,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1742, 619);
+            this.panelAll.Size = new System.Drawing.Size(1695, 709);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -194,7 +200,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 119);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1742, 500);
+            this.panelBottom.Size = new System.Drawing.Size(1695, 590);
             this.panelBottom.TabIndex = 3;
             // 
             // panelBottomRight
@@ -204,7 +210,7 @@
             this.panelBottomRight.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRight.Name = "panelBottomRight";
-            this.panelBottomRight.Size = new System.Drawing.Size(1742, 500);
+            this.panelBottomRight.Size = new System.Drawing.Size(1695, 590);
             this.panelBottomRight.TabIndex = 8;
             // 
             // panelBottomRightChecks
@@ -215,18 +221,27 @@
             this.panelBottomRightChecks.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecks.Name = "panelBottomRightChecks";
-            this.panelBottomRightChecks.Size = new System.Drawing.Size(1742, 500);
+            this.panelBottomRightChecks.Size = new System.Drawing.Size(1695, 590);
             this.panelBottomRightChecks.TabIndex = 7;
             // 
             // panelBottomRightChecksBottom
             // 
-            this.panelBottomRightChecksBottom.Controls.Add(this.dgv);
+            this.panelBottomRightChecksBottom.Controls.Add(this.panelBottomBottom);
             this.panelBottomRightChecksBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBottomRightChecksBottom.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksBottom.Name = "panelBottomRightChecksBottom";
-            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1742, 500);
+            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1695, 590);
             this.panelBottomRightChecksBottom.TabIndex = 9;
+            // 
+            // panelBottomBottom
+            // 
+            this.panelBottomBottom.Controls.Add(this.dgv);
+            this.panelBottomBottom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelBottomBottom.Location = new System.Drawing.Point(0, 0);
+            this.panelBottomBottom.Name = "panelBottomBottom";
+            this.panelBottomBottom.Size = new System.Drawing.Size(1695, 590);
+            this.panelBottomBottom.TabIndex = 9;
             // 
             // dgv
             // 
@@ -251,7 +266,7 @@
             this.repositoryItemComboBox6,
             this.repositoryItemComboBox7,
             this.repositoryItemMemoEdit2});
-            this.dgv.Size = new System.Drawing.Size(1742, 500);
+            this.dgv.Size = new System.Drawing.Size(1695, 590);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1211,13 +1226,17 @@
             this.panelBottomRightChecksTop.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksTop.Name = "panelBottomRightChecksTop";
-            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1742, 500);
+            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1695, 590);
             this.panelBottomRightChecksTop.TabIndex = 8;
             this.panelBottomRightChecksTop.Visible = false;
             // 
             // panelClaimTop
             // 
             this.panelClaimTop.BackColor = System.Drawing.Color.Honeydew;
+            this.panelClaimTop.Controls.Add(this.label5);
+            this.panelClaimTop.Controls.Add(this.cmbNextDays);
+            this.panelClaimTop.Controls.Add(this.btnShowAnniversary);
+            this.panelClaimTop.Controls.Add(this.cmbAnniversary);
             this.panelClaimTop.Controls.Add(this.chkLocations);
             this.panelClaimTop.Controls.Add(this.btnInitialSetup);
             this.panelClaimTop.Controls.Add(this.cmbSelectColumns);
@@ -1249,8 +1268,58 @@
             this.panelClaimTop.Location = new System.Drawing.Point(0, 0);
             this.panelClaimTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelClaimTop.Name = "panelClaimTop";
-            this.panelClaimTop.Size = new System.Drawing.Size(1742, 119);
+            this.panelClaimTop.Size = new System.Drawing.Size(1695, 119);
             this.panelClaimTop.TabIndex = 2;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(1342, 87);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 17);
+            this.label5.TabIndex = 157;
+            this.label5.Text = "Within";
+            // 
+            // cmbNextDays
+            // 
+            this.cmbNextDays.FormattingEnabled = true;
+            this.cmbNextDays.Items.AddRange(new object[] {
+            "7 days",
+            "14 days",
+            "30 days"});
+            this.cmbNextDays.Location = new System.Drawing.Point(1395, 83);
+            this.cmbNextDays.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cmbNextDays.Name = "cmbNextDays";
+            this.cmbNextDays.Size = new System.Drawing.Size(68, 24);
+            this.cmbNextDays.TabIndex = 156;
+            this.cmbNextDays.Text = "7 days";
+            this.cmbNextDays.SelectedIndexChanged += new System.EventHandler(this.cmbNextDays_SelectedIndexChanged);
+            // 
+            // btnShowAnniversary
+            // 
+            this.btnShowAnniversary.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnShowAnniversary.Location = new System.Drawing.Point(1052, 82);
+            this.btnShowAnniversary.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnShowAnniversary.Name = "btnShowAnniversary";
+            this.btnShowAnniversary.Size = new System.Drawing.Size(133, 28);
+            this.btnShowAnniversary.TabIndex = 155;
+            this.btnShowAnniversary.Text = "Show Anniversary";
+            this.btnShowAnniversary.UseVisualStyleBackColor = false;
+            this.btnShowAnniversary.Click += new System.EventHandler(this.btnShowAnniversary_Click);
+            // 
+            // cmbAnniversary
+            // 
+            this.cmbAnniversary.FormattingEnabled = true;
+            this.cmbAnniversary.Items.AddRange(new object[] {
+            "Birthday Anniversary",
+            "Deceased Anniversary"});
+            this.cmbAnniversary.Location = new System.Drawing.Point(1191, 85);
+            this.cmbAnniversary.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cmbAnniversary.Name = "cmbAnniversary";
+            this.cmbAnniversary.Size = new System.Drawing.Size(148, 24);
+            this.cmbAnniversary.TabIndex = 154;
+            this.cmbAnniversary.Text = "Birthday Anniversary";
+            this.cmbAnniversary.SelectedIndexChanged += new System.EventHandler(this.cmbAnniversary_SelectedIndexChanged);
             // 
             // chkLocations
             // 
@@ -1401,7 +1470,7 @@
             this.cmbLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbLocation.DisplayMember = "LocationCode";
             this.cmbLocation.FormattingEnabled = true;
-            this.cmbLocation.Location = new System.Drawing.Point(1540, 39);
+            this.cmbLocation.Location = new System.Drawing.Point(1729, 33);
             this.cmbLocation.Name = "cmbLocation";
             this.cmbLocation.Size = new System.Drawing.Size(173, 24);
             this.cmbLocation.TabIndex = 140;
@@ -1442,7 +1511,7 @@
             // cmbContactType
             // 
             this.cmbContactType.FormattingEnabled = true;
-            this.cmbContactType.Location = new System.Drawing.Point(1540, 9);
+            this.cmbContactType.Location = new System.Drawing.Point(1759, 3);
             this.cmbContactType.Name = "cmbContactType";
             this.cmbContactType.Size = new System.Drawing.Size(143, 24);
             this.cmbContactType.TabIndex = 136;
@@ -1570,7 +1639,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1742, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1695, 30);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1579,7 +1648,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1608,7 +1677,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // screenOptionsToolStripMenuItem
             // 
@@ -1616,7 +1685,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -1639,7 +1708,7 @@
             this.toolAgentReportList,
             this.reportsToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // toolAgentReportList
@@ -1660,7 +1729,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1742, 647);
+            this.ClientSize = new System.Drawing.Size(1695, 739);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -1674,6 +1743,7 @@
             this.panelBottomRight.ResumeLayout(false);
             this.panelBottomRightChecks.ResumeLayout(false);
             this.panelBottomRightChecksBottom.ResumeLayout(false);
+            this.panelBottomBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).EndInit();
@@ -1822,5 +1892,10 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn50;
         private System.Windows.Forms.ToolStripMenuItem duplicateContactToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem goToFuneralToolStripMenuItem;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cmbNextDays;
+        private System.Windows.Forms.Button btnShowAnniversary;
+        private System.Windows.Forms.ComboBox cmbAnniversary;
+        private System.Windows.Forms.Panel panelBottomBottom;
     }
 }

@@ -22,6 +22,7 @@ using System.Configuration;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraEditors.ViewInfo;
 using DevExpress.XtraGrid.Views.BandedGrid;
+using DevExpress.Export;
 /****************************************************************************************/
 namespace SMFS
 {
@@ -358,6 +359,8 @@ namespace SMFS
             for ( int i=0; i<dt.Rows.Count; i++)
             {
                 record = dt.Rows[i]["record"].ObjToString();
+                if (record == "-1")
+                    continue;
                 date = dt.Rows[i]["prospectCreationDate"].ObjToDateTime();
                 notes = "";
                 if (dt.Rows[i]["notes"] != null)
@@ -578,11 +581,84 @@ namespace SMFS
             SetupNextCompleted(dt);
             //SetupFrequency ( dt );
 
+            dt = GetAnniversaries(dt);
+
             G1.NumberDataTable(dt);
 
             dgv.DataSource = dt;
 
             this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private DataTable GetAnniversaries ( DataTable dt )
+        {
+            if (dt.Rows.Count <= 0)
+                return dt;
+
+            DataTable birthDt = dt.Clone();
+
+            int month = 0;
+            int day = 0;
+            int lastRow = 0;
+
+            DateTime today = DateTime.Now;
+
+            DateTime dob = dt.Rows[0]["dob"].ObjToDateTime();
+            if (dob.Year > 1000)
+            {
+                month = dob.Month;
+                day = dob.Day;
+
+                DateTime birth = new DateTime(today.Year, month, day);
+                if (birth >= today && birth <= today.AddDays(7))
+                {
+                    birthDt.ImportRow(dt.Rows[0]);
+                    lastRow = birthDt.Rows.Count;
+                    birthDt.Rows[lastRow - 1]["notes"] = "Birthday Soon";
+                    birthDt.Rows[lastRow - 1]["contactStatus"] = "Birthday Soon";
+                    birthDt.Rows[lastRow - 1]["record"] = -1;
+                }
+            }
+
+            string funeral = dt.Rows[0]["referenceFuneral"].ObjToString();
+            if ( !String.IsNullOrWhiteSpace ( funeral ))
+            {
+                if (!String.IsNullOrWhiteSpace(funeral))
+                {
+                    string cmd = "Select * from `fcustomers` WHERE `serviceId` = '" + funeral + "';";
+                    DataTable dx = G1.get_db_data(cmd);
+                    if (dx.Rows.Count > 0)
+                    {
+                        DateTime deceasedDate = dx.Rows[0]["deceasedDate"].ObjToDateTime();
+                        if (deceasedDate.Year > 1000)
+                        {
+                            //dt.Rows[0]["funeralDeceased"] = deceasedDate.ToString("yyyy-MM-dd");
+                            month = deceasedDate.Month;
+                            day = deceasedDate.Day;
+
+                            DateTime dDay = new DateTime(today.Year, month, day);
+                            if (dDay >= today && dDay <= today.AddDays(7))
+                            {
+                                birthDt.ImportRow(dt.Rows[0]);
+                                lastRow = birthDt.Rows.Count;
+                                birthDt.Rows[lastRow - 1]["notes"] = "DOD Anniversary";
+                                birthDt.Rows[lastRow - 1]["contactStatus"] = "DOD Anniversary";
+                                birthDt.Rows[lastRow - 1]["record"] = -1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (birthDt.Rows.Count > 0)
+            {
+                for (int i = 0; i < birthDt.Rows.Count; i++)
+                {
+                    dt.ImportRow(birthDt.Rows[i]);
+                }
+            }
+
+            return dt;
         }
         /***********************************************************************************************/
         private void SetupFrequency(DataTable dt)
@@ -1006,6 +1082,12 @@ namespace SMFS
         {
             GridView view = sender as GridView;
             DataRow dr = gridMain.GetFocusedDataRow();
+            string record = dr["record"].ObjToString();
+            if ( record == "-1")
+            {
+                e.Valid = false;
+                return;
+            }
             GridColumn currCol = gridMain.FocusedColumn;
             string currentColumn = currCol.FieldName;
             int rowHandle = gridMain.FocusedRowHandle;
@@ -1068,6 +1150,9 @@ namespace SMFS
         private void repositoryItemCheckEdit1_CheckedChanged(object sender, EventArgs e)
         {
             DataRow dr = gridMain.GetFocusedDataRow();
+            string record = dr["record"].ObjToString();
+            if (record == "-1")
+                return;
             if (dr["completed"].ObjToString() != "1")
                 dr["completed"] = "1";
             else
@@ -1163,6 +1248,10 @@ namespace SMFS
             if (dr == null)
                 return;
 
+            string record = dr["record"].ObjToString();
+            if (record == "-1")
+                return;
+
             dr["mod"] = "Y";
             //isModified = true;
 
@@ -1172,27 +1261,27 @@ namespace SMFS
                 return;
 
 
-            GridColumn currCol = gridMain.FocusedColumn;
-            string currentColumn = currCol.FieldName;
-            if (currentColumn.ToUpper() == "NUM")
-                return;
-            if (currentColumn.ToUpper() == "NEXTCOMPLETED")
-                return;
+            //GridColumn currCol = gridMain.FocusedColumn;
+            //string currentColumn = currCol.FieldName;
+            //if (currentColumn.ToUpper() == "NUM")
+            //    return;
+            //if (currentColumn.ToUpper() == "NEXTCOMPLETED")
+            //    return;
 
-            if (G1.get_column_number(dt, currentColumn) < 0)
-                return;
+            //if (G1.get_column_number(dt, currentColumn) < 0)
+            //    return;
                 
-            string what = dr[currentColumn].ObjToString();
-            string record = dr["record"].ObjToString();
+            //string what = dr[currentColumn].ObjToString();
+            //string record = dr["record"].ObjToString();
 
-            try
-            {
-                Update_PreNeed(record, currentColumn, what);
-            }
-            catch (Exception ex)
-            {
-            }
-            gridMain.RefreshData();
+            //try
+            //{
+            //    Update_PreNeed(record, currentColumn, what);
+            //}
+            //catch (Exception ex)
+            //{
+            //}
+            //gridMain.RefreshData();
         }
         /****************************************************************************************/
         public void FireEventModified( DataTable dt )
@@ -1204,6 +1293,8 @@ namespace SMFS
         {
             try
             {
+                if (record == "-1")
+                    return;
                 if (String.IsNullOrWhiteSpace(record))
                     return;
                 if (!String.IsNullOrWhiteSpace(record))
@@ -1224,6 +1315,9 @@ namespace SMFS
 
             GridColumn currCol = gridMain.FocusedColumn;
             DataRow dr = gridMain.GetFocusedDataRow();
+            string rec = dr["record"].ObjToString();
+            if (rec == "-1")
+                return;
             string name = currCol.FieldName;
             if ( name == "nextCompleted" && rowHandle > 0 )
             {
@@ -1468,6 +1562,8 @@ namespace SMFS
         {
             DataTable dt = (DataTable)dgv.DataSource;
             string record = dt.Rows[0]["record"].ObjToString();
+            if (record == "-1")
+                return;
             string notes = dt.Rows[0]["notes"].ObjToString();
             G1.update_db_table("contacts_preneed", "record", record, new string[] { "notes", notes });
 
@@ -1500,6 +1596,8 @@ namespace SMFS
             row = gridMain.GetDataSourceRowIndex(row);
 
             string record = dr["record"].ObjToString();
+            if (record == "-1")
+                return;
             if ( !String.IsNullOrWhiteSpace ( record ))
             {
                 string agent = dr["agent"].ObjToString();
@@ -1567,6 +1665,12 @@ namespace SMFS
             try
             {
                 string record = dr["record"].ObjToString();
+                if (record == "-1")
+                {
+                    this.Validate();
+                    dr["completed"] = "0";
+                    return;
+                }
                 string oldWhat = dr["contactStatus"].ObjToString();
 
                 DevExpress.XtraEditors.CheckEdit box = (DevExpress.XtraEditors.CheckEdit)sender;
@@ -1605,6 +1709,8 @@ namespace SMFS
             int row = gridMain.GetDataSourceRowIndex(rowhandle);
             string record = dr["record"].ObjToString();
             string oldWhat = dr["contactStatus"].ObjToString();
+            if (record == "-1")
+                return;
 
             ComboBoxEdit box = (ComboBoxEdit)sender;
             string what = box.Text.Trim();
@@ -1631,6 +1737,52 @@ namespace SMFS
             gridMain.PostEditor();
             if (editForm != null)
                 editForm.FireEventModified();
+        }
+        /****************************************************************************************/
+        private void gridMain_RowCellStyle(object sender, RowCellStyleEventArgs e)
+        {
+            GridView View = sender as GridView;
+            if (e.RowHandle >= 0)
+            {
+                string column = e.Column.FieldName.ToUpper();
+                DataTable dt = (DataTable)dgv.DataSource;
+                int row = gridMain.GetDataSourceRowIndex(e.RowHandle);
+                string record = dt.Rows[row]["record"].ObjToString();
+                if (e.RowHandle == gridMain.FocusedRowHandle)
+                {
+                    if (record == "-1")
+                    {
+                        e.Appearance.BackColor = Color.Pink;
+                        ColorizeCell(e.Appearance, Color.Pink);
+                    }
+                    this.gridMain.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+                    return;
+                }
+
+                if ( record == "-1")
+                {
+                    e.Appearance.BackColor = Color.Pink;
+                    ColorizeCell(e.Appearance, Color.Pink);
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void ColorizeCell(object appearanceObject, Color color)
+        {
+            AppearanceObject app = appearanceObject as AppearanceObject;
+            if (app != null)
+            {
+                app.ForeColor = Color.Black;
+            }
+            else
+            {
+                XlFormattingObject obj = appearanceObject as XlFormattingObject;
+                if (obj != null)
+                {
+                    //obj.BackColor = Color.Red;
+                    obj.BackColor = color;
+                }
+            }
         }
         /****************************************************************************************/
     }

@@ -150,10 +150,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1660, 699);
+            this.panelAll.Size = new System.Drawing.Size(1660, 701);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -163,7 +163,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 426);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1660, 273);
+            this.panelBottom.Size = new System.Drawing.Size(1660, 275);
             this.panelBottom.TabIndex = 3;
             // 
             // dgv
@@ -188,7 +188,7 @@
             this.repositoryItemComboBox4,
             this.repositoryItemComboBox5,
             this.repositoryItemCheckEdit2});
-            this.dgv.Size = new System.Drawing.Size(1660, 273);
+            this.dgv.Size = new System.Drawing.Size(1660, 275);
             this.dgv.TabIndex = 7;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -404,6 +404,7 @@
             this.gridMain.OptionsView.ShowGroupPanel = false;
             this.gridMain.PaintStyleName = "Flat";
             this.gridMain.DragObjectOver += new DevExpress.XtraGrid.Views.Base.DragObjectOverEventHandler(this.gridMain_DragObjectOver);
+            this.gridMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridMain_RowCellStyle);
             this.gridMain.ShownEditor += new System.EventHandler(this.gridMain_ShownEditor);
             this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
             this.gridMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain_CustomColumnDisplayText_1);
@@ -1366,7 +1367,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1660, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1660, 28);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1375,7 +1376,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1404,7 +1405,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
             // 
             // PreneedContactHistory
             // 
