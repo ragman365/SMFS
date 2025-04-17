@@ -202,6 +202,9 @@
             this.btnGetTim = new System.Windows.Forms.Button();
             this.tabDifference = new System.Windows.Forms.TabPage();
             this.dgv4 = new DevExpress.XtraGrid.GridControl();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.recalculateBalanceToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.showAgentDetailsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain4 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn105 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -300,6 +303,7 @@
             this.panelTimTop.SuspendLayout();
             this.tabDifference.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv4)).BeginInit();
+            this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit8)).BeginInit();
@@ -322,10 +326,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1754, 477);
+            this.panelAll.Size = new System.Drawing.Size(1754, 475);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -335,7 +339,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 105);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1754, 372);
+            this.panelBottom.Size = new System.Drawing.Size(1754, 370);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -348,7 +352,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1754, 372);
+            this.tabControl1.Size = new System.Drawing.Size(1754, 370);
             this.tabControl1.TabIndex = 14;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -358,7 +362,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 25);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(1746, 343);
+            this.tabMain.Size = new System.Drawing.Size(1746, 341);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Bonus Info";
             this.tabMain.UseVisualStyleBackColor = true;
@@ -374,7 +378,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1740, 337);
+            this.dgv.Size = new System.Drawing.Size(1740, 335);
             this.dgv.TabIndex = 13;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -2922,6 +2926,7 @@
             // 
             // dgv4
             // 
+            this.dgv4.ContextMenuStrip = this.contextMenuStrip2;
             this.dgv4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv4.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv4.Location = new System.Drawing.Point(0, 0);
@@ -2939,6 +2944,29 @@
             this.dgv4.TabIndex = 9;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.recalculateBalanceToolStripMenuItem1,
+            this.showAgentDetailsToolStripMenuItem1});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(211, 52);
+            // 
+            // recalculateBalanceToolStripMenuItem1
+            // 
+            this.recalculateBalanceToolStripMenuItem1.Name = "recalculateBalanceToolStripMenuItem1";
+            this.recalculateBalanceToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
+            this.recalculateBalanceToolStripMenuItem1.Text = "Recalculate Balance";
+            this.recalculateBalanceToolStripMenuItem1.Click += new System.EventHandler(this.recalculateBalanceToolStripMenuItem1_Click);
+            // 
+            // showAgentDetailsToolStripMenuItem1
+            // 
+            this.showAgentDetailsToolStripMenuItem1.Name = "showAgentDetailsToolStripMenuItem1";
+            this.showAgentDetailsToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
+            this.showAgentDetailsToolStripMenuItem1.Text = "Show Agent Details";
+            this.showAgentDetailsToolStripMenuItem1.Click += new System.EventHandler(this.showAgentDetailsToolStripMenuItem1_Click);
             // 
             // gridMain4
             // 
@@ -3816,7 +3844,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1754, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1754, 30);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -3829,7 +3857,7 @@
             this.toolStripRemoveFormat,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -3885,7 +3913,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // FunManager
             // 
@@ -3926,6 +3954,7 @@
             this.panelTimTop.ResumeLayout(false);
             this.tabDifference.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv4)).EndInit();
+            this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridMain4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit8)).EndInit();
@@ -4196,5 +4225,8 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn118;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn119;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn121;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem recalculateBalanceToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem showAgentDetailsToolStripMenuItem1;
     }
 }

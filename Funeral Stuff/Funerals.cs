@@ -2305,6 +2305,11 @@ namespace SMFS
 
                     type = funDt.Rows[i]["type"].ObjToString().ToUpper();
                     service = funDt.Rows[i]["service"].ObjToString().ToUpper();
+                    if (service.IndexOf("D- ") == 0)
+                        service = service.Replace ("D- ", "");
+                    else if ( service.IndexOf ( "D-") == 0 )
+                        service = service.Replace("D-", "");
+
                     dRows = exceptionDt.Select("service='" + service + "'");
                     if ( dRows.Length > 0 && type.ToUpper() != "CASH ADVANCE" )
                     {
@@ -2363,6 +2368,45 @@ namespace SMFS
                                     asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
                             }
                         }
+                        else if (service.ToUpper().IndexOf("MEDALLION") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("LIFE PRINT") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("LIFE STOR") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
                         else if (service.ToUpper().IndexOf("BOOKMARK") >= 0)
                         {
                             if (type.ToUpper() != "CASH ADVANCE")
@@ -2390,7 +2434,7 @@ namespace SMFS
                         {
                             if (service.ToUpper().IndexOf("D-") == 0)
                             {
-                                if (service.ToUpper().IndexOf("INFANT CASKET") < 0)
+                                if (service.ToUpper().IndexOf("INFANT") < 0)
                                     asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
                             }
                         }
@@ -2469,7 +2513,7 @@ namespace SMFS
                             casketDesc = service;
                             casketCode = "Rental";
                         }
-                        else if (service.ToUpper().IndexOf("INFANT CASKET") >= 0)
+                        else if (service.ToUpper().IndexOf("INFANT") >= 0)
                         {
                             casketDesc = service;
                             casketCost = price;
@@ -2478,7 +2522,7 @@ namespace SMFS
                     }
                     else if (type == "MERCHANDISE")
                     {
-                        if (service.ToUpper().IndexOf("INFANT CASKET") >= 0)
+                        if (service.ToUpper().IndexOf("INFANT") >= 0)
                         {
                             casketDesc = service;
                             casketCost = price;
@@ -2559,7 +2603,10 @@ namespace SMFS
                                     //{
                                         casketCost = mDt.Rows[0]["casketcost"].ObjToDouble();
                                         casketDesc = mDt.Rows[0]["casketdesc"].ObjToString();
-                                        casketGauge = getCasketGauge(serialNumber, casketDesc, ref casketType);
+                                        casketGauge = getCasketGauge(serialNumber, casketCode, casketDesc, ref casketType);
+                                    if (casketCode.ToUpper() == "INFANT" && vaultCost > 0D)
+                                        vaultCost = 0D;
+
                                     //}
                                 }
                             }
@@ -3240,466 +3287,9 @@ namespace SMFS
             FunServices.CalcTotalServices(dt, ref contractTotal, ref totalCost, ref preDiscount, true);
         }
         /***********************************************************************************************/
-        public static void CalculateCustomerDetailsXyzzy(string contractNumber, string custExtendedRecord, DataRow dR)
+        public static string getCasketGauge ( string serialNumber, string casketCode, string casketDesc, ref string caskettype )
         {
-            PleaseWait pleaseForm = null;
-            pleaseForm = new PleaseWait("Please Wait!\nUpdating Funeral Informtion");
-            pleaseForm.Show();
-
-            //this.Cursor = Cursors.WaitCursor;
-
-            string cmd = "Select * from `cust_payments` c LEFT JOIN `cust_payment_details` x ON c.`record` = x.`paymentRecord` where c.`contractNumber` = '" + contractNumber + "' order by c.`record` ;";
-            //cmd = "Select * from `cust_payments` c where c.`contractNumber` = '" + contractNumber + "';";
-            DataTable dt = G1.get_db_data(cmd);
-
-            double oldDiscount = dR["totalDiscount"].ObjToDouble();
-
-            string amountFiled = "";
-            string amountReceived = "";
-            string amountDiscount = "";
-            string amountGrowth = "";
-            string grossAmountReceived = "";
-            double totalFiled = 0D;
-            double totalReceived = 0D;
-            double totalDiscount = 0D;
-            double totalAmountGrowth = 0D;
-            double totalAmountDiscount = 0D;
-            double totalGross = 0D;
-            double payment = 0D;
-            double totalPayments = 0D;
-
-            double trustAmountFiled = 0D;
-            double insAmountFiled = 0D;
-            double trustAmountReceived = 0D;
-            double insAmountReceived = 0D;
-            double amtActuallyReceived = 0D;
-
-            DateTime date = DateTime.Now;
-
-            string str = "";
-            string type = "";
-            string cash = "";
-            string status = "";
-            string deposit = "";
-            string creditCard = "";
-            string check = "";
-            string ccDepNumber = "";
-            string chkDepNumber = "";
-            double dValue = 0D;
-            double balanceDue = 0D;
-            double discount = 0D;
-            double classa = 0D;
-            string approvedBy = "";
-            DateTime dateEntered = DateTime.Now;
-            DateTime dateModified = DateTime.Now;
-            string lastRecord = "";
-            string record = "";
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                try
-                {
-                    record = dt.Rows[i]["record"].ObjToString();
-                    if (lastRecord != record)
-                    {
-                        status = dt.Rows[i]["status"].ObjToString().ToUpper();
-                        if (status.ToUpper() == "CANCELLED")
-                            continue;
-                        amountFiled = dt.Rows[i]["amountFiled"].ObjToString();
-                        amountReceived = dt.Rows[i]["amountReceived"].ObjToString();
-                        amountDiscount = dt.Rows[i]["amountDiscount"].ObjToString();
-                        amountGrowth = dt.Rows[i]["amountGrowth"].ObjToString();
-                        grossAmountReceived = dt.Rows[i]["grossAmountReceived"].ObjToString();
-                        payment = dt.Rows[i]["payment"].ObjToDouble();
-                        totalFiled += amountFiled.ObjToDouble();
-                        //totalReceived += amountReceived.ObjToDouble();
-                        totalAmountDiscount += amountDiscount.ObjToDouble();
-                        totalAmountGrowth += amountGrowth.ObjToDouble();
-                        totalGross += grossAmountReceived.ObjToDouble();
-
-                        type = dt.Rows[i]["type"].ObjToString().ToUpper();
-                        if (type.ToUpper() == "CHECK")
-                        {
-                        }
-                        if (type.ToUpper() == "DISCOUNT" || status.ToUpper() == "DEPOSITED")
-                        {
-                            totalPayments += payment;
-                            if (status.ToUpper() == "DEPOSITED")
-                                totalReceived += payment;
-                        }
-                        if (type.ToUpper() == "CHECK" && (status.ToUpper() == "ACCEPT" || status.ToUpper() == "DEPOSITED"))
-                        {
-                            totalPayments += payment;
-                            totalReceived += payment;
-
-                            str = G1.ReformatMoney(payment);
-                            check += "CK - " + str + " ";
-                        }
-                        if (type == "CASH")
-                        {
-                            totalPayments += payment;
-                            totalReceived += payment;
-
-                            dValue = dt.Rows[i]["payment"].ObjToDouble();
-                            str = G1.ReformatMoney(dValue);
-                            cash += "CA - " + str + " ";
-                        }
-                        else if (type == "CREDIT CARD")
-                        {
-                            totalPayments += payment;
-                            totalReceived += payment;
-
-                            dValue = dt.Rows[i]["payment"].ObjToDouble();
-                            str = G1.ReformatMoney(dValue);
-                            creditCard += "CC - " + str + " ";
-                        }
-                        else if (type == "CLASS A")
-                        {
-                            classa += dt.Rows[i]["payment"].ObjToDouble();
-                        }
-                        str = dt.Rows[i]["depositNumber"].ObjToString();
-                        if (!String.IsNullOrWhiteSpace(str))
-                        {
-                            if (type == "CASH")
-                                deposit += str + " ";
-                            else if (type == "CREDIT CARD")
-                                ccDepNumber += str + " ";
-                            else if (type == "CHECK")
-                                chkDepNumber += str + " ";
-                        }
-                        if (type == "DISCOUNT")
-                        {
-                            discount += dt.Rows[i]["payment"].ObjToDouble();
-                            str = dt.Rows[i]["approvedBy"].ObjToString();
-                            if (!String.IsNullOrWhiteSpace(str))
-                                approvedBy += str + " ";
-                        }
-                        if (type == "TRUST")
-                        {
-                            if (status == "PENDING")
-                            {
-                                if (amountFiled.ObjToDouble() > 0D)
-                                    trustAmountFiled += amountFiled.ObjToDouble();
-                                else
-                                    trustAmountFiled += payment;
-                            }
-                            else if (status == "DEPOSITED")
-                                trustAmountReceived += amountReceived.ObjToDouble();
-                        }
-                        else if (type == "INSURANCE")
-                        {
-                            if (status == "PENDING")
-                            {
-                                if (amountFiled.ObjToDouble() > 0D)
-                                    insAmountFiled += amountFiled.ObjToDouble();
-                                else
-                                    insAmountFiled += payment;
-                            }
-                            else if (status == "DEPOSITED")
-                                insAmountReceived += amountReceived.ObjToDouble();
-                        }
-                    }
-                    lastRecord = record;
-                    //date = dt.Rows[i]["dateFiled"].ObjToDateTime();
-                    //if (date.Year > 100)
-                    //    dateFiled += date.ToString("MM/dd/yyyy") + " ";
-                }
-                catch (Exception ex)
-                {
-                }
-            }
-
-            string serviceId = dR["ServiceId"].ObjToString();
-            EditCust.DetermineActiveGroups(contractNumber, serviceId);
-
-            string myActiveFuneralHomeGroup = EditCust.activeFuneralHomeGroup;
-            string myActiveFuneralHomeCasketGroup = EditCust.activeFuneralHomeCasketGroup;
-
-            EditCustomer.activeFuneralHomeGroup = myActiveFuneralHomeGroup;
-            EditCustomer.activeFuneralHomeCasketGroup = myActiveFuneralHomeCasketGroup;
-
-
-            FunServices funForm = new FunServices(contractNumber);
-            DataTable funDt = funForm.funServicesDT;
-
-            double price = 0D;
-            double totalServices = 0D;
-            double totalMerchandise = 0D;
-            double totalCashAdvance = 0D;
-            double totalCost = 0D;
-            double difference = 0D;
-            double totalDifference = 0D;
-            double currentPrice = 0D;
-            double totalCurrentPrice = 0D;
-            double contractTotal = 0D;
-            double preDiscount = 0D;
-
-            FunServices.CalcTotalServices(funDt, ref contractTotal, ref totalCost, ref preDiscount);
-
-            string service = "";
-            string oldService = "";
-
-            double currentServices = 0D;
-            double currentMerchandise = 0D;
-
-            double merchandiseDiscount = 0D;
-            double servicesDiscount = 0D;
-
-            double totalPackagePrice = 0D;
-            double packagePrice = 0D;
-            double packageDiscount = 0D;
-            bool gotPackage = false;
-
-            bool gotDesc = false;
-
-            string[] Lines = null;
-            DataTable mDt = null;
-            string casket = "";
-            string vault = "";
-            string casketCode = "";
-            string serialNumber = "";
-            string casketDesc = "";
-            double casketAmount = 0D;
-            double casketCost = 0D;
-            double vaultAmount = 0D;
-            double vaultCost = 0D;
-            string casketType = "";
-            string casketGauge = "";
-            double urn = 0D;
-            double headCapPanel = 0D;
-            double misc = 0D;
-            double upgrade = 0D;
-
-            if (funDt != null)
-            {
-                for (int i = 0; i < funDt.Rows.Count; i++)
-                {
-                    if (funDt.Rows[i]["ignore"].ObjToString().ToUpper() == "Y")
-                        continue;
-                    price = funDt.Rows[i]["price"].ObjToDouble();
-                    if (price == 0D)
-                        continue;
-                    currentPrice = funDt.Rows[i]["currentPrice"].ObjToDouble();
-                    difference = currentPrice - price;
-
-                    service = funDt.Rows[i]["service"].ObjToString().ToUpper();
-                    if (service == "TOTAL LISTED PRICE")
-                    {
-                        totalPackagePrice = funDt.Rows[i]["price"].ObjToDouble();
-                        continue;
-                    }
-                    else if (service == "PACKAGE PRICE")
-                    {
-                        gotPackage = true;
-                        packagePrice = funDt.Rows[i]["price"].ObjToDouble();
-                        continue;
-                    }
-                    else if (service == "PACKAGE DISCOUNT")
-                    {
-                        packageDiscount = funDt.Rows[i]["price"].ObjToDouble();
-                        packageDiscount = Math.Abs(packageDiscount);
-                        continue;
-                    }
-
-                    type = funDt.Rows[i]["type"].ObjToString().ToUpper();
-                    if (price < 0D)
-                    {
-                        price = Math.Abs(price);
-                        if (type.ToUpper() == "SERVICE")
-                            servicesDiscount += funDt.Rows[i]["difference"].ObjToDouble();
-                        else if (type.ToUpper() == "MERCHANDISE")
-                            merchandiseDiscount += funDt.Rows[i]["difference"].ObjToDouble();
-                        continue;
-                    }
-                    if (type == "SERVICE")
-                    {
-                        totalServices += price;
-                        servicesDiscount += difference;
-                        currentServices += currentPrice;
-                    }
-                    else if (type == "MERCHANDISE")
-                    {
-                        totalMerchandise += price;
-                        merchandiseDiscount += difference;
-                        currentMerchandise += currentPrice;
-                        oldService = service;
-                        if (service.IndexOf("ACKNOW") < 0 && service.IndexOf("GRAVE MARKER") < 0 && service.ToUpper().IndexOf("REGISTER BOOK") < 0)
-                        {
-                            if (service.IndexOf("V") == 0)
-                            {
-                                Lines = service.Split(' ');
-                                service = service.Replace(Lines[0].Trim(), "").Trim();
-                                if (String.IsNullOrWhiteSpace(service))
-                                    service = oldService;
-                            }
-
-                            cmd = "SELECT * FROM `casket_master` WHERE `casketDesc` = '" + service + "';";
-                            mDt = G1.get_db_data(cmd);
-                            if (mDt.Rows.Count <= 0)
-                            {
-                                Lines = service.Split(' ');
-                                str = Lines[0].Trim();
-                                cmd = "SELECT * FROM `casket_master` WHERE `casketcode` = '" + str + "';";
-                                mDt = G1.get_db_data(cmd);
-                                if (mDt.Rows.Count <= 0)
-                                {
-                                    service = service.Replace(Lines[0].Trim(), "").Trim();
-                                    cmd = "SELECT * FROM `casket_master` WHERE `casketDesc` = '" + service + "';";
-                                    mDt = G1.get_db_data(cmd);
-                                }
-                            }
-                            if (mDt.Rows.Count > 0)
-                            {
-                                casketCode = mDt.Rows[0]["casketcode"].ObjToString();
-                                if (casketCode.ToUpper().IndexOf("V") == 0)
-                                {
-                                    vault = casketCode;
-                                    vaultAmount = funDt.Rows[i]["currentprice"].ObjToDouble();
-                                    if (vaultAmount <= 0D)
-                                        vaultAmount = funDt.Rows[i]["price"].ObjToDouble();
-                                    vaultCost = mDt.Rows[0]["casketcost"].ObjToDouble();
-                                }
-                                else if (casketCode.ToUpper().IndexOf("URN") == 0)
-                                {
-                                    dValue = funDt.Rows[i]["price"].ObjToDouble();
-                                    urn += dValue;
-                                }
-                                else if (casketCode.ToUpper().IndexOf("UV") == 0)
-                                {
-                                    dValue = funDt.Rows[i]["price"].ObjToDouble();
-                                    urn += dValue;
-                                }
-                                else
-                                {
-                                    casket = casketCode;
-                                    casketAmount = funDt.Rows[i]["currentprice"].ObjToDouble();
-                                    if (casketAmount <= 0D)
-                                        casketAmount = funDt.Rows[i]["price"].ObjToDouble();
-                                    serialNumber = funDt.Rows[i]["SerialNumber"].ObjToString();
-                                    casketCost = mDt.Rows[0]["casketcost"].ObjToDouble();
-                                    casketDesc = mDt.Rows[0]["casketdesc"].ObjToString();
-                                    casketGauge = getCasketGauge(serialNumber, casketDesc, ref casketType);
-                                }
-                            }
-                            else
-                            {
-                                str = funDt.Rows[i]["serialNumber"].ObjToString();
-                                if (!String.IsNullOrWhiteSpace(str))
-                                {
-                                    serialNumber = str;
-                                    casketAmount = funDt.Rows[i]["currentprice"].ObjToDouble();
-                                    if (casketAmount <= 0D)
-                                        casketAmount = funDt.Rows[i]["price"].ObjToDouble();
-                                    casketDesc = funDt.Rows[i]["service"].ObjToString();
-                                    Lines = casketDesc.Split(' ');
-                                    if (Lines.Length > 0)
-                                    {
-                                        str = Lines[0].Trim();
-                                        cmd = "SELECT * FROM `inventorylist` WHERE `casketdesc` LIKE '" + str + "%';";
-                                        mDt = G1.get_db_data(cmd);
-                                        if (mDt.Rows.Count > 0)
-                                        {
-                                            casketCost = mDt.Rows[0]["casketcost"].ObjToDouble();
-                                            casketType = mDt.Rows[0]["caskettype"].ObjToString();
-                                            casketGauge = mDt.Rows[0]["casketguage"].ObjToString();
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                    else if (type == "CASH ADVANCE")
-                        totalCashAdvance += price;
-                    totalCurrentPrice += currentPrice;
-                    totalDifference += (currentPrice - price);
-                }
-            }
-
-            if (String.IsNullOrWhiteSpace(casketDesc) && funDt.Rows.Count > 0)
-            {
-                DataView tempview = funDt.DefaultView; // Check for Discrestionary
-                tempview.Sort = "price desc";
-                funDt = tempview.ToTable();
-
-                for (int i = 0; i < funDt.Rows.Count; i++)
-                {
-                    type = funDt.Rows[i]["type"].ObjToString().ToUpper();
-                    if (type == "MERCHANDISE")
-                    {
-                        service = funDt.Rows[i]["service"].ObjToString().ToUpper();
-                        if (service.IndexOf("D-") == 0)
-                        {
-                            casketAmount = funDt.Rows[i]["price"].ObjToDouble();
-                            serialNumber = funDt.Rows[i]["SerialNumber"].ObjToString();
-                            casketDesc = service;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            totalCost = totalCurrentPrice - totalDifference;
-            if (gotPackage)
-                totalCost = packagePrice;
-            balanceDue = totalCost - totalPayments;
-            totalDiscount = servicesDiscount + merchandiseDiscount;
-            if (gotPackage)
-                totalDiscount = packageDiscount;
-            if (oldDiscount != totalDiscount)
-            {
-            }
-
-            string isPackage = "";
-            if (gotPackage)
-                isPackage = "Y";
-
-            if (!String.IsNullOrWhiteSpace(custExtendedRecord))
-            {
-                G1.update_db_table("fcust_extended", "record", custExtendedRecord, new string[] { "amountFiled", totalFiled.ToString(), "amountReceived", totalReceived.ToString(), "cash", cash, "check", check, "depositNumber", deposit, "balanceDue", balanceDue.ToString(), "additionalDiscount", discount.ToString(), "approvedBy", approvedBy, "creditCard", creditCard, "ccDepNumber", ccDepNumber, "checkDepNumber", chkDepNumber, "grossAmountReceived", totalGross.ObjToString(), "classa", classa.ToString(), "amountDiscount", totalAmountDiscount.ObjToString(), "amountGrowth", totalAmountGrowth.ObjToString(), "gotPackage", isPackage, "casket", casket, "vault", vault, "casketAmount", casketAmount.ToString(), "vaultAmount", vaultAmount.ToString(), "casketCost", casketCost.ToString(), "vaultCost", vaultCost.ToString() });
-                G1.update_db_table("fcust_extended", "record", custExtendedRecord, new string[] { "custPrice", totalCost.ToString(), "custMerchandise", totalMerchandise.ToString(), "custServices", totalServices.ToString(), "merchandiseDiscount", merchandiseDiscount.ToString(), "servicesDiscount", servicesDiscount.ToString(), "totalDiscount", totalDiscount.ToString(), "currentPrice", totalCurrentPrice.ToString(), "currentMerchandise", currentMerchandise.ToString(), "currentServices", currentServices.ToString(), "serialNumber", serialNumber, "casketdesc", casketDesc });
-                G1.update_db_table("fcust_extended", "record", custExtendedRecord, new string[] { "trustAmountFiled", trustAmountFiled.ObjToString(), "trustAmountReceived", trustAmountReceived.ObjToString(), "insAmountFiled", insAmountFiled.ObjToString(), "insAmountReceived", insAmountReceived.ObjToString(), "casketgauge", casketGauge, "caskettype", casketType, "urn", urn.ToString() });
-            }
-            try
-            {
-                dR["balanceDue"] = balanceDue;
-                dR["custPrice"] = totalCost;
-                dR["custMerchandise"] = totalMerchandise;
-                dR["custServices"] = totalServices;
-                dR["merchandiseDiscount"] = merchandiseDiscount;
-                dR["servicesDiscount"] = servicesDiscount;
-                dR["additionalDiscount"] = discount;
-                dR["totalDiscount"] = totalDiscount;
-
-                dR["amountFiled"] = totalFiled;
-                dR["amountReceived"] = totalReceived;
-
-                dR["currentPrice"] = totalCurrentPrice;
-                dR["currentMerchandise"] = currentMerchandise;
-                dR["currentServices"] = currentServices;
-
-                dR["grossAmountReceived"] = totalGross;
-
-                dR["amountDiscount"] = totalAmountDiscount;
-                dR["amountGrowth"] = totalAmountGrowth;
-                dR["serialNumber"] = serialNumber;
-                dR["casketdesc"] = casketDesc;
-
-                dR["check"] = check;
-                dR["checkDepNumber"] = chkDepNumber;
-                dR["cashAdvance"] = totalCashAdvance;
-            }
-            catch (Exception ex)
-            {
-            }
-
-            //this.Cursor = Cursors.Default;
-            pleaseForm.FireEvent1();
-            pleaseForm.Dispose();
-            pleaseForm = null;
-        }
-        /***********************************************************************************************/
-        public static string getCasketGauge ( string serialNumber, string casketDesc, ref string caskettype )
-        {
+            bool gotit = false;
             string casketGauge = "";
             caskettype = "";
             string cmd = "SELECT* FROM inventorylist WHERE casketdesc = '" + casketDesc + "';";
@@ -3711,7 +3301,18 @@ namespace SMFS
             }
             else
             {
-                if (!String.IsNullOrWhiteSpace(serialNumber))
+                if ( !string.IsNullOrWhiteSpace ( casketCode ))
+                {
+                    cmd = "SELECT* FROM inventorylist WHERE casketcode = '" + casketCode + "';";
+                    dt = G1.get_db_data(cmd);
+                    if (dt.Rows.Count > 0)
+                    {
+                        casketGauge = dt.Rows[0]["casketguage"].ObjToString();
+                        caskettype = dt.Rows[0]["caskettype"].ObjToString();
+                        gotit = true;
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(serialNumber) && !gotit )
                 {
                     cmd = "SELECT* FROM inventory WHERE `SerialNumber` = '" + serialNumber + "';";
                     dt = G1.get_db_data(cmd);

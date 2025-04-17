@@ -131,7 +131,7 @@ namespace SMFS
             DataTable dt = G1.get_db_data(cmd);
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contactType = dt.Rows[i]["contactTypes"].ObjToString();
+                contactType = dt.Rows[i]["contactType"].ObjToString();
                 if (!String.IsNullOrWhiteSpace(contactType))
                 {
                     repositoryItemComboBox1.Items.Add(contactType);
@@ -407,6 +407,8 @@ namespace SMFS
         /****************************************************************************************/
         private void gridMain_CustomRowFilter(object sender, DevExpress.XtraGrid.Views.Base.RowFilterEventArgs e)
         {
+            if (loading)
+                return;
             int row = e.ListSourceRow;
             DataTable dt = (DataTable)dgv.DataSource;
             string delete = dt.Rows[row]["mod"].ObjToString();
@@ -468,6 +470,11 @@ namespace SMFS
         private void gridMain_DoubleClick(object sender, EventArgs e)
         {
             DataRow dr = gridMain.GetFocusedDataRow();
+            DataTable dt = (DataTable)dgv.DataSource;
+            int rowHandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetFocusedDataSourceRowIndex();
+            string record = dr["record"].ObjToString();
+
             try
             {
                 string contactType = dr["contactType"].ObjToString();
@@ -476,18 +483,18 @@ namespace SMFS
                 if (String.IsNullOrWhiteSpace(contactName))
                 {
                     string cmd = "Select * from `contactTypes` WHERE `contactType` = '" + contactType + "';";
-                    DataTable dt = G1.get_db_data(cmd);
-                    if (dt.Rows.Count <= 0)
+                    DataTable dx = G1.get_db_data(cmd);
+                    if (dx.Rows.Count <= 0)
                         return;
 
-                    string workDetail = dt.Rows[0]["detail"].ObjToString();
+                    string workDetail = dx.Rows[0]["detail"].ObjToString();
                     if (workDetail.ToUpper() == "PERSON")
                         contactName = Contacts.GetPerson(dr);
                 }
                 if (!String.IsNullOrWhiteSpace(contactName))
                 {
                     this.Cursor = Cursors.WaitCursor;
-                    ContactHistory historyForm = new ContactHistory(contactType, contactName);
+                    ContactHistory historyForm = new ContactHistory(gridMain, dt, row, record, contactType, contactName, null );
                     historyForm.Show();
                     this.Cursor = Cursors.Default;
                 }
@@ -782,10 +789,14 @@ namespace SMFS
             if (dx.Rows.Count <= 0)
                 return;
 
+            G1.NumberDataTable(dx);
+
             int row = 0;
             string str = "";
 
             string contactType = cmbContractType.Text.Trim();
+
+            loading = true;
 
             DataTable dt = (DataTable)dgv.DataSource;
             dt.Rows.Clear();
@@ -811,6 +822,8 @@ namespace SMFS
 
             btnSave.Show();
             btnSave.Refresh();
+
+            loading = false;
         }
         /****************************************************************************************/
         private void pictureBox4_Click(object sender, EventArgs e)

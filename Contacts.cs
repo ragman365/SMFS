@@ -22,6 +22,10 @@ using DevExpress.XtraGrid.Columns;
 using System.Configuration;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraEditors.ViewInfo;
+using DevExpress.Export;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using DevExpress.XtraGrid.Views.BandedGrid;
 /****************************************************************************************/
 namespace SMFS
 {
@@ -29,12 +33,65 @@ namespace SMFS
     public partial class Contacts : DevExpress.XtraEditors.XtraForm
     {
         private bool loading = true;
+        private bool foundLocalPreference = false;
+        private bool superuser = false;
+        private bool showAgent = true;
         private bool modified = false;
         private string primaryName = "";
+        private bool funeralsDone = false;
+        private bool initialLoad = true;
+        private DataTable workDt = null;
+        private bool workAuto = false;
+        private string workAgent = "";
+        private string workEmail = "";
+        private string workReport = "";
+        private string sendWhere = "";
+        private string sendUsername = "";
+        private string workFormat = "";
+        private DataTable customDt = null;
+
+        DataTable allType = null;
+        PleaseWait waitForm = null;
+        private bool isCustom = false;
+        private string customReport = "";
+
         /****************************************************************************************/
         public Contacts()
         {
             InitializeComponent();
+        }
+        /****************************************************************************************/
+        public Contacts(DataTable dt, string Report = "" )
+        {
+            InitializeComponent();
+            workDt = dt;
+            workReport = Report;
+        }
+        /****************************************************************************************/
+        public Contacts(DataTable dt, DataTable dx, bool custom = false, string Report = "", string agent = "" )
+        {
+            InitializeComponent();
+            workDt = dt;
+            customDt = dx;
+            isCustom = custom;
+            workAgent = agent;
+            customReport = Report;
+        }
+        /****************************************************************************************/
+        public Contacts(DataTable dt, bool auto, string agent, string email, string report, string send, string username, string displayFormat, bool custom, DataTable dx)
+        {
+            InitializeComponent();
+            workDt = dt;
+            workAuto = auto;
+            workAgent = agent;
+            workEmail = email;
+            workReport = report;
+            sendWhere = send;
+            sendUsername = username;
+            workFormat = displayFormat;
+            isCustom = custom;
+            customDt = dx;
+            customReport = report;
         }
         /****************************************************************************************/
         private void SetupToolTips()
@@ -50,7 +107,44 @@ namespace SMFS
 
             SetupToolTips();
 
+            cmbLocation.Hide();
+            cmbContractType.Hide();
+
+            if (!String.IsNullOrWhiteSpace(workReport))
+                this.Text = "Report : " + workReport;
+            else if (!String.IsNullOrWhiteSpace(customReport))
+                this.Text = "Report : " + customReport;
+
+            if (!string.IsNullOrWhiteSpace(workAgent))
+                this.Text += " for " + workAgent;
+
             loading = true;
+
+            string preference = G1.getPreference(LoginForm.username, "Agent Preneeds", "Allow SuperUser Access");
+            if (preference.ToUpper() == "YES")
+                superuser = true;
+
+            string saveName = "AgentContacts Primary";
+            string skinName = "";
+
+            if (!String.IsNullOrWhiteSpace(workFormat))
+                SetupSelectedColumns("AgentContacts", workFormat, dgv);
+            else
+                SetupSelectedColumns("AgentContacts", "Primary", dgv);
+            foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, saveName, ref skinName);
+            if (!String.IsNullOrWhiteSpace(skinName))
+            {
+                //if (skinName != "DevExpress Style")
+                //    skinForm_SkinSelected("Skin : " + skinName);
+            }
+
+            //RemoveResults();
+
+            if (String.IsNullOrWhiteSpace(workFormat))
+                workFormat = "Primary";
+            loadGroupCombo(cmbSelectColumns, "AgentContacts", workFormat);
+            cmbSelectColumns.Text = workFormat;
+
 
             DateTime now = DateTime.Now;
 //            now = now.AddMonths(-1);
@@ -59,14 +153,233 @@ namespace SMFS
             int days = DateTime.DaysInMonth(now.Year, now.Month);
             this.dateTimePicker2.Value = new DateTime(now.Year, now.Month, days);
 
+            if (!G1.isAdmin() && !superuser && !G1.RobbyServer)
+            {
+                //assignNewAgentToolStripMenuItem.Dispose();
+                showAgent = false;
+            }
+
             LoadContactTypes();
             LoadEmployees();
             LoadLocations();
+            LoadReports();
+
+            loading = false;
 
             LoadData();
 
+            if (isCustom && customDt != null)
+            {
+                string field = "";
+                string caption = "";
+                string operand = "";
+                ClearAllPositions(gridMain);
+                int j = 0;
+                int width = 0;
+                int newWidth = 0;
+                string firstName = "";
+                string lastName = "";
+                string middleName = "";
+                string prefix = "";
+                string suffux = "";
+                string str = "";
+                string parm = "";
+                string newField = "";
+                DateTime date = DateTime.Now;
+                string dow = "";
+                DataTable dx = (DataTable)dgv.DataSource;
+                G1.SetColumnPosition(gridMain, "num", ++j, 50);
+                for (int i = 0; i < customDt.Rows.Count; i++)
+                {
+                    try
+                    {
+                        field = customDt.Rows[i]["field"].ObjToString();
+                        if (field.ToUpper() == "{CUSTOM}")
+                            continue;
+                        operand = customDt.Rows[i]["operand"].ObjToString();
+                        if (!String.IsNullOrWhiteSpace(operand))
+                            continue;
+                        if (G1.get_column_number(gridMain, field) < 0)
+                        {
+                            if (field.ToUpper() == "NAME")
+                            {
+                                newWidth = gridMain.Columns["lastName"].Width;
+                                width = gridMain.Columns["firstName"].Width;
+                                newWidth += width;
+                                if (newWidth <= 0)
+                                    newWidth = 60;
+                                if (G1.get_column_number(gridMain, field) < 0)
+                                    G1.AddNewColumn(gridMain, field, field, "", FormatType.None, newWidth, true);
+                                gridMain.Columns[field].Width = newWidth;
+
+                                dx.Columns.Add(field);
+                                for (int k = 0; k < dx.Rows.Count; k++)
+                                {
+                                    firstName = dx.Rows[k]["firstName"].ObjToString();
+                                    lastName = dx.Rows[k]["lastName"].ObjToString();
+                                    firstName += " " + lastName;
+                                    dx.Rows[k]["name"] = firstName;
+                                }
+                                width = gridMain.Columns[field].Width;
+                                gridMain.Columns[field].OptionsColumn.FixedWidth = true;
+                                G1.SetColumnPosition(gridMain, field, ++j, width);
+                            }
+                            else if (field.IndexOf("{") > 0)
+                            {
+                                decodeSpecialParm(field, ref newField, ref parm);
+                                if (!String.IsNullOrWhiteSpace(parm))
+                                {
+                                    width = 50;
+                                    if (parm.ToUpper() == "DOW")
+                                        width = 100;
+                                    if (G1.get_column_number(gridMain, parm) < 0)
+                                        G1.AddNewColumn(gridMain, parm, parm, "", FormatType.None, width, true);
+
+                                    dx.Columns.Add(parm);
+                                    for (int k = 0; k < dx.Rows.Count; k++)
+                                    {
+                                        if (parm.ToUpper() == "DOW")
+                                        {
+                                            firstName = dx.Rows[k][newField].ObjToString();
+                                            if (G1.validate_date(firstName))
+                                            {
+                                                date = firstName.ObjToDateTime();
+                                                dow = G1.DayOfWeekText(date);
+                                                dx.Rows[k][parm] = dow;
+                                            }
+                                        }
+                                    }
+                                    gridMain.Columns[parm].OptionsColumn.FixedWidth = true;
+                                    G1.SetColumnPosition(gridMain, parm, ++j, width);
+                                }
+                            }
+                        }
+                        else
+                            G1.SetColumnPosition(gridMain, field, ++j, width);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+
+                if (customDt != null)
+                {
+                    DataView tempview = dx.DefaultView;
+                    tempview.Sort = "apptDate asc, color asc";
+                    dx = tempview.ToTable();
+                }
+                dgv.DataSource = dx;
+            }
+
+            if (!String.IsNullOrWhiteSpace(customReport) || !String.IsNullOrWhiteSpace(workReport))
+            {
+                this.panelClaimTop.Hide();
+                screenOptionsToolStripMenuItem.Dispose();
+                miscToolStripMenuItem.Dispose();
+            }
+
+            if (workAuto)
+            {
+                printPreviewToolStripMenuItem_Click(null, null);
+                this.Close();
+            }
+
             modified = false;
             loading = false;
+        }
+        /***********************************************************************************************/
+        private bool decodeSpecialParm(string field, ref string newField, ref string parm)
+        {
+            bool rv = true;
+            newField = "";
+            parm = "";
+            try
+            {
+                int idx = field.IndexOf("{");
+                if (idx > 0)
+                {
+                    newField = field.Substring(0, idx);
+                    newField = newField.Replace("{", "").Trim();
+                    parm = field.Substring(idx);
+                    parm = parm.Replace("{", "");
+                    parm = parm.Replace("}", "").Trim();
+                }
+            }
+            catch (Exception ex)
+            {
+                rv = false;
+            }
+            return rv;
+        }
+        /****************************************************************************************/
+        private void ClearAllPositions(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null)
+        {
+            if (gMain == null)
+                gMain = (AdvBandedGridView)gridMain;
+            string name = "";
+            for (int i = 0; i < gMain.Columns.Count; i++)
+            {
+                name = gMain.Columns[i].Name.ToUpper();
+                if (name != "NUM")
+                    gMain.Columns[i].Visible = false;
+                else
+                    gMain.Columns[i].Visible = true;
+                gridMain.Columns[i].OptionsColumn.FixedWidth = true;
+            }
+        }
+        /***********************************************************************************************/
+        private bool SetupSelectedColumns(string procType, string group, DevExpress.XtraGrid.GridControl dgv)
+        {
+            if (String.IsNullOrWhiteSpace(group))
+                return false;
+            if (String.IsNullOrWhiteSpace(procType))
+                procType = "PreNeed";
+            string cmd = "Select * from procfiles where name = '" + group + "' and ProcType = '" + procType + "' order by seq";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+                return false;
+            DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain = (DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView)dgv.MainView;
+            for (int i = 0; i < gridMain.Columns.Count; i++)
+                gridMain.Columns[i].Visible = false;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string name = dt.Rows[i]["Description"].ToString();
+                int index = dt.Rows[i]["seq"].ObjToInt32();
+                try
+                {
+                    if (G1.get_column_number((GridView)dgv.MainView, name) >= 0)
+                        ((GridView)dgv.MainView).Columns[name].Visible = true;
+                }
+                catch
+                {
+                }
+            }
+            return true;
+        }
+        /***********************************************************************************************/
+        private void loadGroupCombo(System.Windows.Forms.ComboBox cmb, string key, string module)
+        {
+            string primaryName = "";
+            cmb.Items.Clear();
+            string cmd = "Select * from procfiles where ProcType = '" + key + "' AND `module` = '" + module + "' group by name;";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count > 0)
+            {
+                DataRow[] dRows = dt.Select("name='Primary'");
+                if (dRows.Length <= 0)
+                    cmb.Items.Add("Primary");
+            }
+            else
+                cmb.Items.Add("Primary");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string name = dt.Rows[i]["Name"].ToString();
+                if (name.Trim().ToUpper() == "PRIMARY")
+                    primaryName = name;
+                cmb.Items.Add(name);
+            }
+            if (!String.IsNullOrWhiteSpace(primaryName))
+                cmb.Text = primaryName;
         }
         /****************************************************************************************/
         private void btnRight_Click(object sender, EventArgs e)
@@ -89,8 +402,11 @@ namespace SMFS
             this.dateTimePicker2.Value = new DateTime(now.Year, now.Month, days);
         }
         /***********************************************************************************************/
-        private void LoadData()
+        private void LoadData(int rowHandle = -1, string nextRecord = "" )
         {
+            if (loading)
+                return;
+
             this.Cursor = Cursors.WaitCursor;
 
             DateTime date = dateTimePicker1.Value;
@@ -101,6 +417,8 @@ namespace SMFS
 
             string employee = cmbEmployee.Text.Trim();
 
+            string record = "";
+            string oldRecord = "";
 
             string cmd = "Select * from `contacts` WHERE `apptDate` >= '" + date1 + "' AND `apptDate` <= '" + date2 + "' ";
             if (!String.IsNullOrWhiteSpace(employee) && employee.ToUpper() != "ALL" )
@@ -109,13 +427,422 @@ namespace SMFS
             cmd += ";";
             DataTable dt = G1.get_db_data(cmd);
 
+            if ( workDt != null )
+            {
+                if (workDt.Rows.Count > 0)
+                    dt = workDt.Copy();
+            }
             AddMod(dt, gridMain);
 
             SetupCompleted ( dt );
 
+            GetFunerals( dt );
+
+            dt = SetupGreenAndRed(dt);
+
             dgv.DataSource = dt;
 
+            if (!String.IsNullOrWhiteSpace(nextRecord))
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    record = dt.Rows[i]["oldRecord"].ObjToString();
+                    if (record == nextRecord)
+                    {
+                        rowHandle = i;
+                        break;
+                    }
+                }
+            }
+
+            if (rowHandle != -1)
+            {
+                gridMain.FocusedRowHandle = rowHandle;
+            }
             this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private int DetermineDays ( DateTime serviceDate, string interval, int frequency )
+        {
+            int days = 2;
+            int day = 1;
+            int year = 0;
+            int month = 0;
+
+            if (interval == "Days")
+                days = frequency;
+            else if (interval == "Weeks")
+                days = frequency * 7;
+            else if (interval == "Months")
+            {
+                day = serviceDate.Day;
+                year = serviceDate.Year;
+                month = serviceDate.Month;
+                month = month + frequency;
+                if (month > 12)
+                {
+                    int years = month / 12;
+                    year = year + years;
+                    month = month % 12;
+                    if (month <= 0)
+                        month = 1;
+                }
+                DateTime nextDate = new DateTime(year, month, day);
+                TimeSpan ts = nextDate - serviceDate;
+                days = ts.Days;
+            }
+            return days;
+        }
+        /***********************************************************************************************/
+        private DataTable GetFunerals ( DataTable dt )
+        {
+            if (funeralsDone)
+                return dt;
+
+            PleaseWait pleaseForm = G1.StartWait("Please Wait, Loading Past Funerals!");
+
+            string cmd = "Delete from `contacts` where `contactName` = '-1';";
+            G1.get_db_data(cmd);
+
+            cmd = "select * from `contacttypes` WHERE `scheduledTask` <> '' AND `from` = 'Funeral' ORDER by `frequency`;";
+            DataTable contactDt = G1.get_db_data(cmd);
+
+            int frequency = 2;
+            string interval = "Days";
+            string scheduledTask = "2 Day Follow-Up";
+
+            if ( contactDt.Rows.Count > 0 )
+            {
+                frequency = contactDt.Rows[0]["frequency"].ObjToInt32();
+                interval = contactDt.Rows[0]["interval"].ObjToString();
+                scheduledTask = contactDt.Rows[0]["scheduledTask"].ObjToString();
+            }
+
+
+            string date1 = DateTime.Now.ToString("yyyy-MM-dd");
+            string date2 = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+
+            cmd = "SELECT * FROM `fcust_extended` e LEFT JOIN `fcontracts` p ON p.`contractNumber` = e.`contractNumber` left join `fcustomers` d ON e.`contractNumber` = d.`contractNumber` LEFT JOIN `icontracts` i ON i.`contractNumber` = e.`contractNumber` LEFT JOIN `icustomers` j ON j.`contractNumber` = e.`contractNumber` LEFT JOIN `relatives` q ON e.`contractNumber` = q.`contractNumber` WHERE e.`ServiceID` <> '' ";
+            cmd += " AND p.`deceasedDate` >= '" + date2 + "' AND p.`deceasedDate` <= '" + date1 + "' ";
+            cmd += " AND q.`depRelationship` = 'CLERGY' ";
+            cmd += ";";
+
+            DataTable dx = G1.get_db_data(cmd);
+
+            DateTime date = DateTime.Now;
+            string date3 = DateTime.Now.AddDays(5).ToString("yyyy-MM-dd");
+            cmd = "Select * from `contacts` WHERE `apptDate` >= '" + date2 + "' AND `apptDate` <= '" + date3 + "';";
+            DataTable conDt = G1.get_db_data(cmd);
+            conDt.Columns.Add("NewDate");
+            for ( int i=0; i<conDt.Rows.Count; i++)
+            {
+                date = conDt.Rows[i]["apptDate"].ObjToDateTime();
+                conDt.Rows[i]["NewDate"] = date.ToString("yyyy-MM-dd");
+            }
+
+            string director = "";
+            string serviceId = "";
+            string contractNumber = "";
+            DateTime serviceDate = DateTime.Now;
+            string fullName = "";
+            DataRow[] dRows = null;
+            DataRow dRow = null;
+            int idx = 0;
+            string license = "";
+            string prefix = "";
+            string firstName = "";
+            string lastName = "";
+            string middleName = "";
+            string suffix = "";
+            string phone = "";
+            string primaryPhone = "";
+            string email = "";
+            string primaryEmail = "";
+            string apptDate = "";
+            string dec = "";
+
+
+            string employee = cmbEmployee.Text.Trim();
+
+            DataTable newDt = dt.Clone();
+            DataTable trackDt = null;
+
+            cmd = "Select * from `directors`;";
+            DataTable dirDt = G1.get_db_data(cmd);
+
+            cmd = "Select * from `agents`;";
+            DataTable agentDt = G1.get_db_data(cmd);
+
+            int lastRow = dx.Rows.Count;
+            //lastRow = 2;
+            string record = "";
+            int days = 2;
+            int month = 1;
+            int year = 0;
+
+            try
+            {
+                for (int i = 0; i < lastRow; i++)
+                {
+                    director = dx.Rows[i]["Funeral Director"].ObjToString();
+                    idx = director.IndexOf("[");
+                    if (idx > 0)
+                    {
+                        license = director.Substring(idx);
+                        license = license.Replace("[", "");
+                        license = license.Replace("]", "").Trim();
+
+                        director = director.Substring(0, idx - 1);
+
+                        dRows = dirDt.Select("license='" + license + "'");
+                        if (dRows.Length > 0)
+                        {
+                            lastName = dRows[0]["lastName"].ObjToString();
+                            firstName = dRows[0]["firstName"].ObjToString();
+                            middleName = dRows[0]["middleName"].ObjToString();
+
+                            dRows = agentDt.Select("firstName='" + firstName + "' AND lastName='" + lastName + "'");
+                            if (dRows.Length > 0)
+                                director = lastName + ", " + firstName;
+                            else
+                            {
+                                dRows = agentDt.Select("firstName='" + middleName + "' AND lastName='" + lastName + "'");
+                                if (dRows.Length > 0)
+                                    director = lastName + ", " + middleName;
+                                else
+                                    director = lastName + ", " + firstName;
+                            }
+                        }
+                    }
+
+                    if (employee.ToUpper() != "ALL")
+                    {
+                        if (employee != director)
+                            continue;
+                    }
+                    serviceId = dx.Rows[i]["serviceId"].ObjToString();
+                    serviceDate = dx.Rows[i]["serviceDate"].ObjToDateTime();
+                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+
+                    prefix = dx.Rows[i]["depPrefix"].ObjToString();
+                    suffix = dx.Rows[i]["depSuffix"].ObjToString();
+                    firstName = dx.Rows[i]["depFirstName"].ObjToString();
+                    lastName = dx.Rows[i]["depLastName"].ObjToString();
+                    middleName = dx.Rows[i]["depMI"].ObjToString();
+
+                    phone = "";
+                    email = "";
+
+                    cmd = "Select * from `track` where `depPrefix` = '" + prefix + "' AND `depFirstName` = '" + firstName + "' AND `depMI` = '" + middleName + "' AND `depLastName` = '" + lastName + "' AND `depSuffix` = '" + suffix + "';";
+                    trackDt = G1.get_db_data(cmd);
+                    if (trackDt.Rows.Count > 0)
+                    {
+                        phone = trackDt.Rows[0]["phone"].ObjToString();
+                        email = trackDt.Rows[0]["email"].ObjToString();
+                    }
+
+
+                    fullName = dx.Rows[i]["fullName"].ObjToString();
+                    days = DetermineDays(serviceDate, interval, frequency);
+                    apptDate = serviceDate.AddDays(days).ToString("yyyy-MM-dd");
+
+                    dRows = conDt.Select("serviceId='" + serviceId + "' AND contactName='" + fullName + "' AND agent='" + director + "' AND NewDate='" + apptDate + "'");
+                    if (dRows.Length <= 0)
+                    {
+                        record = G1.create_record("contacts", "contactName", "-1");
+                        if (G1.BadRecord("contacts", record))
+                            break;
+                        dRow = newDt.NewRow();
+                        dRow["record"] = record;
+                        dRow["contactName"] = fullName;
+                        dRow["contactType"] = "Clergy";
+                        dRow["serviceId"] = serviceId;
+                        dRow["apptDate"] = G1.DTtoMySQLDT(serviceDate.AddDays(2));
+                        dRow["agent"] = director;
+                        dRow["completed"] = "0";
+                        dRow["serviceId"] = serviceId;
+                        dRow["scheduledTask"] = scheduledTask;
+
+                        primaryPhone = dx.Rows[i]["phone"].ObjToString();
+                        if (String.IsNullOrWhiteSpace(primaryPhone))
+                            primaryPhone = phone;
+                        dRow["primaryPhone"] = phone;
+
+                        primaryEmail = dx.Rows[i]["email"].ObjToString();
+                        if (String.IsNullOrWhiteSpace(primaryEmail))
+                            primaryEmail = email;
+                        dRow["email"] = primaryEmail;
+
+
+                        prefix = dx.Rows[i]["prefix"].ObjToString();
+                        firstName = dx.Rows[i]["firstName"].ObjToString();
+                        lastName = dx.Rows[i]["lastName"].ObjToString();
+                        middleName = dx.Rows[i]["middleName"].ObjToString();
+                        suffix = dx.Rows[i]["suffix"].ObjToString();
+
+                        dRow["refDeceasedPrefix"] = prefix;
+                        dRow["refDeceasedFirstName"] = firstName;
+                        dRow["refDeceasedLastName"] = lastName;
+                        dRow["refDeceasedMiddleName"] = middleName;
+                        dRow["refDeceasedSuffix"] = suffix;
+
+                        newDt.Rows.Add(dRow);
+
+                        G1.update_db_table("contacts", "record", record, new string[] { "agent", director, "apptDate", apptDate, "contactType", "Clergy", "contactName", fullName, "serviceId", serviceId, "primaryPhone", phone, "email", primaryEmail, "scheduledTask", scheduledTask });
+                        G1.update_db_table("contacts", "record", record, new string[] { "refDeceasedPrefix", prefix, "refDeceasedFirstName", firstName, "refDeceasedLastName", lastName, "refDeceasedMiddleName", middleName, "refDeceasedSuffix", suffix, "completed", "0" });
+                    }
+                }
+            }
+            catch ( Exception ex)
+            {
+            }
+
+            if (newDt.Rows.Count > 0)
+                dt.Merge(newDt);
+
+            dt = FollowUpLastContact(dt, dirDt, agentDt );
+
+            G1.StopWait(ref pleaseForm);
+            pleaseForm = null;
+
+            if (newDt.Rows.Count > 0)
+            {
+                waitForm = G1.StartWait("Loaded " + newDt.Rows.Count + " Past Funerals!");
+                G1.sleep(1000);
+                ClearWaitMessage();
+            }
+
+            funeralsDone = true;
+            return dt;
+        }
+        /***********************************************************************************************/
+        private DataTable FollowUpLastContact ( DataTable dt, DataTable dirDt, DataTable agentDt )
+        {
+            string cmd = "select * from `contacttypes` WHERE `scheduledTask` <> '' AND `from` = 'Last Contact' ORDER by `frequency`;";
+            DataTable contactDt = G1.get_db_data(cmd);
+
+            string contactType = "Clergy";
+            int frequency = 2;
+            string interval = "Days";
+            string scheduledTask = "Follow-Up";
+
+            if (contactDt.Rows.Count > 0)
+            {
+                contactType = contactDt.Rows[0]["contactType"].ObjToString();
+                frequency = contactDt.Rows[0]["frequency"].ObjToInt32();
+                interval = contactDt.Rows[0]["interval"].ObjToString();
+                scheduledTask = contactDt.Rows[0]["scheduledTask"].ObjToString();
+            }
+
+            string employee = cmbEmployee.Text.Trim();
+
+            DataTable newDt = dt.Clone();
+            DataTable trackDt = null;
+
+            string record = "";
+            int days = 2;
+            int month = 1;
+            int year = 0;
+
+            string date1 = DateTime.Now.ToString("yyyy-MM-dd");
+            string date2 = DateTime.Now.AddDays(-365).ToString("yyyy-MM-dd");
+
+            DateTime startDate = this.dateTimePicker1.Value;
+            DateTime stopDate = this.dateTimePicker2.Value;
+
+            DateTime date = DateTime.Now;
+            cmd = "Select * from `contacts` WHERE `lastContactDate` >= '" + date2 + "' AND `lastContactDate` <= '" + date1 + "' AND `contactType` = '" + contactType + "' ";
+            if (employee.ToUpper() != "ALL")
+                cmd += " AND `agent` = '" + employee + "' ";
+            cmd += "GROUP BY `contactName` ORDER BY `lastContactDate` ASC ";
+            cmd += ";";
+
+            DataTable conDt = G1.get_db_data(cmd);
+            conDt.Columns.Add("NewDate");
+            for (int i = 0; i < conDt.Rows.Count; i++)
+            {
+                date = conDt.Rows[i]["apptDate"].ObjToDateTime();
+                conDt.Rows[i]["NewDate"] = date.ToString("yyyy-MM-dd");
+            }
+
+            DateTime lastContactDate = DateTime.Now;
+            string contactName = "";
+            string serviceId = "";
+            string director = "";
+            string primaryPhone = "";
+            string phone;
+            string primaryEmail = "";
+            string prefix = "";
+            string firstName = "";
+            string lastName = "";
+            string middleName = "";
+            string suffix = "";
+
+            string apptDate = "";
+            DataRow dRow = null;
+            DataTable dx = null;
+            for ( int i=0; i<conDt.Rows.Count; i++)
+            {
+                lastContactDate = conDt.Rows[i]["lastContactDate"].ObjToDateTime();
+                contactName = conDt.Rows[i]["contactName"].ObjToString();
+                serviceId = conDt.Rows[i]["serviceId"].ObjToString();
+                director = conDt.Rows[i]["agent"].ObjToString();
+                primaryPhone = conDt.Rows[i]["primaryPhone"].ObjToString();
+                primaryEmail = conDt.Rows[i]["email"].ObjToString();
+
+                prefix = conDt.Rows[i]["refDeceasedPrefix"].ObjToString();
+                firstName = conDt.Rows[i]["refDeceasedFirstName"].ObjToString();
+                lastName = conDt.Rows[i]["refDeceasedLastName"].ObjToString();
+                middleName = conDt.Rows[i]["refDeceasedMiddleName"].ObjToString();
+                suffix = conDt.Rows[i]["refDeceasedSuffix"].ObjToString();
+
+                cmd = "Select * from `contacts` WHERE `contactName` = '" + contactName + "' AND `apptDate` > '" + lastContactDate.ToString("yyyy-MM-dd") + "';";
+                dx = G1.get_db_data(cmd);
+                if ( dx.Rows.Count <= 0 )
+                {
+                    days = DetermineDays(lastContactDate, interval, frequency);
+                    apptDate = lastContactDate.AddDays(days).ToString("yyyy-MM-dd");
+
+                    record = G1.create_record("contacts", "contactName", "-1");
+                    if (G1.BadRecord("contacts", record))
+                        break;
+                    date = apptDate.ObjToDateTime();
+                    if (date >= startDate && date <= stopDate)
+                    {
+                        dRow = newDt.NewRow();
+                        dRow["record"] = record;
+                        dRow["contactName"] = contactName;
+                        dRow["contactType"] = contactType;
+                        dRow["serviceId"] = serviceId;
+                        dRow["apptDate"] = G1.DTtoMySQLDT(apptDate);
+                        dRow["agent"] = director;
+                        dRow["completed"] = "0";
+                        dRow["scheduledTask"] = scheduledTask;
+
+                        dRow["primaryPhone"] = primaryPhone;
+
+                        dRow["email"] = primaryEmail;
+
+
+
+                        dRow["refDeceasedPrefix"] = prefix;
+                        dRow["refDeceasedFirstName"] = firstName;
+                        dRow["refDeceasedLastName"] = lastName;
+                        dRow["refDeceasedMiddleName"] = middleName;
+                        dRow["refDeceasedSuffix"] = suffix;
+
+                        newDt.Rows.Add(dRow);
+                    }
+
+                    G1.update_db_table("contacts", "record", record, new string[] { "agent", director, "apptDate", apptDate, "contactType", "Clergy", "contactName", contactName, "serviceId", serviceId, "primaryPhone", primaryPhone, "email", primaryEmail, "scheduledTask", scheduledTask });
+                    G1.update_db_table("contacts", "record", record, new string[] { "refDeceasedPrefix", prefix, "refDeceasedFirstName", firstName, "refDeceasedLastName", lastName, "refDeceasedMiddleName", middleName, "refDeceasedSuffix", suffix, "completed", "0" });
+                }
+            }
+
+            if (newDt.Rows.Count > 0)
+                dt.Merge(newDt);
+
+            return dt;
         }
         /***********************************************************************************************/
         private void SetupCompleted(DataTable dt)
@@ -191,7 +918,7 @@ namespace SMFS
             cmbEmployee.DataSource = dt;
 
             DataRow[] dRows = dt.Select("username='" + LoginForm.username + "'");
-            if ( dRows.Length > 0 )
+            if (dRows.Length > 0 && !G1.isAdminOrSuper())
             {
                 firstName = dRows[0]["firstName"].ObjToString();
                 middleName = dRows[0]["middleName"].ObjToString();
@@ -205,10 +932,12 @@ namespace SMFS
 
                 cmbEmployee.Text = name;
                 primaryName = name;
+                gridMain.Columns["agent"].Visible = false;
+                showAgent = false;
             }
         }
         /***********************************************************************************************/
-        private void LoadContactTypes ()
+        private void LoadContactTypesX ()
         {
             repositoryItemComboBox1.Items.Clear();
             cmbContractType.Items.Clear();
@@ -233,7 +962,95 @@ namespace SMFS
             ciLookup.SelectedIndexChanged += CiLookup_SelectedIndexChanged;
         }
         /***********************************************************************************************/
-        private void LoadLocations()
+        private void LoadContactTypes()
+        {
+            repositoryItemComboBox1.Items.Clear();
+            cmbContractType.Items.Clear();
+            cmbContractType.Items.Add("All");
+
+            chkContactType.Properties.Items.Clear();
+
+            string contactType = "";
+            string category = "";
+
+            string cmd = "Select * from `contacttypes`;";
+            DataTable dt = G1.get_db_data(cmd);
+            DataTable typeDt = dt.Clone();
+            DataTable catDt = dt.Clone();
+            DataRow[] dRows = null;
+            DataRow dRow = null;
+
+            dRow = typeDt.NewRow();
+            dRow["category"] = "All";
+            typeDt.Rows.Add(dRow);
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                contactType = dt.Rows[i]["contactType"].ObjToString();
+                if (!String.IsNullOrWhiteSpace(contactType))
+                {
+                    repositoryItemComboBox1.Items.Add(contactType);
+                    cmbContractType.Items.Add(contactType);
+
+                    dRow = typeDt.NewRow();
+                    dRow["contactType"] = contactType;
+                    typeDt.Rows.Add(dRow);
+                }
+
+                category = dt.Rows[i]["category"].ObjToString();
+                if (!String.IsNullOrWhiteSpace(category))
+                {
+                    dRows = catDt.Select("contactType='" + contactType + "'");
+                    if (dRows.Length <= 0)
+                    {
+                        dRow = catDt.NewRow();
+                        dRow["contactType"] = contactType;
+                        dRow["category"] = category;
+                        dRow["order"] = i;
+                        catDt.Rows.Add(dRow);
+                    }
+                    dRows = catDt.Select("contactType='" + category + "'");
+                    if (dRows.Length <= 0)
+                    {
+                        dRow = catDt.NewRow();
+                        dRow["contactType"] = category;
+                        dRow["category"] = category;
+                        dRow["order"] = 99;
+                        catDt.Rows.Add(dRow);
+                    }
+                }
+                else
+                {
+                    dRows = catDt.Select("contactType='" + contactType + "'");
+                    if (dRows.Length <= 0)
+                    {
+                        dRow = catDt.NewRow();
+                        dRow["contactType"] = contactType;
+                        dRow["category"] = category;
+                        dRow["order"] = i;
+                        catDt.Rows.Add(dRow);
+                    }
+                }
+            }
+
+            if (catDt.Rows.Count > 0)
+                typeDt.Merge(catDt);
+
+            DataView tempview = catDt.DefaultView;
+            tempview.Sort = "order asc";
+            catDt = tempview.ToTable();
+
+
+            chkContactType.Properties.DataSource = catDt;
+
+            allType = typeDt;
+
+            cmbContractType.Text = "All";
+            trackDt = G1.get_db_data("Select * from `track`;");
+            ciLookup.SelectedIndexChanged += CiLookup_SelectedIndexChanged;
+        }
+        /***********************************************************************************************/
+        private void LoadLocationsx()
         {
             string cmd = "Select * from `funeralhomes` order by `LocationCode`;";
             DataTable locDt = G1.get_db_data(cmd);
@@ -241,6 +1058,81 @@ namespace SMFS
             dRow["LocationCode"] = "All";
             locDt.Rows.InsertAt(dRow, 0);
             cmbLocation.DataSource = locDt;
+        }
+        /***********************************************************************************************/
+        private void LoadLocations()
+        {
+            string location = "";
+            DataTable locDt = null;
+
+            string cmd = "Select * from `users` where `username` = '" + LoginForm.username + "';";
+            DataTable usersDt = G1.get_db_data(cmd);
+            if (usersDt.Rows.Count > 0 && !superuser)
+            {
+                cmbLocation.Items.Add("All");
+                string assignedLocations = usersDt.Rows[0]["assignedLocations"].ObjToString();
+                if (!String.IsNullOrWhiteSpace(assignedLocations))
+                {
+                    string[] Lines = assignedLocations.Split('~');
+                    for (int i = 0; i < Lines.Length; i++)
+                    {
+                        location = Lines[i].Trim();
+                        if (!String.IsNullOrWhiteSpace(location))
+                            cmbLocation.Items.Add(location);
+                    }
+                }
+                else
+                {
+                    cmd = "Select * from `funeralhomes` order by `LocationCode`;";
+                    locDt = G1.get_db_data(cmd);
+                    for (int i = 0; i < locDt.Rows.Count; i++)
+                    {
+                        cmbLocation.Items.Add(locDt.Rows[i]["locationCode"].ObjToString());
+                    }
+                }
+            }
+            else
+            {
+                cmbLocation.Items.Add("All");
+                cmd = "Select * from `funeralhomes` order by `LocationCode`;";
+                locDt = G1.get_db_data(cmd);
+                for (int i = 0; i < locDt.Rows.Count; i++)
+                {
+                    cmbLocation.Items.Add(locDt.Rows[i]["locationCode"].ObjToString());
+                }
+                //DataRow dRow = locDt.NewRow();
+                //dRow["LocationCode"] = "All";
+                //locDt.Rows.InsertAt(dRow, 0);
+                //cmbLocation.DataSource = locDt;
+            }
+            cmbLocation.Text = "All";
+
+            cmd = "Select * from `funeralhomes` order by `LocationCode`;";
+            locDt = G1.get_db_data(cmd);
+
+            DataRow[] dRows = null;
+            DataRow dRow = null;
+            DataTable tempDt = new DataTable();
+            tempDt.Columns.Add("locationCode");
+            tempDt.Columns.Add("atneedcode");
+
+            for (int i = 0; i < cmbLocation.Items.Count; i++)
+            {
+                location = cmbLocation.Items[i].ObjToString();
+                if (location == "All")
+                    continue;
+
+                dRows = locDt.Select("locationCode='" + location + "'");
+                if (dRows.Length > 0)
+                {
+                    dRow = tempDt.NewRow();
+                    dRow["locationCode"] = location;
+                    dRow["atneedcode"] = dRows[0]["atneedcode"].ObjToString();
+                    tempDt.Rows.Add(dRow);
+                }
+            }
+
+            chkLocations.Properties.DataSource = tempDt;
         }
         /***************************************************************************************/
         private void CiLookup_SelectedIndexChanged(object sender, EventArgs e)
@@ -287,7 +1179,7 @@ namespace SMFS
             //    return;
         }
         /****************************************************************************************/
-        private void gridMain_CustomRowFilter(object sender, DevExpress.XtraGrid.Views.Base.RowFilterEventArgs e)
+        private void gridMain_CustomRowFilterX(object sender, DevExpress.XtraGrid.Views.Base.RowFilterEventArgs e)
         {
             int row = e.ListSourceRow;
             if (dgv == null)
@@ -317,6 +1209,169 @@ namespace SMFS
                 e.Visible = false;
                 e.Handled = true;
             }
+        }
+        /****************************************************************************************/
+        private void gridMain_CustomRowFilter(object sender, DevExpress.XtraGrid.Views.Base.RowFilterEventArgs e)
+        {
+            int row = e.ListSourceRow;
+            if (dgv == null)
+                return;
+            if (dgv.DataSource == null)
+                return;
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt.Rows.Count <= 0)
+                return;
+            if (dt.Rows[row].RowState == DataRowState.Deleted)
+                return;
+            if (chkExcludeCompleted.Checked)
+            {
+                string completed = dt.Rows[row]["completed"].ObjToString();
+                if (completed == "1")
+                {
+                    e.Visible = false;
+                    e.Handled = true;
+                }
+            }
+            //if (chkDoNotCall.Checked)
+            //{
+            //    string status = dt.Rows[row]["contactStatus"].ObjToString().ToUpper();
+            //    if (status == "DO NOT CALL")
+            //    {
+            //        e.Visible = false;
+            //        e.Handled = true;
+            //    }
+            //    else if (status.IndexOf("ALREADY") >= 0)
+            //    {
+            //        e.Visible = false;
+            //        e.Handled = true;
+            //    }
+            //    else if (status == "DECEASED")
+            //    {
+            //        e.Visible = false;
+            //        e.Handled = true;
+            //    }
+            //}
+
+            string contactType = dt.Rows[row]["contactType"].ObjToString();
+            string category = "";
+
+            bool found = false;
+            DataRow[] dRows = null;
+            string[] Lines = null;
+
+            string what = chkContactType.Text.Trim();
+            if (!String.IsNullOrWhiteSpace(what))
+            {
+
+                DataTable catDt = (DataTable)chkContactType.Properties.DataSource;
+
+                Lines = what.Split('|');
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    category = Lines[i].Trim();
+                    if (String.IsNullOrWhiteSpace(category))
+                        continue;
+                    dRows = allType.Select("category='" + category + "'");
+
+                    if (category == contactType)
+                    {
+                        found = true;
+                        break;
+                    }
+                    dRows = catDt.Select("category='" + category + "'");
+                    if (dRows.Length > 0)
+                    {
+                        for (int j = 0; j < dRows.Length; j++)
+                        {
+                            category = dRows[j]["contactType"].ObjToString();
+                            if (category == contactType)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!found)
+                {
+                    e.Visible = false;
+                    e.Handled = true;
+                }
+            }
+
+            DataTable locDt = (DataTable)chkLocations.Properties.DataSource;
+
+            found = false;
+            string trust = "";
+            string loc = "";
+            what = chkLocations.Text.Trim();
+            string serviceId = dt.Rows[row]["serviceId"].ObjToString();
+            Trust85.decodeContractNumber(serviceId, ref trust, ref loc);
+            if (!String.IsNullOrWhiteSpace(loc))
+            {
+                dRows = locDt.Select("atneedcode='" + loc + "'");
+                if (dRows.Length <= 0)
+                    return;
+
+                //string funeralHome = dt.Rows[row]["funeralHome"].ObjToString();
+                string funeralHome = dRows[0]["locationCode"].ObjToString();
+
+                if (!String.IsNullOrWhiteSpace(what))
+                {
+                    string location = "";
+                    Lines = what.Split('|');
+                    for (int i = 0; i < Lines.Length; i++)
+                    {
+                        category = Lines[i].Trim();
+                        if (String.IsNullOrWhiteSpace(category))
+                            continue;
+                        if (funeralHome == category)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        e.Visible = false;
+                        e.Handled = true;
+                    }
+                }
+            }
+
+            //if (btnShowAnniversary.BackColor == Color.PaleGreen)
+            //{
+            //    if (e.Visible)
+            //    {
+            //        string showWhat = cmbAnniversary.Text.ToUpper();
+            //        DateTime today = DateTime.Now;
+            //        DateTime dob = dt.Rows[row]["dob"].ObjToDateTime();
+            //        if (showWhat.ToUpper() == "DECEASED ANNIVERSARY")
+            //        {
+            //            if (G1.get_column_number(dt, "funeralDeceased") < 0)
+            //                return;
+            //            dob = dt.Rows[row]["funeralDeceased"].ObjToDateTime();
+            //        }
+            //        int month = dob.Month;
+            //        int day = dob.Day;
+
+            //        int days = 7;
+            //        string str = cmbNextDays.Text.ToUpper();
+            //        if (str == "14 DAYS")
+            //            days = 14;
+            //        else if (str == "30 DAYS")
+            //            days = 30;
+
+            //        DateTime birth = new DateTime(today.Year, month, day);
+            //        if (birth < today || birth > today.AddDays(days))
+            //        {
+            //            e.Visible = false;
+            //            e.Handled = true;
+            //        }
+            //    }
+            //}
         }
         /****************************************************************************************/
         private void gridMain_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
@@ -381,7 +1436,7 @@ namespace SMFS
             GridColumn currCol = gridMain.FocusedColumn;
             string currentColumn = currCol.FieldName;
             string what = dr[currentColumn].ObjToString();
-            if (currentColumn.ToUpper() == "contactName")
+            if (currentColumn.ToUpper() == "CONTACTNAME")
             {
                 what = dr[currentColumn].ObjToString();
 
@@ -443,7 +1498,7 @@ namespace SMFS
             string agent = dr["agent"].ObjToString();
             if (agent == primaryName || G1.isAdmin())
             {
-                DialogResult result = MessageBox.Show("Permanently Delete This Contact?", "Delete Contact Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                DialogResult result = MessageBox.Show("Permanently Delete This Contact Entry?", "Delete Contact Entry Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 if ( result == DialogResult.Yes )
                 {
                     string record = dr["record"].ObjToString();
@@ -533,10 +1588,7 @@ namespace SMFS
         /****************************************************************************************/
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-            if (gridMain.OptionsFind.AlwaysVisible == true)
-                gridMain.OptionsFind.AlwaysVisible = false;
-            else
-                gridMain.OptionsFind.AlwaysVisible = true;
+            G1.SpyGlass(gridMain);
         }
         /****************************************************************************************/
         private void gridMain_KeyDown(object sender, KeyEventArgs e)
@@ -602,17 +1654,324 @@ namespace SMFS
             string contactType = dr["contactType"].ObjToString();
             if (String.IsNullOrWhiteSpace(contactName))
                 return;
-            using ( ContactHistory historyForm = new ContactHistory ( contactType, contactName ))
+
+            string oldNotes = dr["notes"].ObjToString();
+
+            using (ContactHistory historyForm = new ContactHistory(gridMain, dt, row, record, contactType, contactName, dr))
             {
                 historyForm.contactHistoryDone += HistoryForm_contactHistoryDone;
                 historyForm.ShowDialog();
+                string lastRecord = record;
+                bool modified = historyForm.isModified;
+                string nextCompleted = historyForm.nextCompleted;
+                lastRecord = historyForm.lastRecord;
+                DataRow[] dRows = null;
+                if (!String.IsNullOrWhiteSpace(lastRecord))
+                    record = lastRecord;
+                if (modified)
+                    PositionToRecord(dt, record);
+                else
+                {
+                    dt = (DataTable)dgv.DataSource;
+                    dRows = dt.Select("oldRecord='" + record + "'");
+                    if (dRows.Length > 0)
+                        record = dRows[0]["record"].ObjToString();
+                    PositionToRow(record);
+                    //PositionToRecord(dt, record, true );
+                }
+                string cmd = "Select * from `contacts_preneed` WHERE `record` = '" + record + "';";
+                DataTable dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    string notes = dx.Rows[0]["notes"].ObjToString();
+                    if (notes != oldNotes)
+                    {
+                        if (dRows.Length > 1)
+                        {
+                            for (int i = 0; i < dRows.Length; i++)
+                            {
+                                dr["notes"] = notes;
+                                dRows[i]["notes"] = notes;
+                            }
+                        }
+                        else
+                        {
+                            dr["notes"] = notes;
+                            dt.Rows[row]["notes"] = notes;
+                        }
+                        if (oldNotes == "Birthday Soon" || oldNotes == "DOD Anniversary")
+                        {
+                            dr["notes"] = oldNotes;
+                        }
+                    }
+                }
             }
         }
         /****************************************************************************************/
-        private void HistoryForm_contactHistoryDone(DataTable dt)
+        private void PositionToRecord(DataTable dt, string record, bool old = false)
+        {
+            //if (newAddition)
+            //{
+            //    gridMain.SelectRow(0);
+            //    gridMain.FocusedRowHandle = 0;
+            //    gridMain.RefreshEditor(true);
+            //    return;
+            //}
+
+            string prefix = "";
+            string firstName = "";
+            string lastName = "";
+            string middleName = "";
+            string suffix = "";
+            string agent = "";
+            DateTime date = DateTime.Now;
+            string home = "";
+            string name = "";
+            string extraName = "";
+            //string searchBy = cmbSearch.Text;
+            if (String.IsNullOrWhiteSpace(agent))
+                agent = cmbEmployee.Text;
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                //prefix = dt.Rows[i]["prefix"].ObjToString();
+                //firstName = dt.Rows[i]["firstName"].ObjToString();
+                //lastName = dt.Rows[i]["lastName"].ObjToString();
+                //middleName = dt.Rows[i]["middleName"].ObjToString();
+                //suffix = dt.Rows[i]["suffix"].ObjToString();
+                agent = dt.Rows[i]["agent"].ObjToString();
+                date = dt.Rows[i]["apptDate"].ObjToDateTime();
+                //if (searchBy == "Last Touch Date")
+                //    date = dt.Rows[i]["lastTouchDate"].ObjToDateTime();
+                //else if (searchBy == "Next Touch Date")
+                //    date = dt.Rows[i]["nextScheduledTouchDate"].ObjToDateTime();
+                home = dt.Rows[i]["funeralHome"].ObjToString();
+                //name = prefix + " " + firstName + " " + middleName + " " + lastName + " " + suffix;
+
+                name = dt.Rows[i]["contactName"].ObjToString();
+
+                extraName = agent + "~" + home + "~" + name + "~" + date.ToString("yyyyMMdd");
+                dt.Rows[i]["extraName"] = extraName;
+            }
+
+            DataView tempview = dt.DefaultView;
+            tempview.Sort = "extraName asc";
+            dt = tempview.ToTable();
+
+            //if (initialLoad)
+            //    dt = SetupGreenAndRed(dt);
+
+            G1.NumberDataTable(dt);
+
+            dgv.DataSource = dt;
+
+            gridMain.RefreshData();
+            gridMain.RefreshEditor(true);
+
+            dt = (DataTable)dgv.DataSource;
+
+            string oldRecord = "";
+            if (old)
+            {
+                gridMain.SelectRow(0);
+                gridMain.FocusedRowHandle = 0;
+                gridMain.RefreshEditor(true);
+                return;
+            }
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oldRecord = dt.Rows[i]["record"].ObjToString();
+                if (old)
+                    oldRecord = dt.Rows[i]["oldRecord"].ObjToString();
+                if (oldRecord == record)
+                {
+                    gridMain.SelectRow(i);
+                    gridMain.FocusedRowHandle = i;
+                    gridMain.RefreshEditor(true);
+                    break;
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void PositionToRow(string record)
+        {
+            string rec = "";
+            bool filtered = false;
+            int row = -1;
+            gridMain.ClearSelection();
+
+            string firstName = "";
+            string lastName = "";
+
+            DataTable dt = (DataTable)dgv.DataSource;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                try
+                {
+                    firstName = dt.Rows[i]["firstName"].ObjToString();
+                    lastName = dt.Rows[i]["lastName"].ObjToString();
+                    filtered = CheckRowFiltered(i);
+                    if (filtered)
+                    {
+                        rec = dt.Rows[i]["record"].ObjToString();
+                        if (rec != record)
+                            continue;
+                        if (row < 0)
+                            row = 0;
+                        gridMain.SelectRow(row);
+                        gridMain.FocusedRowHandle = row;
+                        gridMain.RefreshEditor(true);
+                        gridMain.RefreshData();
+                        dgv.Refresh();
+                        break;
+                    }
+                    row++;
+                    rec = dt.Rows[i]["record"].ObjToString();
+                    if (rec == record)
+                    {
+                        gridMain.SelectRow(row);
+                        gridMain.FocusedRowHandle = row;
+                        gridMain.RefreshEditor(true);
+                        gridMain.RefreshData();
+                        dgv.Refresh();
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    gridMain.SelectRow(0);
+                    gridMain.FocusedRowHandle = 0;
+                    gridMain.RefreshEditor(true);
+                    gridMain.RefreshData();
+                    dgv.Refresh();
+                }
+            }
+        }
+        /****************************************************************************************/
+        private bool CheckRowFiltered(int row)
+        {
+            if (dgv == null)
+                return false;
+            if (dgv.DataSource == null)
+                return false;
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt.Rows.Count <= 0)
+                return false;
+            if (dt.Rows[row].RowState == DataRowState.Deleted)
+                return false;
+            if (chkExcludeCompleted.Checked)
+            {
+                string completed = dt.Rows[row]["completed"].ObjToString();
+                if (completed == "1")
+                    return true;
+            }
+            //if (chkDoNotCall.Checked)
+            //{
+            //    string status = dt.Rows[row]["contactStatus"].ObjToString().ToUpper();
+            //    if (status == "DO NOT CALL")
+            //    {
+            //        return true;
+            //    }
+            //    else if (status.IndexOf("ALREADY") >= 0)
+            //    {
+            //        return true;
+            //    }
+            //    else if (status == "DECEASED")
+            //    {
+            //        return true;
+            //    }
+            //}
+
+            string contactType = dt.Rows[row]["contactType"].ObjToString();
+            string category = "";
+
+            bool found = false;
+            DataRow[] dRows = null;
+            string[] Lines = null;
+
+            string what = cmbContractType.Text.Trim();
+            if (!String.IsNullOrWhiteSpace(what))
+            {
+
+                //DataTable catDt = (DataTable)cmbContractType.Properties.DataSource;
+                DataTable catDt = (DataTable)cmbContractType.DataSource;
+
+                Lines = what.Split('|');
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    category = Lines[i].Trim();
+                    if (String.IsNullOrWhiteSpace(category))
+                        continue;
+                    dRows = allType.Select("category='" + category + "'");
+
+                    if (category == contactType)
+                    {
+                        found = true;
+                        break;
+                    }
+                    dRows = catDt.Select("category='" + category + "'");
+                    if (dRows.Length > 0)
+                    {
+                        for (int j = 0; j < dRows.Length; j++)
+                        {
+                            category = dRows[j]["contactType"].ObjToString();
+                            if (category == contactType)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!found)
+                {
+                    return true;
+                }
+            }
+
+            //DataTable locDt = (DataTable)chkLocations.Properties.DataSource;
+            DataTable locDt = (DataTable)cmbLocation.DataSource;
+
+            found = false;
+            what = cmbLocation.Text.Trim();
+            string funeralHome = dt.Rows[row]["funeralHome"].ObjToString();
+
+            if (!String.IsNullOrWhiteSpace(what))
+            {
+                string location = "";
+                Lines = what.Split('|');
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    category = Lines[i].Trim();
+                    if (String.IsNullOrWhiteSpace(category))
+                        continue;
+                    if (funeralHome == category)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /****************************************************************************************/
+        private string HistoryForm_contactHistoryDone(DataTable dt, bool somethingDeleted )
         {
             if (dt.Rows.Count <= 0)
-                return;
+            {
+                if (somethingDeleted)
+                {
+                    int rowHandle = gridMain.FocusedRowHandle;
+                    LoadData(rowHandle);
+                }
+                return "";
+            }
 
             DataTable dx = (DataTable)dgv.DataSource;
 
@@ -658,6 +2017,8 @@ namespace SMFS
                 gridMain.RefreshEditor(true);
                 dgv.Refresh();
             }
+
+            return completed;
         }
         /****************************************************************************************/
         private void Contacts_FormClosing(object sender, FormClosingEventArgs e)
@@ -763,7 +2124,68 @@ namespace SMFS
             printingSystem1.Document.AutoFitToPagesWidth = 1;
 
             printableComponentLink1.CreateDocument();
-            printableComponentLink1.ShowPreview();
+
+            if (workAuto)
+            {
+                //string filename = "";
+                DateTime today = DateTime.Now;
+                string path = "C:/SMFS_Reports/Contact_Preneeds";
+                G1.verify_path(path);
+                string report = CleanupReportName(workReport);
+                string filename = path + @"\" + report + "_" + today.Year.ToString("D4") + today.Month.ToString("D2") + today.Day.ToString("D2") + ".pdf";
+                //filename = workPDFfile;
+                filename = G1.RandomizeFilename(filename);
+
+                if (File.Exists(filename))
+                {
+                    File.SetAttributes(filename, FileAttributes.Normal);
+                    GrantFileAccess(filename);
+
+                    FileAttributes attributes = File.GetAttributes(filename);
+                    if ((attributes & FileAttributes.Archive) == FileAttributes.Archive)
+                    {
+                        attributes = RemoveAttribute(attributes, FileAttributes.Archive);
+                        File.SetAttributes(filename, attributes);
+                    }
+
+                    File.Delete(filename);
+                }
+
+                printableComponentLink1.ExportToPdf(filename);
+
+                RemoteProcessing.AutoRunSend(workReport + " for " + today.ToString("MM/dd/yyyy"), filename, workAgent, sendWhere, "", workEmail, sendUsername);
+            }
+            else
+                printableComponentLink1.ShowPreview();
+        }
+        /***********************************************************************************************/
+        private static void GrantFileAccess(string file)
+        {
+            try
+            {
+                DirectoryInfo dInfo = new DirectoryInfo(file);
+                DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                dInfo.SetAccessControl(dSecurity);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        /***********************************************************************************************/
+        private static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove)
+        {
+            return attributes & ~attributesToRemove;
+        }
+        /***********************************************************************************************/
+        private string CleanupReportName(string report)
+        {
+            report = report.Replace(">=", "GE");
+            report = report.Replace("<=", "LE");
+            report = report.Replace("=", "Equal");
+            report = report.Replace("<", "Less");
+            report = report.Replace(">", "Greater");
+            return report;
         }
         /***********************************************************************************************/
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1099,7 +2521,7 @@ namespace SMFS
         private string DetermineView ( string contactType )
         {
             string detail = "PLACE";
-            string cmd = "Select * from `contactTypes` WHERE `contactTypes` = '" + contactType + "';";
+            string cmd = "Select * from `contactTypes` WHERE `contactType` = '" + contactType + "';";
             DataTable dt = G1.get_db_data(cmd);
             if ( dt.Rows.Count > 0 )
                 detail = dt.Rows[0]["detail"].ObjToString();
@@ -1163,6 +2585,7 @@ namespace SMFS
                 string[] Lines = null;
                 foreach (GridColumn column in gridMain.Columns)
                 {
+                    doit = false;
                     name = column.FieldName.ToUpper();
                     if (name == "RESULTS" )
                         doit = true;
@@ -1176,8 +2599,9 @@ namespace SMFS
                                 if ( !String.IsNullOrWhiteSpace ( str ))
                                 {
                                     Lines = str.Split('\n');
-                                    count = Lines.Length + 1;
+                                    count = Lines.Length;
                                 }
+                                int oldHeight = e.RowHeight;
                                 viewInfo.EditValue = gridMain.GetRowCellValue(e.RowHandle, column.FieldName);
                                 viewInfo.Bounds = new Rectangle(0, 0, column.VisibleWidth, dgv.Height);
                                 using (Graphics graphics = dgv.CreateGraphics())
@@ -1185,7 +2609,7 @@ namespace SMFS
                                 {
                                     viewInfo.CalcViewInfo(graphics);
                                     var height = ((IHeightAdaptable)viewInfo).CalcHeight(cache, column.VisibleWidth);
-                                    newHeight = Math.Max(height, maxHeight);
+                                    newHeight = Math.Max(oldHeight, maxHeight);
                                     if (newHeight > maxHeight)
                                     {
                                         maxHeight = newHeight * count;
@@ -1212,8 +2636,10 @@ namespace SMFS
         /****************************************************************************************/
         private void btnShowDatabase_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
             EditContacts contactForm = new EditContacts(true, "", "");
             contactForm.Show();
+            this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/
         private void addNextContactToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1270,6 +2696,392 @@ namespace SMFS
             gridMain.RefreshData();
             gridMain.RefreshEditor(true);
             dgv.Refresh();
+        }
+        /****************************************************************************************/
+        private void chkLocations_EditValueChanged(object sender, EventArgs e)
+        {
+            gridMain.RefreshData();
+            gridMain.RefreshEditor(true);
+            dgv.Refresh();
+        }
+        /****************************************************************************************/
+        private void chkContactType_EditValueChanged(object sender, EventArgs e)
+        {
+            gridMain.RefreshData();
+            gridMain.RefreshEditor(true);
+            dgv.Refresh();
+        }
+        /****************************************************************************************/
+        private void ClearWaitMessage ()
+        {
+            if ( waitForm != null )
+            {
+                G1.StopWait(ref waitForm);
+                waitForm = null;
+            }
+        }
+        /***********************************************************************************************/
+        private DataTable SetupGreenAndRed(DataTable dt)
+        {
+            DateTime nextDate = DateTime.Now;
+            DateTime today = DateTime.Now;
+
+            if (G1.get_column_number(dt, "color") < 0)
+                dt.Columns.Add("color", Type.GetType("System.Double"));
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+                dt.Rows[i]["color"] = 0D;
+
+            DateTime dob = DateTime.Now;
+            DateTime birth = DateTime.Now;
+            int month = 0;
+            int day = 0;
+            DateTime lastContactDate = DateTime.Now;
+            initialLoad = false;
+
+            int lastRow = 0;
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                lastContactDate = dt.Rows[i]["lastContactDate"].ObjToDateTime();
+
+                if (lastContactDate < today )
+                    dt.Rows[i]["color"] = 1D;  // Color.Pink;
+                else if (lastContactDate < today.AddDays(5))
+                    dt.Rows[i]["color"] = 2D; // Color.LightGreen;
+            }
+            return dt;
+        }
+        /****************************************************************************************/
+        private void gridMain_RowCellStyle(object sender, RowCellStyleEventArgs e)
+        {
+            GridView View = sender as GridView;
+            //if (1 == 1)
+            //    return;
+            if (e.RowHandle >= 0)
+            {
+                string column = e.Column.FieldName.ToUpper();
+                DataTable dt = (DataTable)dgv.DataSource;
+                int row = gridMain.GetDataSourceRowIndex(e.RowHandle);
+                if (e.RowHandle == gridMain.FocusedRowHandle)
+                {
+                    this.gridMain.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+                    return;
+                }
+
+                int col = G1.get_column_number(dt, "color");
+                if (col >= 0)
+                {
+                    double color = dt.Rows[row]["color"].ObjToDouble();
+                    if (color == 1D)
+                    {
+                        e.Appearance.BackColor = Color.Pink;
+                        ColorizeCell(e.Appearance, Color.Pink);
+                    }
+                    else if (color == 2D)
+                    {
+                        e.Appearance.BackColor = Color.LightGreen;
+                        ColorizeCell(e.Appearance, Color.LightGreen);
+                    }
+                    else if (color == 5D)
+                    {
+                        e.Appearance.BackColor = Color.Blue;
+                        ColorizeCell(e.Appearance, Color.Blue);
+                    }
+                    else
+                    {
+                        e.Appearance.BackColor = Color.Transparent;
+                        ColorizeCell(e.Appearance, Color.Transparent);
+                    }
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void ColorizeCell(object appearanceObject, Color color)
+        {
+            AppearanceObject app = appearanceObject as AppearanceObject;
+            if (app != null)
+            {
+                app.ForeColor = Color.Black;
+            }
+            else
+            {
+                XlFormattingObject obj = appearanceObject as XlFormattingObject;
+                if (obj != null)
+                {
+                    //obj.BackColor = Color.Red;
+                    obj.BackColor = color;
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void btnSelectColumns_Click(object sender, EventArgs e)
+        {
+            string actualName = cmbSelectColumns.Text;
+
+            SelectDisplayColumns sform = new SelectDisplayColumns(dgv, "AgentContacts", "Primary", actualName);
+            sform.Done += new SelectDisplayColumns.d_void_selectionDone(sxform_Done);
+            sform.Show();
+        }
+        /***********************************************************************************************/
+        void sxform_Done(DataTable dt)
+        {
+            string name = cmbSelectColumns.Text.Trim();
+            if (String.IsNullOrWhiteSpace(name))
+                name = "Primary";
+            string saveName = "AgentContacts";
+            string skinName = "";
+            SetupSelectedColumns("AgentContacts", name, dgv);
+            foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, saveName, ref skinName);
+            //gridMain.OptionsView.ShowFooter = showFooters;
+            //SetupTotalsSummary();
+            string field = "";
+            string select = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                field = dt.Rows[i]["field"].ObjToString();
+                select = dt.Rows[i]["select"].ObjToString();
+                if (G1.get_column_number(gridMain, field) >= 0)
+                {
+                    if (select == "0")
+                        gridMain.Columns[field].Visible = false;
+                    else
+                        gridMain.Columns[field].Visible = true;
+                }
+            }
+            dgv.Refresh();
+            this.Refresh();
+        }
+        /****************************************************************************************/
+        private void cmbSelectColumns_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (loading)
+                return;
+            System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
+            string comboName = combo.Text;
+            string skinName = "";
+            if (!String.IsNullOrWhiteSpace(comboName))
+            {
+                bool found = SetupSelectedColumns("AgentContacts", comboName, dgv);
+                if (!found)
+                    return;
+                string name = "AgentContacts " + comboName;
+                foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, name, ref skinName);
+            }
+            else
+            {
+                SetupSelectedColumns("AgentContacts", "Primary", dgv);
+                string name = "AgentContacts Primary";
+                foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, name, ref skinName);
+            }
+
+            //RemoveResults();
+
+            CleanupFieldColumns();
+
+            if (workDt != null)
+            {
+                int height = this.Height;
+                this.Location = new Point(100, 100);
+                this.Height = height + 100;
+                this.Refresh();
+            }
+        }
+        /***********************************************************************************************/
+        private void CleanupFieldColumns()
+        {
+            //if (LoginForm.classification.ToUpper() != "FIELD")
+            //    return;
+            if (!showAgent)
+            {
+                gridMain.Columns["agent"].Visible = false;
+            }
+            //gridBand2.Fixed = FixedStyle.Left;
+            //gridMain.Columns["amountDiscount"].Visible = false;
+            //gridMain.Columns["contractNumber"].Visible = false;
+        }
+        /****************************************************************************************/
+        private void lockScreenFormatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool agentVisible = false;
+            if (gridMain.Columns["agent"].Visible)
+            {
+                agentVisible = true;
+                gridMain.Columns["agent"].Visible = false;
+            }
+            string name = cmbSelectColumns.Text.Trim();
+            if (String.IsNullOrWhiteSpace(name))
+                name = "Primary";
+            string saveName = "AgentContacts " + name;
+            G1.SaveLocalPreferences(this, gridMain, LoginForm.username, saveName);
+
+            if (agentVisible)
+                gridMain.Columns["agent"].Visible = true;
+        }
+        /****************************************************************************************/
+        private void unlockScreenFormatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string comboName = cmbSelectColumns.Text;
+            if (!String.IsNullOrWhiteSpace(comboName))
+            {
+                string name = "AgentContacts " + comboName;
+                G1.RemoveLocalPreferences(LoginForm.username, name);
+                foundLocalPreference = false;
+            }
+        }
+        /***********************************************************************************************/
+        private void LoadReports()
+        {
+            string report = "";
+            string cmd = "Select * from `contacts_reports` where `module` = 'Contacts';";
+            DataTable dx = G1.get_db_data(cmd);
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                report = dx.Rows[i]["report"].ObjToString();
+                cmbReport.Items.Add(report);
+            }
+        }
+        /****************************************************************************************/
+        private void btnRunReport_Click(object sender, EventArgs e)
+        {
+            string customReport = cmbReport.Text.Trim();
+            if (String.IsNullOrWhiteSpace(customReport))
+                return;
+
+
+            string cmd = "Select * from `contacts_reports` WHERE `module` = 'Contacts' AND `report` = '" + customReport + "';";
+            DataTable ddd = G1.get_db_data(cmd);
+            if (ddd.Rows.Count <= 0)
+                return;
+            string record = ddd.Rows[0]["record"].ObjToString();
+            cmd = "Select * from `contacts_reports_data` WHERE `reportRecord` = '" + record + "' ORDER by `order`;";
+            DataTable dt = G1.get_db_data(cmd);
+
+            string field = "";
+            string data = "";
+            string status = "";
+
+            DataTable dx = null;
+            string[] Lines = null;
+            string operand = "";
+            string body = "";
+            int iBody = 0;
+            DateTime date = DateTime.Now;
+            DateTime today = DateTime.Now;
+
+            bool isCustom = false;
+
+            string agent = cmbEmployee.Text.Trim();
+            if (agent.ToUpper() == "ALL")
+                agent = "";
+            if (string.IsNullOrWhiteSpace(agent))
+                agent = workAgent;
+
+            cmd = ContactsPreneed.BuildReportQuery("Contacts", dt, agent, ref isCustom);
+            dx = G1.get_db_data(cmd);
+
+            if (dx != null)
+            {
+                this.Cursor = Cursors.WaitCursor;
+                int height = this.Height;
+
+                Contacts form = null;
+                if (!isCustom)
+                    form = new Contacts(dx, customReport );
+                else
+                    form = new Contacts(dx, dt, true, customReport, agent );
+
+                //leadForm.StartPosition = FormStartPosition.CenterParent;
+                //form.Show();
+                form.Anchor = AnchorStyles.None;
+
+                form.AutoSize = true; //this causes the form to grow only. Don't set it if you want to resize automatically using AnchorStyles, as I did below.
+                form.FormBorderStyle = FormBorderStyle.Sizable; //I think this is not necessary to solve the problem, but I have left it there just in case :-)
+                //form.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                //                    | System.Windows.Forms.AnchorStyles.Left)
+                //                    | System.Windows.Forms.AnchorStyles.Right)));
+
+                form.Show();
+                form.Location = new Point(this.Parent.Left+500, this.Parent.Top+500);
+                form.Height = height + 200;
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.SetBounds(this.Parent.Left + 100, this.Parent.Top + 100, form.Width, height + 50);
+                form.Refresh();
+
+                this.Cursor = Cursors.Default;
+            }
+        }
+        /****************************************************************************************/
+        private void reportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+
+            string agent = cmbEmployee.Text;
+
+            ContactReports reports = new ContactReports("Contacts", agent, gridMain );
+            reports.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        public RepositoryItemComboBox FireEventGrabSomething(string what)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("item");
+            DataRow dRow = null;
+            string item = "";
+            for (int i = 0; i < dgv.RepositoryItems.Count; i++)
+            {
+                try
+                {
+                    item = dgv.RepositoryItems[i].Name.Trim();
+                    if (item == what)
+                    {
+                        return (DevExpress.XtraEditors.Repository.RepositoryItemComboBox)dgv.RepositoryItems[i];
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            return null;
+        }
+        /****************************************************************************************/
+        public RepositoryItemComboBox FireEventGrabNewSomething(string what)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("item");
+            DataRow dRow = null;
+            string item = "";
+            for (int i = 0; i < gridMain.Columns.Count; i++)
+            {
+                try
+                {
+                    item = gridMain.Columns[i].FieldName.Trim();
+
+                    //item = dgv.RepositoryItems[i].Name.Trim();
+                    if (item == what)
+                    {
+                        RepositoryItemComboBox cBox = (RepositoryItemComboBox)gridMain.Columns[i].ColumnEdit;
+                        return cBox;
+                        //return (DevExpress.XtraEditors.Repository.RepositoryItemComboBox)dgv.RepositoryItems[i];
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            return null;
+        }
+        /****************************************************************************************/
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DataTable agentDt = (DataTable)cmbEmployee.DataSource;
+            string agent = cmbEmployee.Text.Trim();
+            if (agent.ToUpper() == "ALL")
+                agent = "";
+
+            ContactReportsAgents agentsForm = new ContactReportsAgents(agentDt, gridMain, agent, "Contacts" );
+            agentsForm.Show();
         }
         /****************************************************************************************/
     }

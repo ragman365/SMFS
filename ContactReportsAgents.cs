@@ -50,26 +50,30 @@ namespace SMFS
         private string sendUsername = "";
         private string da = "";
         private string forceReportName = "";
+        private string workReportIn = "";
+        private string workModule = "";
         /****************************************************************************************/
         EditCust editCust = null;
         /****************************************************************************************/
 
-        public ContactReportsAgents( DataTable dt, DevExpress.XtraGrid.Views.Grid.GridView dgv, string agent )
+        public ContactReportsAgents( DataTable dt, DevExpress.XtraGrid.Views.Grid.GridView dgv, string agent, string module )
         {
             InitializeComponent();
 
             workDt = dt;
             workGV = dgv;
             workAgent = agent;
+            workModule = module;
         }
         /****************************************************************************************/
-        public ContactReportsAgents(bool auto, bool force, string send, string username, string ReportName = "" )
+        public ContactReportsAgents(bool auto, bool force, string send, string username, string report, string ReportName = "" )
         {
             InitializeComponent();
             autoRun = auto;
             autoForce = force;
             sendWhere = send;
             sendUsername = username;
+            workReportIn = report;
             forceReportName = ReportName;
             RunAutoReports();
         }
@@ -985,7 +989,7 @@ namespace SMFS
             //string record = getCurrentReportRecord();
             //if (String.IsNullOrWhiteSpace(record))
             //    return;
-            string cmd = "Select * from `contacts_reports_data` where `agent` = '" + workAgent + "';";
+            string cmd = "Select * from `contacts_reports_data` where `agent` = '" + workAgent + "' AND `module` = '" + workModule + "';";
             DataTable dt = G1.get_db_data(cmd);
 
             //repositoryItemComboBox11.Items.Clear();
@@ -1092,12 +1096,13 @@ namespace SMFS
         {
             string report = "";
             selectedReport = "";
-            string cmd = "Select * from `contacts_reports` order by `order`;";
+            string cmd = "Select * from `contacts_reports` WHERE `module` = '" + workModule + "' order by `order`;";
             DataTable dt = G1.get_db_data(cmd);
             dt.Columns.Add("num");
             G1.NumberDataTable(dt);
 
             string lines = "Manual Report\n";
+            //string lines = "";
             for (int i = 0; i < dt.Rows.Count; i++)
                 lines += dt.Rows[i]["report"].ObjToString() + "\n";
 
@@ -1150,6 +1155,7 @@ namespace SMFS
                 DataRow dRow = dt.NewRow();
                 dRow["num"] = (dt.Rows.Count + 1).ToString();
                 dRow["record"] = record;
+                dRow["module"] = workModule;
                 //dRow["reportRecord"] = reportRecord;
                 dRow["report"] = report;
                 dRow["agent"] = workAgent;
@@ -1160,7 +1166,7 @@ namespace SMFS
 
                 dt.Rows.Add(dRow);
 
-                G1.update_db_table("contacts_reports_data", "record", record, new string[] { "order", dt.Rows.Count.ToString(), "spare", "", "agent", workAgent, "report", report, "manual", manual });
+                G1.update_db_table("contacts_reports_data", "record", record, new string[] { "order", dt.Rows.Count.ToString(), "spare", "", "agent", workAgent, "report", report, "manual", manual, "module", workModule });
 
                 row = dt.Rows.Count;
                 dgv6.DataSource = dt;
@@ -1393,7 +1399,8 @@ namespace SMFS
 
             bool isCustom = false;
 
-            string cmd = ContactReports.BuildReportQuery(dt, workAgent, ref isCustom);
+            //string cmd = ContactReports.BuildReportQuery(dt, workAgent, ref isCustom);
+            string cmd = ContactsPreneed.BuildReportQuery(workModule, dt, workAgent, ref isCustom);
 
             dx = G1.get_db_data(cmd);
 
@@ -1409,12 +1416,31 @@ namespace SMFS
                 this.Cursor = Cursors.WaitCursor;
                 int height = this.Height;
 
-                ContactsPreneed form = new ContactsPreneed( dx, autoRun, agent, email, report, sendWhere, sendUsername, displayFormat, isCustom, dt );
+                DevExpress.XtraEditors.XtraForm form = null;
+                if (workModule.ToUpper() == "CONTACTS")
+                {
+                    form = new Contacts();
+                    if (!isCustom)
+                        form = new Contacts(dx, report );
+                    else
+                        form = new Contacts(dx, dt, true, report );
+                }
+                else
+                {
+                    form = new ContactsPreneed();
+                    if (!isCustom)
+                        form = new ContactsPreneed(dx, report );
+                    else
+                        form = new ContactsPreneed(dx, dt, true, report );
+                }
+
+                //ContactsPreneed form = new ContactsPreneed( dx, autoRun, agent, email, report, sendWhere, sendUsername, displayFormat, isCustom, dt );
                 form.Text = report;
                 //leadForm.StartPosition = FormStartPosition.CenterParent;
                 form.Show();
 
-                G1.AddToAudit("System", "AutoRun", "Agent Contacts Report Ran", "RAN Agent Contacts Autorun . . . . . . . ", "");
+                if ( autoRun )
+                    G1.AddToAudit("System", "AutoRun", "Agent Contacts Report Ran", "RAN Agent Contacts Autorun . . . . . . . ", "");
 
                 //form.Anchor = AnchorStyles.None;
 
@@ -1664,7 +1690,7 @@ namespace SMFS
 
             DataTable dt = BuildQueryTable(query);
 
-            ContactEditParms parmsForm = new ContactEditParms(workAgent, workGV, dt );
+            ContactEditParms parmsForm = new ContactEditParms(workAgent, workGV, dt, workModule );
             parmsForm.contactParmsDone += ParmsForm_contactParmsDone;
             parmsForm.ShowDialog();
         }

@@ -3059,7 +3059,7 @@
             this.tabRemoved.Location = new System.Drawing.Point(4, 25);
             this.tabRemoved.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabRemoved.Name = "tabRemoved";
-            this.tabRemoved.Size = new System.Drawing.Size(1636, 391);
+            this.tabRemoved.Size = new System.Drawing.Size(1636, 389);
             this.tabRemoved.TabIndex = 2;
             this.tabRemoved.Text = "Payments Removed from Trust";
             this.tabRemoved.UseVisualStyleBackColor = true;
@@ -3075,7 +3075,7 @@
             this.dgv8.MainView = this.gridMain8;
             this.dgv8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv8.Name = "dgv8";
-            this.dgv8.Size = new System.Drawing.Size(1636, 391);
+            this.dgv8.Size = new System.Drawing.Size(1636, 389);
             this.dgv8.TabIndex = 8;
             this.dgv8.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain8});

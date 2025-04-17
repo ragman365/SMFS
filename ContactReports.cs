@@ -38,14 +38,16 @@ namespace SMFS
         private bool funModified = false;
         private bool otherModified = false;
         private string workAgent = "";
+        private string workModule = "";
         /****************************************************************************************/
         EditCust editCust = null;
         /****************************************************************************************/
 
-        public ContactReports( string agent, DevExpress.XtraGrid.Views.Grid.GridView dgv )
+        public ContactReports( string module, string agent, DevExpress.XtraGrid.Views.Grid.GridView dgv )
         {
             InitializeComponent();
 
+            workModule = module;
             workAgent = agent;
             workGV = dgv;
         }
@@ -61,6 +63,8 @@ namespace SMFS
             RemoveTabPage("Report Information");
             chkReports.Hide();
             lblSelect.Hide();
+
+            LoadFieldRepository();
 
             LoadData();
 
@@ -87,12 +91,49 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
+        private void LoadFieldRepository ()
+        {
+            DataRow dRow = null;
+            string caption = "";
+            string field = "";
+            int idx = 0;
+            DataTable myList = new DataTable();
+            myList.Columns.Add("field");
+            myList.Columns.Add("sort");
+
+            for (int i = 0; i < workGV.Columns.Count; i++)
+            {
+                caption = workGV.Columns[i].Caption;
+                field = workGV.Columns[i].FieldName;
+                idx = workGV.Columns[i].VisibleIndex;
+                if (idx < 0)
+                    continue;
+                if (!workGV.Columns[i].Visible)
+                    continue;
+                dRow = myList.NewRow();
+                dRow["field"] = field;
+                dRow["sort"] = idx.ToString("D3");
+                myList.Rows.Add(dRow);
+            }
+
+            DataView tempview = myList.DefaultView;
+            tempview.Sort = "sort asc";
+            myList = tempview.ToTable();
+
+            this.repositoryItemComboBox11.Items.Clear();
+            for ( int i=0; i<myList.Rows.Count; i++)
+            {
+                field = myList.Rows[i]["field"].ObjToString();
+                this.repositoryItemComboBox11.Items.Add(field);
+            }
+        }
+        /***********************************************************************************************/
         public DataTable saveMembersDt = null;
         public bool preprocessDone = false;
 
         private void LoadData()
         {
-            string cmd = "Select * from `contacts_reports` order by `order`;";
+            string cmd = "Select * from `contacts_reports` where `module` = '" + workModule + "' order by `order`;";
             DataTable dt = G1.get_db_data(cmd);
             dt.Columns.Add("num");
             dt.Columns.Add("mod");
@@ -144,12 +185,13 @@ namespace SMFS
                 DataRow dRow = dt.NewRow();
                 dRow["num"] = (dt.Rows.Count + 1).ToString();
                 dRow["record"] = record;
+                dRow["module"] = workModule;
                 dRow["report"] = "New Report";
                 dRow["order"] = dt.Rows.Count;
 
                 dt.Rows.Add(dRow);
 
-                G1.update_db_table("contacts_reports", "record", record, new string[] { "order", dt.Rows.Count.ToString(), "spare", "" });
+                G1.update_db_table("contacts_reports", "record", record, new string[] { "order", dt.Rows.Count.ToString(), "spare", "", "module", workModule });
 
                 row = dt.Rows.Count;
                 dgv.DataSource = dt;
@@ -404,16 +446,30 @@ namespace SMFS
                 GridColumn column = hitInfo.Column;
                 currentColumn = column.FieldName.Trim();
 
-                ContactsPreneed form = (ContactsPreneed)G1.IsFormOpen("ContactsPreneed");
-                if (form != null)
+                if (workModule.ToUpper() == "CONTACTS")
                 {
-                    RepositoryItemComboBox itemBox = form.FireEventGrabSomething(columnEdit);
-                    repositoryCaptions[repositoryCount] = column.FieldName;
-                    repositoryNames[repositoryCount] = columnEdit;
-                    Repository[repositoryCount] = itemBox;
-                    repositoryCount++;
+                    Contacts form = (Contacts)G1.IsFormOpen("Contacts");
+                    if (form != null)
+                    {
+                        RepositoryItemComboBox itemBox = form.FireEventGrabSomething(columnEdit);
+                        repositoryCaptions[repositoryCount] = column.FieldName;
+                        repositoryNames[repositoryCount] = columnEdit;
+                        Repository[repositoryCount] = itemBox;
+                        repositoryCount++;
+                    }
                 }
-
+                else
+                {
+                    ContactsPreneed form = (ContactsPreneed)G1.IsFormOpen("ContactsPreneed");
+                    if (form != null)
+                    {
+                        RepositoryItemComboBox itemBox = form.FireEventGrabSomething(columnEdit);
+                        repositoryCaptions[repositoryCount] = column.FieldName;
+                        repositoryNames[repositoryCount] = columnEdit;
+                        Repository[repositoryCount] = itemBox;
+                        repositoryCount++;
+                    }
+                }
             }
         }
         /****************************************************************************************/
@@ -970,6 +1026,11 @@ namespace SMFS
         /****************************************************************************************/
         private void LoadReportData ()
         {
+            if ( workModule.ToUpper() == "CONTACTS")
+            {
+                LoadContactsReportData();
+                return;
+            }
             string record = getCurrentReportRecord();
             if (String.IsNullOrWhiteSpace(record))
                 return;
@@ -1013,6 +1074,63 @@ namespace SMFS
                     }
                 }
                 catch ( Exception ex)
+                {
+                }
+            }
+
+            dt.Columns.Add("mod");
+            G1.NumberDataTable(dt);
+
+            dgv6.DataSource = dt;
+            dgv6.Refresh();
+
+            ciLookup.SelectedIndexChanged += CiLookup_SelectedIndexChanged;
+        }
+        /****************************************************************************************/
+        private void LoadContactsReportData()
+        {
+            string record = getCurrentReportRecord();
+            if (String.IsNullOrWhiteSpace(record))
+                return;
+            string cmd = "Select * from `contacts_reports_data` WHERE `reportRecord` = '" + record + "' ORDER by `order`;";
+            DataTable dt = G1.get_db_data(cmd);
+
+            string field = "";
+            string caption = "";
+            repositoryCount = 0;
+
+            Contacts form = (Contacts)G1.IsFormOpen("Contacts");
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                try
+                {
+                    if (form != null)
+                    {
+                        field = dt.Rows[i]["field"].ObjToString();
+
+                        if (G1.get_column_number(workGV, field) < 0)
+                            continue;
+
+                        if (!workGV.Columns[field].Visible)
+                            continue;
+                        caption = workGV.Columns[field].Caption;
+                        columnEdit = workGV.Columns[field].ColumnEditName.ObjToString();
+                        if (String.IsNullOrWhiteSpace(columnEdit))
+                            continue;
+
+
+                        RepositoryItemComboBox itemBox = form.FireEventGrabNewSomething(field);
+                        if (itemBox != null)
+                        {
+                            repositoryCaptions[repositoryCount] = field;
+                            repositoryNames[repositoryCount] = field;
+                            Repository[repositoryCount] = itemBox;
+                            repositoryCount++;
+                        }
+                    }
+                }
+                catch (Exception ex)
                 {
                 }
             }
@@ -1237,6 +1355,7 @@ namespace SMFS
                 DataRow dRow = dt.NewRow();
                 dRow["num"] = (dt.Rows.Count + 1).ToString();
                 dRow["record"] = record;
+                dRow["module"] = workModule;
                 dRow["reportRecord"] = reportRecord;
                 dRow["field"] = "New Field";
                 dRow["mod"] = "Y";
@@ -1244,7 +1363,7 @@ namespace SMFS
 
                 dt.Rows.Add(dRow);
 
-                G1.update_db_table("contacts_reports_data", "record", record, new string[] { "order", dt.Rows.Count.ToString(), "spare", "", "reportRecord", reportRecord, "field", "New Field" });
+                G1.update_db_table("contacts_reports_data", "record", record, new string[] { "order", dt.Rows.Count.ToString(), "spare", "", "reportRecord", reportRecord, "field", "New Field", "module", workModule });
 
                 row = dt.Rows.Count;
                 dgv6.DataSource = dt;
@@ -1317,7 +1436,7 @@ namespace SMFS
                 status = dt.Rows[i]["status"].ObjToString();
                 help = dt.Rows[i]["help"].ObjToString();
                 operand = dt.Rows[i]["operand"].ObjToString();
-                G1.update_db_table("contacts_reports_data", "record", record, new string[] { "order", i.ToString(), "spare", "", "field", field, "data", data, "status", status, "help", help, "operand", operand });
+                G1.update_db_table("contacts_reports_data", "record", record, new string[] { "order", i.ToString(), "spare", "", "field", field, "data", data, "status", status, "help", help, "operand", operand, "module", workModule });
             }
 
             btnSaveData.Hide();
@@ -1350,133 +1469,9 @@ namespace SMFS
             DateTime date = DateTime.Now;
             DateTime today = DateTime.Now;
 
-            //cmd = "Select * from `contacts_preneed` WHERE ";
-            //bool found = false;
-
-            ////bool isCustom = false;
-            //for (int i = 0; i < dt.Rows.Count; i++)
-            //{
-            //    field = dt.Rows[i]["field"].ObjToString();
-            //    if ( field.ToUpper() == "{CUSTOM}")
-            //    {
-            //        isCustom = true;
-            //        continue;
-            //    }
-            //    data = dt.Rows[i]["data"].ObjToString();
-            //    if (String.IsNullOrWhiteSpace(data))
-            //        continue;
-            //    status = dt.Rows[i]["status"].ObjToString();
-            //    if (status.ToUpper() == "OFF")
-            //        continue;
-
-            //    operand = dt.Rows[i]["operand"].ObjToString();
-
-            //    body = data.Trim();
-
-            //    date = body.ObjToDateTime();
-            //    if (date.Year < 1000)
-            //    {
-            //        if (!G1.validate_numeric(body))
-            //        {
-            //            if (found)
-            //                cmd += " AND ";
-            //            cmd += " `" + field + "` " + operand + " '" + body + "' ";
-            //            found = true;
-            //            continue;
-            //        }
-            //        today = DateTime.Now;
-            //        if (operand == ">")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1);
-            //            if (field.ToUpper() != "AGE")
-            //                operand = "<";
-            //        }
-            //        else if (operand == ">=")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1);
-            //            if (field.ToUpper() != "AGE")
-            //                operand = "<=";
-            //        }
-            //        else if (operand == "<")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1);
-            //            if (field.ToUpper() != "AGE")
-            //                operand = ">";
-            //        }
-            //        else if (operand == "<=")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1);
-            //            if (field.ToUpper() != "AGE")
-            //                operand = ">=";
-            //        }
-            //        else if (operand == "!=")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1);
-            //            if (field.ToUpper() != "AGE")
-            //                operand = ">=";
-            //        }
-            //        else if (operand == "=")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //        }
-            //        else
-            //            continue;
-            //        if (found)
-            //            cmd += " AND ";
-            //        if (field.ToUpper() == "AGE")
-            //            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
-            //        else
-            //            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
-            //        found = true;
-            //    }
-            //    else
-            //    {
-            //        if (!G1.validate_numeric(body))
-            //        {
-            //            if (G1.validate_date(body))
-            //            {
-            //                date = body.ObjToDateTime();
-            //                body = date.ToString("yyyy-MM-dd");
-            //            }
-            //            if (found)
-            //                cmd += " AND ";
-            //            cmd += " `" + field + "` " + operand + " '" + body + "' ";
-            //            found = true;
-            //            continue;
-            //        }
-            //        else
-            //            continue;
-            //        if (found)
-            //            cmd += " AND ";
-            //        if (field.ToUpper() == "AGE")
-            //            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
-            //        else
-            //            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
-            //        found = true;
-            //    }
-            //}
-
-            //if (!found)
-            //{
-            //    MessageBox.Show("Search Criteria is Empty!", "Search Criteria Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-            //    return;
-            //}
-            //if (!String.IsNullOrWhiteSpace(workAgent))
-            //{
-            //    if (workAgent.ToUpper() != "ALL")
-            //        cmd += " AND `agent` = '" + workAgent + "' ";
-            //}
-
-            //cmd += ";";
-
             bool isCustom = false;
 
-            cmd = BuildReportQuery(dt, workAgent, ref isCustom);
+            cmd = ContactsPreneed.BuildReportQuery(workModule, dt, workAgent, ref isCustom);
             dx = G1.get_db_data(cmd);
 
             if (dx != null)
@@ -1484,11 +1479,23 @@ namespace SMFS
                 this.Cursor = Cursors.WaitCursor;
                 int height = this.Height;
 
-                ContactsPreneed form = null;
-                if (!isCustom)
-                    form = new ContactsPreneed(dx);
+                DevExpress.XtraEditors.XtraForm form = null;
+                if (workModule.ToUpper() == "CONTACTS")
+                {
+                    form = new Contacts();
+                    if (!isCustom)
+                        form = new Contacts(dx);
+                    else
+                        form = new Contacts(dx, dt, true, customReport);
+                }
                 else
-                    form = new ContactsPreneed(dx, dt, true, customReport);
+                {
+                    form = new ContactsPreneed();
+                    if (!isCustom)
+                        form = new ContactsPreneed(dx);
+                    else
+                        form = new ContactsPreneed(dx, dt, true, customReport);
+                }
 
                 //leadForm.StartPosition = FormStartPosition.CenterParent;
                 form.Show();
@@ -1500,9 +1507,11 @@ namespace SMFS
                                     | System.Windows.Forms.AnchorStyles.Left)
                                     | System.Windows.Forms.AnchorStyles.Right)));
 
-                //form.Show();
-                form.Location = new Point(100, 100);
-                form.Height = height + 100;
+                form.Show();
+                form.Location = new Point(this.Parent.Left + 500, this.Parent.Top + 500);
+                form.Height = height + 200;
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.SetBounds(this.Parent.Left + 100, this.Parent.Top + 100, form.Width, height + 50);
                 form.Refresh();
 
                 this.Cursor = Cursors.Default;
@@ -2073,6 +2082,10 @@ namespace SMFS
             gridMain6.RefreshData();
             dgv.Refresh();
             //funModified = true;
+        }
+        /****************************************************************************************/
+        private void gridMain6_MouseDown(object sender, MouseEventArgs e)
+        {
         }
         /****************************************************************************************/
     }

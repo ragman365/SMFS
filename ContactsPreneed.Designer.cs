@@ -109,6 +109,8 @@
             this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.panelBottomRightChecksTop = new System.Windows.Forms.Panel();
             this.panelClaimTop = new System.Windows.Forms.Panel();
+            this.btnRunReport = new System.Windows.Forms.Button();
+            this.cmbReport = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbNextDays = new System.Windows.Forms.ComboBox();
             this.btnShowAnniversary = new System.Windows.Forms.Button();
@@ -187,10 +189,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1695, 709);
+            this.panelAll.Size = new System.Drawing.Size(1502, 711);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -200,7 +202,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 119);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1695, 590);
+            this.panelBottom.Size = new System.Drawing.Size(1502, 592);
             this.panelBottom.TabIndex = 3;
             // 
             // panelBottomRight
@@ -210,7 +212,7 @@
             this.panelBottomRight.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRight.Name = "panelBottomRight";
-            this.panelBottomRight.Size = new System.Drawing.Size(1695, 590);
+            this.panelBottomRight.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomRight.TabIndex = 8;
             // 
             // panelBottomRightChecks
@@ -221,7 +223,7 @@
             this.panelBottomRightChecks.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecks.Name = "panelBottomRightChecks";
-            this.panelBottomRightChecks.Size = new System.Drawing.Size(1695, 590);
+            this.panelBottomRightChecks.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomRightChecks.TabIndex = 7;
             // 
             // panelBottomRightChecksBottom
@@ -231,7 +233,7 @@
             this.panelBottomRightChecksBottom.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksBottom.Name = "panelBottomRightChecksBottom";
-            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1695, 590);
+            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomRightChecksBottom.TabIndex = 9;
             // 
             // panelBottomBottom
@@ -240,7 +242,7 @@
             this.panelBottomBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBottomBottom.Location = new System.Drawing.Point(0, 0);
             this.panelBottomBottom.Name = "panelBottomBottom";
-            this.panelBottomBottom.Size = new System.Drawing.Size(1695, 590);
+            this.panelBottomBottom.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomBottom.TabIndex = 9;
             // 
             // dgv
@@ -266,7 +268,7 @@
             this.repositoryItemComboBox6,
             this.repositoryItemComboBox7,
             this.repositoryItemMemoEdit2});
-            this.dgv.Size = new System.Drawing.Size(1695, 590);
+            this.dgv.Size = new System.Drawing.Size(1502, 592);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1226,13 +1228,15 @@
             this.panelBottomRightChecksTop.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksTop.Name = "panelBottomRightChecksTop";
-            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1695, 590);
+            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomRightChecksTop.TabIndex = 8;
             this.panelBottomRightChecksTop.Visible = false;
             // 
             // panelClaimTop
             // 
             this.panelClaimTop.BackColor = System.Drawing.Color.Honeydew;
+            this.panelClaimTop.Controls.Add(this.btnRunReport);
+            this.panelClaimTop.Controls.Add(this.cmbReport);
             this.panelClaimTop.Controls.Add(this.label5);
             this.panelClaimTop.Controls.Add(this.cmbNextDays);
             this.panelClaimTop.Controls.Add(this.btnShowAnniversary);
@@ -1268,8 +1272,32 @@
             this.panelClaimTop.Location = new System.Drawing.Point(0, 0);
             this.panelClaimTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelClaimTop.Name = "panelClaimTop";
-            this.panelClaimTop.Size = new System.Drawing.Size(1695, 119);
+            this.panelClaimTop.Size = new System.Drawing.Size(1502, 119);
             this.panelClaimTop.TabIndex = 2;
+            // 
+            // btnRunReport
+            // 
+            this.btnRunReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnRunReport.Location = new System.Drawing.Point(553, 81);
+            this.btnRunReport.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnRunReport.Name = "btnRunReport";
+            this.btnRunReport.Size = new System.Drawing.Size(80, 26);
+            this.btnRunReport.TabIndex = 159;
+            this.btnRunReport.Text = "Report";
+            this.btnRunReport.UseVisualStyleBackColor = false;
+            this.btnRunReport.Click += new System.EventHandler(this.btnRunReport_Click);
+            // 
+            // cmbReport
+            // 
+            this.cmbReport.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cmbReport.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbReport.DisplayMember = "name";
+            this.cmbReport.FormattingEnabled = true;
+            this.cmbReport.Location = new System.Drawing.Point(288, 83);
+            this.cmbReport.Name = "cmbReport";
+            this.cmbReport.Size = new System.Drawing.Size(259, 24);
+            this.cmbReport.TabIndex = 158;
+            this.cmbReport.ValueMember = "name";
             // 
             // label5
             // 
@@ -1639,7 +1667,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1695, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1502, 28);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1648,7 +1676,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1677,7 +1705,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
             // 
             // screenOptionsToolStripMenuItem
             // 
@@ -1685,7 +1713,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -1708,20 +1736,20 @@
             this.toolAgentReportList,
             this.reportsToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // toolAgentReportList
             // 
             this.toolAgentReportList.Name = "toolAgentReportList";
-            this.toolAgentReportList.Size = new System.Drawing.Size(207, 26);
+            this.toolAgentReportList.Size = new System.Drawing.Size(224, 26);
             this.toolAgentReportList.Text = "Agent Report List";
             this.toolAgentReportList.Click += new System.EventHandler(this.toolAgentReportList_Click);
             // 
             // reportsToolStripMenuItem
             // 
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.reportsToolStripMenuItem.Text = "Reports";
             this.reportsToolStripMenuItem.Click += new System.EventHandler(this.reportsToolStripMenuItem_Click);
             // 
@@ -1729,7 +1757,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1695, 739);
+            this.ClientSize = new System.Drawing.Size(1502, 739);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -1897,5 +1925,7 @@
         private System.Windows.Forms.Button btnShowAnniversary;
         private System.Windows.Forms.ComboBox cmbAnniversary;
         private System.Windows.Forms.Panel panelBottomBottom;
+        private System.Windows.Forms.Button btnRunReport;
+        private System.Windows.Forms.ComboBox cmbReport;
     }
 }

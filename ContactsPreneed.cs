@@ -77,10 +77,11 @@ namespace SMFS
             InitializeComponent();
         }
         /****************************************************************************************/
-        public ContactsPreneed( DataTable dt )
+        public ContactsPreneed( DataTable dt, string Report = "" )
         {
             InitializeComponent();
             workDt = dt;
+            workReport = Report;
         }
         /****************************************************************************************/
         public ContactsPreneed(DataTable dt, DataTable dx, bool custom = false, string Report = "" )
@@ -128,6 +129,14 @@ namespace SMFS
 
             cmbContactType.Hide();
             cmbLocation.Hide();
+
+            if (!String.IsNullOrWhiteSpace(workReport))
+                this.Text = "Report : " + workReport;
+            else if (!String.IsNullOrWhiteSpace(customReport))
+                this.Text = "Report : " + customReport;
+
+            if (!string.IsNullOrWhiteSpace(workAgent))
+                this.Text += " for " + workAgent;
 
             loading = true;
 
@@ -184,6 +193,7 @@ namespace SMFS
             LoadEmployees();
             LoadLocations();
             loadRepositoryLocatons();
+            LoadReports();
 
             LoadData();
 
@@ -320,6 +330,12 @@ namespace SMFS
                 miscToolStripMenuItem.Dispose();
             }
 
+            if (!String.IsNullOrWhiteSpace(customReport) || !String.IsNullOrWhiteSpace(workReport))
+            {
+                this.panelClaimTop.Hide();
+                screenOptionsToolStripMenuItem.Dispose();
+            }
+
             if (workFormat != "Primary")
                 cmbSelectColumns_SelectedIndexChanged(cmbSelectColumns, null);
 
@@ -327,6 +343,18 @@ namespace SMFS
             {
                 printPreviewToolStripMenuItem_Click(null, null);
                 this.Close();
+            }
+        }
+        /***********************************************************************************************/
+        private void LoadReports ()
+        {
+            string report = "";
+            string cmd = "Select * from `contacts_reports` where `module` = 'Contacts Preneed';";
+            DataTable dx = G1.get_db_data(cmd);
+            for ( int i=0; i<dx.Rows.Count; i++)
+            {
+                report = dx.Rows[i]["report"].ObjToString();
+                cmbReport.Items.Add(report);
             }
         }
         /***********************************************************************************************/
@@ -4472,7 +4500,7 @@ namespace SMFS
 
             string agent = cmbEmployee.Text;
 
-            ContactReports reports = new ContactReports( agent, gridMain );
+            ContactReports reports = new ContactReports( "Contacts Preneed", agent, gridMain );
             reports.Show();
             this.Cursor = Cursors.Default;
         }
@@ -4484,7 +4512,7 @@ namespace SMFS
             if (agent.ToUpper() == "ALL")
                 agent = "";
 
-            ContactReportsAgents agentsForm = new ContactReportsAgents(agentDt, gridMain, agent );
+            ContactReportsAgents agentsForm = new ContactReportsAgents(agentDt, gridMain, agent, "Contacts Preneed" );
             agentsForm.Show();
         }
         /****************************************************************************************/
@@ -5007,6 +5035,248 @@ namespace SMFS
             this.Refresh();
 
             gridMain.PostEditor();
+        }
+        /****************************************************************************************/
+        public static string BuildReportQuery(string module, DataTable dt, string workAgent, ref bool isCustom)
+        {
+            string cmd = "Select * from `contacts_preneed` WHERE ";
+            if ( module.ToUpper() == "CONTACTS")
+                cmd = "Select * from `contacts` WHERE ";
+
+            bool found = false;
+            string field = "";
+            string operand = "";
+            string data = "";
+            string status = "";
+            string body = "";
+            DateTime date = DateTime.Now;
+            DateTime today = DateTime.Now;
+            int iBody = 0;
+            string[] Lines = null;
+            bool gotToday = false;
+
+            isCustom = false;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                gotToday = false;
+                field = dt.Rows[i]["field"].ObjToString();
+                if (field.ToUpper() == "{CUSTOM}")
+                {
+                    isCustom = true;
+                    continue;
+                }
+                data = dt.Rows[i]["data"].ObjToString();
+                if (String.IsNullOrWhiteSpace(data))
+                    continue;
+                if (data.ToUpper().IndexOf("TODAY") == 0)
+                {
+                    date = DateTime.Now;
+                    data = data.ToUpper().Replace("TODAY", "").Trim();
+                    Lines = data.Split(' ');
+                    if (Lines.Length >= 2)
+                    {
+                        int days = Lines[1].Trim().ObjToInt32();
+                        if (Lines[0].Trim() == "-")
+                            days = days * -1;
+                        date = date.AddDays(days);
+                        data = date.ToString("yyyy-MM-dd");
+                        gotToday = true;
+                    }
+                    else
+                    {
+                        data = date.ToString("yyyy-MM-dd");
+                        gotToday = true;
+                    }
+                }
+                status = dt.Rows[i]["status"].ObjToString();
+                if (status.ToUpper() == "OFF")
+                    continue;
+
+                operand = dt.Rows[i]["operand"].ObjToString();
+
+                body = data.Trim();
+
+                date = body.ObjToDateTime();
+                if (date.Year < 1000 || gotToday)
+                {
+                    if (!G1.validate_numeric(body))
+                    {
+                        if (found)
+                            cmd += " AND ";
+                        cmd += " `" + field + "` " + operand + " '" + body + "' ";
+                        found = true;
+                        continue;
+                    }
+                    today = DateTime.Now;
+                    if (operand == ">")
+                    {
+                        iBody = body.ObjToInt32();
+                        today = today.AddDays(iBody * -1);
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = "<";
+                    }
+                    else if (operand == ">=")
+                    {
+                        iBody = body.ObjToInt32();
+                        today = today.AddDays(iBody * -1);
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = "<=";
+                    }
+                    else if (operand == "<")
+                    {
+                        iBody = body.ObjToInt32();
+                        today = today.AddDays(iBody * -1);
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = ">";
+                    }
+                    else if (operand == "<=")
+                    {
+                        iBody = body.ObjToInt32();
+                        today = today.AddDays(iBody * -1);
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = ">=";
+                    }
+                    else if (operand == "!=")
+                    {
+                        iBody = body.ObjToInt32();
+                        today = today.AddDays(iBody * -1);
+                        if (gotToday)
+                            today = date;
+                        //if (field.ToUpper() != "AGE")
+                        //    operand = ">=";
+                    }
+                    else if (operand == "=")
+                    {
+                        iBody = body.ObjToInt32();
+                    }
+                    else
+                        continue;
+                    if (found)
+                        cmd += " AND ";
+                    if (field.ToUpper() == "AGE")
+                        cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
+                    else
+                        cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
+                    found = true;
+                }
+                else
+                {
+                    if (!G1.validate_numeric(body))
+                    {
+                        if (G1.validate_date(body))
+                        {
+                            date = body.ObjToDateTime();
+                            body = date.ToString("yyyy-MM-dd");
+                        }
+                        if (found)
+                            cmd += " AND ";
+                        cmd += " `" + field + "` " + operand + " '" + body + "' ";
+                        found = true;
+                        continue;
+                    }
+                    else
+                        continue;
+                    if (found)
+                        cmd += " AND ";
+                    if (field.ToUpper() == "AGE")
+                        cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
+                    else
+                        cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
+                    found = true;
+                }
+            }
+
+            if (!found && !isCustom)
+            {
+                MessageBox.Show("Search Criteria is Empty!", "Search Criteria Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return "";
+            }
+            if (!String.IsNullOrWhiteSpace(workAgent))
+            {
+                if (workAgent.ToUpper() != "ALL")
+                    cmd += " AND `agent` = '" + workAgent + "' ";
+            }
+
+            cmd += ";";
+            return cmd;
+        }
+        /****************************************************************************************/
+        private void btnRunReport_Click(object sender, EventArgs e)
+        {
+            string customReport = cmbReport.Text.Trim();
+            if (String.IsNullOrWhiteSpace(customReport))
+                return;
+
+
+            string cmd = "Select * from `contacts_reports` WHERE `module` = 'Contacts Preneed' AND `report` = '" + customReport + "';";
+            DataTable ddd = G1.get_db_data(cmd);
+            if (ddd.Rows.Count <= 0)
+                return;
+            string record = ddd.Rows[0]["record"].ObjToString();
+            cmd = "Select * from `contacts_reports_data` WHERE `reportRecord` = '" + record + "' ORDER by `order`;";
+            DataTable dt = G1.get_db_data(cmd);
+
+            string field = "";
+            string data = "";
+            string status = "";
+
+            DataTable dx = null;
+            string[] Lines = null;
+            string operand = "";
+            string body = "";
+            int iBody = 0;
+            DateTime date = DateTime.Now;
+            DateTime today = DateTime.Now;
+
+            bool isCustom = false;
+
+            string agent = cmbEmployee.Text.Trim();
+            if (agent.ToUpper() == "ALL")
+                agent = "";
+            if (string.IsNullOrWhiteSpace(agent))
+                agent = workAgent;
+
+            cmd = BuildReportQuery("Contacts Preneed", dt, agent, ref isCustom);
+            dx = G1.get_db_data(cmd);
+
+            if (dx != null)
+            {
+                this.Cursor = Cursors.WaitCursor;
+                int height = this.Height;
+
+                ContactsPreneed form = null;
+                if (!isCustom)
+                    form = new ContactsPreneed(dx, customReport );
+                else
+                    form = new ContactsPreneed(dx, dt, true, customReport);
+
+                //leadForm.StartPosition = FormStartPosition.CenterParent;
+                form.Show();
+                //form.Anchor = AnchorStyles.None;
+
+                form.AutoSize = true; //this causes the form to grow only. Don't set it if you want to resize automatically using AnchorStyles, as I did below.
+                form.FormBorderStyle = FormBorderStyle.Sizable; //I think this is not necessary to solve the problem, but I have left it there just in case :-)
+                form.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                    | System.Windows.Forms.AnchorStyles.Left)
+                                    | System.Windows.Forms.AnchorStyles.Right)));
+
+                form.Show();
+                form.Location = new Point(this.Parent.Left + 500, this.Parent.Top + 500);
+                form.Height = height + 200;
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.SetBounds(this.Parent.Left + 100, this.Parent.Top + 100, form.Width, height + 50);
+                form.Refresh();
+
+                this.Cursor = Cursors.Default;
+            }
         }
         /****************************************************************************************/
     }

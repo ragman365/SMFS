@@ -40,17 +40,19 @@ namespace SMFS
         private string workAgent = "";
         private string workParms = "";
         private DataTable workDt = null;
+        private string workModule = "";
         /****************************************************************************************/
         EditCust editCust = null;
         /****************************************************************************************/
 
-        public ContactEditParms( string parms, DevExpress.XtraGrid.Views.Grid.GridView dgv, DataTable dt )
+        public ContactEditParms( string parms, DevExpress.XtraGrid.Views.Grid.GridView dgv, DataTable dt, string module )
         {
             InitializeComponent();
 
             workParms = parms;
             workGV = dgv;
             workDt = dt;
+            workModule = module;
         }
         /****************************************************************************************/
         private void ContactEditParms_Load(object sender, EventArgs e)
@@ -534,10 +536,15 @@ namespace SMFS
             int iBody = 0;
             DateTime date = DateTime.Now;
             DateTime today = DateTime.Now;
+            bool gotStatus = true;
+            if (G1.get_column_number(dt, "status") < 0)
+                gotStatus = false;
 
             DataTable workDt = null;
 
             string cmd = "Select * from `contacts_preneed` WHERE ";
+            if ( workModule.ToUpper() == "CONTACTS")
+                cmd = "Select * from `contacts` WHERE ";
             bool found = false;
 
             for ( int i=0; i<dt.Rows.Count; i++)
@@ -546,9 +553,12 @@ namespace SMFS
                 data = dt.Rows[i]["data"].ObjToString();
                 if (String.IsNullOrWhiteSpace(data))
                     continue;
-                status = dt.Rows[i]["status"].ObjToString();
-                if (status.ToUpper() == "OFF")
-                    continue;
+                if (gotStatus)
+                {
+                    status = dt.Rows[i]["status"].ObjToString();
+                    if (status.ToUpper() == "OFF")
+                        continue;
+                }
 
                 operand = dt.Rows[i]["operand"].ObjToString();
 
@@ -585,6 +595,11 @@ namespace SMFS
                     cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
                     found = true;
                 }
+                else
+                {
+                    cmd += " `" + field + "` " + operand + " '" + date.ToString("yyyy-MM-dd") + "' ";
+                    found = true;
+                }
             }
 
             if ( !found )
@@ -605,7 +620,11 @@ namespace SMFS
             {
                 this.Cursor = Cursors.WaitCursor;
                 int height = this.Height;
-                ContactsPreneed form = new ContactsPreneed( dx );
+                DevExpress.XtraEditors.XtraForm form = null;
+                if ( workModule.ToUpper() == "CONTACTS")
+                    form = new Contacts( dx, "Some Report" );
+                else
+                    form = new ContactsPreneed(dx, "Some Report" );
                 //leadForm.StartPosition = FormStartPosition.CenterParent;
                 form.Show();
                 //form.Anchor = AnchorStyles.None;

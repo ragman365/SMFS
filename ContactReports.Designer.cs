@@ -90,6 +90,8 @@
             this.repositoryItemPictureEdit4 = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
             this.repositoryItemDateEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.picDataDown = new System.Windows.Forms.PictureBox();
+            this.picDataUp = new System.Windows.Forms.PictureBox();
             this.btnRunReport = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
@@ -103,8 +105,6 @@
             this.lblFamily = new System.Windows.Forms.Label();
             this.pictureBox12 = new System.Windows.Forms.PictureBox();
             this.pictureBox11 = new System.Windows.Forms.PictureBox();
-            this.picDataDown = new System.Windows.Forms.PictureBox();
-            this.picDataUp = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).BeginInit();
             this.panelAll.SuspendLayout();
@@ -139,6 +139,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2.CalendarTimeProperties)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picDataDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picDataUp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panelFamilyTop.SuspendLayout();
@@ -147,8 +149,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.chkReports.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picDataDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picDataUp)).BeginInit();
             this.SuspendLayout();
             // 
             // repositoryItemComboBox9
@@ -848,6 +848,7 @@
             this.gridMain6.RowHeight = 4;
             this.gridMain6.ShownEditor += new System.EventHandler(this.gridMain6_ShownEditor);
             this.gridMain6.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain6_CellValueChanged);
+            this.gridMain6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridMain6_MouseDown);
             this.gridMain6.DoubleClick += new System.EventHandler(this.gridMain6_DoubleClick);
             // 
             // gridBand5
@@ -1166,6 +1167,32 @@
             this.panel1.Size = new System.Drawing.Size(1415, 46);
             this.panel1.TabIndex = 10;
             // 
+            // picDataDown
+            // 
+            this.picDataDown.Image = ((System.Drawing.Image)(resources.GetObject("picDataDown.Image")));
+            this.picDataDown.Location = new System.Drawing.Point(162, 11);
+            this.picDataDown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.picDataDown.Name = "picDataDown";
+            this.picDataDown.Size = new System.Drawing.Size(36, 28);
+            this.picDataDown.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picDataDown.TabIndex = 38;
+            this.picDataDown.TabStop = false;
+            this.picDataDown.Tag = "Add Client";
+            this.picDataDown.Click += new System.EventHandler(this.picDataDown_Click);
+            // 
+            // picDataUp
+            // 
+            this.picDataUp.Image = ((System.Drawing.Image)(resources.GetObject("picDataUp.Image")));
+            this.picDataUp.Location = new System.Drawing.Point(119, 11);
+            this.picDataUp.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.picDataUp.Name = "picDataUp";
+            this.picDataUp.Size = new System.Drawing.Size(36, 28);
+            this.picDataUp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picDataUp.TabIndex = 37;
+            this.picDataUp.TabStop = false;
+            this.picDataUp.Tag = "Add Client";
+            this.picDataUp.Click += new System.EventHandler(this.picDataUp_Click);
+            // 
             // btnRunReport
             // 
             this.btnRunReport.BackColor = System.Drawing.Color.Transparent;
@@ -1328,32 +1355,6 @@
             this.pictureBox11.TabStop = false;
             this.pictureBox11.Click += new System.EventHandler(this.pictureBox11_Click);
             // 
-            // picDataDown
-            // 
-            this.picDataDown.Image = ((System.Drawing.Image)(resources.GetObject("picDataDown.Image")));
-            this.picDataDown.Location = new System.Drawing.Point(162, 11);
-            this.picDataDown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.picDataDown.Name = "picDataDown";
-            this.picDataDown.Size = new System.Drawing.Size(36, 28);
-            this.picDataDown.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picDataDown.TabIndex = 38;
-            this.picDataDown.TabStop = false;
-            this.picDataDown.Tag = "Add Client";
-            this.picDataDown.Click += new System.EventHandler(this.picDataDown_Click);
-            // 
-            // picDataUp
-            // 
-            this.picDataUp.Image = ((System.Drawing.Image)(resources.GetObject("picDataUp.Image")));
-            this.picDataUp.Location = new System.Drawing.Point(119, 11);
-            this.picDataUp.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.picDataUp.Name = "picDataUp";
-            this.picDataUp.Size = new System.Drawing.Size(36, 28);
-            this.picDataUp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picDataUp.TabIndex = 37;
-            this.picDataUp.TabStop = false;
-            this.picDataUp.Tag = "Add Client";
-            this.picDataUp.Click += new System.EventHandler(this.picDataUp_Click);
-            // 
             // ContactReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1402,6 +1403,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picDataDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picDataUp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.panelFamilyTop.ResumeLayout(false);
@@ -1411,8 +1414,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.chkReports.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picDataDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picDataUp)).EndInit();
             this.ResumeLayout(false);
 
         }

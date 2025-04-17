@@ -36,7 +36,7 @@ namespace SMFS
             this.dgv = new DevExpress.XtraGrid.GridControl();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.bandedGridColumn48 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.num = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn50 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn51 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn52 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -49,6 +49,7 @@ namespace SMFS
             this.sptrust85 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn109 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.total86 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.cashAdvance5 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.lapses4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.reinstates5 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn57 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -89,10 +90,10 @@ namespace SMFS
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1302, 403);
+            this.panelAll.Size = new System.Drawing.Size(1302, 401);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -102,7 +103,7 @@ namespace SMFS
             this.panelBottom.Location = new System.Drawing.Point(0, 75);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1302, 328);
+            this.panelBottom.Size = new System.Drawing.Size(1302, 326);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -115,7 +116,7 @@ namespace SMFS
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1302, 328);
+            this.dgv.Size = new System.Drawing.Size(1302, 326);
             this.dgv.TabIndex = 8;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -252,7 +253,7 @@ namespace SMFS
             this.gridBand1});
             this.gridMain.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
             this.gridMain.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
-            this.bandedGridColumn48,
+            this.num,
             this.bandedGridColumn57,
             this.bandedGridColumn49,
             this.bandedGridColumn51,
@@ -272,7 +273,8 @@ namespace SMFS
             this.totalytd5,
             this.lapsesytd4,
             this.reinstatesytd5,
-            this.bandedGridColumn4});
+            this.bandedGridColumn4,
+            this.cashAdvance5});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.GroupCount = 1;
@@ -280,6 +282,7 @@ namespace SMFS
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "ibtrust", this.ibtrust75, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "sptrust", this.sptrust85, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "total", this.total86, "${0:0,0.00}"),
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "total", this.cashAdvance5, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "lapses", this.lapses4, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "reinstates", this.reinstates5, "${0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "ibtrustytd", this.ibtrustytd4, "${0:0,0.00}"),
@@ -313,7 +316,7 @@ namespace SMFS
             // gridBand5
             // 
             this.gridBand5.Caption = "Current Information";
-            this.gridBand5.Columns.Add(this.bandedGridColumn48);
+            this.gridBand5.Columns.Add(this.num);
             this.gridBand5.Columns.Add(this.bandedGridColumn50);
             this.gridBand5.Columns.Add(this.bandedGridColumn51);
             this.gridBand5.Columns.Add(this.bandedGridColumn52);
@@ -326,6 +329,7 @@ namespace SMFS
             this.gridBand5.Columns.Add(this.sptrust85);
             this.gridBand5.Columns.Add(this.bandedGridColumn109);
             this.gridBand5.Columns.Add(this.total86);
+            this.gridBand5.Columns.Add(this.cashAdvance5);
             this.gridBand5.Columns.Add(this.lapses4);
             this.gridBand5.Columns.Add(this.reinstates5);
             this.gridBand5.Columns.Add(this.bandedGridColumn57);
@@ -335,16 +339,16 @@ namespace SMFS
             this.gridBand5.VisibleIndex = 0;
             this.gridBand5.Width = 1389;
             // 
-            // bandedGridColumn48
+            // num
             // 
-            this.bandedGridColumn48.Caption = "Num";
-            this.bandedGridColumn48.FieldName = "num";
-            this.bandedGridColumn48.MinWidth = 31;
-            this.bandedGridColumn48.Name = "bandedGridColumn48";
-            this.bandedGridColumn48.OptionsColumn.AllowEdit = false;
-            this.bandedGridColumn48.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn48.Visible = true;
-            this.bandedGridColumn48.Width = 52;
+            this.num.Caption = "Num";
+            this.num.FieldName = "num";
+            this.num.MinWidth = 31;
+            this.num.Name = "num";
+            this.num.OptionsColumn.AllowEdit = false;
+            this.num.OptionsColumn.FixedWidth = true;
+            this.num.Visible = true;
+            this.num.Width = 52;
             // 
             // bandedGridColumn50
             // 
@@ -473,6 +477,17 @@ namespace SMFS
             this.total86.OptionsColumn.FixedWidth = true;
             this.total86.Visible = true;
             this.total86.Width = 157;
+            // 
+            // cashAdvance5
+            // 
+            this.cashAdvance5.Caption = "Cash Advance";
+            this.cashAdvance5.DisplayFormat.FormatString = "N2";
+            this.cashAdvance5.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.cashAdvance5.FieldName = "cashAdvance";
+            this.cashAdvance5.MinWidth = 25;
+            this.cashAdvance5.Name = "cashAdvance5";
+            this.cashAdvance5.OptionsColumn.FixedWidth = true;
+            this.cashAdvance5.Width = 94;
             // 
             // lapses4
             // 
@@ -714,7 +729,7 @@ namespace SMFS
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1302, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1302, 30);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -724,7 +739,7 @@ namespace SMFS
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -796,7 +811,7 @@ namespace SMFS
         private System.Windows.Forms.Button btnRun;
         private DevExpress.XtraGrid.GridControl dgv;
         private DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn48;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn num;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn49;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn50;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn51;
@@ -828,5 +843,6 @@ namespace SMFS
         private System.Windows.Forms.CheckBox chkCollapse;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn cashAdvance5;
     }
 }

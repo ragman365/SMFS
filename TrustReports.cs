@@ -513,6 +513,7 @@ namespace SMFS
             cmd += ";";
 
             DataTable dt = G1.get_db_data(cmd);
+
             if (dt.Rows.Count <= 0)
             {
                 string system = SMFS.activeSystem;
@@ -643,6 +644,7 @@ namespace SMFS
 
             if (PerformYearEnd)
                 CleanupYearEnd(dt);
+
             return dt;
         }
         /***********************************************************************************************/

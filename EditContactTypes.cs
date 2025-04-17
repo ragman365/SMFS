@@ -27,7 +27,7 @@ namespace SMFS
         private void EditContactTypes_Load(object sender, EventArgs e)
         {
             btnSaveAll.Hide();
-            string cmd = "Select * from `contactTypes` ORDER BY `order`;";
+            string cmd = "Select * from `contactTypes` GROUP BY `contactType` ORDER BY `order`;";
             DataTable dt = G1.get_db_data(cmd);
             dt.Columns.Add("num");
             dt.Columns.Add("mod");
@@ -303,6 +303,153 @@ namespace SMFS
             EditTracking trackForm = new EditTracking(true, contactType, detail );
             trackForm.Show();
             this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DataRow dr = null;
+            int rowHandle = 0;
+            int row = 0;
+            string record = "";
+            string contactType = "";
+            string category = "";
+            string contactDetail = "";
+            string scheduledTask = "";
+            string interval = "";
+            string cmd = "";
+            DataTable dx = null;
+
+            TabControl tabControl = (TabControl)sender;
+            int selectedIndex = tabControl.SelectedIndex;
+            DataTable dt = (DataTable)dgv.DataSource;
+            string pageName = tabControl.TabPages[selectedIndex].Name.Trim();
+            if ( pageName == "tabPageDetails")
+            {
+                btnSaveDetail.Hide();
+                modifiedDetail = false;
+                rowHandle = gridMain.FocusedRowHandle;
+                row = gridMain.GetFocusedDataSourceRowIndex();
+                record = dt.Rows[row]["record"].ObjToString();
+                contactType = dt.Rows[row]["contactType"].ObjToString();
+                category = dt.Rows[row]["category"].ObjToString();
+                scheduledTask = dt.Rows[row]["scheduledTask"].ObjToString();
+                interval = dt.Rows[row]["interval"].ObjToString();
+
+                cmd = "Select * from `contacttypes` WHERE `contactType`='" + contactType + "' AND `category` = '" + category + "';";
+                dx = G1.get_db_data(cmd);
+                dx.Columns.Add("mod");
+                G1.NumberDataTable(dx);
+                dgv2.DataSource = dx;
+            }
+            else
+            {
+            }
+        }
+        /****************************************************************************************/
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            TabControl tabControl = (TabControl)sender;
+            int selectedIndex = tabControl.SelectedIndex;
+            DataTable dt = (DataTable)dgv.DataSource;
+            string pageName = tabControl.TabPages[selectedIndex].Name.Trim();
+            if (pageName == "tabPageContactTypes")
+            {
+                if (modifiedDetail)
+                {
+                    DialogResult result = MessageBox.Show("***Question*** Data has been modified.\nDo you really want to exit WITHOUT saving your data?", "Data Modified Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                        return;
+                    e.Cancel = true;
+                }
+            }
+        }
+        /****************************************************************************************/
+        bool modifiedDetail = false;
+        private void gridMain2_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
+        {
+            DataRow dr = gridMain2.GetFocusedDataRow();
+            dr["mod"] = "Y";
+            modifiedDetail = true;
+            btnSaveDetail.Show();
+            btnSaveDetail.Refresh();
+        }
+        /****************************************************************************************/
+        private void picAddDetail_Click(object sender, EventArgs e)
+        { // Add Contact Detail Row
+            DataTable dt = (DataTable)dgv2.DataSource;
+            DataRow dr = dt.Rows[0];
+            DataRow dRow = dt.NewRow();
+            dRow["contactType"] = dr["contactType"].ObjToString();
+            dRow["category"] = dr["category"].ObjToString();
+            dRow["detail"] = dr["detail"].ObjToString();
+            dRow["mod"] = "Y";
+            modifiedDetail = true;
+            btnSaveDetail.Show();
+            btnSaveDetail.Refresh();
+            dt.Rows.Add(dRow);
+            G1.NumberDataTable(dt);
+            dgv2.DataSource = dt;
+            gridMain2.RefreshData();
+        }
+        /****************************************************************************************/
+        private void btnSaveDetail_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv2.DataSource;
+            string record = "";
+            string mod = "";
+            string contactType = "";
+            string detail = "";
+            string category = "";
+            int frequency = 0;
+            string scheduledTask = "";
+            string interval = "";
+            string from = "";
+
+            string cmd = "";
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                try
+                {
+                    record = dt.Rows[i]["record"].ObjToString();
+                    mod = dt.Rows[i]["mod"].ObjToString();
+
+                    if (mod == "D")
+                    {
+                        if (record == "-1")
+                            continue;
+                        if (!String.IsNullOrWhiteSpace(record))
+                        {
+                            G1.delete_db_table("contactTypes", "record", record);
+                            dt.Rows[i]["record"] = "-1";
+                        }
+                        continue;
+                    }
+
+                    if (String.IsNullOrWhiteSpace(mod))
+                        continue;
+
+                    if (String.IsNullOrWhiteSpace(record))
+                        record = G1.create_record("contactTypes", "contactType", "-1");
+                    if (G1.BadRecord("contactTypes", record))
+                        continue;
+                    contactType = dt.Rows[i]["contactType"].ObjToString();
+                    detail = dt.Rows[i]["detail"].ObjToString();
+                    frequency = dt.Rows[i]["frequency"].ObjToInt32();
+                    category = dt.Rows[i]["category"].ObjToString();
+                    scheduledTask = dt.Rows[i]["scheduledTask"].ObjToString();
+                    interval = dt.Rows[i]["interval"].ObjToString();
+                    from = dt.Rows[i]["from"].ObjToString();
+                    G1.update_db_table("contactTypes", "record", record, new string[] { "contactType", contactType, "detail", detail, "category", category, "frequency", frequency.ToString(), "scheduledTask", scheduledTask, "interval", interval, "from", from });
+
+                    dt.Rows[i]["record"] = record;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            modifiedDetail = false;
+            btnSaveDetail.Hide();
         }
         /****************************************************************************************/
     }

@@ -1420,17 +1420,17 @@ namespace SMFS
 
                 ProcessExcludes(dt);
 
-                CombineLocations(dt, "HH", "HH-TY");
-                CombineLocations(dt, "TY", "HH-TY");
+                //CombineLocations(dt, "HH", "HH-TY");
+                //CombineLocations(dt, "TY", "HH-TY");
 
-                CombineLocations(dt, "LR", "LR-RA");
-                CombineLocations(dt, "RA", "LR-RA");
+                //CombineLocations(dt, "LR", "LR-RA");
+                //CombineLocations(dt, "RA", "LR-RA");
 
-                CombineLocations(dt, "MA", "MA-TV");
-                CombineLocations(dt, "TV", "MA-TV");
+                //CombineLocations(dt, "MA", "MA-TV");
+                //CombineLocations(dt, "TV", "MA-TV");
 
-                CombineLocations(dt, "WC", "WC-WR");
-                CombineLocations(dt, "WR", "WC-WR");
+                //CombineLocations(dt, "WC", "WC-WR");
+                //CombineLocations(dt, "WR", "WC-WR");
 
                 G1.NumberDataTable(dt);
             }
@@ -1577,6 +1577,25 @@ namespace SMFS
                 firstDate = monthEnd.AddDays(1);
                 if (firstDate > date2)
                     break;
+            }
+
+            int firstColumn = G1.get_column_number(finalDt, "count");
+            int lastColumn = finalDt.Columns.Count;
+
+            G1.AddNewColumn(gridMain, "Totals", "YTD Totals", "N0", FormatType.Numeric, 60, true);
+            gridMain.Columns["Totals"].OptionsColumn.FixedWidth = true;
+            finalDt.Columns.Add("Totals", Type.GetType("System.Int32"));
+            AddSummaryColumn("Totals", gridMain, "Sum", "{0:N0}");
+            AddSummaryItem( "Totals");
+
+            int total = 0;
+
+            for ( int i=0; i<finalDt.Rows.Count; i++)
+            {
+                total = 0;
+                for ( int col=firstColumn; col<lastColumn; col++)
+                    total += finalDt.Rows[i][col].ObjToInt32();
+                finalDt.Rows[i]["Totals"] = total;
             }
 
             G1.ClearAllPositions(gridMain);

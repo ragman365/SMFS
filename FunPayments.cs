@@ -1395,6 +1395,11 @@ namespace SMFS
                     referenceNumber = dt.Rows[i]["referenceNumber"].ObjToString();
 
                     trustOrPolicy = dt.Rows[i]["trust_policy"].ObjToString();
+                    if (status == "Pending" && type == "Trust")
+                    {
+                        pendingComment = "Pending Trust";
+                        rtb.Text = pendingComment;
+                    }
                     if (type.ToUpper() == "REFUND")
                     {
                         dValue = price.ObjToDouble();

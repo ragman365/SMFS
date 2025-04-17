@@ -520,23 +520,23 @@ namespace SMFS
             DataTable dt = (DataTable)dgv.DataSource;
             int rowHandle = gridMain.FocusedRowHandle;
             int row = gridMain.GetFocusedDataSourceRowIndex();
-
             string record = dr["record"].ObjToString();
+
             string contactName = dr["contactName"].ObjToString();
             string contactType = dr["contactType"].ObjToString();
             if (String.IsNullOrWhiteSpace(contactName))
                 return;
-            using ( ContactHistory historyForm = new ContactHistory ( contactType, contactName ))
+            using ( ContactHistory historyForm = new ContactHistory ( gridMain, dt, row, record, contactType, contactName, null ))
             {
                 historyForm.contactHistoryDone += HistoryForm_contactHistoryDone;
                 historyForm.ShowDialog();
             }
         }
         /****************************************************************************************/
-        private void HistoryForm_contactHistoryDone(DataTable dt)
+        private string HistoryForm_contactHistoryDone(DataTable dt, bool somethingDeleted )
         {
             if (dt.Rows.Count <= 0)
-                return;
+                return "";
 
             DataTable dx = (DataTable)dgv.DataSource;
 
@@ -582,6 +582,7 @@ namespace SMFS
                 gridMain.RefreshEditor(true);
                 dgv.Refresh();
             }
+            return "";
         }
         /****************************************************************************************/
         private void Contacts_FormClosing(object sender, FormClosingEventArgs e)

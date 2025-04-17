@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ContactHistory));
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.dgv = new DevExpress.XtraGrid.GridControl();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.goToFuneralToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -49,11 +52,27 @@
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.bandedGridColumn11 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn12 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
             this.bandedGridColumn13 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn7 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+            this.bandedGridColumn16 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+            this.panelClaimMiddle = new System.Windows.Forms.Panel();
+            this.panelMiddleMiddle = new System.Windows.Forms.Panel();
+            this.panelDetails = new System.Windows.Forms.Panel();
+            this.dgv2 = new DevExpress.XtraGrid.GridControl();
+            this.gridMain2 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.bandedGridColumn15 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn43 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn38 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.repositoryItemMemoEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+            this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.panelClaimTop = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox12 = new System.Windows.Forms.PictureBox();
+            this.btnAccept = new System.Windows.Forms.Button();
             this.chkExcludeCompleted = new System.Windows.Forms.CheckBox();
             this.lblpocEmail = new System.Windows.Forms.Label();
             this.lblpocPhone = new System.Windows.Forms.Label();
@@ -77,6 +96,7 @@
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).BeginInit();
@@ -84,7 +104,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
+            this.panelClaimMiddle.SuspendLayout();
+            this.panelDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit2)).BeginInit();
             this.panelClaimTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -93,26 +120,28 @@
             // panelAll
             // 
             this.panelAll.Controls.Add(this.panelBottom);
+            this.panelAll.Controls.Add(this.panelClaimMiddle);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1798, 381);
+            this.panelAll.Size = new System.Drawing.Size(1665, 571);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
             // 
             this.panelBottom.Controls.Add(this.dgv);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 124);
+            this.panelBottom.Location = new System.Drawing.Point(0, 362);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1798, 257);
+            this.panelBottom.Size = new System.Drawing.Size(1665, 209);
             this.panelBottom.TabIndex = 3;
             // 
             // dgv
             // 
+            this.dgv.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Location = new System.Drawing.Point(0, 0);
@@ -127,10 +156,25 @@
             this.repositoryItemComboBox1,
             this.repositoryItemComboBox2,
             this.repositoryItemMemoEdit1});
-            this.dgv.Size = new System.Drawing.Size(1798, 257);
+            this.dgv.Size = new System.Drawing.Size(1665, 209);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.goToFuneralToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(170, 28);
+            // 
+            // goToFuneralToolStripMenuItem
+            // 
+            this.goToFuneralToolStripMenuItem.Name = "goToFuneralToolStripMenuItem";
+            this.goToFuneralToolStripMenuItem.Size = new System.Drawing.Size(169, 24);
+            this.goToFuneralToolStripMenuItem.Text = "Go To Funeral";
+            this.goToFuneralToolStripMenuItem.Click += new System.EventHandler(this.goToFuneralToolStripMenuItem_Click);
             // 
             // gridMain
             // 
@@ -284,7 +328,8 @@
             this.bandedGridColumn4,
             this.bandedGridColumn11,
             this.bandedGridColumn12,
-            this.bandedGridColumn13});
+            this.bandedGridColumn13,
+            this.bandedGridColumn16});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
@@ -328,6 +373,7 @@
             this.gridBand1.Columns.Add(this.bandedGridColumn12);
             this.gridBand1.Columns.Add(this.bandedGridColumn13);
             this.gridBand1.Columns.Add(this.bandedGridColumn7);
+            this.gridBand1.Columns.Add(this.bandedGridColumn16);
             this.gridBand1.MinWidth = 65;
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
@@ -470,21 +516,12 @@
             this.bandedGridColumn12.AppearanceCell.Options.UseTextOptions = true;
             this.bandedGridColumn12.AppearanceCell.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this.bandedGridColumn12.Caption = "Deceased Name";
-            this.bandedGridColumn12.ColumnEdit = this.repositoryItemMemoEdit1;
             this.bandedGridColumn12.FieldName = "dec";
             this.bandedGridColumn12.MinWidth = 25;
             this.bandedGridColumn12.Name = "bandedGridColumn12";
             this.bandedGridColumn12.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn12.Visible = true;
             this.bandedGridColumn12.Width = 156;
-            // 
-            // repositoryItemMemoEdit1
-            // 
-            this.repositoryItemMemoEdit1.Appearance.Options.UseTextOptions = true;
-            this.repositoryItemMemoEdit1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.repositoryItemMemoEdit1.AppearanceFocused.Options.UseTextOptions = true;
-            this.repositoryItemMemoEdit1.AppearanceFocused.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
             // 
             // bandedGridColumn13
             // 
@@ -511,6 +548,23 @@
             this.bandedGridColumn7.Visible = true;
             this.bandedGridColumn7.Width = 291;
             // 
+            // repositoryItemMemoEdit1
+            // 
+            this.repositoryItemMemoEdit1.Appearance.Options.UseTextOptions = true;
+            this.repositoryItemMemoEdit1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.repositoryItemMemoEdit1.AppearanceFocused.Options.UseTextOptions = true;
+            this.repositoryItemMemoEdit1.AppearanceFocused.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
+            // 
+            // bandedGridColumn16
+            // 
+            this.bandedGridColumn16.Caption = "Notes";
+            this.bandedGridColumn16.FieldName = "notes";
+            this.bandedGridColumn16.MinWidth = 25;
+            this.bandedGridColumn16.Name = "bandedGridColumn16";
+            this.bandedGridColumn16.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn16.Width = 94;
+            // 
             // repositoryItemDateEdit1
             // 
             this.repositoryItemDateEdit1.AutoHeight = false;
@@ -520,9 +574,303 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
             // 
+            // panelClaimMiddle
+            // 
+            this.panelClaimMiddle.BackColor = System.Drawing.Color.Honeydew;
+            this.panelClaimMiddle.Controls.Add(this.panelMiddleMiddle);
+            this.panelClaimMiddle.Controls.Add(this.panelDetails);
+            this.panelClaimMiddle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelClaimMiddle.Location = new System.Drawing.Point(0, 124);
+            this.panelClaimMiddle.Name = "panelClaimMiddle";
+            this.panelClaimMiddle.Size = new System.Drawing.Size(1665, 238);
+            this.panelClaimMiddle.TabIndex = 4;
+            // 
+            // panelMiddleMiddle
+            // 
+            this.panelMiddleMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMiddleMiddle.Location = new System.Drawing.Point(0, 0);
+            this.panelMiddleMiddle.Name = "panelMiddleMiddle";
+            this.panelMiddleMiddle.Size = new System.Drawing.Size(930, 238);
+            this.panelMiddleMiddle.TabIndex = 1;
+            // 
+            // panelDetails
+            // 
+            this.panelDetails.Controls.Add(this.dgv2);
+            this.panelDetails.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelDetails.Location = new System.Drawing.Point(930, 0);
+            this.panelDetails.Name = "panelDetails";
+            this.panelDetails.Size = new System.Drawing.Size(735, 238);
+            this.panelDetails.TabIndex = 0;
+            // 
+            // dgv2
+            // 
+            this.dgv2.ContextMenuStrip = this.contextMenuStrip1;
+            this.dgv2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv2.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv2.Location = new System.Drawing.Point(0, 0);
+            this.dgv2.LookAndFeel.SkinMaskColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.dgv2.LookAndFeel.SkinName = "The Asphalt World";
+            this.dgv2.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Style3D;
+            this.dgv2.MainView = this.gridMain2;
+            this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv2.Name = "dgv2";
+            this.dgv2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemMemoEdit2});
+            this.dgv2.Size = new System.Drawing.Size(735, 238);
+            this.dgv2.TabIndex = 12;
+            this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridMain2});
+            // 
+            // gridMain2
+            // 
+            this.gridMain2.Appearance.BandPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(170)))));
+            this.gridMain2.Appearance.BandPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(170)))));
+            this.gridMain2.Appearance.BandPanel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.gridMain2.Appearance.BandPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.BandPanel.Options.UseBackColor = true;
+            this.gridMain2.Appearance.BandPanel.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.BandPanel.Options.UseFont = true;
+            this.gridMain2.Appearance.BandPanel.Options.UseForeColor = true;
+            this.gridMain2.Appearance.BandPanelBackground.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.BandPanelBackground.BackColor2 = System.Drawing.Color.White;
+            this.gridMain2.Appearance.BandPanelBackground.Options.UseBackColor = true;
+            this.gridMain2.Appearance.ColumnFilterButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.ColumnFilterButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.ColumnFilterButton.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.ColumnFilterButton.Options.UseBackColor = true;
+            this.gridMain2.Appearance.ColumnFilterButton.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.ColumnFilterButton.Options.UseForeColor = true;
+            this.gridMain2.Appearance.ColumnFilterButtonActive.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(231)))), ((int)(((byte)(234)))));
+            this.gridMain2.Appearance.ColumnFilterButtonActive.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(231)))), ((int)(((byte)(234)))));
+            this.gridMain2.Appearance.ColumnFilterButtonActive.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.ColumnFilterButtonActive.Options.UseBackColor = true;
+            this.gridMain2.Appearance.ColumnFilterButtonActive.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.ColumnFilterButtonActive.Options.UseForeColor = true;
+            this.gridMain2.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.Empty.BackColor2 = System.Drawing.Color.White;
+            this.gridMain2.Appearance.Empty.Options.UseBackColor = true;
+            this.gridMain2.Appearance.EvenRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(231)))), ((int)(((byte)(234)))));
+            this.gridMain2.Appearance.EvenRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(231)))), ((int)(((byte)(234)))));
+            this.gridMain2.Appearance.EvenRow.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.Appearance.EvenRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.EvenRow.Options.UseBackColor = true;
+            this.gridMain2.Appearance.EvenRow.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.EvenRow.Options.UseFont = true;
+            this.gridMain2.Appearance.EvenRow.Options.UseForeColor = true;
+            this.gridMain2.Appearance.FilterCloseButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(179)))));
+            this.gridMain2.Appearance.FilterCloseButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(179)))));
+            this.gridMain2.Appearance.FilterCloseButton.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.FilterCloseButton.Options.UseBackColor = true;
+            this.gridMain2.Appearance.FilterCloseButton.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.FilterCloseButton.Options.UseForeColor = true;
+            this.gridMain2.Appearance.FilterPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.FilterPanel.BackColor2 = System.Drawing.Color.White;
+            this.gridMain2.Appearance.FilterPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.FilterPanel.Options.UseBackColor = true;
+            this.gridMain2.Appearance.FilterPanel.Options.UseForeColor = true;
+            this.gridMain2.Appearance.FixedLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(114)))), ((int)(((byte)(113)))));
+            this.gridMain2.Appearance.FixedLine.Options.UseBackColor = true;
+            this.gridMain2.Appearance.FocusedCell.BackColor = System.Drawing.Color.White;
+            this.gridMain2.Appearance.FocusedCell.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.FocusedCell.Options.UseBackColor = true;
+            this.gridMain2.Appearance.FocusedCell.Options.UseForeColor = true;
+            this.gridMain2.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(192)))), ((int)(((byte)(157)))));
+            this.gridMain2.Appearance.FocusedRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(219)))), ((int)(((byte)(188)))));
+            this.gridMain2.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.FocusedRow.Options.UseBackColor = true;
+            this.gridMain2.Appearance.FocusedRow.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.FocusedRow.Options.UseForeColor = true;
+            this.gridMain2.Appearance.FooterPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(170)))));
+            this.gridMain2.Appearance.FooterPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(170)))));
+            this.gridMain2.Appearance.FooterPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.FooterPanel.Options.UseBackColor = true;
+            this.gridMain2.Appearance.FooterPanel.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.FooterPanel.Options.UseForeColor = true;
+            this.gridMain2.Appearance.GroupButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(179)))));
+            this.gridMain2.Appearance.GroupButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(179)))));
+            this.gridMain2.Appearance.GroupButton.Options.UseBackColor = true;
+            this.gridMain2.Appearance.GroupButton.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.GroupFooter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.GroupFooter.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.GroupFooter.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.GroupFooter.Options.UseBackColor = true;
+            this.gridMain2.Appearance.GroupFooter.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.GroupFooter.Options.UseForeColor = true;
+            this.gridMain2.Appearance.GroupPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(242)))), ((int)(((byte)(213)))));
+            this.gridMain2.Appearance.GroupPanel.BackColor2 = System.Drawing.Color.White;
+            this.gridMain2.Appearance.GroupPanel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.Appearance.GroupPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.GroupPanel.Options.UseBackColor = true;
+            this.gridMain2.Appearance.GroupPanel.Options.UseFont = true;
+            this.gridMain2.Appearance.GroupPanel.Options.UseForeColor = true;
+            this.gridMain2.Appearance.GroupRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.GroupRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.GroupRow.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.Appearance.GroupRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.GroupRow.Options.UseBackColor = true;
+            this.gridMain2.Appearance.GroupRow.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.GroupRow.Options.UseFont = true;
+            this.gridMain2.Appearance.GroupRow.Options.UseForeColor = true;
+            this.gridMain2.Appearance.HeaderPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(170)))));
+            this.gridMain2.Appearance.HeaderPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(170)))));
+            this.gridMain2.Appearance.HeaderPanel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.Appearance.HeaderPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.HeaderPanel.Options.UseBackColor = true;
+            this.gridMain2.Appearance.HeaderPanel.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.HeaderPanel.Options.UseFont = true;
+            this.gridMain2.Appearance.HeaderPanel.Options.UseForeColor = true;
+            this.gridMain2.Appearance.HeaderPanelBackground.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.HeaderPanelBackground.BackColor2 = System.Drawing.Color.White;
+            this.gridMain2.Appearance.HeaderPanelBackground.Options.UseBackColor = true;
+            this.gridMain2.Appearance.HideSelectionRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(230)))), ((int)(((byte)(203)))));
+            this.gridMain2.Appearance.HideSelectionRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(230)))), ((int)(((byte)(203)))));
+            this.gridMain2.Appearance.HideSelectionRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.HideSelectionRow.Options.UseBackColor = true;
+            this.gridMain2.Appearance.HideSelectionRow.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.HideSelectionRow.Options.UseForeColor = true;
+            this.gridMain2.Appearance.HorzLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(170)))));
+            this.gridMain2.Appearance.HorzLine.Options.UseBackColor = true;
+            this.gridMain2.Appearance.OddRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain2.Appearance.OddRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain2.Appearance.OddRow.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.Appearance.OddRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.OddRow.Options.UseBackColor = true;
+            this.gridMain2.Appearance.OddRow.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.OddRow.Options.UseFont = true;
+            this.gridMain2.Appearance.OddRow.Options.UseForeColor = true;
+            this.gridMain2.Appearance.Preview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(252)))), ((int)(((byte)(247)))));
+            this.gridMain2.Appearance.Preview.Font = new System.Drawing.Font("Verdana", 7.5F);
+            this.gridMain2.Appearance.Preview.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(148)))), ((int)(((byte)(148)))));
+            this.gridMain2.Appearance.Preview.Options.UseBackColor = true;
+            this.gridMain2.Appearance.Preview.Options.UseFont = true;
+            this.gridMain2.Appearance.Preview.Options.UseForeColor = true;
+            this.gridMain2.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain2.Appearance.Row.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.Appearance.Row.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.Row.Options.UseBackColor = true;
+            this.gridMain2.Appearance.Row.Options.UseFont = true;
+            this.gridMain2.Appearance.Row.Options.UseForeColor = true;
+            this.gridMain2.Appearance.RowSeparator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(201)))));
+            this.gridMain2.Appearance.RowSeparator.BackColor2 = System.Drawing.Color.White;
+            this.gridMain2.Appearance.RowSeparator.Options.UseBackColor = true;
+            this.gridMain2.Appearance.SelectedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(215)))), ((int)(((byte)(188)))));
+            this.gridMain2.Appearance.SelectedRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(237)))), ((int)(((byte)(230)))), ((int)(((byte)(203)))));
+            this.gridMain2.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain2.Appearance.SelectedRow.Options.UseBackColor = true;
+            this.gridMain2.Appearance.SelectedRow.Options.UseBorderColor = true;
+            this.gridMain2.Appearance.SelectedRow.Options.UseForeColor = true;
+            this.gridMain2.Appearance.TopNewRow.BackColor = System.Drawing.Color.White;
+            this.gridMain2.Appearance.TopNewRow.Options.UseBackColor = true;
+            this.gridMain2.Appearance.VertLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(209)))), ((int)(((byte)(170)))));
+            this.gridMain2.Appearance.VertLine.Options.UseBackColor = true;
+            this.gridMain2.AppearancePrint.EvenRow.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.AppearancePrint.EvenRow.Options.UseFont = true;
+            this.gridMain2.AppearancePrint.GroupRow.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.AppearancePrint.GroupRow.Options.UseFont = true;
+            this.gridMain2.AppearancePrint.HeaderPanel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.AppearancePrint.HeaderPanel.Options.UseFont = true;
+            this.gridMain2.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            this.gridMain2.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridMain2.AppearancePrint.OddRow.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.AppearancePrint.OddRow.Options.UseFont = true;
+            this.gridMain2.AppearancePrint.Row.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain2.AppearancePrint.Row.Options.UseFont = true;
+            this.gridMain2.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand5,
+            this.gridBand7,
+            this.gridBand8});
+            this.gridMain2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
+            this.gridMain2.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
+            this.bandedGridColumn15,
+            this.bandedGridColumn38,
+            this.bandedGridColumn43});
+            this.gridMain2.DetailHeight = 431;
+            this.gridMain2.GridControl = this.dgv2;
+            this.gridMain2.GroupFormat = "[#image]{1} {2}";
+            this.gridMain2.Name = "gridMain2";
+            this.gridMain2.OptionsPrint.AllowMultilineHeaders = true;
+            this.gridMain2.OptionsPrint.PrintBandHeader = false;
+            this.gridMain2.OptionsView.BestFitMode = DevExpress.XtraGrid.Views.Grid.GridBestFitMode.Full;
+            this.gridMain2.OptionsView.ColumnAutoWidth = true;
+            this.gridMain2.OptionsView.EnableAppearanceEvenRow = true;
+            this.gridMain2.OptionsView.EnableAppearanceOddRow = true;
+            this.gridMain2.OptionsView.ShowBands = false;
+            this.gridMain2.OptionsView.ShowColumnHeaders = false;
+            this.gridMain2.OptionsView.ShowGroupPanel = false;
+            this.gridMain2.PaintStyleName = "Style3D";
+            this.gridMain2.RowHeight = 4;
+            // 
+            // gridBand5
+            // 
+            this.gridBand5.Caption = "gridBand1";
+            this.gridBand5.Columns.Add(this.bandedGridColumn15);
+            this.gridBand5.Columns.Add(this.bandedGridColumn43);
+            this.gridBand5.Columns.Add(this.bandedGridColumn38);
+            this.gridBand5.MinWidth = 22;
+            this.gridBand5.Name = "gridBand5";
+            this.gridBand5.VisibleIndex = 0;
+            this.gridBand5.Width = 744;
+            // 
+            // bandedGridColumn15
+            // 
+            this.bandedGridColumn15.Caption = "Num";
+            this.bandedGridColumn15.FieldName = "num";
+            this.bandedGridColumn15.MinWidth = 34;
+            this.bandedGridColumn15.Name = "bandedGridColumn15";
+            this.bandedGridColumn15.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn15.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn15.Width = 64;
+            // 
+            // bandedGridColumn43
+            // 
+            this.bandedGridColumn43.Caption = "record";
+            this.bandedGridColumn43.FieldName = "record";
+            this.bandedGridColumn43.MinWidth = 29;
+            this.bandedGridColumn43.Name = "bandedGridColumn43";
+            this.bandedGridColumn43.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn43.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn43.Width = 110;
+            // 
+            // bandedGridColumn38
+            // 
+            this.bandedGridColumn38.AppearanceCell.Options.UseTextOptions = true;
+            this.bandedGridColumn38.AppearanceCell.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.bandedGridColumn38.Caption = "Notes";
+            this.bandedGridColumn38.ColumnEdit = this.repositoryItemMemoEdit2;
+            this.bandedGridColumn38.FieldName = "notes";
+            this.bandedGridColumn38.MinWidth = 40;
+            this.bandedGridColumn38.Name = "bandedGridColumn38";
+            this.bandedGridColumn38.Visible = true;
+            this.bandedGridColumn38.Width = 744;
+            // 
+            // repositoryItemMemoEdit2
+            // 
+            this.repositoryItemMemoEdit2.Name = "repositoryItemMemoEdit2";
+            // 
+            // gridBand7
+            // 
+            this.gridBand7.Caption = "gridBand2";
+            this.gridBand7.MinWidth = 22;
+            this.gridBand7.Name = "gridBand7";
+            this.gridBand7.Visible = false;
+            this.gridBand7.VisibleIndex = -1;
+            this.gridBand7.Width = 115;
+            // 
+            // gridBand8
+            // 
+            this.gridBand8.Caption = "gridBand3";
+            this.gridBand8.MinWidth = 22;
+            this.gridBand8.Name = "gridBand8";
+            this.gridBand8.Visible = false;
+            this.gridBand8.VisibleIndex = -1;
+            this.gridBand8.Width = 146;
+            // 
             // panelClaimTop
             // 
             this.panelClaimTop.BackColor = System.Drawing.Color.Honeydew;
+            this.panelClaimTop.Controls.Add(this.pictureBox1);
+            this.panelClaimTop.Controls.Add(this.pictureBox12);
+            this.panelClaimTop.Controls.Add(this.btnAccept);
             this.panelClaimTop.Controls.Add(this.chkExcludeCompleted);
             this.panelClaimTop.Controls.Add(this.lblpocEmail);
             this.panelClaimTop.Controls.Add(this.lblpocPhone);
@@ -541,8 +889,45 @@
             this.panelClaimTop.Location = new System.Drawing.Point(0, 0);
             this.panelClaimTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelClaimTop.Name = "panelClaimTop";
-            this.panelClaimTop.Size = new System.Drawing.Size(1798, 124);
+            this.panelClaimTop.Size = new System.Drawing.Size(1665, 124);
             this.panelClaimTop.TabIndex = 2;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(1197, 89);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(36, 28);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 149;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Tag = "Delete Contact";
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // pictureBox12
+            // 
+            this.pictureBox12.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox12.Image")));
+            this.pictureBox12.Location = new System.Drawing.Point(1114, 89);
+            this.pictureBox12.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox12.Name = "pictureBox12";
+            this.pictureBox12.Size = new System.Drawing.Size(36, 28);
+            this.pictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox12.TabIndex = 148;
+            this.pictureBox12.TabStop = false;
+            this.pictureBox12.Tag = "Add New Contact";
+            this.pictureBox12.Click += new System.EventHandler(this.pictureBox12_Click);
+            // 
+            // btnAccept
+            // 
+            this.btnAccept.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnAccept.Location = new System.Drawing.Point(973, 80);
+            this.btnAccept.Name = "btnAccept";
+            this.btnAccept.Size = new System.Drawing.Size(111, 38);
+            this.btnAccept.TabIndex = 147;
+            this.btnAccept.Text = "Accept Notes";
+            this.btnAccept.UseVisualStyleBackColor = false;
+            this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
             // 
             // chkExcludeCompleted
             // 
@@ -688,7 +1073,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1798, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1665, 30);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -732,7 +1117,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1798, 411);
+            this.ClientSize = new System.Drawing.Size(1665, 601);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -744,6 +1129,7 @@
             this.panelAll.ResumeLayout(false);
             this.panelBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).EndInit();
@@ -751,8 +1137,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
+            this.panelClaimMiddle.ResumeLayout(false);
+            this.panelDetails.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit2)).EndInit();
             this.panelClaimTop.ResumeLayout(false);
             this.panelClaimTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -809,5 +1202,23 @@
         private System.Windows.Forms.CheckBox chkExcludeCompleted;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn13;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem goToFuneralToolStripMenuItem;
+        private System.Windows.Forms.Panel panelClaimMiddle;
+        private System.Windows.Forms.Panel panelMiddleMiddle;
+        private System.Windows.Forms.Panel panelDetails;
+        private DevExpress.XtraGrid.GridControl dgv2;
+        private DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain2;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn15;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn43;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn38;
+        private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit2;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand8;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox12;
+        private System.Windows.Forms.Button btnAccept;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn16;
     }
 }

@@ -102,8 +102,69 @@ namespace SMFS
                 {
                     //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
                     //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
-                    ContactReportsAgents reportForm = new ContactReportsAgents (true, true, sendWhere, "" );
+                    ContactReportsAgents reportForm = new ContactReportsAgents (true, true, sendWhere, "", "" );
                     continue;
+                }
+                else if (report.ToUpper() == "AGENT CONTACT REPORTS")
+                {
+                    //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
+                    //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
+                    ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, "", "");
+                    continue;
+                }
+                else if (report.ToUpper() == "AGENT AUTORUN REPORTS")
+                {
+                    //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
+                    //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
+                    AutoRunContacts(report);
+                    continue;
+                }
+            }
+        }
+        /***********************************************************************************************/
+        public static void AutoRunContacts(string report)
+        {
+            string cmd = "Select * from `contacttypes`;";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+                return;
+            string contactType = "";
+            string detail = "";
+            string category = "";
+            int frequency = 0;
+            string scheduledTask = "";
+            string interval = "";
+            string from = "";
+            DateTime today = DateTime.Now;
+            DateTime date = DateTime.Now;
+            DataTable dx = null;
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                contactType = dt.Rows[i]["contactType"].ObjToString();
+                detail = dt.Rows[i]["detail"].ObjToString();
+                category = dt.Rows[i]["category"].ObjToString();
+                frequency = dt.Rows[i]["frequency"].ObjToInt32();
+                scheduledTask = dt.Rows[i]["scheduledTask"].ObjToString();
+                interval = dt.Rows[i]["interval"].ObjToString();
+                from = dt.Rows[i]["from"].ObjToString();
+
+                if (String.IsNullOrWhiteSpace(scheduledTask))
+                    continue;
+                if (contactType == "Clergy")
+                {
+                    if (scheduledTask == "30 Day Follow-Up")
+                    {
+                        date = today.AddDays(-30);
+                        cmd = "Select * from `contacts` WHERE `apptDate` <= '" + date.ToString("yyyy-MM-dd") + "' AND `contactType` = '" + contactType + "';";
+                        dx = G1.get_db_data(cmd);
+
+                        if (dx.Rows.Count > 0)
+                        {
+                            Contacts formContacts = new Contacts(dx, report);
+                            formContacts.Show();
+                        }
+                    }
                 }
             }
         }

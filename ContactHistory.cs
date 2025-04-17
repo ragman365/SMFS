@@ -33,12 +33,29 @@ namespace SMFS
         private string workContactName = "";
         private string workContactType = "";
         private int defaultFrequency = 3;
+        private DataRow workDrow = null;
+        public bool isModified = false;
+        public string lastRecord = "";
+
+        private GridView workGV = null;
+        private DataTable workDt = null;
+        private int workRow = 0;
+        private string workRecord = "";
+        private editDG editForm = null;
+        private DataTable originalGV = null;
         /****************************************************************************************/
-        public ContactHistory( string contactType, string contactName )
+        public ContactHistory ( DevExpress.XtraGrid.Views.Grid.GridView gv, DataTable dt, int row, string record, string contactType, string contactName, DataRow rowIn )
         {
             InitializeComponent();
+
+            workGV = gv;
+            workDt = dt;
+            workRow = row;
+            workRecord = record;
+
             workContactName = contactName;
             workContactType = contactType;
+            workDrow = rowIn;
         }
         /****************************************************************************************/
         private void SetupToolTips()
@@ -56,6 +73,8 @@ namespace SMFS
             }
             oldWhat = "";
 
+            btnAccept.Hide();
+
             this.Text = "Contact History for " + workContactName;
 
             SetupToolTips();
@@ -64,12 +83,261 @@ namespace SMFS
 
             LoadEmployees();
 
+            LoadData();
+
             LoadContactInfo();
 
-            LoadData();
+            LoadNotes();
+
+            originalGV = new DataTable();
+            originalGV.Columns.Add("field");
+            originalGV.Columns.Add("what");
+
+            DataRow dRow = null;
+            for (int i = 0; i < workGV.Columns.Count; i++)
+            {
+                dRow = originalGV.NewRow();
+                dRow["field"] = workGV.Columns[i].FieldName.ObjToString();
+                if (workGV.Columns[i].Visible)
+                    dRow["what"] = "Y";
+                originalGV.Rows.Add(dRow);
+            }
+
+            GridColumn col = workGV.Columns["results"];
+            //workGV.Columns.Remove(col);
+            //col = workGV.Columns["lastTouchResult"];
+            //workGV.Columns.Remove(col);
+            //col = workGV.Columns["notes"];
+            //col.Visible = false;
+
+            gridMain.Columns["notes"].Visible = false;
+
+
+            //workGV.Columns.Remove(col);
+
+            string str = "";
+            for (int i = 0; i < gridMain.Columns.Count; i++)
+            {
+                str = gridMain.Columns[i].FieldName.ObjToString();
+                if (str.ToUpper() == "DOB")
+                {
+                }
+                if (gridMain.Columns[i].Visible == false)
+                    continue;
+                if (str.ToUpper() == "NOTES")
+                {
+                    continue;
+                }
+                if (G1.get_column_number(workGV, str) >= 0)
+                {
+                    col = workGV.Columns[str];
+                    col.Visible = false;
+                    //workGV.Columns.Remove(col);
+                }
+            }
+
+            string record = "";
+            if (!String.IsNullOrWhiteSpace(workRecord))
+            {
+                for (int i = 0; i < workDt.Rows.Count; i++)
+                {
+                    record = workDt.Rows[i]["record"].ObjToString();
+                    if (record == workRecord)
+                    {
+                        workRow = i;
+                        break;
+                    }
+                }
+            }
+
+
+            record = workDt.Rows[workRow]["record"].ObjToString();
+            lastRecord = record;
+
+            editForm = new editDG(workGV, workDt, workRow, record, true);
+            editForm.editDone += EditForm_editDone;
+            //editFunPayments.paymentClosing += EditFunPayments_paymentClosing;
+            if (!this.LookAndFeel.UseDefaultLookAndFeel)
+            {
+                editForm.LookAndFeel.UseDefaultLookAndFeel = false;
+                editForm.LookAndFeel.SetSkinStyle(this.LookAndFeel.SkinName);
+            }
+
+            G1.LoadFormInPanel(editForm, this.panelMiddleMiddle);
+
+
+            //DataRow dr = gridMain.GetFocusedDataRow();
+            //DataTable dt = (DataTable)dgv.DataSource;
+            //int rowHandle = gridMain.FocusedRowHandle;
+            //int row = gridMain.GetFocusedDataSourceRowIndex();
+            //string record = dr["record"].ObjToString();
+
+            //using (editDG editForm = new editDG(gridMain, dt, row, record))
+            //{
+            //    //editForm.editDone += EditForm_editDone;
+            //    editForm.ShowDialog();
+            //}
+
+            gridMain.DestroyCustomization();
+            G1.HideGridChooser(gridMain);
+
+
+            //string record = workDt.Rows[workRow]["record"].ObjToString();
+            //lastRecord = record;
+
+            //editForm = new editDG(workGV, workDt, workRow, record, true);
+            //editForm.editDone += EditForm_editDone;
+            ////editForm.editDone += EditForm_editDone;
+            //if (!this.LookAndFeel.UseDefaultLookAndFeel)
+            //{
+            //    editForm.LookAndFeel.UseDefaultLookAndFeel = false;
+            //    editForm.LookAndFeel.SetSkinStyle(this.LookAndFeel.SkinName);
+            //}
+
+            //G1.LoadFormInPanel(editForm, this.panelMiddleMiddle);
+
 
             modified = false;
             loading = false;
+        }
+        /****************************************************************************************/
+        private void EditForm_editDone(DataTable dx, int row, string CancelStatus)
+        {
+            if (CancelStatus == "YES")
+            {
+                this.Close();
+                return;
+            }
+            PleaseWait pleaseForm = new PleaseWait("Please Wait!\nUpdating Contact!");
+            pleaseForm.Show();
+            pleaseForm.Refresh();
+
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt.Rows.Count <= 0)
+            {
+                pleaseForm.FireEvent1();
+                pleaseForm.Dispose();
+                pleaseForm = null;
+                this.Close();
+                return;
+            }
+
+            string caption = "";
+            string data = "";
+            string field = "";
+            string type = "";
+            row = 0;
+            string record = dt.Rows[row]["record"].ObjToString();
+            dt.Rows[row]["mod"] = "Y";
+            string modList = "";
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                caption = dx.Rows[i]["field"].ObjToString();
+                field = dx.Rows[i]["actualField"].ObjToString();
+                if (field.ToUpper() == "RESULTS")
+                {
+                }
+                if (!workGV.Columns[field].Visible)
+                    continue;
+                data = dx.Rows[i]["data"].ObjToString();
+                if (G1.get_column_number(dt, field) >= 0)
+                {
+                    try
+                    {
+                        type = dt.Columns[field].DataType.ToString().ToUpper();
+                        if (type.IndexOf("MYSQLDATETIME") >= 0)
+                            dt.Rows[row][field] = G1.DTtoMySQLDT(data);
+                        else if (type.IndexOf("DOUBLE") >= 0)
+                            dt.Rows[row][field] = data.ObjToDouble();
+                        else if (type.IndexOf("DECIMAL") >= 0)
+                            dt.Rows[row][field] = data.ObjToDecimal();
+                        else if (type.IndexOf("INT32") >= 0)
+                            dt.Rows[row][field] = data.ObjToInt32();
+                        else if (type.IndexOf("INT64") >= 0)
+                            dt.Rows[row][field] = data.ObjToInt64();
+                        else
+                        {
+                            dt.Rows[row][field] = data.ToString();
+                            if (data.IndexOf(",") >= 0)
+                            {
+                                G1.update_db_table("contacts", "record", record, new string[] { field, data });
+                                continue;
+                            }
+                        }
+                        if (String.IsNullOrWhiteSpace(data))
+                            data = "NODATA";
+                        modList += field + "," + data + ",";
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    //dt.Rows[row][field] = data;
+                }
+            }
+            modList = modList.TrimEnd(',');
+            G1.update_db_table("contacts", "record", record, modList);
+
+
+            modList = "";
+            for (int i = 0; i < gridMain.Columns.Count; i++)
+            {
+                if (!gridMain.Columns[i].Visible)
+                    continue;
+                field = gridMain.Columns[i].FieldName.ObjToString();
+                if (field.ToUpper() == "NUM")
+                    continue;
+                if (field.ToUpper() == "NEXTCOMPLETED")
+                    continue;
+                data = dt.Rows[0][field].ObjToString();
+                type = dt.Columns[field].DataType.ToString().ToUpper();
+                if (type.IndexOf("MYSQLDATETIME") >= 0)
+                    dt.Rows[row][field] = G1.DTtoMySQLDT(data);
+                else if (type.IndexOf("DOUBLE") >= 0)
+                    dt.Rows[row][field] = data.ObjToDouble();
+                else if (type.IndexOf("DECIMAL") >= 0)
+                    dt.Rows[row][field] = data.ObjToDecimal();
+                else if (type.IndexOf("INT32") >= 0)
+                    dt.Rows[row][field] = data.ObjToInt32();
+                else if (type.IndexOf("INT64") >= 0)
+                    dt.Rows[row][field] = data.ObjToInt64();
+                else
+                {
+                    dt.Rows[row][field] = data.ToString();
+                    if (data.IndexOf(",") >= 0)
+                    {
+                        G1.update_db_table("contacts", "record", record, new string[] { field, data });
+                        continue;
+                    }
+                }
+                if (String.IsNullOrWhiteSpace(data))
+                    data = "NODATA";
+                modList += field + "," + data + ",";
+            }
+
+            modList = modList.TrimEnd(',');
+            G1.update_db_table("contacts", "record", record, modList);
+
+            gridMain.RefreshData();
+            gridMain.RefreshEditor(true);
+
+            //PositionToRecord(dt, record);
+
+            isModified = true;
+
+            pleaseForm.FireEvent1();
+            pleaseForm.Dispose();
+            pleaseForm = null;
+
+            //PutThingsBack();
+
+            //for ( int i=0; i<originalGV.Rows.Count; i++)
+            //{
+            //    field = originalGV.Rows[i]["field"].ObjToString();
+            //    if (originalGV.Rows[i]["what"].ObjToString() == "Y")
+            //        workGV.Columns[field].Visible = true;
+            //}
+
+            this.Close();
         }
         /***********************************************************************************************/
         private void LoadContactInfo ()
@@ -143,6 +411,10 @@ namespace SMFS
                 str = dt.Rows[0]["pocEmail"].ObjToString();
                 lblpocEmail.Text = str;
             }
+            else
+            {
+                lblContactName.Text = workContactName;
+            }
         }
         /***********************************************************************************************/
         private void LoadData()
@@ -159,9 +431,94 @@ namespace SMFS
             SetupCompleted ( dt );
             SetupFrequency ( dt );
 
+            if (workDrow != null)
+            {
+                string workRecord = workDrow["record"].ObjToString();
+                if (String.IsNullOrWhiteSpace(workRecord))
+                {
+                    string record = "";
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        record = dt.Rows[i]["record"].ObjToString();
+                        if ( record != workRecord )
+                            dt.ImportRow(workDrow);
+                    }
+                }
+            }
+
+            DataView tempview = dt.DefaultView;
+            tempview.Sort = "apptdate desc";
+            dt = tempview.ToTable();
+
             dgv.DataSource = dt;
 
+            //LoadNotes(dt);
+
+            //originalGV = new DataTable();
+            //originalGV.Columns.Add("field");
+            //originalGV.Columns.Add("what");
+
+            //DataRow dRow = null;
+            //for (int i = 0; i < workGV.Columns.Count; i++)
+            //{
+            //    dRow = originalGV.NewRow();
+            //    dRow["field"] = workGV.Columns[i].FieldName.ObjToString();
+            //    if (workGV.Columns[i].Visible)
+            //        dRow["what"] = "Y";
+            //    originalGV.Rows.Add(dRow);
+            //}
+
+            //GridColumn col = workGV.Columns["results"];
             this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private void LoadNotes()
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            DataTable newDt = new DataTable();
+            newDt.Columns.Add("notes");
+            newDt.Columns.Add("record");
+            DataRow dR = null;
+            string notes = "";
+            string record = "";
+            string majorNotes = "";
+            DateTime date = DateTime.Now;
+            string[] Lines = null;
+
+            string str = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                record = dt.Rows[i]["record"].ObjToString();
+                if (record == "-1")
+                    continue;
+                date = dt.Rows[i]["apptDate"].ObjToDateTime();
+                notes = "";
+                if (dt.Rows[i]["notes"] != null)
+                {
+                    str = dt.Rows[i]["notes"].ObjToString();
+                    if (!String.IsNullOrWhiteSpace(notes))
+                        notes += "\n";
+                    notes += str;
+                    Lines = notes.Split('\n');
+                    for (int j = Lines.Length - 1; j >= 0; j--)
+                    {
+                        str = Lines[j].Trim();
+                        if (String.IsNullOrWhiteSpace(str))
+                            continue;
+                        dR = newDt.NewRow();
+                        dR["notes"] = str;
+                        dR["record"] = record;
+                        newDt.Rows.Add(dR);
+                    }
+                }
+            }
+            if (newDt.Rows.Count > 0)
+            {
+                dgv2.DataSource = newDt;
+                return;
+            }
+            G1.NumberDataTable(newDt);
+            dgv2.DataSource = newDt;
         }
         /***********************************************************************************************/
         private void LoadEmployees()
@@ -340,6 +697,11 @@ namespace SMFS
 
             dr["mod"] = "Y";
 
+            if (editForm != null)
+                editForm.FireEventModified();
+            if (1 == 1)
+                return;
+
             DataTable dt = (DataTable)dgv.DataSource;
 
             GridColumn currCol = gridMain.FocusedColumn;
@@ -380,6 +742,9 @@ namespace SMFS
                 try
                 {
                     G1.update_db_table("contacts", "record", record, new string[] { currentColumn, what });
+
+                    if (editForm != null)
+                        editForm.FireEventModified();
                 }
                 catch ( Exception ex)
                 {
@@ -488,6 +853,57 @@ namespace SMFS
             gridMain.RefreshEditor(true);
 
             OnDone();
+            if (nextCompleted == "1") // xyzzy
+            {
+                e.Cancel = true;
+                e.Cancel = false;
+
+                string record = "";
+
+                for (int i = 0; i < workDt.Rows.Count; i++)
+                {
+                    record = workDt.Rows[i]["oldRecord"].ObjToString();
+                    if (record == workRecord)
+                    {
+                        workRow = i;
+                        break;
+                    }
+                }
+
+                LoadData();
+
+                LoadNotes();
+
+
+
+                record = workDt.Rows[workRow]["oldRecord"].ObjToString();
+                //lastRecord = record;
+
+                editForm = new editDG(workGV, workDt, workRow, record, true);
+                editForm.editDone += EditForm_editDone;
+                if (!this.LookAndFeel.UseDefaultLookAndFeel)
+                {
+                    editForm.LookAndFeel.UseDefaultLookAndFeel = false;
+                    editForm.LookAndFeel.SetSkinStyle(this.LookAndFeel.SkinName);
+                }
+
+                G1.LoadFormInPanel(editForm, this.panelMiddleMiddle);
+                gridMain.DestroyCustomization();
+                PutThingsBack();
+            }
+            else
+                PutThingsBack();
+        }
+        /***********************************************************************************************/
+        private void PutThingsBack()
+        {
+            string field = "";
+            for (int i = 0; i < originalGV.Rows.Count; i++)
+            {
+                field = originalGV.Rows[i]["field"].ObjToString();
+                if (originalGV.Rows[i]["what"].ObjToString() == "Y")
+                    workGV.Columns[field].Visible = true;
+            }
         }
         /****************************************************************************************/
         private void gridMain_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
@@ -700,10 +1116,19 @@ namespace SMFS
         /****************************************************************************************/
         private string currentColumn = "";
         /***************************************************************************************/
-        public delegate void d_contactHistoryDone( DataTable dt );
+        public delegate string d_contactHistoryDone( DataTable dt, bool somethingDeleted );
         public event d_contactHistoryDone contactHistoryDone;
+        public string nextCompleted = "";
         protected void OnDone()
         {
+            nextCompleted = "";
+            if (somethingDeleted)
+                nextCompleted = "somethingDeleted";
+            if (!isModified && !somethingDeleted)
+                return;
+
+            this.Validate();
+
             DataTable dt = (DataTable)dgv.DataSource;
 
             DataTable dx = dt.Clone();
@@ -723,7 +1148,12 @@ namespace SMFS
             //else
             //    dt.Rows.Clear();
             if (contactHistoryDone != null)
-                contactHistoryDone ( dx );
+            {
+                nextCompleted = contactHistoryDone(dx, somethingDeleted);
+                if ( somethingDeleted )
+                    nextCompleted = "somethingDeleted";
+            }
+            isModified = false;
         }
         /****************************************************************************************/
         private void repositoryItemCheckEdit1_CheckedChanged(object sender, EventArgs e)
@@ -765,6 +1195,7 @@ namespace SMFS
                 string[] Lines = null;
                 foreach (GridColumn column in gridMain.Columns)
                 {
+                    doit = false;
                     name = column.FieldName.ToUpper();
                     if (name == "RESULTS")
                         doit = true;
@@ -778,8 +1209,9 @@ namespace SMFS
                                 if (!String.IsNullOrWhiteSpace(str))
                                 {
                                     Lines = str.Split('\n');
-                                    count = Lines.Length + 1;
+                                    count = Lines.Length;
                                 }
+                                int oldHeight = e.RowHeight;
                                 viewInfo.EditValue = gridMain.GetRowCellValue(e.RowHandle, column.FieldName);
                                 viewInfo.Bounds = new Rectangle(0, 0, column.VisibleWidth, dgv.Height);
                                 using (Graphics graphics = dgv.CreateGraphics())
@@ -790,7 +1222,7 @@ namespace SMFS
                                     newHeight = Math.Max(height, maxHeight);
                                     if (newHeight > maxHeight)
                                     {
-                                        maxHeight = newHeight * count;
+                                        maxHeight = oldHeight * count;
                                     }
                                 }
                             }
@@ -808,6 +1240,153 @@ namespace SMFS
             gridMain.RefreshData();
             gridMain.RefreshEditor(true);
             dgv.Refresh();
+        }
+        /****************************************************************************************/
+        private void goToFuneralToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            DataRow dr = gridMain.GetFocusedDataRow();
+            int rowhandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowhandle);
+
+            string serviceId = dr["serviceId"].ObjToString();
+            if (!String.IsNullOrWhiteSpace(serviceId))
+            {
+                string cmd = "Select * from `fcust_extended` where `serviceId` = '" + serviceId + "';";
+                DataTable dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    string contractNumber = dx.Rows[0]["contractNumber"].ObjToString();
+
+                    this.Cursor = Cursors.WaitCursor;
+                    Form form = G1.IsFormOpen("EditCust", contractNumber);
+                    if (form != null)
+                    {
+                        form.Show();
+                        form.WindowState = FormWindowState.Maximized;
+                        form.Visible = true;
+                        form.BringToFront();
+                    }
+                    else
+                    {
+                        EditCust custForm = new EditCust(contractNumber);
+                        custForm.Tag = contractNumber;
+                        //custForm.custClosing += CustForm_custClosing;
+                        custForm.Show();
+                    }
+                    this.Cursor = Cursors.Default;
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void addNewNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt.Rows.Count <= 0)
+                return;
+            string data = dt.Rows[0]["notes"].ObjToString();
+            data = data.TrimEnd('\n');
+            string field = "Notes";
+
+            DateTime today = DateTime.Now;
+            if (!String.IsNullOrWhiteSpace(data))
+                data += "\n";
+            data += today.ToString("MM/dd/yyyy") + " ";
+
+            using (EditTextData fmrmyform = new EditTextData(field, data))
+            {
+                fmrmyform.Text = "";
+                fmrmyform.ShowDialog();
+                if (fmrmyform.DialogResult == DialogResult.OK)
+                {
+                    string p = fmrmyform.Answer.Trim();
+                    if (!String.IsNullOrWhiteSpace(p))
+                    {
+                        dt = (DataTable)dgv.DataSource;
+                        dt.Rows[0]["notes"] = p;
+                        dgv.DataSource = dt;
+
+                        LoadNotes();
+
+                        gridMain.RefreshEditor(true);
+                        gridMain.RefreshData();
+                        btnAccept.Show();
+                        btnAccept.Refresh();
+                    }
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void pictureBox12_Click(object sender, EventArgs e)
+        {
+            addNewNoteToolStripMenuItem_Click(sender, e);
+        }
+        /****************************************************************************************/
+        private bool somethingDeleted = false;
+        private void deleteCurrentNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv2.DataSource;
+            DataRow dr = gridMain2.GetFocusedDataRow();
+            if (dr == null)
+                return;
+
+            int row = gridMain2.FocusedRowHandle;
+            row = gridMain2.GetDataSourceRowIndex(row);
+            string note = dr["notes"].ObjToString();
+
+            string deleteRecord = dt.Rows[row]["record"].ObjToString();
+
+            dt.Rows.Remove(dr);
+            dt.AcceptChanges();
+
+            string notes = "";
+            string str = "";
+            string record = "";
+            for (int i = dt.Rows.Count - 1; i >= 0; i--)
+            {
+                record = dt.Rows[i]["record"].ObjToString();
+                if (record == deleteRecord)
+                {
+                    str = dt.Rows[i]["notes"].ObjToString().Trim();
+                    if (String.IsNullOrWhiteSpace(str))
+                        continue;
+                    str += "\n";
+                    notes += str;
+                }
+            }
+            dt = (DataTable)dgv.DataSource;
+            dt.Rows[0]["notes"] = notes;
+            dgv.DataSource = dt;
+
+            //LoadNotes();
+
+            gridMain.RefreshEditor(true);
+            gridMain.RefreshData();
+            btnAccept.Show();
+            btnAccept.Refresh();
+
+            somethingDeleted = true;
+        }
+        /****************************************************************************************/
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            deleteCurrentNoteToolStripMenuItem_Click(sender, e);
+        }
+        /****************************************************************************************/
+        private void btnAccept_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            string record = dt.Rows[0]["record"].ObjToString();
+            if (record == "-1")
+                return;
+            dt.Rows[0]["mod"] = "Y";
+            string notes = dt.Rows[0]["notes"].ObjToString();
+            G1.update_db_table("contacts", "record", record, new string[] { "notes", notes });
+
+            btnAccept.Hide();
+            btnAccept.Refresh();
+
+            isModified = true;
         }
         /****************************************************************************************/
     }

@@ -150,10 +150,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1660, 701);
+            this.panelAll.Size = new System.Drawing.Size(1660, 699);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -163,7 +163,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 426);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1660, 275);
+            this.panelBottom.Size = new System.Drawing.Size(1660, 273);
             this.panelBottom.TabIndex = 3;
             // 
             // dgv
@@ -188,7 +188,7 @@
             this.repositoryItemComboBox4,
             this.repositoryItemComboBox5,
             this.repositoryItemCheckEdit2});
-            this.dgv.Size = new System.Drawing.Size(1660, 275);
+            this.dgv.Size = new System.Drawing.Size(1660, 273);
             this.dgv.TabIndex = 7;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -969,18 +969,18 @@
             // panelMiddle
             // 
             this.panelMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMiddle.Location = new System.Drawing.Point(0, 54);
+            this.panelMiddle.Location = new System.Drawing.Point(0, 55);
             this.panelMiddle.Name = "panelMiddle";
-            this.panelMiddle.Size = new System.Drawing.Size(950, 372);
+            this.panelMiddle.Size = new System.Drawing.Size(950, 371);
             this.panelMiddle.TabIndex = 146;
             // 
             // panelDetail
             // 
             this.panelDetail.Controls.Add(this.dgv2);
             this.panelDetail.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelDetail.Location = new System.Drawing.Point(950, 54);
+            this.panelDetail.Location = new System.Drawing.Point(950, 55);
             this.panelDetail.Name = "panelDetail";
-            this.panelDetail.Size = new System.Drawing.Size(710, 372);
+            this.panelDetail.Size = new System.Drawing.Size(710, 371);
             this.panelDetail.TabIndex = 144;
             // 
             // dgv2
@@ -997,7 +997,7 @@
             this.dgv2.Name = "dgv2";
             this.dgv2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemMemoEdit2});
-            this.dgv2.Size = new System.Drawing.Size(710, 372);
+            this.dgv2.Size = new System.Drawing.Size(710, 371);
             this.dgv2.TabIndex = 11;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1282,7 +1282,7 @@
             this.panelTopTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTopTop.Location = new System.Drawing.Point(0, 0);
             this.panelTopTop.Name = "panelTopTop";
-            this.panelTopTop.Size = new System.Drawing.Size(1660, 54);
+            this.panelTopTop.Size = new System.Drawing.Size(1660, 55);
             this.panelTopTop.TabIndex = 147;
             // 
             // pictureBox1
@@ -1367,7 +1367,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1660, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1660, 30);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1376,7 +1376,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1405,7 +1405,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // PreneedContactHistory
             // 

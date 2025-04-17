@@ -1546,7 +1546,7 @@ namespace SMFS
                 {
                     if (procLoc.Trim().Length > 0)
                         procLoc += ",";
-                    string cmd = "Select * from `funeralhomes` where `name` = '" + locIDs[i].Trim() + "';";
+                    string cmd = "Select * from `funeralhomes` where `LocationCode` = '" + locIDs[i].Trim() + "';";
                     DataTable dt = G1.get_db_data(cmd);
                     if (dt.Rows.Count > 0)
                     {
@@ -1555,7 +1555,7 @@ namespace SMFS
                     }
                 }
             }
-            return procLoc.Length > 0 ? " `loc` IN (" + procLoc + ") " : "";
+            return procLoc.Length > 0 ? " `location` IN (" + procLoc + ") " : ""; // <--- Changed loc to location
         }
         /***********************************************************************************************/
         private void chkPageBreaks_CheckedChanged(object sender, EventArgs e)

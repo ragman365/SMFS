@@ -604,7 +604,13 @@ namespace SMFS
             {
                 //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
                 //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
-                ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, "", reportName );
+                ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, LoginForm.username, report, reportName );
+            }
+            else if (report.ToUpper() == "AGENT CONTACT REPORTS")
+            {
+                //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
+                //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
+                ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, LoginForm.username, report, reportName);
             }
         }
         /***********************************************************************************************/
