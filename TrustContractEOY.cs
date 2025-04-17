@@ -506,9 +506,9 @@ namespace SMFS
                 }
 
                 if (string.IsNullOrWhiteSpace(is2002))
-                    name += " Post";
-                else
                     name += " Pre";
+                else
+                    name += " Post";
                 dt.Rows[i]["serviceLoc"] = name;
 
                 
