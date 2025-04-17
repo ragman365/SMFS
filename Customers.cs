@@ -4536,6 +4536,16 @@ namespace SMFS
             {
             }
         }
+
+        private void trustContractEOYValuesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+
+            TrustContractEOY eoyReport = new TrustContractEOY();
+            eoyReport.Show();
+
+            this.Cursor = Cursors.Default;
+        }
         /***********************************************************************************************/
     }
 }

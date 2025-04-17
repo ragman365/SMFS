@@ -434,6 +434,12 @@
     <Compile Include="ImportCasketCosts.Designer.cs">
       <DependentUpon>ImportCasketCosts.cs</DependentUpon>
     </Compile>
+    <Compile Include="TrustContractEOY.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrustContractEOY.Designer.cs">
+      <DependentUpon>TrustContractEOY.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrustSplit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2514,6 +2520,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImportCasketCosts.resx">
       <DependentUpon>ImportCasketCosts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrustContractEOY.resx">
+      <DependentUpon>TrustContractEOY.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrustSplit.resx">
       <DependentUpon>TrustSplit.cs</DependentUpon>

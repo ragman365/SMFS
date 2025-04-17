@@ -183,6 +183,10 @@
             this.yearendReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.yearendDeathReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.potentialPaidOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trustLookupQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scenario1DuplicateSSNsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trust85ReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
@@ -259,10 +263,7 @@
             this.commonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bankPaymentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.trustLookupQueriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scenario1DuplicateSSNsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trustContractEOYValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv2)).BeginInit();
@@ -304,9 +305,6 @@
             // dgv2
             // 
             this.dgv2.ContextMenuStrip = this.contextMenuStrip1;
-            // 
-            // 
-            // 
             this.dgv2.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4);
             this.dgv2.Location = new System.Drawing.Point(729, 30);
             this.dgv2.LookAndFeel.SkinName = "Stardust";
@@ -979,9 +977,6 @@
             // dgv
             // 
             this.dgv.ContextMenuStrip = this.contextMenuStrip1;
-            // 
-            // 
-            // 
             this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4);
             this.dgv.Location = new System.Drawing.Point(16, 30);
             this.dgv.LookAndFeel.SkinName = "Stardust";
@@ -2139,6 +2134,37 @@
             this.potentialPaidOffToolStripMenuItem.Text = "Potential Paid-Off";
             this.potentialPaidOffToolStripMenuItem.Click += new System.EventHandler(this.potentialPaidOffToolStripMenuItem_Click);
             // 
+            // trustLookupQueriesToolStripMenuItem
+            // 
+            this.trustLookupQueriesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scenario1DuplicateSSNsToolStripMenuItem,
+            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem,
+            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem});
+            this.trustLookupQueriesToolStripMenuItem.Name = "trustLookupQueriesToolStripMenuItem";
+            this.trustLookupQueriesToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
+            this.trustLookupQueriesToolStripMenuItem.Text = "Trust Lookup Queries";
+            // 
+            // scenario1DuplicateSSNsToolStripMenuItem
+            // 
+            this.scenario1DuplicateSSNsToolStripMenuItem.Name = "scenario1DuplicateSSNsToolStripMenuItem";
+            this.scenario1DuplicateSSNsToolStripMenuItem.Size = new System.Drawing.Size(380, 26);
+            this.scenario1DuplicateSSNsToolStripMenuItem.Text = "Scenario 1 Duplicate SSN\'s";
+            this.scenario1DuplicateSSNsToolStripMenuItem.Click += new System.EventHandler(this.duplicateSSNsAndNotDeceasedToolStripMenuItem_Click);
+            // 
+            // scenario2EmptySSNDupliacteLastNameToolStripMenuItem
+            // 
+            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem.Name = "scenario2EmptySSNDupliacteLastNameToolStripMenuItem";
+            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem.Size = new System.Drawing.Size(380, 26);
+            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem.Text = "Scenario 2 Empty SSN Dupliacte Last Name";
+            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem.Click += new System.EventHandler(this.ifspecialReport1ToolStripMenuItem_Click);
+            // 
+            // scenario3EmptySSNDuplicateAddressToolStripMenuItem
+            // 
+            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Name = "scenario3EmptySSNDuplicateAddressToolStripMenuItem";
+            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Size = new System.Drawing.Size(380, 26);
+            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Text = "Scenario 3 Empty SSN Duplicate Address";
+            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Click += new System.EventHandler(this.scenario2EmptySSNDuplicateAddressToolStripMenuItem_Click);
+            // 
             // reportsToolStripMenuItem
             // 
             this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2451,7 +2477,8 @@
             this.trustInterest15ReportToolStripMenuItem,
             this.trustContractsWODemographicsToolStripMenuItem,
             this.verificationModuleToolStripMenuItem,
-            this.trustContractLogReportToolStripMenuItem});
+            this.trustContractLogReportToolStripMenuItem,
+            this.trustContractEOYValuesToolStripMenuItem});
             this.miscellaneousReportsMenu.Name = "miscellaneousReportsMenu";
             this.miscellaneousReportsMenu.Size = new System.Drawing.Size(240, 26);
             this.miscellaneousReportsMenu.Text = "Miscellaneous Reports";
@@ -2742,36 +2769,12 @@
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
-            // trustLookupQueriesToolStripMenuItem
+            // trustContractEOYValuesToolStripMenuItem
             // 
-            this.trustLookupQueriesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.scenario1DuplicateSSNsToolStripMenuItem,
-            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem,
-            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem});
-            this.trustLookupQueriesToolStripMenuItem.Name = "trustLookupQueriesToolStripMenuItem";
-            this.trustLookupQueriesToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
-            this.trustLookupQueriesToolStripMenuItem.Text = "Trust Lookup Queries";
-            // 
-            // scenario1DuplicateSSNsToolStripMenuItem
-            // 
-            this.scenario1DuplicateSSNsToolStripMenuItem.Name = "scenario1DuplicateSSNsToolStripMenuItem";
-            this.scenario1DuplicateSSNsToolStripMenuItem.Size = new System.Drawing.Size(380, 26);
-            this.scenario1DuplicateSSNsToolStripMenuItem.Text = "Scenario 1 Duplicate SSN\'s";
-            this.scenario1DuplicateSSNsToolStripMenuItem.Click += new System.EventHandler(this.duplicateSSNsAndNotDeceasedToolStripMenuItem_Click);
-            // 
-            // scenario2EmptySSNDupliacteLastNameToolStripMenuItem
-            // 
-            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem.Name = "scenario2EmptySSNDupliacteLastNameToolStripMenuItem";
-            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem.Size = new System.Drawing.Size(380, 26);
-            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem.Text = "Scenario 2 Empty SSN Dupliacte Last Name";
-            this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem.Click += new System.EventHandler(this.ifspecialReport1ToolStripMenuItem_Click);
-            // 
-            // scenario3EmptySSNDuplicateAddressToolStripMenuItem
-            // 
-            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Name = "scenario3EmptySSNDuplicateAddressToolStripMenuItem";
-            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Size = new System.Drawing.Size(380, 26);
-            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Text = "Scenario 3 Empty SSN Duplicate Address";
-            this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Click += new System.EventHandler(this.scenario2EmptySSNDuplicateAddressToolStripMenuItem_Click);
+            this.trustContractEOYValuesToolStripMenuItem.Name = "trustContractEOYValuesToolStripMenuItem";
+            this.trustContractEOYValuesToolStripMenuItem.Size = new System.Drawing.Size(325, 26);
+            this.trustContractEOYValuesToolStripMenuItem.Text = "Trust Contract EOY Values";
+            this.trustContractEOYValuesToolStripMenuItem.Click += new System.EventHandler(this.trustContractEOYValuesToolStripMenuItem_Click);
             // 
             // Customers
             // 
@@ -3042,5 +3045,6 @@
         private System.Windows.Forms.ToolStripMenuItem scenario1DuplicateSSNsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scenario2EmptySSNDupliacteLastNameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scenario3EmptySSNDuplicateAddressToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem trustContractEOYValuesToolStripMenuItem;
     }
 }

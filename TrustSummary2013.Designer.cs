@@ -39,16 +39,18 @@
             this.panelBottom = new System.Windows.Forms.Panel();
             this.dgv = new DevExpress.XtraGrid.GridControl();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.lastName170 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn171 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn173 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn179 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn3 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn180 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn186 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn199 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn3 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
             this.chk2002 = new System.Windows.Forms.CheckBox();
             this.chkIncludeHeader = new System.Windows.Forms.CheckBox();
@@ -60,8 +62,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnRun = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.bandedGridColumn4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.menuStrip1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -318,6 +318,25 @@
             this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
             this.gridMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain_CustomColumnDisplayText);
             // 
+            // gridBand7
+            // 
+            this.gridBand7.Caption = "gridBandXXX";
+            this.gridBand7.Columns.Add(this.lastName170);
+            this.gridBand7.Columns.Add(this.bandedGridColumn171);
+            this.gridBand7.Columns.Add(this.bandedGridColumn1);
+            this.gridBand7.Columns.Add(this.bandedGridColumn173);
+            this.gridBand7.Columns.Add(this.bandedGridColumn179);
+            this.gridBand7.Columns.Add(this.bandedGridColumn3);
+            this.gridBand7.Columns.Add(this.bandedGridColumn180);
+            this.gridBand7.Columns.Add(this.bandedGridColumn186);
+            this.gridBand7.Columns.Add(this.bandedGridColumn2);
+            this.gridBand7.Columns.Add(this.bandedGridColumn4);
+            this.gridBand7.Columns.Add(this.bandedGridColumn199);
+            this.gridBand7.MinWidth = 22;
+            this.gridBand7.Name = "gridBand7";
+            this.gridBand7.VisibleIndex = 0;
+            this.gridBand7.Width = 1265;
+            // 
             // lastName170
             // 
             this.lastName170.Caption = "Date";
@@ -378,6 +397,19 @@
             this.bandedGridColumn179.Visible = true;
             this.bandedGridColumn179.Width = 135;
             // 
+            // bandedGridColumn3
+            // 
+            this.bandedGridColumn3.Caption = "YTD Prev Removals";
+            this.bandedGridColumn3.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn3.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn3.FieldName = "ytdPrevRemovals";
+            this.bandedGridColumn3.MinWidth = 34;
+            this.bandedGridColumn3.Name = "bandedGridColumn3";
+            this.bandedGridColumn3.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn3.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn3.Visible = true;
+            this.bandedGridColumn3.Width = 143;
+            // 
             // bandedGridColumn180
             // 
             this.bandedGridColumn180.Caption = "Removals";
@@ -417,6 +449,19 @@
             this.bandedGridColumn2.Visible = true;
             this.bandedGridColumn2.Width = 148;
             // 
+            // bandedGridColumn4
+            // 
+            this.bandedGridColumn4.Caption = "New Ending TBB";
+            this.bandedGridColumn4.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn4.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn4.FieldName = "newEndingTBB";
+            this.bandedGridColumn4.MinWidth = 29;
+            this.bandedGridColumn4.Name = "bandedGridColumn4";
+            this.bandedGridColumn4.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn4.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn4.Visible = true;
+            this.bandedGridColumn4.Width = 110;
+            // 
             // bandedGridColumn199
             // 
             this.bandedGridColumn199.Caption = "record";
@@ -426,19 +471,6 @@
             this.bandedGridColumn199.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn199.RowCount = 2;
             this.bandedGridColumn199.Width = 161;
-            // 
-            // bandedGridColumn3
-            // 
-            this.bandedGridColumn3.Caption = "YTD Prev Removals";
-            this.bandedGridColumn3.DisplayFormat.FormatString = "N2";
-            this.bandedGridColumn3.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn3.FieldName = "ytdPrevRemovals";
-            this.bandedGridColumn3.MinWidth = 34;
-            this.bandedGridColumn3.Name = "bandedGridColumn3";
-            this.bandedGridColumn3.OptionsColumn.AllowEdit = false;
-            this.bandedGridColumn3.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn3.Visible = true;
-            this.bandedGridColumn3.Width = 143;
             // 
             // panelTop
             // 
@@ -556,38 +588,6 @@
             this.btnRun.Text = "Run";
             this.btnRun.UseVisualStyleBackColor = false;
             this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
-            // 
-            // bandedGridColumn4
-            // 
-            this.bandedGridColumn4.Caption = "New Ending TBB";
-            this.bandedGridColumn4.DisplayFormat.FormatString = "N2";
-            this.bandedGridColumn4.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn4.FieldName = "newEndingTBB";
-            this.bandedGridColumn4.MinWidth = 29;
-            this.bandedGridColumn4.Name = "bandedGridColumn4";
-            this.bandedGridColumn4.OptionsColumn.AllowEdit = false;
-            this.bandedGridColumn4.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn4.Visible = true;
-            this.bandedGridColumn4.Width = 110;
-            // 
-            // gridBand7
-            // 
-            this.gridBand7.Caption = "gridBandXXX";
-            this.gridBand7.Columns.Add(this.lastName170);
-            this.gridBand7.Columns.Add(this.bandedGridColumn171);
-            this.gridBand7.Columns.Add(this.bandedGridColumn1);
-            this.gridBand7.Columns.Add(this.bandedGridColumn173);
-            this.gridBand7.Columns.Add(this.bandedGridColumn179);
-            this.gridBand7.Columns.Add(this.bandedGridColumn3);
-            this.gridBand7.Columns.Add(this.bandedGridColumn180);
-            this.gridBand7.Columns.Add(this.bandedGridColumn186);
-            this.gridBand7.Columns.Add(this.bandedGridColumn2);
-            this.gridBand7.Columns.Add(this.bandedGridColumn4);
-            this.gridBand7.Columns.Add(this.bandedGridColumn199);
-            this.gridBand7.MinWidth = 22;
-            this.gridBand7.Name = "gridBand7";
-            this.gridBand7.VisibleIndex = 0;
-            this.gridBand7.Width = 1265;
             // 
             // TrustSummary2013
             // 
