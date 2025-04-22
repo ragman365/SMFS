@@ -342,7 +342,8 @@ namespace SMFS
             DateTime saveDate2 = date;
             string date2 = G1.DateTimeToSQLDateTime(date);
 
-            string cmd = "Select * from `trust2013r` t JOIN `customers` c ON t.`contractNumber` = c.`contractNumber` WHERE `payDate8` >= '" + date1 + "' AND `payDate8` <= '" + date2 + "' ";
+            string cmd = "SELECT * FROM `trust2013r` t LEFT JOIN `customers` c ON t.`contractNumber` = c.`contractNumber`";
+            cmd += " WHERE `payDate8` >= '" + date1 + "' AND `payDate8` <= '" + date2 + "' ";
             cmd += " ORDER by t.`payDate8`, t.`contractNumber`";
             cmd += ";";
 
@@ -472,25 +473,68 @@ namespace SMFS
 
             string is2002 = "";
             string locInd = "";
+            string riles = "";
             string name = "";
+            double balance = 0D;
+            double interest = 0D;
+            double removals = 0D;
 
             dt.Columns.Add("serviceLoc");
             DataRow[] dRows = null;
             for (int i = 0; i < dt.Rows.Count; i++) 
             {
-                
-                location = dt.Rows[i]["location"].ObjToString();
+                location = dt.Rows[i]["location"].ObjToString().ToUpper();
                 if (location == "H")
                     location = "B";
                 else if (location == "R")
                     location = "B";
-
+                if (location == "J")
+                    location = "C";
+                else if (location == "CA")
+                    location = "CT";
+                else if (location == "JT")
+                    location = "E";
+                else if (location == "FFN")
+                    location = "FF";
+                else if (location == "FFO")
+                    location = "FF";
+                else if (location == "RF")
+                    location = "FF";/*
+                else if (location == "FO")
+                    location = "F";*/
+                else if (location == "F")
+                    location = "FO";
+                else if (location == "U")
+                    location = "M";
+                else if (location == "UM")
+                    location = "M";
+                else if (location == "NB")
+                    location = "N";
+                else if (location == "NC")
+                    location = "NNM";
+                /*else if (location == "NCOC")
+                    location = "NNM";*/
+                else if (location == "TY")
+                    location = "T";
+                else if (location == "W")
+                    location = "WM";
+                else if (location == "WW")
+                    location = "WM";
+                else if (location == "WT")
+                    location = "N";
+                
                 is2002 = dt.Rows[i]["is2002"].ObjToString();
                 locInd = dt.Rows[i]["locInd"].ObjToString();
+                riles = dt.Rows[i]["riles"].ObjToString();
 
                 dt.Rows[i]["location"] = location;
                 name = location;
-                dRows = funDt.Select("keyCode = '" + location + "'");
+                if (location == "F")
+                    name = "Forest";/*
+                else if (location == "TY")
+                    name = "Capps/Tylertown FH";
+                else*/
+                    dRows = funDt.Select("keyCode = '" + location + "'");
 
                 if (dRows.Length == 0)
                 {
@@ -506,17 +550,110 @@ namespace SMFS
                 }
 
                 if (string.IsNullOrWhiteSpace(is2002))
+                {
                     name += " Pre";
+                    balance = dt.Rows[i]["endingBalance"].ObjToDouble();
+                    interest = dt.Rows[i]["interest"].ObjToDouble();
+                    removals = dt.Rows[i]["currentRemovals"].ObjToDouble();
+                    if (removals == 0D)
+                        dt.Rows[i]["endingBalance"] = balance + interest;
+                }
                 else
+                {
                     name += " Post";
-                dt.Rows[i]["serviceLoc"] = name;
-
+                }
                 
+                dt.Rows[i]["serviceLoc"] = name;
             }
 
+            dRows = dt.Select("endingBalance > '0.00' and currentRemovals = '0.00'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+
+            // HU Tab - dgv3 - gridMain3
+            dRows = dt.Select("serviceLoc = 'Hartman Hughes Pre'");
+            DataTable hudt = dt.Clone();
+            if (dRows.Length > 0)
+                hudt = dRows.CopyToDataTable();
+
+            G1.NumberDataTable(hudt);
+            dgv3.DataSource = hudt;
+
+            // Remove Hartman Hughes Pre from Pre/Post/Riles
+            dRows = dt.Select("serviceLoc <> 'Hartman Hughes Pre'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
             DataView tempView = dt.DefaultView;
-            tempView.Sort = "location";
+            tempView.Sort = "serviceLoc";
             dt = tempView.ToTable();
+
+            // JPN Tab - dgv4 - gridMain4
+            dRows = dt.Select("serviceLoc = 'Old Jones PN(Southland) Pre'");
+            DataTable jpndt = dt.Clone();
+            if (dRows.Length > 0)
+                jpndt = dRows.CopyToDataTable();
+
+            G1.NumberDataTable(jpndt);
+            dgv4.DataSource = jpndt;
+
+            // Remove Old Jones PN(Southland) Pre from Pre/Post/Riles
+            dRows = dt.Select("serviceLoc <> 'Old Jones PN(Southland) Pre'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+            DataView tempView2 = dt.DefaultView;
+            tempView2.Sort = "serviceLoc";
+            dt = tempView2.ToTable();
+
+            // NMOC Tab - dgv5 - gridMain5
+            dRows = dt.Select("serviceLoc = 'Newton Mem GRDN O/C Pre'");
+            DataTable nmocdt = dt.Clone();
+            if (dRows.Length > 0)
+                nmocdt = dRows.CopyToDataTable();
+
+            G1.NumberDataTable(nmocdt);
+            dgv5.DataSource = nmocdt;
+
+            // Remove Newton Mem GRDN O/C Pre from Pre/Post/Riles
+            dRows = dt.Select("serviceLoc <> 'Newton Mem GRDN O/C Pre'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+            DataView tempView3 = dt.DefaultView;
+            tempView3.Sort = "serviceLoc";
+            dt = tempView3.ToTable();
+
+            // Cemeteries Tab - dgv6 - gridMain6
+            dRows = dt.Select("serviceLoc = 'Hillcrest Cemetery Post' or serviceLoc = 'Hillcrest Cemetery Pre' or serviceLoc = 'Newton Memorial Gardens Pre'");
+            DataTable hcdt = dt.Clone();
+            if (dRows.Length > 0)
+                hcdt = dRows.CopyToDataTable();
+
+            G1.NumberDataTable(hcdt);
+            dgv6.DataSource = hcdt;
+
+            // Remove cemeteries from Pre/Post/Riles
+            dRows = dt.Select("serviceLoc <> 'Hillcrest Cemetery Post'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+            DataView tempView4 = dt.DefaultView;
+            tempView4.Sort = "serviceLoc";
+            dt = tempView4.ToTable();
+
+            // Remove cemeteries from Pre/Post/Riles
+            dRows = dt.Select("serviceLoc <> 'Hillcrest Cemetery Pre'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+            DataView tempView5 = dt.DefaultView;
+            tempView5.Sort = "serviceLoc";
+            dt = tempView5.ToTable();
+
+            // Remove cemeteries from Pre/Post/Riles
+            dRows = dt.Select("serviceLoc <> 'Newton Memorial Gardens Pre'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+            DataView tempView6 = dt.DefaultView;
+            tempView6.Sort = "serviceLoc";
+            dt = tempView6.ToTable();
+
 
             return dt;
         }
