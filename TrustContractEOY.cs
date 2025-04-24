@@ -89,7 +89,19 @@ namespace SMFS
         /***********************************************************************************************/
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            G1.ShowHideFindPanel(gridMain);
+            // Add if statement. If dgv2.visible gridMain2 and so on.
+            if (dgv.Visible == true)
+                G1.ShowHideFindPanel(gridMain);
+            else if (dgv2.Visible == true)
+                G1.ShowHideFindPanel(gridMain2);
+            else if (dgv3.Visible == true)
+                G1.ShowHideFindPanel(gridMain3);
+            else if (dgv4.Visible == true)
+                G1.ShowHideFindPanel(gridMain4);
+            else if (dgv5.Visible == true)
+                G1.ShowHideFindPanel(gridMain5);
+            else if (dgv6.Visible == true)
+                G1.ShowHideFindPanel(gridMain6);
         }
         /***********************************************************************************************/
         private void gridMain_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
