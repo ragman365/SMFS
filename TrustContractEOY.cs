@@ -353,8 +353,6 @@ namespace SMFS
 
             G1.NumberDataTable(dt);
 
-            gridMain.Columns["location"].GroupIndex = 0;
-            gridMain.OptionsView.ShowFooter = false;
             /*
             if (chkQuarterTotals.Checked)
             {
@@ -367,6 +365,8 @@ namespace SMFS
                 gridMain.OptionsView.ShowGroupPanel = false;
             }
             */
+            gridMain.Columns["location"].GroupIndex = 0;
+            gridMain.OptionsView.ShowFooter = false;
             gridMain.OptionsView.GroupFooterShowMode = DevExpress.XtraGrid.Views.Grid.GroupFooterShowMode.VisibleIfExpanded;
 
             dt = processLocations(dt);
@@ -510,9 +510,9 @@ namespace SMFS
                     location = "M";
                 else if (location == "NB")
                     location = "N";
-                else if (location == "NC")
+                /*else if (location == "NC")
                     location = "NNM";
-                /*else if (location == "NCOC")
+                else if (location == "NCOC")
                     location = "NNM";*/
                 else if (location == "TY")
                     location = "T";
@@ -565,6 +565,10 @@ namespace SMFS
                 
                 dt.Rows[i]["serviceLoc"] = name;
             }
+
+            // An attempt at summing the totals in the cemetery tab dgv6
+//            gridMain6.Columns["Contract Amount"].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+//            gridMain6.Columns["Contract Amount"].SummaryItem.DisplayFormat = "";
 
             dRows = dt.Select("endingBalance > '0.00' and currentRemovals = '0.00'");
             if (dRows.Length > 0)
@@ -622,15 +626,23 @@ namespace SMFS
             dt = tempView3.ToTable();
 
             // Cemeteries Tab - dgv6 - gridMain6
-            dRows = dt.Select("serviceLoc = 'Hillcrest Cemetery Post' or serviceLoc = 'Hillcrest Cemetery Pre' or serviceLoc = 'Newton Memorial Gardens Pre'");
+            //dRows = dt.Select("serviceLoc = 'Hillcrest Cemetery Post' or serviceLoc = 'Hillcrest Cemetery Pre' or serviceLoc = 'Newton Memorial Gardens Pre' or serviceLoc = 'Newton Memorial Gardens Post'");
+            dRows = dt.Select("serviceLoc = 'Hillcrest Cemetery Pre' or serviceLoc = 'Newton Memorial Gardens Pre'");
             DataTable hcdt = dt.Clone();
             if (dRows.Length > 0)
                 hcdt = dRows.CopyToDataTable();
 
             G1.NumberDataTable(hcdt);
+
+            // Group the different cemeteries and total them.
+            gridMain6.Columns["location"].GroupIndex = 0;
+            gridMain6.OptionsView.ShowFooter = false;
+            gridMain6.OptionsView.GroupFooterShowMode = DevExpress.XtraGrid.Views.Grid.GroupFooterShowMode.VisibleIfExpanded;
+            gridMain6.ExpandAllGroups();
+
             dgv6.DataSource = hcdt;
 
-            // Remove cemeteries from Pre/Post/Riles
+            // Remove Hillcrest POST from Pre/Post/Riles
             dRows = dt.Select("serviceLoc <> 'Hillcrest Cemetery Post'");
             if (dRows.Length > 0)
                 dt = dRows.CopyToDataTable();
@@ -638,7 +650,7 @@ namespace SMFS
             tempView4.Sort = "serviceLoc";
             dt = tempView4.ToTable();
 
-            // Remove cemeteries from Pre/Post/Riles
+            // Remove Hillcrest PRE from Pre/Post/Riles
             dRows = dt.Select("serviceLoc <> 'Hillcrest Cemetery Pre'");
             if (dRows.Length > 0)
                 dt = dRows.CopyToDataTable();
@@ -646,13 +658,21 @@ namespace SMFS
             tempView5.Sort = "serviceLoc";
             dt = tempView5.ToTable();
 
-            // Remove cemeteries from Pre/Post/Riles
+            // Remove NMG Pre from Pre/Post/Riles
             dRows = dt.Select("serviceLoc <> 'Newton Memorial Gardens Pre'");
             if (dRows.Length > 0)
                 dt = dRows.CopyToDataTable();
             DataView tempView6 = dt.DefaultView;
             tempView6.Sort = "serviceLoc";
             dt = tempView6.ToTable();
+
+            // Remove NMG Post from Pre/Post/Riles
+            dRows = dt.Select("serviceLoc <> 'Newton Memorial Gardens Post'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+            DataView tempView7 = dt.DefaultView;
+            tempView7.Sort = "serviceLoc";
+            dt = tempView7.ToTable();
 
 
             return dt;
