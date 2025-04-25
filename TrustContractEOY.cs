@@ -89,19 +89,24 @@ namespace SMFS
         /***********************************************************************************************/
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            // Add if statement. If dgv2.visible gridMain2 and so on.
-            if (dgv.Visible == true)
-                G1.ShowHideFindPanel(gridMain);
-            else if (dgv2.Visible == true)
-                G1.ShowHideFindPanel(gridMain2);
-            else if (dgv3.Visible == true)
-                G1.ShowHideFindPanel(gridMain3);
-            else if (dgv4.Visible == true)
-                G1.ShowHideFindPanel(gridMain4);
-            else if (dgv5.Visible == true)
-                G1.ShowHideFindPanel(gridMain5);
-            else if (dgv6.Visible == true)
-                G1.ShowHideFindPanel(gridMain6);
+            // Makes the magnifying glass work on each tab.
+            if (dgv.Visible)
+                SetSpyGlass(gridMain);
+            else if (dgv2.Visible)
+                SetSpyGlass(gridMain2);
+            else if (dgv3.Visible)
+                SetSpyGlass(gridMain3);
+            else if (dgv4.Visible)
+                SetSpyGlass(gridMain4);
+            else if (dgv5.Visible)
+                SetSpyGlass(gridMain5);
+            else if (dgv6.Visible)
+                SetSpyGlass(gridMain6);
+        }
+        /***********************************************************************************************/
+        private void SetSpyGlass(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView grid)
+        {
+            G1.ShowHideFindPanel(grid);
         }
         /***********************************************************************************************/
         private void gridMain_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
@@ -237,10 +242,10 @@ namespace SMFS
             DevExpress.XtraPrinting.PrintingSystem printingSystem1 = new DevExpress.XtraPrinting.PrintingSystem(this.components);
             DevExpress.XtraPrinting.PrintableComponentLink printableComponentLink1 = new DevExpress.XtraPrinting.PrintableComponentLink(this.components);
 
-            printingSystem1.Links.AddRange(new object[] {
-            printableComponentLink1});
+            printingSystem1.Links.AddRange(new object[] {printableComponentLink1});
 
-
+            // Should an if statement be placed here depending on the page?
+            // Changing the dgv to dgv2 doesn't seem to affect the print preview.
             printableComponentLink1.Component = dgv;
 
             printableComponentLink1.PrintingSystemBase = printingSystem1;
@@ -276,36 +281,7 @@ namespace SMFS
             DataTable dt = (DataTable)dgv.DataSource;
 //            string status = dt.Rows[row]["status"].ObjToString().Trim().ToUpper();
 //            string trustType = dt.Rows[row]["trustType"].ObjToString().ToUpper();
-            /*
-            string showWhat = cmbType.Text.Trim().ToUpper();
-            if ( showWhat == "TRUST")
-            {
-                if ( trustType != "TRUST")
-                {
-                    e.Visible = false;
-                    e.Handled = true;
-                    return;
-                }
-            }
-            else if (showWhat == "INSURANCE")
-            {
-                if (trustType != "INSURANCE")
-                {
-                    e.Visible = false;
-                    e.Handled = true;
-                    return;
-                }
-            }
-            else if (showWhat == "CEMETERY")
-            {
-                if (trustType != "CEMETERY")
-                {
-                    e.Visible = false;
-                    e.Handled = true;
-                    return;
-                }
-            }
-            */
+            
         }
         /***********************************************************************************************/
         private void gridMain_CustomDrawCell(object sender, RowCellCustomDrawEventArgs e)
