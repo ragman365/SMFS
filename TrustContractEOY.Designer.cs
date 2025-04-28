@@ -48,7 +48,6 @@
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn10 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn6 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn19 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -168,6 +167,7 @@
             this.bandedGridColumn94 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox6 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkCollapes = new System.Windows.Forms.CheckBox();
             this.chkPageBreaks = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.chkComboLocNames = new DevExpress.XtraEditors.CheckedComboBoxEdit();
@@ -220,7 +220,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1428, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1428, 30);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -230,7 +230,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -267,10 +267,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1428, 541);
+            this.panelAll.Size = new System.Drawing.Size(1428, 539);
             this.panelAll.TabIndex = 6;
             // 
             // panelBottom
@@ -280,7 +280,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 78);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1428, 463);
+            this.panelBottom.Size = new System.Drawing.Size(1428, 461);
             this.panelBottom.TabIndex = 8;
             // 
             // tabControl1
@@ -295,7 +295,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1428, 463);
+            this.tabControl1.Size = new System.Drawing.Size(1428, 461);
             this.tabControl1.TabIndex = 5;
             // 
             // tabDetail
@@ -304,7 +304,7 @@
             this.tabDetail.Location = new System.Drawing.Point(4, 25);
             this.tabDetail.Name = "tabDetail";
             this.tabDetail.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDetail.Size = new System.Drawing.Size(1420, 434);
+            this.tabDetail.Size = new System.Drawing.Size(1420, 432);
             this.tabDetail.TabIndex = 0;
             this.tabDetail.Text = "Detail";
             this.tabDetail.UseVisualStyleBackColor = true;
@@ -320,7 +320,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox3});
-            this.dgv.Size = new System.Drawing.Size(1414, 428);
+            this.dgv.Size = new System.Drawing.Size(1414, 426);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -491,7 +491,7 @@
             this.gridMain.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
             this.bandedGridColumn1,
             this.bandedGridColumn7,
-            this.bandedGridColumn10,
+//			this.bandedGridColumn10,
             this.bandedGridColumn6,
             this.bandedGridColumn4,
             this.bandedGridColumn12,
@@ -509,7 +509,7 @@
             this.bandedGridColumn19});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
-            this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+			this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "trust", this.bandedGridColumn8, "", "3"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "amount", this.bandedGridColumn3, "", "3"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "downpayment", this.bandedGridColumn2, "", "3")});
@@ -535,7 +535,6 @@
             // gridBand5
             // 
             this.gridBand5.Columns.Add(this.bandedGridColumn1);
-            this.gridBand5.Columns.Add(this.bandedGridColumn10);
             this.gridBand5.Columns.Add(this.bandedGridColumn6);
             this.gridBand5.Columns.Add(this.bandedGridColumn4);
             this.gridBand5.Columns.Add(this.bandedGridColumn19);
@@ -567,16 +566,6 @@
             this.bandedGridColumn1.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn1.Visible = true;
             this.bandedGridColumn1.Width = 77;
-            // 
-            // bandedGridColumn10
-            // 
-            this.bandedGridColumn10.Caption = "Location";
-            this.bandedGridColumn10.FieldName = "location";
-            this.bandedGridColumn10.MinWidth = 34;
-            this.bandedGridColumn10.Name = "bandedGridColumn10";
-            this.bandedGridColumn10.OptionsColumn.AllowEdit = false;
-            this.bandedGridColumn10.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn10.Width = 128;
             // 
             // bandedGridColumn6
             // 
@@ -767,7 +756,7 @@
             this.tabPrePostRiles.Location = new System.Drawing.Point(4, 25);
             this.tabPrePostRiles.Name = "tabPrePostRiles";
             this.tabPrePostRiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPrePostRiles.Size = new System.Drawing.Size(1420, 432);
+            this.tabPrePostRiles.Size = new System.Drawing.Size(1420, 434);
             this.tabPrePostRiles.TabIndex = 1;
             this.tabPrePostRiles.Text = "Pre/Post/Riles";
             this.tabPrePostRiles.UseVisualStyleBackColor = true;
@@ -783,7 +772,7 @@
             this.dgv2.Name = "dgv2";
             this.dgv2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1});
-            this.dgv2.Size = new System.Drawing.Size(1414, 426);
+            this.dgv2.Size = new System.Drawing.Size(1414, 428);
             this.dgv2.TabIndex = 5;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1202,6 +1191,7 @@
             this.gridMain3.OptionsView.ShowFooter = true;
             this.gridMain3.OptionsView.ShowGroupPanel = false;
             this.gridMain3.PaintStyleName = "Flat";
+            this.gridMain3.BeforePrintRow += new DevExpress.XtraGrid.Views.Base.BeforePrintRowEventHandler(this.gridMain_BeforePrintRow);
             // 
             // gridBand2
             // 
@@ -1437,7 +1427,7 @@
             this.tabJPN.Controls.Add(this.dgv4);
             this.tabJPN.Location = new System.Drawing.Point(4, 25);
             this.tabJPN.Name = "tabJPN";
-            this.tabJPN.Size = new System.Drawing.Size(1420, 432);
+            this.tabJPN.Size = new System.Drawing.Size(1420, 434);
             this.tabJPN.TabIndex = 3;
             this.tabJPN.Text = "JPN";
             this.tabJPN.UseVisualStyleBackColor = true;
@@ -1453,7 +1443,7 @@
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox4});
-            this.dgv4.Size = new System.Drawing.Size(1420, 432);
+            this.dgv4.Size = new System.Drawing.Size(1420, 434);
             this.dgv4.TabIndex = 5;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -1624,6 +1614,7 @@
             this.gridMain4.OptionsView.ShowFooter = true;
             this.gridMain4.OptionsView.ShowGroupPanel = false;
             this.gridMain4.PaintStyleName = "Flat";
+            this.gridMain4.BeforePrintRow += new DevExpress.XtraGrid.Views.Base.BeforePrintRowEventHandler(this.gridMain_BeforePrintRow);
             // 
             // gridBand3
             // 
@@ -1859,7 +1850,7 @@
             this.tabNMOC.Controls.Add(this.dgv5);
             this.tabNMOC.Location = new System.Drawing.Point(4, 25);
             this.tabNMOC.Name = "tabNMOC";
-            this.tabNMOC.Size = new System.Drawing.Size(1420, 432);
+            this.tabNMOC.Size = new System.Drawing.Size(1420, 434);
             this.tabNMOC.TabIndex = 4;
             this.tabNMOC.Text = "NMOC";
             this.tabNMOC.UseVisualStyleBackColor = true;
@@ -1875,7 +1866,7 @@
             this.dgv5.Name = "dgv5";
             this.dgv5.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox5});
-            this.dgv5.Size = new System.Drawing.Size(1420, 432);
+            this.dgv5.Size = new System.Drawing.Size(1420, 434);
             this.dgv5.TabIndex = 5;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -2046,6 +2037,7 @@
             this.gridMain5.OptionsView.ShowFooter = true;
             this.gridMain5.OptionsView.ShowGroupPanel = false;
             this.gridMain5.PaintStyleName = "Flat";
+            this.gridMain5.BeforePrintRow += new DevExpress.XtraGrid.Views.Base.BeforePrintRowEventHandler(this.gridMain_BeforePrintRow);
             // 
             // gridBand4
             // 
@@ -2468,6 +2460,7 @@
             this.gridMain6.OptionsView.ShowFooter = true;
             this.gridMain6.OptionsView.ShowGroupPanel = false;
             this.gridMain6.PaintStyleName = "Flat";
+            this.gridMain6.BeforePrintRow += new DevExpress.XtraGrid.Views.Base.BeforePrintRowEventHandler(this.gridMain_BeforePrintRow);
             // 
             // gridBand6
             // 
@@ -2700,6 +2693,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.chkCollapes);
             this.panelTop.Controls.Add(this.chkPageBreaks);
             this.panelTop.Controls.Add(this.label1);
             this.panelTop.Controls.Add(this.chkComboLocNames);
@@ -2716,6 +2710,18 @@
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1428, 78);
             this.panelTop.TabIndex = 7;
+            // 
+            // chkCollapes
+            // 
+            this.chkCollapes.AutoSize = true;
+            this.chkCollapes.Location = new System.Drawing.Point(676, 48);
+            this.chkCollapes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkCollapes.Name = "chkCollapes";
+            this.chkCollapes.Size = new System.Drawing.Size(79, 21);
+            this.chkCollapes.TabIndex = 157;
+            this.chkCollapes.Text = "Collapes";
+            this.chkCollapes.UseVisualStyleBackColor = true;
+            this.chkCollapes.CheckedChanged += new System.EventHandler(this.chkCollapes_CheckedChanged);
             // 
             // chkPageBreaks
             // 
@@ -2746,7 +2752,7 @@
             this.chkComboLocNames.Name = "chkComboLocNames";
             this.chkComboLocNames.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.chkComboLocNames.Properties.DisplayMember = "name";
+            this.chkComboLocNames.Properties.DisplayMember = "LocationCode";
             this.chkComboLocNames.Properties.SeparatorChar = '|';
             this.chkComboLocNames.Size = new System.Drawing.Size(185, 22);
             this.chkComboLocNames.TabIndex = 154;
@@ -2910,7 +2916,6 @@
         private System.Windows.Forms.Button btnRight;
         private System.Windows.Forms.Button btnLeft;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn10;
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.Label label1;
         private DevExpress.XtraEditors.CheckedComboBoxEdit chkComboLocNames;
@@ -3027,5 +3032,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn93;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn94;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox6;
+        private System.Windows.Forms.CheckBox chkCollapes;
     }
 }
