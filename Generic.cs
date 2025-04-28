@@ -35,6 +35,7 @@ using DevExpress.XtraGrid.Columns;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Collections.Generic;
+using DevExpress.XtraGrid;
 
 namespace GeneralLib
 {
@@ -4689,6 +4690,29 @@ namespace GeneralLib
                 format = "${0:0,0.00}";
             gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
             gMain.Columns[columnName].SummaryItem.DisplayFormat = format;
+        }
+        /****************************************************************************************/
+        public static void AddSummaryItem(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain, string fieldName)
+        {
+            bool found = false;
+            string field = "";
+            for (int i = 0; i < gridMain.GroupSummary.Count; i++)
+            {
+                field = gridMain.GroupSummary[i].FieldName;
+                if (field == fieldName)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                if (G1.getGridColumnIndex(gridMain, fieldName) >= 0)
+                {
+                    GridGroupSummaryItem item = new GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, fieldName, gridMain.Columns[fieldName], "{0:N2}");
+                    gridMain.GroupSummary.Add(item);
+                }
+            }
         }
         /****************************************************************************************/
         public static void ClarifyDownPayments(DataTable dt, DateTime date1, DateTime date2)
