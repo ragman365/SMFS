@@ -491,7 +491,6 @@
             this.gridMain.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
             this.bandedGridColumn1,
             this.bandedGridColumn7,
-//			this.bandedGridColumn10,
             this.bandedGridColumn6,
             this.bandedGridColumn4,
             this.bandedGridColumn12,
@@ -509,7 +508,7 @@
             this.bandedGridColumn19});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
-			this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "trust", this.bandedGridColumn8, "", "3"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "amount", this.bandedGridColumn3, "", "3"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "downpayment", this.bandedGridColumn2, "", "3")});
@@ -756,7 +755,7 @@
             this.tabPrePostRiles.Location = new System.Drawing.Point(4, 25);
             this.tabPrePostRiles.Name = "tabPrePostRiles";
             this.tabPrePostRiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPrePostRiles.Size = new System.Drawing.Size(1420, 434);
+            this.tabPrePostRiles.Size = new System.Drawing.Size(1420, 432);
             this.tabPrePostRiles.TabIndex = 1;
             this.tabPrePostRiles.Text = "Pre/Post/Riles";
             this.tabPrePostRiles.UseVisualStyleBackColor = true;
@@ -772,7 +771,7 @@
             this.dgv2.Name = "dgv2";
             this.dgv2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1});
-            this.dgv2.Size = new System.Drawing.Size(1414, 428);
+            this.dgv2.Size = new System.Drawing.Size(1414, 426);
             this.dgv2.TabIndex = 5;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1004,7 +1003,7 @@
             this.tabHU.Controls.Add(this.dgv3);
             this.tabHU.Location = new System.Drawing.Point(4, 25);
             this.tabHU.Name = "tabHU";
-            this.tabHU.Size = new System.Drawing.Size(1420, 434);
+            this.tabHU.Size = new System.Drawing.Size(1420, 432);
             this.tabHU.TabIndex = 2;
             this.tabHU.Text = "HU";
             this.tabHU.UseVisualStyleBackColor = true;
@@ -1020,7 +1019,7 @@
             this.dgv3.Name = "dgv3";
             this.dgv3.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox2});
-            this.dgv3.Size = new System.Drawing.Size(1420, 434);
+            this.dgv3.Size = new System.Drawing.Size(1420, 432);
             this.dgv3.TabIndex = 5;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -1427,7 +1426,7 @@
             this.tabJPN.Controls.Add(this.dgv4);
             this.tabJPN.Location = new System.Drawing.Point(4, 25);
             this.tabJPN.Name = "tabJPN";
-            this.tabJPN.Size = new System.Drawing.Size(1420, 434);
+            this.tabJPN.Size = new System.Drawing.Size(1420, 432);
             this.tabJPN.TabIndex = 3;
             this.tabJPN.Text = "JPN";
             this.tabJPN.UseVisualStyleBackColor = true;
@@ -1443,7 +1442,7 @@
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox4});
-            this.dgv4.Size = new System.Drawing.Size(1420, 434);
+            this.dgv4.Size = new System.Drawing.Size(1420, 432);
             this.dgv4.TabIndex = 5;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -1850,7 +1849,7 @@
             this.tabNMOC.Controls.Add(this.dgv5);
             this.tabNMOC.Location = new System.Drawing.Point(4, 25);
             this.tabNMOC.Name = "tabNMOC";
-            this.tabNMOC.Size = new System.Drawing.Size(1420, 434);
+            this.tabNMOC.Size = new System.Drawing.Size(1420, 432);
             this.tabNMOC.TabIndex = 4;
             this.tabNMOC.Text = "NMOC";
             this.tabNMOC.UseVisualStyleBackColor = true;
@@ -1866,7 +1865,7 @@
             this.dgv5.Name = "dgv5";
             this.dgv5.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox5});
-            this.dgv5.Size = new System.Drawing.Size(1420, 434);
+            this.dgv5.Size = new System.Drawing.Size(1420, 432);
             this.dgv5.TabIndex = 5;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
