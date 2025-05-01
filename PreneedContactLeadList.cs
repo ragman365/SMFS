@@ -221,7 +221,7 @@ namespace SMFS
                         }
                         else
                             dt.Rows[i]["addContact"] = "1";
-                        dt.Rows[i]["agent"] = dx.Rows[i]["agent"].ObjToString();
+                        dt.Rows[i]["agent"] = dx.Rows[0]["agent"].ObjToString();
                     }
                 }
             }

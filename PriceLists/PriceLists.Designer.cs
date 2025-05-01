@@ -39,11 +39,13 @@
             this.panelBottom = new System.Windows.Forms.Panel();
             this.dgv = new DevExpress.XtraGrid.GridControl();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn15 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn3 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.bandedGridColumn3 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn22 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn21 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
@@ -55,8 +57,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureAdd = new System.Windows.Forms.PictureBox();
             this.pictureDelete = new System.Windows.Forms.PictureBox();
-            this.bandedGridColumn4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.menuStrip1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -79,7 +79,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(925, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(925, 30);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -127,10 +127,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(925, 302);
+            this.panelAll.Size = new System.Drawing.Size(925, 300);
             this.panelAll.TabIndex = 15;
             // 
             // panelBottom
@@ -140,7 +140,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 46);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(925, 256);
+            this.panelBottom.Size = new System.Drawing.Size(925, 254);
             this.panelBottom.TabIndex = 17;
             // 
             // dgv
@@ -155,7 +155,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.dgv.Size = new System.Drawing.Size(925, 256);
+            this.dgv.Size = new System.Drawing.Size(925, 254);
             this.dgv.TabIndex = 7;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -307,6 +307,20 @@
             this.gridMain.CustomRowFilter += new DevExpress.XtraGrid.Views.Base.RowFilterEventHandler(this.gridMain_CustomRowFilter);
             this.gridMain.DoubleClick += new System.EventHandler(this.gridMain_DoubleClick);
             // 
+            // gridBand3
+            // 
+            this.gridBand3.Caption = "gridBand1";
+            this.gridBand3.Columns.Add(this.bandedGridColumn15);
+            this.gridBand3.Columns.Add(this.bandedGridColumn2);
+            this.gridBand3.Columns.Add(this.bandedGridColumn3);
+            this.gridBand3.Columns.Add(this.bandedGridColumn4);
+            this.gridBand3.Columns.Add(this.bandedGridColumn1);
+            this.gridBand3.Columns.Add(this.bandedGridColumn22);
+            this.gridBand3.MinWidth = 19;
+            this.gridBand3.Name = "gridBand3";
+            this.gridBand3.VisibleIndex = 0;
+            this.gridBand3.Width = 893;
+            // 
             // bandedGridColumn15
             // 
             this.bandedGridColumn15.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
@@ -332,6 +346,30 @@
             this.bandedGridColumn2.Visible = true;
             this.bandedGridColumn2.Width = 149;
             // 
+            // bandedGridColumn3
+            // 
+            this.bandedGridColumn3.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.bandedGridColumn3.AppearanceHeader.Options.UseForeColor = true;
+            this.bandedGridColumn3.Caption = "Price List Name";
+            this.bandedGridColumn3.FieldName = "description";
+            this.bandedGridColumn3.MinWidth = 36;
+            this.bandedGridColumn3.Name = "bandedGridColumn3";
+            this.bandedGridColumn3.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn3.Visible = true;
+            this.bandedGridColumn3.Width = 338;
+            // 
+            // bandedGridColumn4
+            // 
+            this.bandedGridColumn4.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.bandedGridColumn4.AppearanceHeader.Options.UseForeColor = true;
+            this.bandedGridColumn4.Caption = "Title";
+            this.bandedGridColumn4.FieldName = "title";
+            this.bandedGridColumn4.MinWidth = 29;
+            this.bandedGridColumn4.Name = "bandedGridColumn4";
+            this.bandedGridColumn4.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn4.Visible = true;
+            this.bandedGridColumn4.Width = 338;
+            // 
             // bandedGridColumn1
             // 
             this.bandedGridColumn1.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
@@ -353,18 +391,6 @@
             this.repositoryItemCheckEdit1.AutoHeight = false;
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             this.repositoryItemCheckEdit1.CheckedChanged += new System.EventHandler(this.repositoryItemCheckEdit1_CheckedChanged);
-            // 
-            // bandedGridColumn3
-            // 
-            this.bandedGridColumn3.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
-            this.bandedGridColumn3.AppearanceHeader.Options.UseForeColor = true;
-            this.bandedGridColumn3.Caption = "Price List Name";
-            this.bandedGridColumn3.FieldName = "description";
-            this.bandedGridColumn3.MinWidth = 36;
-            this.bandedGridColumn3.Name = "bandedGridColumn3";
-            this.bandedGridColumn3.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn3.Visible = true;
-            this.bandedGridColumn3.Width = 338;
             // 
             // bandedGridColumn22
             // 
@@ -505,32 +531,6 @@
             this.pictureDelete.TabIndex = 23;
             this.pictureDelete.TabStop = false;
             this.pictureDelete.Click += new System.EventHandler(this.pictureDelete_Click);
-            // 
-            // bandedGridColumn4
-            // 
-            this.bandedGridColumn4.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
-            this.bandedGridColumn4.AppearanceHeader.Options.UseForeColor = true;
-            this.bandedGridColumn4.Caption = "Title";
-            this.bandedGridColumn4.FieldName = "title";
-            this.bandedGridColumn4.MinWidth = 29;
-            this.bandedGridColumn4.Name = "bandedGridColumn4";
-            this.bandedGridColumn4.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn4.Visible = true;
-            this.bandedGridColumn4.Width = 338;
-            // 
-            // gridBand3
-            // 
-            this.gridBand3.Caption = "gridBand1";
-            this.gridBand3.Columns.Add(this.bandedGridColumn15);
-            this.gridBand3.Columns.Add(this.bandedGridColumn2);
-            this.gridBand3.Columns.Add(this.bandedGridColumn3);
-            this.gridBand3.Columns.Add(this.bandedGridColumn4);
-            this.gridBand3.Columns.Add(this.bandedGridColumn1);
-            this.gridBand3.Columns.Add(this.bandedGridColumn22);
-            this.gridBand3.MinWidth = 19;
-            this.gridBand3.Name = "gridBand3";
-            this.gridBand3.VisibleIndex = 0;
-            this.gridBand3.Width = 893;
             // 
             // PriceLists
             // 
