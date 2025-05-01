@@ -58,6 +58,22 @@ namespace SMFS
 
             agentDt = G1.get_db_data("Select * from `agents`;");
             SetupTotalsSummary();
+
+            SetupPrintView(gridMain); // <--- New as of 04/30/2025
+            SetupPrintView(gridMain3); // <--- New as of 04/30/2025
+            SetupPrintView(gridMain4); // <--- New as of 04/30/2025
+            SetupPrintView(gridMain5); // <--- New as of 04/30/2025
+            SetupPrintView(gridMain6); // <--- New as of 04/30/2025
+        }
+        /****************************************************************************************/
+        private Font LucidaFont = new Font("Lucida Console", 7.8F); // <--- New as of 04/30/2025
+        private void SetupPrintView (DevExpress.XtraGrid.Views.BandedGrid.BandedGridView gMain) // <--- New as of 04/30/2025
+        {
+            G1.AddNewColumn(gMain, "printLoc", "Location", "", FormatType.None, 100, false);
+
+            gMain.Appearance.GroupRow.Font = LucidaFont;
+            gMain.AppearancePrint.GroupRow.Font = LucidaFont;
+            gMain.CustomDrawGroupRow += new DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventHandler(this.gridMain_CustomDrawGroupRow);
         }
         /****************************************************************************************/
         private void SetupTotalsSummary()
@@ -233,17 +249,41 @@ namespace SMFS
             printableComponentLink1});
 
 
+            this.Cursor = Cursors.WaitCursor;
             printableComponentLink1.Component = dgv;
-            if (dgv2.Visible)
+            if (dgv.Visible) // <--- New Stuff Here 
+            {
+                if (chkCollapes.Checked)
+                    BuildPrintSummary( dgv );
+            }
+            if (dgv2.Visible) 
                 printableComponentLink1.Component = dgv2;
-            else if (dgv3.Visible)
+            else if (dgv3.Visible) // <--- New Stuff Here 
+            {
                 printableComponentLink1.Component = dgv3;
-            else if (dgv4.Visible)
+                if (chkCollapes.Checked)
+                    BuildPrintSummary(dgv3);
+            }
+            else if (dgv4.Visible) // <--- New Stuff Here 
+            {
                 printableComponentLink1.Component = dgv4;
-            else if (dgv5.Visible)
+                if (chkCollapes.Checked)
+                    BuildPrintSummary(dgv4);
+            }
+            else if (dgv5.Visible) // <--- New Stuff Here 
+            {
                 printableComponentLink1.Component = dgv5;
-            else if (dgv6.Visible)
+                if (chkCollapes.Checked)
+                    BuildPrintSummary(dgv5);
+            }
+            else if (dgv6.Visible) // <--- New Stuff Here 
+            {
                 printableComponentLink1.Component = dgv6;
+                if (chkCollapes.Checked)
+                    BuildPrintSummary(dgv6);
+            }
+
+            this.Cursor = Cursors.Default;
 
             printableComponentLink1.PrintingSystemBase = printingSystem1;
 
@@ -270,6 +310,61 @@ namespace SMFS
             printableComponentLink1.CreateDocument();
             printableComponentLink1.ShowPreview();
             isPrinting = false;
+
+            if (dgv.Visible && chkCollapes.Checked )
+            {
+                gridMain.Columns["printLoc"].GroupIndex = -1;
+                gridMain.Columns["location"].GroupIndex = 0;
+            }
+        }
+        /***********************************************************************************************/
+        private void BuildPrintSummary ( GridControl dgv ) // New as of 4/30/2025
+        {
+            DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = (DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView) dgv.MainView;
+            DataTable dt = (DataTable)dgv.DataSource;
+
+            if (G1.get_column_number(dt, "printLoc") < 0)
+                dt.Columns.Add("printLoc");
+
+            string location = "";
+            string caption = "";
+            double total = 0D;
+            string str = "";
+
+            int row = 0;
+            int length = 0;
+            string text = "";
+
+            DataTable dx = G1.GetGroupBy(dt, "location");
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                location = dx.Rows[i]["location"].ObjToString();
+                total = totalLocation( dt, location);
+                total = G1.RoundValue(total);
+                str = G1.ReformatMoney(total);
+
+                caption = getLocationName(location);
+
+                text = " (" + location + ") ";
+
+                length = 40 - text.Length;
+                if (length < 0)
+                    length = 0;
+                if ( str.Length < 13 )
+                {
+                    length += 13 - str.Length;
+                }
+                text += caption.PadRight(length);
+                text += " $" + str;
+
+                dt.Rows[i]["printLoc"] = text;
+                row++;
+            }
+
+            gMain.Columns["location"].GroupIndex = -1;
+            gMain.Columns["printLoc"].GroupIndex = 0;
+
+            return;
         }
         /***********************************************************************************************/
         private void printableComponentLink1_BeforeCreateAreas(object sender, EventArgs e)
@@ -707,6 +802,7 @@ namespace SMFS
             dRows = dt.Select("serviceLoc <> 'Hartman Hughes Pre'");
             if (dRows.Length > 0)
                 dt = dRows.CopyToDataTable();
+
             DataView tempView = dt.DefaultView;
             tempView.Sort = "serviceLoc";
             dt = tempView.ToTable();
@@ -868,8 +964,12 @@ namespace SMFS
                     dt.Rows[i]["contractNumber"] = "NCOC35";
                     dt.Rows[i]["location"] = "NCOC";
                 }
-                contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
-//                dt.Rows[i]["location"] = loc;
+                loc = dt.Rows[i]["location"].ObjToString();
+                if (String.IsNullOrWhiteSpace(loc))
+                {
+                    contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
+                    dt.Rows[i]["location"] = loc;
+                }
             }
 
             return dt;
@@ -1507,6 +1607,9 @@ namespace SMFS
             }
 			else if (chkCollapes.Checked)
             {
+                e.Cancel = true;
+                if (1 == 1)
+                    return;
                 if (e.Level == 1)
                 {
                     if (!gridMain.IsDataRow(rowHandle))
@@ -1911,28 +2014,6 @@ namespace SMFS
             ProcessGroupChange(chkCollapes.Checked, gridMain4, "location");
             ProcessGroupChange(chkCollapes.Checked, gridMain5, "location");
             ProcessGroupChange(chkCollapes.Checked, gridMain6, "location");
-            //if (chkCollapes.Checked)
-            //{
-            //    gridMain.OptionsPrint.PrintGroupFooter = true;
-            //    gridMain.OptionsView.ShowFooter = true;
-            //    gridMain.Columns["location"].GroupIndex = -1;
-            //    gridMain.ExpandAllGroups();
-            //    gridMain.Columns["location"].GroupIndex = 0;
-            //    gridMain.OptionsView.ShowGroupedColumns = false;
-            //    gridMain.OptionsView.GroupFooterShowMode = GroupFooterShowMode.VisibleAlways;
-            //    SetupTotalsSummary();
-            //    //gridMain.ExpandAllGroups();
-            //}
-            //else
-            //{
-            //    gridMain.OptionsPrint.PrintGroupFooter = true;
-            //    gridMain.OptionsView.ShowFooter = true;
-            //    gridMain.Columns["location"].GroupIndex = 0;
-            //    gridMain.OptionsView.ShowGroupedColumns = false;
-            //    gridMain.OptionsView.GroupFooterShowMode = GroupFooterShowMode.VisibleAlways;
-            //    SetupTotalsSummary();
-            //    gridMain.ExpandAllGroups();
-            //}
         }
         /***********************************************************************************************/
         private void ProcessGroupChange ( bool collape, DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain, string column )
@@ -1941,11 +2022,13 @@ namespace SMFS
             {
                 gridMain.OptionsPrint.PrintGroupFooter = true;
                 gridMain.OptionsView.ShowFooter = true;
+                gridMain.OptionsView.ShowFooter = false;
                 gridMain.Columns["location"].GroupIndex = -1;
                 gridMain.ExpandAllGroups();
                 gridMain.Columns["location"].GroupIndex = 0;
                 gridMain.OptionsView.ShowGroupedColumns = false;
                 gridMain.OptionsView.GroupFooterShowMode = GroupFooterShowMode.VisibleAlways;
+                gridMain.OptionsView.GroupFooterShowMode = GroupFooterShowMode.Hidden; // New as of 4/30/2025
                 SetupTotalsSummary();
             }
             else
@@ -1959,6 +2042,76 @@ namespace SMFS
                 gridMain.ExpandAllGroups();
             }
         }
-        /***********************************************************************************************/										 
+        /***********************************************************************************************/
+        private string getLocationName(string location)
+        {
+            DataTable dx = (DataTable)chkComboLocNames.Properties.DataSource;
+            DataRow[] dRows = dx.Select("keycode='" + location + "'");
+            if (dRows.Length > 0)
+                location = dRows[0]["LocationCode"].ObjToString();
+            return location;
+        }
+        /***********************************************************************************************/
+        private double totalLocation(DataTable dt, string location = "")
+        {
+            double total = 0D;
+            if (String.IsNullOrWhiteSpace(location))
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                    total += dt.Rows[i]["endingBalance"].ObjToDouble();
+            }
+            else
+            {
+                DataRow[] dRows = dt.Select("location='" + location + "'");
+                if (dRows.Length > 0)
+                {
+                    for (int i = 0; i < dRows.Length; i++)
+                        total += dRows[i]["endingBalance"].ObjToDouble();
+                }
+            }
+            return total;
+        }
+        /***********************************************************************************************/
+        private void gridMain_CustomDrawGroupRow(object sender, RowObjectCustomDrawEventArgs e) // New as of 4/30/2025
+        {
+            GridGroupRowInfo info = e.Info as GridGroupRowInfo;
+            string location = info.GroupText;
+            location = info.GroupValueText.Trim();
+            info.GroupText = location;
+
+            var view = (GridView)sender;
+            var caption = info.Column.Caption;
+            if (info.Column.Caption == string.Empty)
+            {
+                caption = info.Column.ToString();
+            }
+
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dgv3.Visible)
+                dt = (DataTable)dgv3.DataSource;
+            else if (dgv4.Visible)
+                dt = (DataTable)dgv4.DataSource;
+            else if (dgv5.Visible)
+                dt = (DataTable)dgv5.DataSource;
+            else if (dgv6.Visible)
+                dt = (DataTable)dgv6.DataSource;
+
+            double total = totalLocation(dt, location);
+            total = G1.RoundValue(total);
+            string str = G1.ReformatMoney(total);
+            caption = getLocationName(location);
+
+            info.GroupText = "Location : (" + location + ")";
+            int length = 50 - info.GroupText.Length;
+            if (length < 0)
+                length = 0;
+            if (str.Length < 13)
+                length += 13 - str.Length;
+            if (!chkCollapes.Checked)
+                length = 10;
+            info.GroupText += caption.PadRight(length);
+            info.GroupText += "$" + str;
+        }
+        /***********************************************************************************************/
     }
 }
