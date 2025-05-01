@@ -664,7 +664,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(1422, 380);
+            this.tabPage1.Size = new System.Drawing.Size(1422, 382);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Details";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -680,7 +680,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1416, 372);
+            this.dgv.Size = new System.Drawing.Size(1416, 374);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1508,7 +1508,7 @@
             this.tabLocations.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabLocations.Name = "tabLocations";
             this.tabLocations.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabLocations.Size = new System.Drawing.Size(1422, 382);
+            this.tabLocations.Size = new System.Drawing.Size(1422, 380);
             this.tabLocations.TabIndex = 1;
             this.tabLocations.Text = "Agent by Location";
             this.tabLocations.UseVisualStyleBackColor = true;
@@ -1521,7 +1521,7 @@
             this.panelBAll.Location = new System.Drawing.Point(3, 4);
             this.panelBAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBAll.Name = "panelBAll";
-            this.panelBAll.Size = new System.Drawing.Size(1416, 374);
+            this.panelBAll.Size = new System.Drawing.Size(1416, 372);
             this.panelBAll.TabIndex = 6;
             // 
             // panelBBottom
@@ -1531,7 +1531,7 @@
             this.panelBBottom.Location = new System.Drawing.Point(0, 43);
             this.panelBBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBBottom.Name = "panelBBottom";
-            this.panelBBottom.Size = new System.Drawing.Size(1416, 331);
+            this.panelBBottom.Size = new System.Drawing.Size(1416, 329);
             this.panelBBottom.TabIndex = 8;
             // 
             // dgv2
@@ -1544,7 +1544,7 @@
             this.dgv2.MainView = this.gridMain2;
             this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv2.Name = "dgv2";
-            this.dgv2.Size = new System.Drawing.Size(1416, 331);
+            this.dgv2.Size = new System.Drawing.Size(1416, 329);
             this.dgv2.TabIndex = 5;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1998,7 +1998,7 @@
             this.tabAgentLocations.Location = new System.Drawing.Point(4, 25);
             this.tabAgentLocations.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabAgentLocations.Name = "tabAgentLocations";
-            this.tabAgentLocations.Size = new System.Drawing.Size(1422, 382);
+            this.tabAgentLocations.Size = new System.Drawing.Size(1422, 380);
             this.tabAgentLocations.TabIndex = 3;
             this.tabAgentLocations.Text = "Location by Agent";
             this.tabAgentLocations.UseVisualStyleBackColor = true;
@@ -2011,7 +2011,7 @@
             this.panelLAAll.Location = new System.Drawing.Point(0, 0);
             this.panelLAAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelLAAll.Name = "panelLAAll";
-            this.panelLAAll.Size = new System.Drawing.Size(1422, 382);
+            this.panelLAAll.Size = new System.Drawing.Size(1422, 380);
             this.panelLAAll.TabIndex = 7;
             // 
             // panelLABottom
@@ -2021,7 +2021,7 @@
             this.panelLABottom.Location = new System.Drawing.Point(0, 39);
             this.panelLABottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelLABottom.Name = "panelLABottom";
-            this.panelLABottom.Size = new System.Drawing.Size(1422, 343);
+            this.panelLABottom.Size = new System.Drawing.Size(1422, 341);
             this.panelLABottom.TabIndex = 9;
             // 
             // dgv4
@@ -2034,7 +2034,7 @@
             this.dgv4.MainView = this.gridMain4;
             this.dgv4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv4.Name = "dgv4";
-            this.dgv4.Size = new System.Drawing.Size(1422, 343);
+            this.dgv4.Size = new System.Drawing.Size(1422, 341);
             this.dgv4.TabIndex = 6;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2442,7 +2442,7 @@
             this.tabAgentTotals.Location = new System.Drawing.Point(4, 25);
             this.tabAgentTotals.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabAgentTotals.Name = "tabAgentTotals";
-            this.tabAgentTotals.Size = new System.Drawing.Size(1422, 382);
+            this.tabAgentTotals.Size = new System.Drawing.Size(1422, 380);
             this.tabAgentTotals.TabIndex = 2;
             this.tabAgentTotals.Text = "Agent Totals";
             this.tabAgentTotals.UseVisualStyleBackColor = true;
@@ -2455,7 +2455,7 @@
             this.panel3All.Location = new System.Drawing.Point(0, 0);
             this.panel3All.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel3All.Name = "panel3All";
-            this.panel3All.Size = new System.Drawing.Size(1422, 382);
+            this.panel3All.Size = new System.Drawing.Size(1422, 380);
             this.panel3All.TabIndex = 7;
             // 
             // panel3Bottom
@@ -2465,7 +2465,7 @@
             this.panel3Bottom.Location = new System.Drawing.Point(0, 31);
             this.panel3Bottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel3Bottom.Name = "panel3Bottom";
-            this.panel3Bottom.Size = new System.Drawing.Size(1422, 351);
+            this.panel3Bottom.Size = new System.Drawing.Size(1422, 349);
             this.panel3Bottom.TabIndex = 9;
             // 
             // dgv3
@@ -2478,7 +2478,7 @@
             this.dgv3.MainView = this.gridMain3;
             this.dgv3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv3.Name = "dgv3";
-            this.dgv3.Size = new System.Drawing.Size(1422, 351);
+            this.dgv3.Size = new System.Drawing.Size(1422, 349);
             this.dgv3.TabIndex = 6;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -3241,7 +3241,7 @@
             this.tabLocationTotals.Location = new System.Drawing.Point(4, 25);
             this.tabLocationTotals.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabLocationTotals.Name = "tabLocationTotals";
-            this.tabLocationTotals.Size = new System.Drawing.Size(1422, 382);
+            this.tabLocationTotals.Size = new System.Drawing.Size(1422, 380);
             this.tabLocationTotals.TabIndex = 4;
             this.tabLocationTotals.Text = "Location Totals";
             this.tabLocationTotals.UseVisualStyleBackColor = true;
@@ -3254,7 +3254,7 @@
             this.panel5All.Location = new System.Drawing.Point(0, 0);
             this.panel5All.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel5All.Name = "panel5All";
-            this.panel5All.Size = new System.Drawing.Size(1422, 382);
+            this.panel5All.Size = new System.Drawing.Size(1422, 380);
             this.panel5All.TabIndex = 8;
             // 
             // panel5Bottom
@@ -3264,7 +3264,7 @@
             this.panel5Bottom.Location = new System.Drawing.Point(0, 46);
             this.panel5Bottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel5Bottom.Name = "panel5Bottom";
-            this.panel5Bottom.Size = new System.Drawing.Size(1422, 336);
+            this.panel5Bottom.Size = new System.Drawing.Size(1422, 334);
             this.panel5Bottom.TabIndex = 10;
             // 
             // dgv5
@@ -3277,7 +3277,7 @@
             this.dgv5.MainView = this.gridMain5;
             this.dgv5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv5.Name = "dgv5";
-            this.dgv5.Size = new System.Drawing.Size(1422, 336);
+            this.dgv5.Size = new System.Drawing.Size(1422, 334);
             this.dgv5.TabIndex = 7;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -3710,7 +3710,7 @@
             this.tabContractLocations.Location = new System.Drawing.Point(4, 25);
             this.tabContractLocations.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabContractLocations.Name = "tabContractLocations";
-            this.tabContractLocations.Size = new System.Drawing.Size(1422, 382);
+            this.tabContractLocations.Size = new System.Drawing.Size(1422, 380);
             this.tabContractLocations.TabIndex = 6;
             this.tabContractLocations.Text = "Contracts by Location";
             this.tabContractLocations.UseVisualStyleBackColor = true;
@@ -3725,7 +3725,7 @@
             this.dgv7.MainView = this.gridMain7;
             this.dgv7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv7.Name = "dgv7";
-            this.dgv7.Size = new System.Drawing.Size(1422, 382);
+            this.dgv7.Size = new System.Drawing.Size(1422, 380);
             this.dgv7.TabIndex = 6;
             this.dgv7.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain7});
@@ -4166,7 +4166,7 @@
             this.tabLapse.Location = new System.Drawing.Point(4, 25);
             this.tabLapse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabLapse.Name = "tabLapse";
-            this.tabLapse.Size = new System.Drawing.Size(1422, 382);
+            this.tabLapse.Size = new System.Drawing.Size(1422, 380);
             this.tabLapse.TabIndex = 7;
             this.tabLapse.Text = "Lapses";
             this.tabLapse.UseVisualStyleBackColor = true;
@@ -4182,7 +4182,7 @@
             this.dgv8.MainView = this.gridMain8;
             this.dgv8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv8.Name = "dgv8";
-            this.dgv8.Size = new System.Drawing.Size(1422, 382);
+            this.dgv8.Size = new System.Drawing.Size(1422, 380);
             this.dgv8.TabIndex = 5;
             this.dgv8.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain8});
@@ -4794,7 +4794,7 @@
             this.tabReinstate.Location = new System.Drawing.Point(4, 25);
             this.tabReinstate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabReinstate.Name = "tabReinstate";
-            this.tabReinstate.Size = new System.Drawing.Size(1422, 382);
+            this.tabReinstate.Size = new System.Drawing.Size(1422, 380);
             this.tabReinstate.TabIndex = 8;
             this.tabReinstate.Text = "Reinstate";
             this.tabReinstate.UseVisualStyleBackColor = true;
@@ -4810,7 +4810,7 @@
             this.dgv9.MainView = this.gridMain9;
             this.dgv9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv9.Name = "dgv9";
-            this.dgv9.Size = new System.Drawing.Size(1422, 382);
+            this.dgv9.Size = new System.Drawing.Size(1422, 380);
             this.dgv9.TabIndex = 6;
             this.dgv9.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain9});
@@ -5462,7 +5462,7 @@
             this.tabCombined.Location = new System.Drawing.Point(4, 25);
             this.tabCombined.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCombined.Name = "tabCombined";
-            this.tabCombined.Size = new System.Drawing.Size(1422, 382);
+            this.tabCombined.Size = new System.Drawing.Size(1422, 380);
             this.tabCombined.TabIndex = 11;
             this.tabCombined.Text = "Combined";
             this.tabCombined.UseVisualStyleBackColor = true;
@@ -5478,7 +5478,7 @@
             this.dgv12.MainView = this.gridMain12;
             this.dgv12.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv12.Name = "dgv12";
-            this.dgv12.Size = new System.Drawing.Size(1422, 382);
+            this.dgv12.Size = new System.Drawing.Size(1422, 380);
             this.dgv12.TabIndex = 7;
             this.dgv12.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain12});
@@ -6128,7 +6128,7 @@
             this.tabCommission.Location = new System.Drawing.Point(4, 25);
             this.tabCommission.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCommission.Name = "tabCommission";
-            this.tabCommission.Size = new System.Drawing.Size(1422, 382);
+            this.tabCommission.Size = new System.Drawing.Size(1422, 380);
             this.tabCommission.TabIndex = 9;
             this.tabCommission.Text = "Commissions";
             this.tabCommission.UseVisualStyleBackColor = true;
@@ -6141,7 +6141,7 @@
             this.panelCommAll.Location = new System.Drawing.Point(0, 0);
             this.panelCommAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelCommAll.Name = "panelCommAll";
-            this.panelCommAll.Size = new System.Drawing.Size(1422, 382);
+            this.panelCommAll.Size = new System.Drawing.Size(1422, 380);
             this.panelCommAll.TabIndex = 0;
             // 
             // panelCommBottom
@@ -6151,7 +6151,7 @@
             this.panelCommBottom.Location = new System.Drawing.Point(0, 48);
             this.panelCommBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelCommBottom.Name = "panelCommBottom";
-            this.panelCommBottom.Size = new System.Drawing.Size(1422, 334);
+            this.panelCommBottom.Size = new System.Drawing.Size(1422, 332);
             this.panelCommBottom.TabIndex = 2;
             // 
             // dgv10
@@ -6165,7 +6165,7 @@
             this.dgv10.MainView = this.gridMain10;
             this.dgv10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv10.Name = "dgv10";
-            this.dgv10.Size = new System.Drawing.Size(1422, 334);
+            this.dgv10.Size = new System.Drawing.Size(1422, 332);
             this.dgv10.TabIndex = 5;
             this.dgv10.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain10});
@@ -6981,7 +6981,7 @@
             this.tabMeetings.Controls.Add(this.dgv13);
             this.tabMeetings.Location = new System.Drawing.Point(4, 25);
             this.tabMeetings.Name = "tabMeetings";
-            this.tabMeetings.Size = new System.Drawing.Size(1422, 382);
+            this.tabMeetings.Size = new System.Drawing.Size(1422, 380);
             this.tabMeetings.TabIndex = 12;
             this.tabMeetings.Text = "Meetings";
             this.tabMeetings.UseVisualStyleBackColor = true;
@@ -6995,7 +6995,7 @@
             this.dgv13.MainView = this.gridMain13;
             this.dgv13.Margin = new System.Windows.Forms.Padding(2);
             this.dgv13.Name = "dgv13";
-            this.dgv13.Size = new System.Drawing.Size(1422, 382);
+            this.dgv13.Size = new System.Drawing.Size(1422, 380);
             this.dgv13.TabIndex = 6;
             this.dgv13.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain13});
@@ -7432,7 +7432,7 @@
             this.tabDebugTrusts.Location = new System.Drawing.Point(4, 25);
             this.tabDebugTrusts.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabDebugTrusts.Name = "tabDebugTrusts";
-            this.tabDebugTrusts.Size = new System.Drawing.Size(1422, 382);
+            this.tabDebugTrusts.Size = new System.Drawing.Size(1422, 380);
             this.tabDebugTrusts.TabIndex = 10;
             this.tabDebugTrusts.Text = "Debug Trusts";
             this.tabDebugTrusts.UseVisualStyleBackColor = true;
@@ -7445,7 +7445,7 @@
             this.panelDebugAll.Location = new System.Drawing.Point(0, 0);
             this.panelDebugAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelDebugAll.Name = "panelDebugAll";
-            this.panelDebugAll.Size = new System.Drawing.Size(1422, 382);
+            this.panelDebugAll.Size = new System.Drawing.Size(1422, 380);
             this.panelDebugAll.TabIndex = 0;
             // 
             // panelDebugBottom
@@ -7455,7 +7455,7 @@
             this.panelDebugBottom.Location = new System.Drawing.Point(0, 58);
             this.panelDebugBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelDebugBottom.Name = "panelDebugBottom";
-            this.panelDebugBottom.Size = new System.Drawing.Size(1422, 324);
+            this.panelDebugBottom.Size = new System.Drawing.Size(1422, 322);
             this.panelDebugBottom.TabIndex = 2;
             // 
             // dgv11
@@ -7469,7 +7469,7 @@
             this.dgv11.MainView = this.gridMain11;
             this.dgv11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv11.Name = "dgv11";
-            this.dgv11.Size = new System.Drawing.Size(1422, 324);
+            this.dgv11.Size = new System.Drawing.Size(1422, 322);
             this.dgv11.TabIndex = 9;
             this.dgv11.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain11});
@@ -8646,7 +8646,7 @@
             this.toolStripMenuItem2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -8695,7 +8695,7 @@
             // columnsToolStripMenuItem
             // 
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.columnsToolStripMenuItem.Text = "Columns";
             // 
             // reportsToolStripMenuItem
@@ -8705,7 +8705,7 @@
             this.historicCommissionsToolStripMenuItem,
             this.agentsPieChartToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // trustReportsToolStripMenuItem
@@ -8733,7 +8733,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 

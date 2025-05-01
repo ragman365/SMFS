@@ -722,7 +722,7 @@
             this.tabPayments.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPayments.Name = "tabPayments";
             this.tabPayments.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPayments.Size = new System.Drawing.Size(1546, 290);
+            this.tabPayments.Size = new System.Drawing.Size(1546, 288);
             this.tabPayments.TabIndex = 0;
             this.tabPayments.Text = "Payments";
             this.tabPayments.UseVisualStyleBackColor = true;
@@ -741,7 +741,7 @@
             this.repositoryItemCheckEdit1,
             this.repositoryItemCheckEdit8,
             this.repositoryItemCheckEdit9});
-            this.dgv.Size = new System.Drawing.Size(1540, 282);
+            this.dgv.Size = new System.Drawing.Size(1540, 280);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1786,7 +1786,7 @@
             this.tabEOM1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabEOM1.Name = "tabEOM1";
             this.tabEOM1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabEOM1.Size = new System.Drawing.Size(1546, 290);
+            this.tabEOM1.Size = new System.Drawing.Size(1546, 288);
             this.tabEOM1.TabIndex = 1;
             this.tabEOM1.Text = "Trust EOM";
             this.tabEOM1.UseVisualStyleBackColor = true;
@@ -1801,7 +1801,7 @@
             this.dgv2.MainView = this.gridMain2;
             this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv2.Name = "dgv2";
-            this.dgv2.Size = new System.Drawing.Size(1540, 282);
+            this.dgv2.Size = new System.Drawing.Size(1540, 280);
             this.dgv2.TabIndex = 5;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -2080,7 +2080,7 @@
             this.tabDraftsEOM.Location = new System.Drawing.Point(4, 25);
             this.tabDraftsEOM.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabDraftsEOM.Name = "tabDraftsEOM";
-            this.tabDraftsEOM.Size = new System.Drawing.Size(1546, 290);
+            this.tabDraftsEOM.Size = new System.Drawing.Size(1546, 288);
             this.tabDraftsEOM.TabIndex = 2;
             this.tabDraftsEOM.Text = "Drafts EOM";
             this.tabDraftsEOM.UseVisualStyleBackColor = true;
@@ -2095,7 +2095,7 @@
             this.dgv3.MainView = this.gridMain3;
             this.dgv3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv3.Name = "dgv3";
-            this.dgv3.Size = new System.Drawing.Size(1546, 290);
+            this.dgv3.Size = new System.Drawing.Size(1546, 288);
             this.dgv3.TabIndex = 6;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -2378,7 +2378,7 @@
             this.tabLKBX.Location = new System.Drawing.Point(4, 25);
             this.tabLKBX.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabLKBX.Name = "tabLKBX";
-            this.tabLKBX.Size = new System.Drawing.Size(1546, 290);
+            this.tabLKBX.Size = new System.Drawing.Size(1546, 288);
             this.tabLKBX.TabIndex = 3;
             this.tabLKBX.Text = "LockBox EOM";
             this.tabLKBX.UseVisualStyleBackColor = true;
@@ -2391,7 +2391,7 @@
             this.panelLockAll.Location = new System.Drawing.Point(0, 0);
             this.panelLockAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelLockAll.Name = "panelLockAll";
-            this.panelLockAll.Size = new System.Drawing.Size(1546, 290);
+            this.panelLockAll.Size = new System.Drawing.Size(1546, 288);
             this.panelLockAll.TabIndex = 8;
             // 
             // panelLockBottom
@@ -2401,7 +2401,7 @@
             this.panelLockBottom.Location = new System.Drawing.Point(0, 44);
             this.panelLockBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelLockBottom.Name = "panelLockBottom";
-            this.panelLockBottom.Size = new System.Drawing.Size(1546, 246);
+            this.panelLockBottom.Size = new System.Drawing.Size(1546, 244);
             this.panelLockBottom.TabIndex = 10;
             // 
             // dgv4
@@ -2414,7 +2414,7 @@
             this.dgv4.MainView = this.gridMain4;
             this.dgv4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv4.Name = "dgv4";
-            this.dgv4.Size = new System.Drawing.Size(1546, 246);
+            this.dgv4.Size = new System.Drawing.Size(1546, 244);
             this.dgv4.TabIndex = 7;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2762,7 +2762,7 @@
             this.tabManual.Location = new System.Drawing.Point(4, 25);
             this.tabManual.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabManual.Name = "tabManual";
-            this.tabManual.Size = new System.Drawing.Size(1546, 290);
+            this.tabManual.Size = new System.Drawing.Size(1546, 288);
             this.tabManual.TabIndex = 4;
             this.tabManual.Text = "Manual EOM";
             this.tabManual.UseVisualStyleBackColor = true;
@@ -2777,7 +2777,7 @@
             this.dgv5.MainView = this.gridMain5;
             this.dgv5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv5.Name = "dgv5";
-            this.dgv5.Size = new System.Drawing.Size(1546, 290);
+            this.dgv5.Size = new System.Drawing.Size(1546, 288);
             this.dgv5.TabIndex = 8;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -3057,7 +3057,7 @@
             this.tabCashRemitted.Location = new System.Drawing.Point(4, 25);
             this.tabCashRemitted.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCashRemitted.Name = "tabCashRemitted";
-            this.tabCashRemitted.Size = new System.Drawing.Size(1546, 290);
+            this.tabCashRemitted.Size = new System.Drawing.Size(1546, 288);
             this.tabCashRemitted.TabIndex = 5;
             this.tabCashRemitted.Text = "Cash Remitted";
             this.tabCashRemitted.UseVisualStyleBackColor = true;
@@ -3074,7 +3074,7 @@
             this.dgv6.Name = "dgv6";
             this.dgv6.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemMemoEdit1});
-            this.dgv6.Size = new System.Drawing.Size(1546, 290);
+            this.dgv6.Size = new System.Drawing.Size(1546, 288);
             this.dgv6.TabIndex = 6;
             this.dgv6.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain6});
@@ -3507,7 +3507,7 @@
             this.tabRemitDP.Location = new System.Drawing.Point(4, 25);
             this.tabRemitDP.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabRemitDP.Name = "tabRemitDP";
-            this.tabRemitDP.Size = new System.Drawing.Size(1546, 290);
+            this.tabRemitDP.Size = new System.Drawing.Size(1546, 288);
             this.tabRemitDP.TabIndex = 6;
             this.tabRemitDP.Text = "Remit DP\'s";
             this.tabRemitDP.UseVisualStyleBackColor = true;
@@ -3524,7 +3524,7 @@
             this.dgv7.Name = "dgv7";
             this.dgv7.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit2});
-            this.dgv7.Size = new System.Drawing.Size(1546, 290);
+            this.dgv7.Size = new System.Drawing.Size(1546, 288);
             this.dgv7.TabIndex = 5;
             this.dgv7.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain7});
@@ -4388,7 +4388,7 @@
             this.tabRemitPayments.Location = new System.Drawing.Point(4, 25);
             this.tabRemitPayments.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabRemitPayments.Name = "tabRemitPayments";
-            this.tabRemitPayments.Size = new System.Drawing.Size(1546, 290);
+            this.tabRemitPayments.Size = new System.Drawing.Size(1546, 288);
             this.tabRemitPayments.TabIndex = 7;
             this.tabRemitPayments.Text = "Remit Payments";
             this.tabRemitPayments.UseVisualStyleBackColor = true;
@@ -4405,7 +4405,7 @@
             this.dgv8.Name = "dgv8";
             this.dgv8.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit3});
-            this.dgv8.Size = new System.Drawing.Size(1546, 290);
+            this.dgv8.Size = new System.Drawing.Size(1546, 288);
             this.dgv8.TabIndex = 6;
             this.dgv8.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain8});
@@ -6142,7 +6142,7 @@
             this.tabDeceased.Location = new System.Drawing.Point(4, 25);
             this.tabDeceased.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabDeceased.Name = "tabDeceased";
-            this.tabDeceased.Size = new System.Drawing.Size(1546, 290);
+            this.tabDeceased.Size = new System.Drawing.Size(1546, 288);
             this.tabDeceased.TabIndex = 9;
             this.tabDeceased.Text = "Deceased";
             this.tabDeceased.UseVisualStyleBackColor = true;
@@ -6159,7 +6159,7 @@
             this.dgv10.Name = "dgv10";
             this.dgv10.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit5});
-            this.dgv10.Size = new System.Drawing.Size(1546, 290);
+            this.dgv10.Size = new System.Drawing.Size(1546, 288);
             this.dgv10.TabIndex = 7;
             this.dgv10.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain10});
@@ -7019,7 +7019,7 @@
             this.tabCombnedEOM.Location = new System.Drawing.Point(4, 25);
             this.tabCombnedEOM.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCombnedEOM.Name = "tabCombnedEOM";
-            this.tabCombnedEOM.Size = new System.Drawing.Size(1546, 290);
+            this.tabCombnedEOM.Size = new System.Drawing.Size(1546, 288);
             this.tabCombnedEOM.TabIndex = 10;
             this.tabCombnedEOM.Text = "Combined EOM";
             this.tabCombnedEOM.UseVisualStyleBackColor = true;
@@ -7034,7 +7034,7 @@
             this.dgv11.MainView = this.gridMain11;
             this.dgv11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv11.Name = "dgv11";
-            this.dgv11.Size = new System.Drawing.Size(1546, 290);
+            this.dgv11.Size = new System.Drawing.Size(1546, 288);
             this.dgv11.TabIndex = 7;
             this.dgv11.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain11});
@@ -7318,7 +7318,7 @@
             this.tabMismatched.Location = new System.Drawing.Point(4, 25);
             this.tabMismatched.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabMismatched.Name = "tabMismatched";
-            this.tabMismatched.Size = new System.Drawing.Size(1546, 290);
+            this.tabMismatched.Size = new System.Drawing.Size(1546, 288);
             this.tabMismatched.TabIndex = 11;
             this.tabMismatched.Text = "Mismatched Data";
             this.tabMismatched.UseVisualStyleBackColor = true;
@@ -7335,7 +7335,7 @@
             this.dgv12.Name = "dgv12";
             this.dgv12.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit6});
-            this.dgv12.Size = new System.Drawing.Size(1546, 290);
+            this.dgv12.Size = new System.Drawing.Size(1546, 288);
             this.dgv12.TabIndex = 7;
             this.dgv12.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain12});
@@ -8170,7 +8170,7 @@
             this.tabOVP.Location = new System.Drawing.Point(4, 25);
             this.tabOVP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabOVP.Name = "tabOVP";
-            this.tabOVP.Size = new System.Drawing.Size(1546, 290);
+            this.tabOVP.Size = new System.Drawing.Size(1546, 288);
             this.tabOVP.TabIndex = 12;
             this.tabOVP.Text = "OVP";
             this.tabOVP.UseVisualStyleBackColor = true;
@@ -8187,7 +8187,7 @@
             this.dgv13.Name = "dgv13";
             this.dgv13.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit7});
-            this.dgv13.Size = new System.Drawing.Size(1546, 290);
+            this.dgv13.Size = new System.Drawing.Size(1546, 288);
             this.dgv13.TabIndex = 7;
             this.dgv13.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain13});

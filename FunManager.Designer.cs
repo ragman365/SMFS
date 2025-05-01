@@ -2111,7 +2111,7 @@
             this.tabServices.Location = new System.Drawing.Point(4, 25);
             this.tabServices.Name = "tabServices";
             this.tabServices.Padding = new System.Windows.Forms.Padding(3);
-            this.tabServices.Size = new System.Drawing.Size(1746, 343);
+            this.tabServices.Size = new System.Drawing.Size(1746, 341);
             this.tabServices.TabIndex = 1;
             this.tabServices.Text = "Service Master";
             this.tabServices.UseVisualStyleBackColor = true;
@@ -2131,7 +2131,7 @@
             this.repositoryItemCheckEdit1,
             this.repositoryItemCheckEdit3,
             this.repositoryItemCheckEdit4});
-            this.dgv2.Size = new System.Drawing.Size(1740, 337);
+            this.dgv2.Size = new System.Drawing.Size(1740, 335);
             this.dgv2.TabIndex = 8;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -2528,7 +2528,7 @@
             this.tabInventory.Controls.Add(this.panelTimAll);
             this.tabInventory.Location = new System.Drawing.Point(4, 25);
             this.tabInventory.Name = "tabInventory";
-            this.tabInventory.Size = new System.Drawing.Size(1746, 343);
+            this.tabInventory.Size = new System.Drawing.Size(1746, 341);
             this.tabInventory.TabIndex = 2;
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
@@ -2540,7 +2540,7 @@
             this.panelTimAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTimAll.Location = new System.Drawing.Point(0, 0);
             this.panelTimAll.Name = "panelTimAll";
-            this.panelTimAll.Size = new System.Drawing.Size(1746, 343);
+            this.panelTimAll.Size = new System.Drawing.Size(1746, 341);
             this.panelTimAll.TabIndex = 7;
             // 
             // panelTimBottom
@@ -2549,7 +2549,7 @@
             this.panelTimBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTimBottom.Location = new System.Drawing.Point(0, 49);
             this.panelTimBottom.Name = "panelTimBottom";
-            this.panelTimBottom.Size = new System.Drawing.Size(1746, 294);
+            this.panelTimBottom.Size = new System.Drawing.Size(1746, 292);
             this.panelTimBottom.TabIndex = 9;
             // 
             // dgv3
@@ -2567,7 +2567,7 @@
             this.dgv3.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit5,
             this.repositoryItemPictureEdit2});
-            this.dgv3.Size = new System.Drawing.Size(1746, 294);
+            this.dgv3.Size = new System.Drawing.Size(1746, 292);
             this.dgv3.TabIndex = 6;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -2919,7 +2919,7 @@
             this.tabDifference.Controls.Add(this.dgv4);
             this.tabDifference.Location = new System.Drawing.Point(4, 25);
             this.tabDifference.Name = "tabDifference";
-            this.tabDifference.Size = new System.Drawing.Size(1746, 343);
+            this.tabDifference.Size = new System.Drawing.Size(1746, 341);
             this.tabDifference.TabIndex = 3;
             this.tabDifference.Text = "Difference";
             this.tabDifference.UseVisualStyleBackColor = true;
@@ -2940,7 +2940,7 @@
             this.repositoryItemCheckEdit8,
             this.repositoryItemCheckEdit9,
             this.repositoryItemCheckEdit7});
-            this.dgv4.Size = new System.Drawing.Size(1746, 343);
+            this.dgv4.Size = new System.Drawing.Size(1746, 341);
             this.dgv4.TabIndex = 9;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});

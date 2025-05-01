@@ -107,8 +107,8 @@
             this.lockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unlockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.panelBottomRight.SuspendLayout();
@@ -138,10 +138,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1808, 495);
+            this.panelAll.Size = new System.Drawing.Size(1808, 493);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -151,7 +151,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 111);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1808, 384);
+            this.panelBottom.Size = new System.Drawing.Size(1808, 382);
             this.panelBottom.TabIndex = 3;
             // 
             // panelBottomRight
@@ -161,7 +161,7 @@
             this.panelBottomRight.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRight.Name = "panelBottomRight";
-            this.panelBottomRight.Size = new System.Drawing.Size(1808, 384);
+            this.panelBottomRight.Size = new System.Drawing.Size(1808, 382);
             this.panelBottomRight.TabIndex = 8;
             // 
             // panelBottomRightChecks
@@ -172,7 +172,7 @@
             this.panelBottomRightChecks.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecks.Name = "panelBottomRightChecks";
-            this.panelBottomRightChecks.Size = new System.Drawing.Size(1808, 384);
+            this.panelBottomRightChecks.Size = new System.Drawing.Size(1808, 382);
             this.panelBottomRightChecks.TabIndex = 7;
             // 
             // panelBottomRightChecksBottom
@@ -182,7 +182,7 @@
             this.panelBottomRightChecksBottom.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksBottom.Name = "panelBottomRightChecksBottom";
-            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1808, 384);
+            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1808, 382);
             this.panelBottomRightChecksBottom.TabIndex = 9;
             // 
             // dgv
@@ -203,7 +203,7 @@
             this.repositoryItemComboBox2,
             this.repositoryItemMemoEdit1,
             this.repositoryItemMemoEdit2});
-            this.dgv.Size = new System.Drawing.Size(1808, 384);
+            this.dgv.Size = new System.Drawing.Size(1808, 382);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -768,7 +768,7 @@
             this.panelBottomRightChecksTop.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksTop.Name = "panelBottomRightChecksTop";
-            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1808, 384);
+            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1808, 382);
             this.panelBottomRightChecksTop.TabIndex = 8;
             this.panelBottomRightChecksTop.Visible = false;
             // 
@@ -1075,7 +1075,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1808, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1808, 30);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1084,7 +1084,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1113,7 +1113,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // screenOptionsToolStripMenuItem
             // 
@@ -1121,7 +1121,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -1144,22 +1144,22 @@
             this.toolStripMenuItem1,
             this.reportsToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
-            // 
-            // reportsToolStripMenuItem
-            // 
-            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.reportsToolStripMenuItem.Text = "Reports";
-            this.reportsToolStripMenuItem.Click += new System.EventHandler(this.reportsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(207, 26);
             this.toolStripMenuItem1.Text = "Agent Report List";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // reportsToolStripMenuItem
+            // 
+            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.reportsToolStripMenuItem.Text = "Reports";
+            this.reportsToolStripMenuItem.Click += new System.EventHandler(this.reportsToolStripMenuItem_Click);
             // 
             // Contacts
             // 

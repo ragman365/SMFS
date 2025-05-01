@@ -144,6 +144,9 @@ namespace SMFS
             gridMain.Columns["plonly"].Visible = true;
             gridMain.Columns["noSelect"].Visible = true;
 
+            if (!G1.isAdmin())
+                chkPackage.Hide();
+
             int additional = gridMain.Columns["basicService"].Width;
             int top = picMoveFuture.Top;
             int left = picMoveFuture.Left + additional;
@@ -920,6 +923,45 @@ namespace SMFS
             if (G1.get_column_number(dt, "locRecord") < 0)
                 dt.Columns.Add("locRecord");
 
+            if (G1.get_column_number(workDt, "select") < 0)
+                workDt.Columns.Add("select");
+
+            if (G1.get_column_number(workDt, "isPackage") < 0)
+                workDt.Columns.Add("isPackage");
+
+            if (G1.get_column_number(workDt, "pSelect") < 0)
+                workDt.Columns.Add("pSelect");
+
+            if (G1.get_column_number(workDt, "upgrade") < 0)
+                workDt.Columns.Add("upgrade");
+
+            if (G1.get_column_number(workDt, "ignore") < 0)
+                workDt.Columns.Add("ignore");
+
+            if (G1.get_column_number(workDt, "pastPrice") < 0)
+                workDt.Columns.Add("pastPrice", Type.GetType("System.Double"));
+
+            if (G1.get_column_number(workDt, "who") < 0)
+                workDt.Columns.Add("who");
+
+            if (G1.get_column_number(workDt, "who") < 0)
+                workDt.Columns.Add("who");
+
+            if (G1.get_column_number(workDt, "DELETED") < 0)
+                workDt.Columns.Add("DELETED");
+
+            if (G1.get_column_number(workDt, "tax") < 0)
+                workDt.Columns.Add("tax");
+
+            if (G1.get_column_number(workDt, "taxAmount") < 0)
+                workDt.Columns.Add("taxAmount", Type.GetType("System.Double"));
+
+            if (G1.get_column_number(workDt, "location") < 0)
+                workDt.Columns.Add("location");
+
+            if (G1.get_column_number(workDt, "locRecord") < 0)
+                workDt.Columns.Add("locRecord");
+
             gridMain.OptionsBehavior.ReadOnly = false;
 
             //DataTable ddx = null;
@@ -974,6 +1016,14 @@ namespace SMFS
                 dt.Columns.Add("type");
             if (G1.get_column_number(dt, "status") < 0)
                 dt.Columns.Add("status");
+
+            if (G1.get_column_number(workDt, "data") < 0)
+                workDt.Columns.Add("data", Type.GetType("System.Double"));
+            if (G1.get_column_number(workDt, "type") < 0)
+                workDt.Columns.Add("type");
+            if (G1.get_column_number(workDt, "status") < 0)
+                workDt.Columns.Add("status");
+
             if (G1.get_column_number(workDt, "select") < 0)
             {
                 workDt.Columns.Add("select");
@@ -4694,6 +4744,62 @@ namespace SMFS
             //ReCalcTotal((DataTable)dgv5.DataSource);
             modified = true;
             btnSave.Show();
+        }
+        /***********************************************************************************************/
+        private void chkPackage_CheckedChanged(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt.Rows.Count <= 0)
+                return;
+
+            DataRow dRow = null;
+            DataRow[] dRows = null;
+
+            int packageCount = 0;
+
+            if (chkPackage.Checked)
+            {
+                dt = LoadPackageService(dt, "Total Listed Price");
+                dt = LoadPackageService(dt, "Package Discount");
+                dt = LoadPackageService(dt, "Package Price");
+                btnSave.Show();
+                btnSave.Refresh();
+                modified = true;
+                dgv.DataSource = dt;
+                dgv.Refresh();
+            }
+        }
+        /***********************************************************************************************/
+        private DataTable LoadPackageService ( DataTable dt, string service )
+        {
+            DataRow[] dRows = dt.Select("service='" + service + "'");
+            if (dRows.Length > 0)
+                return dt;
+
+            string packageName = dt.Rows[0]["PackageName"].ObjToString();
+
+            string cmd  = "Select * from `funeral_master` WHERE `service` = '" + service + "';";
+            DataTable dx = G1.get_db_data(cmd);
+            if ( dx.Rows.Count > 0 )
+            {
+                DataRow dRow = dt.NewRow();
+                dRow["groupname"] = "MASTER";
+                dRow["PackageName"] = packageName;
+                dRow["!serviceRecord"] = dx.Rows[0]["record"].ObjToString();
+                dRow["type"] = "service";
+                dRow["select"] = "0";
+                dRow["noSelect"] = "0";
+                dRow["service"] = service;
+                dRow["price"] = dx.Rows[0]["price"].ObjToDouble();
+                dRow["futurePrice"] = dx.Rows[0]["futurePrice"].ObjToDouble();
+                dRow["pastPrice"] = dx.Rows[0]["pastPrice"].ObjToDouble();
+                dRow["price1"] = dx.Rows[0]["price"].ObjToDouble();
+                dRow["futurePrice1"] = dx.Rows[0]["futurePrice"].ObjToDouble();
+                dRow["pastPrice1"] = dx.Rows[0]["pastPrice"].ObjToDouble();
+                dRow["mod"] = "1";
+                dt.Rows.Add(dRow);
+            }
+            return dt;
         }
         /***********************************************************************************************/
     }

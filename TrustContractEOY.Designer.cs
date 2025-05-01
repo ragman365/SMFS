@@ -220,7 +220,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1428, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1428, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -230,7 +230,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -267,10 +267,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1428, 539);
+            this.panelAll.Size = new System.Drawing.Size(1428, 541);
             this.panelAll.TabIndex = 6;
             // 
             // panelBottom
@@ -280,7 +280,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 78);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1428, 461);
+            this.panelBottom.Size = new System.Drawing.Size(1428, 463);
             this.panelBottom.TabIndex = 8;
             // 
             // tabControl1
@@ -295,7 +295,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1428, 461);
+            this.tabControl1.Size = new System.Drawing.Size(1428, 463);
             this.tabControl1.TabIndex = 5;
             // 
             // tabDetail
@@ -304,7 +304,7 @@
             this.tabDetail.Location = new System.Drawing.Point(4, 25);
             this.tabDetail.Name = "tabDetail";
             this.tabDetail.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDetail.Size = new System.Drawing.Size(1420, 432);
+            this.tabDetail.Size = new System.Drawing.Size(1420, 434);
             this.tabDetail.TabIndex = 0;
             this.tabDetail.Text = "Detail";
             this.tabDetail.UseVisualStyleBackColor = true;
@@ -320,7 +320,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox3});
-            this.dgv.Size = new System.Drawing.Size(1414, 426);
+            this.dgv.Size = new System.Drawing.Size(1414, 428);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -434,9 +434,11 @@
             this.gridMain.Appearance.GroupPanel.Options.UseForeColor = true;
             this.gridMain.Appearance.GroupRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(234)))), ((int)(((byte)(221)))));
             this.gridMain.Appearance.GroupRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(234)))), ((int)(((byte)(221)))));
+            this.gridMain.Appearance.GroupRow.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gridMain.Appearance.GroupRow.ForeColor = System.Drawing.Color.Black;
             this.gridMain.Appearance.GroupRow.Options.UseBackColor = true;
             this.gridMain.Appearance.GroupRow.Options.UseBorderColor = true;
+            this.gridMain.Appearance.GroupRow.Options.UseFont = true;
             this.gridMain.Appearance.GroupRow.Options.UseForeColor = true;
             this.gridMain.Appearance.HeaderPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(226)))), ((int)(((byte)(216)))));
             this.gridMain.Appearance.HeaderPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(226)))), ((int)(((byte)(216)))));
@@ -484,6 +486,8 @@
             this.gridMain.Appearance.VertLine.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(136)))), ((int)(((byte)(122)))));
             this.gridMain.Appearance.VertLine.Options.UseBackColor = true;
             this.gridMain.Appearance.VertLine.Options.UseBorderColor = true;
+            this.gridMain.AppearancePrint.GroupRow.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridMain.AppearancePrint.GroupRow.Options.UseFont = true;
             this.gridMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
             this.gridMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this.gridMain.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
