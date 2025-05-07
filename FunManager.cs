@@ -5686,14 +5686,18 @@ namespace SMFS
         /***********************************************************************************************/
         private string CompareValues(DataRow[] dRows, string timCol, DataTable dx, int i, string myCol, string status, string abrev )
         {
-            double timValue = dRows[0][timCol].ObjToDouble();
-            double myValue = dx.Rows[i][myCol].ObjToDouble();
-            myValue = G1.RoundValue(myValue);
-            if ( myValue != timValue )
+            string str = dRows[0][timCol].ObjToString();
+            if (G1.validate_numeric(str))
             {
-                //if ( String.IsNullOrWhiteSpace ( status ))
-                //    status = "BAD ";
-                status += abrev + ",";
+                double timValue = dRows[0][timCol].ObjToDouble();
+                double myValue = dx.Rows[i][myCol].ObjToDouble();
+                myValue = G1.RoundValue(myValue);
+                if (myValue != timValue)
+                {
+                    //if ( String.IsNullOrWhiteSpace ( status ))
+                    //    status = "BAD ";
+                    status += abrev + ",";
+                }
             }
 
             return status;

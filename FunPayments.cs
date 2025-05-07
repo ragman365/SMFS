@@ -1436,6 +1436,15 @@ namespace SMFS
                                 }
                             }
                         }
+                        else
+                        {
+                            message = "Improper Class A " + this.Text + "\n";
+                            message += "Service Id " + workServiceId + "\n";
+                            message += "Data Entered " + Lines + " " + names;
+
+                            Messages.SendTheMessage(LoginForm.username, "cjenkins", "Improper Insurance Assignment (" + workServiceId + ")", message);
+                            Messages.SendTheMessage(LoginForm.username, "Tim", "Improper Insurance Assignment (" + workServiceId + ")", message);
+                        }
                     }
                     dateEntered = dt.Rows[i]["dateEntered"].ObjToDateTime();
                     dateModified = dt.Rows[i]["dateModified"].ObjToDateTime();

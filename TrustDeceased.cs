@@ -996,7 +996,7 @@ namespace SMFS
                         dbr = 0D;
                         trustAmtFiled = 0D;
                         contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                        if (contractNumber == "C24042LI")
+                        if (contractNumber == "L08033")
                         {
                         }
                         if (contractNumber == "P15099UI")
@@ -1158,7 +1158,7 @@ namespace SMFS
                 for (int i = dt.Rows.Count - 1; i >= 0; i--)
                 {
                     contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                    if (contractNumber == "P15099UI")
+                    if (contractNumber == "L08033")
                     {
                     }
 
@@ -1261,7 +1261,7 @@ namespace SMFS
                         paidFrom = ddx.Rows[j]["trust_policy"].ObjToString().ToUpper();
                         if (!String.IsNullOrWhiteSpace(paidFrom))
                             contract = paidFrom;
-                        if (contract == "M1591")
+                        if (contract == "L08033")
                         {
                         }
                         if (contract == "P15099UI")
@@ -2019,7 +2019,7 @@ namespace SMFS
                     if (String.IsNullOrWhiteSpace(contractNumber) || contractNumber == "NULL")
                     {
                         policyNumber = dt.Rows[i]["policyNumber"].ObjToString();
-                        if (policyNumber == "SM1533865")
+                        if (policyNumber == "SM1614392")
                         {
                         }
                         company = dt.Rows[i]["trustCompany"].ObjToString();
@@ -8152,6 +8152,7 @@ namespace SMFS
             string rp = "";
             string[] Lines = null;
             DateTime receivedDate = DateTime.Now;
+            bool include = false;
             for (int i = 0; i < dtCount; i++)
             {
                 if (i >= dt1.Rows.Count)
@@ -8170,6 +8171,7 @@ namespace SMFS
 
                 for (int j = 0; j < dd.Rows.Count; j++)
                 {
+                    include = false;
                     contract = dd.Rows[j]["contract"].ObjToString();
                     if ( contract == "P15099UI")
                     {
@@ -8179,7 +8181,10 @@ namespace SMFS
                         dd.Rows[j]["imonth"] = 2;
                     status = dd.Rows[j]["status"].ObjToString();
                     if (status == "Line Edit")
+                    {
                         dd.Rows[j]["status"] = "Include";
+                        include = true;
+                    }
                     fName = dd.Rows[j]["firstName"].ObjToString();
                     mName = dd.Rows[j]["middleName"].ObjToString();
                     lName = dd.Rows[j]["lastName"].ObjToString();
@@ -8215,7 +8220,11 @@ namespace SMFS
                         dx.Rows[j]["rp"] = rp;
 
                         if (workReport == "Post 2002 Report - Unity")
+                        {
                             dx.Rows[j]["received"] = dd.Rows[j]["principal"].ObjToDouble();
+                            if ( include )
+                                dx.Rows[j]["received"] = dd.Rows[j]["received"].ObjToDouble();
+                        }
                         else if (workReport == "Post 2002 Report - FDLIC")
                         {
                             policyStatus = dd.Rows[j]["policyStatus"].ObjToString().ToUpper();
@@ -9791,6 +9800,7 @@ namespace SMFS
             DataTable dd = dt.Clone();
             string desc = "";
             double totalValue = 0D;
+            double otherTotal = 0D;
             string funeral = "";
             bool avoid = false;
 
@@ -9823,7 +9833,7 @@ namespace SMFS
                     //        continue;
                     //}
                     contractNumber = dt.Rows[i]["contract"].ObjToString();
-                    if (contractNumber == "P21045LI")
+                    if (contractNumber == "MC16001U")
                     {
                     }
                     status = dt.Rows[i]["status"].ObjToString().ToUpper();
@@ -9853,7 +9863,7 @@ namespace SMFS
                     {
                         if (rp != "RP")
                         {
-                            if (funeral.IndexOf("OS") == 0 || funeral.IndexOf("O/S") == 0)
+                            if ((funeral.IndexOf("OS") == 0 || funeral.IndexOf("O/S") == 0)  && status != "INCLUDE" )
                                 dValue = dt.Rows[i]["value"].ObjToDouble();
                             if (dValue == 0D && value != 0D)
                                 dValue = value;
@@ -9971,7 +9981,7 @@ namespace SMFS
                             rp = dt.Rows[i]["rp"].ObjToString().ToUpper();
                             if (rp != "RP")
                             {
-                                if (funeral.IndexOf("OS") == 0 || funeral.IndexOf("O/S") == 0)
+                                if ((funeral.IndexOf("OS") == 0 || funeral.IndexOf("O/S") == 0) && status != "INCLUDE")
                                     dValue = Math.Abs(dt.Rows[i]["value"].ObjToDouble());
                                 if (dValue == 0D && value != 0D)
                                     dValue = value;
@@ -10025,6 +10035,7 @@ namespace SMFS
                                     //dValue = Math.Abs(dt.Rows[i]["value"].ObjToDouble()) * -1D;
                                     //dValue = value;
                                 }
+                                otherTotal += dValue;
                                 dRow["received"] = dValue;
                                 dRow["otherContract"] = contractNumber;
                                 if (date > stopDate)
@@ -10059,6 +10070,9 @@ namespace SMFS
             dr = dt.NewRow();
             dr["value"] = totalValue;
             dr["desc"] = "Total DC Cash";
+
+            dr["otherDesc"] = "Total Principal";
+            dr["received"] = otherTotal;
             dt.Rows.InsertAt(dr, firstRow);
 
             dr = dt.NewRow();

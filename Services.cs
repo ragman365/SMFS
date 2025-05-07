@@ -3353,6 +3353,12 @@ namespace SMFS
                 }
             }
 
+            if (G1.get_column_number(dt, "!serviceRecord") < 0)
+            {
+                dt.Columns.Add("!serviceRecord", Type.GetType("System.Int32"));
+            }
+
+
             DataTable gDt = null;
             DataTable dx = null;
             string masterRecord = "";
@@ -3400,6 +3406,9 @@ namespace SMFS
                     if (G1.BadRecord("packages", record))
                         continue;
                     G1.update_db_table("packages", "record", record, new string[] { "groupname", loadededLocation, "PackageName", loadedPackage, "!serviceRecord", serviceRecord, "SameAsMaster", SameAsMaster, "price", price.ToString(), "cost", cost.ToString(), "futurePrice", futurePrice.ToString(), "pastPrice", pastPrice.ToString() });
+
+                    dt.Rows[i]["record"] = record.ObjToInt32();
+                    dt.Rows[i]["!serviceRecord"] = serviceRecord;
 
                     if (loadedPackage.Trim().ToUpper() == "MASTER")
                     {
@@ -4755,13 +4764,21 @@ namespace SMFS
             DataRow dRow = null;
             DataRow[] dRows = null;
 
+            string packageName = loadedPackage;
+            if (String.IsNullOrWhiteSpace(packageName))
+                return;
+
+            string groupName = cmbGroups.Text.Trim();
+
+            dt = VerifyPackage(dt, packageName, groupName );
+
             int packageCount = 0;
 
             if (chkPackage.Checked)
             {
-                dt = LoadPackageService(dt, "Total Listed Price");
-                dt = LoadPackageService(dt, "Package Discount");
-                dt = LoadPackageService(dt, "Package Price");
+                dt = LoadPackageService(dt, "Total Listed Price", packageName, groupName );
+                dt = LoadPackageService(dt, "Package Discount", packageName, groupName );
+                dt = LoadPackageService(dt, "Package Price", packageName, groupName );
                 btnSave.Show();
                 btnSave.Refresh();
                 modified = true;
@@ -4770,35 +4787,76 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
-        private DataTable LoadPackageService ( DataTable dt, string service )
+        private DataTable LoadPackageService ( DataTable dt, string service, string packageName, string groupName )
         {
             DataRow[] dRows = dt.Select("service='" + service + "'");
             if (dRows.Length > 0)
                 return dt;
 
-            string packageName = dt.Rows[0]["PackageName"].ObjToString();
-
-            string cmd  = "Select * from `funeral_master` WHERE `service` = '" + service + "';";
-            DataTable dx = G1.get_db_data(cmd);
-            if ( dx.Rows.Count > 0 )
+            try
             {
-                DataRow dRow = dt.NewRow();
-                dRow["groupname"] = "MASTER";
-                dRow["PackageName"] = packageName;
-                dRow["!serviceRecord"] = dx.Rows[0]["record"].ObjToString();
-                dRow["type"] = "service";
-                dRow["select"] = "0";
-                dRow["noSelect"] = "0";
-                dRow["service"] = service;
-                dRow["price"] = dx.Rows[0]["price"].ObjToDouble();
-                dRow["futurePrice"] = dx.Rows[0]["futurePrice"].ObjToDouble();
-                dRow["pastPrice"] = dx.Rows[0]["pastPrice"].ObjToDouble();
-                dRow["price1"] = dx.Rows[0]["price"].ObjToDouble();
-                dRow["futurePrice1"] = dx.Rows[0]["futurePrice"].ObjToDouble();
-                dRow["pastPrice1"] = dx.Rows[0]["pastPrice"].ObjToDouble();
-                dRow["mod"] = "1";
-                dt.Rows.Add(dRow);
+                string cmd = "Select * from `funeral_master` WHERE `service` = '" + service + "';";
+                DataTable dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    DataRow dRow = dt.NewRow();
+                    dRow["groupname"] = groupName;
+                    dRow["PackageName"] = packageName;
+                    dRow["!serviceRecord"] = dx.Rows[0]["record"].ObjToString();
+                    dRow["type"] = "service";
+                    dRow["select"] = "0";
+                    dRow["noSelect"] = "0";
+                    dRow["service"] = service;
+                    dRow["price"] = dx.Rows[0]["price"].ObjToDouble();
+                    dRow["futurePrice"] = dx.Rows[0]["futurePrice"].ObjToDouble();
+                    dRow["pastPrice"] = dx.Rows[0]["pastPrice"].ObjToDouble();
+                    dRow["price1"] = dx.Rows[0]["price"].ObjToDouble();
+                    dRow["futurePrice1"] = dx.Rows[0]["futurePrice"].ObjToDouble();
+                    dRow["pastPrice1"] = dx.Rows[0]["pastPrice"].ObjToDouble();
+                    dRow["mod"] = "1";
+
+                    if (G1.get_column_number(dt, "plonly") >= 0)
+                        dRow["plonly"] = "0";
+                    if (G1.get_column_number(dt, "basicService") >= 0)
+                        dRow["basicService"] = "0";
+                    dt.Rows.Add(dRow);
+                }
             }
+            catch ( Exception ex )
+            {
+            }
+            return dt;
+        }
+        /***********************************************************************************************/
+        private DataTable VerifyPackage ( DataTable dt, string packageName, string groupName )
+        {
+            if ( G1.get_column_number ( dt, "PackageName") < 0 )
+            {
+                dt.Columns.Add("PackageName");
+                for (int i = 0; i < dt.Rows.Count; i++)
+                    dt.Rows[i]["PackageName"] = packageName;
+            }
+            if (G1.get_column_number(dt, "groupName") < 0)
+            {
+                dt.Columns.Add("groupName");
+                for (int i = 0; i < dt.Rows.Count; i++)
+                    dt.Rows[i]["groupName"] = groupName;
+            }
+
+            if (G1.get_column_number(dt, "!serviceRecord" ) < 0)
+                dt.Columns.Add("!serviceRecord", Type.GetType("System.Int32") );
+            if (G1.get_column_number(dt, "price1") < 0)
+                dt.Columns.Add("price1", Type.GetType("System.Double"));
+            if (G1.get_column_number(dt, "futurePrice1") < 0)
+                dt.Columns.Add("futurePrice1", Type.GetType("System.Double"));
+            if (G1.get_column_number(dt, "pastPrice1") < 0)
+                dt.Columns.Add("pastPrice1", Type.GetType("System.Double"));
+            if (G1.get_column_number(dt, "mod") < 0)
+                dt.Columns.Add("mod");
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+                dt.Rows[i]["mod"] = "1";
+
             return dt;
         }
         /***********************************************************************************************/

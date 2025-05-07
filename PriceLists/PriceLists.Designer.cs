@@ -79,7 +79,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(925, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1075, 28);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -127,10 +127,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(925, 300);
+            this.panelAll.Size = new System.Drawing.Size(1075, 302);
             this.panelAll.TabIndex = 15;
             // 
             // panelBottom
@@ -140,7 +140,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 46);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(925, 254);
+            this.panelBottom.Size = new System.Drawing.Size(1075, 256);
             this.panelBottom.TabIndex = 17;
             // 
             // dgv
@@ -155,7 +155,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.dgv.Size = new System.Drawing.Size(925, 254);
+            this.dgv.Size = new System.Drawing.Size(1075, 256);
             this.dgv.TabIndex = 7;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -427,7 +427,7 @@
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(925, 46);
+            this.panelTop.Size = new System.Drawing.Size(1075, 46);
             this.panelTop.TabIndex = 16;
             // 
             // btnMassPrint
@@ -536,7 +536,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(925, 330);
+            this.ClientSize = new System.Drawing.Size(1075, 330);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

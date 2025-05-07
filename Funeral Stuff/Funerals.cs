@@ -2381,6 +2381,19 @@ namespace SMFS
                                     asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
                             }
                         }
+                        else if (service.ToUpper().IndexOf("KEEPSAKE") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
                         else if (service.ToUpper().IndexOf("LIFE PRINT") >= 0)
                         {
                             if (type.ToUpper() != "CASH ADVANCE")
