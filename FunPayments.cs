@@ -2039,11 +2039,20 @@ namespace SMFS
             return true;
         }
         /****************************************************************************************/
-        public static void GeneratePayerDeathLapse ( string payer )
+        public static void GeneratePayerDeathLapse ( string payer,  string serviceId = "")
         {
+            // if serviceId is not empty or null, add it to the file name before date.ToString
             string path = "C:/SMFS Reports/Class A Death Reports/";
             DateTime date = DateTime.Now;
-            string tempName = payer + "_" + date.ToString("MM-dd-yyyy") + ".PDF";
+            string tempName = "";
+            if (!string.IsNullOrEmpty(serviceId))
+            {
+                tempName = payer + "_" + serviceId + "_" + date.ToString("MM-dd-yyyy") + ".PDF";
+            }
+            else
+            {
+                tempName = payer + "_" + date.ToString("MM-dd-yyyy") + ".PDF";
+            }
             string filename = path + tempName;
             if (!File.Exists(filename))
             {
@@ -2056,7 +2065,7 @@ namespace SMFS
         public static void UpdatePayerPolicies ( string payer, string policyNumber, string policyFirstName, string policyLastName, string deceasedDate, string serviceId, bool reverse = false )
         {
             if ( !reverse )
-                GeneratePayerDeathLapse(payer);
+                GeneratePayerDeathLapse(payer, serviceId);
 
             string record = "";
             string cmd = "Select * from `policies` where `payer` = '" + payer+ "' AND `policyNumber` = '" + policyNumber + "' AND `policyLastName` = '" + policyLastName + "' AND `policyFirstName` = '" + policyFirstName + "' ORDER BY `contractNumber` DESC;";
