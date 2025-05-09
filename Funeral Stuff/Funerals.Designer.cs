@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton3 = new DevExpress.Utils.ContextButton();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Funerals));
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
@@ -159,6 +159,7 @@
             this.fullRelativesReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.burialDetailReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.funeralArrangerTotalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.burialCremationSummaryReportTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trustsClaimsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outsideTrustClaimsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -192,10 +193,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1548, 475);
+            this.panelAll.Size = new System.Drawing.Size(1548, 477);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -205,7 +206,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 79);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1548, 396);
+            this.panelBottom.Size = new System.Drawing.Size(1548, 398);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -225,7 +226,7 @@
             this.repositoryItemPictureEdit1,
             this.repositoryItemMemoEdit1,
             this.repPaidCheckEdit});
-            this.dgv.Size = new System.Drawing.Size(1548, 396);
+            this.dgv.Size = new System.Drawing.Size(1548, 398);
             this.dgv.TabIndex = 3;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1359,10 +1360,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton1.Caption = "contextButton1";
-            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton1.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton1);
+            contextButton3.Caption = "contextButton1";
+            contextButton3.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton3.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton3);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // panelTop
@@ -1679,7 +1680,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1548, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1548, 28);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1692,7 +1693,7 @@
             this.exitToolStripMenuItem,
             this.recalcServicesToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1748,12 +1749,12 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
             // 
             // latestChangesToolStripMenuItem
             // 
             this.latestChangesToolStripMenuItem.Name = "latestChangesToolStripMenuItem";
-            this.latestChangesToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
+            this.latestChangesToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
             this.latestChangesToolStripMenuItem.Text = "Latest Changes";
             this.latestChangesToolStripMenuItem.Click += new System.EventHandler(this.latestChangesToolStripMenuItem_Click);
             // 
@@ -1772,101 +1773,109 @@
             this.funeralDelaysToolStripMenuItem,
             this.fullRelativesReportToolStripMenuItem,
             this.burialDetailReportToolStripMenuItem,
-            this.funeralArrangerTotalsToolStripMenuItem});
+            this.funeralArrangerTotalsToolStripMenuItem,
+            this.burialCremationSummaryReportTestToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // casketUsageToolStripMenuItem
             // 
             this.casketUsageToolStripMenuItem.Name = "casketUsageToolStripMenuItem";
-            this.casketUsageToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.casketUsageToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.casketUsageToolStripMenuItem.Text = "Casket Usage";
             this.casketUsageToolStripMenuItem.Click += new System.EventHandler(this.casketUsageToolStripMenuItem_Click);
             // 
             // menuVaultUsage
             // 
             this.menuVaultUsage.Name = "menuVaultUsage";
-            this.menuVaultUsage.Size = new System.Drawing.Size(320, 26);
+            this.menuVaultUsage.Size = new System.Drawing.Size(350, 26);
             this.menuVaultUsage.Text = "Vault Usage";
             this.menuVaultUsage.Click += new System.EventHandler(this.menuVaultUsage_Click);
             // 
             // menuUrnUsage
             // 
             this.menuUrnUsage.Name = "menuUrnUsage";
-            this.menuUrnUsage.Size = new System.Drawing.Size(320, 26);
+            this.menuUrnUsage.Size = new System.Drawing.Size(350, 26);
             this.menuUrnUsage.Text = "Urn Usage";
             this.menuUrnUsage.Click += new System.EventHandler(this.menuUrnUsage_Click);
             // 
             // burialCremationSummaryReportToolStripMenuItem
             // 
             this.burialCremationSummaryReportToolStripMenuItem.Name = "burialCremationSummaryReportToolStripMenuItem";
-            this.burialCremationSummaryReportToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.burialCremationSummaryReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.burialCremationSummaryReportToolStripMenuItem.Text = "Burial/Cremation Summary Report";
             this.burialCremationSummaryReportToolStripMenuItem.Click += new System.EventHandler(this.burialCremationSummaryReportToolStripMenuItem_Click);
             // 
             // contractActivityReportToolStripMenuItem
             // 
             this.contractActivityReportToolStripMenuItem.Name = "contractActivityReportToolStripMenuItem";
-            this.contractActivityReportToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.contractActivityReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.contractActivityReportToolStripMenuItem.Text = "Contract Activity Report";
             this.contractActivityReportToolStripMenuItem.Click += new System.EventHandler(this.contractActivityReportToolStripMenuItem_Click);
             // 
             // classAInsuranceReportToolStripMenuItem
             // 
             this.classAInsuranceReportToolStripMenuItem.Name = "classAInsuranceReportToolStripMenuItem";
-            this.classAInsuranceReportToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.classAInsuranceReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.classAInsuranceReportToolStripMenuItem.Text = "Class A Insurance Report";
             this.classAInsuranceReportToolStripMenuItem.Click += new System.EventHandler(this.classAInsuranceReportToolStripMenuItem_Click);
             // 
             // funeralActivityReportToolStripMenuItem
             // 
             this.funeralActivityReportToolStripMenuItem.Name = "funeralActivityReportToolStripMenuItem";
-            this.funeralActivityReportToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.funeralActivityReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.funeralActivityReportToolStripMenuItem.Text = "Funeral Activity Report";
             this.funeralActivityReportToolStripMenuItem.Click += new System.EventHandler(this.funeralActivityReportToolStripMenuItem_Click);
             // 
             // salesTaxReportToolStripMenuItem
             // 
             this.salesTaxReportToolStripMenuItem.Name = "salesTaxReportToolStripMenuItem";
-            this.salesTaxReportToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.salesTaxReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.salesTaxReportToolStripMenuItem.Text = "Sales Tax Report";
             this.salesTaxReportToolStripMenuItem.Click += new System.EventHandler(this.salesTaxReportToolStripMenuItem_Click);
             // 
             // agentFamilyReportToolStripMenuItem
             // 
             this.agentFamilyReportToolStripMenuItem.Name = "agentFamilyReportToolStripMenuItem";
-            this.agentFamilyReportToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.agentFamilyReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.agentFamilyReportToolStripMenuItem.Text = "Agent Propect Report";
             this.agentFamilyReportToolStripMenuItem.Click += new System.EventHandler(this.agentFamilyReportToolStripMenuItem_Click);
             // 
             // funeralDelaysToolStripMenuItem
             // 
             this.funeralDelaysToolStripMenuItem.Name = "funeralDelaysToolStripMenuItem";
-            this.funeralDelaysToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.funeralDelaysToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.funeralDelaysToolStripMenuItem.Text = "Funeral Delays";
             this.funeralDelaysToolStripMenuItem.Click += new System.EventHandler(this.funeralDelaysToolStripMenuItem_Click);
             // 
             // fullRelativesReportToolStripMenuItem
             // 
             this.fullRelativesReportToolStripMenuItem.Name = "fullRelativesReportToolStripMenuItem";
-            this.fullRelativesReportToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.fullRelativesReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.fullRelativesReportToolStripMenuItem.Text = "Funeral Relatives Report";
             this.fullRelativesReportToolStripMenuItem.Click += new System.EventHandler(this.fullRelativesReportToolStripMenuItem_Click);
             // 
             // burialDetailReportToolStripMenuItem
             // 
             this.burialDetailReportToolStripMenuItem.Name = "burialDetailReportToolStripMenuItem";
-            this.burialDetailReportToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.burialDetailReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.burialDetailReportToolStripMenuItem.Text = "Burial Detail Report";
             this.burialDetailReportToolStripMenuItem.Click += new System.EventHandler(this.burialDetailReportToolStripMenuItem_Click);
             // 
             // funeralArrangerTotalsToolStripMenuItem
             // 
             this.funeralArrangerTotalsToolStripMenuItem.Name = "funeralArrangerTotalsToolStripMenuItem";
-            this.funeralArrangerTotalsToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
+            this.funeralArrangerTotalsToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
             this.funeralArrangerTotalsToolStripMenuItem.Text = "Funeral Arranger Totals";
             this.funeralArrangerTotalsToolStripMenuItem.Click += new System.EventHandler(this.funeralArrangerTotalsToolStripMenuItem_Click);
+            // 
+            // burialCremationSummaryReportTestToolStripMenuItem
+            // 
+            this.burialCremationSummaryReportTestToolStripMenuItem.Name = "burialCremationSummaryReportTestToolStripMenuItem";
+            this.burialCremationSummaryReportTestToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
+            this.burialCremationSummaryReportTestToolStripMenuItem.Text = "Burial/Cremation Summary Report Test";
+            this.burialCremationSummaryReportTestToolStripMenuItem.Click += new System.EventHandler(this.burialCremationSummaryReportTestToolStripMenuItem_Click);
             // 
             // aRToolStripMenuItem
             // 
@@ -1874,7 +1883,7 @@
             this.trustsClaimsToolStripMenuItem,
             this.outsideTrustClaimsToolStripMenuItem});
             this.aRToolStripMenuItem.Name = "aRToolStripMenuItem";
-            this.aRToolStripMenuItem.Size = new System.Drawing.Size(48, 26);
+            this.aRToolStripMenuItem.Size = new System.Drawing.Size(48, 24);
             this.aRToolStripMenuItem.Text = "A/R";
             // 
             // trustsClaimsToolStripMenuItem
@@ -1899,7 +1908,7 @@
             this.funeralsAvailableForCommissionToolStripMenuItem,
             this.funeralCommissionsForArrangersToolStripMenuItem});
             this.commissionsMenu.Name = "commissionsMenu";
-            this.commissionsMenu.Size = new System.Drawing.Size(110, 26);
+            this.commissionsMenu.Size = new System.Drawing.Size(110, 24);
             this.commissionsMenu.Text = "Commissions";
             // 
             // commissionOptionsToolStripMenuItem
@@ -2107,5 +2116,6 @@
         private System.Windows.Forms.ToolStripMenuItem burialDetailReportToolStripMenuItem;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn33;
         private System.Windows.Forms.ToolStripMenuItem funeralArrangerTotalsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem burialCremationSummaryReportTestToolStripMenuItem;
     }
 }

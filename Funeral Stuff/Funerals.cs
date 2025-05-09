@@ -3977,5 +3977,13 @@ namespace SMFS
             FunPayments.GeneratePayerDeathLapse("CC-5414");
         }
         /***********************************************************************************************/
+        private void burialCremationSummaryReportTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            BurialSummaryTest burialForm = new BurialSummaryTest();
+            burialForm.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
     }
 }

@@ -362,6 +362,12 @@
     <Compile Include="BurialDetailiReport.Designer.cs">
       <DependentUpon>BurialDetailiReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="BurialSummaryTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BurialSummaryTest.Designer.cs">
+      <DependentUpon>BurialSummaryTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Calendar3.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2484,6 +2490,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BurialDetailiReport.resx">
       <DependentUpon>BurialDetailiReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BurialSummaryTest.resx">
+      <DependentUpon>BurialSummaryTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Calendar3.resx">
       <DependentUpon>Calendar3.cs</DependentUpon>
