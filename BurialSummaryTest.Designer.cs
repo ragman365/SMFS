@@ -30,7 +30,7 @@ namespace SMFS
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BurialSummary));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BurialSummaryTest));
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.dgv = new DevExpress.XtraGrid.GridControl();
@@ -749,7 +749,7 @@ namespace SMFS
             this.recalculateCustomerPriceToolStripMenuItem.Text = "Recalculate Customer Price";
             this.recalculateCustomerPriceToolStripMenuItem.Click += new System.EventHandler(this.recalculateCustomerPriceToolStripMenuItem_Click);
             // 
-            // BurialSummary
+            // BurialSummaryTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -757,7 +757,7 @@ namespace SMFS
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "BurialSummary";
+            this.Name = "BurialSummaryTest";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Burial/Cremation Summary";
             this.Load += new System.EventHandler(this.BurialSummary_Load);
