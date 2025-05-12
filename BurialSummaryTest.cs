@@ -81,7 +81,9 @@ namespace SMFS
             //            gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
             gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
             //            gMain.Columns[columnName].SummaryItem.DisplayFormat = "${0:0,0.00}";
-            gMain.Columns[columnName].SummaryItem.DisplayFormat = "{0:N2}";
+            //gMain.Columns[columnName].SummaryItem.DisplayFormat = "{0:N2}";
+            gMain.Columns[columnName].SummaryItem.DisplayFormat = "${0:0,0.00}";
+            G1.AddSummaryItem(gridMain2, columnName);
         }
         /****************************************************************************************/
         private void BurialSummary_Load(object sender, EventArgs e)
@@ -709,8 +711,10 @@ namespace SMFS
             printingSystem1.Links.AddRange(new object[] {
             printableComponentLink1});
 
-
+            
             printableComponentLink1.Component = dgv;
+            if (dgv2.Visible)
+                printableComponentLink1.Component = dgv2;
             printableComponentLink1.PrintingSystemBase = printingSystem1;
 
             printableComponentLink1.EnablePageDialog = true;
@@ -1559,6 +1563,108 @@ namespace SMFS
                 //    break;
             }
             this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabControl tabControl = (TabControl)sender;
+            int selectedIndex = tabControl.SelectedIndex;
+            string pageName = tabControl.TabPages[selectedIndex].Name.Trim();
+            if (pageName.ToUpper() != "TABPAGE2")
+                return;
+
+            try
+            {
+                DataTable dt = (DataTable)dgv.DataSource;
+                if (dt == null)
+                    return;
+                DataTable dx = G1.GetGroupBy(dt, "funeral_classification");
+                DataRow[] dRows = dx.Select("funeral_classification LIKE 'cremation%'");
+                if (dRows.Length <= 0)
+                    return;
+                // Later come back and put a message
+
+                dx = dRows.CopyToDataTable();
+
+                dRows = dt.Select("funeral_classification LIKE 'cremation%'");
+                if (dRows.Length <= 0)
+                    return;
+
+                string funeralClass = "";
+                DataTable dd = dRows.CopyToDataTable();
+                dd = AddCremationColumns(dx, dd);
+
+                int k = 0;
+                ClearAllPositions(gridMain2);
+                G1.SetColumnPosition(gridMain2, "num", k++);
+                G1.SetColumnPosition(gridMain2, "loc", k++);
+                G1.SetColumnPosition(gridMain2, "Location Name", k++);
+                G1.SetColumnPosition(gridMain2, "ServiceId", k++);
+                G1.SetColumnPosition(gridMain2, "deceasedDate", k++);
+                G1.SetColumnPosition(gridMain2, "name", k++);
+                G1.SetColumnPosition(gridMain2, "contractNumber", k++);
+
+                for (int i = 0; i < dx.Rows.Count; i++)
+                {
+                    funeralClass = dx.Rows[i]["funeral_classification"].ObjToString();
+                    G1.SetColumnPosition(gridMain2, funeralClass, k++);
+                    AddSummaryColumn(funeralClass, gridMain2);
+                }
+
+                G1.SetColumnPosition(gridMain2, "total", k++);
+                
+                double netPrice = 0D;
+                for (int i = 0; i < dd.Rows.Count; i++)
+                {
+                    funeralClass = dd.Rows[i]["funeral_classification"].ObjToString();
+                    netPrice = GetNetPrice(dd, i);
+                    dd.Rows[i][funeralClass] = netPrice;
+                }
+                dgv2.DataSource = dd;
+            }
+            catch (Exception ex)
+            { 
+            }
+
+            gridMain2.ExpandAllGroups();
+            dgv2.Refresh();
+
+        }
+        /****************************************************************************************/
+        private DataTable AddCremationColumns(DataTable dx, DataTable dd)
+        {
+            string funeralClass = "";
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                funeralClass = dx.Rows[i]["funeral_classification"].ObjToString();
+                AddNewColumn(funeralClass, funeralClass, 100, FormatType.Numeric, "N2");
+                AddSummaryColumn(funeralClass, gridMain2);
+                dd.Columns.Add(funeralClass, Type.GetType("System.Double"));
+            }
+            return dd;
+        }
+        /****************************************************************************************/
+        private void AddNewColumn(string fieldName, string caption, int width, FormatType type, string format = "")
+        {
+            if (G1.get_column_number(gridMain2, fieldName) < 0)
+                G1.AddNewColumn(gridMain2, fieldName, caption, format, type, width, true);
+            else
+                gridMain2.Columns[fieldName].Visible = true;
+            G1.SetColumnWidth(gridMain2, fieldName, width);
+            gridMain2.Columns[fieldName].OptionsColumn.FixedWidth = true;
+            gridMain2.Columns[fieldName].AppearanceHeader.ForeColor = Color.Black;
+        }
+        /****************************************************************************************/
+        private void ClearAllPositions(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null)
+        {
+            if (gMain == null)
+                gMain = gridMain;
+            for (int i = 0; i < gMain.Columns.Count; i++)
+            {
+                gMain.Columns[i].Visible = false;
+                //gMain.Columns[i].VisibleIndex = 0;
+                //gMain.Columns[i].AbsoluteIndex = 0;
+            }
         }
         /****************************************************************************************/
     }

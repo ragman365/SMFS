@@ -2675,6 +2675,8 @@ namespace GeneralLib
         /***********************************************************************************************/
         public static DataTable GetGroupBy (DataTable dt, string byColumn)
         {
+            if (dt == null)
+                return dt;
             if (dt.Rows.Count <= 0)
                 return dt;
 
