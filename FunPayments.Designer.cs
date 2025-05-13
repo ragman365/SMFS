@@ -46,6 +46,9 @@
             this.panelBottomRightChecks = new System.Windows.Forms.Panel();
             this.panelBottomRightChecksBottom = new System.Windows.Forms.Panel();
             this.dgv = new DevExpress.XtraGrid.GridControl();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.updatePreneedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goToDailyHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -105,15 +108,13 @@
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.updatePreneedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.goToDailyHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.panelBottomRight.SuspendLayout();
             this.panelBottomRightChecks.SuspendLayout();
             this.panelBottomRightChecksBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
@@ -129,7 +130,6 @@
             this.panelClaimTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelAll
@@ -137,10 +137,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1736, 383);
+            this.panelAll.Size = new System.Drawing.Size(1736, 381);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -150,7 +150,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 112);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1736, 271);
+            this.panelBottom.Size = new System.Drawing.Size(1736, 269);
             this.panelBottom.TabIndex = 3;
             this.panelBottom.Paint += new System.Windows.Forms.PaintEventHandler(this.panelBottom_Paint);
             // 
@@ -161,7 +161,7 @@
             this.panelBottomRight.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRight.Name = "panelBottomRight";
-            this.panelBottomRight.Size = new System.Drawing.Size(1736, 271);
+            this.panelBottomRight.Size = new System.Drawing.Size(1736, 269);
             this.panelBottomRight.TabIndex = 8;
             // 
             // panelBottomRightChecks
@@ -172,7 +172,7 @@
             this.panelBottomRightChecks.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecks.Name = "panelBottomRightChecks";
-            this.panelBottomRightChecks.Size = new System.Drawing.Size(1736, 271);
+            this.panelBottomRightChecks.Size = new System.Drawing.Size(1736, 269);
             this.panelBottomRightChecks.TabIndex = 7;
             // 
             // panelBottomRightChecksBottom
@@ -182,7 +182,7 @@
             this.panelBottomRightChecksBottom.Location = new System.Drawing.Point(0, 42);
             this.panelBottomRightChecksBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksBottom.Name = "panelBottomRightChecksBottom";
-            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1736, 229);
+            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1736, 227);
             this.panelBottomRightChecksBottom.TabIndex = 9;
             // 
             // dgv
@@ -203,10 +203,33 @@
             this.repositoryItemButtonEdit1,
             this.repositoryItemButtonEdit2,
             this.repositoryItemDateEdit1});
-            this.dgv.Size = new System.Drawing.Size(1736, 229);
+            this.dgv.Size = new System.Drawing.Size(1736, 227);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updatePreneedToolStripMenuItem,
+            this.goToDailyHistoryToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(207, 52);
+            // 
+            // updatePreneedToolStripMenuItem
+            // 
+            this.updatePreneedToolStripMenuItem.Name = "updatePreneedToolStripMenuItem";
+            this.updatePreneedToolStripMenuItem.Size = new System.Drawing.Size(206, 24);
+            this.updatePreneedToolStripMenuItem.Text = "Update Preneed";
+            this.updatePreneedToolStripMenuItem.Click += new System.EventHandler(this.updatePreneedToolStripMenuItem_Click);
+            // 
+            // goToDailyHistoryToolStripMenuItem
+            // 
+            this.goToDailyHistoryToolStripMenuItem.Name = "goToDailyHistoryToolStripMenuItem";
+            this.goToDailyHistoryToolStripMenuItem.Size = new System.Drawing.Size(206, 24);
+            this.goToDailyHistoryToolStripMenuItem.Text = "Go To Daily History";
+            this.goToDailyHistoryToolStripMenuItem.Click += new System.EventHandler(this.goToDailyHistoryToolStripMenuItem_Click);
             // 
             // gridMain
             // 
@@ -1006,7 +1029,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1736, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1736, 30);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1015,7 +1038,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1044,30 +1067,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.updatePreneedToolStripMenuItem,
-            this.goToDailyHistoryToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(207, 52);
-            // 
-            // updatePreneedToolStripMenuItem
-            // 
-            this.updatePreneedToolStripMenuItem.Name = "updatePreneedToolStripMenuItem";
-            this.updatePreneedToolStripMenuItem.Size = new System.Drawing.Size(206, 24);
-            this.updatePreneedToolStripMenuItem.Text = "Update Preneed";
-            this.updatePreneedToolStripMenuItem.Click += new System.EventHandler(this.updatePreneedToolStripMenuItem_Click);
-            // 
-            // goToDailyHistoryToolStripMenuItem
-            // 
-            this.goToDailyHistoryToolStripMenuItem.Name = "goToDailyHistoryToolStripMenuItem";
-            this.goToDailyHistoryToolStripMenuItem.Size = new System.Drawing.Size(206, 24);
-            this.goToDailyHistoryToolStripMenuItem.Text = "Go To Daily History";
-            this.goToDailyHistoryToolStripMenuItem.Click += new System.EventHandler(this.goToDailyHistoryToolStripMenuItem_Click);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // FunPayments
             // 
@@ -1087,6 +1087,7 @@
             this.panelBottomRightChecks.ResumeLayout(false);
             this.panelBottomRightChecksBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
@@ -1105,7 +1106,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

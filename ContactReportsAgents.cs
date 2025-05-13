@@ -52,6 +52,7 @@ namespace SMFS
         private string forceReportName = "";
         private string workReportIn = "";
         private string workModule = "";
+        private string workSendTo = "";
         /****************************************************************************************/
         EditCust editCust = null;
         /****************************************************************************************/
@@ -66,12 +67,13 @@ namespace SMFS
             workModule = module;
         }
         /****************************************************************************************/
-        public ContactReportsAgents(bool auto, bool force, string send, string username, string report, string ReportName = "" )
+        public ContactReportsAgents(bool auto, bool force, string send, string sendTo, string username, string report, string ReportName = "" )
         {
             InitializeComponent();
             autoRun = auto;
             autoForce = force;
             sendWhere = send;
+            workSendTo = sendTo;
             sendUsername = username;
             workReportIn = report;
             forceReportName = ReportName;
@@ -80,6 +82,20 @@ namespace SMFS
         /****************************************************************************************/
         private void RunAutoReports()
         {
+            if ( String.IsNullOrWhiteSpace ( forceReportName ) )
+            {
+                int idx = workReportIn.IndexOf('{');
+                if ( idx > 0 )
+                {
+                    workReport = workReportIn.Substring(idx);
+                    workReport = workReport.Replace("{", "");
+                    workReport = workReport.Replace("}", "").Trim();
+                    forceReportName = workReport;
+                }
+            }
+
+            bool force = false;
+            string module = "";
             G1.AddToAudit("System", "AutoRun", "AT Agent Contacts Report", "Starting Agent Contacts Autorun . . . . . . . ", "");
             workReport = "Agent Contacts Report for " + DateTime.Now.ToString("MM/dd/yyyy");
             string cmd = "Select * from `contacts_reports_data` WHERE `agent` <> '' ";
@@ -88,6 +104,44 @@ namespace SMFS
             cmd += ";";
 
             DataTable dt = G1.get_db_data(cmd);
+            if ( dt.Rows.Count <= 0 )
+            {
+                cmd = "Select * from `contacts_reports` WHERE `report` = '" + forceReportName + "';";
+                dt = G1.get_db_data(cmd);
+                if ( dt.Rows.Count > 0 )
+                {
+                    module = dt.Rows[0]["module"].ObjToString();
+                    workModule = module;
+                    string rec = dt.Rows[0]["record"].ObjToString();
+                    cmd = "Select * from `contacts_reports_data` WHERE `reportRecord` = '" + rec + "';";
+                    dt = G1.get_db_data(cmd);
+                    if (dt.Rows.Count <= 0)
+                        return;
+                    force = true;
+                }
+            }
+            else
+            {
+                cmd = "Select * from `contacts_reports` WHERE `report` = '" + forceReportName + "';";
+                dt = G1.get_db_data(cmd);
+                if (dt.Rows.Count > 0)
+                {
+                    module = dt.Rows[0]["module"].ObjToString();
+                    workModule = module;
+                    string rec = dt.Rows[0]["record"].ObjToString();
+                    cmd = "Select * from `contacts_reports_data` WHERE `reportRecord` = '" + rec + "';";
+                    dt = G1.get_db_data(cmd);
+                    if (dt.Rows.Count <= 0)
+                        return;
+                    force = true;
+                }
+            }
+
+            if ( 1 == 1 )
+            {
+                runReport(dt, forceReportName, workAgent, workSendTo, sendWhere, LoginForm.username, "" );
+                return;
+            }
             DateTime date = DateTime.Now;
             int presentDay = date.Day;
             int dayToRun = 0;
@@ -114,6 +168,8 @@ namespace SMFS
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 report = dt.Rows[i]["report"].ObjToString();
+                if (force)
+                    report = forceReportName;
                 if (String.IsNullOrWhiteSpace(report))
                     return;
 
@@ -140,20 +196,28 @@ namespace SMFS
 
                 lastRunDate = dt.Rows[i]["lastRunDate"].ObjToDateTime();
 
-                bool run = checkRunOrNot(frequency, lastRunDate, startDOW);
-                if (!run)
-                    continue;
+                if (!String.IsNullOrWhiteSpace(frequency) && !String.IsNullOrWhiteSpace(startDOW))
+                {
+                    bool run = checkRunOrNot(frequency, lastRunDate, startDOW);
+                    if (!run)
+                        continue;
+                }
 
+                bool isCustom = false;
                 if (manual != "Y")
                 {
                     cmd = "Select * from `contacts_reports` WHERE `report` = '" + report + "';";
                     dx = G1.get_db_data(cmd);
-                    if (dt.Rows.Count <= 0)
+                    if (dx.Rows.Count <= 0)
                         return;
                     record = dx.Rows[0]["record"].ObjToString();
+                    workModule = dx.Rows[0]["module"].ObjToString();
 
                     cmd = "Select * from `contacts_reports_data` WHERE `reportRecord` = '" + record + "' ORDER by `order`;";
                     dx = G1.get_db_data(cmd);
+
+                    //cmd = ContactsPreneed.BuildReportQuery(workModule, dx, agent, ref isCustom);
+                    //dx = G1.get_db_data(cmd);
                 }
                 else
                 {
@@ -167,6 +231,9 @@ namespace SMFS
                 record = dt.Rows[i]["record"].ObjToString();
 
                 G1.update_db_table("contacts_reports_data", "record", record, new string[] {"lastRunDate", DateTime.Now.ToString("yyyyMMdd") });
+
+                if (force)
+                    break;
             }
         }
         /****************************************************************************************/
@@ -1278,128 +1345,8 @@ namespace SMFS
 
             DataTable workDt = null;
 
-            //string cmd = "Select * from `contacts_preneed` WHERE ";
-            //bool found = false;
-
-            //for ( int i=0; i<dt.Rows.Count; i++)
-            //{
-            //    field = dt.Rows[i]["field"].ObjToString();
-            //    data = dt.Rows[i]["data"].ObjToString();
-            //    if (String.IsNullOrWhiteSpace(data))
-            //        continue;
-            //    status = dt.Rows[i]["status"].ObjToString();
-            //    if (status.ToUpper() == "OFF")
-            //        continue;
-
-            //    operand = dt.Rows[i]["operand"].ObjToString();
-
-            //    body = data.Trim();
-
-            //    date = body.ObjToDateTime();
-            //    if ( date.Year < 1000 )
-            //    {
-            //        if (!G1.validate_numeric(body))
-            //        {
-            //            if (found)
-            //                cmd += " AND ";
-            //            cmd += " `" + field + "` " + operand + " '" + body + "' ";
-            //            found = true;
-            //            continue;
-            //        }
-            //        today = DateTime.Now;
-            //        if (operand == ">")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1);
-            //            if (field.ToUpper() != "AGE")
-            //                operand = "<";
-            //        }
-            //        else if (operand == ">=")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1);
-            //            if (field.ToUpper() != "AGE")
-            //                operand = "<=";
-            //        }
-            //        else if (operand == "<")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1 );
-            //            if (field.ToUpper() != "AGE")
-            //                operand = ">";
-            //        }
-            //        else if (operand == "<=")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1);
-            //            if (field.ToUpper() != "AGE")
-            //                operand = ">=";
-            //        }
-            //        else if (operand == "!=")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //            today = today.AddDays(iBody * -1);
-            //            if (field.ToUpper() != "AGE")
-            //                operand = ">=";
-            //        }
-            //        else if (operand == "=")
-            //        {
-            //            iBody = body.ObjToInt32();
-            //        }
-            //        else
-            //            continue;
-            //        if (found)
-            //            cmd += " AND ";
-            //        if ( field.ToUpper() == "AGE")
-            //            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
-            //        else
-            //            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
-            //        found = true;
-            //    }
-            //    else
-            //    {
-            //        if (!G1.validate_numeric(body))
-            //        {
-            //            if ( G1.validate_date ( body ))
-            //            {
-            //                date = body.ObjToDateTime();
-            //                body = date.ToString("yyyy-MM-dd");
-            //            }
-            //            if (found)
-            //                cmd += " AND ";
-            //            cmd += " `" + field + "` " + operand + " '" + body + "' ";
-            //            found = true;
-            //            continue;
-            //        }
-            //        else
-            //            continue;
-            //        if (found)
-            //            cmd += " AND ";
-            //        if (field.ToUpper() == "AGE")
-            //            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
-            //        else
-            //            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
-            //        found = true;
-            //    }
-            //}
-
-            //if ( !found )
-            //{
-            //    if ( !autoRun )
-            //        MessageBox.Show("Search Criteria is Empty!", "Search Criteria Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-            //    return;
-            //}
-            //if (!String.IsNullOrWhiteSpace(workAgent))
-            //{
-            //    if (workAgent.ToUpper() != "ALL")
-            //        cmd += " AND `agent` = '" + workAgent + "' ";
-            //}
-
-            //cmd += ";";
-
             bool isCustom = false;
 
-            //string cmd = ContactReports.BuildReportQuery(dt, workAgent, ref isCustom);
             string cmd = ContactsPreneed.BuildReportQuery(workModule, dt, workAgent, ref isCustom);
 
             dx = G1.get_db_data(cmd);
@@ -1413,6 +1360,13 @@ namespace SMFS
 
             if ( dx != null )
             {
+                if (autoRun && !String.IsNullOrWhiteSpace(sendWhere) && workSendTo.ToUpper() == "AGENT")
+                {
+                    AutoRunContacts(workModule, dx, dt, forceReportName, workAgent, sendWhere );
+                    //G1.AddToAudit("System", "AutoRun", "Agent Contacts Report Ran", "RAN Agent Contacts Autorun . . . . . . . ", "");
+                    return;
+                }
+
                 this.Cursor = Cursors.WaitCursor;
                 int height = this.Height;
 
@@ -1421,9 +1375,9 @@ namespace SMFS
                 {
                     form = new Contacts();
                     if (!isCustom)
-                        form = new Contacts(dx, report );
+                        form = new Contacts(dx, report);
                     else
-                        form = new Contacts(dx, dt, true, report );
+                        form = new Contacts(dx, dt, true, report, "", sendWhere, workSendTo);
                 }
                 else
                 {
@@ -1433,6 +1387,14 @@ namespace SMFS
                     else
                         form = new ContactsPreneed(dx, dt, true, report );
                 }
+
+                //if ( autoRun )
+                //{
+                //    if ( !String.IsNullOrWhiteSpace ( sendWhere ) && !String.IsNullOrWhiteSpace ( workSendTo ))
+                //    {
+                //        return;
+                //    }
+                //}
 
                 //ContactsPreneed form = new ContactsPreneed( dx, autoRun, agent, email, report, sendWhere, sendUsername, displayFormat, isCustom, dt );
                 form.Text = report;
@@ -1456,6 +1418,54 @@ namespace SMFS
                 form.Refresh();
 
                 this.Cursor = Cursors.Default;
+            }
+        }
+        /****************************************************************************************/
+        private void AutoRunContacts ( string workModule, DataTable dx, DataTable dt, string report, string workAgent, string sendWhere )
+        {
+            DataTable groupDt = G1.GetGroupBy(dx, "agent");
+            if (groupDt.Rows.Count <= 0)
+                return;
+            DataRow[] dRows = null;
+
+            workAgent = "Walker, Michael";
+            workAgent = "Muse, Vernon";
+            if (!String.IsNullOrWhiteSpace(workAgent))
+            {
+                dRows = groupDt.Select("agent='" + workAgent + "'");
+                if (dRows.Length <= 0)
+                    return;
+                groupDt = dRows.CopyToDataTable();
+            }
+
+            groupDt = LoadEmails(groupDt);
+            DataTable agentDt = null;
+
+            string agent = "";
+            string email = "";
+            for ( int i=0; i<groupDt.Rows.Count; i++)
+            {
+                agent = groupDt.Rows[i]["agent"].ObjToString();
+                email = groupDt.Rows[i]["email"].ObjToString();
+
+                dRows = dx.Select("agent='" + agent + "'");
+                if (dRows.Length <= 0)
+                    continue;
+                agentDt = dRows.CopyToDataTable();
+
+                if (String.IsNullOrWhiteSpace(email))
+                    email = "robbyxyzzy@gmail.com";
+
+                if ( workModule.ToUpper() == "CONTACTS")
+                {
+                    Contacts form = new Contacts(agentDt, true, agent, email, report, sendWhere, LoginForm.username, "", true, dt);
+                    form.Show();
+                }
+                else if (workModule.ToUpper() == "CONTACTS PRENEED")
+                {
+                    ContactsPreneed form = new ContactsPreneed (agentDt, true, agent, email, report, sendWhere, LoginForm.username, "", true, dt);
+                    form.Show();
+                }
             }
         }
         /****************************************************************************************/

@@ -63,16 +63,34 @@ namespace SMFS
         PrintableComponentLink link;
         private DevExpress.XtraRichEdit.RichEditControl rtb9;
         /***********************************************************************************************/
-        public PriceList(string description, string title, string whatPrices = "", string workFuneralRecord = "", bool massPrint = false, string asOfDate = "" )
+        private string workGPL = "";
+        private string workCPL = "";
+        private bool localDebug = false;
+        /***********************************************************************************************/
+        public PriceList(string description, string title, string whatPrices = "", string workFuneralRecord = "", bool massPrint = false, string asOfDate = "", string gpl = "", string cpl = "", bool debug = false )
         {
             InitializeComponent();
             workDescription = description;
             workTitle = title;
+            if ( debug )
+            {
+                title = workDescription;
+                if (!String.IsNullOrWhiteSpace(gpl))
+                    title += " GPL (" + gpl + ")";
+
+                if (!String.IsNullOrWhiteSpace(cpl))
+                    title += " CPL (" + cpl + ")";
+                workTitle = title;
+            }
             workFunRec = workFuneralRecord;
             workPrices = whatPrices.ToUpper();
             workMassPrint = massPrint;
             workAsOfDate = asOfDate;
-            if (workMassPrint)
+            localDebug = debug;
+            workGPL = gpl;
+            workCPL = cpl;
+
+            if (workMassPrint && !debug)
             {
                 this.Hide();
                 loading = true;
@@ -81,15 +99,17 @@ namespace SMFS
                 LoadRtbExtra();
                 this.Text = workDescription;
                 if (!String.IsNullOrWhiteSpace(workTitle))
-                    this.Text = workTitle; 
+                    this.Text = workTitle;
                 if (!String.IsNullOrWhiteSpace(workTitle))
                     this.Text = workTitle;
 
-                this.Close();
-                //btnSave.Hide();
-                //if (String.IsNullOrWhiteSpace(workPrices))
-                //    btnFuture.Hide();
+                if (!localDebug)
+                    this.Close();
+                else
+                    this.Show();
             }
+            else if (workMassPrint && debug)
+                this.Show();
         }
         /***********************************************************************************************/
         private void PriceList_Load(object sender, EventArgs e)
@@ -137,9 +157,9 @@ namespace SMFS
             G1.NumberDataTable(dt);
             dgv.DataSource = dt;
 
-            if (workMassPrint)
+            if (workMassPrint && !localDebug)
             {
-                if ( workPrices.ToUpper() == "FUTURE")
+                if (workPrices.ToUpper() == "FUTURE")
                 {
                     //workPrices = "CURRENT";
                     //btnFuture.Text = "Show Future";
@@ -177,8 +197,15 @@ namespace SMFS
             DataTable dx = G1.get_db_data(cmd);
             if (dx.Rows.Count <= 0)
                 return dt;
+
             workGroupName = dx.Rows[0]["groupname"].ObjToString();
+            if (!String.IsNullOrWhiteSpace(workGPL))
+                workGroupName = workGPL;
+
             workCasketName = dx.Rows[0]["casketgroup"].ObjToString();
+            if (!String.IsNullOrWhiteSpace(workCPL))
+                workCasketName = workCPL;
+
             funeralHome = dx.Rows[0]["LocationCode"].ObjToString();
             funeralAtNeedCode = dx.Rows[0]["atNeedCode"].ObjToString();
 
@@ -192,7 +219,7 @@ namespace SMFS
 
 
             this.Text = workDescription + " for " + funeralHome + "-" + workGroupName + "-" + workCasketName;
-            if (!String.IsNullOrWhiteSpace(workTitle))
+            if (!String.IsNullOrWhiteSpace(workTitle) && !localDebug )
                 this.Text = workTitle + " for " + funeralHome + "-" + workGroupName + "-" + workCasketName;
 
             dt = SetupPrices(dt);
@@ -2719,8 +2746,11 @@ namespace SMFS
         /***********************************************************************************************/
         public void CreateReport3(DataTable dt)
         {
+            string debugTitle = this.Text;
             try
             {
+                this.Text = workDescription;
+                workTitle = workDescription;
                 xrPageBreak2 = new XRPageBreak();
                 //xrPageBreak2.BeforePrint += XrPageBreak2_BeforePrint;
 
@@ -2815,6 +2845,9 @@ namespace SMFS
             catch (Exception ex)
             {
             }
+
+            this.Text = debugTitle;
+            workTitle = debugTitle;
         }
         /***********************************************************************************************/
         private void XrGroupFooter_AfterPrint(object sender, EventArgs e)
@@ -3440,7 +3473,7 @@ namespace SMFS
         private void PublishReport(XtraReport report)
         {
             ReportPrintTool printTool = new ReportPrintTool(report);
-            if (workMassPrint)
+            if (workMassPrint && !localDebug )
             {
                 string abrev = workDescription;
                 if (!String.IsNullOrWhiteSpace(workTitle))
@@ -3808,6 +3841,83 @@ namespace SMFS
             {
             }
         }
-/***********************************************************************************************/
+        /***********************************************************************************************/
+        public static DataTable priceListCopyDt = null;
+        public static int[] priceListRows = null;
+        /***********************************************************************************************/
+        private void copyRowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt == null)
+            {
+                MessageBox.Show("***INFO*** There are no rows of data to Copy!!", "Copy Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+            if (dt.Rows.Count <= 0)
+            {
+                MessageBox.Show("***INFO*** There are no rows of data to Copy!!", "Copy Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+            DataTable dx = null;
+            string record = "";
+
+            DataRow dr = gridMain.GetFocusedDataRow();
+
+            int rowHandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowHandle);
+
+
+            priceListRows = gridMain.GetSelectedRows();
+            priceListCopyDt = dt.Copy();
+        }
+        /***********************************************************************************************/
+        private void pasteRowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (priceListCopyDt == null)
+            {
+                MessageBox.Show("***INFO*** There are no rows of data to Paste!!", "Paste Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+            if (priceListCopyDt.Rows.Count <= 0)
+            {
+                MessageBox.Show("***INFO*** There are no rows of data to Paste!!", "Paste Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            if ( priceListRows.Length <= 0 )
+            {
+                MessageBox.Show("***INFO*** There are no rows of data to Paste!!", "Paste Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            DataRow dRow = null;
+            byte[] bytes = null;
+            int row = 0;
+
+            for ( int i=0; i<priceListRows.Length; i++)
+            {
+                try
+                {
+                    row = priceListRows[i];
+                    G1.copy_dt_row(priceListCopyDt, row, dt, dt.Rows.Count);
+                    row = dt.Rows.Count - 1;
+                    dt.Rows[row]["record"] = DBNull.Value;
+                    dt.Rows[row]["header"] = priceListCopyDt.Rows[row]["header"];
+                    dt.Rows[row]["tail"] = priceListCopyDt.Rows[row]["tail"];
+                }
+                catch ( Exception ex)
+                {
+                }
+            }
+
+            dgv.DataSource = dt;
+            dgv.Refresh();
+            this.Refresh();
+
+            btnSave.Show();
+            modified = true;
+        }
+        /***********************************************************************************************/
     }
 }

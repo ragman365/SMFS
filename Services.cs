@@ -139,6 +139,11 @@ namespace SMFS
             btnAllOn.Hide();
             btnEdit.Hide();
             btnDeleteLocation.Hide();
+            if ( !G1.isAdmin () || !String.IsNullOrWhiteSpace ( workServiceId ) )
+            {
+                copyRowToolStripMenuItem.Dispose();
+                pasteRowToolStripMenuItem.Dispose();
+            }
             loading = true;
             gridMain.Columns["basicService"].Visible = true;
             gridMain.Columns["plonly"].Visible = true;
@@ -3317,6 +3322,16 @@ namespace SMFS
         /***********************************************************************************************/
         private void SaveServices(DataTable dt)
         {
+            if ( copyDrow != null )
+            {
+                dt.ImportRow(copyDrow);
+                modified = true;
+                btnSave.Show();
+                btnSave.Refresh();
+                copyDrow = null;
+                this.Cursor = Cursors.Default;
+                return;
+            }
             string service = "";
             string serviceRecord = "";
             string SameAsMaster = "";
@@ -4858,6 +4873,21 @@ namespace SMFS
                 dt.Rows[i]["mod"] = "1";
 
             return dt;
+        }
+        /***********************************************************************************************/
+        DataRow copyDrow = null;
+        private void copyRowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain.GetFocusedDataRow();
+            copyDrow = dr;
+        }
+        /***********************************************************************************************/
+        private void pasteRowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if ( copyDrow != null )
+            {
+                btnSave_Click(null, null);
+            }
         }
         /***********************************************************************************************/
     }

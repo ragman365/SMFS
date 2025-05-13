@@ -210,6 +210,8 @@
             this.importGroupInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showBatesvilleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -346,9 +348,11 @@
             this.updateAllCustomersToolStripMenuItem,
             this.changeToMerchandiseToolStripMenuItem,
             this.changeToServiceToolStripMenuItem,
-            this.changeToMiscToolStripMenuItem});
+            this.changeToMiscToolStripMenuItem,
+            this.copyRowToolStripMenuItem,
+            this.pasteRowToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(235, 100);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(235, 148);
             // 
             // updateAllCustomersToolStripMenuItem
             // 
@@ -846,7 +850,7 @@
             this.tabCaskets.Location = new System.Drawing.Point(4, 25);
             this.tabCaskets.Name = "tabCaskets";
             this.tabCaskets.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCaskets.Size = new System.Drawing.Size(1391, 394);
+            this.tabCaskets.Size = new System.Drawing.Size(1391, 396);
             this.tabCaskets.TabIndex = 1;
             this.tabCaskets.Text = "Caskets";
             this.tabCaskets.UseVisualStyleBackColor = true;
@@ -868,7 +872,7 @@
             this.repositoryItemCheckEdit6,
             this.repositoryItemCheckEdit4,
             this.repositoryItemCheckEdit18});
-            this.dgv2.Size = new System.Drawing.Size(1385, 388);
+            this.dgv2.Size = new System.Drawing.Size(1385, 390);
             this.dgv2.TabIndex = 7;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1295,7 +1299,7 @@
             this.tabVaults.Controls.Add(this.dgv3);
             this.tabVaults.Location = new System.Drawing.Point(4, 25);
             this.tabVaults.Name = "tabVaults";
-            this.tabVaults.Size = new System.Drawing.Size(1391, 394);
+            this.tabVaults.Size = new System.Drawing.Size(1391, 396);
             this.tabVaults.TabIndex = 2;
             this.tabVaults.Text = "Vaults";
             this.tabVaults.UseVisualStyleBackColor = true;
@@ -1317,7 +1321,7 @@
             this.repositoryItemCheckEdit9,
             this.repositoryItemCheckEdit7,
             this.repositoryItemCheckEdit19});
-            this.dgv3.Size = new System.Drawing.Size(1391, 394);
+            this.dgv3.Size = new System.Drawing.Size(1391, 396);
             this.dgv3.TabIndex = 8;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -1743,7 +1747,7 @@
             this.tabUrns.Controls.Add(this.dgv4);
             this.tabUrns.Location = new System.Drawing.Point(4, 25);
             this.tabUrns.Name = "tabUrns";
-            this.tabUrns.Size = new System.Drawing.Size(1391, 394);
+            this.tabUrns.Size = new System.Drawing.Size(1391, 396);
             this.tabUrns.TabIndex = 3;
             this.tabUrns.Text = "Urns";
             this.tabUrns.UseVisualStyleBackColor = true;
@@ -1765,7 +1769,7 @@
             this.repositoryItemCheckEdit12,
             this.repositoryItemCheckEdit10,
             this.repositoryItemCheckEdit20});
-            this.dgv4.Size = new System.Drawing.Size(1391, 394);
+            this.dgv4.Size = new System.Drawing.Size(1391, 396);
             this.dgv4.TabIndex = 9;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2191,7 +2195,7 @@
             this.tabMisc.Controls.Add(this.dgv5);
             this.tabMisc.Location = new System.Drawing.Point(4, 25);
             this.tabMisc.Name = "tabMisc";
-            this.tabMisc.Size = new System.Drawing.Size(1391, 394);
+            this.tabMisc.Size = new System.Drawing.Size(1391, 396);
             this.tabMisc.TabIndex = 4;
             this.tabMisc.Text = "Miscellaneous";
             this.tabMisc.UseVisualStyleBackColor = true;
@@ -2213,7 +2217,7 @@
             this.repositoryItemCheckEdit15,
             this.repositoryItemCheckEdit13,
             this.repositoryItemCheckEdit21});
-            this.dgv5.Size = new System.Drawing.Size(1391, 394);
+            this.dgv5.Size = new System.Drawing.Size(1391, 396);
             this.dgv5.TabIndex = 9;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -3136,6 +3140,20 @@
             this.showBatesvilleToolStripMenuItem.Text = "Show Batesville";
             this.showBatesvilleToolStripMenuItem.Click += new System.EventHandler(this.showBatesvilleToolStripMenuItem_Click);
             // 
+            // copyRowToolStripMenuItem
+            // 
+            this.copyRowToolStripMenuItem.Name = "copyRowToolStripMenuItem";
+            this.copyRowToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.copyRowToolStripMenuItem.Text = "Copy Row";
+            this.copyRowToolStripMenuItem.Click += new System.EventHandler(this.copyRowToolStripMenuItem_Click);
+            // 
+            // pasteRowToolStripMenuItem
+            // 
+            this.pasteRowToolStripMenuItem.Name = "pasteRowToolStripMenuItem";
+            this.pasteRowToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.pasteRowToolStripMenuItem.Text = "Paste Row";
+            this.pasteRowToolStripMenuItem.Click += new System.EventHandler(this.pasteRowToolStripMenuItem_Click);
+            // 
             // Services
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -3394,5 +3412,7 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn80;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit22;
         private System.Windows.Forms.CheckBox chkPackage;
+        private System.Windows.Forms.ToolStripMenuItem copyRowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteRowToolStripMenuItem;
     }
 }

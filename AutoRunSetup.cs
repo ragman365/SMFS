@@ -68,6 +68,7 @@ namespace SMFS
             string userName = "";
             string name = "";
             this.repositoryItemCheckedComboBoxEdit1.Items.Clear();
+            this.repositoryItemCheckedComboBoxEdit1.Items.Add("Agent");
             this.repositoryItemCheckedComboBoxEdit1.Items.Add("Location");
             for ( int i=0; i<dt.Rows.Count; i++)
             {

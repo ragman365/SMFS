@@ -6080,5 +6080,29 @@ namespace SMFS
             this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
+        private void checkDropboxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DateTime date = this.dateTimePicker2.Value;
+            int year = date.Year;
+
+            string dropBox = @"C:\users\Robby\Dropbox\";
+            string directory = "Funeral Statements " + year.ToString("D4") + @"\";
+            string path = dropBox + directory;
+
+            //G1.verify_path(path);
+            //path = @"C:\RAGWARE\";
+            DirectoryInfo d = new DirectoryInfo(path);
+
+            FileInfo[] Files = d.GetFiles("*"); //Getting Text files
+            string str = "";
+
+            foreach (FileInfo file in Files)
+            {
+                str = str + ", " + file.Name;
+            }
+
+            //string[] files = Directory.GetFiles(path);
+        }
+        /***********************************************************************************************/
     }
 }

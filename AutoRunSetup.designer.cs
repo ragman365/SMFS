@@ -91,7 +91,7 @@
             this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1357, 264);
+            this.panelAll.Size = new System.Drawing.Size(1357, 385);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -101,7 +101,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 59);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1357, 205);
+            this.panelBottom.Size = new System.Drawing.Size(1357, 326);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -119,7 +119,7 @@
             this.repositoryItemComboBox1,
             this.repositoryItemCheckedComboBoxEdit1,
             this.repositoryItemComboBox2});
-            this.dgv.Size = new System.Drawing.Size(1357, 205);
+            this.dgv.Size = new System.Drawing.Size(1357, 326);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -640,7 +640,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1357, 294);
+            this.ClientSize = new System.Drawing.Size(1357, 415);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

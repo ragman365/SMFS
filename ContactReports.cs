@@ -1508,11 +1508,20 @@ namespace SMFS
                                     | System.Windows.Forms.AnchorStyles.Right)));
 
                 form.Show();
-                form.Location = new Point(this.Parent.Left + 500, this.Parent.Top + 500);
-                form.Height = height + 200;
-                form.StartPosition = FormStartPosition.CenterParent;
-                form.SetBounds(this.Parent.Left + 100, this.Parent.Top + 100, form.Width, height + 50);
-                form.Refresh();
+                try
+                {
+                    if (this.Parent != null)
+                    {
+                        form.Location = new Point(this.Parent.Left + 500, this.Parent.Top + 500);
+                        form.Height = height + 200;
+                        form.StartPosition = FormStartPosition.CenterParent;
+                        form.SetBounds(this.Parent.Left + 100, this.Parent.Top + 100, form.Width, height + 50);
+                        form.Refresh();
+                    }
+                }
+                catch ( Exception ex)
+                {
+                }
 
                 this.Cursor = Cursors.Default;
             }

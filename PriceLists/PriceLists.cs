@@ -13,6 +13,7 @@ using DevExpress.XtraPrinting;
 using DevExpress.Utils;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Threading;
+using DevExpress.XtraEditors.Repository;
 /***********************************************************************************************/
 namespace SMFS
 {
@@ -70,15 +71,31 @@ namespace SMFS
             dt.Columns.Add("num");
             dt.Columns.Add("mod");
             dt.Columns.Add("select");
+            dt.Columns.Add("gpl");
+            dt.Columns.Add("cpl");
 
             SetupSelection(dt);
+
+            chkDebug.Hide();
 
             G1.NumberDataTable(dt);
             if (workDt != null)
             {
                 gridMain.Columns["select"].Visible = true;
+                gridMain.Columns["gpl"].Visible = true;
+                gridMain.Columns["cpl"].Visible = true;
+                LoadDBTableFields("funeral_groups", this.repositoryItemComboBox1, "shortname");
+                LoadDBTableFields("casket_groups", this.repositoryItemComboBox2, "shortname");
                 btnSave.Hide();
                 btnSave.Refresh();
+
+                pictureAdd.Hide();
+                pictureDelete.Hide();
+                picRowDown.Hide();
+                picRowUp.Hide();
+                btnInsert.Hide();
+
+                chkDebug.Show();
             }
 
             dgv.DataSource = dt;
@@ -433,6 +450,23 @@ namespace SMFS
         {
             if (gridMain.FocusedColumn.FieldName == "select")
                 return;
+            DataRow dr = gridMain.GetFocusedDataRow();
+            if (workDt != null)
+            {
+                if (e.Column.FieldName.ToUpper() == "GPL")
+                {
+                    string gpl = dr["gpl"].ObjToString();
+                    if (gpl.ToUpper() == "CLEAR")
+                        dr["gpl"] = "";
+                }
+                else if (e.Column.FieldName.ToUpper() == "CPL")
+                {
+                    string cpl = dr["cpl"].ObjToString();
+                    if (cpl.ToUpper() == "CLEAR")
+                        dr["cpl"] = "";
+                }
+                return;
+            }
             modified = true;
             btnSave.Show();
         }
@@ -455,6 +489,9 @@ namespace SMFS
         {
             if (!modified)
                 return;
+            if (workDt != null)
+                return;
+
             DialogResult result = MessageBox.Show("***Question***\nPrice Lists have been modified!\nWould you like to save your changes?", "Price Lists Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             if (result == DialogResult.Cancel)
             {
@@ -579,6 +616,8 @@ namespace SMFS
             title = "";
             string record = "";
             string locationCode = "";
+            string gpl = "";
+            string cpl = "";
 
             PleaseWait waitForm = G1.StartWait();
 
@@ -586,39 +625,73 @@ namespace SMFS
             {
                 Application.DoEvents();
 
-                select = workDt.Rows[i]["select"].ObjToString();
-                if (select != "1")
-                    continue;
-                record = workDt.Rows[i]["record"].ObjToString();
-                locationCode = workDt.Rows[i]["locationCode"].ObjToString();
-
-                for ( int j=0; j<dt.Rows.Count; j++)
+                try
                 {
-                    select = dt.Rows[j]["select"].ObjToString();
+                    select = workDt.Rows[i]["select"].ObjToString();
                     if (select != "1")
                         continue;
-                    description = dt.Rows[j]["description"].ObjToString();
-                    title = dt.Rows[j]["title"].ObjToString();
+                    record = workDt.Rows[i]["record"].ObjToString();
+                    locationCode = workDt.Rows[i]["locationCode"].ObjToString();
 
-                    if (!String.IsNullOrWhiteSpace(description))
+                    for (int j = 0; j < dt.Rows.Count; j++)
                     {
-                        waitForm.FireEvent2("Please Wait!\nPrinting Price List for " + locationCode + " / " + description);
+                        select = dt.Rows[j]["select"].ObjToString();
+                        if (select != "1")
+                            continue;
+                        description = dt.Rows[j]["description"].ObjToString();
+                        title = dt.Rows[j]["title"].ObjToString();
+                        gpl = dt.Rows[j]["gpl"].ObjToString();
+                        cpl = dt.Rows[j]["cpl"].ObjToString();
 
-                        this.Cursor = Cursors.WaitCursor;
-                        PriceList priceForm = new PriceList(description, title, workPrices, record, true, workAsOfDate );
-                        //priceForm.ShowDialog();
-                        this.Cursor = Cursors.Default;
+                        if (!String.IsNullOrWhiteSpace(description))
+                        {
+                            waitForm.FireEvent2("Please Wait!\nPrinting Price List for " + locationCode + " / " + description);
+
+                            this.Cursor = Cursors.WaitCursor;
+                            PriceList priceForm = new PriceList(description, title, workPrices, record, true, workAsOfDate, gpl, cpl, chkDebug.Checked );
+                            //priceForm.ShowDialog();
+                            this.Cursor = Cursors.Default;
+                        }
                     }
                 }
+                catch ( Exception ex )
+                {
+                }
             }
-            G1.StopWait(ref waitForm);
 
-            MessageBox.Show("***INFO*** Mass Report Location Is - C:/SMFS_Reports/PriceLists", "Mass Report Info Dialog", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            G1.StopWait(ref waitForm);
+            if (!chkDebug.Checked)
+            {
+                MessageBox.Show("***INFO*** Mass Report Location Is - C:/SMFS_Reports/PriceLists", "Mass Report Info Dialog", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            }
         }
         /***********************************************************************************************/
         static void MessageThread()
         {
             MessageBox.Show(" Please Wait!\nBuilding Price List Report for " + description);
+        }
+        /***********************************************************************************************/
+        private void LoadDBTableFields(string table, RepositoryItemComboBox combo, string loadField = "")
+        {
+            if (String.IsNullOrWhiteSpace(table))
+                return;
+            if (table.ToUpper() == "NONE")
+            {
+                combo.Items.Clear();
+                return;
+            }
+            string command = "Select * FROM `" + table + "` order by `order`,`record`;";
+            DataTable rx = G1.get_db_data(command);
+            if (rx == null || rx.Rows == null || rx.Rows.Count == 0)
+                return; // Somehow the table does not exist
+            combo.Items.Clear();
+            combo.Items.Add("Clear");
+            string name = "";
+            for (int i = 0; i < rx.Rows.Count; i++)
+            {
+                name = rx.Rows[i][loadField].ToString().Trim();
+                combo.Items.Add(name);
+            }
         }
         /***********************************************************************************************/
     }

@@ -54,7 +54,11 @@ namespace SMFS
         PleaseWait waitForm = null;
         private bool isCustom = false;
         private string customReport = "";
+        private string workSendWhere = "";
+        private string workSendTo = "";
 
+        private DataTable _contactsDt = null;
+        public DataTable ContactsAnswer { get { return _contactsDt; } }
         /****************************************************************************************/
         public Contacts()
         {
@@ -68,7 +72,7 @@ namespace SMFS
             workReport = Report;
         }
         /****************************************************************************************/
-        public Contacts(DataTable dt, DataTable dx, bool custom = false, string Report = "", string agent = "" )
+        public Contacts(DataTable dt, DataTable dx, bool custom = false, string Report = "", string agent = "", string sendWhere = "", string sendTo = "" )
         {
             InitializeComponent();
             workDt = dt;
@@ -76,6 +80,8 @@ namespace SMFS
             isCustom = custom;
             workAgent = agent;
             customReport = Report;
+            workSendWhere = sendWhere;
+            workSendTo = sendTo;
         }
         /****************************************************************************************/
         public Contacts(DataTable dt, bool auto, string agent, string email, string report, string send, string username, string displayFormat, bool custom, DataTable dx)
@@ -278,7 +284,7 @@ namespace SMFS
                 miscToolStripMenuItem.Dispose();
             }
 
-            if (workAuto)
+            if (workAuto )
             {
                 printPreviewToolStripMenuItem_Click(null, null);
                 this.Close();
@@ -2125,7 +2131,7 @@ namespace SMFS
 
             printableComponentLink1.CreateDocument();
 
-            if (workAuto)
+            if (workAuto )
             {
                 //string filename = "";
                 DateTime today = DateTime.Now;
@@ -2153,7 +2159,7 @@ namespace SMFS
 
                 printableComponentLink1.ExportToPdf(filename);
 
-                RemoteProcessing.AutoRunSend(workReport + " for " + today.ToString("MM/dd/yyyy"), filename, workAgent, sendWhere, "", workEmail, sendUsername);
+                RemoteProcessing.AutoRunSend(workReport + " for " + today.ToString("MM/dd/yyyy"), filename, workAgent, sendWhere, "", workEmail, sendUsername, true );
             }
             else
                 printableComponentLink1.ShowPreview();

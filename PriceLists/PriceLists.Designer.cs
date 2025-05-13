@@ -44,11 +44,16 @@
             this.bandedGridColumn2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn3 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn5 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.bandedGridColumn6 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.repositoryItemComboBox2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.bandedGridColumn22 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn21 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.btnMassPrint = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
@@ -62,6 +67,8 @@
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRowUp)).BeginInit();
@@ -79,7 +86,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1075, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1091, 30);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -89,7 +96,7 @@
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -127,10 +134,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1075, 302);
+            this.panelAll.Size = new System.Drawing.Size(1091, 381);
             this.panelAll.TabIndex = 15;
             // 
             // panelBottom
@@ -140,7 +147,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 46);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1075, 256);
+            this.panelBottom.Size = new System.Drawing.Size(1091, 335);
             this.panelBottom.TabIndex = 17;
             // 
             // dgv
@@ -154,8 +161,10 @@
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemCheckEdit1});
-            this.dgv.Size = new System.Drawing.Size(1075, 256);
+            this.repositoryItemCheckEdit1,
+            this.repositoryItemComboBox1,
+            this.repositoryItemComboBox2});
+            this.dgv.Size = new System.Drawing.Size(1091, 335);
             this.dgv.TabIndex = 7;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -290,7 +299,9 @@
             this.bandedGridColumn1,
             this.bandedGridColumn3,
             this.bandedGridColumn2,
-            this.bandedGridColumn4});
+            this.bandedGridColumn4,
+            this.bandedGridColumn5,
+            this.bandedGridColumn6});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.Name = "gridMain";
@@ -314,12 +325,14 @@
             this.gridBand3.Columns.Add(this.bandedGridColumn2);
             this.gridBand3.Columns.Add(this.bandedGridColumn3);
             this.gridBand3.Columns.Add(this.bandedGridColumn4);
+            this.gridBand3.Columns.Add(this.bandedGridColumn5);
+            this.gridBand3.Columns.Add(this.bandedGridColumn6);
             this.gridBand3.Columns.Add(this.bandedGridColumn1);
             this.gridBand3.Columns.Add(this.bandedGridColumn22);
-            this.gridBand3.MinWidth = 19;
+            this.gridBand3.MinWidth = 22;
             this.gridBand3.Name = "gridBand3";
             this.gridBand3.VisibleIndex = 0;
-            this.gridBand3.Width = 893;
+            this.gridBand3.Width = 739;
             // 
             // bandedGridColumn15
             // 
@@ -327,12 +340,12 @@
             this.bandedGridColumn15.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn15.Caption = "Num";
             this.bandedGridColumn15.FieldName = "num";
-            this.bandedGridColumn15.MinWidth = 36;
+            this.bandedGridColumn15.MinWidth = 42;
             this.bandedGridColumn15.Name = "bandedGridColumn15";
             this.bandedGridColumn15.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn15.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn15.Visible = true;
-            this.bandedGridColumn15.Width = 68;
+            this.bandedGridColumn15.Width = 63;
             // 
             // bandedGridColumn2
             // 
@@ -340,11 +353,11 @@
             this.bandedGridColumn2.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn2.Caption = "File Type Abbreviation";
             this.bandedGridColumn2.FieldName = "abrev";
-            this.bandedGridColumn2.MinWidth = 34;
+            this.bandedGridColumn2.MinWidth = 40;
             this.bandedGridColumn2.Name = "bandedGridColumn2";
             this.bandedGridColumn2.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn2.Visible = true;
-            this.bandedGridColumn2.Width = 149;
+            this.bandedGridColumn2.Width = 151;
             // 
             // bandedGridColumn3
             // 
@@ -352,11 +365,11 @@
             this.bandedGridColumn3.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn3.Caption = "Price List Name";
             this.bandedGridColumn3.FieldName = "description";
-            this.bandedGridColumn3.MinWidth = 36;
+            this.bandedGridColumn3.MinWidth = 42;
             this.bandedGridColumn3.Name = "bandedGridColumn3";
             this.bandedGridColumn3.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn3.Visible = true;
-            this.bandedGridColumn3.Width = 338;
+            this.bandedGridColumn3.Width = 281;
             // 
             // bandedGridColumn4
             // 
@@ -364,11 +377,49 @@
             this.bandedGridColumn4.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn4.Caption = "Title";
             this.bandedGridColumn4.FieldName = "title";
-            this.bandedGridColumn4.MinWidth = 29;
+            this.bandedGridColumn4.MinWidth = 34;
             this.bandedGridColumn4.Name = "bandedGridColumn4";
             this.bandedGridColumn4.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn4.Visible = true;
-            this.bandedGridColumn4.Width = 338;
+            this.bandedGridColumn4.Width = 244;
+            // 
+            // bandedGridColumn5
+            // 
+            this.bandedGridColumn5.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.bandedGridColumn5.AppearanceHeader.Options.UseForeColor = true;
+            this.bandedGridColumn5.Caption = "GPL Group";
+            this.bandedGridColumn5.ColumnEdit = this.repositoryItemComboBox1;
+            this.bandedGridColumn5.FieldName = "gpl";
+            this.bandedGridColumn5.MinWidth = 29;
+            this.bandedGridColumn5.Name = "bandedGridColumn5";
+            this.bandedGridColumn5.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn5.Width = 110;
+            // 
+            // repositoryItemComboBox1
+            // 
+            this.repositoryItemComboBox1.AutoHeight = false;
+            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
+            // 
+            // bandedGridColumn6
+            // 
+            this.bandedGridColumn6.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.bandedGridColumn6.AppearanceHeader.Options.UseForeColor = true;
+            this.bandedGridColumn6.Caption = "Casket Group";
+            this.bandedGridColumn6.ColumnEdit = this.repositoryItemComboBox2;
+            this.bandedGridColumn6.FieldName = "cpl";
+            this.bandedGridColumn6.MinWidth = 29;
+            this.bandedGridColumn6.Name = "bandedGridColumn6";
+            this.bandedGridColumn6.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn6.Width = 110;
+            // 
+            // repositoryItemComboBox2
+            // 
+            this.repositoryItemComboBox2.AutoHeight = false;
+            this.repositoryItemComboBox2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox2.Name = "repositoryItemComboBox2";
             // 
             // bandedGridColumn1
             // 
@@ -381,10 +432,10 @@
             this.bandedGridColumn1.Caption = "Select";
             this.bandedGridColumn1.ColumnEdit = this.repositoryItemCheckEdit1;
             this.bandedGridColumn1.FieldName = "select";
-            this.bandedGridColumn1.MinWidth = 40;
+            this.bandedGridColumn1.MinWidth = 47;
             this.bandedGridColumn1.Name = "bandedGridColumn1";
             this.bandedGridColumn1.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn1.Width = 93;
+            this.bandedGridColumn1.Width = 108;
             // 
             // repositoryItemCheckEdit1
             // 
@@ -398,23 +449,24 @@
             this.bandedGridColumn22.DisplayFormat.FormatString = "0";
             this.bandedGridColumn22.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn22.FieldName = "order";
-            this.bandedGridColumn22.MinWidth = 36;
+            this.bandedGridColumn22.MinWidth = 42;
             this.bandedGridColumn22.Name = "bandedGridColumn22";
             this.bandedGridColumn22.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn22.Width = 166;
+            this.bandedGridColumn22.Width = 194;
             // 
             // bandedGridColumn21
             // 
             this.bandedGridColumn21.Caption = "record";
             this.bandedGridColumn21.FieldName = "record";
-            this.bandedGridColumn21.MinWidth = 36;
+            this.bandedGridColumn21.MinWidth = 42;
             this.bandedGridColumn21.Name = "bandedGridColumn21";
             this.bandedGridColumn21.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn21.Width = 138;
+            this.bandedGridColumn21.Width = 161;
             // 
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.BurlyWood;
+            this.panelTop.Controls.Add(this.chkDebug);
             this.panelTop.Controls.Add(this.btnMassPrint);
             this.panelTop.Controls.Add(this.btnSave);
             this.panelTop.Controls.Add(this.btnInsert);
@@ -427,8 +479,18 @@
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1075, 46);
+            this.panelTop.Size = new System.Drawing.Size(1091, 46);
             this.panelTop.TabIndex = 16;
+            // 
+            // chkDebug
+            // 
+            this.chkDebug.AutoSize = true;
+            this.chkDebug.Location = new System.Drawing.Point(775, 16);
+            this.chkDebug.Name = "chkDebug";
+            this.chkDebug.Size = new System.Drawing.Size(137, 21);
+            this.chkDebug.TabIndex = 31;
+            this.chkDebug.Text = "Run Debug Mode";
+            this.chkDebug.UseVisualStyleBackColor = true;
             // 
             // btnMassPrint
             // 
@@ -536,7 +598,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1075, 330);
+            this.ClientSize = new System.Drawing.Size(1091, 411);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -551,8 +613,11 @@
             this.panelBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.panelTop.ResumeLayout(false);
+            this.panelTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRowUp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRowDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -591,7 +656,12 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
         private System.Windows.Forms.Button btnMassPrint;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn2;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn4;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn5;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn6;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox2;
+        private System.Windows.Forms.CheckBox chkDebug;
     }
 }

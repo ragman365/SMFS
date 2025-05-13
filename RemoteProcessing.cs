@@ -30,6 +30,7 @@ namespace SMFS
             bool foundReport = false;
             string frequency = "";
             string sendWhere = "";
+            string sendTo = "";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 status = dt.Rows[i]["status"].ObjToString();
@@ -52,6 +53,7 @@ namespace SMFS
                 }
                 report = dt.Rows[i]["report"].ObjToString();
                 sendWhere = dt.Rows[i]["sendWhere"].ObjToString();
+                sendTo = dt.Rows[i]["sendTo"].ObjToString();
 
                 //G1.WriteAudit("Run Report " + report + "!");
 
@@ -102,27 +104,27 @@ namespace SMFS
                 {
                     //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
                     //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
-                    ContactReportsAgents reportForm = new ContactReportsAgents (true, true, sendWhere, "", "" );
+                    ContactReportsAgents reportForm = new ContactReportsAgents (true, true, sendWhere, sendTo, "", "" );
                     continue;
                 }
                 else if (report.ToUpper() == "AGENT CONTACT REPORTS")
                 {
                     //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
                     //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
-                    ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, "", "");
+                    ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, sendTo, "", "");
                     continue;
                 }
-                else if (report.ToUpper() == "AGENT AUTORUN REPORTS")
+                else if (report.ToUpper().IndexOf ("AGENT AUTORUN REPORTS") == 0 )
                 {
                     //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
                     //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
-                    AutoRunContacts(report);
+                    AutoRunContacts(report, sendWhere, sendTo );
                     continue;
                 }
             }
         }
         /***********************************************************************************************/
-        public static void AutoRunContacts(string report)
+        public static void AutoRunContacts(string report, string sendWhere, string sendTo )
         {
             string cmd = "Select * from `contacttypes`;";
             DataTable dt = G1.get_db_data(cmd);
@@ -139,37 +141,40 @@ namespace SMFS
             DateTime date = DateTime.Now;
             DataTable dx = null;
 
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                contactType = dt.Rows[i]["contactType"].ObjToString();
-                detail = dt.Rows[i]["detail"].ObjToString();
-                category = dt.Rows[i]["category"].ObjToString();
-                frequency = dt.Rows[i]["frequency"].ObjToInt32();
-                scheduledTask = dt.Rows[i]["scheduledTask"].ObjToString();
-                interval = dt.Rows[i]["interval"].ObjToString();
-                from = dt.Rows[i]["from"].ObjToString();
+            ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, sendTo, LoginForm.username, report );
 
-                if (String.IsNullOrWhiteSpace(scheduledTask))
-                    continue;
-                if (contactType == "Clergy")
-                {
-                    if (scheduledTask == "30 Day Follow-Up")
-                    {
-                        date = today.AddDays(-30);
-                        cmd = "Select * from `contacts` WHERE `apptDate` <= '" + date.ToString("yyyy-MM-dd") + "' AND `contactType` = '" + contactType + "';";
-                        dx = G1.get_db_data(cmd);
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    contactType = dt.Rows[i]["contactType"].ObjToString();
+            //    detail = dt.Rows[i]["detail"].ObjToString();
+            //    category = dt.Rows[i]["category"].ObjToString();
+            //    frequency = dt.Rows[i]["frequency"].ObjToInt32();
+            //    scheduledTask = dt.Rows[i]["scheduledTask"].ObjToString();
+            //    interval = dt.Rows[i]["interval"].ObjToString();
+            //    from = dt.Rows[i]["from"].ObjToString();
 
-                        if (dx.Rows.Count > 0)
-                        {
-                            Contacts formContacts = new Contacts(dx, report);
-                            formContacts.Show();
-                        }
-                    }
-                }
-            }
+            //    if (String.IsNullOrWhiteSpace(scheduledTask))
+            //        continue;
+            //    if (contactType == "Clergy")
+            //    {
+            //        if (scheduledTask == "30 Day Follow-Up")
+            //        {
+            //            date = today.AddDays(-30);
+            //            cmd = "Select * from `contacts` WHERE `apptDate` <= '" + date.ToString("yyyy-MM-dd") + "' AND `contactType` = '" + contactType + "';";
+            //            dx = G1.get_db_data(cmd);
+
+            //            if (dx.Rows.Count > 0)
+            //            {
+            //                Contacts formContacts = new Contacts(dx, scheduledTask );
+            //                formContacts.Show();
+            //            }
+            //        }
+            //    }
+            //}
+        
         }
         /***********************************************************************************************/
-        public static void AutoRunSend(string title, string filename, string sendTo, string sendWhere, string da = "", string emailLocations = "", string username = "" )
+        public static void AutoRunSend(string title, string filename, string sendTo, string sendWhere, string da = "", string emailLocations = "", string username = "", bool deleteFile = false )
         {
             if (String.IsNullOrWhiteSpace(sendTo))
                 return;
@@ -220,7 +225,7 @@ namespace SMFS
                             {
                                 email = xLines[k].Trim();
                                 if (!String.IsNullOrWhiteSpace(email))
-                                    SendEmailToSomewhere(title, filename, email, da);
+                                    SendEmailToSomewhere(title, filename, email, da, "", deleteFile );
                             }
                         }
                         continue;
@@ -250,7 +255,7 @@ namespace SMFS
 
                         if (sendWhere.ToUpper() == "BOTH" || sendWhere.ToUpper() == "EMAIL")
                         {
-                            SendEmailToSomewhere(title, filename, email, da);
+                            SendEmailToSomewhere(title, filename, email, da, "", deleteFile );
                         }
                     }
                 }
@@ -295,7 +300,7 @@ namespace SMFS
                                 email = xLines[k].Trim();
                                 //G1.WriteAudit("AutoSend Sending Report to Email " + email + " !");
                                 if (!String.IsNullOrWhiteSpace(email))
-                                    SendEmailToSomewhere(title, filename, email, da);
+                                    SendEmailToSomewhere(title, filename, email, da, "", deleteFile );
                             }
                         }
                     }
@@ -455,7 +460,7 @@ namespace SMFS
             return str;
         }
         /****************************************************************************/
-        public static void SendEmailToSomewhere( string title, string filename, string email, string da, string extraBody = "" )
+        public static void SendEmailToSomewhere( string title, string filename, string email, string da, string extraBody = "", bool deleteFile = false )
         {
 
             //MessageBox.Show("AutoRun Starting Email Send to");
@@ -520,6 +525,12 @@ namespace SMFS
                 smtp.Send(mail);
                 string audit = "Sent to " + email + " Successful";
                 G1.AddToAudit("System", title, "AutoRun", audit, "");
+
+                smtp.Dispose();
+                mail.Dispose();
+
+                if (deleteFile)
+                    File.Delete(filename);
                 //G1.WriteAudit(audit);
 
 

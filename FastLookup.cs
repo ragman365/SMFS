@@ -1136,7 +1136,7 @@ namespace SMFS
             //if ( !String.IsNullOrWhiteSpace(ssn) && workContract.ToUpper().IndexOf("SX") == 0)
             if (!String.IsNullOrWhiteSpace(ssn))
             {
-                if (dt.Rows.Count > 0)
+                if (dt.Rows.Count > 0 && !fromFuneral )
                 {
 
                     btnPreneed.Show();

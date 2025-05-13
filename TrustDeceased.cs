@@ -9841,7 +9841,9 @@ namespace SMFS
                     {
                     }
                     rp = dt.Rows[i]["rp"].ObjToString().ToUpper();
-
+                    if (rp == "RP")
+                    {
+                    }
                     dRow = dd.NewRow();
                     dRow["contract"] = contractNumber;
                     dRow["cashPaid1"] = "DC Paid";
@@ -9856,6 +9858,8 @@ namespace SMFS
                     {
                         if (dt.Rows[i]["received"].ObjToDouble() != 0D)
                             value = dt.Rows[i]["received"].ObjToDouble();
+                        else
+                            dt.Rows[i]["received"] = DBNull.Value;
                     }
                     dRow["value"] = value;
                     dValue = dt.Rows[i]["fun_amtReceived"].ObjToDouble() * -1D;
@@ -9950,6 +9954,9 @@ namespace SMFS
                     }
 
                     rp = dt.Rows[i]["rp"].ObjToString().ToUpper();
+                    if ( rp == "RP")
+                    {
+                    }
 
                     dRow = dd.NewRow();
                     doit = false;
@@ -9987,7 +9994,10 @@ namespace SMFS
                                     dValue = value;
                             }
                             else
+                            {
                                 avoid = true;
+                                dt.Rows[i]["fun_amtReceived"] = DBNull.Value;
+                            }
                         }
 
                         if (avoid)
@@ -10002,7 +10012,7 @@ namespace SMFS
                             dValue = Math.Abs(dt.Rows[i]["fun_amtReceived"].ObjToDouble());
                             if (dValue == 0D)
                             {
-                                if (funeral.IndexOf("OS") == 0 || funeral.IndexOf("O/S") == 0)
+                                if ((funeral.IndexOf("OS") == 0 || funeral.IndexOf("O/S") == 0) && status != "INCLUDE")
                                     dValue = Math.Abs(dt.Rows[i]["value"].ObjToDouble());
                                 if (dValue == 0D && value != 0D)
                                     dValue = value;

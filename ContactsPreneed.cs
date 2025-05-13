@@ -2876,7 +2876,7 @@ namespace SMFS
 
                 printableComponentLink1.ExportToPdf(filename);
 
-                RemoteProcessing.AutoRunSend(workReport + " for " + today.ToString("MM/dd/yyyy"), filename, workAgent, sendWhere, "", workEmail, sendUsername);
+                RemoteProcessing.AutoRunSend(workReport + " for " + today.ToString("MM/dd/yyyy"), filename, workAgent, sendWhere, "", workEmail, sendUsername, true );
             }
             else
                 printableComponentLink1.ShowPreview();
@@ -2978,7 +2978,11 @@ namespace SMFS
             //            Printer.DrawQuad(6, 8, 4, 4, "Funeral Services Report", Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
             string title = this.Text;
             if (isCustom)
+            {
                 title = customReport;
+                if (!String.IsNullOrWhiteSpace(workAgent))
+                    title += " for " + workAgent;
+            }
             Printer.DrawQuad(6, 8, 8, 4, title, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
 
             //            Printer.DrawQuadTicks();
@@ -5058,139 +5062,145 @@ namespace SMFS
             isCustom = false;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                gotToday = false;
-                field = dt.Rows[i]["field"].ObjToString();
-                if (field.ToUpper() == "{CUSTOM}")
+                try
                 {
-                    isCustom = true;
-                    continue;
-                }
-                data = dt.Rows[i]["data"].ObjToString();
-                if (String.IsNullOrWhiteSpace(data))
-                    continue;
-                if (data.ToUpper().IndexOf("TODAY") == 0)
-                {
-                    date = DateTime.Now;
-                    data = data.ToUpper().Replace("TODAY", "").Trim();
-                    Lines = data.Split(' ');
-                    if (Lines.Length >= 2)
+                    gotToday = false;
+                    field = dt.Rows[i]["field"].ObjToString();
+                    if (field.ToUpper() == "{CUSTOM}")
                     {
-                        int days = Lines[1].Trim().ObjToInt32();
-                        if (Lines[0].Trim() == "-")
-                            days = days * -1;
-                        date = date.AddDays(days);
-                        data = date.ToString("yyyy-MM-dd");
-                        gotToday = true;
-                    }
-                    else
-                    {
-                        data = date.ToString("yyyy-MM-dd");
-                        gotToday = true;
-                    }
-                }
-                status = dt.Rows[i]["status"].ObjToString();
-                if (status.ToUpper() == "OFF")
-                    continue;
-
-                operand = dt.Rows[i]["operand"].ObjToString();
-
-                body = data.Trim();
-
-                date = body.ObjToDateTime();
-                if (date.Year < 1000 || gotToday)
-                {
-                    if (!G1.validate_numeric(body))
-                    {
-                        if (found)
-                            cmd += " AND ";
-                        cmd += " `" + field + "` " + operand + " '" + body + "' ";
-                        found = true;
+                        isCustom = true;
                         continue;
                     }
-                    today = DateTime.Now;
-                    if (operand == ">")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1);
-                        if (gotToday)
-                            today = date;
-                        //if (field.ToUpper() != "AGE")
-                        //    operand = "<";
-                    }
-                    else if (operand == ">=")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1);
-                        if (gotToday)
-                            today = date;
-                        //if (field.ToUpper() != "AGE")
-                        //    operand = "<=";
-                    }
-                    else if (operand == "<")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1);
-                        if (gotToday)
-                            today = date;
-                        //if (field.ToUpper() != "AGE")
-                        //    operand = ">";
-                    }
-                    else if (operand == "<=")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1);
-                        if (gotToday)
-                            today = date;
-                        //if (field.ToUpper() != "AGE")
-                        //    operand = ">=";
-                    }
-                    else if (operand == "!=")
-                    {
-                        iBody = body.ObjToInt32();
-                        today = today.AddDays(iBody * -1);
-                        if (gotToday)
-                            today = date;
-                        //if (field.ToUpper() != "AGE")
-                        //    operand = ">=";
-                    }
-                    else if (operand == "=")
-                    {
-                        iBody = body.ObjToInt32();
-                    }
-                    else
+                    data = dt.Rows[i]["data"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(data))
                         continue;
-                    if (found)
-                        cmd += " AND ";
-                    if (field.ToUpper() == "AGE")
-                        cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
-                    else
-                        cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
-                    found = true;
-                }
-                else
-                {
-                    if (!G1.validate_numeric(body))
+                    if (data.ToUpper().IndexOf("TODAY") == 0)
                     {
-                        if (G1.validate_date(body))
+                        date = DateTime.Now;
+                        data = data.ToUpper().Replace("TODAY", "").Trim();
+                        Lines = data.Split(' ');
+                        if (Lines.Length >= 2)
                         {
-                            date = body.ObjToDateTime();
-                            body = date.ToString("yyyy-MM-dd");
+                            int days = Lines[1].Trim().ObjToInt32();
+                            if (Lines[0].Trim() == "-")
+                                days = days * -1;
+                            date = date.AddDays(days);
+                            data = date.ToString("yyyy-MM-dd");
+                            gotToday = true;
                         }
+                        else
+                        {
+                            data = date.ToString("yyyy-MM-dd");
+                            gotToday = true;
+                        }
+                    }
+                    status = dt.Rows[i]["status"].ObjToString();
+                    if (status.ToUpper() == "OFF")
+                        continue;
+
+                    operand = dt.Rows[i]["operand"].ObjToString();
+
+                    body = data.Trim();
+
+                    date = body.ObjToDateTime();
+                    if (date.Year < 1000 || gotToday)
+                    {
+                        if (!G1.validate_numeric(body))
+                        {
+                            if (found)
+                                cmd += " AND ";
+                            cmd += " `" + field + "` " + operand + " '" + body + "' ";
+                            found = true;
+                            continue;
+                        }
+                        today = DateTime.Now;
+                        if (operand == ">")
+                        {
+                            iBody = body.ObjToInt32();
+                            today = today.AddDays(iBody * -1);
+                            if (gotToday)
+                                today = date;
+                            //if (field.ToUpper() != "AGE")
+                            //    operand = "<";
+                        }
+                        else if (operand == ">=")
+                        {
+                            iBody = body.ObjToInt32();
+                            today = today.AddDays(iBody * -1);
+                            if (gotToday)
+                                today = date;
+                            //if (field.ToUpper() != "AGE")
+                            //    operand = "<=";
+                        }
+                        else if (operand == "<")
+                        {
+                            iBody = body.ObjToInt32();
+                            today = today.AddDays(iBody * -1);
+                            if (gotToday)
+                                today = date;
+                            //if (field.ToUpper() != "AGE")
+                            //    operand = ">";
+                        }
+                        else if (operand == "<=")
+                        {
+                            iBody = body.ObjToInt32();
+                            today = today.AddDays(iBody * -1);
+                            if (gotToday)
+                                today = date;
+                            //if (field.ToUpper() != "AGE")
+                            //    operand = ">=";
+                        }
+                        else if (operand == "!=")
+                        {
+                            iBody = body.ObjToInt32();
+                            today = today.AddDays(iBody * -1);
+                            if (gotToday)
+                                today = date;
+                            //if (field.ToUpper() != "AGE")
+                            //    operand = ">=";
+                        }
+                        else if (operand == "=")
+                        {
+                            iBody = body.ObjToInt32();
+                        }
+                        else
+                            continue;
                         if (found)
                             cmd += " AND ";
-                        cmd += " `" + field + "` " + operand + " '" + body + "' ";
+                        if (field.ToUpper() == "AGE")
+                            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
+                        else
+                            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
                         found = true;
-                        continue;
                     }
                     else
-                        continue;
-                    if (found)
-                        cmd += " AND ";
-                    if (field.ToUpper() == "AGE")
-                        cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
-                    else
-                        cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
-                    found = true;
+                    {
+                        if (!G1.validate_numeric(body))
+                        {
+                            if (G1.validate_date(body))
+                            {
+                                date = body.ObjToDateTime();
+                                body = date.ToString("yyyy-MM-dd");
+                            }
+                            if (found)
+                                cmd += " AND ";
+                            cmd += " `" + field + "` " + operand + " '" + body + "' ";
+                            found = true;
+                            continue;
+                        }
+                        else
+                            continue;
+                        if (found)
+                            cmd += " AND ";
+                        if (field.ToUpper() == "AGE")
+                            cmd += " `" + field + "` " + operand + " '" + iBody.ToString() + "' ";
+                        else
+                            cmd += " `" + field + "` " + operand + " '" + today.ToString("yyyy-MM-dd") + "' ";
+                        found = true;
+                    }
+                }
+                catch ( Exception ex)
+                {
                 }
             }
 

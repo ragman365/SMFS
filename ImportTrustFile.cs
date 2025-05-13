@@ -1359,22 +1359,32 @@ namespace SMFS
                 return;
             filename = filename.ToUpper().Replace("ACTIVE", "DC");
 
+            string originalDCfile = filename;
             if (!File.Exists(filename))
             {
-                if ( filename.ToUpper().IndexOf ( ".XLSX") > 0 )
+                if (filename.ToUpper().IndexOf(".XLSX") > 0)
                 {
                     filename = filename.ToUpper().Replace(".XLSX", ".XLS");
                     if (!File.Exists(filename))
+                    {
+                        MessageBox.Show("***ERROR*** Cannot locate Deceased file " + originalDCfile + "!", "Import Sec Nat Deceased Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         return;
+                    }
                 }
-                else if ( filename.ToUpper().IndexOf ( ".XLS") > 0 )
+                else if (filename.ToUpper().IndexOf(".XLS") > 0)
                 {
                     filename = filename.ToUpper().Replace(".XLS", ".XLSX");
                     if (!File.Exists(filename))
+                    {
+                        MessageBox.Show("***ERROR*** Cannot locate Deceased file " + originalDCfile + "!", "Import Sec Nat Deceased Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         return;
+                    }
                 }
                 else
+                {
+                    MessageBox.Show("***ERROR*** Cannot locate Deceased file " + filename + "!", "Import Sec Nat Deceased Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     return;
+                }
             }
 
             DataTable dt = ExcelWriter.ReadFile2(filename);
