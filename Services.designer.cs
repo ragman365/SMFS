@@ -170,6 +170,7 @@
             this.bandedGridColumn74 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn79 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkPriceListOnly = new System.Windows.Forms.CheckBox();
             this.chkPackage = new System.Windows.Forms.CheckBox();
             this.chkDiscretionary = new System.Windows.Forms.CheckBox();
             this.btnAllOff = new System.Windows.Forms.Button();
@@ -212,7 +213,6 @@
             this.importGroupInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showBatesvilleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkPriceListOnly = new System.Windows.Forms.CheckBox();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -276,10 +276,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1399, 557);
+            this.panelAll.Size = new System.Drawing.Size(1399, 559);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -289,7 +289,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 134);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1399, 423);
+            this.panelBottom.Size = new System.Drawing.Size(1399, 425);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -303,7 +303,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1399, 423);
+            this.tabControl1.Size = new System.Drawing.Size(1399, 425);
             this.tabControl1.TabIndex = 8;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -313,7 +313,7 @@
             this.tabServices.Location = new System.Drawing.Point(4, 25);
             this.tabServices.Name = "tabServices";
             this.tabServices.Padding = new System.Windows.Forms.Padding(3);
-            this.tabServices.Size = new System.Drawing.Size(1391, 394);
+            this.tabServices.Size = new System.Drawing.Size(1391, 396);
             this.tabServices.TabIndex = 0;
             this.tabServices.Text = "Services";
             this.tabServices.UseVisualStyleBackColor = true;
@@ -337,7 +337,7 @@
             this.repositoryItemCheckEdit16,
             this.repositoryItemCheckEdit17,
             this.repositoryItemCheckEdit22});
-            this.dgv.Size = new System.Drawing.Size(1385, 388);
+            this.dgv.Size = new System.Drawing.Size(1385, 390);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -865,7 +865,7 @@
             this.tabCaskets.Location = new System.Drawing.Point(4, 25);
             this.tabCaskets.Name = "tabCaskets";
             this.tabCaskets.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCaskets.Size = new System.Drawing.Size(1391, 396);
+            this.tabCaskets.Size = new System.Drawing.Size(1391, 394);
             this.tabCaskets.TabIndex = 1;
             this.tabCaskets.Text = "Caskets";
             this.tabCaskets.UseVisualStyleBackColor = true;
@@ -887,7 +887,7 @@
             this.repositoryItemCheckEdit6,
             this.repositoryItemCheckEdit4,
             this.repositoryItemCheckEdit18});
-            this.dgv2.Size = new System.Drawing.Size(1385, 390);
+            this.dgv2.Size = new System.Drawing.Size(1385, 388);
             this.dgv2.TabIndex = 7;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1314,7 +1314,7 @@
             this.tabVaults.Controls.Add(this.dgv3);
             this.tabVaults.Location = new System.Drawing.Point(4, 25);
             this.tabVaults.Name = "tabVaults";
-            this.tabVaults.Size = new System.Drawing.Size(1391, 396);
+            this.tabVaults.Size = new System.Drawing.Size(1391, 394);
             this.tabVaults.TabIndex = 2;
             this.tabVaults.Text = "Vaults";
             this.tabVaults.UseVisualStyleBackColor = true;
@@ -1336,7 +1336,7 @@
             this.repositoryItemCheckEdit9,
             this.repositoryItemCheckEdit7,
             this.repositoryItemCheckEdit19});
-            this.dgv3.Size = new System.Drawing.Size(1391, 396);
+            this.dgv3.Size = new System.Drawing.Size(1391, 394);
             this.dgv3.TabIndex = 8;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -1762,7 +1762,7 @@
             this.tabUrns.Controls.Add(this.dgv4);
             this.tabUrns.Location = new System.Drawing.Point(4, 25);
             this.tabUrns.Name = "tabUrns";
-            this.tabUrns.Size = new System.Drawing.Size(1391, 396);
+            this.tabUrns.Size = new System.Drawing.Size(1391, 394);
             this.tabUrns.TabIndex = 3;
             this.tabUrns.Text = "Urns";
             this.tabUrns.UseVisualStyleBackColor = true;
@@ -1784,7 +1784,7 @@
             this.repositoryItemCheckEdit12,
             this.repositoryItemCheckEdit10,
             this.repositoryItemCheckEdit20});
-            this.dgv4.Size = new System.Drawing.Size(1391, 396);
+            this.dgv4.Size = new System.Drawing.Size(1391, 394);
             this.dgv4.TabIndex = 9;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2210,7 +2210,7 @@
             this.tabMisc.Controls.Add(this.dgv5);
             this.tabMisc.Location = new System.Drawing.Point(4, 25);
             this.tabMisc.Name = "tabMisc";
-            this.tabMisc.Size = new System.Drawing.Size(1391, 396);
+            this.tabMisc.Size = new System.Drawing.Size(1391, 394);
             this.tabMisc.TabIndex = 4;
             this.tabMisc.Text = "Miscellaneous";
             this.tabMisc.UseVisualStyleBackColor = true;
@@ -2232,7 +2232,7 @@
             this.repositoryItemCheckEdit15,
             this.repositoryItemCheckEdit13,
             this.repositoryItemCheckEdit21});
-            this.dgv5.Size = new System.Drawing.Size(1391, 396);
+            this.dgv5.Size = new System.Drawing.Size(1391, 394);
             this.dgv5.TabIndex = 9;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -2694,6 +2694,17 @@
             this.panelTop.Size = new System.Drawing.Size(1399, 134);
             this.panelTop.TabIndex = 1;
             // 
+            // chkPriceListOnly
+            // 
+            this.chkPriceListOnly.AutoSize = true;
+            this.chkPriceListOnly.Location = new System.Drawing.Point(1170, 61);
+            this.chkPriceListOnly.Name = "chkPriceListOnly";
+            this.chkPriceListOnly.Size = new System.Drawing.Size(115, 21);
+            this.chkPriceListOnly.TabIndex = 52;
+            this.chkPriceListOnly.Text = "Price List Only";
+            this.chkPriceListOnly.UseVisualStyleBackColor = true;
+            this.chkPriceListOnly.CheckedChanged += new System.EventHandler(this.chkPriceListOnly_CheckedChanged);
+            // 
             // chkPackage
             // 
             this.chkPackage.AutoSize = true;
@@ -3076,7 +3087,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1399, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1399, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -3155,17 +3166,6 @@
             this.showBatesvilleToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
             this.showBatesvilleToolStripMenuItem.Text = "Show Batesville";
             this.showBatesvilleToolStripMenuItem.Click += new System.EventHandler(this.showBatesvilleToolStripMenuItem_Click);
-            // 
-            // chkPriceListOnly
-            // 
-            this.chkPriceListOnly.AutoSize = true;
-            this.chkPriceListOnly.Location = new System.Drawing.Point(1170, 61);
-            this.chkPriceListOnly.Name = "chkPriceListOnly";
-            this.chkPriceListOnly.Size = new System.Drawing.Size(115, 21);
-            this.chkPriceListOnly.TabIndex = 52;
-            this.chkPriceListOnly.Text = "Price List Only";
-            this.chkPriceListOnly.UseVisualStyleBackColor = true;
-            this.chkPriceListOnly.CheckedChanged += new System.EventHandler(this.chkPriceListOnly_CheckedChanged);
             // 
             // Services
             // 
