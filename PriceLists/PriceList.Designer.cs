@@ -40,6 +40,9 @@
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.dgv = new DevExpress.XtraGrid.GridControl();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.bandedGridColumn15 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.bandedGridColumn21 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -72,13 +75,11 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureAdd = new System.Windows.Forms.PictureBox();
             this.pictureDelete = new System.Windows.Forms.PictureBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.copyRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemRichTextEdit1)).BeginInit();
             this.panelTop.SuspendLayout();
@@ -88,7 +89,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDelete)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -99,7 +99,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1393, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1393, 30);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -109,7 +109,7 @@
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -155,10 +155,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1393, 302);
+            this.panelAll.Size = new System.Drawing.Size(1393, 300);
             this.panelAll.TabIndex = 15;
             // 
             // panelBottom
@@ -168,7 +168,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 50);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1393, 252);
+            this.panelBottom.Size = new System.Drawing.Size(1393, 250);
             this.panelBottom.TabIndex = 17;
             // 
             // dgv
@@ -184,10 +184,33 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemRichTextEdit1});
-            this.dgv.Size = new System.Drawing.Size(1393, 252);
+            this.dgv.Size = new System.Drawing.Size(1393, 250);
             this.dgv.TabIndex = 7;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyRowsToolStripMenuItem,
+            this.pasteRowsToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(152, 52);
+            // 
+            // copyRowsToolStripMenuItem
+            // 
+            this.copyRowsToolStripMenuItem.Name = "copyRowsToolStripMenuItem";
+            this.copyRowsToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
+            this.copyRowsToolStripMenuItem.Text = "Copy Rows";
+            this.copyRowsToolStripMenuItem.Click += new System.EventHandler(this.copyRowsToolStripMenuItem_Click);
+            // 
+            // pasteRowsToolStripMenuItem
+            // 
+            this.pasteRowsToolStripMenuItem.Name = "pasteRowsToolStripMenuItem";
+            this.pasteRowsToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
+            this.pasteRowsToolStripMenuItem.Text = "Paste Rows";
+            this.pasteRowsToolStripMenuItem.Click += new System.EventHandler(this.pasteRowsToolStripMenuItem_Click);
             // 
             // gridMain
             // 
@@ -731,29 +754,6 @@
             this.pictureDelete.TabStop = false;
             this.pictureDelete.Click += new System.EventHandler(this.pictureDelete_Click);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyRowsToolStripMenuItem,
-            this.pasteRowsToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(152, 52);
-            // 
-            // copyRowsToolStripMenuItem
-            // 
-            this.copyRowsToolStripMenuItem.Name = "copyRowsToolStripMenuItem";
-            this.copyRowsToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
-            this.copyRowsToolStripMenuItem.Text = "Copy Rows";
-            this.copyRowsToolStripMenuItem.Click += new System.EventHandler(this.copyRowsToolStripMenuItem_Click);
-            // 
-            // pasteRowsToolStripMenuItem
-            // 
-            this.pasteRowsToolStripMenuItem.Name = "pasteRowsToolStripMenuItem";
-            this.pasteRowsToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
-            this.pasteRowsToolStripMenuItem.Text = "Paste Rows";
-            this.pasteRowsToolStripMenuItem.Click += new System.EventHandler(this.pasteRowsToolStripMenuItem_Click);
-            // 
             // PriceList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -772,6 +772,7 @@
             this.panelAll.ResumeLayout(false);
             this.panelBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemRichTextEdit1)).EndInit();
             this.panelTop.ResumeLayout(false);
@@ -782,7 +783,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDelete)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

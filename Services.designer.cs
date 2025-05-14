@@ -40,6 +40,8 @@
             this.changeToMerchandiseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeToServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeToMiscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn15 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -210,8 +212,7 @@
             this.importGroupInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showBatesvilleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkPriceListOnly = new System.Windows.Forms.CheckBox();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -275,10 +276,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1399, 559);
+            this.panelAll.Size = new System.Drawing.Size(1399, 557);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -288,7 +289,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 134);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1399, 425);
+            this.panelBottom.Size = new System.Drawing.Size(1399, 423);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -302,7 +303,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1399, 425);
+            this.tabControl1.Size = new System.Drawing.Size(1399, 423);
             this.tabControl1.TabIndex = 8;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -312,7 +313,7 @@
             this.tabServices.Location = new System.Drawing.Point(4, 25);
             this.tabServices.Name = "tabServices";
             this.tabServices.Padding = new System.Windows.Forms.Padding(3);
-            this.tabServices.Size = new System.Drawing.Size(1391, 396);
+            this.tabServices.Size = new System.Drawing.Size(1391, 394);
             this.tabServices.TabIndex = 0;
             this.tabServices.Text = "Services";
             this.tabServices.UseVisualStyleBackColor = true;
@@ -336,7 +337,7 @@
             this.repositoryItemCheckEdit16,
             this.repositoryItemCheckEdit17,
             this.repositoryItemCheckEdit22});
-            this.dgv.Size = new System.Drawing.Size(1385, 390);
+            this.dgv.Size = new System.Drawing.Size(1385, 388);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -380,6 +381,20 @@
             this.changeToMiscToolStripMenuItem.Name = "changeToMiscToolStripMenuItem";
             this.changeToMiscToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
             this.changeToMiscToolStripMenuItem.Text = "Change to Misc";
+            // 
+            // copyRowToolStripMenuItem
+            // 
+            this.copyRowToolStripMenuItem.Name = "copyRowToolStripMenuItem";
+            this.copyRowToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.copyRowToolStripMenuItem.Text = "Copy Row";
+            this.copyRowToolStripMenuItem.Click += new System.EventHandler(this.copyRowToolStripMenuItem_Click);
+            // 
+            // pasteRowToolStripMenuItem
+            // 
+            this.pasteRowToolStripMenuItem.Name = "pasteRowToolStripMenuItem";
+            this.pasteRowToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.pasteRowToolStripMenuItem.Text = "Paste Row";
+            this.pasteRowToolStripMenuItem.Click += new System.EventHandler(this.pasteRowToolStripMenuItem_Click);
             // 
             // gridMain
             // 
@@ -2640,6 +2655,7 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Bisque;
+            this.panelTop.Controls.Add(this.chkPriceListOnly);
             this.panelTop.Controls.Add(this.chkPackage);
             this.panelTop.Controls.Add(this.chkDiscretionary);
             this.panelTop.Controls.Add(this.btnAllOff);
@@ -3060,7 +3076,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1399, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1399, 30);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -3140,19 +3156,16 @@
             this.showBatesvilleToolStripMenuItem.Text = "Show Batesville";
             this.showBatesvilleToolStripMenuItem.Click += new System.EventHandler(this.showBatesvilleToolStripMenuItem_Click);
             // 
-            // copyRowToolStripMenuItem
+            // chkPriceListOnly
             // 
-            this.copyRowToolStripMenuItem.Name = "copyRowToolStripMenuItem";
-            this.copyRowToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
-            this.copyRowToolStripMenuItem.Text = "Copy Row";
-            this.copyRowToolStripMenuItem.Click += new System.EventHandler(this.copyRowToolStripMenuItem_Click);
-            // 
-            // pasteRowToolStripMenuItem
-            // 
-            this.pasteRowToolStripMenuItem.Name = "pasteRowToolStripMenuItem";
-            this.pasteRowToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
-            this.pasteRowToolStripMenuItem.Text = "Paste Row";
-            this.pasteRowToolStripMenuItem.Click += new System.EventHandler(this.pasteRowToolStripMenuItem_Click);
+            this.chkPriceListOnly.AutoSize = true;
+            this.chkPriceListOnly.Location = new System.Drawing.Point(1170, 61);
+            this.chkPriceListOnly.Name = "chkPriceListOnly";
+            this.chkPriceListOnly.Size = new System.Drawing.Size(115, 21);
+            this.chkPriceListOnly.TabIndex = 52;
+            this.chkPriceListOnly.Text = "Price List Only";
+            this.chkPriceListOnly.UseVisualStyleBackColor = true;
+            this.chkPriceListOnly.CheckedChanged += new System.EventHandler(this.chkPriceListOnly_CheckedChanged);
             // 
             // Services
             // 
@@ -3414,5 +3427,6 @@
         private System.Windows.Forms.CheckBox chkPackage;
         private System.Windows.Forms.ToolStripMenuItem copyRowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteRowToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkPriceListOnly;
     }
 }

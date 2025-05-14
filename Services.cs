@@ -180,6 +180,8 @@ namespace SMFS
             }
             else
             {
+                chkPackage.Hide();
+                chkPriceListOnly.Hide();
                 LoadGroupCombo();
                 LoadPackagesCombo();
                 //cmbGroups.Hide();
@@ -1234,6 +1236,19 @@ namespace SMFS
             string list = "";
             string cmd = "Select * from `packages` where `groupname` = 'master' and `PackageName` = '" + package + "';";
             DataTable dx = G1.get_db_data(cmd);
+            DataRow[] dRows = dx.Select("plonly='1'");
+            bool saveLoading = loading;
+            loading = true;
+            if (dRows.Length == dx.Rows.Count)
+                chkPriceListOnly.Checked = true;
+            else
+                chkPriceListOnly.Checked = false;
+            loading = saveLoading;
+            if ( Selecting )
+            {
+                chkPriceListOnly.Hide();
+                chkPackage.Hide();
+            }
             for (int i = 0; i < dx.Rows.Count; i++)
             {
                 serviceRecord = dx.Rows[i]["!serviceRecord"].ObjToString();
@@ -2898,6 +2913,7 @@ namespace SMFS
             DataTable dt = G1.get_db_data(cmd);
             string firstPackage = "";
             string package = "";
+            string plonly = "";
             cmbPackage.Items.Clear();
             cmbPackage.Items.Add("Master");
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -2907,6 +2923,9 @@ namespace SMFS
                     continue;
                 if (String.IsNullOrWhiteSpace(firstPackage))
                     firstPackage = package;
+                plonly = dt.Rows[i]["plonly"].ObjToString();
+                if (Selecting && plonly == "1")
+                    continue;
                 cmbPackage.Items.Add(package);
             }
             cmbPackage.Text = "Master";
@@ -2956,11 +2975,15 @@ namespace SMFS
             loading = true;
             cmbPackage.Text = "Master";
             loading = false;
+            string plonly = "";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 packageName = dt.Rows[i]["PackageName"].ObjToString();
                 if (String.IsNullOrWhiteSpace(firstPackage))
                     firstPackage = packageName;
+                plonly = dt.Rows[i]["plonly"].ObjToString();
+                if (Selecting && plonly == "1")
+                    continue;
                 cmbPackage.Items.Add(packageName);
             }
             if (!String.IsNullOrWhiteSpace(savePackage))
@@ -3342,6 +3365,9 @@ namespace SMFS
             double cost = 0D;
             string type = "";
             string record = "";
+            string plonly = "";
+            if (chkPriceListOnly.Checked)
+                plonly = "1";
             int recordCol = G1.get_column_number(dt, "record");
             if (G1.get_column_number(dt, "!serviceRecord") >= 0)
                 recordCol = G1.get_column_number(dt, "!serviceRecord");
@@ -3420,7 +3446,7 @@ namespace SMFS
                     record = G1.create_record("packages", "groupname", "-1");
                     if (G1.BadRecord("packages", record))
                         continue;
-                    G1.update_db_table("packages", "record", record, new string[] { "groupname", loadededLocation, "PackageName", loadedPackage, "!serviceRecord", serviceRecord, "SameAsMaster", SameAsMaster, "price", price.ToString(), "cost", cost.ToString(), "futurePrice", futurePrice.ToString(), "pastPrice", pastPrice.ToString() });
+                    G1.update_db_table("packages", "record", record, new string[] { "groupname", loadededLocation, "PackageName", loadedPackage, "!serviceRecord", serviceRecord, "SameAsMaster", SameAsMaster, "price", price.ToString(), "cost", cost.ToString(), "futurePrice", futurePrice.ToString(), "pastPrice", pastPrice.ToString(), "plonly", plonly });
 
                     dt.Rows[i]["record"] = record.ObjToInt32();
                     dt.Rows[i]["!serviceRecord"] = serviceRecord;
@@ -4888,6 +4914,14 @@ namespace SMFS
             {
                 btnSave_Click(null, null);
             }
+        }
+        /***********************************************************************************************/
+        private void chkPriceListOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            if (loading)
+                return;
+            btnSave.Show();
+            btnSave.Refresh();
         }
         /***********************************************************************************************/
     }
