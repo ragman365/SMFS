@@ -4694,7 +4694,7 @@ namespace GeneralLib
             gMain.Columns[columnName].SummaryItem.DisplayFormat = format;
         }
         /****************************************************************************************/
-        public static void AddSummaryItem(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain, string fieldName)
+        public static void AddSummaryItem(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain, string fieldName, string format = "")
         {
             bool found = false;
             string field = "";
@@ -4711,7 +4711,9 @@ namespace GeneralLib
             {
                 if (G1.getGridColumnIndex(gridMain, fieldName) >= 0)
                 {
-                    GridGroupSummaryItem item = new GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, fieldName, gridMain.Columns[fieldName], "{0:N2}");
+                    if (string.IsNullOrWhiteSpace(format))
+                        format = "{0:N2}";
+                    GridGroupSummaryItem item = new GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, fieldName, gridMain.Columns[fieldName], format);
                     gridMain.GroupSummary.Add(item);
                 }
             }

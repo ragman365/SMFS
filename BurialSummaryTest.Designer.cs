@@ -682,7 +682,7 @@ namespace SMFS
             this.gridMain2.GridControl = this.dgv2;
             this.gridMain2.GroupCount = 1;
             this.gridMain2.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "total", this.bandedGridColumn16, "${0:0,0.00}")});
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "total", this.bandedGridColumn16, "{0:0,0.00}")});
             this.gridMain2.Name = "gridMain2";
             this.gridMain2.OptionsBehavior.Editable = false;
             this.gridMain2.OptionsBehavior.ReadOnly = true;
@@ -696,6 +696,7 @@ namespace SMFS
             this.gridMain2.PaintStyleName = "Style3D";
             this.gridMain2.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
             new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.bandedGridColumn7, DevExpress.Data.ColumnSortOrder.Ascending)});
+            this.gridMain2.CustomSummaryCalculate += new DevExpress.Data.CustomSummaryEventHandler(this.gridMain2_CustomSummaryCalculate);
             // 
             // gridBand1
             // 
