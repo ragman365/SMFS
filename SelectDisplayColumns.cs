@@ -356,6 +356,8 @@ namespace SMFS
                 for (int i = 0; i < count; i++)
                 {
                     name = dt.Rows[i]["field"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(name))
+                        continue;
                     select = dt.Rows[i]["select"].ObjToString();
                     if (BandedGridView)
                     {

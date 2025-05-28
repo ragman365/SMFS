@@ -66,8 +66,9 @@
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAll.Location = new System.Drawing.Point(0, 0);
+            this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(636, 412);
+            this.panelAll.Size = new System.Drawing.Size(742, 507);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -75,9 +76,10 @@
             this.panelBottom.Controls.Add(this.panelBottomRight);
             this.panelBottom.Controls.Add(this.panelBottomLeft);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 37);
+            this.panelBottom.Location = new System.Drawing.Point(0, 46);
+            this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(636, 375);
+            this.panelBottom.Size = new System.Drawing.Size(742, 461);
             this.panelBottom.TabIndex = 2;
             // 
             // panelBottomRight
@@ -89,18 +91,20 @@
             this.panelBottomRight.Controls.Add(this.btnDeathRemYTDprevious);
             this.panelBottomRight.Controls.Add(this.btnMoveBalance);
             this.panelBottomRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottomRight.Location = new System.Drawing.Point(451, 0);
+            this.panelBottomRight.Location = new System.Drawing.Point(526, 0);
+            this.panelBottomRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRight.Name = "panelBottomRight";
-            this.panelBottomRight.Size = new System.Drawing.Size(185, 375);
+            this.panelBottomRight.Size = new System.Drawing.Size(216, 461);
             this.panelBottomRight.TabIndex = 8;
             // 
             // btnClearRemoval
             // 
             this.btnClearRemoval.BackColor = System.Drawing.Color.Transparent;
             this.btnClearRemoval.ForeColor = System.Drawing.Color.Black;
-            this.btnClearRemoval.Location = new System.Drawing.Point(7, 258);
+            this.btnClearRemoval.Location = new System.Drawing.Point(8, 318);
+            this.btnClearRemoval.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnClearRemoval.Name = "btnClearRemoval";
-            this.btnClearRemoval.Size = new System.Drawing.Size(167, 23);
+            this.btnClearRemoval.Size = new System.Drawing.Size(195, 28);
             this.btnClearRemoval.TabIndex = 10;
             this.btnClearRemoval.Text = "Clear Removal";
             this.btnClearRemoval.UseVisualStyleBackColor = false;
@@ -110,11 +114,12 @@
             // 
             this.btnRefundRemCurrMonth.BackColor = System.Drawing.Color.Transparent;
             this.btnRefundRemCurrMonth.ForeColor = System.Drawing.Color.Black;
-            this.btnRefundRemCurrMonth.Location = new System.Drawing.Point(7, 192);
+            this.btnRefundRemCurrMonth.Location = new System.Drawing.Point(8, 236);
+            this.btnRefundRemCurrMonth.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefundRemCurrMonth.Name = "btnRefundRemCurrMonth";
-            this.btnRefundRemCurrMonth.Size = new System.Drawing.Size(167, 23);
+            this.btnRefundRemCurrMonth.Size = new System.Drawing.Size(195, 28);
             this.btnRefundRemCurrMonth.TabIndex = 9;
-            this.btnRefundRemCurrMonth.Text = "Refund Rem Current Month";
+            this.btnRefundRemCurrMonth.Text = "Outside Rem Current Month";
             this.btnRefundRemCurrMonth.UseVisualStyleBackColor = false;
             this.btnRefundRemCurrMonth.Click += new System.EventHandler(this.btnRefundRemCurrMonth_Click);
             // 
@@ -122,11 +127,12 @@
             // 
             this.btnRefundRemYTDprevious.BackColor = System.Drawing.Color.Transparent;
             this.btnRefundRemYTDprevious.ForeColor = System.Drawing.Color.Black;
-            this.btnRefundRemYTDprevious.Location = new System.Drawing.Point(7, 151);
+            this.btnRefundRemYTDprevious.Location = new System.Drawing.Point(8, 186);
+            this.btnRefundRemYTDprevious.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefundRemYTDprevious.Name = "btnRefundRemYTDprevious";
-            this.btnRefundRemYTDprevious.Size = new System.Drawing.Size(167, 23);
+            this.btnRefundRemYTDprevious.Size = new System.Drawing.Size(195, 28);
             this.btnRefundRemYTDprevious.TabIndex = 8;
-            this.btnRefundRemYTDprevious.Text = "Refund Rem YTD Previous";
+            this.btnRefundRemYTDprevious.Text = "Outside Rem YTD Previous";
             this.btnRefundRemYTDprevious.UseVisualStyleBackColor = false;
             this.btnRefundRemYTDprevious.Click += new System.EventHandler(this.btnRefundRemYTDprevious_Click);
             // 
@@ -134,9 +140,10 @@
             // 
             this.btnDeathRemCurrMonth.BackColor = System.Drawing.Color.Transparent;
             this.btnDeathRemCurrMonth.ForeColor = System.Drawing.Color.Black;
-            this.btnDeathRemCurrMonth.Location = new System.Drawing.Point(6, 97);
+            this.btnDeathRemCurrMonth.Location = new System.Drawing.Point(7, 119);
+            this.btnDeathRemCurrMonth.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeathRemCurrMonth.Name = "btnDeathRemCurrMonth";
-            this.btnDeathRemCurrMonth.Size = new System.Drawing.Size(167, 23);
+            this.btnDeathRemCurrMonth.Size = new System.Drawing.Size(195, 28);
             this.btnDeathRemCurrMonth.TabIndex = 7;
             this.btnDeathRemCurrMonth.Text = "Death Rem Current Month";
             this.btnDeathRemCurrMonth.UseVisualStyleBackColor = false;
@@ -146,9 +153,10 @@
             // 
             this.btnDeathRemYTDprevious.BackColor = System.Drawing.Color.Transparent;
             this.btnDeathRemYTDprevious.ForeColor = System.Drawing.Color.Black;
-            this.btnDeathRemYTDprevious.Location = new System.Drawing.Point(6, 56);
+            this.btnDeathRemYTDprevious.Location = new System.Drawing.Point(7, 69);
+            this.btnDeathRemYTDprevious.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeathRemYTDprevious.Name = "btnDeathRemYTDprevious";
-            this.btnDeathRemYTDprevious.Size = new System.Drawing.Size(167, 23);
+            this.btnDeathRemYTDprevious.Size = new System.Drawing.Size(195, 28);
             this.btnDeathRemYTDprevious.TabIndex = 6;
             this.btnDeathRemYTDprevious.Text = "Death Rem YTD Previous";
             this.btnDeathRemYTDprevious.UseVisualStyleBackColor = false;
@@ -158,9 +166,10 @@
             // 
             this.btnMoveBalance.BackColor = System.Drawing.Color.Transparent;
             this.btnMoveBalance.ForeColor = System.Drawing.Color.Black;
-            this.btnMoveBalance.Location = new System.Drawing.Point(6, 3);
+            this.btnMoveBalance.Location = new System.Drawing.Point(7, 4);
+            this.btnMoveBalance.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnMoveBalance.Name = "btnMoveBalance";
-            this.btnMoveBalance.Size = new System.Drawing.Size(167, 23);
+            this.btnMoveBalance.Size = new System.Drawing.Size(195, 28);
             this.btnMoveBalance.TabIndex = 5;
             this.btnMoveBalance.Text = "Move Balance to";
             this.btnMoveBalance.UseVisualStyleBackColor = false;
@@ -171,13 +180,15 @@
             this.panelBottomLeft.Controls.Add(this.dgv);
             this.panelBottomLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelBottomLeft.Location = new System.Drawing.Point(0, 0);
+            this.panelBottomLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomLeft.Name = "panelBottomLeft";
-            this.panelBottomLeft.Size = new System.Drawing.Size(451, 375);
+            this.panelBottomLeft.Size = new System.Drawing.Size(526, 461);
             this.panelBottomLeft.TabIndex = 7;
             // 
             // dgv
             // 
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             gridLevelNode1.RelationName = "Level1";
             this.dgv.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
             gridLevelNode1});
@@ -185,10 +196,11 @@
             this.dgv.LookAndFeel.SkinName = "iMaginary";
             this.dgv.LookAndFeel.UseDefaultLookAndFeel = false;
             this.dgv.MainView = this.gridMain;
+            this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1});
-            this.dgv.Size = new System.Drawing.Size(451, 375);
+            this.dgv.Size = new System.Drawing.Size(526, 461);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -324,6 +336,7 @@
             this.Num,
             this.bandedGridColumn11,
             this.bandedGridColumn12});
+            this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.Name = "gridMain";
             this.gridMain.OptionsCustomization.ShowBandsInCustomizationForm = false;
@@ -347,40 +360,44 @@
             this.gridBand1.Columns.Add(this.Num);
             this.gridBand1.Columns.Add(this.bandedGridColumn11);
             this.gridBand1.Columns.Add(this.bandedGridColumn12);
+            this.gridBand1.MinWidth = 12;
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 300;
+            this.gridBand1.Width = 350;
             // 
             // Num
             // 
             this.Num.Caption = "Num";
             this.Num.FieldName = "num";
+            this.Num.MinWidth = 23;
             this.Num.Name = "Num";
             this.Num.OptionsColumn.AllowEdit = false;
             this.Num.OptionsColumn.FixedWidth = true;
             this.Num.OptionsColumn.ReadOnly = true;
             this.Num.Visible = true;
-            this.Num.Width = 50;
+            this.Num.Width = 58;
             // 
             // bandedGridColumn11
             // 
             this.bandedGridColumn11.Caption = "Description";
             this.bandedGridColumn11.FieldName = "description";
+            this.bandedGridColumn11.MinWidth = 23;
             this.bandedGridColumn11.Name = "bandedGridColumn11";
             this.bandedGridColumn11.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn11.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn11.OptionsColumn.ReadOnly = true;
             this.bandedGridColumn11.Visible = true;
-            this.bandedGridColumn11.Width = 150;
+            this.bandedGridColumn11.Width = 175;
             // 
             // bandedGridColumn12
             // 
             this.bandedGridColumn12.Caption = "Data";
             this.bandedGridColumn12.FieldName = "data";
+            this.bandedGridColumn12.MinWidth = 23;
             this.bandedGridColumn12.Name = "bandedGridColumn12";
             this.bandedGridColumn12.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn12.Visible = true;
-            this.bandedGridColumn12.Width = 100;
+            this.bandedGridColumn12.Width = 117;
             // 
             // repositoryItemComboBox1
             // 
@@ -401,17 +418,19 @@
             this.panelTop.Controls.Add(this.label1);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
+            this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(636, 37);
+            this.panelTop.Size = new System.Drawing.Size(742, 46);
             this.panelTop.TabIndex = 1;
             // 
             // btnAddUpdate
             // 
             this.btnAddUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnAddUpdate.ForeColor = System.Drawing.Color.Black;
-            this.btnAddUpdate.Location = new System.Drawing.Point(186, 6);
+            this.btnAddUpdate.Location = new System.Drawing.Point(217, 7);
+            this.btnAddUpdate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnAddUpdate.Name = "btnAddUpdate";
-            this.btnAddUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnAddUpdate.Size = new System.Drawing.Size(87, 28);
             this.btnAddUpdate.TabIndex = 4;
             this.btnAddUpdate.Text = "Update";
             this.btnAddUpdate.UseVisualStyleBackColor = false;
@@ -420,26 +439,28 @@
             // txtWorkDate
             // 
             this.txtWorkDate.Enabled = false;
-            this.txtWorkDate.Location = new System.Drawing.Point(66, 6);
+            this.txtWorkDate.Location = new System.Drawing.Point(77, 7);
+            this.txtWorkDate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtWorkDate.Name = "txtWorkDate";
-            this.txtWorkDate.Size = new System.Drawing.Size(100, 21);
+            this.txtWorkDate.Size = new System.Drawing.Size(116, 23);
             this.txtWorkDate.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 9);
+            this.label1.Location = new System.Drawing.Point(3, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 13);
+            this.label1.Size = new System.Drawing.Size(84, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Work Date :";
             // 
             // AddNewContract
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 412);
+            this.ClientSize = new System.Drawing.Size(742, 507);
             this.Controls.Add(this.panelAll);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "AddNewContract";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddNewContract";

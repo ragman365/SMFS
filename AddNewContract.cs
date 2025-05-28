@@ -106,8 +106,10 @@ namespace SMFS
             LoadDataRow(dt, "Payment Curr Month", paymentCurrMonth.ToString());
             LoadDataRow(dt, "Death Rem YTD Previous", deathRemYTDprevious.ToString());
             LoadDataRow(dt, "Death Rem Current Month", deathRemCurrMonth.ToString());
-            LoadDataRow(dt, "Refund Rem YTD Previous", refundRemYTDprevious.ToString());
-            LoadDataRow(dt, "Refund Rem Current Month", refundRemCurrMonth.ToString());
+            //LoadDataRow(dt, "Refund Rem YTD Previous", refundRemYTDprevious.ToString());
+            //LoadDataRow(dt, "Refund Rem Current Month", refundRemCurrMonth.ToString());
+            LoadDataRow(dt, "Outside Rem YTD Previous", refundRemYTDprevious.ToString());
+            LoadDataRow(dt, "Outside Rem Current Month", refundRemCurrMonth.ToString());
             LoadDataRow(dt, "Ending Balance", endingBalance.ToString());
             LoadDataRow(dt, "Location", location);
             LoadDataRow(dt, "LocInd", locind);

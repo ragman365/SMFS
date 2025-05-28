@@ -789,10 +789,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1644, 491);
+            this.panelAll.Size = new System.Drawing.Size(1644, 493);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -802,7 +802,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 73);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1644, 418);
+            this.panelBottom.Size = new System.Drawing.Size(1644, 420);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -819,7 +819,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1644, 418);
+            this.tabControl1.Size = new System.Drawing.Size(1644, 420);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -830,7 +830,7 @@
             this.tabAllData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabAllData.Name = "tabAllData";
             this.tabAllData.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabAllData.Size = new System.Drawing.Size(1636, 389);
+            this.tabAllData.Size = new System.Drawing.Size(1636, 391);
             this.tabAllData.TabIndex = 0;
             this.tabAllData.Text = "All Data";
             this.tabAllData.UseVisualStyleBackColor = true;
@@ -843,7 +843,7 @@
             this.panel1All.Location = new System.Drawing.Point(3, 4);
             this.panel1All.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1All.Name = "panel1All";
-            this.panel1All.Size = new System.Drawing.Size(1630, 381);
+            this.panel1All.Size = new System.Drawing.Size(1630, 383);
             this.panel1All.TabIndex = 7;
             // 
             // panel1Bottom
@@ -853,7 +853,7 @@
             this.panel1Bottom.Location = new System.Drawing.Point(0, 42);
             this.panel1Bottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1Bottom.Name = "panel1Bottom";
-            this.panel1Bottom.Size = new System.Drawing.Size(1630, 339);
+            this.panel1Bottom.Size = new System.Drawing.Size(1630, 341);
             this.panel1Bottom.TabIndex = 9;
             // 
             // dgv6
@@ -867,7 +867,7 @@
             this.dgv6.MainView = this.gridMain6;
             this.dgv6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv6.Name = "dgv6";
-            this.dgv6.Size = new System.Drawing.Size(1630, 339);
+            this.dgv6.Size = new System.Drawing.Size(1630, 341);
             this.dgv6.TabIndex = 6;
             this.dgv6.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain6});
@@ -1572,7 +1572,7 @@
             // 
             // refundRemYTDprevious207
             // 
-            this.refundRemYTDprevious207.Caption = "RefundRem TYD Previous";
+            this.refundRemYTDprevious207.Caption = "OutsideRem TYD Previous";
             this.refundRemYTDprevious207.DisplayFormat.FormatString = "N2";
             this.refundRemYTDprevious207.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.refundRemYTDprevious207.FieldName = "refundRemYTDprevious";
@@ -1584,7 +1584,7 @@
             // 
             // refundRemCurrMonth208
             // 
-            this.refundRemCurrMonth208.Caption = "RefundRem Curr Month";
+            this.refundRemCurrMonth208.Caption = "OutsideRem Curr Month";
             this.refundRemCurrMonth208.DisplayFormat.FormatString = "N2";
             this.refundRemCurrMonth208.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.refundRemCurrMonth208.FieldName = "refundRemCurrMonth";
@@ -1695,7 +1695,7 @@
             this.tabPlacedInTrust.Location = new System.Drawing.Point(4, 25);
             this.tabPlacedInTrust.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPlacedInTrust.Name = "tabPlacedInTrust";
-            this.tabPlacedInTrust.Size = new System.Drawing.Size(1636, 389);
+            this.tabPlacedInTrust.Size = new System.Drawing.Size(1636, 391);
             this.tabPlacedInTrust.TabIndex = 5;
             this.tabPlacedInTrust.Text = "Payments Placed in Trust";
             this.tabPlacedInTrust.UseVisualStyleBackColor = true;
@@ -1711,7 +1711,7 @@
             this.dgv2.MainView = this.gridMain2;
             this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv2.Name = "dgv2";
-            this.dgv2.Size = new System.Drawing.Size(1636, 389);
+            this.dgv2.Size = new System.Drawing.Size(1636, 391);
             this.dgv2.TabIndex = 7;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -2420,7 +2420,7 @@
             this.tabBeginning.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabBeginning.Name = "tabBeginning";
             this.tabBeginning.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabBeginning.Size = new System.Drawing.Size(1636, 389);
+            this.tabBeginning.Size = new System.Drawing.Size(1636, 391);
             this.tabBeginning.TabIndex = 1;
             this.tabBeginning.Text = "Beginning Period Trust Report";
             this.tabBeginning.UseVisualStyleBackColor = true;
@@ -2435,7 +2435,7 @@
             this.dgv7.MainView = this.gridMain7;
             this.dgv7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv7.Name = "dgv7";
-            this.dgv7.Size = new System.Drawing.Size(1630, 381);
+            this.dgv7.Size = new System.Drawing.Size(1630, 383);
             this.dgv7.TabIndex = 7;
             this.dgv7.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain7});
@@ -3059,7 +3059,7 @@
             this.tabRemoved.Location = new System.Drawing.Point(4, 25);
             this.tabRemoved.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabRemoved.Name = "tabRemoved";
-            this.tabRemoved.Size = new System.Drawing.Size(1636, 389);
+            this.tabRemoved.Size = new System.Drawing.Size(1636, 391);
             this.tabRemoved.TabIndex = 2;
             this.tabRemoved.Text = "Payments Removed from Trust";
             this.tabRemoved.UseVisualStyleBackColor = true;
@@ -3075,7 +3075,7 @@
             this.dgv8.MainView = this.gridMain8;
             this.dgv8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv8.Name = "dgv8";
-            this.dgv8.Size = new System.Drawing.Size(1636, 389);
+            this.dgv8.Size = new System.Drawing.Size(1636, 391);
             this.dgv8.TabIndex = 8;
             this.dgv8.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain8});
@@ -3508,7 +3508,7 @@
             // 
             // currentRefunds196
             // 
-            this.currentRefunds196.Caption = "Current Refunds";
+            this.currentRefunds196.Caption = "Current Outside Deaths";
             this.currentRefunds196.DisplayFormat.FormatString = "N2";
             this.currentRefunds196.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.currentRefunds196.FieldName = "currentRefunds";
@@ -3746,7 +3746,7 @@
             this.tabDiff.Location = new System.Drawing.Point(4, 25);
             this.tabDiff.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabDiff.Name = "tabDiff";
-            this.tabDiff.Size = new System.Drawing.Size(1636, 389);
+            this.tabDiff.Size = new System.Drawing.Size(1636, 391);
             this.tabDiff.TabIndex = 3;
             this.tabDiff.Text = "Trust Difference";
             this.tabDiff.UseVisualStyleBackColor = true;
@@ -3759,7 +3759,7 @@
             this.panelDiffAll.Location = new System.Drawing.Point(0, 0);
             this.panelDiffAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelDiffAll.Name = "panelDiffAll";
-            this.panelDiffAll.Size = new System.Drawing.Size(1636, 389);
+            this.panelDiffAll.Size = new System.Drawing.Size(1636, 391);
             this.panelDiffAll.TabIndex = 0;
             // 
             // panelDiffBottom
@@ -3769,7 +3769,7 @@
             this.panelDiffBottom.Location = new System.Drawing.Point(0, 52);
             this.panelDiffBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelDiffBottom.Name = "panelDiffBottom";
-            this.panelDiffBottom.Size = new System.Drawing.Size(1636, 337);
+            this.panelDiffBottom.Size = new System.Drawing.Size(1636, 339);
             this.panelDiffBottom.TabIndex = 2;
             // 
             // dgv9
@@ -3782,7 +3782,7 @@
             this.dgv9.MainView = this.gridMain9;
             this.dgv9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv9.Name = "dgv9";
-            this.dgv9.Size = new System.Drawing.Size(1636, 337);
+            this.dgv9.Size = new System.Drawing.Size(1636, 339);
             this.dgv9.TabIndex = 8;
             this.dgv9.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain9});
@@ -4359,7 +4359,7 @@
             this.tabCompare.Location = new System.Drawing.Point(4, 25);
             this.tabCompare.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCompare.Name = "tabCompare";
-            this.tabCompare.Size = new System.Drawing.Size(1636, 389);
+            this.tabCompare.Size = new System.Drawing.Size(1636, 391);
             this.tabCompare.TabIndex = 4;
             this.tabCompare.Text = "Compare Payments";
             this.tabCompare.UseVisualStyleBackColor = true;
@@ -4372,7 +4372,7 @@
             this.panelCompareAll.Location = new System.Drawing.Point(0, 0);
             this.panelCompareAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelCompareAll.Name = "panelCompareAll";
-            this.panelCompareAll.Size = new System.Drawing.Size(1636, 389);
+            this.panelCompareAll.Size = new System.Drawing.Size(1636, 391);
             this.panelCompareAll.TabIndex = 0;
             // 
             // panelCompareBottom
@@ -4382,7 +4382,7 @@
             this.panelCompareBottom.Location = new System.Drawing.Point(0, 42);
             this.panelCompareBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelCompareBottom.Name = "panelCompareBottom";
-            this.panelCompareBottom.Size = new System.Drawing.Size(1636, 347);
+            this.panelCompareBottom.Size = new System.Drawing.Size(1636, 349);
             this.panelCompareBottom.TabIndex = 2;
             // 
             // dgv10
@@ -4396,7 +4396,7 @@
             this.dgv10.MainView = this.gridMain10;
             this.dgv10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv10.Name = "dgv10";
-            this.dgv10.Size = new System.Drawing.Size(1636, 347);
+            this.dgv10.Size = new System.Drawing.Size(1636, 349);
             this.dgv10.TabIndex = 7;
             this.dgv10.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain10});
@@ -4666,7 +4666,7 @@
             this.tabCompareBalance.Location = new System.Drawing.Point(4, 25);
             this.tabCompareBalance.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCompareBalance.Name = "tabCompareBalance";
-            this.tabCompareBalance.Size = new System.Drawing.Size(1636, 389);
+            this.tabCompareBalance.Size = new System.Drawing.Size(1636, 391);
             this.tabCompareBalance.TabIndex = 6;
             this.tabCompareBalance.Text = "Compare Balance to Last Month";
             this.tabCompareBalance.UseVisualStyleBackColor = true;
@@ -4682,7 +4682,7 @@
             this.dgv11.MainView = this.gridMain11;
             this.dgv11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv11.Name = "dgv11";
-            this.dgv11.Size = new System.Drawing.Size(1636, 389);
+            this.dgv11.Size = new System.Drawing.Size(1636, 391);
             this.dgv11.TabIndex = 8;
             this.dgv11.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain11});
@@ -5217,7 +5217,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1644, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1644, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -5228,7 +5228,7 @@
             this.toolStripMenuItem2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -5277,7 +5277,7 @@
             this.editMassReportsToolStripMenuItem,
             this.runTrustSummaryReportToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // importOriginalDataToolStripMenuItem
@@ -5325,7 +5325,7 @@
             // columnsToolStripMenuItem
             // 
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.columnsToolStripMenuItem.Text = "Columns";
             // 
             // reportsToolStripMenuItem
@@ -5335,7 +5335,7 @@
             this.paymentsRemovedFromTrustToolStripMenuItem,
             this.trustBeginningBalanceToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // paymentsPlacedInTrustToolStripMenuItem
@@ -5364,7 +5364,7 @@
             this.rilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importNewRilesFromCliffToolStripMenuItem});
             this.rilesToolStripMenuItem.Name = "rilesToolStripMenuItem";
-            this.rilesToolStripMenuItem.Size = new System.Drawing.Size(54, 26);
+            this.rilesToolStripMenuItem.Size = new System.Drawing.Size(54, 24);
             this.rilesToolStripMenuItem.Text = "Riles";
             // 
             // importNewRilesFromCliffToolStripMenuItem

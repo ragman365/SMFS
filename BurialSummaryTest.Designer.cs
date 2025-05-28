@@ -851,7 +851,7 @@ namespace SMFS
             // chkPageBreaks
             // 
             this.chkPageBreaks.AutoSize = true;
-            this.chkPageBreaks.Location = new System.Drawing.Point(1172, 47);
+            this.chkPageBreaks.Location = new System.Drawing.Point(1182, 48);
             this.chkPageBreaks.Name = "chkPageBreaks";
             this.chkPageBreaks.Size = new System.Drawing.Size(176, 21);
             this.chkPageBreaks.TabIndex = 50;

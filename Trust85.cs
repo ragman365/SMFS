@@ -2724,10 +2724,21 @@ namespace SMFS
                     break;
                 trust = contract.Substring(j);
             }
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(loc))
+                {
+                    int len = loc.Length;
+                    contract = contract.Substring(len);
+                }
+            }
+            catch ( Exception ex)
+            {
+            }
             if (!String.IsNullOrWhiteSpace(trust))
                 contract = contract.Replace(trust, "");
-            if (!String.IsNullOrWhiteSpace(loc))
-                contract = contract.Replace(loc, "");
+            //if (!String.IsNullOrWhiteSpace(loc))
+            //    contract = contract.Replace(loc, "");
             return contract;
         }
         /*******************************************************************************************/

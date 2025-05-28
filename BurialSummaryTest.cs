@@ -1606,6 +1606,8 @@ namespace SMFS
                     gridMain2.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N2}";
                     // gridMain2.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N0}";
                     G1.SetColumnPosition(gridMain2, funeralClass + " CNT", k++);
+                    gridMain2.Columns[funeralClass + " CNT"].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
+                    gridMain2.Columns[funeralClass + " CNT"].SummaryItem.DisplayFormat = "{0:N0}";
                 }
 
                 G1.SetColumnPosition(gridMain2, "total", k++);

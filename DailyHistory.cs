@@ -4397,6 +4397,29 @@ namespace SMFS
             return totalContract;
         }
         /****************************************************************************************/
+        public static double GetContractValueMinus(DataRow dRow)
+        {
+            double totalContract = 0D;
+            if (dRow == null)
+                return 0D;
+            try
+            {
+                double serviceTotal = dRow["serviceTotal"].ObjToDouble();
+                double merchandiseTotal = dRow["merchandiseTotal"].ObjToDouble();
+                double allowMerchandise = dRow["allowMerchandise"].ObjToDouble();
+                double allowInsurance = dRow["allowInsurance"].ObjToDouble();
+                double downpayment = dRow["downPayment"].ObjToDouble();
+                double cashAdvance = dRow["cashAdvance"].ObjToDouble();
+
+                totalContract = serviceTotal + merchandiseTotal;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return totalContract;
+        }
+        /****************************************************************************************/
         public static double GetContractValuePlus(DataRow dRow, bool lessAllow = false )
         {
             double totalContract = 0D;

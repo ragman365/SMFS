@@ -36,6 +36,9 @@ namespace SMFS
         DataTable cemDt = null;
         DataTable agentDt = null;
         DataTable originalDt = null;
+        private bool loading = true;
+        private bool foundLocalPreference = false;
+        private string workFormat = "";
         /***********************************************************************************************/
         public TrustContractEOY()
         {
@@ -64,6 +67,18 @@ namespace SMFS
             SetupPrintView(gridMain4); // <--- New as of 04/30/2025
             SetupPrintView(gridMain5); // <--- New as of 04/30/2025
             SetupPrintView(gridMain6); // <--- New as of 04/30/2025
+
+            string saveName = "TrustEOY Primary";
+            string skinName = "";
+
+            SetupSelectedColumns("TrustEOY", "Primary", dgv);
+            foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, saveName, ref skinName);
+
+            workFormat = "Primary";
+            loadGroupCombo(cmbSelectColumns, "TrustEOY", workFormat);
+            cmbSelectColumns.Text = workFormat;
+
+            loading = false;
         }
         /****************************************************************************************/
         private Font LucidaFont = new Font("Lucida Console", 7.8F); // <--- New as of 04/30/2025
@@ -87,21 +102,108 @@ namespace SMFS
             //gridMain.Columns["value"].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
 
             AddSummaryColumn("beginningBalance", gridMain);
-            AddSummaryColumn("endingBalance", gridMain);
+            AddSummaryColumn("trust85", gridMain);
+            AddSummaryColumn("trust50", gridMain);
+            AddSummaryColumn("contractValue", gridMain);
+            AddSummaryColumn("allowInsurance", gridMain);
+            AddSummaryColumn("annuity", gridMain);
+            AddSummaryColumn("TandI", gridMain, "{0:N0}");
+            AddSummaryColumn("IandA", gridMain, "{0:N0}");
+            AddSummaryColumn("trustOnly", gridMain, "{0:N0}");
+            AddSummaryColumn("insOnly", gridMain, "{0:N0}");
+            AddSummaryColumn("annOnly", gridMain, "{0:N0}");
 
-            AddSummaryColumn("total", gridMain2);
+            AddSummaryColumn("total", gridMain2 );
+            AddSummaryColumn("trust50", gridMain2);
+            AddSummaryColumn("contracts", gridMain2, "{0:N0}");
+            AddSummaryColumn("contractValue", gridMain2);
+            AddSummaryColumn("allowInsurance", gridMain2);
+            AddSummaryColumn("annuity", gridMain2);
+            AddSummaryColumn("totalLoc", gridMain2);
+            AddSummaryColumn("balanceDue", gridMain2);
+            AddSummaryColumn("TandI", gridMain2, "{0:N0}");
+            AddSummaryColumn("IandA", gridMain2, "{0:N0}");
+            AddSummaryColumn("trustOnly", gridMain2, "{0:N0}");
+            AddSummaryColumn("insOnly", gridMain2, "{0:N0}");
+            AddSummaryColumn("annOnly", gridMain2, "{0:N0}");
 
             AddSummaryColumn("beginningBalance", gridMain3);
-            AddSummaryColumn("endingBalance", gridMain3);
+            AddSummaryColumn("trust85", gridMain3);
+            AddSummaryColumn("trust50", gridMain3);
+            AddSummaryColumn("contractValue", gridMain3);
+            AddSummaryColumn("allowInsurance", gridMain3);
+            AddSummaryColumn("annuity", gridMain3);
+            AddSummaryColumn("balanceDue", gridMain3);
+            AddSummaryColumn("TandI", gridMain3, "{0:N0}");
+            AddSummaryColumn("IandA", gridMain3, "{0:N0}");
+            AddSummaryColumn("trustOnly", gridMain3, "{0:N0}");
+            AddSummaryColumn("insOnly", gridMain3, "{0:N0}");
+            AddSummaryColumn("annOnly", gridMain3, "{0:N0}");
 
             AddSummaryColumn("beginningBalance", gridMain4);
-            AddSummaryColumn("endingBalance", gridMain4);
+            AddSummaryColumn("trust85", gridMain4);
+            AddSummaryColumn("trust50", gridMain4);
+            AddSummaryColumn("contractValue", gridMain4);
+            AddSummaryColumn("allowInsurance", gridMain4);
+            AddSummaryColumn("annuity", gridMain4);
+            AddSummaryColumn("balanceDue", gridMain4);
+            AddSummaryColumn("TandI", gridMain4, "{0:N0}");
+            AddSummaryColumn("IandA", gridMain4, "{0:N0}");
+            AddSummaryColumn("trustOnly", gridMain4, "{0:N0}");
+            AddSummaryColumn("insOnly", gridMain4, "{0:N0}");
+            AddSummaryColumn("annOnly", gridMain4, "{0:N0}");
 
             AddSummaryColumn("beginningBalance", gridMain5);
-            AddSummaryColumn("endingBalance", gridMain5);
+            AddSummaryColumn("trust85", gridMain5);
+            AddSummaryColumn("trust50", gridMain5);
+            AddSummaryColumn("contractValue", gridMain5);
+            AddSummaryColumn("allowInsurance", gridMain5);
+            AddSummaryColumn("annuity", gridMain5);
+            AddSummaryColumn("balanceDue", gridMain5);
+            AddSummaryColumn("TandI", gridMain5, "{0:N0}");
+            AddSummaryColumn("IandA", gridMain5, "{0:N0}");
+            AddSummaryColumn("trustOnly", gridMain5, "{0:N0}");
+            AddSummaryColumn("insOnly", gridMain5, "{0:N0}");
+            AddSummaryColumn("annOnly", gridMain5, "{0:N0}");
 
             AddSummaryColumn("beginningBalance", gridMain6);
-            AddSummaryColumn("endingBalance", gridMain6);
+            AddSummaryColumn("trust85", gridMain6);
+            AddSummaryColumn("trust50", gridMain6);
+            AddSummaryColumn("contractValue", gridMain6);
+            AddSummaryColumn("allowInsurance", gridMain6);
+            AddSummaryColumn("annuity", gridMain6);
+            AddSummaryColumn("balanceDue", gridMain6);
+            AddSummaryColumn("TandI", gridMain6, "{0:N0}");
+            AddSummaryColumn("IandA", gridMain6, "{0:N0}");
+            AddSummaryColumn("trustOnly", gridMain6, "{0:N0}");
+            AddSummaryColumn("insOnly", gridMain6, "{0:N0}");
+            AddSummaryColumn("annOnly", gridMain6, "{0:N0}");
+
+            AddSummaryColumn("beginningBalance", gridMain7);
+            AddSummaryColumn("trust85", gridMain7);
+            AddSummaryColumn("trust50", gridMain7);
+            AddSummaryColumn("contractValue", gridMain7);
+            AddSummaryColumn("allowInsurance", gridMain7);
+            AddSummaryColumn("annuity", gridMain7);
+            AddSummaryColumn("balanceDue", gridMain7);
+            AddSummaryColumn("TandI", gridMain7, "{0:N0}");
+            AddSummaryColumn("IandA", gridMain7, "{0:N0}");
+            AddSummaryColumn("trustOnly", gridMain7, "{0:N0}");
+            AddSummaryColumn("insOnly", gridMain7, "{0:N0}");
+            AddSummaryColumn("annOnly", gridMain7, "{0:N0}");
+
+            AddSummaryColumn("beginningBalance", gridMain8);
+            AddSummaryColumn("trust85", gridMain8);
+            AddSummaryColumn("trust50", gridMain8);
+            AddSummaryColumn("contractValue", gridMain8);
+            AddSummaryColumn("allowInsurance", gridMain8);
+            AddSummaryColumn("annuity", gridMain8);
+            AddSummaryColumn("balanceDue", gridMain8);
+            AddSummaryColumn("TandI", gridMain8, "{0:N0}");
+            AddSummaryColumn("IandA", gridMain8, "{0:N0}");
+            AddSummaryColumn("trustOnly", gridMain8, "{0:N0}");
+            AddSummaryColumn("insOnly", gridMain8, "{0:N0}");
+            AddSummaryColumn("annOnly", gridMain8, "{0:N0}");
         }
         /****************************************************************************************/
         private void AddSummaryColumn(string columnName)
@@ -111,14 +213,16 @@ namespace SMFS
             gridMain.Columns[columnName].SummaryItem.DisplayFormat = "{0:N2}";
         }
         /****************************************************************************************/
-        private void AddSummaryColumn(string columnName, DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null)
+        private void AddSummaryColumn(string columnName, DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null, string format = "" )
         {
             if (gMain == null)
                 gMain = gridMain;
+            if (String.IsNullOrWhiteSpace(format))
+                format = "{0:N2}";
             //            gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
             gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
             //            gMain.Columns[columnName].SummaryItem.DisplayFormat = "${0:0,0.00}";
-            gMain.Columns[columnName].SummaryItem.DisplayFormat = "{0:N2}";
+            gMain.Columns[columnName].SummaryItem.DisplayFormat = format;
 
             G1.AddSummaryItem(gMain, columnName);
         }
@@ -133,15 +237,24 @@ namespace SMFS
 
             if (dt != null) // <--- Added this section to fix selecting location
             {
+                DataRow tempDrow = funDt.Rows[0];
                 DataTable fDt = funDt.Clone();
                 DataTable dx = G1.GetGroupBy(dt, "location");
                 for (int i = 0; i < dx.Rows.Count; i++)
                 {
                     loc = dx.Rows[i]["location"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(loc))
+                        continue;
                     dRows = funDt.Select("keycode='" + loc + "'");
                     if (dRows.Length > 0)
                     {
                         fDt.ImportRow(dRows[0]);
+                    }
+                    else
+                    {
+                        tempDrow["keycode"] = loc;
+                        tempDrow["LocationCode"] = loc;
+                        fDt.ImportRow(tempDrow);
                     }
                 }
                 chkComboLocNames.Properties.DataSource = fDt;
@@ -185,6 +298,10 @@ namespace SMFS
                 SetSpyGlass(gridMain5);
             else if (dgv6.Visible)
                 SetSpyGlass(gridMain6);
+            else if (dgv7.Visible)
+                SetSpyGlass(gridMain7);
+            else if (dgv8.Visible)
+                SetSpyGlass(gridMain8);
         }
         /***********************************************************************************************/
         private void SetSpyGlass(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView grid)
@@ -212,21 +329,6 @@ namespace SMFS
             {
                 //if (e.Column.FieldName.ToUpper() == "LOCATION" )
                 //    e.DisplayText = "<your text>";
-            }
-        }
-        /***********************************************************************************************/
-        private void gridMain_DoubleClick(object sender, EventArgs e)
-        {
-            DataRow dr = gridMain.GetFocusedDataRow();
-            string contract = dr["contractNumber"].ObjToString();
-            if (!String.IsNullOrWhiteSpace(contract))
-            {
-                this.Cursor = Cursors.WaitCursor;
-                using (CustomerDetails clientForm = new CustomerDetails(contract))
-                {
-                    clientForm.ShowDialog();
-                }
-                this.Cursor = Cursors.Default;
             }
         }
         /***********************************************************************************************/
@@ -281,6 +383,18 @@ namespace SMFS
                 printableComponentLink1.Component = dgv6;
                 if (chkCollapes.Checked)
                     BuildPrintSummary(dgv6);
+            }
+            else if (dgv7.Visible) // <--- New Stuff Here 
+            {
+                printableComponentLink1.Component = dgv7;
+                if (chkCollapes.Checked)
+                    BuildPrintSummary(dgv7);
+            }
+            else if (dgv8.Visible) // <--- New Stuff Here 
+            {
+                printableComponentLink1.Component = dgv8;
+                if (chkCollapes.Checked)
+                    BuildPrintSummary(dgv8);
             }
 
             this.Cursor = Cursors.Default;
@@ -530,29 +644,45 @@ namespace SMFS
             DateTime saveDate2 = date;
             string date2 = G1.DateTimeToSQLDateTime(date);
 
-            string cmd = "SELECT * FROM `trust2013r` t LEFT JOIN `customers` c ON t.`contractNumber` = c.`contractNumber`";
+            string cmd = "SELECT * FROM `trust2013r` t LEFT JOIN `customers` c ON t.`contractNumber` = c.`contractNumber` LEFT JOIN `contracts` r ON t.`contractNumber` = r.`contractNumber`";
             cmd += " WHERE `payDate8` >= '" + date1 + "' AND `payDate8` <= '" + date2 + "' ";
             cmd += " ORDER by t.`payDate8`, t.`contractNumber`";
             cmd += ";";
 
             DataTable dt = G1.get_db_data(cmd);
 
+            string is2002 = "";
+            double balance = 0D;
+            double interest = 0D;
+            double removals = 0D;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                is2002 = dt.Rows[i]["is2002"].ObjToString();
+                if (string.IsNullOrWhiteSpace(is2002))
+                {
+                    balance = dt.Rows[i]["endingBalance"].ObjToDouble();
+                    interest = dt.Rows[i]["interest"].ObjToDouble();
+                    removals = dt.Rows[i]["currentRemovals"].ObjToDouble();
+                    if (removals == 0D)
+                        dt.Rows[i]["endingBalance"] = balance + interest;
+                }
+            }
+
+            DataRow[] dRows = dt.Select("endingBalance > '0.00' and currentRemovals = '0.00'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+
+
+            if (chkIncludeSMFS.Checked)
+                dt = pullSMFSdata(dt);
+
+            dt = processNewStuff(dt);
+
             dt = processTheData(dt);
+
 
             G1.NumberDataTable(dt);
 
-            /*
-            if (chkQuarterTotals.Checked)
-            {
-                gridMain.OptionsView.GroupFooterShowMode = DevExpress.XtraGrid.Views.Grid.GroupFooterShowMode.VisibleIfExpanded;
-                gridMain.OptionsCustomization.AllowColumnMoving = true;
-            }
-            else
-            {
-                gridMain.OptionsView.GroupFooterShowMode = DevExpress.XtraGrid.Views.Grid.GroupFooterShowMode.Hidden;
-                gridMain.OptionsView.ShowGroupPanel = false;
-            }
-            */
             gridMain.Columns["location"].GroupIndex = 0;
             gridMain.OptionsView.ShowFooter = false;
             gridMain.OptionsView.GroupFooterShowMode = DevExpress.XtraGrid.Views.Grid.GroupFooterShowMode.VisibleIfExpanded;
@@ -565,12 +695,205 @@ namespace SMFS
             
             loadLocatons(dt); // <--- Added this here to capture any location available in dt
 
+            dt = RemoveNoContracts(dt, true);
+
             dgv.DataSource = dt;
+
             buildSummary(dt);
+
 
             chkCollapes_CheckedChanged(null, null);
             //gridMain.ExpandAllGroups();
             this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private DataTable RemoveNoContracts ( DataTable dt, bool load7 )
+        {
+            DataRow[] dRows = null;
+            if (load7)
+            {
+                dRows = dt.Select("serviceTotal is null");
+                if (dRows.Length > 0)
+                {
+                    DataTable xDt = dRows.CopyToDataTable();
+                    Trust85.FindContract(xDt, "ANS980107");
+                    G1.NumberDataTable(xDt);
+                    dgv7.DataSource = xDt;
+                }
+            }
+
+            dRows = dt.Select("serviceTotal is not null");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+            return dt;
+        }
+        /***********************************************************************************************/
+        private double TrustPayments ( string contractNumber )
+        {
+            double totalPayments = 0D;
+            if (String.IsNullOrWhiteSpace(contractNumber))
+                return totalPayments;
+
+            string cmd = "Select * from `payments` where `contractNumber` = '" + contractNumber + "' order by `paydate8` DESC, `tmstamp` DESC;";
+            DataTable dp = G1.get_db_data(cmd);
+            if (dp.Rows.Count <= 0)
+            {
+                totalPayments = DailyHistory.GetDownPayment(contractNumber);
+                return totalPayments;
+            }
+
+            double payment = 0D;
+            double downPayment = 0D;
+            double debit = 0D;
+            double credit = 0D;
+            bool gotDownPayment = false;
+            for ( int i=0; i<dp.Rows.Count; i++)
+            {
+
+                payment = dp.Rows[i]["downPayment"].ObjToDouble();
+                if ( payment > 0D )
+                {
+                    gotDownPayment = true;
+                    downPayment += payment;
+                }
+                debit = dp.Rows[i]["debitAdjustment"].ObjToDouble();
+                credit = dp.Rows[i]["creditAdjustment"].ObjToDouble();
+                payment = dp.Rows[i]["paymentAmount"].ObjToDouble();
+                totalPayments += payment + credit - debit;
+            }
+
+            if ( !gotDownPayment )
+            {
+                payment = DailyHistory.GetDownPayment(contractNumber);
+                totalPayments += payment;
+            }
+            return totalPayments;
+        }
+        /***********************************************************************************************/
+        private DataTable processNewStuff ( DataTable dt)
+        {
+            double endingBalance = 0D;
+            string contractNumber = "";
+            double contractValue = 0D;
+            double allowInsurance = 0D;
+            double annuity = 0D;
+            if ( G1.get_column_number ( dt, "contractValue") < 0 )
+                dt.Columns.Add("contractValue", Type.GetType("System.Double"));
+            if (G1.get_column_number(dt, "annuity") < 0)
+                dt.Columns.Add("annuity", Type.GetType("System.Double"));
+
+            DateTime lapsedDate = DateTime.Now;
+            DateTime reinstateDate = DateTime.Now;
+            string lapsed = "";
+            string str = "";
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractValue = DailyHistory.GetContractValueMinus(dt.Rows[i]);
+                dt.Rows[i]["contractValue"] = contractValue;
+                allowInsurance = dt.Rows[i]["allowInsurance"].ObjToDouble();
+                //if ( allowInsurance > 0D )
+                //{
+                    if ( contractNumber.ToUpper().IndexOf ( "ANF") == 0 || contractNumber.ToUpper().IndexOf ( "ANS") == 0 )
+                    {
+                        //annuity = allowInsurance;
+                        //dt.Rows[i]["allowInsurance"] = 0D;
+                        dt.Rows[i]["annuity"] = TrustPayments(contractNumber);
+                    }
+                //}
+
+                lapsed = dt.Rows[i]["lapsed"].ObjToString();
+                str = dt.Rows[i]["lapseDate8"].ObjToString();
+                if (str == "0/0/0000")
+                    str = "";
+                if (str.IndexOf("0001") > 0 )
+                    str = "";
+
+                if ( !String.IsNullOrWhiteSpace ( str ) )
+                {
+                    lapsedDate = dt.Rows[i]["lapseDate8"].ObjToDateTime();
+                    reinstateDate = dt.Rows[i]["reinstateDate8"].ObjToDateTime();
+                    if (reinstateDate.Year > 1000)
+                    {
+                        if ( lapsedDate > reinstateDate )
+                            dt.Rows[i]["lapsed"] = lapsedDate.ToString("MM/dd/yyyy");
+                    }
+                    else
+                        dt.Rows[i]["lapsed"] = lapsedDate.ToString("MM/dd/yyyy");
+                }
+                //dt.Rows[i]["currentRemovals"] = 0D;
+            }
+            return dt;
+        }
+        /***********************************************************************************************/
+        private DataTable pullSMFSdata(DataTable dt)
+        {
+            DateTime date = dateTimePicker1.Value;
+            DateTime saveDate1 = date;
+            string date1 = G1.DateTimeToSQLDateTime(date);
+            date = dateTimePicker2.Value;
+            DateTime saveDate2 = date;
+            string date2 = G1.DateTimeToSQLDateTime(date);
+
+            string contractNumber = "";
+            string contract = "";
+            string trust = "";
+            string loc = "";
+            int year = 0;
+
+            try
+            {
+                string cmd = "SELECT t.tmstamp,t.contractNumber,t.firstName, t.lastname,t.address1 as address2013,t.city as city2013, t.state as state2013, t.zip1 as zip2013,t.ssn as ssn2013, ";
+                cmd += "c.lastDatePaid8 as payDate8, c.balanceDue, c.ServiceId, c.serviceTotal, c.merchandiseTotal,c.allowMerchandise,c.allowInsurance,c.downPayment,c.cashAdvance ";
+                cmd += " FROM `customers` t LEFT JOIN `contracts` c ON t.`contractNumber` = c.`contractNumber`";
+                cmd += " WHERE (t.`deceasedDate` >= '" + date2 + "' OR t.`deceasedDate` < '19101231' ) AND t.`contractNumber` <> '' ";
+                cmd += " ORDER by t.`contractNumber`";
+                cmd += ";";
+
+                DataTable dx = G1.get_db_data(cmd);
+
+                if (dx.Rows.Count <= 0)
+                    return dt;
+
+                dx.Columns.Add("Is2002");
+
+                for (int i = 0; i < dx.Rows.Count; i++)
+                {
+                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+                    //if (contractNumber == "CO2012")
+                    //{
+                    //}
+                    contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
+                    if (contract.Length > 2)
+                    {
+                        contract = contract.Substring(0, 2);
+                        if (G1.validate_numeric(contract))
+                        {
+                            year = contract.ObjToInt32();
+                            if (year > 2)
+                                dx.Rows[i]["Is2002"] = "2002";
+                        }
+                    }
+
+                }
+
+                dt.Merge(dx);
+
+                dt = G1.RemoveDuplicates(dt, "contractNumber");
+
+
+            }
+            catch ( Exception ex)
+            {
+            }
+            return dt;
+        }
+        /***********************************************************************************************/
+        private DataTable findDifferences ( DataTable dt2, DataTable dx2 )
+        {
+            var differences = dt2.AsEnumerable().Except(dx2.AsEnumerable(), DataRowComparer.Default);
+            return differences.Any() ? differences.CopyToDataTable() : new DataTable();
         }
         /***********************************************************************************************/
 
@@ -589,14 +912,63 @@ namespace SMFS
             
             double contracts = 0D;
             double total = 0D;
+            double trust50 = 0D;
+            double contractValue = 0D;
+            double allowInsurance = 0D;
+            double annuity = 0D;
+            double balanceDue = 0D;
+
+            double tValue = 0D;
+            double iValue = 0D;
+            double aValue = 0D;
+            double tiValue = 0D;
+            double aiValue = 0D;
+
+
+            double L_contracts = 0D;
+            double L_total = 0D;
+            double L_trust50 = 0D;
+            double L_contractValue = 0D;
+            double L_allowInsurance = 0D;
+            double L_annuity = 0D;
+            double L_balanceDue = 0D;
+
+            double L_tValue = 0D;
+            double L_iValue = 0D;
+            double L_aValue = 0D;
+            double L_tiValue = 0D;
+            double L_aiValue = 0D;
 
             double totals = 0D;
             double contractTotals = 0D;
+            double contractValues = 0D;
+            double allowInsurances = 0D;
+            double annuitys = 0D;
+            double balanceDues = 0D;
+
+            string lapsed = "";
+
+            DataView tempView = dt.DefaultView;
+            tempView.Sort = "location";
+            dt = tempView.ToTable();
+
 
             DataTable dt2 = new DataTable();
             dt2.Columns.Add("contracts", Type.GetType("System.Double"));
             dt2.Columns.Add("total", Type.GetType("System.Double"));
+            dt2.Columns.Add("trust50", Type.GetType("System.Double"));
+            dt2.Columns.Add("contractValue", Type.GetType("System.Double"));
+            dt2.Columns.Add("allowInsurance", Type.GetType("System.Double"));
+            dt2.Columns.Add("annuity", Type.GetType("System.Double"));
+            dt2.Columns.Add("balanceDue", Type.GetType("System.Double"));
+            dt2.Columns.Add("totalLoc", Type.GetType("System.Double"));
             dt2.Columns.Add("location");
+
+            dt2.Columns.Add("TandI", Type.GetType("System.Double"));
+            dt2.Columns.Add("insOnly", Type.GetType("System.Double"));
+            dt2.Columns.Add("trustOnly", Type.GetType("System.Double"));
+            dt2.Columns.Add("annOnly", Type.GetType("System.Double"));
+            dt2.Columns.Add("IandA", Type.GetType("System.Double"));
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -606,6 +978,7 @@ namespace SMFS
                     serviceLoc = dt.Rows[i]["serviceLoc"].ObjToString();
                     is2002 = dt.Rows[i]["is2002"].ObjToString();
                     locInd = dt.Rows[i]["locInd"].ObjToString();
+                    lapsed = dt.Rows[i]["lapsed"].ObjToString();
 
                     if (string.IsNullOrWhiteSpace(oldLoc))
                     {
@@ -621,21 +994,116 @@ namespace SMFS
                         dRow["location"] = filterServiceLoc(oldServiceLoc);
                         dRow["contracts"] = contracts;
                         dRow["total"] = total;
+                        dRow["trust50"] = trust50;
+                        dRow["contractValue"] = contractValue;
+                        dRow["allowInsurance"] = allowInsurance;
+                        dRow["annuity"] = annuity;
+                        dRow["balanceDue"] = balanceDue;
+
+                        dRow["trustOnly"] = tValue;
+                        dRow["insOnly"] = iValue;
+                        dRow["annOnly"] = aValue;
+                        dRow["TandI"] = tiValue;
+                        dRow["IandA"] = aiValue;
+
                         dt2.Rows.Add(dRow);
 
+                        if (L_contracts != 0D)
+                        {
+                            dRow = dt2.NewRow();
+                            dRow["location"] = getLocation(oldLoc);
+                            dRow["location"] = filterServiceLoc(oldServiceLoc) + " Lapsed";
+                            dRow["contracts"] = L_contracts;
+                            dRow["total"] = L_total;
+                            dRow["trust50"] = L_trust50;
+                            dRow["contractValue"] = L_contractValue;
+                            dRow["allowInsurance"] = L_allowInsurance;
+                            dRow["annuity"] = L_annuity;
+                            dRow["balanceDue"] = L_balanceDue;
+
+                            dRow["trustOnly"] = L_tValue;
+                            dRow["insOnly"] = L_iValue;
+                            dRow["annOnly"] = L_aValue;
+                            dRow["TandI"] = L_tiValue;
+                            dRow["IandA"] = L_aiValue;
+
+                            dt2.Rows.Add(dRow);
+                        }
+
                         totals += total;
+                        contractValues += contractValue;
+                        allowInsurances += allowInsurance;
+                        annuitys += annuity;
                         contractTotals += contracts;
+
                         contracts = 0D;
                         total = 0D;
+                        trust50 = 0D;
+                        contractValue = 0D;
+                        allowInsurance = 0D;
+                        annuity = 0D;
+                        balanceDue = 0D;
+
+                        tValue = 0D;
+                        iValue = 0D;
+                        aValue = 0D;
+                        tiValue = 0D;
+                        aiValue = 0D;
+
+                        L_contracts = 0D;
+                        L_total = 0D;
+                        L_trust50 = 0D;
+                        L_contractValue = 0D;
+                        L_allowInsurance = 0D;
+                        L_annuity = 0D;
+                        L_balanceDue = 0D;
+
+                        L_tValue = 0D;
+                        L_iValue = 0D;
+                        L_aValue = 0D;
+                        L_tiValue = 0D;
+                        L_aiValue = 0D;
+
                         oldLoc = location;
                         oldServiceLoc = serviceLoc;
                     }
-                    contracts++;
-                    total += dt.Rows[i]["endingBalance"].ObjToDouble();
+                    if (!String.IsNullOrWhiteSpace(lapsed))
+                    {
+                        L_contracts++;
+                        //L_total += dt.Rows[i]["endingBalance"].ObjToDouble();
+                        L_total += dt.Rows[i]["trust85"].ObjToDouble();
+                        L_trust50 += dt.Rows[i]["trust50"].ObjToDouble();
+                        L_contractValue += dt.Rows[i]["contractValue"].ObjToDouble();
+                        L_allowInsurance += dt.Rows[i]["allowInsurance"].ObjToDouble();
+                        L_annuity += dt.Rows[i]["annuity"].ObjToDouble();
+                        L_balanceDue += dt.Rows[i]["balanceDue"].ObjToDouble();
+
+                        L_tValue += dt.Rows[i]["trustOnly"].ObjToDouble();
+                        L_iValue += dt.Rows[i]["insOnly"].ObjToDouble();
+                        L_aValue += dt.Rows[i]["annOnly"].ObjToDouble();
+                        L_tiValue += dt.Rows[i]["TandI"].ObjToDouble();
+                        L_aiValue += dt.Rows[i]["IandA"].ObjToDouble();
+                    }
+                    else
+                    {
+                        contracts++;
+                        //total += dt.Rows[i]["endingBalance"].ObjToDouble();
+                        total += dt.Rows[i]["trust85"].ObjToDouble();
+                        trust50 += dt.Rows[i]["trust50"].ObjToDouble();
+                        contractValue += dt.Rows[i]["contractValue"].ObjToDouble();
+                        allowInsurance += dt.Rows[i]["allowInsurance"].ObjToDouble();
+                        annuity += dt.Rows[i]["annuity"].ObjToDouble();
+                        balanceDue += dt.Rows[i]["balanceDue"].ObjToDouble();
+
+                        tValue += dt.Rows[i]["trustOnly"].ObjToDouble();
+                        iValue += dt.Rows[i]["insOnly"].ObjToDouble();
+                        aValue += dt.Rows[i]["annOnly"].ObjToDouble();
+                        tiValue += dt.Rows[i]["TandI"].ObjToDouble();
+                        aiValue += dt.Rows[i]["IandA"].ObjToDouble();
+                    }
                 }
                 catch (Exception ex)
                 { 
-                    
                 }
             }
 
@@ -646,20 +1114,44 @@ namespace SMFS
 				dRow["location"] = filterServiceLoc(oldServiceLoc);
                 dRow["contracts"] = contracts;
                 dRow["total"] = total;
+                dRow["trust50"] = trust50;
+                dRow["contractValue"] = contractValue;
+                dRow["allowInsurance"] = allowInsurance;
+                dRow["annuity"] = annuity;
+                dRow["balanceDue"] = balanceDue;
                 dt2.Rows.Add(dRow);
+
+                if ( L_contracts != 0D )
+                {
+                    dRow = dt2.NewRow();
+                    dRow["location"] = getLocation(oldLoc);
+                    dRow["location"] = filterServiceLoc(oldServiceLoc) + " Lapsed";
+                    dRow["contracts"] = L_contracts;
+                    dRow["total"] = L_total;
+                    dRow["trust50"] = L_trust50;
+                    dRow["contractValue"] = L_contractValue;
+                    dRow["allowInsurance"] = L_allowInsurance;
+                    dRow["annuity"] = L_annuity;
+                    dRow["balanceDue"] = L_balanceDue;
+                    dt2.Rows.Add(dRow);
+                }
 
                 totals += total;
                 contractTotals += contracts;
             }
 
-            dRow = dt2.NewRow();
-            dt2.Rows.Add(dRow);
+            double trust85 = 0D;
+            for ( int i=0; i<dt2.Rows.Count; i++)
+            {
+                trust50 = dt2.Rows[i]["trust50"].ObjToDouble();
+                trust85 = dt2.Rows[i]["total"].ObjToDouble();
+                allowInsurance = dt2.Rows[i]["allowInsurance"].ObjToDouble();
+                annuity = dt2.Rows[i]["annuity"].ObjToDouble();
 
-            //dRow = dt2.NewRow();
-            //dRow["location"] = "Totals";
-            //dRow["contracts"] = contractTotals;
-            //dRow["total"] = totals;
-            //dt2.Rows.Add(dRow);
+                total = trust50 + trust85 + allowInsurance + annuity;
+                dt2.Rows[i]["totalLoc"] = total;
+            }
+
             dgv2.DataSource = dt2;
         }
         /***********************************************************************************************/
@@ -679,6 +1171,8 @@ namespace SMFS
 
             if (preDt == null)
                 preDt = G1.get_db_data("SELECT * FROM `pre2002`;");
+
+            dt = LoadAnnuityLocations(dt);
 
             string is2002 = "";
             string locInd = "";
@@ -745,6 +1239,21 @@ namespace SMFS
                 else*/
                     dRows = funDt.Select("keyCode = '" + location + "'");
 
+                if ( String.IsNullOrWhiteSpace ( locInd ) && !String.IsNullOrWhiteSpace ( location ))
+                {
+                    try
+                    {
+                        if (dRows.Length > 0 )
+                        {
+                            locInd = dRows[0]["locInd"].ObjToString();
+                            dt.Rows[i]["locInd"] = locInd;
+                        }
+                    }
+                    catch ( Exception ex)
+                    {
+                    }
+                }
+
                 if (!String.IsNullOrWhiteSpace(is2002))
                 {
                     dRows = funDt.Select("keyCode = '" + location + "'");
@@ -767,11 +1276,11 @@ namespace SMFS
                 if (string.IsNullOrWhiteSpace(is2002))
                 {
                     name += " Pre";
-                    balance = dt.Rows[i]["endingBalance"].ObjToDouble();
-                    interest = dt.Rows[i]["interest"].ObjToDouble();
-                    removals = dt.Rows[i]["currentRemovals"].ObjToDouble();
-                    if (removals == 0D)
-                        dt.Rows[i]["endingBalance"] = balance + interest;
+                    //balance = dt.Rows[i]["endingBalance"].ObjToDouble();
+                    //interest = dt.Rows[i]["interest"].ObjToDouble();
+                    //removals = dt.Rows[i]["currentRemovals"].ObjToDouble();
+                    //if (removals == 0D)
+                    //    dt.Rows[i]["endingBalance"] = balance + interest;
                 }
                 else
                 {
@@ -782,18 +1291,23 @@ namespace SMFS
             }
 
             // An attempt at summing the totals in the cemetery tab dgv6
-//            gridMain6.Columns["Contract Amount"].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-//            gridMain6.Columns["Contract Amount"].SummaryItem.DisplayFormat = "";
+            //            gridMain6.Columns["Contract Amount"].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+            //            gridMain6.Columns["Contract Amount"].SummaryItem.DisplayFormat = "";
 
-            dRows = dt.Select("endingBalance > '0.00' and currentRemovals = '0.00'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
+            //int oldRows = dt.Rows.Count;
+            //Trust85.FindContract(dt, "WT030");
+            //dRows = dt.Select("endingBalance > '0.00' and currentRemovals = '0.00'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
+            //int newRow = dt.Rows.Count;
+            //Trust85.FindContract(dt, "WT030");
 
             // HU Tab - dgv3 - gridMain3
             dRows = dt.Select("serviceLoc = 'Hartman Hughes Pre'");
             DataTable hudt = dt.Clone();
             if (dRows.Length > 0)
                 hudt = dRows.CopyToDataTable();
+            hudt = RemoveNoContracts(hudt, false );
 
             G1.NumberDataTable(hudt);
             dgv3.DataSource = hudt;
@@ -894,6 +1408,22 @@ namespace SMFS
             tempView7.Sort = "serviceLoc";
             dt = tempView7.ToTable();
 
+            // Remove AFA
+            DataTable afaDt = dt.Clone();
+            dRows = dt.Select("contractNumber LIKE 'AFA%'");
+            if (dRows.Length > 0)
+                afaDt = dRows.CopyToDataTable();
+            DataView tempView8 = afaDt.DefaultView;
+            tempView8.Sort = "serviceLoc";
+            afaDt = tempView8.ToTable();
+            dgv8.DataSource = afaDt;
+
+            dRows = dt.Select("contractNumber NOT LIKE 'AFA%'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+            tempView = dt.DefaultView;
+            tempView.Sort = "serviceLoc";
+            dt = tempView.ToTable();
 
             return dt;
         }
@@ -956,6 +1486,33 @@ namespace SMFS
             string contract = "";
             string trust = "";
             string loc = "";
+
+            double trust85 = 0D;
+            double trust50 = 0D;
+            DateTime issueDate = DateTime.Now;
+            DateTime cutDate = new DateTime(2006, 6, 1);
+
+            dt.Columns.Add("trust50", Type.GetType("System.Double"));
+            dt.Columns.Add("trust85", Type.GetType("System.Double"));
+            dt.Columns.Add("MyIssueDate");
+            dt.Columns.Add("TandI", Type.GetType("System.Double"));
+            dt.Columns.Add("insOnly", Type.GetType("System.Double"));
+            dt.Columns.Add("trustOnly", Type.GetType("System.Double"));
+            dt.Columns.Add("annOnly", Type.GetType("System.Double"));
+            dt.Columns.Add("IandA", Type.GetType("System.Double"));
+
+            dRows = dt.Select("contractNumber NOT LIKE 'SX%'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+
+            dRows = dt.Select("contractNumber <> 'Test'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+
+            int oldCount = dRows.Length;
+            double tValue = 0D;
+            double iValue = 0D;
+            double aValue = 0D;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
@@ -970,11 +1527,55 @@ namespace SMFS
                     contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
                     dt.Rows[i]["location"] = loc;
                 }
+
+                issueDate = dt.Rows[i]["issueDate8"].ObjToDateTime();
+                dt.Rows[i]["MyIssueDate"] = issueDate.ToString("yyyyMMdd");
+                endingBalance = dt.Rows[i]["endingBalance"].ObjToDouble();
+                tValue = endingBalance;
+                iValue = dt.Rows[i]["allowInsurance"].ObjToDouble();
+                aValue = dt.Rows[i]["annuity"].ObjToDouble();
+                if (tValue != 0D && iValue == 0D && aValue == 0D)
+                    dt = AddOne(dt, i, "trustOnly");
+                else if (tValue == 0D && iValue != 0D && aValue == 0D)
+                    dt = AddOne(dt, i, "insOnly");
+                else if (tValue == 0D && iValue == 0D && aValue != 0D)
+                    dt = AddOne(dt, i, "annOnly");
+                else if (tValue != 0D && iValue != 0D)
+                    dt = AddOne(dt, i, "TandI");
+                else if (iValue != 0D && aValue != 0D)
+                    dt = AddOne(dt, i, "IandA");
+                if (endingBalance > 0D)
+                {
+                    if (issueDate < cutDate)
+                        dt.Rows[i]["trust50"] = endingBalance;
+                    else
+                        dt.Rows[i]["trust85"] = endingBalance;
+                }
+                else
+                    dt.Rows[i]["trust85"] = endingBalance;
+
             }
+
+            dRows = dt.Select("location='B'");
+            int newCount = dRows.Length;
 
             return dt;
         }
-
+        /***********************************************************************************************/
+        private DataTable AddOne ( DataTable dt, int i, string field )
+        {
+            try
+            {
+                double dValue = dt.Rows[i][field].ObjToDouble();
+                dValue++;
+                dt.Rows[i][field] = dValue;
+            }
+            catch ( Exception ex )
+            {
+            }
+            return dt;
+        }
+        /***********************************************************************************************/
         private DataTable ProcessCustomData ( DataTable dt )
         {
             DateTime date = dateTimePicker1.Value;
@@ -1544,13 +2145,20 @@ namespace SMFS
             {
                 if (!String.IsNullOrWhiteSpace(locIDs[i]))
                 {
-                    if (procLoc.Trim().Length > 0)
-                        procLoc += ",";
                     string cmd = "Select * from `funeralhomes` where `LocationCode` = '" + locIDs[i].Trim() + "';";
                     DataTable dt = G1.get_db_data(cmd);
                     if (dt.Rows.Count > 0)
                     {
+                        if (procLoc.Trim().Length > 0)
+                            procLoc += ",";
                         string id = dt.Rows[0]["keycode"].ObjToString();
+                        procLoc += "'" + id.Trim() + "'";
+                    }
+                    else
+                    {
+                        if (procLoc.Trim().Length > 0)
+                            procLoc += ",";
+                        string id = locIDs[i].Trim();
                         procLoc += "'" + id.Trim() + "'";
                     }
                 }
@@ -2111,6 +2719,221 @@ namespace SMFS
                 length = 10;
             info.GroupText += caption.PadRight(length);
             info.GroupText += "$" + str;
+        }
+        /***********************************************************************************************/
+        private void gMain_DoubleClick(object sender, EventArgs e)
+        {
+            DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = (DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView)sender;
+            DataRow dr = gMain.GetFocusedDataRow();
+            string contract = dr["contractNumber"].ObjToString();
+            if (!String.IsNullOrWhiteSpace(contract))
+            {
+                this.Cursor = Cursors.WaitCursor;
+                using (CustomerDetails clientForm = new CustomerDetails(contract))
+                {
+                    clientForm.ShowDialog();
+                }
+                this.Cursor = Cursors.Default;
+            }
+        }
+        /***********************************************************************************************/
+        private DataTable originalDt2 = null;
+        private void gridMain2_DoubleClick(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain2.GetFocusedDataRow();
+            string location = dr["location"].ObjToString();
+            bool lapsed = false;
+            if (location.ToUpper().IndexOf("LAPSED") > 0)
+                lapsed = true;
+
+            location = location.Replace("Lapsed", "").Trim();
+
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (originalDt2 == null)
+                originalDt2 = dt;
+
+            string lookup = "location='" + location + "'";
+            if (lapsed)
+                lookup += " AND lapsed <> ''";
+            DataRow[] dRows = originalDt2.Select(lookup);
+            if (dRows.Length <= 0)
+            {
+                lookup = "serviceLoc LIKE '" + location + "%'";
+                if (lapsed)
+                    lookup += " AND lapsed <> ''";
+                dRows = originalDt2.Select(lookup);
+            }
+            if ( dRows.Length > 0 )
+            {
+                DataTable ddd = dRows.CopyToDataTable();
+                dgv.DataSource = ddd;
+                dgv.Refresh();
+                tabControl1.SelectedIndex = 0;
+                gridMain.ExpandAllGroups();
+            }
+        }
+        /***********************************************************************************************/
+        private void SetupSelectedColumns(string procType, string group, DevExpress.XtraGrid.GridControl dgv)
+        {
+            if (String.IsNullOrWhiteSpace(group))
+                return;
+            if (String.IsNullOrWhiteSpace(procType))
+                procType = "PreNeed";
+            string cmd = "Select * from procfiles where name = '" + group + "' and ProcType = '" + procType + "' order by seq";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+                return;
+            DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain = (DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView)dgv.MainView;
+            for (int i = 0; i < gridMain.Columns.Count; i++)
+                gridMain.Columns[i].Visible = false;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string name = dt.Rows[i]["Description"].ToString();
+                int index = dt.Rows[i]["seq"].ObjToInt32();
+                try
+                {
+                    if (G1.get_column_number((GridView)dgv.MainView, name) >= 0)
+                        ((GridView)dgv.MainView).Columns[name].Visible = true;
+                }
+                catch
+                {
+                }
+            }
+        }
+        /***********************************************************************************************/
+        private void cmbSelectColumns_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (loading)
+                return;
+            System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
+            string comboName = combo.Text;
+            string skinName = "";
+            if (!String.IsNullOrWhiteSpace(comboName))
+            {
+                SetupSelectedColumns("TrustEOY", comboName, dgv);
+                string name = "TrustEOY " + comboName;
+                foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, name, ref skinName);
+            }
+            else
+            {
+                SetupSelectedColumns("TrustEOY", "Primary", dgv);
+                string name = "TrustEOY Primary";
+                foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, name, ref skinName);
+            }
+        }
+        /***********************************************************************************************/
+        private void btnSelectColumns_Click(object sender, EventArgs e)
+        {
+            string actualName = cmbSelectColumns.Text;
+
+            SelectDisplayColumns sform = new SelectDisplayColumns(dgv, "TrustEOY", "Primary", actualName);
+            sform.Done += new SelectDisplayColumns.d_void_selectionDone(sxform_Done);
+            sform.Show();
+        }
+        /***********************************************************************************************/
+        void sxform_Done(DataTable dt)
+        {
+            string name = cmbSelectColumns.Text.Trim();
+            if (String.IsNullOrWhiteSpace(name))
+                name = "Primary";
+            string saveName = "TrustEOY";
+            string skinName = "";
+            SetupSelectedColumns("TrustEOY", name, dgv);
+            foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, saveName, ref skinName);
+            //gridMain.OptionsView.ShowFooter = showFooters;
+            //SetupTotalsSummary();
+            string field = "";
+            string select = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                field = dt.Rows[i]["field"].ObjToString();
+                if (String.IsNullOrWhiteSpace(field))
+                    continue;
+                select = dt.Rows[i]["select"].ObjToString();
+                if (G1.get_column_number(gridMain, field) >= 0)
+                {
+                    if (select == "0")
+                        gridMain.Columns[field].Visible = false;
+                    else
+                        gridMain.Columns[field].Visible = true;
+                }
+            }
+            dgv.Refresh();
+            this.Refresh();
+        }
+        /***********************************************************************************************/
+        private void loadGroupCombo(System.Windows.Forms.ComboBox cmb, string key, string module)
+        {
+            string primaryName = "";
+            cmb.Items.Clear();
+            string cmd = "Select * from procfiles where ProcType = '" + key + "' AND `module` = '" + module + "' group by name;";
+            DataTable dt = G1.get_db_data(cmd);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string name = dt.Rows[i]["Name"].ToString();
+                if (name.Trim().ToUpper() == "PRIMARY")
+                    primaryName = name;
+                cmb.Items.Add(name);
+            }
+            if (!String.IsNullOrWhiteSpace(primaryName))
+                cmb.Text = primaryName;
+        }
+        /***********************************************************************************************/
+        private void lockScreenFormatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string name = cmbSelectColumns.Text.Trim();
+            if (String.IsNullOrWhiteSpace(name))
+                name = "Primary";
+            string saveName = "TrustEOY " + name;
+            G1.SaveLocalPreferences(this, gridMain, LoginForm.username, saveName);
+        }
+        /***********************************************************************************************/
+        private void unlockScreenFormatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string comboName = cmbSelectColumns.Text;
+            if (!String.IsNullOrWhiteSpace(comboName))
+            {
+                string name = "TrustEOY " + comboName;
+                G1.RemoveLocalPreferences(LoginForm.username, name);
+                foundLocalPreference = false;
+            }
+        }
+        /***********************************************************************************************/
+        private DataTable LoadAnnuityLocations( DataTable dt)
+        {
+            string file = @"C:\SMFSdata\Annuity Location Allocation.xlsx";
+            DataTable excelDt = ExcelWriter.ReadFile2(file, 0, "Sheet1");
+            if (excelDt == null)
+                return dt;
+
+            string contractNumber = "";
+            string location = "";
+            DataRow[] dRows = null;
+            DataRow[] nRows = null;
+            try
+            {
+                for (int i = 1; i < excelDt.Rows.Count; i++)
+                {
+                    contractNumber = excelDt.Rows[i][0].ObjToString();
+                    if (String.IsNullOrWhiteSpace(contractNumber))
+                        continue;
+                    location = excelDt.Rows[i][1].ObjToString().ToUpper();
+                    if (String.IsNullOrWhiteSpace(location))
+                        continue;
+
+                    dRows = dt.Select("contractNumber='" + contractNumber + "'");
+                    if ( dRows.Length > 0 )
+                    {
+                        nRows = funDt.Select("LocationCode='" + location + "'");
+                        if (dRows.Length > 0)
+                            dRows[0]["location"] = nRows[0]["keyCode"].ObjToString();
+                    }
+                }
+            }
+            catch ( Exception ex)
+            {
+            }
+            return dt;
         }
         /***********************************************************************************************/
     }
