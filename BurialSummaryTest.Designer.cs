@@ -111,10 +111,10 @@ namespace SMFS
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1508, 401);
+            this.panelAll.Size = new System.Drawing.Size(1508, 403);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -124,7 +124,7 @@ namespace SMFS
             this.panelBottom.Location = new System.Drawing.Point(0, 75);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1508, 326);
+            this.panelBottom.Size = new System.Drawing.Size(1508, 328);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -135,7 +135,7 @@ namespace SMFS
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1508, 326);
+            this.tabControl1.Size = new System.Drawing.Size(1508, 328);
             this.tabControl1.TabIndex = 9;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -145,7 +145,7 @@ namespace SMFS
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1500, 297);
+            this.tabPage1.Size = new System.Drawing.Size(1500, 299);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Build Summary";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@ namespace SMFS
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1494, 291);
+            this.dgv.Size = new System.Drawing.Size(1494, 293);
             this.dgv.TabIndex = 8;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -363,7 +363,7 @@ namespace SMFS
             this.gridBand5.MinWidth = 14;
             this.gridBand5.Name = "gridBand5";
             this.gridBand5.VisibleIndex = 0;
-            this.gridBand5.Width = 1412;
+            this.gridBand5.Width = 1342;
             // 
             // bandedGridColumn48
             // 
@@ -500,7 +500,7 @@ namespace SMFS
             this.total86.Name = "total86";
             this.total86.OptionsColumn.FixedWidth = true;
             this.total86.Visible = true;
-            this.total86.Width = 170;
+            this.total86.Width = 100;
             // 
             // bandedGridColumn57
             // 
@@ -682,7 +682,7 @@ namespace SMFS
             this.gridMain2.GridControl = this.dgv2;
             this.gridMain2.GroupCount = 1;
             this.gridMain2.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "total", this.bandedGridColumn16, "{0:0,0.00}")});
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "total", this.bandedGridColumn16, "{0:0,0}")});
             this.gridMain2.Name = "gridMain2";
             this.gridMain2.OptionsBehavior.Editable = false;
             this.gridMain2.OptionsBehavior.ReadOnly = true;
@@ -714,7 +714,7 @@ namespace SMFS
             this.gridBand1.MinWidth = 14;
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 1039;
+            this.gridBand1.Width = 821;
             // 
             // bandedGridColumn5
             // 
@@ -744,8 +744,6 @@ namespace SMFS
             this.bandedGridColumn7.MinWidth = 27;
             this.bandedGridColumn7.Name = "bandedGridColumn7";
             this.bandedGridColumn7.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn7.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Custom)});
             this.bandedGridColumn7.Visible = true;
             this.bandedGridColumn7.Width = 164;
             // 
@@ -756,10 +754,8 @@ namespace SMFS
             this.bandedGridColumn8.MinWidth = 27;
             this.bandedGridColumn8.Name = "bandedGridColumn8";
             this.bandedGridColumn8.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn8.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Custom)});
             this.bandedGridColumn8.Visible = true;
-            this.bandedGridColumn8.Width = 183;
+            this.bandedGridColumn8.Width = 100;
             // 
             // bandedGridColumn9
             // 
@@ -781,10 +777,8 @@ namespace SMFS
             this.bandedGridColumn10.MinWidth = 27;
             this.bandedGridColumn10.Name = "bandedGridColumn10";
             this.bandedGridColumn10.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn10.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Custom)});
             this.bandedGridColumn10.Visible = true;
-            this.bandedGridColumn10.Width = 204;
+            this.bandedGridColumn10.Width = 150;
             // 
             // bandedGridColumn11
             // 
@@ -803,19 +797,19 @@ namespace SMFS
             this.bandedGridColumn12.Name = "bandedGridColumn12";
             this.bandedGridColumn12.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn12.Visible = true;
-            this.bandedGridColumn12.Width = 101;
+            this.bandedGridColumn12.Width = 90;
             // 
             // bandedGridColumn16
             // 
             this.bandedGridColumn16.Caption = "Total";
-            this.bandedGridColumn16.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn16.DisplayFormat.FormatString = "N0";
             this.bandedGridColumn16.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn16.FieldName = "total";
             this.bandedGridColumn16.MinWidth = 27;
             this.bandedGridColumn16.Name = "bandedGridColumn16";
             this.bandedGridColumn16.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn16.Visible = true;
-            this.bandedGridColumn16.Width = 170;
+            this.bandedGridColumn16.Width = 100;
             // 
             // bandedGridColumn17
             // 
@@ -1051,7 +1045,7 @@ namespace SMFS
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1508, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1508, 28);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1061,7 +1055,7 @@ namespace SMFS
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1098,7 +1092,7 @@ namespace SMFS
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recalculateCustomerPriceToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // recalculateCustomerPriceToolStripMenuItem

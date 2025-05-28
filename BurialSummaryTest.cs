@@ -1558,6 +1558,7 @@ namespace SMFS
         /****************************************************************************************/
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ClearAllPositions(gridMain2);
             TabControl tabControl = (TabControl)sender;
             int selectedIndex = tabControl.SelectedIndex;
             string pageName = tabControl.TabPages[selectedIndex].Name.Trim();
@@ -1603,28 +1604,30 @@ namespace SMFS
                     G1.SetColumnPosition(gridMain2, funeralClass, k++);
                     gridMain2.Columns[funeralClass].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
                     gridMain2.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N2}";
-//                    AddSummaryColumn(funeralClass, gridMain2);
+                    // gridMain2.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N0}";
                     G1.SetColumnPosition(gridMain2, funeralClass + " CNT", k++);
                 }
 
                 G1.SetColumnPosition(gridMain2, "total", k++);
+                G1.SetColumnPosition(gridMain2, "Total Count", k++);
                 
                 double netPrice = 0D;
+                int sum = 0;
                 for (int i = 0; i < dd.Rows.Count; i++)
                 {
                     funeralClass = dd.Rows[i]["funeral_classification"].ObjToString();
                     netPrice = GetNetPrice(dd, i);
                     dd.Rows[i][funeralClass] = netPrice;
                     if (netPrice > 0)
+                    { 
                         dd.Rows[i][funeralClass + " CNT"] = 1;
+                        dd.Rows[i]["Total Count"] = 1;
+                        sum += 1;
+                    }
                     else 
                         dd.Rows[i][funeralClass + " CNT"] = 0;
                 }
-                // Need another routine to calculate Summary CT. Pass the dd (rows) AND dt (columns) into the subroutine
-                // if something isNull then add new table
-                // Then add a new column called loc
-                // Then you'll have a for loop ... said that wasn't right
-                // if summaryCT == null then create
+
                 buildCremationTable(dd, dx);
                 dgv2.DataSource = dd;
             }
@@ -1662,21 +1665,24 @@ namespace SMFS
                     {
                         funeralClass = dx.Rows[j]["funeral_classification"].ObjToString();
                         dR[funeralClass] = 0D;
+                        dR[funeralClass + " CNT"] = 0D;
                     }
                     summaryCt.Rows.Add(dR);
+                    dRows = summaryCt.Select("loc='" + loc + "'");
                 }
-                else
+                for (int j = 0; j < dx.Rows.Count; j++)
                 {
-                    for (int j = 0; j < dx.Rows.Count; j++)
+                    funeralClass = dx.Rows[j]["funeral_classification"].ObjToString();
+                    dValue = dd.Rows[i][funeralClass].ObjToDouble();
+                    if (dValue > 0D)
                     {
-                        funeralClass = dx.Rows[j]["funeral_classification"].ObjToString();
-                        dValue = dd.Rows[i][funeralClass].ObjToDouble();
-                        if (dValue > 0D)
-                        {
-                            dValue2 = dRows[0][funeralClass].ObjToDouble();
-                            dValue2++;
-                            dRows[0][funeralClass] = dValue2;
-                        }
+                        dValue2 = dRows[0][funeralClass].ObjToDouble();
+                        dValue2 += dValue;
+                        dRows[0][funeralClass] = dValue2;
+
+                        dValue2 = dRows[0][funeralClass + " CNT"].ObjToInt64();
+                        dValue2++;
+                        dRows[0][funeralClass + " CNT"] = dValue2;
                     }
                 }
             }
@@ -1695,19 +1701,26 @@ namespace SMFS
                 funeralClass = dx.Rows[i]["funeral_classification"].ObjToString();
                 if (G1.get_column_number(gridMain2, funeralClass) < 0)
                 {
-                    AddNewColumn(funeralClass, funeralClass, 80, FormatType.Numeric, "N2");
-                    AddSummaryColumn(funeralClass, gridMain2);
+                    AddNewColumn(funeralClass, funeralClass, 100, FormatType.Numeric, "N2");
+                    GridGroupSummaryItem item = new GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, funeralClass, gridMain2.Columns[funeralClass], "{0:N0}");
+                    gridMain2.GroupSummary.Add(item);
                     summaryCt.Columns.Add(funeralClass, Type.GetType("System.Double"));
+                    summaryCt.Columns.Add(funeralClass + " CNT", Type.GetType("System.Double"));
                 }
                 dd.Columns.Add(funeralClass, Type.GetType("System.Double"));
 
                 if (G1.get_column_number(gridMain2, funeralClass + " CNT") < 0)
                 {
-                    AddNewColumn(funeralClass + " CNT", "Count", 50, FormatType.Numeric, "N0");
+                    AddNewColumn(funeralClass + " CNT", "Count", 40, FormatType.Numeric, "N0");
                     AddSummaryColumn(funeralClass + " CNT", gridMain2, "{0:N0}");
                 }
                 dd.Columns.Add(funeralClass + " CNT", Type.GetType("System.Double"));
             }
+            AddNewColumn("Total Count", "Total Count", 80, FormatType.Numeric, "N0");
+            GridGroupSummaryItem TotalCount = new GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "Total Count", gridMain2.Columns["Total Count"], "{0:N0}");
+            AddSummaryColumn("Total Count", gridMain2, "{0:N0}");
+            dd.Columns.Add("Total Count", Type.GetType("System.Double"));
+
             return dd;
         }
         /****************************************************************************************/
@@ -1737,33 +1750,106 @@ namespace SMFS
         private void gridMain2_CustomSummaryCalculate(object sender, DevExpress.Data.CustomSummaryEventArgs e)
         {
             string field = (e.Item as GridSummaryItem).FieldName.ObjToString();
+            if (field.ToUpper().IndexOf("CREMATION") < 0)
+                return;
             string loc = "";
-            if (e.IsGroupSummary)
-            { 
-                
-            }
             if (!e.IsGroupSummary && !e.IsTotalSummary)
                 return;
 
             DataTable dt = (DataTable)dgv2.DataSource;
             int rowHandle = e.RowHandle;
+            double dValue = 0D;
+            double dValueTot = 0D;
+            double dValue2 = 0D;
+            double dValueTot2 = 0D;
+            double Total = 0D;
+            double SumTotal = 0D;
+            string str = "";
+            double percent = 0D;
 
             if (e.IsGroupSummary)
             {
                 int row = gridMain2.GetDataSourceRowIndex(rowHandle);
+
                 loc = dt.Rows[row]["loc"].ObjToString();
                 DataRow[] dRows = summaryCt.Select("loc='" + loc + "'");
 
                 if (dRows.Length > 0)
                 {
-                    /*
-                    burials = dRows[0]["burial"].ObjToDouble();
-                    cremations = dRows[0]["cremation"].ObjToDouble();
-                    other = dRows[0]["other"].ObjToDouble();
-                    total = burials + cremations + other;*/
+                    dValue = dRows[0][field].ObjToDouble();
+                    dValue2 = dRows[0][field + " CNT"].ObjToDouble();
+                    Total = 0D;
+                    
+                    for (int j = 0; j < summaryCt.Columns.Count; j++)
+                    {
+                        str = summaryCt.Columns[j].ColumnName;
+                        if (str.ToUpper().IndexOf("CNT") > 0)
+                            Total += dRows[0][j].ObjToDouble();
+                    }
+                    e.TotalValue = formatTotalValue(dValue, dValue2, Total);
                 }
             }
+            else if (e.IsTotalSummary)
+            {
+                int row = gridMain2.GetDataSourceRowIndex(rowHandle);
+                dValueTot = 0D;
+                dValueTot2 = 0D;
+                SumTotal = 0D;
 
+                string strPercent = "";
+                if (field.ToUpper().IndexOf("CNT") > 0)
+                {
+                    for (int j = 0; j < summaryCt.Rows.Count; j++)
+                    {
+                        dValueTot2 += summaryCt.Rows[j][field].ObjToDouble();
+                    }
+                    e.TotalValue = dValueTot2;
+                }
+                else
+                {
+                    for (int j = 0; j < summaryCt.Rows.Count; j++)
+                    {
+                        dValueTot += summaryCt.Rows[j][field].ObjToDouble();
+                        dValueTot2 += summaryCt.Rows[j][field + " CNT"].ObjToDouble();
+                    }
+                    for (int j = 0; j < summaryCt.Columns.Count; j++)
+                    {
+                        str = summaryCt.Columns[j].ColumnName;
+                        if (str.ToUpper().IndexOf("CNT") > 0)
+                        {
+                            for(int i = 0; i < summaryCt.Rows.Count; i++)
+                                Total += summaryCt.Rows[i][j].ObjToDouble();
+                        }
+                    }
+                    e.TotalValue = formatSummedValue(dValueTot, dValueTot2, Total);
+                }
+            }
+        }
+        /****************************************************************************************/
+        private object formatTotalValue(double dValue, double dValue2, double total)
+        {
+            if (total <= 0D)
+                return "";
+
+            double percent = 0D;
+            percent = dValue2 / total * 100D;
+            string str1 = G1.ReformatMoney(dValue);
+            string str2 = G1.ReformatMoney(percent);
+            string str = str1 + "/" + str2 + "%";
+            return(object) str;
+        }
+        /****************************************************************************************/
+        private object formatSummedValue(double dValue, double dValue2, double Total)
+        {
+            if (Total <= 0D)
+                return "";
+
+            double percent = 0D;
+            percent = dValue2 / Total * 100D;
+            string str1 = G1.ReformatMoney(dValue);
+            string str2 = G1.ReformatMoney(percent);
+            string str = str1 + "/" + str2 + "%";
+            return (object) str;
         }
         /****************************************************************************************/
     }
