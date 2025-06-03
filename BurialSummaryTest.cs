@@ -144,6 +144,9 @@ namespace SMFS
 
             ScaleCells();
             this.Cursor = Cursors.Default;
+
+            // Re-Calculate the second tab
+            buildCremationTab();
         }
 
         private void GridMain_CustomDrawScroll(object sender, ScrollBarCustomDrawEventArgs e)
@@ -1567,82 +1570,86 @@ namespace SMFS
 
             try
             {
-                DataTable dt = (DataTable)dgv.DataSource;
-                if (dt == null)
-                    return;
-                DataTable dx = G1.GetGroupBy(dt, "funeral_classification");
-                DataRow[] dRows = dx.Select("funeral_classification LIKE 'cremation%'");
-                if (dRows.Length <= 0)
-                {
-                    MessageBox.Show("*ERROR*** No Data to Display.");
-                    return;
-                }
-                    
-                dx = dRows.CopyToDataTable();
-
-                dRows = dt.Select("funeral_classification LIKE 'cremation%'");
-                if (dRows.Length <= 0)
-                    return;
-
-                string funeralClass = "";
-                DataTable dd = dRows.CopyToDataTable();
-                dd = AddCremationColumns(dx, dd);
-
-                int k = 0;
-                ClearAllPositions(gridMain2);
-                G1.SetColumnPosition(gridMain2, "num", k++);
-                G1.SetColumnPosition(gridMain2, "loc", k++);
-                G1.SetColumnPosition(gridMain2, "Location Name", k++);
-                G1.SetColumnPosition(gridMain2, "ServiceId", k++);
-                G1.SetColumnPosition(gridMain2, "deceasedDate", k++);
-                G1.SetColumnPosition(gridMain2, "name", k++);
-                G1.SetColumnPosition(gridMain2, "contractNumber", k++);
-
-                for (int i = 0; i < dx.Rows.Count; i++)
-                {
-                    funeralClass = dx.Rows[i]["funeral_classification"].ObjToString();
-                    G1.SetColumnPosition(gridMain2, funeralClass, k++);
-                    gridMain2.Columns[funeralClass].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
-                    gridMain2.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N2}";
-                    // gridMain2.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N0}";
-                    G1.SetColumnPosition(gridMain2, funeralClass + " CNT", k++);
-                    gridMain2.Columns[funeralClass + " CNT"].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
-                    gridMain2.Columns[funeralClass + " CNT"].SummaryItem.DisplayFormat = "{0:N0}";
-                }
-
-                G1.SetColumnPosition(gridMain2, "total", k++);
-                G1.SetColumnPosition(gridMain2, "Total Count", k++);
-                
-                double netPrice = 0D;
-                int sum = 0;
-                for (int i = 0; i < dd.Rows.Count; i++)
-                {
-                    funeralClass = dd.Rows[i]["funeral_classification"].ObjToString();
-                    netPrice = GetNetPrice(dd, i);
-                    dd.Rows[i][funeralClass] = netPrice;
-                    if (netPrice > 0)
-                    { 
-                        dd.Rows[i][funeralClass + " CNT"] = 1;
-                        dd.Rows[i]["Total Count"] = 1;
-                        sum += 1;
-                    }
-                    else 
-                        dd.Rows[i][funeralClass + " CNT"] = 0;
-                }
-
-                buildCremationTable(dd, dx);
-                dgv2.DataSource = dd;
+                buildCremationTab();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("*ERROR*** " + ex.Message.ToString());
             }
+        }
+        /****************************************************************************************/
+        public void buildCremationTab()
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt == null)
+                return;
+            DataTable dx = G1.GetGroupBy(dt, "funeral_classification");
+            DataRow[] dRows = dx.Select("funeral_classification LIKE 'cremation%'");
+            if (dRows.Length <= 0)
+            {
+                MessageBox.Show("*ERROR*** No Data to Display.");
+                return;
+            }
+
+            dx = dRows.CopyToDataTable();
+
+            dRows = dt.Select("funeral_classification LIKE 'cremation%'");
+            if (dRows.Length <= 0)
+                return;
+
+            string funeralClass = "";
+            DataTable dd = dRows.CopyToDataTable();
+            dd = AddCremationColumns(dx, dd);
+
+            int k = 0;
+            ClearAllPositions(gridMain2);
+            G1.SetColumnPosition(gridMain2, "num", k++);
+            G1.SetColumnPosition(gridMain2, "loc", k++);
+            G1.SetColumnPosition(gridMain2, "Location Name", k++);
+            G1.SetColumnPosition(gridMain2, "ServiceId", k++);
+            G1.SetColumnPosition(gridMain2, "deceasedDate", k++);
+            G1.SetColumnPosition(gridMain2, "name", k++);
+            G1.SetColumnPosition(gridMain2, "contractNumber", k++);
+
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                funeralClass = dx.Rows[i]["funeral_classification"].ObjToString();
+                G1.SetColumnPosition(gridMain2, funeralClass, k++);
+                gridMain2.Columns[funeralClass].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
+                gridMain2.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N2}";
+                // gridMain2.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N0}";
+                G1.SetColumnPosition(gridMain2, funeralClass + " CNT", k++);
+                gridMain2.Columns[funeralClass + " CNT"].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
+                gridMain2.Columns[funeralClass + " CNT"].SummaryItem.DisplayFormat = "{0:N0}";
+            }
+
+            G1.SetColumnPosition(gridMain2, "total", k++);
+            G1.SetColumnPosition(gridMain2, "Total Count", k++);
+
+            double netPrice = 0D;
+            int sum = 0;
+            for (int i = 0; i < dd.Rows.Count; i++)
+            {
+                funeralClass = dd.Rows[i]["funeral_classification"].ObjToString();
+                netPrice = GetNetPrice(dd, i);
+                dd.Rows[i][funeralClass] = netPrice;
+                if (netPrice > 0)
+                {
+                    dd.Rows[i][funeralClass + " CNT"] = 1;
+                    dd.Rows[i]["Total Count"] = 1;
+                    sum += 1;
+                }
+                else
+                    dd.Rows[i][funeralClass + " CNT"] = 0;
+            }
+
+            buildCremationTable(dd, dx);
+            dgv2.DataSource = dd;
 
             gridMain2.ExpandAllGroups();
             dgv2.Refresh();
-
         }
-        /****************************************************************************************/
+
         private void buildCremationTable(DataTable dd, DataTable dx)
         {
             string loc = "";
