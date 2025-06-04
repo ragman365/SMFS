@@ -5969,11 +5969,14 @@ namespace SMFS
             double money = 0D;
             string who = "";
             bool createdSomething = false;
+            string serviceId = "";
             bool rv = false;
             bool isDone = false;
             bool reallyDone = false;
             if (G1.get_column_number(dt, "DELETED") < 0)
                 dt.Columns.Add("DELETED");
+
+            DataTable dx = null;
 
             if (String.IsNullOrWhiteSpace(primaryContract))
                 primaryContract = workContract;
@@ -6256,7 +6259,24 @@ namespace SMFS
 
                         if (!String.IsNullOrWhiteSpace(serialNumber))
                         {
-                            rv = updateInventory(serialNumber);
+                            cmd = "Select * from `" + extendedFile + "` where `contractNumber` = '" + primaryContract + "';";
+                            dx = G1.get_db_data(cmd);
+                            if (dx.Rows.Count > 0)
+                            {
+                                serviceId = dx.Rows[0]["serviceId"].ObjToString();
+                                if (!String.IsNullOrWhiteSpace(serviceId))
+                                {
+                                    rv = ConfirmInventory(serialNumber, serviceId);
+                                    if ( !rv )
+                                    {
+                                        MessageBox.Show("***ERROR*** Serial Number " + serialNumber + "\nhas already been used and\nwill NOT be updated here!\nPlease Verify Serial Number is available!", "Inventory Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                                        dt.Rows[i]["SerialNumber"] = "";
+                                        serialNumber = "";
+                                    }
+                                }
+                            }
+                            if ( !String.IsNullOrWhiteSpace ( serialNumber ))
+                                rv = updateInventory(serialNumber);
                             //if (!rv)
                             //    serialNumber = "";
                         }
@@ -6312,7 +6332,7 @@ namespace SMFS
                 MessageBox.Show("***ERROR*** Adding Serices " + ex.Message.ToString());
             }
 
-            string serviceId = SaveCustExtended(dt);
+            serviceId = SaveCustExtended(dt);
 
             if (G1.get_column_number(dt, "num") < 0)
                 dt.Columns.Add("num");
@@ -7168,6 +7188,24 @@ namespace SMFS
             bool rtn = MarkInventoryAsUsed(serialNumber, serviceDate, deceasedDate, serviceId);
             fixSerialNumber = serialNumber;
             return rtn;
+        }
+        /****************************************************************************************/
+        private bool ConfirmInventory(string serialNumber, string serviceId)
+        {
+            bool rv = true;
+            if (String.IsNullOrWhiteSpace(serialNumber))
+                return rv;
+            string cmd = "Select * from `inventory` where `SerialNumber` = '" + serialNumber + "';";
+            DataTable dx = G1.get_db_data(cmd);
+            if (dx.Rows.Count <= 0)
+                return rv;
+            string invServiceId = dx.Rows[0]["ServiceId"].ObjToString();
+            if (!String.IsNullOrWhiteSpace(invServiceId))
+            {
+                if (invServiceId != serviceId)
+                    rv = false;
+            }
+            return rv;
         }
         /****************************************************************************************/
         private bool VerifyInventory(string serialNumber, string serviceId)
@@ -10638,7 +10676,14 @@ namespace SMFS
                 return;
 
             if (serialNumber == oldSerialNumber)
+            {
+                bool rv = ConfirmInventory(serialNumber, workServiceId);
+                if (!rv)
+                {
+                    DialogResult result = MessageBox.Show("***ERROR*** Serial Number " + serialNumber + "\nhas different Service Id!\nCannot Add!", "Serial Number Service Id ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                }
                 return;
+            }
 
             //if (serialNumber == thisSerialNumber) //This might be a problem
             //    return;

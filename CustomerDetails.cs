@@ -864,6 +864,8 @@ namespace SMFS
                 string code = "01";
                 if (!String.IsNullOrWhiteSpace(workPayer))
                     code = "02";
+                else if (acctType.ToUpper() == "SAVINGS")
+                    code = "02";
                 G1.update_db_table("ach", "record", record, new string[] { "contractNumber", workContract, "payer", workPayer, "code", code, "routingNumber", routingNumber, "accountNumber", accountNumber, "frequencyInMonths", frequency, "dayOfMonth", dom, "acctType", acctType, "payment", payment, "dateBeginning", dateBeginning.ToString("yyyy-MM-dd"), "numPayments", numPayments, "leftPayments", leftPayments });
             }
         }
@@ -887,6 +889,7 @@ namespace SMFS
             string acctType = dx.Rows[0]["acctType"].ObjToString();
             string numPayments = dx.Rows[0]["numPayments"].ObjToString();
             string leftPayments = dx.Rows[0]["leftPayments"].ObjToString();
+            string code = dx.Rows[0]["code"].ObjToString();
 
             DateTime dateBeginning = dx.Rows[0]["dateBeginning"].ObjToDateTime();
 
@@ -908,6 +911,8 @@ namespace SMFS
             if (acctType.ToUpper() != "CHECKING" && acctType != "SAVINGS")
                 acctType = "Checking";
             cmbAcctType.Text = acctType;
+            if ( code == "02")
+                cmbAcctType.Text = "Savings";
             dateBeginACH.Text = dateBeginning.ToString("MM/dd/yyyy");
         }
         /***********************************************************************************************/

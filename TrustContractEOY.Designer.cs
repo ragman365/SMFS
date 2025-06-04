@@ -45,9 +45,6 @@
             this.tabDetail = new System.Windows.Forms.TabPage();
             this.dgv = new DevExpress.XtraGrid.GridControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.clearInsuranceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearLossRecoveryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearBooksOrderedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -81,6 +78,26 @@
             this.bandedGridColumn16 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn17 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox3 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.tabSummary = new System.Windows.Forms.TabPage();
+            this.dgv9 = new DevExpress.XtraGrid.GridControl();
+            this.gridMain9 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.bandedGridColumn226 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn227 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn228 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn229 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn230 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn231 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn232 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn233 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn234 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn235 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn236 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn237 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn238 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn239 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn240 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.repositoryItemComboBox9 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.tabPrePostRiles = new System.Windows.Forms.TabPage();
             this.dgv2 = new DevExpress.XtraGrid.GridControl();
             this.gridMain2 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
@@ -102,26 +119,6 @@
             this.bandedGridColumn192 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.tabHU = new System.Windows.Forms.TabPage();
-            this.tabJPN = new System.Windows.Forms.TabPage();
-            this.tabNMOC = new System.Windows.Forms.TabPage();
-            this.tabCem = new System.Windows.Forms.TabPage();
-            this.tabAFA = new System.Windows.Forms.TabPage();
-            this.tabNoContract = new System.Windows.Forms.TabPage();
-            this.panelTop = new System.Windows.Forms.Panel();
-            this.cmbSelectColumns = new System.Windows.Forms.ComboBox();
-            this.btnSelectColumns = new System.Windows.Forms.Button();
-            this.chkIncludeSMFS = new System.Windows.Forms.CheckBox();
-            this.chkCollapes = new System.Windows.Forms.CheckBox();
-            this.chkPageBreaks = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.chkComboLocNames = new DevExpress.XtraEditors.CheckedComboBoxEdit();
-            this.btnRun = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.btnRight = new System.Windows.Forms.Button();
-            this.btnLeft = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dgv3 = new DevExpress.XtraGrid.GridControl();
             this.gridMain3 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -156,6 +153,7 @@
             this.bandedGridColumn199 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn200 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.tabJPN = new System.Windows.Forms.TabPage();
             this.dgv4 = new DevExpress.XtraGrid.GridControl();
             this.gridMain4 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -190,6 +188,7 @@
             this.bandedGridColumn204 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn205 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox4 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.tabNMOC = new System.Windows.Forms.TabPage();
             this.dgv5 = new DevExpress.XtraGrid.GridControl();
             this.gridMain5 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -224,6 +223,7 @@
             this.bandedGridColumn209 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn210 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox5 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.tabCem = new System.Windows.Forms.TabPage();
             this.dgv6 = new DevExpress.XtraGrid.GridControl();
             this.gridMain6 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -258,6 +258,7 @@
             this.bandedGridColumn214 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn215 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox6 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.tabAFA = new System.Windows.Forms.TabPage();
             this.dgv8 = new DevExpress.XtraGrid.GridControl();
             this.gridMain8 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -292,6 +293,7 @@
             this.bandedGridColumn219 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn220 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox8 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.tabNoContract = new System.Windows.Forms.TabPage();
             this.dgv7 = new DevExpress.XtraGrid.GridControl();
             this.gridMain7 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -326,46 +328,63 @@
             this.bandedGridColumn224 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn225 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox7 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.panelTop = new System.Windows.Forms.Panel();
+            this.cmbSelectColumns = new System.Windows.Forms.ComboBox();
+            this.btnSelectColumns = new System.Windows.Forms.Button();
+            this.chkIncludeSMFS = new System.Windows.Forms.CheckBox();
+            this.chkCollapes = new System.Windows.Forms.CheckBox();
+            this.chkPageBreaks = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.chkComboLocNames = new DevExpress.XtraEditors.CheckedComboBoxEdit();
+            this.btnRun = new System.Windows.Forms.Button();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.btnRight = new System.Windows.Forms.Button();
+            this.btnLeft = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.chkRestoreDetail = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).BeginInit();
+            this.tabSummary.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox9)).BeginInit();
             this.tabPrePostRiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             this.tabHU.SuspendLayout();
-            this.tabJPN.SuspendLayout();
-            this.tabNMOC.SuspendLayout();
-            this.tabCem.SuspendLayout();
-            this.tabAFA.SuspendLayout();
-            this.tabNoContract.SuspendLayout();
-            this.panelTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chkComboLocNames.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).BeginInit();
+            this.tabJPN.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox4)).BeginInit();
+            this.tabNMOC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox5)).BeginInit();
+            this.tabCem.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox6)).BeginInit();
+            this.tabAFA.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox8)).BeginInit();
+            this.tabNoContract.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).BeginInit();
+            this.panelTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chkComboLocNames.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -377,7 +396,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1691, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1691, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -447,10 +466,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1691, 539);
+            this.panelAll.Size = new System.Drawing.Size(1691, 541);
             this.panelAll.TabIndex = 6;
             // 
             // panelBottom
@@ -460,12 +479,13 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 78);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1691, 461);
+            this.panelBottom.Size = new System.Drawing.Size(1691, 463);
             this.panelBottom.TabIndex = 8;
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabDetail);
+            this.tabControl1.Controls.Add(this.tabSummary);
             this.tabControl1.Controls.Add(this.tabPrePostRiles);
             this.tabControl1.Controls.Add(this.tabHU);
             this.tabControl1.Controls.Add(this.tabJPN);
@@ -477,7 +497,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1691, 461);
+            this.tabControl1.Size = new System.Drawing.Size(1691, 463);
             this.tabControl1.TabIndex = 5;
             // 
             // tabDetail
@@ -486,7 +506,7 @@
             this.tabDetail.Location = new System.Drawing.Point(4, 25);
             this.tabDetail.Name = "tabDetail";
             this.tabDetail.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDetail.Size = new System.Drawing.Size(1683, 432);
+            this.tabDetail.Size = new System.Drawing.Size(1683, 434);
             this.tabDetail.TabIndex = 0;
             this.tabDetail.Text = "Detail";
             this.tabDetail.UseVisualStyleBackColor = true;
@@ -502,7 +522,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox3});
-            this.dgv.Size = new System.Drawing.Size(1677, 426);
+            this.dgv.Size = new System.Drawing.Size(1677, 428);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -510,33 +530,8 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearInsuranceToolStripMenuItem,
-            this.clearLossRecoveryToolStripMenuItem,
-            this.clearBooksOrderedToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(216, 76);
-            // 
-            // clearInsuranceToolStripMenuItem
-            // 
-            this.clearInsuranceToolStripMenuItem.Name = "clearInsuranceToolStripMenuItem";
-            this.clearInsuranceToolStripMenuItem.Size = new System.Drawing.Size(215, 24);
-            this.clearInsuranceToolStripMenuItem.Text = "Clear Insurance";
-            this.clearInsuranceToolStripMenuItem.Click += new System.EventHandler(this.clearInsuranceToolStripMenuItem_Click);
-            // 
-            // clearLossRecoveryToolStripMenuItem
-            // 
-            this.clearLossRecoveryToolStripMenuItem.Name = "clearLossRecoveryToolStripMenuItem";
-            this.clearLossRecoveryToolStripMenuItem.Size = new System.Drawing.Size(215, 24);
-            this.clearLossRecoveryToolStripMenuItem.Text = "Clear Loss Recovery";
-            this.clearLossRecoveryToolStripMenuItem.Click += new System.EventHandler(this.clearLossRecoveryToolStripMenuItem_Click);
-            // 
-            // clearBooksOrderedToolStripMenuItem
-            // 
-            this.clearBooksOrderedToolStripMenuItem.Name = "clearBooksOrderedToolStripMenuItem";
-            this.clearBooksOrderedToolStripMenuItem.Size = new System.Drawing.Size(215, 24);
-            this.clearBooksOrderedToolStripMenuItem.Text = "Clear Books Ordered";
-            this.clearBooksOrderedToolStripMenuItem.Click += new System.EventHandler(this.clearBooksOrderedToolStripMenuItem_Click);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // gridMain
             // 
@@ -1108,6 +1103,409 @@
             "Pause"});
             this.repositoryItemComboBox3.Name = "repositoryItemComboBox3";
             // 
+            // tabSummary
+            // 
+            this.tabSummary.Controls.Add(this.dgv9);
+            this.tabSummary.Location = new System.Drawing.Point(4, 25);
+            this.tabSummary.Name = "tabSummary";
+            this.tabSummary.Size = new System.Drawing.Size(1683, 434);
+            this.tabSummary.TabIndex = 8;
+            this.tabSummary.Text = "Summary";
+            this.tabSummary.UseVisualStyleBackColor = true;
+            // 
+            // dgv9
+            // 
+            this.dgv9.ContextMenuStrip = this.contextMenuStrip1;
+            this.dgv9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv9.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv9.Location = new System.Drawing.Point(0, 0);
+            this.dgv9.MainView = this.gridMain9;
+            this.dgv9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv9.Name = "dgv9";
+            this.dgv9.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemComboBox9});
+            this.dgv9.Size = new System.Drawing.Size(1683, 434);
+            this.dgv9.TabIndex = 6;
+            this.dgv9.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridMain9});
+            // 
+            // gridMain9
+            // 
+            this.gridMain9.Appearance.BandPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(221)))), ((int)(((byte)(208)))));
+            this.gridMain9.Appearance.BandPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(221)))), ((int)(((byte)(208)))));
+            this.gridMain9.Appearance.BandPanel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.gridMain9.Appearance.BandPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.BandPanel.Options.UseBackColor = true;
+            this.gridMain9.Appearance.BandPanel.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.BandPanel.Options.UseFont = true;
+            this.gridMain9.Appearance.BandPanel.Options.UseForeColor = true;
+            this.gridMain9.Appearance.BandPanelBackground.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain9.Appearance.BandPanelBackground.BackColor2 = System.Drawing.Color.White;
+            this.gridMain9.Appearance.BandPanelBackground.Options.UseBackColor = true;
+            this.gridMain9.Appearance.ColumnFilterButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(221)))), ((int)(((byte)(208)))));
+            this.gridMain9.Appearance.ColumnFilterButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(221)))), ((int)(((byte)(208)))));
+            this.gridMain9.Appearance.ColumnFilterButton.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.ColumnFilterButton.Options.UseBackColor = true;
+            this.gridMain9.Appearance.ColumnFilterButton.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.ColumnFilterButton.Options.UseForeColor = true;
+            this.gridMain9.Appearance.ColumnFilterButtonActive.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(226)))), ((int)(((byte)(216)))));
+            this.gridMain9.Appearance.ColumnFilterButtonActive.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(226)))), ((int)(((byte)(216)))));
+            this.gridMain9.Appearance.ColumnFilterButtonActive.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.ColumnFilterButtonActive.Options.UseBackColor = true;
+            this.gridMain9.Appearance.ColumnFilterButtonActive.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.ColumnFilterButtonActive.Options.UseForeColor = true;
+            this.gridMain9.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain9.Appearance.Empty.BackColor2 = System.Drawing.Color.White;
+            this.gridMain9.Appearance.Empty.Options.UseBackColor = true;
+            this.gridMain9.Appearance.EvenRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(227)))), ((int)(((byte)(245)))));
+            this.gridMain9.Appearance.EvenRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(227)))), ((int)(((byte)(245)))));
+            this.gridMain9.Appearance.EvenRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.EvenRow.Options.UseBackColor = true;
+            this.gridMain9.Appearance.EvenRow.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.EvenRow.Options.UseForeColor = true;
+            this.gridMain9.Appearance.FilterCloseButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(221)))), ((int)(((byte)(208)))));
+            this.gridMain9.Appearance.FilterCloseButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(221)))), ((int)(((byte)(208)))));
+            this.gridMain9.Appearance.FilterCloseButton.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.FilterCloseButton.Options.UseBackColor = true;
+            this.gridMain9.Appearance.FilterCloseButton.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.FilterCloseButton.Options.UseForeColor = true;
+            this.gridMain9.Appearance.FilterPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain9.Appearance.FilterPanel.BackColor2 = System.Drawing.Color.White;
+            this.gridMain9.Appearance.FilterPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.FilterPanel.Options.UseBackColor = true;
+            this.gridMain9.Appearance.FilterPanel.Options.UseForeColor = true;
+            this.gridMain9.Appearance.FixedLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(136)))), ((int)(((byte)(122)))));
+            this.gridMain9.Appearance.FixedLine.Options.UseBackColor = true;
+            this.gridMain9.Appearance.FocusedCell.BackColor = System.Drawing.Color.White;
+            this.gridMain9.Appearance.FocusedCell.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.FocusedCell.Options.UseBackColor = true;
+            this.gridMain9.Appearance.FocusedCell.Options.UseForeColor = true;
+            this.gridMain9.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(171)))), ((int)(((byte)(177)))));
+            this.gridMain9.Appearance.FocusedRow.ForeColor = System.Drawing.Color.White;
+            this.gridMain9.Appearance.FocusedRow.Options.UseBackColor = true;
+            this.gridMain9.Appearance.FocusedRow.Options.UseForeColor = true;
+            this.gridMain9.Appearance.FooterPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(221)))), ((int)(((byte)(208)))));
+            this.gridMain9.Appearance.FooterPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(221)))), ((int)(((byte)(208)))));
+            this.gridMain9.Appearance.FooterPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.FooterPanel.Options.UseBackColor = true;
+            this.gridMain9.Appearance.FooterPanel.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.FooterPanel.Options.UseForeColor = true;
+            this.gridMain9.Appearance.GroupButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(209)))), ((int)(((byte)(188)))));
+            this.gridMain9.Appearance.GroupButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(209)))), ((int)(((byte)(188)))));
+            this.gridMain9.Appearance.GroupButton.Options.UseBackColor = true;
+            this.gridMain9.Appearance.GroupButton.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.GroupFooter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(234)))), ((int)(((byte)(221)))));
+            this.gridMain9.Appearance.GroupFooter.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(234)))), ((int)(((byte)(221)))));
+            this.gridMain9.Appearance.GroupFooter.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.GroupFooter.Options.UseBackColor = true;
+            this.gridMain9.Appearance.GroupFooter.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.GroupFooter.Options.UseForeColor = true;
+            this.gridMain9.Appearance.GroupPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain9.Appearance.GroupPanel.BackColor2 = System.Drawing.Color.White;
+            this.gridMain9.Appearance.GroupPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.GroupPanel.Options.UseBackColor = true;
+            this.gridMain9.Appearance.GroupPanel.Options.UseForeColor = true;
+            this.gridMain9.Appearance.GroupRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(234)))), ((int)(((byte)(221)))));
+            this.gridMain9.Appearance.GroupRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(234)))), ((int)(((byte)(221)))));
+            this.gridMain9.Appearance.GroupRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.GroupRow.Options.UseBackColor = true;
+            this.gridMain9.Appearance.GroupRow.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.GroupRow.Options.UseForeColor = true;
+            this.gridMain9.Appearance.HeaderPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(226)))), ((int)(((byte)(216)))));
+            this.gridMain9.Appearance.HeaderPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(226)))), ((int)(((byte)(216)))));
+            this.gridMain9.Appearance.HeaderPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.HeaderPanel.Options.UseBackColor = true;
+            this.gridMain9.Appearance.HeaderPanel.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.HeaderPanel.Options.UseForeColor = true;
+            this.gridMain9.Appearance.HeaderPanelBackground.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain9.Appearance.HeaderPanelBackground.BackColor2 = System.Drawing.Color.White;
+            this.gridMain9.Appearance.HeaderPanelBackground.Options.UseBackColor = true;
+            this.gridMain9.Appearance.HideSelectionRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(211)))), ((int)(((byte)(215)))));
+            this.gridMain9.Appearance.HideSelectionRow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(130)))), ((int)(((byte)(134)))));
+            this.gridMain9.Appearance.HideSelectionRow.Options.UseBackColor = true;
+            this.gridMain9.Appearance.HideSelectionRow.Options.UseForeColor = true;
+            this.gridMain9.Appearance.HorzLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(197)))), ((int)(((byte)(180)))));
+            this.gridMain9.Appearance.HorzLine.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(136)))), ((int)(((byte)(122)))));
+            this.gridMain9.Appearance.HorzLine.Options.UseBackColor = true;
+            this.gridMain9.Appearance.HorzLine.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.OddRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain9.Appearance.OddRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain9.Appearance.OddRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.OddRow.Options.UseBackColor = true;
+            this.gridMain9.Appearance.OddRow.Options.UseBorderColor = true;
+            this.gridMain9.Appearance.OddRow.Options.UseForeColor = true;
+            this.gridMain9.Appearance.Preview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain9.Appearance.Preview.Font = new System.Drawing.Font("Verdana", 7.5F);
+            this.gridMain9.Appearance.Preview.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(130)))), ((int)(((byte)(134)))));
+            this.gridMain9.Appearance.Preview.Options.UseBackColor = true;
+            this.gridMain9.Appearance.Preview.Options.UseFont = true;
+            this.gridMain9.Appearance.Preview.Options.UseForeColor = true;
+            this.gridMain9.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain9.Appearance.Row.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.Row.Options.UseBackColor = true;
+            this.gridMain9.Appearance.Row.Options.UseForeColor = true;
+            this.gridMain9.Appearance.RowSeparator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(244)))), ((int)(((byte)(236)))));
+            this.gridMain9.Appearance.RowSeparator.BackColor2 = System.Drawing.Color.White;
+            this.gridMain9.Appearance.RowSeparator.Options.UseBackColor = true;
+            this.gridMain9.Appearance.SelectedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(159)))), ((int)(((byte)(201)))), ((int)(((byte)(207)))));
+            this.gridMain9.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain9.Appearance.SelectedRow.Options.UseBackColor = true;
+            this.gridMain9.Appearance.SelectedRow.Options.UseForeColor = true;
+            this.gridMain9.Appearance.TopNewRow.BackColor = System.Drawing.Color.White;
+            this.gridMain9.Appearance.TopNewRow.Options.UseBackColor = true;
+            this.gridMain9.Appearance.VertLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(197)))), ((int)(((byte)(180)))));
+            this.gridMain9.Appearance.VertLine.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(136)))), ((int)(((byte)(122)))));
+            this.gridMain9.Appearance.VertLine.Options.UseBackColor = true;
+            this.gridMain9.Appearance.VertLine.Options.UseBorderColor = true;
+            this.gridMain9.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            this.gridMain9.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridMain9.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand9});
+            this.gridMain9.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
+            this.bandedGridColumn235,
+            this.bandedGridColumn226,
+            this.bandedGridColumn227,
+            this.bandedGridColumn230,
+            this.bandedGridColumn228,
+            this.bandedGridColumn231,
+            this.bandedGridColumn232,
+            this.bandedGridColumn233,
+            this.bandedGridColumn234,
+            this.bandedGridColumn229,
+            this.bandedGridColumn236,
+            this.bandedGridColumn237,
+            this.bandedGridColumn238,
+            this.bandedGridColumn239,
+            this.bandedGridColumn240});
+            this.gridMain9.DetailHeight = 431;
+            this.gridMain9.GridControl = this.dgv9;
+            this.gridMain9.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "downpayment", null, "", "3")});
+            this.gridMain9.Name = "gridMain9";
+            this.gridMain9.OptionsCustomization.ShowBandsInCustomizationForm = false;
+            this.gridMain9.OptionsPrint.PrintBandHeader = false;
+            this.gridMain9.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
+            this.gridMain9.OptionsView.EnableAppearanceEvenRow = true;
+            this.gridMain9.OptionsView.EnableAppearanceOddRow = true;
+            this.gridMain9.OptionsView.ShowFooter = true;
+            this.gridMain9.OptionsView.ShowGroupPanel = false;
+            this.gridMain9.PaintStyleName = "Flat";
+            this.gridMain9.DoubleClick += new System.EventHandler(this.gridMain9_DoubleClick);
+            // 
+            // gridBand9
+            // 
+            this.gridBand9.Columns.Add(this.bandedGridColumn226);
+            this.gridBand9.Columns.Add(this.bandedGridColumn227);
+            this.gridBand9.Columns.Add(this.bandedGridColumn228);
+            this.gridBand9.Columns.Add(this.bandedGridColumn229);
+            this.gridBand9.Columns.Add(this.bandedGridColumn230);
+            this.gridBand9.Columns.Add(this.bandedGridColumn231);
+            this.gridBand9.Columns.Add(this.bandedGridColumn232);
+            this.gridBand9.Columns.Add(this.bandedGridColumn233);
+            this.gridBand9.Columns.Add(this.bandedGridColumn234);
+            this.gridBand9.Columns.Add(this.bandedGridColumn235);
+            this.gridBand9.Columns.Add(this.bandedGridColumn236);
+            this.gridBand9.Columns.Add(this.bandedGridColumn237);
+            this.gridBand9.Columns.Add(this.bandedGridColumn238);
+            this.gridBand9.Columns.Add(this.bandedGridColumn239);
+            this.gridBand9.Columns.Add(this.bandedGridColumn240);
+            this.gridBand9.MinWidth = 41;
+            this.gridBand9.Name = "gridBand9";
+            this.gridBand9.VisibleIndex = 0;
+            this.gridBand9.Width = 1639;
+            // 
+            // bandedGridColumn226
+            // 
+            this.bandedGridColumn226.Caption = "Location";
+            this.bandedGridColumn226.FieldName = "location";
+            this.bandedGridColumn226.MinWidth = 64;
+            this.bandedGridColumn226.Name = "bandedGridColumn226";
+            this.bandedGridColumn226.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn226.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn226.Visible = true;
+            this.bandedGridColumn226.Width = 210;
+            // 
+            // bandedGridColumn227
+            // 
+            this.bandedGridColumn227.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.bandedGridColumn227.AppearanceHeader.Options.UseForeColor = true;
+            this.bandedGridColumn227.Caption = "Contracts";
+            this.bandedGridColumn227.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn227.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn227.FieldName = "contracts";
+            this.bandedGridColumn227.MinWidth = 66;
+            this.bandedGridColumn227.Name = "bandedGridColumn227";
+            this.bandedGridColumn227.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn227.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn227.Visible = true;
+            this.bandedGridColumn227.Width = 156;
+            // 
+            // bandedGridColumn228
+            // 
+            this.bandedGridColumn228.Caption = "Contract Value";
+            this.bandedGridColumn228.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn228.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn228.FieldName = "contractValue";
+            this.bandedGridColumn228.MinWidth = 40;
+            this.bandedGridColumn228.Name = "bandedGridColumn228";
+            this.bandedGridColumn228.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn228.Visible = true;
+            this.bandedGridColumn228.Width = 147;
+            // 
+            // bandedGridColumn229
+            // 
+            this.bandedGridColumn229.Caption = "Trust 50%";
+            this.bandedGridColumn229.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn229.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn229.FieldName = "trust50";
+            this.bandedGridColumn229.MinWidth = 29;
+            this.bandedGridColumn229.Name = "bandedGridColumn229";
+            this.bandedGridColumn229.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn229.Visible = true;
+            this.bandedGridColumn229.Width = 128;
+            // 
+            // bandedGridColumn230
+            // 
+            this.bandedGridColumn230.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.bandedGridColumn230.AppearanceHeader.Options.UseForeColor = true;
+            this.bandedGridColumn230.Caption = "Trust 85%";
+            this.bandedGridColumn230.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn230.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn230.FieldName = "total";
+            this.bandedGridColumn230.MinWidth = 66;
+            this.bandedGridColumn230.Name = "bandedGridColumn230";
+            this.bandedGridColumn230.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn230.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn230.Visible = true;
+            this.bandedGridColumn230.Width = 156;
+            // 
+            // bandedGridColumn231
+            // 
+            this.bandedGridColumn231.Caption = "Allow Insurance";
+            this.bandedGridColumn231.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn231.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn231.FieldName = "allowInsurance";
+            this.bandedGridColumn231.MinWidth = 40;
+            this.bandedGridColumn231.Name = "bandedGridColumn231";
+            this.bandedGridColumn231.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn231.Visible = true;
+            this.bandedGridColumn231.Width = 152;
+            // 
+            // bandedGridColumn232
+            // 
+            this.bandedGridColumn232.Caption = "Annuity";
+            this.bandedGridColumn232.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn232.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn232.FieldName = "annuity";
+            this.bandedGridColumn232.MinWidth = 40;
+            this.bandedGridColumn232.Name = "bandedGridColumn232";
+            this.bandedGridColumn232.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn232.Visible = true;
+            this.bandedGridColumn232.Width = 126;
+            // 
+            // bandedGridColumn233
+            // 
+            this.bandedGridColumn233.Caption = "Total";
+            this.bandedGridColumn233.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn233.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn233.FieldName = "totalLoc";
+            this.bandedGridColumn233.MinWidth = 34;
+            this.bandedGridColumn233.Name = "bandedGridColumn233";
+            this.bandedGridColumn233.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn233.Visible = true;
+            this.bandedGridColumn233.Width = 135;
+            // 
+            // bandedGridColumn234
+            // 
+            this.bandedGridColumn234.Caption = "Remaining Balance";
+            this.bandedGridColumn234.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn234.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn234.FieldName = "balanceDue";
+            this.bandedGridColumn234.MinWidth = 29;
+            this.bandedGridColumn234.Name = "bandedGridColumn234";
+            this.bandedGridColumn234.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn234.Visible = true;
+            this.bandedGridColumn234.Width = 107;
+            // 
+            // bandedGridColumn235
+            // 
+            this.bandedGridColumn235.Caption = "record";
+            this.bandedGridColumn235.FieldName = "record";
+            this.bandedGridColumn235.MinWidth = 66;
+            this.bandedGridColumn235.Name = "bandedGridColumn235";
+            this.bandedGridColumn235.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn235.Width = 255;
+            // 
+            // bandedGridColumn236
+            // 
+            this.bandedGridColumn236.Caption = "Trust and Ins";
+            this.bandedGridColumn236.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn236.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn236.FieldName = "TandI";
+            this.bandedGridColumn236.MinWidth = 25;
+            this.bandedGridColumn236.Name = "bandedGridColumn236";
+            this.bandedGridColumn236.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn236.Visible = true;
+            this.bandedGridColumn236.Width = 66;
+            // 
+            // bandedGridColumn237
+            // 
+            this.bandedGridColumn237.Caption = "Ins Only";
+            this.bandedGridColumn237.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn237.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn237.FieldName = "insOnly";
+            this.bandedGridColumn237.MinWidth = 25;
+            this.bandedGridColumn237.Name = "bandedGridColumn237";
+            this.bandedGridColumn237.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn237.Visible = true;
+            this.bandedGridColumn237.Width = 55;
+            // 
+            // bandedGridColumn238
+            // 
+            this.bandedGridColumn238.Caption = "Trust Only";
+            this.bandedGridColumn238.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn238.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn238.FieldName = "trustOnly";
+            this.bandedGridColumn238.MinWidth = 25;
+            this.bandedGridColumn238.Name = "bandedGridColumn238";
+            this.bandedGridColumn238.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn238.Visible = true;
+            this.bandedGridColumn238.Width = 60;
+            // 
+            // bandedGridColumn239
+            // 
+            this.bandedGridColumn239.Caption = "Annuity Only";
+            this.bandedGridColumn239.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn239.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn239.FieldName = "annOnly";
+            this.bandedGridColumn239.MinWidth = 25;
+            this.bandedGridColumn239.Name = "bandedGridColumn239";
+            this.bandedGridColumn239.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn239.Visible = true;
+            this.bandedGridColumn239.Width = 69;
+            // 
+            // bandedGridColumn240
+            // 
+            this.bandedGridColumn240.Caption = "Ins and Annuity";
+            this.bandedGridColumn240.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn240.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn240.FieldName = "IandA";
+            this.bandedGridColumn240.MinWidth = 25;
+            this.bandedGridColumn240.Name = "bandedGridColumn240";
+            this.bandedGridColumn240.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn240.Visible = true;
+            this.bandedGridColumn240.Width = 72;
+            // 
+            // repositoryItemComboBox9
+            // 
+            this.repositoryItemComboBox9.AutoHeight = false;
+            this.repositoryItemComboBox9.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox9.Items.AddRange(new object[] {
+            "None",
+            "Pause"});
+            this.repositoryItemComboBox9.Name = "repositoryItemComboBox9";
+            // 
             // tabPrePostRiles
             // 
             this.tabPrePostRiles.Controls.Add(this.dgv2);
@@ -1517,238 +1915,10 @@
             this.tabHU.Controls.Add(this.dgv3);
             this.tabHU.Location = new System.Drawing.Point(4, 25);
             this.tabHU.Name = "tabHU";
-            this.tabHU.Size = new System.Drawing.Size(1683, 434);
+            this.tabHU.Size = new System.Drawing.Size(1683, 432);
             this.tabHU.TabIndex = 2;
             this.tabHU.Text = "HU";
             this.tabHU.UseVisualStyleBackColor = true;
-            // 
-            // tabJPN
-            // 
-            this.tabJPN.Controls.Add(this.dgv4);
-            this.tabJPN.Location = new System.Drawing.Point(4, 25);
-            this.tabJPN.Name = "tabJPN";
-            this.tabJPN.Size = new System.Drawing.Size(1683, 434);
-            this.tabJPN.TabIndex = 3;
-            this.tabJPN.Text = "JPN";
-            this.tabJPN.UseVisualStyleBackColor = true;
-            // 
-            // tabNMOC
-            // 
-            this.tabNMOC.Controls.Add(this.dgv5);
-            this.tabNMOC.Location = new System.Drawing.Point(4, 25);
-            this.tabNMOC.Name = "tabNMOC";
-            this.tabNMOC.Size = new System.Drawing.Size(1683, 434);
-            this.tabNMOC.TabIndex = 4;
-            this.tabNMOC.Text = "NMOC";
-            this.tabNMOC.UseVisualStyleBackColor = true;
-            // 
-            // tabCem
-            // 
-            this.tabCem.Controls.Add(this.dgv6);
-            this.tabCem.Location = new System.Drawing.Point(4, 25);
-            this.tabCem.Name = "tabCem";
-            this.tabCem.Size = new System.Drawing.Size(1683, 434);
-            this.tabCem.TabIndex = 5;
-            this.tabCem.Text = "cemeteries";
-            this.tabCem.UseVisualStyleBackColor = true;
-            // 
-            // tabAFA
-            // 
-            this.tabAFA.Controls.Add(this.dgv8);
-            this.tabAFA.Location = new System.Drawing.Point(4, 25);
-            this.tabAFA.Name = "tabAFA";
-            this.tabAFA.Size = new System.Drawing.Size(1683, 432);
-            this.tabAFA.TabIndex = 7;
-            this.tabAFA.Text = "AFA";
-            this.tabAFA.UseVisualStyleBackColor = true;
-            // 
-            // tabNoContract
-            // 
-            this.tabNoContract.Controls.Add(this.dgv7);
-            this.tabNoContract.Location = new System.Drawing.Point(4, 25);
-            this.tabNoContract.Name = "tabNoContract";
-            this.tabNoContract.Size = new System.Drawing.Size(1683, 434);
-            this.tabNoContract.TabIndex = 6;
-            this.tabNoContract.Text = "No Contract";
-            this.tabNoContract.UseVisualStyleBackColor = true;
-            // 
-            // panelTop
-            // 
-            this.panelTop.Controls.Add(this.cmbSelectColumns);
-            this.panelTop.Controls.Add(this.btnSelectColumns);
-            this.panelTop.Controls.Add(this.chkIncludeSMFS);
-            this.panelTop.Controls.Add(this.chkCollapes);
-            this.panelTop.Controls.Add(this.chkPageBreaks);
-            this.panelTop.Controls.Add(this.label1);
-            this.panelTop.Controls.Add(this.chkComboLocNames);
-            this.panelTop.Controls.Add(this.btnRun);
-            this.panelTop.Controls.Add(this.label5);
-            this.panelTop.Controls.Add(this.dateTimePicker2);
-            this.panelTop.Controls.Add(this.btnRight);
-            this.panelTop.Controls.Add(this.btnLeft);
-            this.panelTop.Controls.Add(this.dateTimePicker1);
-            this.panelTop.Controls.Add(this.pictureBox1);
-            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Location = new System.Drawing.Point(0, 0);
-            this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1691, 78);
-            this.panelTop.TabIndex = 7;
-            // 
-            // cmbSelectColumns
-            // 
-            this.cmbSelectColumns.FormattingEnabled = true;
-            this.cmbSelectColumns.Location = new System.Drawing.Point(1233, 9);
-            this.cmbSelectColumns.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.cmbSelectColumns.Name = "cmbSelectColumns";
-            this.cmbSelectColumns.Size = new System.Drawing.Size(179, 24);
-            this.cmbSelectColumns.TabIndex = 160;
-            this.cmbSelectColumns.SelectedIndexChanged += new System.EventHandler(this.cmbSelectColumns_SelectedIndexChanged);
-            // 
-            // btnSelectColumns
-            // 
-            this.btnSelectColumns.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnSelectColumns.Location = new System.Drawing.Point(1418, 8);
-            this.btnSelectColumns.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnSelectColumns.Name = "btnSelectColumns";
-            this.btnSelectColumns.Size = new System.Drawing.Size(113, 28);
-            this.btnSelectColumns.TabIndex = 159;
-            this.btnSelectColumns.Text = "Select Columns";
-            this.btnSelectColumns.UseVisualStyleBackColor = false;
-            this.btnSelectColumns.Click += new System.EventHandler(this.btnSelectColumns_Click);
-            // 
-            // chkIncludeSMFS
-            // 
-            this.chkIncludeSMFS.AutoSize = true;
-            this.chkIncludeSMFS.Checked = true;
-            this.chkIncludeSMFS.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeSMFS.Location = new System.Drawing.Point(784, 48);
-            this.chkIncludeSMFS.Name = "chkIncludeSMFS";
-            this.chkIncludeSMFS.Size = new System.Drawing.Size(194, 21);
-            this.chkIncludeSMFS.TabIndex = 158;
-            this.chkIncludeSMFS.Text = "Include SMFS Active Trusts";
-            this.chkIncludeSMFS.UseVisualStyleBackColor = true;
-            // 
-            // chkCollapes
-            // 
-            this.chkCollapes.AutoSize = true;
-            this.chkCollapes.Location = new System.Drawing.Point(676, 48);
-            this.chkCollapes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.chkCollapes.Name = "chkCollapes";
-            this.chkCollapes.Size = new System.Drawing.Size(79, 21);
-            this.chkCollapes.TabIndex = 157;
-            this.chkCollapes.Text = "Collapes";
-            this.chkCollapes.UseVisualStyleBackColor = true;
-            this.chkCollapes.CheckedChanged += new System.EventHandler(this.chkCollapes_CheckedChanged);
-            // 
-            // chkPageBreaks
-            // 
-            this.chkPageBreaks.AutoSize = true;
-            this.chkPageBreaks.Checked = true;
-            this.chkPageBreaks.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkPageBreaks.Location = new System.Drawing.Point(1051, 14);
-            this.chkPageBreaks.Name = "chkPageBreaks";
-            this.chkPageBreaks.Size = new System.Drawing.Size(176, 21);
-            this.chkPageBreaks.TabIndex = 156;
-            this.chkPageBreaks.Text = "Page Break at Locations";
-            this.chkPageBreaks.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(975, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 17);
-            this.label1.TabIndex = 155;
-            this.label1.Text = "Location";
-            // 
-            // chkComboLocNames
-            // 
-            this.chkComboLocNames.EditValue = "";
-            this.chkComboLocNames.Location = new System.Drawing.Point(784, 11);
-            this.chkComboLocNames.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.chkComboLocNames.Name = "chkComboLocNames";
-            this.chkComboLocNames.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.chkComboLocNames.Properties.DisplayMember = "LocationCode";
-            this.chkComboLocNames.Properties.SeparatorChar = '|';
-            this.chkComboLocNames.Size = new System.Drawing.Size(185, 22);
-            this.chkComboLocNames.TabIndex = 154;
-            this.chkComboLocNames.EditValueChanged += new System.EventHandler(this.chkComboLocNames_EditValueChanged);
-            // 
-            // btnRun
-            // 
-            this.btnRun.BackColor = System.Drawing.Color.Honeydew;
-            this.btnRun.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.btnRun.Location = new System.Drawing.Point(676, 8);
-            this.btnRun.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(87, 32);
-            this.btnRun.TabIndex = 153;
-            this.btnRun.Text = "Run";
-            this.btnRun.UseVisualStyleBackColor = false;
-            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(344, 18);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(34, 17);
-            this.label5.TabIndex = 152;
-            this.label5.Text = "-To-";
-            // 
-            // dateTimePicker2
-            // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(384, 11);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(233, 23);
-            this.dateTimePicker2.TabIndex = 151;
-            // 
-            // btnRight
-            // 
-            this.btnRight.BackColor = System.Drawing.Color.Transparent;
-            this.btnRight.Image = ((System.Drawing.Image)(resources.GetObject("btnRight.Image")));
-            this.btnRight.Location = new System.Drawing.Point(619, 10);
-            this.btnRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnRight.Name = "btnRight";
-            this.btnRight.Size = new System.Drawing.Size(33, 28);
-            this.btnRight.TabIndex = 150;
-            this.btnRight.UseVisualStyleBackColor = false;
-            this.btnRight.Click += new System.EventHandler(this.btnRight_Click);
-            // 
-            // btnLeft
-            // 
-            this.btnLeft.BackColor = System.Drawing.Color.Transparent;
-            this.btnLeft.Image = ((System.Drawing.Image)(resources.GetObject("btnLeft.Image")));
-            this.btnLeft.Location = new System.Drawing.Point(69, 10);
-            this.btnLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnLeft.Name = "btnLeft";
-            this.btnLeft.Size = new System.Drawing.Size(33, 28);
-            this.btnLeft.TabIndex = 149;
-            this.btnLeft.UseVisualStyleBackColor = false;
-            this.btnLeft.Click += new System.EventHandler(this.btnLeft_Click);
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(104, 11);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(233, 23);
-            this.dateTimePicker1.TabIndex = 148;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(14, 10);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(33, 27);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 146;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // dgv3
             // 
@@ -1761,7 +1931,7 @@
             this.dgv3.Name = "dgv3";
             this.dgv3.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox2});
-            this.dgv3.Size = new System.Drawing.Size(1683, 434);
+            this.dgv3.Size = new System.Drawing.Size(1683, 432);
             this.dgv3.TabIndex = 5;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -2329,6 +2499,16 @@
             "Pause"});
             this.repositoryItemComboBox2.Name = "repositoryItemComboBox2";
             // 
+            // tabJPN
+            // 
+            this.tabJPN.Controls.Add(this.dgv4);
+            this.tabJPN.Location = new System.Drawing.Point(4, 25);
+            this.tabJPN.Name = "tabJPN";
+            this.tabJPN.Size = new System.Drawing.Size(1683, 432);
+            this.tabJPN.TabIndex = 3;
+            this.tabJPN.Text = "JPN";
+            this.tabJPN.UseVisualStyleBackColor = true;
+            // 
             // dgv4
             // 
             this.dgv4.ContextMenuStrip = this.contextMenuStrip1;
@@ -2340,7 +2520,7 @@
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox4});
-            this.dgv4.Size = new System.Drawing.Size(1683, 434);
+            this.dgv4.Size = new System.Drawing.Size(1683, 432);
             this.dgv4.TabIndex = 5;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2908,6 +3088,16 @@
             "Pause"});
             this.repositoryItemComboBox4.Name = "repositoryItemComboBox4";
             // 
+            // tabNMOC
+            // 
+            this.tabNMOC.Controls.Add(this.dgv5);
+            this.tabNMOC.Location = new System.Drawing.Point(4, 25);
+            this.tabNMOC.Name = "tabNMOC";
+            this.tabNMOC.Size = new System.Drawing.Size(1683, 432);
+            this.tabNMOC.TabIndex = 4;
+            this.tabNMOC.Text = "NMOC";
+            this.tabNMOC.UseVisualStyleBackColor = true;
+            // 
             // dgv5
             // 
             this.dgv5.ContextMenuStrip = this.contextMenuStrip1;
@@ -2919,7 +3109,7 @@
             this.dgv5.Name = "dgv5";
             this.dgv5.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox5});
-            this.dgv5.Size = new System.Drawing.Size(1683, 434);
+            this.dgv5.Size = new System.Drawing.Size(1683, 432);
             this.dgv5.TabIndex = 5;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -3487,6 +3677,16 @@
             "Pause"});
             this.repositoryItemComboBox5.Name = "repositoryItemComboBox5";
             // 
+            // tabCem
+            // 
+            this.tabCem.Controls.Add(this.dgv6);
+            this.tabCem.Location = new System.Drawing.Point(4, 25);
+            this.tabCem.Name = "tabCem";
+            this.tabCem.Size = new System.Drawing.Size(1683, 432);
+            this.tabCem.TabIndex = 5;
+            this.tabCem.Text = "cemeteries";
+            this.tabCem.UseVisualStyleBackColor = true;
+            // 
             // dgv6
             // 
             this.dgv6.ContextMenuStrip = this.contextMenuStrip1;
@@ -3498,7 +3698,7 @@
             this.dgv6.Name = "dgv6";
             this.dgv6.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox6});
-            this.dgv6.Size = new System.Drawing.Size(1683, 434);
+            this.dgv6.Size = new System.Drawing.Size(1683, 432);
             this.dgv6.TabIndex = 5;
             this.dgv6.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain6});
@@ -4065,6 +4265,16 @@
             "None",
             "Pause"});
             this.repositoryItemComboBox6.Name = "repositoryItemComboBox6";
+            // 
+            // tabAFA
+            // 
+            this.tabAFA.Controls.Add(this.dgv8);
+            this.tabAFA.Location = new System.Drawing.Point(4, 25);
+            this.tabAFA.Name = "tabAFA";
+            this.tabAFA.Size = new System.Drawing.Size(1683, 432);
+            this.tabAFA.TabIndex = 7;
+            this.tabAFA.Text = "AFA";
+            this.tabAFA.UseVisualStyleBackColor = true;
             // 
             // dgv8
             // 
@@ -4645,6 +4855,16 @@
             "Pause"});
             this.repositoryItemComboBox8.Name = "repositoryItemComboBox8";
             // 
+            // tabNoContract
+            // 
+            this.tabNoContract.Controls.Add(this.dgv7);
+            this.tabNoContract.Location = new System.Drawing.Point(4, 25);
+            this.tabNoContract.Name = "tabNoContract";
+            this.tabNoContract.Size = new System.Drawing.Size(1683, 432);
+            this.tabNoContract.TabIndex = 6;
+            this.tabNoContract.Text = "No Contract";
+            this.tabNoContract.UseVisualStyleBackColor = true;
+            // 
             // dgv7
             // 
             this.dgv7.ContextMenuStrip = this.contextMenuStrip1;
@@ -4656,7 +4876,7 @@
             this.dgv7.Name = "dgv7";
             this.dgv7.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox7});
-            this.dgv7.Size = new System.Drawing.Size(1683, 434);
+            this.dgv7.Size = new System.Drawing.Size(1683, 432);
             this.dgv7.TabIndex = 5;
             this.dgv7.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain7});
@@ -5224,6 +5444,178 @@
             "Pause"});
             this.repositoryItemComboBox7.Name = "repositoryItemComboBox7";
             // 
+            // panelTop
+            // 
+            this.panelTop.Controls.Add(this.chkRestoreDetail);
+            this.panelTop.Controls.Add(this.cmbSelectColumns);
+            this.panelTop.Controls.Add(this.btnSelectColumns);
+            this.panelTop.Controls.Add(this.chkIncludeSMFS);
+            this.panelTop.Controls.Add(this.chkCollapes);
+            this.panelTop.Controls.Add(this.chkPageBreaks);
+            this.panelTop.Controls.Add(this.label1);
+            this.panelTop.Controls.Add(this.chkComboLocNames);
+            this.panelTop.Controls.Add(this.btnRun);
+            this.panelTop.Controls.Add(this.dateTimePicker2);
+            this.panelTop.Controls.Add(this.btnRight);
+            this.panelTop.Controls.Add(this.btnLeft);
+            this.panelTop.Controls.Add(this.pictureBox1);
+            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelTop.Location = new System.Drawing.Point(0, 0);
+            this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelTop.Name = "panelTop";
+            this.panelTop.Size = new System.Drawing.Size(1691, 78);
+            this.panelTop.TabIndex = 7;
+            // 
+            // cmbSelectColumns
+            // 
+            this.cmbSelectColumns.FormattingEnabled = true;
+            this.cmbSelectColumns.Location = new System.Drawing.Point(950, 15);
+            this.cmbSelectColumns.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cmbSelectColumns.Name = "cmbSelectColumns";
+            this.cmbSelectColumns.Size = new System.Drawing.Size(179, 24);
+            this.cmbSelectColumns.TabIndex = 160;
+            this.cmbSelectColumns.SelectedIndexChanged += new System.EventHandler(this.cmbSelectColumns_SelectedIndexChanged);
+            // 
+            // btnSelectColumns
+            // 
+            this.btnSelectColumns.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnSelectColumns.Location = new System.Drawing.Point(1135, 14);
+            this.btnSelectColumns.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnSelectColumns.Name = "btnSelectColumns";
+            this.btnSelectColumns.Size = new System.Drawing.Size(113, 28);
+            this.btnSelectColumns.TabIndex = 159;
+            this.btnSelectColumns.Text = "Select Columns";
+            this.btnSelectColumns.UseVisualStyleBackColor = false;
+            this.btnSelectColumns.Click += new System.EventHandler(this.btnSelectColumns_Click);
+            // 
+            // chkIncludeSMFS
+            // 
+            this.chkIncludeSMFS.AutoSize = true;
+            this.chkIncludeSMFS.Checked = true;
+            this.chkIncludeSMFS.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkIncludeSMFS.Location = new System.Drawing.Point(878, 46);
+            this.chkIncludeSMFS.Name = "chkIncludeSMFS";
+            this.chkIncludeSMFS.Size = new System.Drawing.Size(194, 21);
+            this.chkIncludeSMFS.TabIndex = 158;
+            this.chkIncludeSMFS.Text = "Include SMFS Active Trusts";
+            this.chkIncludeSMFS.UseVisualStyleBackColor = true;
+            // 
+            // chkCollapes
+            // 
+            this.chkCollapes.AutoSize = true;
+            this.chkCollapes.Location = new System.Drawing.Point(770, 46);
+            this.chkCollapes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkCollapes.Name = "chkCollapes";
+            this.chkCollapes.Size = new System.Drawing.Size(79, 21);
+            this.chkCollapes.TabIndex = 157;
+            this.chkCollapes.Text = "Collapes";
+            this.chkCollapes.UseVisualStyleBackColor = true;
+            this.chkCollapes.CheckedChanged += new System.EventHandler(this.chkCollapes_CheckedChanged);
+            // 
+            // chkPageBreaks
+            // 
+            this.chkPageBreaks.AutoSize = true;
+            this.chkPageBreaks.Checked = true;
+            this.chkPageBreaks.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkPageBreaks.Location = new System.Drawing.Point(768, 20);
+            this.chkPageBreaks.Name = "chkPageBreaks";
+            this.chkPageBreaks.Size = new System.Drawing.Size(176, 21);
+            this.chkPageBreaks.TabIndex = 156;
+            this.chkPageBreaks.Text = "Page Break at Locations";
+            this.chkPageBreaks.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(692, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 17);
+            this.label1.TabIndex = 155;
+            this.label1.Text = "Location";
+            // 
+            // chkComboLocNames
+            // 
+            this.chkComboLocNames.EditValue = "";
+            this.chkComboLocNames.Location = new System.Drawing.Point(501, 17);
+            this.chkComboLocNames.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkComboLocNames.Name = "chkComboLocNames";
+            this.chkComboLocNames.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.chkComboLocNames.Properties.DisplayMember = "LocationCode";
+            this.chkComboLocNames.Properties.SeparatorChar = '|';
+            this.chkComboLocNames.Size = new System.Drawing.Size(185, 22);
+            this.chkComboLocNames.TabIndex = 154;
+            this.chkComboLocNames.EditValueChanged += new System.EventHandler(this.chkComboLocNames_EditValueChanged);
+            // 
+            // btnRun
+            // 
+            this.btnRun.BackColor = System.Drawing.Color.Honeydew;
+            this.btnRun.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.btnRun.Location = new System.Drawing.Point(394, 10);
+            this.btnRun.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(87, 32);
+            this.btnRun.TabIndex = 153;
+            this.btnRun.Text = "Run";
+            this.btnRun.UseVisualStyleBackColor = false;
+            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Location = new System.Drawing.Point(108, 14);
+            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(233, 23);
+            this.dateTimePicker2.TabIndex = 151;
+            // 
+            // btnRight
+            // 
+            this.btnRight.BackColor = System.Drawing.Color.Transparent;
+            this.btnRight.Image = ((System.Drawing.Image)(resources.GetObject("btnRight.Image")));
+            this.btnRight.Location = new System.Drawing.Point(343, 13);
+            this.btnRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnRight.Name = "btnRight";
+            this.btnRight.Size = new System.Drawing.Size(33, 28);
+            this.btnRight.TabIndex = 150;
+            this.btnRight.UseVisualStyleBackColor = false;
+            this.btnRight.Click += new System.EventHandler(this.btnRight_Click);
+            // 
+            // btnLeft
+            // 
+            this.btnLeft.BackColor = System.Drawing.Color.Transparent;
+            this.btnLeft.Image = ((System.Drawing.Image)(resources.GetObject("btnLeft.Image")));
+            this.btnLeft.Location = new System.Drawing.Point(69, 12);
+            this.btnLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnLeft.Name = "btnLeft";
+            this.btnLeft.Size = new System.Drawing.Size(33, 28);
+            this.btnLeft.TabIndex = 149;
+            this.btnLeft.UseVisualStyleBackColor = false;
+            this.btnLeft.Click += new System.EventHandler(this.btnLeft_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(14, 10);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(33, 27);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 146;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // chkRestoreDetail
+            // 
+            this.chkRestoreDetail.AutoSize = true;
+            this.chkRestoreDetail.Location = new System.Drawing.Point(1078, 46);
+            this.chkRestoreDetail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkRestoreDetail.Name = "chkRestoreDetail";
+            this.chkRestoreDetail.Size = new System.Drawing.Size(114, 21);
+            this.chkRestoreDetail.TabIndex = 161;
+            this.chkRestoreDetail.Text = "Restore Detail";
+            this.chkRestoreDetail.UseVisualStyleBackColor = true;
+            this.chkRestoreDetail.CheckedChanged += new System.EventHandler(this.chkRestoreDetail_CheckedChanged);
+            // 
             // TrustContractEOY
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -5243,41 +5635,44 @@
             this.tabControl1.ResumeLayout(false);
             this.tabDetail.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).EndInit();
+            this.tabSummary.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox9)).EndInit();
             this.tabPrePostRiles.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             this.tabHU.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).EndInit();
             this.tabJPN.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox4)).EndInit();
             this.tabNMOC.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox5)).EndInit();
             this.tabCem.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox6)).EndInit();
             this.tabAFA.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox8)).EndInit();
             this.tabNoContract.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).EndInit();
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chkComboLocNames.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridMain3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridMain4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridMain5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridMain6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridMain8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridMain7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox7)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -5311,20 +5706,15 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn11;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn14;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn13;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Button btnRight;
         private System.Windows.Forms.Button btnLeft;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.Label label1;
         private DevExpress.XtraEditors.CheckedComboBoxEdit chkComboLocNames;
         private System.Windows.Forms.CheckBox chkPageBreaks;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn15;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem clearInsuranceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearLossRecoveryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearBooksOrderedToolStripMenuItem;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn16;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn17;
         private System.Windows.Forms.TabControl tabControl1;
@@ -5581,5 +5971,26 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn224;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn225;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox7;
+        private System.Windows.Forms.TabPage tabSummary;
+        private DevExpress.XtraGrid.GridControl dgv9;
+        private DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain9;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand9;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn226;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn227;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn228;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn229;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn230;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn231;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn232;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn233;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn234;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn235;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn236;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn237;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn238;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn239;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn240;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox9;
+        private System.Windows.Forms.CheckBox chkRestoreDetail;
     }
 }

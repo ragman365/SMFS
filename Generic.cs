@@ -5208,7 +5208,7 @@ namespace GeneralLib
             return fullDirectory;
         }
         /***********************************************************************************************/
-        public static void ShowHideFindPanel ( AdvBandedGridView gridMain )
+        public static void ShowHideFindPanel ( AdvBandedGridView gridMain, string search = "" )
         {
             if (gridMain.OptionsFind.AlwaysVisible == true)
             {
@@ -5223,6 +5223,9 @@ namespace GeneralLib
                     gridMain.ShowFindPanel();
                     FindControl find = gridMain.GridControl.Controls.Find("FindControlCore", true)[0] as FindControl;
                     find.FindEdit.Focus();
+                    if ( !String.IsNullOrWhiteSpace ( search ))
+                        gridMain.ActiveFilterString = search;
+
                 }
                 catch (Exception ex)
                 {

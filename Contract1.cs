@@ -1356,13 +1356,20 @@ namespace SMFS
             DataTable dt = dRows.CopyToDataTable();
 
             int row = 0;
+            bool isTest = false;
+            name = dt.Rows[row]["name"].ObjToString();
+            string relationship = dt.Rows[row]["depRelationship"].ObjToString();
 
             if (side == 1)
             {
                 rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%TOD1%", date.ToString("MM/dd/yyyy"));
                 address = dt.Rows[row]["address"].ObjToString();
+                if ( isTest )
+                    address = name;
                 city = dt.Rows[row]["city"].ObjToString();
-                state = dt.Rows[row]["state"].ObjToString();
+                if (isTest)
+                    city = relationship;
+                 state = dt.Rows[row]["state"].ObjToString();
                 zip = dt.Rows[row]["zip"].ObjToString();
                 city += " ," + state + "  " + zip;
                 rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%CSZ1%", city);
@@ -1378,8 +1385,12 @@ namespace SMFS
                 date = DateTime.Now;
                 rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%TOD2%", date.ToString("MM/dd/yyyy"));
                 address = dt.Rows[row]["address"].ObjToString();
+                if ( isTest)
+                    address = name;
                 rtbFinale.Rtf = ArrangementForms.ReplaceField(rtbFinale.Rtf, "[%ADDRESS2%", address);
                 city = dt.Rows[row]["city"].ObjToString();
+                if (isTest)
+                    city = relationship;
                 state = dt.Rows[row]["state"].ObjToString();
                 zip = dt.Rows[row]["zip"].ObjToString();
                 city += " ," + state + "  " + zip;

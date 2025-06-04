@@ -269,9 +269,12 @@ namespace SMFS
             tempview.Sort = "primary asc";
             dt = tempview.ToTable();
 
+            string nokRelation = "";
+
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
+                relationType = "";
                 relationship = dt.Rows[i]["depRelationship"].ObjToString().ToUpper();
                 prefix = dt.Rows[i]["depPrefix"].ObjToString();
                 firstName = dt.Rows[i]["depFirstName"].ObjToString();
@@ -310,15 +313,35 @@ namespace SMFS
                 {
                     relationship = relationship.ToUpper();
                     if (relationship == "HUSBAND" || relationship == "WIFE")
+                    {
                         gotSpouse = true;
+                        if (nok == "1")
+                            nokRelation = "Spouse";
+                    }
                     else if (relationship == "FATHER" || relationship == "MOTHER")
+                    {
                         gotParent = true;
+                        if (nok == "1")
+                            nokRelation = "Parent";
+                    }
                     else if (relationship == "BROTHER" || relationship == "SISTER")
+                    {
                         gotSibling = true;
+                        if (nok == "1")
+                            nokRelation = "Sibling";
+                    }
                     else if (relationship == "SON" || relationship == "DAUGHTER" || relationship == "CHILD")
+                    {
                         gotChild = true;
+                        if (nok == "1")
+                            nokRelation = "Child";
+                    }
                     else if (relationship == "GRANDSON" || relationship == "GRANDDAUGHTER" || relationship.IndexOf("GRANDCHILD") >= 0)
+                    {
                         gotGrands = true;
+                        if (nok == "1")
+                            nokRelation = "Grand";
+                    }
 
                     if (nok == "1")
                     {
@@ -356,30 +379,35 @@ namespace SMFS
                     }
                     if ( relationship == "SPOUSE" && gotSpouse )
                     {
-                        relationType = "NOK";
+                        if (nokRelation == "Spouse")
+                            relationType = "NOK";
                         sort = "1" + i.ToString();
                     }
                     else if ( relationship == "SON" || relationship == "DAUGHTER" || relationship == "CHILD" )
                     {
                         if (gotChild)
                         {
-                            relationType = "Co-Equal NOK";
+                            if (nokRelation == "Child")
+                                relationType = "Co-Equal NOK";
                             sort = "2" + i.ToString();
                         }
                     }
                     else if (relationship == "GRANDCHILD" && gotGrands )
                     {
-                        relationType = "Co-Equal NOK";
+                        if (nokRelation == "Grand")
+                            relationType = "Co-Equal NOK";
                         sort = "3" + i.ToString();
                     }
                     else if (relationship == "PARENT" && gotParent )
                     {
-                        relationType = "Co-Equal NOK";
+                        if ( nokRelation == "Parent")
+                            relationType = "Co-Equal NOK";
                         sort = "4" + i.ToString();
                     }
                     else if (relationship == "SIBLING" && gotSibling )
                     {
-                        relationType = "Co-Equal NOK";
+                        if (nokRelation == "Sibling")
+                            relationType = "Co-Equal NOK";
                         sort = "5" + i.ToString();
                     }
                     else
@@ -399,7 +427,17 @@ namespace SMFS
                 sort = dt.Rows[i]["sort"].ObjToString();
                 if (sort == "999")
                     dt.Rows.RemoveAt(i);
+                else
+                {
+                    relationType = dt.Rows[i]["relationType"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(relationType))
+                        dt.Rows.RemoveAt(i);
+                }
             }
+
+            tempview = dt.DefaultView;
+            tempview.Sort = "primary asc";
+            dt = tempview.ToTable();
 
             gotPurchaser = false;
             for ( int i=0; i<dt.Rows.Count; i++)
