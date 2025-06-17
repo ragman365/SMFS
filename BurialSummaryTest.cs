@@ -88,6 +88,20 @@ namespace SMFS
             G1.AddSummaryItem(gridMain2, columnName, format);
         }
         /****************************************************************************************/
+        private void AddSummaryColumnG3(string columnName, DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null, string format = "")
+        {
+            if (gMain == null)
+                gMain = gridMain;
+//            gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+            gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+//            gMain.Columns[columnName].SummaryItem.DisplayFormat = "${0:0,0.00}";
+//            gMain.Columns[columnName].SummaryItem.DisplayFormat = "{0:N2}";
+            gMain.Columns[columnName].SummaryItem.DisplayFormat = "{0:0,0.00}";
+            if (string.IsNullOrWhiteSpace(format))
+                format = "{0:N2}";
+            G1.AddSummaryItem(gridMain3, columnName, format);
+        }
+        /****************************************************************************************/
         private void BurialSummary_Load(object sender, EventArgs e)
         {
             chkInclude.Hide();
@@ -147,6 +161,7 @@ namespace SMFS
 
             // Re-Calculate the second tab
             buildCremationTab();
+            buildBurialTab();
         }
 
         private void GridMain_CustomDrawScroll(object sender, ScrollBarCustomDrawEventArgs e)
@@ -1079,6 +1094,7 @@ namespace SMFS
         /****************************************************************************************/
         private DataTable summaryDt = null;
         private DataTable summaryCt = null;
+        private DataTable summaryBt = null;
         private void BuildSummaryTable ( DataTable dt)
         {
             summaryDt = dt.Clone();
@@ -1571,6 +1587,7 @@ namespace SMFS
             try
             {
                 buildCremationTab();
+                buildBurialTab();
             }
             catch (Exception ex)
             {
@@ -1649,7 +1666,7 @@ namespace SMFS
             gridMain2.ExpandAllGroups();
             dgv2.Refresh();
         }
-
+        /****************************************************************************************/
         private void buildCremationTable(DataTable dd, DataTable dx)
         {
             string loc = "";
@@ -1710,7 +1727,7 @@ namespace SMFS
                 funeralClass = dx.Rows[i]["funeral_classification"].ObjToString();
                 if (G1.get_column_number(gridMain2, funeralClass) < 0)
                 {
-                    AddNewColumn(funeralClass, funeralClass, 100, FormatType.Numeric, "N2");
+                    AddNewColumn(funeralClass, funeralClass, 150, FormatType.Numeric, "N2");
                     GridGroupSummaryItem item = new GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, funeralClass, gridMain2.Columns[funeralClass], "{0:N0}");
                     gridMain2.GroupSummary.Add(item);
                     summaryCt.Columns.Add(funeralClass, Type.GetType("System.Double"));
@@ -1720,7 +1737,7 @@ namespace SMFS
 
                 if (G1.get_column_number(gridMain2, funeralClass + " CNT") < 0)
                 {
-                    AddNewColumn(funeralClass + " CNT", "Count", 40, FormatType.Numeric, "N0");
+                    AddNewColumn(funeralClass + " CNT", "Count", 80, FormatType.Numeric, "N0");
                     AddSummaryColumn(funeralClass + " CNT", gridMain2, "{0:N0}");
                 }
                 dd.Columns.Add(funeralClass + " CNT", Type.GetType("System.Double"));
@@ -1742,6 +1759,19 @@ namespace SMFS
             G1.SetColumnWidth(gridMain2, fieldName, width);
             gridMain2.Columns[fieldName].OptionsColumn.FixedWidth = true;
             gridMain2.Columns[fieldName].AppearanceHeader.ForeColor = Color.Black;
+        }
+        /****************************************************************************************/
+        private void AddNewColumnG3(string fieldName, string caption, int width, FormatType type, string format = "")
+        {
+            // I did not understand DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain and so I created a whole other 
+            // function instead of making the former one able to handle both. Not the best way to handle this. I'd like it to be more dynamic.
+            if (G1.get_column_number(gridMain3, fieldName) < 0)
+                G1.AddNewColumn(gridMain3, fieldName, caption, format, type, width, true);
+            else
+                gridMain3.Columns[fieldName].Visible = true;
+            G1.SetColumnWidth(gridMain3, fieldName, width);
+            gridMain3.Columns[fieldName].OptionsColumn.FixedWidth = true;
+            gridMain3.Columns[fieldName].AppearanceHeader.ForeColor = Color.Black;
         }
         /****************************************************************************************/
         private void ClearAllPositions(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null)
@@ -1830,7 +1860,86 @@ namespace SMFS
                                 Total += summaryCt.Rows[i][j].ObjToDouble();
                         }
                     }
-                    e.TotalValue = formatSummedValue(dValueTot, dValueTot2, Total);
+                    e.TotalValue = formatTotalValue(dValueTot, dValueTot2, Total);
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void gridMain3_CustomSummaryCalculate(object sender, DevExpress.Data.CustomSummaryEventArgs e)
+        {
+            string field = (e.Item as GridSummaryItem).FieldName.ObjToString();
+            if (field.ToUpper().IndexOf("BURIAL") < 0)
+                return;
+            string loc = "";
+            if (!e.IsGroupSummary && !e.IsTotalSummary)
+                return;
+            
+            DataTable dt = (DataTable)dgv3.DataSource;
+            int rowHandle = e.RowHandle;
+            double dValue = 0D;
+            double dValueTot = 0D;
+            double dValue2 = 0D;
+            double dValueTot2 = 0D;
+            double Total = 0D;
+            double SumTotal = 0D;
+            string str = "";
+            double percent = 0D;
+
+            if (e.IsGroupSummary)
+            {
+                int row = gridMain3.GetDataSourceRowIndex(rowHandle);
+
+                loc = dt.Rows[row]["loc"].ObjToString();
+                DataRow[] dRows = summaryBt.Select("loc='" + loc + "'");
+
+                if (dRows.Length > 0)
+                {
+                    dValue = dRows[0][field].ObjToDouble();
+                    dValue2 = dRows[0][field + " CNT"].ObjToDouble();
+                    Total = 0D;
+
+                    for (int j = 0; j < summaryBt.Columns.Count; j++)
+                    {
+                        str = summaryBt.Columns[j].ColumnName;
+                        if (str.ToUpper().IndexOf("CNT") > 0)
+                            Total += dRows[0][j].ObjToDouble();
+                    }
+                    e.TotalValue = formatTotalValue(dValue, dValue2, Total);
+                }
+            }
+            else if (e.IsTotalSummary)
+            {
+                int row = gridMain3.GetDataSourceRowIndex(rowHandle);
+                dValueTot = 0D;
+                dValueTot2 = 0D;
+                SumTotal = 0D;
+
+                string strPercent = "";
+                if (field.ToUpper().IndexOf("CNT") > 0)
+                {
+                    for (int j = 0; j < summaryBt.Rows.Count; j++)
+                    {
+                        dValueTot2 += summaryBt.Rows[j][field].ObjToDouble();
+                    }
+                    e.TotalValue = dValueTot2;
+                }
+                else
+                {
+                    for (int j = 0; j < summaryBt.Rows.Count; j++)
+                    {
+                        dValueTot += summaryBt.Rows[j][field].ObjToDouble();
+                        dValueTot2 += summaryBt.Rows[j][field + " CNT"].ObjToDouble();
+                    }
+                    for (int j = 0; j < summaryBt.Columns.Count; j++)
+                    {
+                        str = summaryBt.Columns[j].ColumnName;
+                        if (str.ToUpper().IndexOf("CNT") > 0)
+                        {
+                            for (int i = 0; i < summaryBt.Rows.Count; i++)
+                                Total += summaryBt.Rows[i][j].ObjToDouble();
+                        }
+                    }
+                    e.TotalValue = formatTotalValue(dValueTot, dValueTot2, Total);
                 }
             }
         }
@@ -1847,18 +1956,169 @@ namespace SMFS
             string str = str1 + "/" + str2 + "%";
             return(object) str;
         }
+        
         /****************************************************************************************/
-        private object formatSummedValue(double dValue, double dValue2, double Total)
+        private void tabPage3_Click(object sender, EventArgs e)
         {
-            if (Total <= 0D)
-                return "";
+            buildBurialTab();
+        }
+        /****************************************************************************************/
+        public void buildBurialTab()
+        {
+            ClearAllPositions(gridMain3);
 
-            double percent = 0D;
-            percent = dValue2 / Total * 100D;
-            string str1 = G1.ReformatMoney(dValue);
-            string str2 = G1.ReformatMoney(percent);
-            string str = str1 + "/" + str2 + "%";
-            return (object) str;
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (dt == null)
+                return;
+            DataTable dx = G1.GetGroupBy(dt, "funeral_classification");
+            DataRow[] dRows = dx.Select("funeral_classification LIKE 'burial%'");
+            if (dRows.Length <= 0)
+            {
+                MessageBox.Show("*ERROR*** No Data to Display.");
+                return;
+            }
+
+            dx = dRows.CopyToDataTable();
+
+            dRows = dt.Select("funeral_classification LIKE 'burial%'");
+            if (dRows.Length <= 0)
+                return;
+
+            string funeralClass = "";
+            DataTable dd = dRows.CopyToDataTable();
+            
+            dd = AddBurialColumns(dx, dd);
+
+            int k = 0;
+            ClearAllPositions(gridMain3);
+            G1.SetColumnPosition(gridMain3, "num", k++);
+            G1.SetColumnPosition(gridMain3, "loc", k++);
+            G1.SetColumnPosition(gridMain3, "Location Name", k++);
+            G1.SetColumnPosition(gridMain3, "ServiceId", k++);
+            G1.SetColumnPosition(gridMain3, "deceasedDate", k++);
+            G1.SetColumnPosition(gridMain3, "name", k++);
+            G1.SetColumnPosition(gridMain3, "contractNumber", k++);
+
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                funeralClass = dx.Rows[i]["funeral_classification"].ObjToString();
+                G1.SetColumnPosition(gridMain3, funeralClass, k++);
+                gridMain3.Columns[funeralClass].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
+                gridMain3.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N2}";
+                gridMain3.Columns[funeralClass].SummaryItem.DisplayFormat = "{0:N0}";
+                G1.SetColumnPosition(gridMain3, funeralClass + " CNT", k++);
+                gridMain3.Columns[funeralClass + " CNT"].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
+                gridMain3.Columns[funeralClass + " CNT"].SummaryItem.DisplayFormat = "{0:N0}";
+            }
+
+            G1.SetColumnPosition(gridMain3, "total", k++);
+            G1.SetColumnPosition(gridMain3, "Total Count", k++);
+
+            double netPrice = 0D;
+            int sum = 0;
+            for (int i = 0; i < dd.Rows.Count; i++)
+            {
+                funeralClass = dd.Rows[i]["funeral_classification"].ObjToString();
+                netPrice = GetNetPrice(dd, i);
+                dd.Rows[i][funeralClass] = netPrice;
+                if (netPrice > 0)
+                {
+                    dd.Rows[i][funeralClass + " CNT"] = 1;
+                    dd.Rows[i]["Total Count"] = 1;
+                    sum += 1;
+                }
+                else
+                    dd.Rows[i][funeralClass + " CNT"] = 0;
+            }
+
+            buildBurialTable(dd, dx);
+            dgv3.DataSource = dd;
+
+            gridMain3.ExpandAllGroups();
+            dgv3.Refresh();
+        }
+        /****************************************************************************************/
+        private void buildBurialTable(DataTable dd, DataTable dx)
+        {
+            string loc = "";
+            int count = 0;
+            DataRow[] dRows = null;
+            DataRow dR = null;
+            string funeralClass = "";
+            double dValue = 0D;
+            double dValue2 = 0D;
+            for (int i = 0; i < dd.Rows.Count; i++)
+            {
+                loc = dd.Rows[i]["loc"].ObjToString();
+
+                count++;
+
+                dRows = summaryBt.Select("loc='" + loc + "'");
+                if (dRows.Length <= 0)
+                {
+                    dR = summaryBt.NewRow();
+                    dR["loc"] = loc;
+                    for (int j = 0; j < dx.Rows.Count; j++)
+                    {
+                        funeralClass = dx.Rows[j]["funeral_classification"].ObjToString();
+                        dR[funeralClass] = 0D;
+                        dR[funeralClass + " CNT"] = 0D;
+                    }
+                    summaryBt.Rows.Add(dR);
+                    dRows = summaryBt.Select("loc='" + loc + "'");
+                }
+                for (int j = 0; j < dx.Rows.Count; j++)
+                {
+                    funeralClass = dx.Rows[j]["funeral_classification"].ObjToString();
+                    dValue = dd.Rows[i][funeralClass].ObjToDouble();
+                    if (dValue > 0D)
+                    {
+                        dValue2 = dRows[0][funeralClass].ObjToDouble();
+                        dValue2 += dValue;
+                        dRows[0][funeralClass] = dValue2;
+
+                        dValue2 = dRows[0][funeralClass + " CNT"].ObjToInt64();
+                        dValue2++;
+                        dRows[0][funeralClass + " CNT"] = dValue2;
+                    }
+                }
+            }
+        }
+        /****************************************************************************************/
+        private DataTable AddBurialColumns(DataTable dx, DataTable dd)
+        {
+            string funeralClass = "";
+            if (summaryBt == null)
+            {
+                summaryBt = new DataTable();
+                summaryBt.Columns.Add("loc");
+            }
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                funeralClass = dx.Rows[i]["funeral_classification"].ObjToString();
+                if (G1.get_column_number(gridMain3, funeralClass) < 0)
+                {
+                    AddNewColumnG3(funeralClass, funeralClass, 150, FormatType.Numeric, "N2");
+                    GridGroupSummaryItem item = new GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, funeralClass, gridMain3.Columns[funeralClass], "{0:N0}");
+                    gridMain3.GroupSummary.Add(item);
+                    summaryBt.Columns.Add(funeralClass, Type.GetType("System.Double"));
+                    summaryBt.Columns.Add(funeralClass + " CNT", Type.GetType("System.Double"));
+                }
+                dd.Columns.Add(funeralClass, Type.GetType("System.Double"));
+                
+                if (G1.get_column_number(gridMain3, funeralClass + " CNT") < 0)
+                {
+                    AddNewColumnG3(funeralClass + " CNT", "Count", 80, FormatType.Numeric, "N0");
+                    AddSummaryColumnG3(funeralClass + " CNT", gridMain3, "{0:N0}");
+                }
+                dd.Columns.Add(funeralClass + " CNT", Type.GetType("System.Double"));
+            }
+            AddNewColumnG3("Total Count", "Total Count", 80, FormatType.Numeric, "N0");
+            GridGroupSummaryItem TotalCount = new GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "Total Count", gridMain3.Columns["Total Count"], "{0:N0}");
+            AddSummaryColumnG3("Total Count", gridMain3, "{0:N0}");
+            dd.Columns.Add("Total Count", Type.GetType("System.Double"));
+
+            return dd;
         }
         /****************************************************************************************/
     }
