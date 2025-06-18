@@ -137,7 +137,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1568, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1568, 28);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -149,7 +149,7 @@
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -191,7 +191,7 @@
             // columnsToolStripMenuItem
             // 
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.columnsToolStripMenuItem.Text = "Columns";
             // 
             // massReportsToolStripMenuItem
@@ -199,7 +199,7 @@
             this.massReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generateMassReportToolStripMenuItem});
             this.massReportsToolStripMenuItem.Name = "massReportsToolStripMenuItem";
-            this.massReportsToolStripMenuItem.Size = new System.Drawing.Size(111, 26);
+            this.massReportsToolStripMenuItem.Size = new System.Drawing.Size(111, 24);
             this.massReportsToolStripMenuItem.Text = "Mass Reports";
             // 
             // generateMassReportToolStripMenuItem
@@ -214,10 +214,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1568, 509);
+            this.panelAll.Size = new System.Drawing.Size(1568, 511);
             this.panelAll.TabIndex = 7;
             // 
             // panelBottom
@@ -227,7 +227,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 111);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1568, 398);
+            this.panelBottom.Size = new System.Drawing.Size(1568, 400);
             this.panelBottom.TabIndex = 9;
             // 
             // dgv
@@ -240,7 +240,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1568, 398);
+            this.dgv.Size = new System.Drawing.Size(1568, 400);
             this.dgv.TabIndex = 7;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -701,7 +701,7 @@
             // bandedGridColumn10
             // 
             this.bandedGridColumn10.Caption = "# Mo Pd";
-            this.bandedGridColumn10.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn10.DisplayFormat.FormatString = "N4";
             this.bandedGridColumn10.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn10.FieldName = "monthsPaid";
             this.bandedGridColumn10.MinWidth = 27;

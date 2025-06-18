@@ -2434,6 +2434,12 @@
     <Compile Include="Verifications.Designer.cs">
       <DependentUpon>Verifications.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewDataTableMoney.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewDataTableMoney.Designer.cs">
+      <DependentUpon>ViewDataTableMoney.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewDataTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -3526,6 +3532,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Verifications.resx">
       <DependentUpon>Verifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewDataTableMoney.resx">
+      <DependentUpon>ViewDataTableMoney.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewDataTable.resx">
       <DependentUpon>ViewDataTable.cs</DependentUpon>

@@ -300,7 +300,7 @@
             this.btnMsg,
             this.btnClock,
             this.btnContacts});
-            this.tlbMain.Location = new System.Drawing.Point(0, 30);
+            this.tlbMain.Location = new System.Drawing.Point(0, 28);
             this.tlbMain.Name = "tlbMain";
             this.tlbMain.Size = new System.Drawing.Size(584, 39);
             this.tlbMain.TabIndex = 1;
@@ -487,10 +487,10 @@
             this.panelBottom.Controls.Add(this.labelMaximum);
             this.panelBottom.Controls.Add(this.barImport);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 69);
+            this.panelBottom.Location = new System.Drawing.Point(0, 67);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(584, 6);
+            this.panelBottom.Size = new System.Drawing.Size(584, 8);
             this.panelBottom.TabIndex = 2;
             // 
             // lblTotal
@@ -537,7 +537,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(584, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(584, 28);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 

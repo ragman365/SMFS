@@ -639,6 +639,10 @@ namespace SMFS
         {
             double refund = 0D;
 
+            if ( contract == "N16007UI")
+            {
+            }
+
             bool doit = false;
             if (contract.ToUpper().EndsWith("UI"))
                 doit = true;

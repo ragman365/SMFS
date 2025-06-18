@@ -684,7 +684,7 @@ namespace SMFS
                 {
                     foundLI = false;
                     contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                    if (contractNumber == "WC24009L")
+                    if (contractNumber == "L23048LI")
                     {
                     }
                     if (contractNumber.ToUpper().EndsWith("LI"))
@@ -903,13 +903,18 @@ namespace SMFS
                     try
                     {
                         //payment = dt.Rows[i]["paymentAmount"].ObjToDouble();
+                        if (contractNumber == "WF23061LI")
+                        {
+                        }
                         payment = DailyHistory.getPayment(dt, i);
+                        payment = G1.RoundValue(payment);
 
                         expected = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
                         months = 0D;
                         if (expected > 0D)
                             months = payment / expected;
-                        dt.Rows[i]["monthsPaid"] = Math.Truncate(months);
+                        dt.Rows[i]["monthsPaid"] = months;
+                        //dt.Rows[i]["monthsPaid"] = Math.Truncate(months);
                         if (foundLI)
                         {
                             dt.Rows[i]["retained"] = newInterest;
@@ -1056,7 +1061,7 @@ namespace SMFS
             for ( int i=0; i<dx.Rows.Count; i++)
             {
                 contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
-                if ( contractNumber == "L15077UI")
+                if ( contractNumber == "L23048LI")
                 {
 
                 }
@@ -1099,6 +1104,8 @@ namespace SMFS
                 if ( !String.IsNullOrWhiteSpace ( contractNumber))
                     dt.ImportRow(dx.Rows[i]);
             }
+
+            //Trust85.FindContract(dt, "L23048LI");
 
         }
         /*******************************************************************************************/

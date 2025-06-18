@@ -1138,9 +1138,11 @@ namespace SMFS
             {
                 if (dt.Rows.Count > 0 && !fromFuneral )
                 {
-
-                    btnPreneed.Show();
-                    btnPreneed.Refresh();
+                    if (!G1.isField())
+                    {
+                        btnPreneed.Show();
+                        btnPreneed.Refresh();
+                    }
                 }
             }
             this.Cursor = Cursors.Default;

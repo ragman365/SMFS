@@ -935,16 +935,26 @@ namespace SMFS
                 string line = "";
                 int row = 0;
                 int rowCount = 0;
+                int lineWidth = 0;
+                int width = 0;
                 using (StreamReader sr = new StreamReader(filename))
                 {
                     while ((line = sr.ReadLine()) != null)
                     {
+                        width = line.Trim().Length;
+                        if (width > lineWidth)
+                            lineWidth = width;
                         picLoader.Refresh();
 
                         rowCount++;
                     }
                     sr.Close();
                 }
+
+                bool newVersion = false;
+                if (lineWidth == 36)
+                    newVersion = true;
+
                 barImport.Minimum = 0;
                 barImport.Maximum = rowCount;
                 lblTotal.Text = "of " + rowCount.ToString();
@@ -969,8 +979,9 @@ namespace SMFS
                             bool rv = false;
 
                             //                        line = "0206FL-L3539410000330000376220190116";
+                            // line = 010500B17026UI0127.94001279420250301 Length = 36
                             if ( workTheFirst )
-                                rv = ParseTheFirstPayment(dt, line);
+                                rv = ParseTheFirstPayment(dt, line, newVersion );
                             else
                                 rv = ParseOutPayment(dt, line);
                             //if (1 == 1)
@@ -4161,7 +4172,7 @@ namespace SMFS
             return result;
         }
         /***********************************************************************************************/
-        private bool ParseTheFirstPayment(DataTable dt, string line)
+        private bool ParseTheFirstPayment(DataTable dt, string line, bool newVersion )
         {
             if (G1.get_column_number(dt, "nextDueDate") < 0)
                 dt.Columns.Add("nextDueDate");
@@ -4188,6 +4199,26 @@ namespace SMFS
 
             string cnum = "";
 
+            // line = 0206FL-L3539410000330000376220190116;
+            // line = 010500B17026UI0127.94001279420250301 Length = 36
+
+                /* 1) (2)(3)(4)(5)(6)
+                    01 05 00B17026UI 0127.94 0012794 20250301
+
+                    (1)  01 - Trust Or Ins Code              2 digit field(We provide on our coupon)
+
+                    (2)  05 - Location Code                  2 digit field(We provide on our coupon)
+
+                    (3)  00B17026UI - Customer Account       10 digit field, leading 0's vary depending on actual account #  (We provide on our coupon) 
+
+                    (4)  0127.94 - Coupon Payment Amount     7 digit fixed "0000.00" format, leading 0's vary on actual coupon payment amount  (We provide on our coupon)
+
+                    (5)  0012794 - Actual Payment Amount     7 digit field, leading 0's vary depending on actual amount, last 2 digits are always cents (You provide)
+
+                    (6)  20250301 - Date of payment          8 digit YYYYMMDD format(You provide)
+                */
+
+
             try
             {
                 originalCreditBalance = 0D;
@@ -4203,6 +4234,8 @@ namespace SMFS
                 idx = length - 8 - 7 - 7;
                 string str = line.Substring(idx, 7);
                 double expected = str.ObjToDouble() / 100.0D;
+                if (newVersion)
+                    expected = str.ObjToDouble();
                 //double expected = str.ObjToDouble();
                 expected = G1.RoundValue(expected);
                 idx = length - 8 - 7;
@@ -4396,6 +4429,8 @@ namespace SMFS
                         trust100P = 0D;
                         //amtOfMonthlyPayment = Policies.CalcMonthlyPremium(payer, oldDueDate);
                         amtOfMonthlyPayment = Policies.CalcMonthlyPremium(payer, docp);
+                        if ( amtOfMonthlyPayment == 0D )
+                            amtOfMonthlyPayment = dRows[0]["amtOfMonthlyPayt"].ObjToDouble();
                     }
                     if (expected <= 0D && amtOfMonthlyPayment > 0D)
                     {

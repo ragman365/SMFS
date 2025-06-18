@@ -895,7 +895,7 @@
             this.btnPreneed.Location = new System.Drawing.Point(159, 82);
             this.btnPreneed.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnPreneed.Name = "btnPreneed";
-            this.btnPreneed.Size = new System.Drawing.Size(177, 30);
+            this.btnPreneed.Size = new System.Drawing.Size(177, 32);
             this.btnPreneed.TabIndex = 24;
             this.btnPreneed.Text = "Assign as PreNeed";
             this.btnPreneed.UseVisualStyleBackColor = false;
@@ -1212,7 +1212,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1

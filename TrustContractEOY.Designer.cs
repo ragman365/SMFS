@@ -329,6 +329,7 @@
             this.bandedGridColumn225 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox7 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkRestoreDetail = new System.Windows.Forms.CheckBox();
             this.cmbSelectColumns = new System.Windows.Forms.ComboBox();
             this.btnSelectColumns = new System.Windows.Forms.Button();
             this.chkIncludeSMFS = new System.Windows.Forms.CheckBox();
@@ -341,7 +342,6 @@
             this.btnRight = new System.Windows.Forms.Button();
             this.btnLeft = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.chkRestoreDetail = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -396,7 +396,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1691, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1691, 30);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -406,7 +406,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -444,7 +444,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -466,10 +466,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1691, 541);
+            this.panelAll.Size = new System.Drawing.Size(1691, 539);
             this.panelAll.TabIndex = 6;
             // 
             // panelBottom
@@ -479,7 +479,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 78);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1691, 463);
+            this.panelBottom.Size = new System.Drawing.Size(1691, 461);
             this.panelBottom.TabIndex = 8;
             // 
             // tabControl1
@@ -497,7 +497,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1691, 463);
+            this.tabControl1.Size = new System.Drawing.Size(1691, 461);
             this.tabControl1.TabIndex = 5;
             // 
             // tabDetail
@@ -506,7 +506,7 @@
             this.tabDetail.Location = new System.Drawing.Point(4, 25);
             this.tabDetail.Name = "tabDetail";
             this.tabDetail.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDetail.Size = new System.Drawing.Size(1683, 434);
+            this.tabDetail.Size = new System.Drawing.Size(1683, 432);
             this.tabDetail.TabIndex = 0;
             this.tabDetail.Text = "Detail";
             this.tabDetail.UseVisualStyleBackColor = true;
@@ -522,7 +522,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox3});
-            this.dgv.Size = new System.Drawing.Size(1677, 428);
+            this.dgv.Size = new System.Drawing.Size(1677, 426);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1915,7 +1915,7 @@
             this.tabHU.Controls.Add(this.dgv3);
             this.tabHU.Location = new System.Drawing.Point(4, 25);
             this.tabHU.Name = "tabHU";
-            this.tabHU.Size = new System.Drawing.Size(1683, 432);
+            this.tabHU.Size = new System.Drawing.Size(1683, 434);
             this.tabHU.TabIndex = 2;
             this.tabHU.Text = "HU";
             this.tabHU.UseVisualStyleBackColor = true;
@@ -1931,7 +1931,7 @@
             this.dgv3.Name = "dgv3";
             this.dgv3.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox2});
-            this.dgv3.Size = new System.Drawing.Size(1683, 432);
+            this.dgv3.Size = new System.Drawing.Size(1683, 434);
             this.dgv3.TabIndex = 5;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -2504,7 +2504,7 @@
             this.tabJPN.Controls.Add(this.dgv4);
             this.tabJPN.Location = new System.Drawing.Point(4, 25);
             this.tabJPN.Name = "tabJPN";
-            this.tabJPN.Size = new System.Drawing.Size(1683, 432);
+            this.tabJPN.Size = new System.Drawing.Size(1683, 434);
             this.tabJPN.TabIndex = 3;
             this.tabJPN.Text = "JPN";
             this.tabJPN.UseVisualStyleBackColor = true;
@@ -2520,7 +2520,7 @@
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox4});
-            this.dgv4.Size = new System.Drawing.Size(1683, 432);
+            this.dgv4.Size = new System.Drawing.Size(1683, 434);
             this.dgv4.TabIndex = 5;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -3093,7 +3093,7 @@
             this.tabNMOC.Controls.Add(this.dgv5);
             this.tabNMOC.Location = new System.Drawing.Point(4, 25);
             this.tabNMOC.Name = "tabNMOC";
-            this.tabNMOC.Size = new System.Drawing.Size(1683, 432);
+            this.tabNMOC.Size = new System.Drawing.Size(1683, 434);
             this.tabNMOC.TabIndex = 4;
             this.tabNMOC.Text = "NMOC";
             this.tabNMOC.UseVisualStyleBackColor = true;
@@ -3109,7 +3109,7 @@
             this.dgv5.Name = "dgv5";
             this.dgv5.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox5});
-            this.dgv5.Size = new System.Drawing.Size(1683, 432);
+            this.dgv5.Size = new System.Drawing.Size(1683, 434);
             this.dgv5.TabIndex = 5;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -3682,7 +3682,7 @@
             this.tabCem.Controls.Add(this.dgv6);
             this.tabCem.Location = new System.Drawing.Point(4, 25);
             this.tabCem.Name = "tabCem";
-            this.tabCem.Size = new System.Drawing.Size(1683, 432);
+            this.tabCem.Size = new System.Drawing.Size(1683, 434);
             this.tabCem.TabIndex = 5;
             this.tabCem.Text = "cemeteries";
             this.tabCem.UseVisualStyleBackColor = true;
@@ -3698,7 +3698,7 @@
             this.dgv6.Name = "dgv6";
             this.dgv6.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox6});
-            this.dgv6.Size = new System.Drawing.Size(1683, 432);
+            this.dgv6.Size = new System.Drawing.Size(1683, 434);
             this.dgv6.TabIndex = 5;
             this.dgv6.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain6});
@@ -4271,7 +4271,7 @@
             this.tabAFA.Controls.Add(this.dgv8);
             this.tabAFA.Location = new System.Drawing.Point(4, 25);
             this.tabAFA.Name = "tabAFA";
-            this.tabAFA.Size = new System.Drawing.Size(1683, 432);
+            this.tabAFA.Size = new System.Drawing.Size(1683, 434);
             this.tabAFA.TabIndex = 7;
             this.tabAFA.Text = "AFA";
             this.tabAFA.UseVisualStyleBackColor = true;
@@ -4287,7 +4287,7 @@
             this.dgv8.Name = "dgv8";
             this.dgv8.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox8});
-            this.dgv8.Size = new System.Drawing.Size(1683, 432);
+            this.dgv8.Size = new System.Drawing.Size(1683, 434);
             this.dgv8.TabIndex = 5;
             this.dgv8.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain8});
@@ -4860,7 +4860,7 @@
             this.tabNoContract.Controls.Add(this.dgv7);
             this.tabNoContract.Location = new System.Drawing.Point(4, 25);
             this.tabNoContract.Name = "tabNoContract";
-            this.tabNoContract.Size = new System.Drawing.Size(1683, 432);
+            this.tabNoContract.Size = new System.Drawing.Size(1683, 434);
             this.tabNoContract.TabIndex = 6;
             this.tabNoContract.Text = "No Contract";
             this.tabNoContract.UseVisualStyleBackColor = true;
@@ -4876,7 +4876,7 @@
             this.dgv7.Name = "dgv7";
             this.dgv7.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox7});
-            this.dgv7.Size = new System.Drawing.Size(1683, 432);
+            this.dgv7.Size = new System.Drawing.Size(1683, 434);
             this.dgv7.TabIndex = 5;
             this.dgv7.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain7});
@@ -5466,6 +5466,18 @@
             this.panelTop.Size = new System.Drawing.Size(1691, 78);
             this.panelTop.TabIndex = 7;
             // 
+            // chkRestoreDetail
+            // 
+            this.chkRestoreDetail.AutoSize = true;
+            this.chkRestoreDetail.Location = new System.Drawing.Point(1078, 46);
+            this.chkRestoreDetail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkRestoreDetail.Name = "chkRestoreDetail";
+            this.chkRestoreDetail.Size = new System.Drawing.Size(114, 21);
+            this.chkRestoreDetail.TabIndex = 161;
+            this.chkRestoreDetail.Text = "Restore Detail";
+            this.chkRestoreDetail.UseVisualStyleBackColor = true;
+            this.chkRestoreDetail.CheckedChanged += new System.EventHandler(this.chkRestoreDetail_CheckedChanged);
+            // 
             // cmbSelectColumns
             // 
             this.cmbSelectColumns.FormattingEnabled = true;
@@ -5603,18 +5615,6 @@
             this.pictureBox1.TabIndex = 146;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // chkRestoreDetail
-            // 
-            this.chkRestoreDetail.AutoSize = true;
-            this.chkRestoreDetail.Location = new System.Drawing.Point(1078, 46);
-            this.chkRestoreDetail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.chkRestoreDetail.Name = "chkRestoreDetail";
-            this.chkRestoreDetail.Size = new System.Drawing.Size(114, 21);
-            this.chkRestoreDetail.TabIndex = 161;
-            this.chkRestoreDetail.Text = "Restore Detail";
-            this.chkRestoreDetail.UseVisualStyleBackColor = true;
-            this.chkRestoreDetail.CheckedChanged += new System.EventHandler(this.chkRestoreDetail_CheckedChanged);
             // 
             // TrustContractEOY
             // 

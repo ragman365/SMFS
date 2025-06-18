@@ -217,7 +217,7 @@ namespace SMFS
                 DataTable dddd = dddRow.CopyToDataTable();
             }
 
-            Trust85.FindContract(dt, "ZZ0003656");
+            //Trust85.FindContract(dt, "ZZ000");
 
             if ( dt.Rows.Count > 0 && !loadAll )
             {
@@ -512,14 +512,20 @@ namespace SMFS
             for (int i = 0; i < dt.Rows.Count; i++)
                 dt.Rows[i]["OriginalRow"] = dt.Rows[i]["num"].ObjToString();
 
-            dddRows = dt.Select("payer='BB-4302'");
-            if (dddRows.Length > 0)
-            {
-                DataTable dddd = dddRows.CopyToDataTable();
-            }
+            //dddRows = dt.Select("payer='CC-2816'");
+            //if (dddRows.Length > 0)
+            //{
+            //    DataTable dddd = dddRows.CopyToDataTable();
+            //}
 
             if ( loadAll )
             {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    dt.Rows[i]["issueDate8"] = G1.DTtoMySQLDT(dt.Rows[i]["issueDate81"].ObjToDateTime());
+                    dt.Rows[i]["dueDate8"] = G1.DTtoMySQLDT(dt.Rows[i]["dueDate81"].ObjToDateTime());
+                }
+
                 if (what.ToUpper() == "LAPSED")
                 {
                     DataView tempview = dt.DefaultView;

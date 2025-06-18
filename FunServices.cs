@@ -721,9 +721,28 @@ namespace SMFS
             ReCalcTotal(dt);
             G1.NumberDataTable(dt);
 
+            dt = CleanupDiscretionary(dt);
 
             dgv.DataSource = dt;
             //            this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        public static DataTable CleanupDiscretionary( DataTable dt )
+        {
+            string service = "";
+            for (int i = 0; i < dt.Rows.Count; i++ )
+            {
+                service = dt.Rows[i]["service"].ObjToString();
+                if ( service.IndexOf ("D-") == 0 )
+                {
+                    if (service.IndexOf("D- ") == 0)
+                        service = service.Replace("D- ", "");
+                    else if (service.IndexOf("D-") == 0)
+                        service = service.Replace("D-", "");
+                    dt.Rows[i]["service"] = "D-" + service.Trim();
+                }
+            }
+            return dt;
         }
         /***********************************************************************************************/
         private void SetupSelection(DataTable dt)
@@ -1292,6 +1311,8 @@ namespace SMFS
 
             ReCalcTotal(dt);
 
+            dt = CleanupDiscretionary(dt);
+
             G1.NumberDataTable(dt);
             dgv.DataSource = dt;
 
@@ -1748,6 +1769,12 @@ namespace SMFS
                         }
                         if (service.ToUpper().IndexOf("D-") == 0)
                         {
+                            if (service.IndexOf("D- ") == 0)
+                                service = service.Replace("D- ", "");
+                            else if (service.IndexOf("D-") == 0)
+                                service = service.Replace("D-", "");
+                            service = "D-" + service.Trim();
+                            dt.Rows[i]["service"] = service;
                             dt.Rows[i]["currentPrice"] = dt.Rows[i]["price"];
                             pastPrice = dt.Rows[i]["pastPrice"].ObjToDouble();
                             if (pastPrice > 0D)

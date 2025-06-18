@@ -3085,7 +3085,7 @@ namespace SMFS
                         dt.Columns[i].ColumnName = "deathClaimAmount";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
                     }
-                    else if (str == "Paid Date")
+                    else if (str == "Paid Date" || str == "Claim Date" )
                     {
                         dt.Columns[i].ColumnName = "deathPaidDate";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
@@ -3255,6 +3255,7 @@ namespace SMFS
             }
             catch (Exception ex)
             {
+                MessageBox.Show("***ERROR*** " + ex.Message.ToString(), "FDLIC Import Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
             return dt;
         }

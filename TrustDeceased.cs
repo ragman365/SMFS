@@ -1216,6 +1216,10 @@ namespace SMFS
                     value = dt.Rows[i]["value"].ObjToDouble();
                     principal = dt.Rows[i]["principal"].ObjToDouble();
 
+                    refund = FunPaymentDetails.getPossibleRefund(contractNumber);
+                    dt.Rows[i]["refunds"] = refund;
+
+
                     oldContractNumber = contractNumber;
                     oldPolicyNumber = policyNumber;
                 }
