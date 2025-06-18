@@ -85,21 +85,7 @@ namespace SMFS
             gMain.Columns[columnName].SummaryItem.DisplayFormat = "{0:0,0.00}";
             if (string.IsNullOrWhiteSpace(format))
                 format = "{0:N2}";
-            G1.AddSummaryItem(gridMain2, columnName, format);
-        }
-        /****************************************************************************************/
-        private void AddSummaryColumnG3(string columnName, DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null, string format = "")
-        {
-            if (gMain == null)
-                gMain = gridMain;
-//            gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-            gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-//            gMain.Columns[columnName].SummaryItem.DisplayFormat = "${0:0,0.00}";
-//            gMain.Columns[columnName].SummaryItem.DisplayFormat = "{0:N2}";
-            gMain.Columns[columnName].SummaryItem.DisplayFormat = "{0:0,0.00}";
-            if (string.IsNullOrWhiteSpace(format))
-                format = "{0:N2}";
-            G1.AddSummaryItem(gridMain3, columnName, format);
+            G1.AddSummaryItem(gMain, columnName, format);
         }
         /****************************************************************************************/
         private void BurialSummary_Load(object sender, EventArgs e)
@@ -159,7 +145,6 @@ namespace SMFS
             ScaleCells();
             this.Cursor = Cursors.Default;
 
-            // Re-Calculate the second tab
             buildCremationTab();
             buildBurialTab();
         }
@@ -1577,13 +1562,13 @@ namespace SMFS
         /****************************************************************************************/
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ClearAllPositions(gridMain2);
+            //ClearAllPositions(gridMain2);
             TabControl tabControl = (TabControl)sender;
             int selectedIndex = tabControl.SelectedIndex;
             string pageName = tabControl.TabPages[selectedIndex].Name.Trim();
             if (pageName.ToUpper() != "TABPAGE2")
                 return;
-
+            /*
             try
             {
                 buildCremationTab();
@@ -1593,6 +1578,7 @@ namespace SMFS
             {
                 MessageBox.Show("*ERROR*** " + ex.Message.ToString());
             }
+            */
         }
         /****************************************************************************************/
         public void buildCremationTab()
@@ -1642,6 +1628,7 @@ namespace SMFS
 
             G1.SetColumnPosition(gridMain2, "total", k++);
             G1.SetColumnPosition(gridMain2, "Total Count", k++);
+            gridMain2.Columns["Total Count"].SummaryItem.DisplayFormat = "{0:N0}";
 
             double netPrice = 0D;
             int sum = 0;
@@ -1676,6 +1663,7 @@ namespace SMFS
             string funeralClass = "";
             double dValue = 0D;
             double dValue2 = 0D;
+            summaryCt = dd.Clone();
             for (int i = 0; i < dd.Rows.Count; i++)
             {
                 loc = dd.Rows[i]["loc"].ObjToString();
@@ -1834,6 +1822,7 @@ namespace SMFS
                 dValueTot = 0D;
                 dValueTot2 = 0D;
                 SumTotal = 0D;
+                Total = 0D;
 
                 string strPercent = "";
                 if (field.ToUpper().IndexOf("CNT") > 0)
@@ -1913,6 +1902,7 @@ namespace SMFS
                 dValueTot = 0D;
                 dValueTot2 = 0D;
                 SumTotal = 0D;
+                Total = 0D;
 
                 string strPercent = "";
                 if (field.ToUpper().IndexOf("CNT") > 0)
@@ -1960,7 +1950,7 @@ namespace SMFS
         /****************************************************************************************/
         private void tabPage3_Click(object sender, EventArgs e)
         {
-            buildBurialTab();
+            //buildBurialTab();
         }
         /****************************************************************************************/
         public void buildBurialTab()
@@ -2013,6 +2003,7 @@ namespace SMFS
 
             G1.SetColumnPosition(gridMain3, "total", k++);
             G1.SetColumnPosition(gridMain3, "Total Count", k++);
+            gridMain3.Columns["Total Count"].SummaryItem.DisplayFormat = "{0:N0}";
 
             double netPrice = 0D;
             int sum = 0;
@@ -2047,6 +2038,7 @@ namespace SMFS
             string funeralClass = "";
             double dValue = 0D;
             double dValue2 = 0D;
+            summaryBt = dd.Clone();
             for (int i = 0; i < dd.Rows.Count; i++)
             {
                 loc = dd.Rows[i]["loc"].ObjToString();
@@ -2109,13 +2101,14 @@ namespace SMFS
                 if (G1.get_column_number(gridMain3, funeralClass + " CNT") < 0)
                 {
                     AddNewColumnG3(funeralClass + " CNT", "Count", 80, FormatType.Numeric, "N0");
-                    AddSummaryColumnG3(funeralClass + " CNT", gridMain3, "{0:N0}");
+                    AddSummaryColumn(funeralClass + " CNT", gridMain3, "{0:N0}");
                 }
                 dd.Columns.Add(funeralClass + " CNT", Type.GetType("System.Double"));
             }
             AddNewColumnG3("Total Count", "Total Count", 80, FormatType.Numeric, "N0");
             GridGroupSummaryItem TotalCount = new GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, "Total Count", gridMain3.Columns["Total Count"], "{0:N0}");
-            AddSummaryColumnG3("Total Count", gridMain3, "{0:N0}");
+            G1.AddSummaryColumn("Total Count", gridMain3, "{0:N0}");
+            AddSummaryColumn("Total Count", gridMain3, "{0:N0}");
             dd.Columns.Add("Total Count", Type.GetType("System.Double"));
 
             return dd;
