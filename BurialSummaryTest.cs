@@ -1586,7 +1586,12 @@ namespace SMFS
             DataTable dt = (DataTable)dgv.DataSource;
             if (dt == null)
                 return;
+            /*
+            string cmd = "Select * from `ref_funeral_classification`;";
+            DataTable dt = G1.get_db_data(cmd);
+            */
             DataTable dx = G1.GetGroupBy(dt, "funeral_classification");
+            
             DataRow[] dRows = dx.Select("funeral_classification LIKE 'cremation%'");
             if (dRows.Length <= 0)
             {
@@ -1595,6 +1600,8 @@ namespace SMFS
             }
 
             dx = dRows.CopyToDataTable();
+            string cmd = "SELECT * FROM ref_funeral_classification WHERE funeral_classification LIKE 'cremation%' ORDER BY funeral_classification;";
+            dx = G1.get_db_data(cmd);
 
             dRows = dt.Select("funeral_classification LIKE 'cremation%'");
             if (dRows.Length <= 0)
@@ -1654,7 +1661,7 @@ namespace SMFS
             dgv2.Refresh();
         }
         /****************************************************************************************/
-        private void buildCremationTable(DataTable dd, DataTable dx)
+            private void buildCremationTable(DataTable dd, DataTable dx)
         {
             string loc = "";
             int count = 0;
