@@ -6415,6 +6415,11 @@ namespace SMFS
             string casketGroup = EditCustomer.activeFuneralHomeCasketGroup;
             string what = "ServiceId=" + serviceId + "  GPL= " + group + "   Casket Group= " + casketGroup;
 
+            if ( String.IsNullOrWhiteSpace ( serviceId))
+            {
+                MessageBox.Show("***ERROR*** Blank Service Id Contract=" + workContract +"!\nContact Tim or Cliff", "Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            }
+
             G1.AddToAudit(LoginForm.username, "FunServices", "Save Services", what, workContract);
 
         }

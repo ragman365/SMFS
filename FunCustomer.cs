@@ -66,10 +66,12 @@ namespace SMFS
             fromPreneed = preneed;
         }
         /****************************************************************************************/
+        private string oldServiceId = "";
         private void FunCustomer_Load(object sender, EventArgs e)
         {
             funModified = false;
             LoadCustomer();
+            oldServiceId = txtServiceId.Text.Trim();
             loading = false;
             if (workFuneral)
             {
@@ -1204,6 +1206,17 @@ namespace SMFS
             if ((save && funModified) || (save && otherModified))
             {
                 string serviceId = txtServiceId.Text;
+                if ( !String.IsNullOrWhiteSpace ( oldServiceId) && String.IsNullOrWhiteSpace ( serviceId))
+                {
+                    MessageBox.Show("***ERROR*** Service ID In " + oldServiceId + "!\nNew Service ID is BLANK!", "Service ID ERROR Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    DialogResult result = MessageBox.Show("***ERROR*** Continue Anyway?", "Blank Service ID Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    if (result == DialogResult.Yes)
+                    {
+                        G1.AddToAudit(LoginForm.username, "FunCustomers", "Save Customer", "Saving Blank Service ID - Old=" + oldServiceId + "!", workContract);
+                    }
+                    else
+                        return;
+                }
                 if (NewContract.CheckServiceIdExists(serviceId, workContract))
                 {
                     MessageBox.Show("***ERROR*** A Service ID of " + serviceId + " Already Exists Somewhere!", "Service ID EXISTS Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
