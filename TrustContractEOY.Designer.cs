@@ -87,6 +87,7 @@
             this.bandedGridColumn228 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn229 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn230 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn241 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn231 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn232 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn233 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -103,20 +104,28 @@
             this.gridMain2 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn21 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn243 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn245 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn244 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn246 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn247 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn22 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn98 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn144 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn23 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn242 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn99 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn100 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn101 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn103 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn248 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn249 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn24 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn100 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn191 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn195 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn194 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn193 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn194 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn192 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn195 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.tabHU = new System.Windows.Forms.TabPage();
             this.dgv3 = new DevExpress.XtraGrid.GridControl();
@@ -396,7 +405,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1691, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1808, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -406,7 +415,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -444,7 +453,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -466,10 +475,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1691, 539);
+            this.panelAll.Size = new System.Drawing.Size(1808, 541);
             this.panelAll.TabIndex = 6;
             // 
             // panelBottom
@@ -479,7 +488,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 78);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1691, 461);
+            this.panelBottom.Size = new System.Drawing.Size(1808, 463);
             this.panelBottom.TabIndex = 8;
             // 
             // tabControl1
@@ -497,7 +506,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1691, 461);
+            this.tabControl1.Size = new System.Drawing.Size(1808, 463);
             this.tabControl1.TabIndex = 5;
             // 
             // tabDetail
@@ -506,7 +515,7 @@
             this.tabDetail.Location = new System.Drawing.Point(4, 25);
             this.tabDetail.Name = "tabDetail";
             this.tabDetail.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDetail.Size = new System.Drawing.Size(1683, 432);
+            this.tabDetail.Size = new System.Drawing.Size(1800, 434);
             this.tabDetail.TabIndex = 0;
             this.tabDetail.Text = "Detail";
             this.tabDetail.UseVisualStyleBackColor = true;
@@ -522,7 +531,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox3});
-            this.dgv.Size = new System.Drawing.Size(1677, 426);
+            this.dgv.Size = new System.Drawing.Size(1794, 428);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1108,7 +1117,7 @@
             this.tabSummary.Controls.Add(this.dgv9);
             this.tabSummary.Location = new System.Drawing.Point(4, 25);
             this.tabSummary.Name = "tabSummary";
-            this.tabSummary.Size = new System.Drawing.Size(1683, 432);
+            this.tabSummary.Size = new System.Drawing.Size(1800, 434);
             this.tabSummary.TabIndex = 8;
             this.tabSummary.Text = "Summary";
             this.tabSummary.UseVisualStyleBackColor = true;
@@ -1124,7 +1133,7 @@
             this.dgv9.Name = "dgv9";
             this.dgv9.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox9});
-            this.dgv9.Size = new System.Drawing.Size(1683, 432);
+            this.dgv9.Size = new System.Drawing.Size(1800, 434);
             this.dgv9.TabIndex = 6;
             this.dgv9.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain9});
@@ -1267,6 +1276,7 @@
             this.bandedGridColumn227,
             this.bandedGridColumn230,
             this.bandedGridColumn228,
+            this.bandedGridColumn241,
             this.bandedGridColumn231,
             this.bandedGridColumn232,
             this.bandedGridColumn233,
@@ -1299,6 +1309,7 @@
             this.gridBand9.Columns.Add(this.bandedGridColumn228);
             this.gridBand9.Columns.Add(this.bandedGridColumn229);
             this.gridBand9.Columns.Add(this.bandedGridColumn230);
+            this.gridBand9.Columns.Add(this.bandedGridColumn241);
             this.gridBand9.Columns.Add(this.bandedGridColumn231);
             this.gridBand9.Columns.Add(this.bandedGridColumn232);
             this.gridBand9.Columns.Add(this.bandedGridColumn233);
@@ -1312,7 +1323,7 @@
             this.gridBand9.MinWidth = 41;
             this.gridBand9.Name = "gridBand9";
             this.gridBand9.VisibleIndex = 0;
-            this.gridBand9.Width = 1639;
+            this.gridBand9.Width = 1804;
             // 
             // bandedGridColumn226
             // 
@@ -1350,7 +1361,7 @@
             this.bandedGridColumn228.Name = "bandedGridColumn228";
             this.bandedGridColumn228.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn228.Visible = true;
-            this.bandedGridColumn228.Width = 147;
+            this.bandedGridColumn228.Width = 156;
             // 
             // bandedGridColumn229
             // 
@@ -1378,6 +1389,18 @@
             this.bandedGridColumn230.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn230.Visible = true;
             this.bandedGridColumn230.Width = 156;
+            // 
+            // bandedGridColumn241
+            // 
+            this.bandedGridColumn241.Caption = "Active or Paid Off Trust 50% and 85%";
+            this.bandedGridColumn241.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn241.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn241.FieldName = "trust5085";
+            this.bandedGridColumn241.MinWidth = 40;
+            this.bandedGridColumn241.Name = "bandedGridColumn241";
+            this.bandedGridColumn241.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn241.Visible = true;
+            this.bandedGridColumn241.Width = 156;
             // 
             // bandedGridColumn231
             // 
@@ -1512,7 +1535,7 @@
             this.tabPrePostRiles.Location = new System.Drawing.Point(4, 25);
             this.tabPrePostRiles.Name = "tabPrePostRiles";
             this.tabPrePostRiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPrePostRiles.Size = new System.Drawing.Size(1683, 432);
+            this.tabPrePostRiles.Size = new System.Drawing.Size(1800, 434);
             this.tabPrePostRiles.TabIndex = 1;
             this.tabPrePostRiles.Text = "Pre/Post/Riles";
             this.tabPrePostRiles.UseVisualStyleBackColor = true;
@@ -1528,7 +1551,7 @@
             this.dgv2.Name = "dgv2";
             this.dgv2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1});
-            this.dgv2.Size = new System.Drawing.Size(1677, 426);
+            this.dgv2.Size = new System.Drawing.Size(1794, 428);
             this.dgv2.TabIndex = 5;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1668,8 +1691,14 @@
             this.gridMain2.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
             this.bandedGridColumn24,
             this.bandedGridColumn21,
+            this.bandedGridColumn245,
+            this.bandedGridColumn243,
+            this.bandedGridColumn244,
+            this.bandedGridColumn246,
+            this.bandedGridColumn247,
             this.bandedGridColumn22,
             this.bandedGridColumn23,
+            this.bandedGridColumn242,
             this.bandedGridColumn98,
             this.bandedGridColumn99,
             this.bandedGridColumn100,
@@ -1680,7 +1709,9 @@
             this.bandedGridColumn195,
             this.bandedGridColumn194,
             this.bandedGridColumn193,
-            this.bandedGridColumn192});
+            this.bandedGridColumn192,
+            this.bandedGridColumn248,
+            this.bandedGridColumn249});
             this.gridMain2.DetailHeight = 431;
             this.gridMain2.GridControl = this.dgv2;
             this.gridMain2.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
@@ -1699,24 +1730,32 @@
             // gridBand1
             // 
             this.gridBand1.Columns.Add(this.bandedGridColumn21);
+            this.gridBand1.Columns.Add(this.bandedGridColumn243);
+            this.gridBand1.Columns.Add(this.bandedGridColumn245);
+            this.gridBand1.Columns.Add(this.bandedGridColumn244);
+            this.gridBand1.Columns.Add(this.bandedGridColumn246);
+            this.gridBand1.Columns.Add(this.bandedGridColumn247);
             this.gridBand1.Columns.Add(this.bandedGridColumn22);
             this.gridBand1.Columns.Add(this.bandedGridColumn98);
             this.gridBand1.Columns.Add(this.bandedGridColumn144);
             this.gridBand1.Columns.Add(this.bandedGridColumn23);
+            this.gridBand1.Columns.Add(this.bandedGridColumn242);
             this.gridBand1.Columns.Add(this.bandedGridColumn99);
-            this.gridBand1.Columns.Add(this.bandedGridColumn100);
             this.gridBand1.Columns.Add(this.bandedGridColumn101);
             this.gridBand1.Columns.Add(this.bandedGridColumn103);
+            this.gridBand1.Columns.Add(this.bandedGridColumn248);
+            this.gridBand1.Columns.Add(this.bandedGridColumn249);
             this.gridBand1.Columns.Add(this.bandedGridColumn24);
+            this.gridBand1.Columns.Add(this.bandedGridColumn100);
             this.gridBand1.Columns.Add(this.bandedGridColumn191);
-            this.gridBand1.Columns.Add(this.bandedGridColumn195);
-            this.gridBand1.Columns.Add(this.bandedGridColumn194);
             this.gridBand1.Columns.Add(this.bandedGridColumn193);
+            this.gridBand1.Columns.Add(this.bandedGridColumn194);
             this.gridBand1.Columns.Add(this.bandedGridColumn192);
+            this.gridBand1.Columns.Add(this.bandedGridColumn195);
             this.gridBand1.MinWidth = 41;
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 1639;
+            this.gridBand1.Width = 1706;
             // 
             // bandedGridColumn21
             // 
@@ -1728,6 +1767,71 @@
             this.bandedGridColumn21.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn21.Visible = true;
             this.bandedGridColumn21.Width = 210;
+            // 
+            // bandedGridColumn243
+            // 
+            this.bandedGridColumn243.Caption = "Lapsed Contracts";
+            this.bandedGridColumn243.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn243.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn243.FieldName = "L_contracts";
+            this.bandedGridColumn243.MinWidth = 25;
+            this.bandedGridColumn243.Name = "bandedGridColumn243";
+            this.bandedGridColumn243.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn243.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn243.Visible = true;
+            this.bandedGridColumn243.Width = 85;
+            // 
+            // bandedGridColumn245
+            // 
+            this.bandedGridColumn245.Caption = "Lapsed Contract Value";
+            this.bandedGridColumn245.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn245.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn245.FieldName = "L_contractValue";
+            this.bandedGridColumn245.MinWidth = 25;
+            this.bandedGridColumn245.Name = "bandedGridColumn245";
+            this.bandedGridColumn245.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn245.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn245.Visible = true;
+            this.bandedGridColumn245.Width = 125;
+            // 
+            // bandedGridColumn244
+            // 
+            this.bandedGridColumn244.Caption = "Lapsed 50%";
+            this.bandedGridColumn244.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn244.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn244.FieldName = "L_trust50";
+            this.bandedGridColumn244.MinWidth = 25;
+            this.bandedGridColumn244.Name = "bandedGridColumn244";
+            this.bandedGridColumn244.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn244.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn244.Visible = true;
+            this.bandedGridColumn244.Width = 100;
+            // 
+            // bandedGridColumn246
+            // 
+            this.bandedGridColumn246.Caption = "Lapsed 85%";
+            this.bandedGridColumn246.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn246.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn246.FieldName = "L_total";
+            this.bandedGridColumn246.MinWidth = 25;
+            this.bandedGridColumn246.Name = "bandedGridColumn246";
+            this.bandedGridColumn246.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn246.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn246.Visible = true;
+            this.bandedGridColumn246.Width = 100;
+            // 
+            // bandedGridColumn247
+            // 
+            this.bandedGridColumn247.Caption = "Lapsed Value 50% and 85%";
+            this.bandedGridColumn247.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn247.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn247.FieldName = "L_trust5085";
+            this.bandedGridColumn247.MinWidth = 25;
+            this.bandedGridColumn247.Name = "bandedGridColumn247";
+            this.bandedGridColumn247.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn247.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn247.Visible = true;
+            this.bandedGridColumn247.Width = 128;
             // 
             // bandedGridColumn22
             // 
@@ -1742,7 +1846,7 @@
             this.bandedGridColumn22.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn22.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn22.Visible = true;
-            this.bandedGridColumn22.Width = 156;
+            this.bandedGridColumn22.Width = 85;
             // 
             // bandedGridColumn98
             // 
@@ -1754,7 +1858,7 @@
             this.bandedGridColumn98.Name = "bandedGridColumn98";
             this.bandedGridColumn98.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn98.Visible = true;
-            this.bandedGridColumn98.Width = 147;
+            this.bandedGridColumn98.Width = 125;
             // 
             // bandedGridColumn144
             // 
@@ -1766,7 +1870,7 @@
             this.bandedGridColumn144.Name = "bandedGridColumn144";
             this.bandedGridColumn144.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn144.Visible = true;
-            this.bandedGridColumn144.Width = 128;
+            this.bandedGridColumn144.Width = 100;
             // 
             // bandedGridColumn23
             // 
@@ -1781,7 +1885,20 @@
             this.bandedGridColumn23.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn23.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn23.Visible = true;
-            this.bandedGridColumn23.Width = 156;
+            this.bandedGridColumn23.Width = 100;
+            // 
+            // bandedGridColumn242
+            // 
+            this.bandedGridColumn242.Caption = "Active or Paid Off Value 50% and 85%";
+            this.bandedGridColumn242.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn242.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn242.FieldName = "trust5085";
+            this.bandedGridColumn242.MinWidth = 25;
+            this.bandedGridColumn242.Name = "bandedGridColumn242";
+            this.bandedGridColumn242.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn242.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn242.Visible = true;
+            this.bandedGridColumn242.Width = 128;
             // 
             // bandedGridColumn99
             // 
@@ -1792,20 +1909,7 @@
             this.bandedGridColumn99.MinWidth = 40;
             this.bandedGridColumn99.Name = "bandedGridColumn99";
             this.bandedGridColumn99.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn99.Visible = true;
             this.bandedGridColumn99.Width = 152;
-            // 
-            // bandedGridColumn100
-            // 
-            this.bandedGridColumn100.Caption = "Annuity";
-            this.bandedGridColumn100.DisplayFormat.FormatString = "N2";
-            this.bandedGridColumn100.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn100.FieldName = "annuity";
-            this.bandedGridColumn100.MinWidth = 40;
-            this.bandedGridColumn100.Name = "bandedGridColumn100";
-            this.bandedGridColumn100.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn100.Visible = true;
-            this.bandedGridColumn100.Width = 126;
             // 
             // bandedGridColumn101
             // 
@@ -1817,7 +1921,7 @@
             this.bandedGridColumn101.Name = "bandedGridColumn101";
             this.bandedGridColumn101.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn101.Visible = true;
-            this.bandedGridColumn101.Width = 135;
+            this.bandedGridColumn101.Width = 125;
             // 
             // bandedGridColumn103
             // 
@@ -1829,7 +1933,31 @@
             this.bandedGridColumn103.Name = "bandedGridColumn103";
             this.bandedGridColumn103.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn103.Visible = true;
-            this.bandedGridColumn103.Width = 107;
+            this.bandedGridColumn103.Width = 105;
+            // 
+            // bandedGridColumn248
+            // 
+            this.bandedGridColumn248.Caption = "Active Contracts";
+            this.bandedGridColumn248.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn248.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn248.FieldName = "A_contracts";
+            this.bandedGridColumn248.MinWidth = 65;
+            this.bandedGridColumn248.Name = "bandedGridColumn248";
+            this.bandedGridColumn248.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn248.Visible = true;
+            this.bandedGridColumn248.Width = 85;
+            // 
+            // bandedGridColumn249
+            // 
+            this.bandedGridColumn249.Caption = "Active Contracts Remaining Balance";
+            this.bandedGridColumn249.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn249.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn249.FieldName = "A_remainingBal";
+            this.bandedGridColumn249.MinWidth = 25;
+            this.bandedGridColumn249.Name = "bandedGridColumn249";
+            this.bandedGridColumn249.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn249.Visible = true;
+            this.bandedGridColumn249.Width = 105;
             // 
             // bandedGridColumn24
             // 
@@ -1840,6 +1968,18 @@
             this.bandedGridColumn24.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn24.Width = 255;
             // 
+            // bandedGridColumn100
+            // 
+            this.bandedGridColumn100.Caption = "Annuity";
+            this.bandedGridColumn100.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn100.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn100.FieldName = "annuity";
+            this.bandedGridColumn100.MinWidth = 40;
+            this.bandedGridColumn100.Name = "bandedGridColumn100";
+            this.bandedGridColumn100.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn100.RowIndex = 1;
+            this.bandedGridColumn100.Width = 126;
+            // 
             // bandedGridColumn191
             // 
             this.bandedGridColumn191.Caption = "Trust and Ins";
@@ -1849,32 +1989,8 @@
             this.bandedGridColumn191.MinWidth = 25;
             this.bandedGridColumn191.Name = "bandedGridColumn191";
             this.bandedGridColumn191.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn191.Visible = true;
+            this.bandedGridColumn191.RowIndex = 1;
             this.bandedGridColumn191.Width = 66;
-            // 
-            // bandedGridColumn195
-            // 
-            this.bandedGridColumn195.Caption = "Ins Only";
-            this.bandedGridColumn195.DisplayFormat.FormatString = "N0";
-            this.bandedGridColumn195.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn195.FieldName = "insOnly";
-            this.bandedGridColumn195.MinWidth = 25;
-            this.bandedGridColumn195.Name = "bandedGridColumn195";
-            this.bandedGridColumn195.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn195.Visible = true;
-            this.bandedGridColumn195.Width = 55;
-            // 
-            // bandedGridColumn194
-            // 
-            this.bandedGridColumn194.Caption = "Trust Only";
-            this.bandedGridColumn194.DisplayFormat.FormatString = "N0";
-            this.bandedGridColumn194.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn194.FieldName = "trustOnly";
-            this.bandedGridColumn194.MinWidth = 25;
-            this.bandedGridColumn194.Name = "bandedGridColumn194";
-            this.bandedGridColumn194.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn194.Visible = true;
-            this.bandedGridColumn194.Width = 60;
             // 
             // bandedGridColumn193
             // 
@@ -1885,8 +2001,20 @@
             this.bandedGridColumn193.MinWidth = 25;
             this.bandedGridColumn193.Name = "bandedGridColumn193";
             this.bandedGridColumn193.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn193.Visible = true;
+            this.bandedGridColumn193.RowIndex = 1;
             this.bandedGridColumn193.Width = 69;
+            // 
+            // bandedGridColumn194
+            // 
+            this.bandedGridColumn194.Caption = "Trust Only";
+            this.bandedGridColumn194.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn194.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn194.FieldName = "trustOnly";
+            this.bandedGridColumn194.MinWidth = 25;
+            this.bandedGridColumn194.Name = "bandedGridColumn194";
+            this.bandedGridColumn194.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn194.RowIndex = 1;
+            this.bandedGridColumn194.Width = 60;
             // 
             // bandedGridColumn192
             // 
@@ -1897,8 +2025,20 @@
             this.bandedGridColumn192.MinWidth = 25;
             this.bandedGridColumn192.Name = "bandedGridColumn192";
             this.bandedGridColumn192.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn192.Visible = true;
+            this.bandedGridColumn192.RowIndex = 1;
             this.bandedGridColumn192.Width = 72;
+            // 
+            // bandedGridColumn195
+            // 
+            this.bandedGridColumn195.Caption = "Ins Only";
+            this.bandedGridColumn195.DisplayFormat.FormatString = "N0";
+            this.bandedGridColumn195.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn195.FieldName = "insOnly";
+            this.bandedGridColumn195.MinWidth = 25;
+            this.bandedGridColumn195.Name = "bandedGridColumn195";
+            this.bandedGridColumn195.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn195.RowIndex = 1;
+            this.bandedGridColumn195.Width = 55;
             // 
             // repositoryItemComboBox1
             // 
@@ -1915,7 +2055,7 @@
             this.tabHU.Controls.Add(this.dgv3);
             this.tabHU.Location = new System.Drawing.Point(4, 25);
             this.tabHU.Name = "tabHU";
-            this.tabHU.Size = new System.Drawing.Size(1683, 432);
+            this.tabHU.Size = new System.Drawing.Size(1800, 434);
             this.tabHU.TabIndex = 2;
             this.tabHU.Text = "HU";
             this.tabHU.UseVisualStyleBackColor = true;
@@ -1931,7 +2071,7 @@
             this.dgv3.Name = "dgv3";
             this.dgv3.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox2});
-            this.dgv3.Size = new System.Drawing.Size(1683, 432);
+            this.dgv3.Size = new System.Drawing.Size(1800, 434);
             this.dgv3.TabIndex = 5;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -2504,7 +2644,7 @@
             this.tabJPN.Controls.Add(this.dgv4);
             this.tabJPN.Location = new System.Drawing.Point(4, 25);
             this.tabJPN.Name = "tabJPN";
-            this.tabJPN.Size = new System.Drawing.Size(1683, 432);
+            this.tabJPN.Size = new System.Drawing.Size(1800, 434);
             this.tabJPN.TabIndex = 3;
             this.tabJPN.Text = "JPN";
             this.tabJPN.UseVisualStyleBackColor = true;
@@ -2520,7 +2660,7 @@
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox4});
-            this.dgv4.Size = new System.Drawing.Size(1683, 432);
+            this.dgv4.Size = new System.Drawing.Size(1800, 434);
             this.dgv4.TabIndex = 5;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -3093,7 +3233,7 @@
             this.tabNMOC.Controls.Add(this.dgv5);
             this.tabNMOC.Location = new System.Drawing.Point(4, 25);
             this.tabNMOC.Name = "tabNMOC";
-            this.tabNMOC.Size = new System.Drawing.Size(1683, 432);
+            this.tabNMOC.Size = new System.Drawing.Size(1800, 434);
             this.tabNMOC.TabIndex = 4;
             this.tabNMOC.Text = "NMOC";
             this.tabNMOC.UseVisualStyleBackColor = true;
@@ -3109,7 +3249,7 @@
             this.dgv5.Name = "dgv5";
             this.dgv5.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox5});
-            this.dgv5.Size = new System.Drawing.Size(1683, 432);
+            this.dgv5.Size = new System.Drawing.Size(1800, 434);
             this.dgv5.TabIndex = 5;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -3682,7 +3822,7 @@
             this.tabCem.Controls.Add(this.dgv6);
             this.tabCem.Location = new System.Drawing.Point(4, 25);
             this.tabCem.Name = "tabCem";
-            this.tabCem.Size = new System.Drawing.Size(1683, 432);
+            this.tabCem.Size = new System.Drawing.Size(1800, 434);
             this.tabCem.TabIndex = 5;
             this.tabCem.Text = "cemeteries";
             this.tabCem.UseVisualStyleBackColor = true;
@@ -3698,7 +3838,7 @@
             this.dgv6.Name = "dgv6";
             this.dgv6.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox6});
-            this.dgv6.Size = new System.Drawing.Size(1683, 432);
+            this.dgv6.Size = new System.Drawing.Size(1800, 434);
             this.dgv6.TabIndex = 5;
             this.dgv6.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain6});
@@ -4271,7 +4411,7 @@
             this.tabAFA.Controls.Add(this.dgv8);
             this.tabAFA.Location = new System.Drawing.Point(4, 25);
             this.tabAFA.Name = "tabAFA";
-            this.tabAFA.Size = new System.Drawing.Size(1683, 432);
+            this.tabAFA.Size = new System.Drawing.Size(1800, 434);
             this.tabAFA.TabIndex = 7;
             this.tabAFA.Text = "AFA";
             this.tabAFA.UseVisualStyleBackColor = true;
@@ -4287,7 +4427,7 @@
             this.dgv8.Name = "dgv8";
             this.dgv8.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox8});
-            this.dgv8.Size = new System.Drawing.Size(1683, 432);
+            this.dgv8.Size = new System.Drawing.Size(1800, 434);
             this.dgv8.TabIndex = 5;
             this.dgv8.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain8});
@@ -4860,7 +5000,7 @@
             this.tabNoContract.Controls.Add(this.dgv7);
             this.tabNoContract.Location = new System.Drawing.Point(4, 25);
             this.tabNoContract.Name = "tabNoContract";
-            this.tabNoContract.Size = new System.Drawing.Size(1683, 432);
+            this.tabNoContract.Size = new System.Drawing.Size(1800, 434);
             this.tabNoContract.TabIndex = 6;
             this.tabNoContract.Text = "No Contract";
             this.tabNoContract.UseVisualStyleBackColor = true;
@@ -4876,7 +5016,7 @@
             this.dgv7.Name = "dgv7";
             this.dgv7.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox7});
-            this.dgv7.Size = new System.Drawing.Size(1683, 432);
+            this.dgv7.Size = new System.Drawing.Size(1800, 434);
             this.dgv7.TabIndex = 5;
             this.dgv7.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain7});
@@ -5463,7 +5603,7 @@
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1691, 78);
+            this.panelTop.Size = new System.Drawing.Size(1808, 78);
             this.panelTop.TabIndex = 7;
             // 
             // chkRestoreDetail
@@ -5620,7 +5760,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1691, 569);
+            this.ClientSize = new System.Drawing.Size(1808, 569);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -5992,5 +6132,14 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn240;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox9;
         private System.Windows.Forms.CheckBox chkRestoreDetail;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn241;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn242;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn243;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn244;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn245;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn246;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn247;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn248;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn249;
     }
 }

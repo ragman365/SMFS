@@ -928,7 +928,6 @@ namespace SMFS
         /***********************************************************************************************/
         private void buildSummary(DataTable dx)
         {
-
             DataTable dt = dx.Clone();
 
             DataRow[] dRows = dx.Select("trustOnly='1' OR TandI='1'");
@@ -950,6 +949,7 @@ namespace SMFS
             double total = 0D;
             double trust50 = 0D;
             double contractValue = 0D;
+            double trust5085 = 0D;
             double allowInsurance = 0D;
             double annuity = 0D;
             double balanceDue = 0D;
@@ -960,11 +960,11 @@ namespace SMFS
             double tiValue = 0D;
             double aiValue = 0D;
 
-
             double L_contracts = 0D;
             double L_total = 0D;
             double L_trust50 = 0D;
             double L_contractValue = 0D;
+            double L_trust5085 = 0D;
             double L_allowInsurance = 0D;
             double L_annuity = 0D;
             double L_balanceDue = 0D;
@@ -975,6 +975,20 @@ namespace SMFS
             double L_tiValue = 0D;
             double L_aiValue = 0D;
 
+            double T_contracts = 0D;
+            double T_total = 0D; // Trust 85
+            double T_trust50 = 0D;
+            double T_trust5085 = 0D;
+            double T_contractValue = 0D;
+
+            double I_contracts = 0D;  // Total number of contracts with a dueDate8 of 12-31-2039
+            DateTime dueDate = DateTime.MinValue;
+            
+            //string formattedDateOnly = eventDate.ToString("yyyy-MM-dd");
+
+            double A_contracts = 0D; // Total # of Actively Paid Contracts 
+            double A_remainingBal = 0D; // Remaining Balance of Actively Paying Contracts
+
             double totals = 0D;
             double contractTotals = 0D;
             double contractValues = 0D;
@@ -983,22 +997,37 @@ namespace SMFS
             double balanceDues = 0D;
 
             string lapsed = "";
+            string str_dueDate = "";
 
             DataView tempView = dt.DefaultView;
             tempView.Sort = "location";
             dt = tempView.ToTable();
 
-
             DataTable dt2 = new DataTable();
+            dt2.Columns.Add("L_contracts", Type.GetType("System.Double"));
+            dt2.Columns.Add("L_contractValue", Type.GetType("System.Double"));
+            dt2.Columns.Add("L_trust50", Type.GetType("System.Double"));
+            dt2.Columns.Add("L_total", Type.GetType("System.Double"));
+            dt2.Columns.Add("L_trust5085", Type.GetType("System.Double"));
             dt2.Columns.Add("contracts", Type.GetType("System.Double"));
             dt2.Columns.Add("total", Type.GetType("System.Double"));
             dt2.Columns.Add("trust50", Type.GetType("System.Double"));
             dt2.Columns.Add("contractValue", Type.GetType("System.Double"));
+            dt2.Columns.Add("trust5085", Type.GetType("System.Double"));
             dt2.Columns.Add("allowInsurance", Type.GetType("System.Double"));
             dt2.Columns.Add("annuity", Type.GetType("System.Double"));
             dt2.Columns.Add("balanceDue", Type.GetType("System.Double"));
             dt2.Columns.Add("totalLoc", Type.GetType("System.Double"));
             dt2.Columns.Add("location");
+            dt2.Columns.Add("T_contracts", Type.GetType("System.Double"));
+            dt2.Columns.Add("T_total", Type.GetType("System.Double"));
+            dt2.Columns.Add("T_trust50", Type.GetType("System.Double"));
+            dt2.Columns.Add("T_trust5085", Type.GetType("System.Double"));
+            dt2.Columns.Add("T_contractValue", Type.GetType("System.Double"));
+            dt2.Columns.Add("A_contracts", Type.GetType("System.Double"));
+            dt2.Columns.Add("A_remainingBal", Type.GetType("System.Double"));
+            dt2.Columns.Add("I_contracts", Type.GetType("System.Double")); // Total number of contracts that are inactive with a dueDate of 12-31-2039
+            dt2.Columns.Add("dueDate", Type.GetType("System.DateTime"));
 
             dt2.Columns.Add("TandI", Type.GetType("System.Double"));
             dt2.Columns.Add("insOnly", Type.GetType("System.Double"));
@@ -1015,6 +1044,15 @@ namespace SMFS
                     is2002 = dt.Rows[i]["is2002"].ObjToString();
                     locInd = dt.Rows[i]["locInd"].ObjToString();
                     lapsed = dt.Rows[i]["lapsed"].ObjToString();
+                    dueDate = dt.Rows[i]["dueDate8"].ObjToDateTime();
+                    str_dueDate = dueDate.ToString("yyyy-MM-dd");
+                    if (str_dueDate == "2039-12-31")
+                        I_contracts++; // It's an inactive contract. Increment the total number of inactive contracts to subtract from Total Contracts.
+                    else
+                    {
+                        if (L_contracts != 0) // Not inactive and not lapsed.
+                            A_remainingBal += dt.Rows[i]["balanceDue"].ObjToDouble();
+                    }
 
                     if (string.IsNullOrWhiteSpace(oldLoc))
                     {
@@ -1023,18 +1061,32 @@ namespace SMFS
                         oldLocInd = locInd;
                         oldServiceLoc = serviceLoc;
                     }
+                    
                     if (oldLoc != location)
                     {
                         dRow = dt2.NewRow();
                         dRow["location"] = getLocation(oldLoc);
                         dRow["location"] = filterServiceLoc(oldServiceLoc);
+                        dRow["L_contracts"] = L_contracts;
+                        dRow["L_contractValue"] = L_contractValue;
+                        dRow["L_trust50"] = L_trust50;
+                        dRow["L_total"] = L_total;
+                        dRow["L_trust5085"] = L_trust5085;
                         dRow["contracts"] = contracts;
                         dRow["total"] = total;
                         dRow["trust50"] = trust50;
                         dRow["contractValue"] = contractValue;
+                        dRow["trust5085"] = trust5085;
                         dRow["allowInsurance"] = allowInsurance;
                         dRow["annuity"] = annuity;
                         dRow["balanceDue"] = balanceDue;
+                        dRow["T_contracts"] = T_contracts;
+                        dRow["T_total"] = T_total;
+                        dRow["T_trust50"] = T_trust50;
+                        dRow["T_trust5085"] = T_trust5085;
+                        dRow["T_contractValue"] = T_contractValue;
+                        dRow["A_contracts"] = A_contracts;
+                        dRow["A_remainingBal"] = A_remainingBal;
 
                         dRow["trustOnly"] = tValue;
                         dRow["insOnly"] = iValue;
@@ -1043,7 +1095,8 @@ namespace SMFS
                         dRow["IandA"] = aiValue;
 
                         dt2.Rows.Add(dRow);
-
+                        /*
+                         * 7-8-2025 - Adam Sloan - Removed extra row for lapsed content and created extra columns instead.
                         if (L_contracts != 0D)
                         {
                             dRow = dt2.NewRow();
@@ -1053,6 +1106,7 @@ namespace SMFS
                             dRow["total"] = L_total;
                             dRow["trust50"] = L_trust50;
                             dRow["contractValue"] = L_contractValue;
+                            dRow["trust5085"] = L_trust5085;
                             dRow["allowInsurance"] = L_allowInsurance;
                             dRow["annuity"] = L_annuity;
                             dRow["balanceDue"] = L_balanceDue;
@@ -1065,7 +1119,7 @@ namespace SMFS
 
                             dt2.Rows.Add(dRow);
                         }
-
+                        */
                         totals += total;
                         contractValues += contractValue;
                         allowInsurances += allowInsurance;
@@ -1075,6 +1129,7 @@ namespace SMFS
                         contracts = 0D;
                         total = 0D;
                         trust50 = 0D;
+                        trust5085 = 0D;
                         contractValue = 0D;
                         allowInsurance = 0D;
                         annuity = 0D;
@@ -1089,6 +1144,7 @@ namespace SMFS
                         L_contracts = 0D;
                         L_total = 0D;
                         L_trust50 = 0D;
+                        L_trust5085 = 0D;
                         L_contractValue = 0D;
                         L_allowInsurance = 0D;
                         L_annuity = 0D;
@@ -1100,6 +1156,15 @@ namespace SMFS
                         L_tiValue = 0D;
                         L_aiValue = 0D;
 
+                        T_contracts = 0D;
+                        T_total = 0D;
+                        T_trust50 = 0D;
+                        T_trust5085 = 0D;
+                        T_contractValue = 0D;
+
+                        A_contracts = 0D;
+                        A_remainingBal = 0D;
+
                         oldLoc = location;
                         oldServiceLoc = serviceLoc;
                     }
@@ -1109,6 +1174,7 @@ namespace SMFS
                         //L_total += dt.Rows[i]["endingBalance"].ObjToDouble();
                         L_total += dt.Rows[i]["trust85"].ObjToDouble();
                         L_trust50 += dt.Rows[i]["trust50"].ObjToDouble();
+                        L_trust5085 = L_trust50 + L_total;
                         L_contractValue += dt.Rows[i]["contractValue"].ObjToDouble();
                         L_allowInsurance += dt.Rows[i]["allowInsurance"].ObjToDouble();
                         L_annuity += dt.Rows[i]["annuity"].ObjToDouble();
@@ -1126,6 +1192,7 @@ namespace SMFS
                         //total += dt.Rows[i]["endingBalance"].ObjToDouble();
                         total += dt.Rows[i]["trust85"].ObjToDouble();
                         trust50 += dt.Rows[i]["trust50"].ObjToDouble();
+                        trust5085 = trust50 + total;
                         contractValue += dt.Rows[i]["contractValue"].ObjToDouble();
                         allowInsurance += dt.Rows[i]["allowInsurance"].ObjToDouble();
                         annuity += dt.Rows[i]["annuity"].ObjToDouble();
@@ -1137,6 +1204,18 @@ namespace SMFS
                         tiValue += dt.Rows[i]["TandI"].ObjToDouble();
                         aiValue += dt.Rows[i]["IandA"].ObjToDouble();
                     }
+
+                    // Totals
+                    T_contracts = L_contracts + contracts;
+                    T_total = L_total + total;
+                    T_trust50 = L_trust50 + trust50;
+                    T_trust5085 = L_total + L_trust50;
+                    T_contractValue = L_contractValue + contractValue;
+
+                    // Calculate the remaining Active Balance
+                    A_contracts = contracts - L_contracts - I_contracts;
+//                    A_remainingBal = balanceDue - L_balanceDue;
+                    I_contracts = 0D;
                 }
                 catch (Exception ex)
                 { 
@@ -1148,15 +1227,21 @@ namespace SMFS
                 dRow = dt2.NewRow();
                 dRow["location"] = getLocation(oldLoc);
 				dRow["location"] = filterServiceLoc(oldServiceLoc);
+                dRow["L_contracts"] = L_contracts;
+                dRow["L_contractValue"] = L_contractValue;
+                dRow["L_trust50"] = L_trust50;
+                dRow["L_total"] = L_total;
+                dRow["L_trust5085"] = L_trust5085;
                 dRow["contracts"] = contracts;
                 dRow["total"] = total;
                 dRow["trust50"] = trust50;
                 dRow["contractValue"] = contractValue;
+                dRow["trust5085"] = trust5085;
                 dRow["allowInsurance"] = allowInsurance;
                 dRow["annuity"] = annuity;
                 dRow["balanceDue"] = balanceDue;
                 dt2.Rows.Add(dRow);
-
+                /*
                 if ( L_contracts != 0D )
                 {
                     dRow = dt2.NewRow();
@@ -1166,12 +1251,13 @@ namespace SMFS
                     dRow["total"] = L_total;
                     dRow["trust50"] = L_trust50;
                     dRow["contractValue"] = L_contractValue;
+                    dRow["trust5085"] = L_trust5085;
                     dRow["allowInsurance"] = L_allowInsurance;
                     dRow["annuity"] = L_annuity;
                     dRow["balanceDue"] = L_balanceDue;
                     dt2.Rows.Add(dRow);
                 }
-
+                */
                 totals += total;
                 contractTotals += contracts;
             }
@@ -1215,6 +1301,7 @@ namespace SMFS
             double total = 0D;
             double trust50 = 0D;
             double contractValue = 0D;
+            double trust5085 = 0D;
             double allowInsurance = 0D;
             double annuity = 0D;
             double balanceDue = 0D;
@@ -1230,6 +1317,7 @@ namespace SMFS
             double L_total = 0D;
             double L_trust50 = 0D;
             double L_contractValue = 0D;
+            double L_trust5085 = 0D;
             double L_allowInsurance = 0D;
             double L_annuity = 0D;
             double L_balanceDue = 0D;
@@ -1243,6 +1331,7 @@ namespace SMFS
             double totals = 0D;
             double contractTotals = 0D;
             double contractValues = 0D;
+            double trust5085s = 0D;
             double allowInsurances = 0D;
             double annuitys = 0D;
             double balanceDues = 0D;
@@ -1253,12 +1342,12 @@ namespace SMFS
             tempView.Sort = "location";
             dt = tempView.ToTable();
 
-
             DataTable dt2 = new DataTable();
             dt2.Columns.Add("contracts", Type.GetType("System.Double"));
             dt2.Columns.Add("total", Type.GetType("System.Double"));
             dt2.Columns.Add("trust50", Type.GetType("System.Double"));
             dt2.Columns.Add("contractValue", Type.GetType("System.Double"));
+            dt2.Columns.Add("trust5085", Type.GetType("System.Double"));
             dt2.Columns.Add("allowInsurance", Type.GetType("System.Double"));
             dt2.Columns.Add("annuity", Type.GetType("System.Double"));
             dt2.Columns.Add("balanceDue", Type.GetType("System.Double"));
@@ -1288,6 +1377,7 @@ namespace SMFS
                         oldLocInd = locInd;
                         oldServiceLoc = serviceLoc;
                     }
+                    
                     if (oldLoc != location)
                     {
                         dRow = dt2.NewRow();
@@ -1297,6 +1387,7 @@ namespace SMFS
                         dRow["total"] = total;
                         dRow["trust50"] = trust50;
                         dRow["contractValue"] = contractValue;
+                        dRow["trust5085"] = trust5085;
                         dRow["allowInsurance"] = allowInsurance;
                         dRow["annuity"] = annuity;
                         dRow["balanceDue"] = balanceDue;
@@ -1318,6 +1409,7 @@ namespace SMFS
                             dRow["total"] = L_total;
                             dRow["trust50"] = L_trust50;
                             dRow["contractValue"] = L_contractValue;
+                            dRow["trust5085"] = L_trust5085;
                             dRow["allowInsurance"] = L_allowInsurance;
                             dRow["annuity"] = L_annuity;
                             dRow["balanceDue"] = L_balanceDue;
@@ -1333,6 +1425,7 @@ namespace SMFS
 
                         totals += total;
                         contractValues += contractValue;
+                        trust5085s += trust5085;
                         allowInsurances += allowInsurance;
                         annuitys += annuity;
                         contractTotals += contracts;
@@ -1341,6 +1434,7 @@ namespace SMFS
                         total = 0D;
                         trust50 = 0D;
                         contractValue = 0D;
+                        trust5085 = 0D;
                         allowInsurance = 0D;
                         annuity = 0D;
                         balanceDue = 0D;
@@ -1355,6 +1449,7 @@ namespace SMFS
                         L_total = 0D;
                         L_trust50 = 0D;
                         L_contractValue = 0D;
+                        L_trust5085 = 0D;
                         L_allowInsurance = 0D;
                         L_annuity = 0D;
                         L_balanceDue = 0D;
@@ -1375,6 +1470,7 @@ namespace SMFS
                         L_total += dt.Rows[i]["trust85"].ObjToDouble();
                         L_trust50 += dt.Rows[i]["trust50"].ObjToDouble();
                         L_contractValue += dt.Rows[i]["contractValue"].ObjToDouble();
+                        L_trust5085 = L_trust50 + L_total;
                         L_allowInsurance += dt.Rows[i]["allowInsurance"].ObjToDouble();
                         L_annuity += dt.Rows[i]["annuity"].ObjToDouble();
                         L_balanceDue += dt.Rows[i]["balanceDue"].ObjToDouble();
@@ -1392,6 +1488,7 @@ namespace SMFS
                         total += dt.Rows[i]["trust85"].ObjToDouble();
                         trust50 += dt.Rows[i]["trust50"].ObjToDouble();
                         contractValue += dt.Rows[i]["contractValue"].ObjToDouble();
+                        trust5085 = trust50 + total;
                         allowInsurance += dt.Rows[i]["allowInsurance"].ObjToDouble();
                         annuity += dt.Rows[i]["annuity"].ObjToDouble();
                         balanceDue += dt.Rows[i]["balanceDue"].ObjToDouble();
@@ -1417,6 +1514,7 @@ namespace SMFS
                 dRow["total"] = total;
                 dRow["trust50"] = trust50;
                 dRow["contractValue"] = contractValue;
+                dRow["trust5085"] = trust5085;
                 dRow["allowInsurance"] = allowInsurance;
                 dRow["annuity"] = annuity;
                 dRow["balanceDue"] = balanceDue;
@@ -1431,6 +1529,7 @@ namespace SMFS
                     dRow["total"] = L_total;
                     dRow["trust50"] = L_trust50;
                     dRow["contractValue"] = L_contractValue;
+                    dRow["trust5085"] = L_trust5085;
                     dRow["allowInsurance"] = L_allowInsurance;
                     dRow["annuity"] = L_annuity;
                     dRow["balanceDue"] = L_balanceDue;
@@ -1439,6 +1538,7 @@ namespace SMFS
 
                 totals += total;
                 contractTotals += contracts;
+                trust5085s += trust5085;
             }
 
             double trust85 = 0D;
