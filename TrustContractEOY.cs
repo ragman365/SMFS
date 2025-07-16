@@ -116,8 +116,14 @@ namespace SMFS
             AddSummaryColumn("insOnly", gridMain, "{0:N0}");
             AddSummaryColumn("annOnly", gridMain, "{0:N0}");
 
+            AddSummaryColumn("L_contracts", gridMain2, "{0:N0}");
+            AddSummaryColumn("L_contractValue", gridMain2);
+            AddSummaryColumn("L_total", gridMain2);
+            AddSummaryColumn("L_trust50", gridMain2);
+            AddSummaryColumn("L_trust5085", gridMain2);
             AddSummaryColumn("total", gridMain2 );
             AddSummaryColumn("trust50", gridMain2);
+            AddSummaryColumn("trust5085", gridMain2);
             AddSummaryColumn("contracts", gridMain2, "{0:N0}");
             AddSummaryColumn("contractValue", gridMain2);
             AddSummaryColumn("allowInsurance", gridMain2);
@@ -129,6 +135,8 @@ namespace SMFS
             AddSummaryColumn("trustOnly", gridMain2, "{0:N0}");
             AddSummaryColumn("insOnly", gridMain2, "{0:N0}");
             AddSummaryColumn("annOnly", gridMain2, "{0:N0}");
+            AddSummaryColumn("A_contracts", gridMain2);
+            AddSummaryColumn("A_remainingBal", gridMain2);
 
             AddSummaryColumn("beginningBalance", gridMain3);
             AddSummaryColumn("trust85", gridMain3);
@@ -729,8 +737,7 @@ namespace SMFS
             buildSummary(dt);
 
             buildFullSummary(dt);
-
-
+            
             chkCollapes_CheckedChanged(null, null);
             //gridMain.ExpandAllGroups();
             this.Cursor = Cursors.Default;
@@ -2283,6 +2290,11 @@ namespace SMFS
             {
                 summaryDt = new DataTable();
                 summaryDt.Columns.Add("location");
+                summaryDt.Columns.Add("L_contracts");
+                summaryDt.Columns.Add("L_contractValue");
+                summaryDt.Columns.Add("L_trust50");
+                summaryDt.Columns.Add("L_total");
+                summaryDt.Columns.Add("L_trust5085");
                 summaryDt.Columns.Add("firstContract");
                 summaryDt.Columns.Add("lastContract");
                 summaryDt.Columns.Add("count", Type.GetType("System.Int32"));
