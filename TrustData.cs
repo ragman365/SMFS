@@ -864,7 +864,7 @@ namespace SMFS
 
             DataTable dt = G1.get_db_data(cmd);
 
-            Trust85.FindContract(dt, "WM05008");
+            Trust85.FindContract(dt, "M13166UI");
 
             dt.Columns.Add("mark");
             SetupSelection(dt, this.repositoryItemCheckEdit1, "mark");
@@ -903,7 +903,7 @@ namespace SMFS
 
 
             Trust85.FindContract(dt, "M04095");
-            Trust85.FindContract(dt, "L14140UI");
+            Trust85.FindContract(dt, "M13166UI");
 
 
             if (!chkShowAll.Checked)
@@ -988,12 +988,15 @@ namespace SMFS
             double diff = 0D;
             string prePost = "";
 
+            Trust85.FindContract(newDt, "M13166UI");
+
+
             for (int i = 0; i < newDt.Rows.Count; i++)
             {
                 try
                 {
                     contractNumber = newDt.Rows[i]["contractNumber"].ObjToString();
-                    if (contractNumber.ToUpper() == "L14140UI")
+                    if (contractNumber.ToUpper() == "M13166UI")
                     {
                     }
                     prePost = newDt.Rows[i]["preOrPost"].ObjToString();
@@ -1053,7 +1056,7 @@ namespace SMFS
             }
 
 
-            Trust85.FindContract(newDt, "L14140UI");
+            Trust85.FindContract(newDt, "M13166UI");
 
             G1.NumberDataTable(newDt);
             dgv.DataSource = newDt;
@@ -1463,7 +1466,7 @@ namespace SMFS
             DataTable dx = dt.Clone();
             //dRows = dt.Select("`Death Benefit` = '0.00' AND `Policy Extract_Policy Status` = 'T' AND `Policy Number` LIKE '77%' AND `Policy Extract_Status Reason` IN ('LP','NI','NN','NT','SR')");
 
-            DataRow[] dRows = dt.Select("`trustCompany` = 'Unity' AND `endingDeathBenefit` = '0.00' AND `policyStatus` = 'T'  AND `policyNumber` LIKE '77%' AND `statusReason` IN ('LP','NI','NN','NT','SR')");
+            DataRow[] dRows = dt.Select("`trustCompany` = 'Unity' AND `endingDeathBenefit` = '0.00' AND `policyStatus` = 'T'  AND `policyNumber` LIKE '77%' AND `statusReason` IN ('LP','NI','NN','NT','SR','MA')");
             //DataRow[] dRows = dt.Select("`trustCompany` = 'Unity' AND `endingDeathBenefit` = '0.00' AND `policyStatus` = 'T'  AND `policyNumber` LIKE '77%' ");
             if (dRows.Length > 0)
             {

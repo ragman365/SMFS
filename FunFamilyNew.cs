@@ -43,6 +43,7 @@ namespace SMFS
         private bool workFuneral = false;
         private bool newFamilyPB = true;
         private DataTable workDt6 = null;
+        private DataTable workDist = null;
         private bool gameOver = false;
         private bool noSave = false;
         /****************************************************************************************/
@@ -661,11 +662,36 @@ namespace SMFS
                 }
             }
 
+            workDist = BackUpDisclosures(ref dt);
+
+            G1.sortTable(dt, "Order", "ASC");
+
+            //dt = ReorderDisclosures(dt);
+
             G1.NumberDataTable(dt);
             dgvDependent.DataSource = dt;
             return;
             //dgvDependent.DataSource = famDt;
             //            dgvLegal.DataSource = famDt;
+        }
+        /***************************************************************************************/
+        private DataTable ReorderDisclosures ( DataTable dt )
+        {
+            if (dt == null)
+                return dt;
+
+            DataTable disDt = BackUpDisclosures(ref dt);
+            if ( disDt != null )
+                dt.Merge(disDt);
+
+            G1.sortTable(dt, "Order", "ASC");
+
+            if (G1.get_column_number(dt, "count") >= 0)
+            {
+                DataColumn c = dt.Columns["count"];
+                dt.Columns.Remove(c);
+            }
+            return dt;
         }
         /***************************************************************************************/
         private DateTime lastPallBearersTime = DateTime.Now;
@@ -1134,6 +1160,10 @@ namespace SMFS
                 G1.copy_dt_row(dt, i, disclosureDt, disclosureDt.Rows.Count);
             }
 
+            if ( workDist != null )
+            {
+                disclosureDt = workDist.Copy();
+            }
             if (disclosureDt.Rows.Count <= 0)
             {
                 string disclosure = "";
@@ -1301,6 +1331,7 @@ namespace SMFS
             string city = "";
             string state = "";
             string zip = "";
+            string county = "";
             string spouseFirstName = "";
             string phone = "";
             string phoneType = "";
@@ -1474,13 +1505,14 @@ namespace SMFS
                 city = dt.Rows[i]["city"].ObjToString();
                 state = dt.Rows[i]["state"].ObjToString();
                 zip = dt.Rows[i]["zip"].ObjToString();
+                county = dt.Rows[i]["county"].ObjToString();
                 spouseFirstName = dt.Rows[i]["spouseFirstName"].ObjToString();
                 phone = dt.Rows[i]["phone"].ObjToString();
                 phoneType = dt.Rows[i]["phoneType"].ObjToString();
                 email = dt.Rows[i]["email"].ObjToString();
 
                 G1.update_db_table("relatives", "record", record, new string[] { "depFirstName", firstName, "depLastName", lastName, "contractNumber", workContract, "depMI", mi, "depPrefix", prefix, "depSuffix", suffix, "depDOB", dob, "depRelationship", relationship, "maidenName", maidenName, "fullName", fullName });
-                G1.update_db_table("relatives", "record", record, new string[] { "address", address, "city", city, "state", state, "zip", zip, "spouseFirstName", spouseFirstName, "depDOD", dod, "phone", phone, "phoneType", phoneType, "email", email, "pbCheck", pbCheck, "hpbCheck", hpbCheck, "checkRecord", checkRecord });
+                G1.update_db_table("relatives", "record", record, new string[] { "address", address, "city", city, "state", state, "zip", zip, "county", county, "spouseFirstName", spouseFirstName, "depDOD", dod, "phone", phone, "phoneType", phoneType, "email", email, "pbCheck", pbCheck, "hpbCheck", hpbCheck, "checkRecord", checkRecord });
 
                 nextOfKin = dt.Rows[i]["nextOfKin"].ObjToString();
                 informant = dt.Rows[i]["informant"].ObjToString();
@@ -1635,6 +1667,9 @@ namespace SMFS
             }
 
             dt.Rows.Add(dRow);
+
+            //dt = ReorderDisclosures(dt);
+
             int row = dt.Rows.Count;
             GetCurrentDataGrid().DataSource = dt;
             GetCurrentDataGrid().Refresh();
@@ -2104,11 +2139,20 @@ namespace SMFS
                                     state = dx.Rows[0]["abbrev"].ObjToString();
                             }
                             if (!String.IsNullOrWhiteSpace(city))
+                            {
                                 dr["city"] = city;
+                                dt.Rows[row]["city"] = city;
+                            }
                             if (!String.IsNullOrWhiteSpace(state))
+                            {
                                 dr["state"] = state;
+                                dt.Rows[row]["state"] = state;
+                            }
                             if (!String.IsNullOrWhiteSpace(county))
+                            {
                                 dr["county"] = county;
+                                dt.Rows[row]["county"] = county;
+                            }
                         }
                     }
                 }
@@ -2122,6 +2166,8 @@ namespace SMFS
                     }
                 }
                 dr["mod"] = "Y";
+                dt.Rows[row]["mod"] = "Y";
+                gridMainDep.PostEditor();
             }
             funModified = true;
             btnSaveAll.Show();
@@ -2670,13 +2716,33 @@ namespace SMFS
 
                 string record = dt.Rows[row]["record"].ObjToString();
 
-                DataRow[] dRow = dx.Select("record='" + record + "'");
-
-                if (dRow.Length > 0)
+                if (!String.IsNullOrWhiteSpace(record))
                 {
-                    dRow[0]["mod"] = "Y";
-                    dRow[0][currentColumn] = dt.Rows[row][currentColumn].ObjToString();
-                    dgvDependent.DataSource = dx;
+                    DataRow[] dRow = dx.Select("record='" + record + "'");
+
+                    if (dRow.Length > 0)
+                    {
+                        dRow[0]["mod"] = "Y";
+                        dRow[0][currentColumn] = dt.Rows[row][currentColumn].ObjToString();
+                        dgvDependent.DataSource = dx;
+                    }
+                }
+                else
+                {
+                    if (G1.get_column_number(dt, "oNum") >= 0)
+                    {
+                        string oNum = dt.Rows[row]["oNum"].ObjToString();
+                        if ( !String.IsNullOrWhiteSpace ( oNum) )
+                        {
+                            DataRow[] dRow = dx.Select("num='" + oNum + "'");
+                            if (dRow.Length > 0)
+                            {
+                                dRow[0]["mod"] = "Y";
+                                dRow[0][currentColumn] = dt.Rows[row][currentColumn].ObjToString();
+                                dgvDependent.DataSource = dx;
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -4515,6 +4581,12 @@ namespace SMFS
                 DataTable legDt = dt.Copy();
                 SetupNextOfKin2(legDt);
                 LoadSignatures(legDt);
+
+                if (G1.get_column_number(legDt, "oNum") < 0)
+                    legDt.Columns.Add("oNum");
+                for (int i = 0; i < legDt.Rows.Count; i++)
+                    legDt.Rows[i]["oNum"] = legDt.Rows[i]["num"].ObjToString();
+
                 G1.sortTable(legDt, "legOrder", "ASC");
 
                 //CleanupLegal(legDt);
@@ -5211,15 +5283,42 @@ namespace SMFS
 
             if (special)
             {
-                MessageBox.Show("*** INFO *** This day is on a weekend.\nMake certain you added weekend charges!", "Weekend Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                XtraMessageBoxArgs args = new XtraMessageBoxArgs();
+                args.Showing += Args_Showing;
+                args.Caption = "*** INFO *** This day is on a weekend.\nMake certain you added weekend charges!";
+                //args.Buttons = new DialogResult[] { DialogResult.OK, DialogResult.Cancel };
+                args.Buttons = new DialogResult[] { DialogResult.OK };
+
+                XtraMessageBox.Show(args);
+
+                //OpenNewForm("Weekend Date", "*** INFO ***\n This day is on a weekend.\nMake certain you added weekend charges!");
+
+                //DevExpress.XtraEditors.XtraMessageBox.Show("***ERROR*** " + ex.Message.ToString(), "Reinstate Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                //MessageBox.Show("*** INFO *** This day is on a weekend.\nMake certain you added weekend charges!", "Weekend Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 return;
             }
+
+            string holiday = "";
+
+            bool gotDate = IsFederalHoliday(date, ref holiday);
+            if ( gotDate )
+            {
+                XtraMessageBoxArgs args = new XtraMessageBoxArgs();
+                args.Showing += Args_Showing;
+                args.Caption = "*** INFO *** This day may be a holiday (" + holiday + ").\nMake certain you added Holiday charges!";
+                args.MessageBeepSound = MessageBeepSound.Error;
+                //args.Buttons = new DialogResult[] { DialogResult.OK, DialogResult.Cancel };
+                args.Buttons = new DialogResult[] { DialogResult.OK };
+                XtraMessageBox.Show(args);
+                return;
+            }
+
             if (holidayDt == null)
                 holidayDt = G1.get_db_data("Select * from `holidays`;");
 
             string sDate = date.ToString("MM/dd/yyyy");
             string dDate = "";
-            string holiday = "";
 
             try
             {
@@ -5229,7 +5328,14 @@ namespace SMFS
                     if (dDate == sDate)
                     {
                         holiday = holidayDt.Rows[i]["holiday"].ObjToString();
-                        MessageBox.Show("*** INFO *** This day appears to be a holiday (" + holiday + ").\nMake certain you added Holiday charges!", "Holiday Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        XtraMessageBoxArgs args = new XtraMessageBoxArgs();
+                        args.Showing += Args_Showing;
+                        args.Caption = "*** INFO *** This day appears to be a holiday (" + holiday + ").\nMake certain you added Holiday charges!";
+                        args.MessageBeepSound = MessageBeepSound.Error;
+                        //args.Buttons = new DialogResult[] { DialogResult.OK, DialogResult.Cancel };
+                        args.Buttons = new DialogResult[] { DialogResult.OK };
+                        XtraMessageBox.Show(args);
+                        //MessageBox.Show("*** INFO *** This day appears to be a holiday (" + holiday + ").\nMake certain you added Holiday charges!", "Holiday Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         break;
                     }
                 }
@@ -5238,6 +5344,111 @@ namespace SMFS
             {
             }
         }
+        /****************************************************************************************/
+        private Random rnd = new Random();
+        private void Args_Showing(object sender, XtraMessageShowingArgs e)
+        {
+            //e.MessageBoxForm.Text = "Custom Text";
+            e.Buttons[DialogResult.OK].Text = "Okay";
+            //e.Buttons[DialogResult.Cancel].Text = "No";
+            //Random rnd = new Random();
+            Color randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+            //e.Form.BackColor = Color.LightGreen;
+            e.Form.BackColor = randomColor;
+        }
+        /****************************************************************************************/
+        public static bool IsFederalHoliday ( DateTime date, ref string what )
+        {
+            // to ease typing
+            what = "";
+            int nthWeekDay = (int)(Math.Ceiling((double)date.Day / 7.0d));
+            DayOfWeek dayName = date.DayOfWeek;
+            bool isThursday = dayName == DayOfWeek.Thursday;
+            bool isFriday = dayName == DayOfWeek.Friday;
+            bool isMonday = dayName == DayOfWeek.Monday;
+            bool isWeekend = dayName == DayOfWeek.Saturday || dayName == DayOfWeek.Sunday;
+
+            // New Years Day (Jan 1, or preceding Friday/following Monday if weekend)
+            if ((date.Month == 12 && date.Day == 31 && isFriday) ||
+                (date.Month == 1 && date.Day == 1 && !isWeekend) ||
+                (date.Month == 1 && date.Day == 2 && isMonday))
+            {
+                what = "New Years Day";
+                return true;
+            }
+
+            // MLK day (3rd monday in January)
+            if (date.Month == 1 && isMonday && nthWeekDay == 3)
+            {
+                what = "MLK Day";
+                return true;
+            }
+
+            // President’s Day (3rd Monday in February)
+            if (date.Month == 2 && isMonday && nthWeekDay == 3)
+            {
+                what = "President's Day";
+                return true;
+            }
+
+            // Memorial Day (Last Monday in May)
+            if (date.Month == 5 && isMonday && date.AddDays(7).Month == 6)
+            {
+                what = "Memorial Day";
+                return true;
+            }
+
+            // Independence Day (July 4, or preceding Friday/following Monday if weekend)
+            if ((date.Month == 7 && date.Day == 3 && isFriday) ||
+                (date.Month == 7 && date.Day == 4 && !isWeekend) ||
+                (date.Month == 7 && date.Day == 5 && isMonday))
+            {
+                what = "Independence Day";
+                return true;
+            }
+
+            // Labor Day (1st Monday in September)
+            if (date.Month == 9 && isMonday && nthWeekDay == 1)
+            {
+                what = "Labor Day";
+                return true;
+            }
+
+            // Columbus Day (2nd Monday in October)
+            if (date.Month == 10 && isMonday && nthWeekDay == 2)
+            {
+                what = "Columbus Day";
+                return true;
+            }
+
+            // Veteran’s Day (November 11, or preceding Friday/following Monday if weekend))
+            if ((date.Month == 11 && date.Day == 10 && isFriday) ||
+                (date.Month == 11 && date.Day == 11 && !isWeekend) ||
+                (date.Month == 11 && date.Day == 12 && isMonday))
+            {
+                what = "Veteran's Day";
+                return true;
+            }
+
+            // Thanksgiving Day (4th Thursday in November)
+            if (date.Month == 11 && isThursday && nthWeekDay == 4)
+            {
+                what = "Thanksgiving Day";
+                return true;
+            }
+
+            // Christmas Day (December 25, or preceding Friday/following Monday if weekend))
+            if ((date.Month == 12 && date.Day == 24 && isFriday) ||
+                (date.Month == 12 && date.Day == 25 && !isWeekend) ||
+                (date.Month == 12 && date.Day == 26 && isMonday))
+            {
+                what = "Christmas Day";
+                return true;
+            }
+
+            return false;
+        }
+
         /****************************************************************************************/
         private void AddToMyDt(string data)
         {
@@ -5989,13 +6200,34 @@ namespace SMFS
         {
             DataTable mainDt = (DataTable)this.dgvDependent.DataSource;
             string record = "";
+            string oNum = "";
             DataRow[] dRow = null;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                record = dt.Rows[i]["record"].ObjToString();
-                dRow = mainDt.Select("record='" + record + "'");
-                if (dRow.Length > 0)
-                    dRow[0]["LegOrder"] = i;
+                try
+                {
+                    record = dt.Rows[i]["record"].ObjToString();
+                    if (!String.IsNullOrWhiteSpace(record))
+                    {
+                        dRow = mainDt.Select("record='" + record + "'");
+                        if (dRow.Length > 0)
+                            dRow[0]["LegOrder"] = i;
+                    }
+                    else
+                    {
+                        if (G1.get_column_number(dt, "oNum") >= 0)
+                        {
+                            oNum = dt.Rows[i]["oNum"].ObjToString();
+                            dRow = mainDt.Select("num='" + oNum + "'");
+                            if (dRow.Length > 0)
+                                dRow[0]["LegOrder"] = i;
+                        }
+                    }
+                }
+                catch ( Exception ex)
+                {
+                    MessageBox.Show("***ERROR*** Moving Row" + i.ToString() + "!" + ex.Message.ToString());
+                }
             }
             this.dgvDependent.DataSource = mainDt;
         }
@@ -6003,15 +6235,47 @@ namespace SMFS
         private void MoveRowUp(DataTable dt, int row)
         {
             dt.AcceptChanges();
-            if (G1.get_column_number(dt, "Count") < 0)
-                dt.Columns.Add("Count", Type.GetType("System.Int32"));
-            for (int i = 0; i < dt.Rows.Count; i++)
-                dt.Rows[i]["Count"] = i.ToString();
-            dt.Rows[row]["Count"] = (row - 1).ToString();
-            dt.Rows[row - 1]["Count"] = row.ToString();
-            G1.sortTable(dt, "Count", "asc");
-            dt.Columns.Remove("Count");
-            G1.NumberDataTable(dt);
+            DataTable disDt = null;
+            int i = 0;
+            try
+            {
+                if (G1.get_column_number(dt, "depRelationship") >= 0)
+                {
+                    DataRow[] dRows = dt.Select("depRelationship='DISCLOSURES'");
+                    if (dRows.Length > 0)
+                    {
+                        disDt = dRows.CopyToDataTable();
+                        if (G1.get_column_number(disDt, "count") < 0)
+                            disDt.Columns.Add("Count", Type.GetType("System.Int32"));
+                        for (i = 0; i < dRows.Length; i++)
+                        {
+                            dt.Rows.Remove(dRows[i]);
+                            disDt.Rows[i]["count"] = "999";
+                        }
+                    }
+                }
+
+                if (G1.get_column_number(dt, "Count") < 0)
+                    dt.Columns.Add("Count", Type.GetType("System.Int32"));
+                for (i = 0; i < dt.Rows.Count; i++)
+                    dt.Rows[i]["Count"] = i.ToString();
+
+                if (disDt != null)
+                {
+                    if (disDt.Rows.Count > 0)
+                        dt.Merge(disDt);
+                }
+
+                dt.Rows[row]["Count"] = (row - 1).ToString();
+                dt.Rows[row - 1]["Count"] = row.ToString();
+
+                G1.sortTable(dt, "Count", "asc");
+                dt.Columns.Remove("Count");
+                G1.NumberDataTable(dt);
+            }
+            catch (Exception ex)
+            {
+            }
         }
         /***********************************************************************************************/
         private void picRowDown_Click(object sender, EventArgs e)
@@ -6069,7 +6333,9 @@ namespace SMFS
             if (rowHandle == (dt.Rows.Count - 1))
                 return; // Already at the last row
             int row = gridMain.GetDataSourceRowIndex(rowHandle);
+
             MoveRowDown(dt, row);
+
             dt.AcceptChanges();
             dgv.DataSource = dt;
             gridMain.ClearSelection();
@@ -6088,15 +6354,93 @@ namespace SMFS
         /***************************************************************************************/
         private void MoveRowDown(DataTable dt, int row)
         {
-            dt.Columns.Add("Count", Type.GetType("System.Int32"));
-            for (int i = 0; i < dt.Rows.Count; i++)
-                dt.Rows[i]["Count"] = i.ToString();
-            dt.Rows[row]["Count"] = (row + 1).ToString();
-            dt.Rows[row + 1]["Count"] = row.ToString();
-            G1.sortTable(dt, "Count", "asc");
-            dt.Columns.Remove("Count");
-            for (int i = 0; i < dt.Rows.Count; i++)
-                dt.Rows[i]["Num"] = (i + 1).ToString();
+            DataTable disDt = null;
+            int i = 0;
+            try
+            {
+                if (G1.get_column_number(dt, "depRelationship") >= 0)
+                {
+                    DataRow[] dRows = dt.Select("depRelationship='DISCLOSURES'");
+                    if (dRows.Length > 0)
+                    {
+                        disDt = dRows.CopyToDataTable();
+                        disDt.Columns.Add("Count", Type.GetType("System.Int32"));
+                        for (i = 0; i < dRows.Length; i++)
+                        {
+                            dt.Rows.Remove(dRows[i]);
+                            disDt.Rows[i]["count"] = "999";
+                        }
+                    }
+                }
+                dt.Columns.Add("Count", Type.GetType("System.Int32"));
+                for (i = 0; i < dt.Rows.Count; i++)
+                    dt.Rows[i]["Count"] = i.ToString();
+                if (disDt != null)
+                {
+                    if (disDt.Rows.Count > 0)
+                        dt.Merge(disDt);
+                }
+
+                dt.Rows[row]["Count"] = (row + 1).ToString();
+                dt.Rows[row + 1]["Count"] = row.ToString();
+                G1.sortTable(dt, "Count", "asc");
+                dt.Columns.Remove("Count");
+                for (i = 0; i < dt.Rows.Count; i++)
+                    dt.Rows[i]["Num"] = (i + 1).ToString();
+            }
+            catch ( Exception ex)
+            {
+            }
+        }
+        /***************************************************************************************/
+        private DataTable BackUpDisclosures ( ref DataTable dt)
+        {
+            DataTable disDt = null;
+            int i = 0;
+            if (G1.get_column_number(dt, "depRelationship") >= 0)
+            {
+                DataRow[] dRows = dt.Select("depRelationship='DISCLOSURES'");
+                if (dRows.Length > 0)
+                {
+                    disDt = dRows.CopyToDataTable();
+                    disDt.Columns.Add("Count", Type.GetType("System.Int32"));
+                    for (i = 0; i < dRows.Length; i++)
+                    {
+                        dt.Rows.Remove(dRows[i]);
+                        disDt.Rows[i]["count"] = "999";
+                        disDt.Rows[i]["Order"] = "999";
+                    }
+                }
+            }
+            return disDt;
+        }
+        /***************************************************************************************/
+        private void MoveRowDownx(DataTable dt, int row)
+        {
+            //bool got = false;
+            //if (G1.get_column_number(dt, "depRelationship") >= 0)
+            //    got = true;
+            //string str = "";
+            //dt.Columns.Add("Count", Type.GetType("System.Int32"));
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    if ( got )
+            //    {
+            //        str = dt.Rows[i]["depRelattionship"].ObjToString();
+            //        if ( str.ToUpper() == "DISCLOSURES")
+            //        {
+            //            dt.Rows[i]["count"] = "999";
+            //            continue;
+            //        }
+            //    }
+            //    dt.Rows[i]["Count"] = i.ToString();
+            //}
+            //dt.Rows[row]["Count"] = (row + 1).ToString();
+            //dt.Rows[row + 1]["Count"] = row.ToString();
+            //G1.sortTable(dt, "Count", "asc");
+            //dt.Columns.Remove("Count");
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //    dt.Rows[i]["Num"] = (i + 1).ToString();
         }
         /****************************************************************************************/
         private void repositoryItemCheckEdit8_Click(object sender, EventArgs e)
@@ -6141,6 +6485,20 @@ namespace SMFS
             btnSaveAll.Show();
         }
         /****************************************************************************************/
+        private int CheckRealCount ( DataTable dt)
+        {
+            int realCount = 0;
+            string relationship = "";
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                relationship = dt.Rows[i]["depRelationship"].ObjToString();
+                if (relationship.ToUpper() == "DISCLOSURES")
+                    continue;
+                realCount++;
+            }
+            return realCount;
+        }
+        /****************************************************************************************/
         private void CheckAddNewRow()
         {
             DataTable dt = GetCurrentDataTable();
@@ -6151,7 +6509,10 @@ namespace SMFS
             string column = grid.FocusedColumn.FieldName;
             string str = dR[column].ObjToString();
 
-            if (rowHandle >= (dt.Rows.Count - 1))
+            int realCount = CheckRealCount(dt);
+            //if (rowHandle >= (dt.Rows.Count - 1))
+
+            if (rowHandle >= (realCount - 1))
             {
                 AddNewRow();
                 GetCurrentGridView().FocusedRowHandle = rowHandle + 1;

@@ -117,6 +117,7 @@ namespace SMFS
                 //burialCremationSummaryReportToolStripMenuItem.Enabled = false;
                 burialCremationSummaryReportToolStripMenuItem.Visible = false;
                 commissionsMenu.Visible = false;
+                miscToolStripMenuItem.Dispose();
             }
 
             bandedGridColumn29.Visible = false; // Extra Deceased Date Column
@@ -2276,6 +2277,8 @@ namespace SMFS
             bool getCost = false;
             string gotRental = "";
             string isCash = "";
+            string ignore = "";
+            bool gotIgnore = false;
 
             string fpc = "";
             DataTable bateDt = null;
@@ -2293,8 +2296,30 @@ namespace SMFS
                 for (int i = 0; i < funDt.Rows.Count; i++)
                 {
                     getCost = false;
-                    if (funDt.Rows[i]["ignore"].ObjToString().ToUpper() == "Y")
+                    ignore = funDt.Rows[i]["ignore"].ObjToString().ToUpper();
+                    if ( ignore == "Y")
+                    {
+                        gotIgnore = true;
+                        type = funDt.Rows[i]["type"].ObjToString().ToUpper();
+                        price = funDt.Rows[i]["price"].ObjToDouble();
+                        currentPrice = funDt.Rows[i]["currentPrice"].ObjToDouble();
+                        difference = currentPrice - price;
+                        if (type == "SERVICE")
+                        {
+                            servicesDiscount += difference;
+                            servicesDiscount -= currentPrice;
+
+                        }
+                        else if (type == "MERCHANDISE")
+                        {
+                            merchandiseDiscount += difference;
+                            merchandiseDiscount -= currentPrice;
+                        }
+                        else if (type == "CASH ADVANCE")
+                        {
+                        }
                         continue;
+                    }
 
                     isCash = funDt.Rows[i]["asCash"].ObjToString().ToUpper();
                     zeroData = funDt.Rows[i]["data"].ObjToString();
@@ -2376,6 +2401,26 @@ namespace SMFS
                     else
                     {
                         if (service.ToUpper().IndexOf("MILEAGE") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                    fromMerc += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("TRANSPORTATION") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                    fromMerc += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("MILES") >= 0)
                         {
                             if (type.ToUpper() != "CASH ADVANCE")
                             {
@@ -2789,7 +2834,49 @@ namespace SMFS
                                                     urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
                                                     break;
                                                 }
-
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Lines = service.Split(' ');
+                                            str = "";
+                                            for (int kk = 0; kk < Lines.Length; kk++)
+                                            {
+                                                if (String.IsNullOrWhiteSpace(Lines[kk].ObjToString()))
+                                                    continue;
+                                                if (str.Length > 0)
+                                                    str += " ";
+                                                str += Lines[kk].ObjToString().Trim();
+                                                cmd = "Select * from `secondary_inventory` where `casketDesc` LIKE '" + str + "%';";
+                                                bateDt = G1.get_db_data(cmd);
+                                                if (bateDt.Rows.Count >= 1 && kk >= 1)
+                                                {
+                                                    //urnDesc = service;
+                                                    //urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    str = bateDt.Rows[0]["type"].ObjToString().ToUpper();
+                                                    if (str == "CASKET")
+                                                    {
+                                                        casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                        casketDesc = service;
+                                                        casketCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                        casketGauge = bateDt.Rows[0]["casketgauge"].ObjToString();
+                                                    }
+                                                    else if (str == "VAULT")
+                                                    {
+                                                        casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                        casketDesc = service;
+                                                        vaultCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                        casketGauge = bateDt.Rows[0]["casketgauge"].ObjToString();
+                                                        vaultAmount = currentPrice;
+                                                    }
+                                                    else if (str == "URN")
+                                                    {
+                                                        casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                        casketDesc = service;
+                                                        urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    }
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
@@ -2889,7 +2976,8 @@ namespace SMFS
             totalDiscount = servicesDiscount + merchandiseDiscount;
             if (totalDifference > totalDiscount)
             {
-                totalDiscount = totalDifference;
+                if ( !gotIgnore )
+                    totalDiscount = totalDifference;
                 //preDiscount = totalDiscount;
             }
             if (gotPackage)
@@ -4086,6 +4174,14 @@ namespace SMFS
             this.Cursor = Cursors.WaitCursor;
             BurialSummaryTest burialForm = new BurialSummaryTest();
             burialForm.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private void showChangesWOSavingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            ShowChanges changesForm = new ShowChanges();
+            changesForm.Show();
             this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/

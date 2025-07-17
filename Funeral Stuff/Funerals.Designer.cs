@@ -168,6 +168,8 @@
             this.commissionDirectorArrangerSetupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.funeralsAvailableForCommissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.funeralCommissionsForArrangersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showChangesWOSavingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -238,7 +240,7 @@
             this.recalculateBalanceToolStripMenuItem,
             this.goodsAndServicesContractToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(268, 80);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(268, 52);
             // 
             // recalculateBalanceToolStripMenuItem
             // 
@@ -1676,7 +1678,8 @@
             this.latestChangesToolStripMenuItem,
             this.reportsToolStripMenuItem,
             this.aRToolStripMenuItem,
-            this.commissionsMenu});
+            this.commissionsMenu,
+            this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
@@ -1939,6 +1942,21 @@
             this.funeralCommissionsForArrangersToolStripMenuItem.Text = "Funeral Commissions for Arrangers";
             this.funeralCommissionsForArrangersToolStripMenuItem.Click += new System.EventHandler(this.funeralCommissionsForArrangersToolStripMenuItem_Click);
             // 
+            // miscToolStripMenuItem
+            // 
+            this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showChangesWOSavingToolStripMenuItem});
+            this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Text = "Misc";
+            // 
+            // showChangesWOSavingToolStripMenuItem
+            // 
+            this.showChangesWOSavingToolStripMenuItem.Name = "showChangesWOSavingToolStripMenuItem";
+            this.showChangesWOSavingToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
+            this.showChangesWOSavingToolStripMenuItem.Text = "Show Changes W/O Saving";
+            this.showChangesWOSavingToolStripMenuItem.Click += new System.EventHandler(this.showChangesWOSavingToolStripMenuItem_Click);
+            // 
             // Funerals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -2117,5 +2135,7 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn33;
         private System.Windows.Forms.ToolStripMenuItem funeralArrangerTotalsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem burialCremationSummaryReportTestToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem miscToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showChangesWOSavingToolStripMenuItem;
     }
 }

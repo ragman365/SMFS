@@ -2909,10 +2909,53 @@ namespace SMFS
             if (String.IsNullOrWhiteSpace(group))
                 return;
             //string cmd = "Select * from `packages` where `groupname` = '" + group + "' GROUP BY `PackageName`;";
-            string cmd = "Select * from `packages` where `groupname` = 'master' GROUP BY `PackageName`;";
-            DataTable dt = G1.get_db_data(cmd);
-            string firstPackage = "";
+
             string package = "";
+
+            string cmd = "Select * from `packages` where `groupname` = 'master' GROUP BY `PackageName`;";
+            DataTable dx = G1.get_db_data(cmd);
+
+            dx.Columns.Add("order", Type.GetType("System.Int32"));
+
+            cmd = "Select * from `packageorder` ORDER BY `order`;";
+            DataTable dd = G1.get_db_data(cmd);
+
+            DataTable dt = dx.Clone();
+            DataRow[] dRows = null;
+            DataRow dRow = null;
+            int order = 0;
+
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                package = dx.Rows[i]["PackageName"].ObjToString();
+                dRows = dd.Select("packageName='" + package + "'");
+                if (dRows.Length > 0)
+                {
+                    order = dRows[0]["order"].ObjToInt32();
+
+                    dx.Rows[i]["order"] = order;
+
+                    dRow = dt.NewRow();
+                    dt.Rows.Add(dRow);
+                    G1.copy_dr_row(dx.Rows[i], dt.Rows[dt.Rows.Count - 1]);
+                }
+                else
+                {
+                    dx.Rows[i]["order"] = i;
+                    dRow = dt.NewRow();
+                    dt.Rows.Add(dRow);
+                    G1.copy_dr_row(dx.Rows[i], dt.Rows[dt.Rows.Count - 1]);
+                }
+            }
+
+            DataView tempview = dt.DefaultView;
+            tempview.Sort = "order asc";
+            dt = tempview.ToTable();
+
+            DataColumn c = dt.Columns["order"];
+            dt.Columns.Remove(c);
+
+            string firstPackage = "";
             string plonly = "";
             cmbPackage.Items.Clear();
             cmbPackage.Items.Add("Master");

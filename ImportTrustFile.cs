@@ -3028,6 +3028,8 @@ namespace SMFS
                 dt.Columns.Add("trustCompany");
 
             string[] Lines = null;
+            int foundColumns = 0;
+            int expecteColumns = 13;
 
             for (int i = 0; i < dt.Columns.Count; i++)
             {
@@ -3038,72 +3040,91 @@ namespace SMFS
                     {
                         dt.Columns[i].ColumnName = "policyNumber";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "SMFS Policy No.")
                     {
                         dt.Columns[i].ColumnName = "contractNumber";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Funeral Home")
                     {
                         dt.Columns[i].ColumnName = "trustName";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Beginning Payment Balance")
                     {
                         dt.Columns[i].ColumnName = "beginningPaymentBalance";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Beginning DB")
                     {
                         dt.Columns[i].ColumnName = "beginningDeathBenefit";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Ending Death Benefit")
                     {
                         dt.Columns[i].ColumnName = "endingDeathBenefit";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Ending Payment Balance")
                     {
                         dt.Columns[i].ColumnName = "endingPaymentBalance";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Down Payments")
                     {
                         dt.Columns[i].ColumnName = "downPayments";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Payments")
                     {
                         dt.Columns[i].ColumnName = "Payments";
                         //dt.Columns[i].ColumnName = "abcde";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Death Claim Amount")
                     {
                         dt.Columns[i].ColumnName = "deathClaimAmount";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Paid Date" || str == "Claim Date" )
                     {
                         dt.Columns[i].ColumnName = "deathPaidDate";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                     else if (str == "Insured Name")
                     {
                         dt.Columns[i].ColumnName = "insuredName";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
-                    else if (str == "Total Paid-in at Claim")
+                    else if (str == "Total Paid-in at Claim" || str == "Total Paid in at Claim" )
                     {
                         dt.Columns[i].ColumnName = "totalPaidInAtClaim";
                         dt.Columns[i].Caption = dt.Columns[i].ColumnName.ObjToString().Trim();
+                        foundColumns++;
                     }
                 }
                 catch ( Exception ex)
                 {
                 }
+            }
+
+            if ( foundColumns != expecteColumns )
+            {
+                MessageBox.Show("***Warning***\nExpected " + expecteColumns.ToString() + " Columns - Got " + foundColumns.ToString() + " Columns!\nSomething may be missing or\nColumn Names may have changed!", "FDLIC Import Warning Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+
             }
             string name = "";
             string firstName = "";

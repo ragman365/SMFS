@@ -865,7 +865,7 @@
             this.tabCaskets.Location = new System.Drawing.Point(4, 25);
             this.tabCaskets.Name = "tabCaskets";
             this.tabCaskets.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCaskets.Size = new System.Drawing.Size(1391, 396);
+            this.tabCaskets.Size = new System.Drawing.Size(1391, 394);
             this.tabCaskets.TabIndex = 1;
             this.tabCaskets.Text = "Caskets";
             this.tabCaskets.UseVisualStyleBackColor = true;
@@ -887,7 +887,7 @@
             this.repositoryItemCheckEdit6,
             this.repositoryItemCheckEdit4,
             this.repositoryItemCheckEdit18});
-            this.dgv2.Size = new System.Drawing.Size(1385, 390);
+            this.dgv2.Size = new System.Drawing.Size(1385, 388);
             this.dgv2.TabIndex = 7;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1314,7 +1314,7 @@
             this.tabVaults.Controls.Add(this.dgv3);
             this.tabVaults.Location = new System.Drawing.Point(4, 25);
             this.tabVaults.Name = "tabVaults";
-            this.tabVaults.Size = new System.Drawing.Size(1391, 396);
+            this.tabVaults.Size = new System.Drawing.Size(1391, 394);
             this.tabVaults.TabIndex = 2;
             this.tabVaults.Text = "Vaults";
             this.tabVaults.UseVisualStyleBackColor = true;
@@ -1336,7 +1336,7 @@
             this.repositoryItemCheckEdit9,
             this.repositoryItemCheckEdit7,
             this.repositoryItemCheckEdit19});
-            this.dgv3.Size = new System.Drawing.Size(1391, 396);
+            this.dgv3.Size = new System.Drawing.Size(1391, 394);
             this.dgv3.TabIndex = 8;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -1762,7 +1762,7 @@
             this.tabUrns.Controls.Add(this.dgv4);
             this.tabUrns.Location = new System.Drawing.Point(4, 25);
             this.tabUrns.Name = "tabUrns";
-            this.tabUrns.Size = new System.Drawing.Size(1391, 396);
+            this.tabUrns.Size = new System.Drawing.Size(1391, 394);
             this.tabUrns.TabIndex = 3;
             this.tabUrns.Text = "Urns";
             this.tabUrns.UseVisualStyleBackColor = true;
@@ -1784,7 +1784,7 @@
             this.repositoryItemCheckEdit12,
             this.repositoryItemCheckEdit10,
             this.repositoryItemCheckEdit20});
-            this.dgv4.Size = new System.Drawing.Size(1391, 396);
+            this.dgv4.Size = new System.Drawing.Size(1391, 394);
             this.dgv4.TabIndex = 9;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2210,7 +2210,7 @@
             this.tabMisc.Controls.Add(this.dgv5);
             this.tabMisc.Location = new System.Drawing.Point(4, 25);
             this.tabMisc.Name = "tabMisc";
-            this.tabMisc.Size = new System.Drawing.Size(1391, 396);
+            this.tabMisc.Size = new System.Drawing.Size(1391, 394);
             this.tabMisc.TabIndex = 4;
             this.tabMisc.Text = "Miscellaneous";
             this.tabMisc.UseVisualStyleBackColor = true;
@@ -2232,7 +2232,7 @@
             this.repositoryItemCheckEdit15,
             this.repositoryItemCheckEdit13,
             this.repositoryItemCheckEdit21});
-            this.dgv5.Size = new System.Drawing.Size(1391, 396);
+            this.dgv5.Size = new System.Drawing.Size(1391, 394);
             this.dgv5.TabIndex = 9;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});

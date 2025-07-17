@@ -679,6 +679,8 @@ namespace SMFS
         private void timer1_Tick(object sender, EventArgs e)
         {
             CheckMessages();
+            if (G1.RobbyServer)
+                return;
             if (DateTime.Now.Hour < timerStartHour)
                 return;
             TimeSpan ts = DateTime.Now - lastTimer;
@@ -6036,6 +6038,14 @@ namespace SMFS
             this.Cursor = Cursors.WaitCursor;
             EditDbTable invForm = new EditDbTable("secondary_inventory", "casketCode,casketDesc,cost,type", "160,400,80,120");
             invForm.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private void editServicePackageSelectionOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            EditPackageOrder contactForm = new EditPackageOrder();
+            contactForm.Show();
             this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/

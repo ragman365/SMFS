@@ -316,7 +316,7 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.locateContractNumberToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 56);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 28);
             // 
             // locateContractNumberToolStripMenuItem
             // 

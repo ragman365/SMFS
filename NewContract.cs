@@ -317,6 +317,13 @@ namespace SMFS
 
             string record = "";
             string serviceId = this.txtFunService.Text.ToUpper();
+            bool good = FunCustomer.ValidateServiceId(serviceId);
+            if ( !good )
+            {
+                MessageBox.Show("***ERROR*** You must enter a valid Service Id\nor Merchandise Code!", "Invalid Service ID Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                this.Cursor = Cursors.Default;
+                return;
+            }
 
             if ( CheckServiceIdExists ( serviceId))
             {
@@ -532,6 +539,7 @@ namespace SMFS
         /***********************************************************************************************/
         private void pictureAdd_Click(object sender, EventArgs e)
         { // Determine Service ID
+
             DateTime date = DateTime.Now;
             int year = date.Year % 100;
             string sYear = year.ToString("D02");
@@ -561,6 +569,13 @@ namespace SMFS
             if ( String.IsNullOrWhiteSpace ( serviceId))
             {
                 MessageBox.Show("***ERROR*** You must enter a valid Service Id!", "Invalid Service ID Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            bool good = FunCustomer.ValidateServiceId(serviceId);
+            if ( !good )
+            {
+                MessageBox.Show("***ERROR*** You must enter a valid Service Id\nor Merchandise Code!", "Invalid Service ID Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 return;
             }
 

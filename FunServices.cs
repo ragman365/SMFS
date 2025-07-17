@@ -3179,12 +3179,14 @@ namespace SMFS
                                     }
                                     if ( ignore == "Y")
                                     {
+                                        difference = dt.Rows[i]["difference"].ObjToDouble();
+                                        difference = price; // Something is wrong here
                                         if (type == "SERVICE")
-                                            ignoreServices += price;
+                                            ignoreServices += difference;
                                         else if (type == "MERCHANDISE")
-                                            ignoreMerchandise += price;
+                                            ignoreMerchandise += difference;
                                         else if (type == "CASH ADVANCE")
-                                            ignoreCashAdvance += price;
+                                            ignoreCashAdvance += difference;
                                     }
                                 }
                                 continue;
@@ -3297,21 +3299,23 @@ namespace SMFS
                         customerDiscount += dt.Rows[i]["difference"].ObjToDouble();
                         if (type.ToUpper() == "SERVICE")
                         {
+                            difference = dt.Rows[i]["difference"].ObjToDouble();
+                            difference = price; // Something is wrong here
                             servicesTotal += price;
                             if (ignore == "Y")
-                                ignoreServices += price;
+                                ignoreServices += difference;
                         }
                         else if (type.ToUpper() == "MERCHANDISE")
                         {
                             merchandiseTotal += price;
                             if (ignore == "Y")
-                                ignoreMerchandise += price;
+                                ignoreMerchandise += difference;
                         }
                         else if (type.ToUpper() == "CASH ADVANCE")
                         {
                             cashAdvanceTotal += price;
                             if (ignore == "Y")
-                                ignoreCashAdvance += price;
+                                ignoreCashAdvance += difference;
                         }
                     }
                     else
@@ -3352,6 +3356,7 @@ namespace SMFS
                             continue;
 
                         select = dt.Rows[i]["select"].ObjToString();
+                        ignore = dt.Rows[i]["ignore"].ObjToString().ToUpper();
                         price = dt.Rows[i]["price"].ObjToDouble();
                         upgrade = dt.Rows[i]["upgrade"].ObjToDouble();
                         zeroData = dt.Rows[i]["data"].ObjToString().ToUpper();
@@ -3363,8 +3368,13 @@ namespace SMFS
                             price = upgrade;
                         if (price == 0D && zeroData != "ZERO" )
                             continue;
+                        if ( ignore == "Y" )
+                        {
+                            //customerDiscount = customerDiscount - price;
+                            //continue;
+                        }
                         price = dt.Rows[i]["difference"].ObjToDouble();
-                        if (select == "1")
+                        if (select == "1" )
                             customerDiscount = customerDiscount + price;
                     }
                 }
@@ -6415,10 +6425,10 @@ namespace SMFS
             string casketGroup = EditCustomer.activeFuneralHomeCasketGroup;
             string what = "ServiceId=" + serviceId + "  GPL= " + group + "   Casket Group= " + casketGroup;
 
-            if ( String.IsNullOrWhiteSpace ( serviceId))
-            {
-                MessageBox.Show("***ERROR*** Blank Service Id Contract=" + workContract +"!\nContact Tim or Cliff", "Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-            }
+            //if ( String.IsNullOrWhiteSpace ( serviceId))
+            //{
+            //    MessageBox.Show("***ERROR*** Blank Service Id Contract=" + workContract +"!\nContact Tim or Cliff", "Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            //}
 
             G1.AddToAudit(LoginForm.username, "FunServices", "Save Services", what, workContract);
 
@@ -6572,6 +6582,7 @@ namespace SMFS
         /***********************************************************************************************/
         private string SaveCustExtended(DataTable dx)
         {
+            string serviceId = "";
             try
             {
                 double totalMerchandise = 0D;
@@ -6596,8 +6607,6 @@ namespace SMFS
                     packageDiscount = discount;
                 else
                     preneedDiscount = discount;
-
-                string serviceId = "";
 
                 string cmd = "Select * from `" + extendedFile + "` where `contractNumber` = '" + primaryContract + "';";
                 DataTable dt = G1.get_db_data(cmd);
@@ -7133,7 +7142,7 @@ namespace SMFS
                 //G1.WriteAudit("Show PDF Merchandise");
 
                 title += " " + filename;
-                ViewPDF viewForm = new ViewPDF(title, "", newFilename, true);
+                ViewPDF viewForm = new ViewPDF(title, "", newFilename, true, false, true );
                 viewForm.Show();
             }
         }
@@ -7861,8 +7870,8 @@ namespace SMFS
                         continue;
                     type = dt.Rows[i]["type"].ObjToString().ToUpper();
                     ignore = dt.Rows[i]["ignore"].ObjToString().ToUpper();
-                    if (ignore == "Y")
-                        continue;
+                    //if (ignore == "Y")
+                    //    continue;
                     zeroData = dt.Rows[i]["data"].ObjToString().ToUpper();
                     service = dt.Rows[i]["service"].ObjToString().ToUpper();
                     if (showServices && type != "SERVICE")
@@ -7886,7 +7895,8 @@ namespace SMFS
                     if (price == 0D && zeroData != "ZERO" )
                         continue;
                     currentPrice = dt.Rows[i]["currentprice"].ObjToDouble();
-                    totalCurrentPrice += currentPrice;
+                    if (ignore.ToUpper() != "Y")
+                        totalCurrentPrice += currentPrice;
                     upgrade = dt.Rows[i]["upgrade"].ObjToDouble();
                     if (upgrade > 0D)
                         dt.Rows[i]["difference"] = upgrade;
@@ -7901,6 +7911,8 @@ namespace SMFS
                         dt.Rows[i]["difference"] = 0D;
 
                     totalDifference += dt.Rows[i]["difference"].ObjToDouble();
+                    if (ignore.ToUpper() == "Y")
+                        totalDifference -= currentPrice;
                 }
 
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -7916,8 +7928,8 @@ namespace SMFS
                     select = dt.Rows[i]["select"].ObjToString();
                     upgrade = dt.Rows[i]["upgrade"].ObjToDouble();
                     ignore = dt.Rows[i]["ignore"].ObjToString().ToUpper();
-                    if (ignore == "Y")
-                        continue;
+                    //if (ignore == "Y")
+                    //    continue;
 
                     if (myPackage)
                     {

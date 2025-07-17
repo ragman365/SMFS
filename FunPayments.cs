@@ -505,12 +505,14 @@ namespace SMFS
                                     }
                                     if (ignore == "Y")
                                     {
+                                        difference = dt.Rows[i]["difference"].ObjToDouble();
+                                        difference = price; // Something is wrong here
                                         if (type == "SERVICE")
-                                            ignoreServices += price;
+                                            ignoreServices += difference;
                                         else if (type == "MERCHANDISE" && upgrade <= 0D)
-                                            ignoreMerchandise += price;
+                                            ignoreMerchandise += difference;
                                         else if (type == "CASH ADVANCE")
-                                            ignoreCashAdvance += price;
+                                            ignoreCashAdvance += difference;
                                     }
                                 }
                                 continue;
@@ -623,21 +625,25 @@ namespace SMFS
                         customerDiscount += dt.Rows[i]["difference"].ObjToDouble();
                         if (type.ToUpper() == "SERVICE")
                         {
+                            difference = dt.Rows[i]["difference"].ObjToDouble();
+                            difference = price; // Something is wrong here
                             servicesTotal += price;
                             if (ignore == "Y")
-                                ignoreServices += price;
+                                ignoreServices += difference;
                         }
                         else if (type.ToUpper() == "MERCHANDISE")
                         {
                             merchandiseTotal += price;
+                            difference = price; // Something is wrong here
                             if (ignore == "Y")
-                                ignoreMerchandise += price;
+                                ignoreMerchandise += difference;
                         }
                         else if (type.ToUpper() == "CASH ADVANCE")
                         {
                             cashAdvanceTotal += price;
+                            difference = price; // Something is wrong here
                             if (ignore == "Y")
-                                ignoreCashAdvance += price;
+                                ignoreCashAdvance += difference;
                         }
                     }
                     else

@@ -404,6 +404,18 @@
     <Compile Include="Customers.designer.cs">
       <DependentUpon>Customers.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShowChanges.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowChanges.Designer.cs">
+      <DependentUpon>ShowChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditPackageOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditPackageOrder.Designer.cs">
+      <DependentUpon>EditPackageOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditDbTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2517,6 +2529,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Customers.resx">
       <DependentUpon>Customers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowChanges.resx">
+      <DependentUpon>ShowChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditPackageOrder.resx">
+      <DependentUpon>EditPackageOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditDbTable.resx">
       <DependentUpon>EditDbTable.cs</DependentUpon>

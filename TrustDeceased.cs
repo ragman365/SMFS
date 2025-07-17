@@ -1245,14 +1245,21 @@ namespace SMFS
                 ddx = G1.get_db_data(cmd);
                 if (ddx.Rows.Count > 0)
                 {
+                    DataTable dtPP = null;
                     if (workReport == "Post 2002 Report - SN & FT")
                     {
-                        for (int j = 0; j < ddx.Rows.Count; j++)
+                        for (int j = ddx.Rows.Count-1; j >= 0; j--)
                         {
                             paidFrom = ddx.Rows[j]["trust_policy"].ObjToString();
                             if (String.IsNullOrWhiteSpace(paidFrom))
                                 continue;
-                            cmd = "SELECT * FROM `trust_data` WHERE `contractNumber` = '" + contract + "' order by `date` desc";
+                            contract = ddx.Rows[j]["contractNumber"].ObjToString();
+                            if (String.IsNullOrWhiteSpace(contract))
+                                continue;
+                            cmd = "SELECT * FROM `trust_data` WHERE `contractNumber` = '" + contract + "' AND `preOrPost` = '" + preOrPost + "' order by `date` desc";
+                            dtPP = G1.get_db_data(cmd);
+                            if (dtPP.Rows.Count <= 0)
+                                ddx.Rows.RemoveAt(j);
                         }
                     }
                     for (int j = 0; j < ddx.Rows.Count; j++)
@@ -6623,7 +6630,7 @@ namespace SMFS
         {
             Trust85.FindContract(dt, "L14140UI");
             DataTable dx = dt.Clone();
-            DataRow[] dRows = dt.Select("`trustCompany` = 'Unity' AND `endingDeathBenefit` = '0.00' AND `policyStatus` = 'T'  AND `policyNumber` LIKE '77%' AND `statusReason` IN ('LP','NI','NN','NT','SR')");
+            DataRow[] dRows = dt.Select("`trustCompany` = 'Unity' AND `endingDeathBenefit` = '0.00' AND `policyStatus` = 'T'  AND `policyNumber` LIKE '77%' AND `statusReason` IN ('LP','NI','NN','NT','SR','MA')");
             if (dRows.Length > 0)
                 dx = dRows.CopyToDataTable();
             Trust85.FindContract(dx, "L14140UI");
@@ -6943,12 +6950,45 @@ namespace SMFS
             string cashPaid1 = "";
             string cashPaid2 = "";
             bool gotCashPaid2 = false;
+            double value = 0D;
+            double value2 = 0D;
+            double value3 = 0D;
+            DataRow[] dRows = null;
             if (G1.get_column_number(dt, "cashPaid2") >= 0)
                 gotCashPaid2 = true;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 try
                 {
+                    desc = dt.Rows[i]["desc"].ObjToString();
+                    if ( desc.ToUpper().IndexOf ( "DC CASH-") == 0 )
+                    {
+                        desc = desc.Replace("DC CASH-", "");
+                        dt.Rows[i]["desc"] = desc;
+                        dt.Rows[i]["cashPaid1"] = "DC Cash";
+                        value = dt.Rows[i]["value"].ObjToDouble();
+                        dRows = dt.Select("desc='Total DC Cash'");
+                        if ( dRows.Length > 0 )
+                        {
+                            value2 = dRows[0]["value"].ObjToDouble();
+                            value3 = value + value2;
+                            dRows[0]["value"] = value3;
+                        }
+                    }
+                    else if (desc.ToUpper().IndexOf("DC PAID-") == 0)
+                    {
+                        desc = desc.Replace("DC PAID-", "");
+                        dt.Rows[i]["desc"] = desc;
+                        dt.Rows[i]["cashPaid1"] = "DC Paid";
+                        value = dt.Rows[i]["value"].ObjToDouble();
+                        dRows = dt.Select("desc='Total DC Paid'");
+                        if (dRows.Length > 0)
+                        {
+                            value2 = dRows[0]["value"].ObjToDouble();
+                            value3 = value + value2;
+                            dRows[0]["value"] = value3;
+                        }
+                    }
                     avoidDesc = false;
                     avoidOtherDesc = false;
                     cashPaid1 = dt.Rows[i]["cashPaid1"].ObjToString();
@@ -7094,6 +7134,48 @@ namespace SMFS
                 }
                 catch (Exception ex)
                 {
+                }
+            }
+
+            double extraMoney = 0D;
+            dRows = dt.Select("status='Line Edit'");
+            if (dRows.Length > 0)
+            {
+                DataTable tt = dRows.CopyToDataTable();
+                for (int i = 0; i < dRows.Length; i++)
+                {
+                    desc = dRows[i]["desc"].ObjToString();
+                    if (desc.ToUpper().IndexOf("DC CASH-") == 0)
+                    {
+                        //desc = desc.Replace("DC Cash-", "");
+                        desc = "*" + clearBeforeDash(desc);
+                        dRows[i]["desc"] = desc;
+                    }
+                    else if (desc.ToUpper().IndexOf("DC PAID-") == 0)
+                    {
+                        //desc = desc.Replace("DC Paid-", "");
+                        desc = "*" + clearBeforeDash(desc);
+                        dRows[i]["desc"] = desc;
+                    }
+                    else if (desc.ToUpper().IndexOf("CURRENT-") == 0)
+                    {
+                        //desc = desc.Replace("Current-", "*");
+                        desc = "*" + clearBeforeDash(desc);
+                        dRows[i]["desc"] = desc;
+                        dRows[i]["cashPaid1"] = "Current";
+
+                        extraMoney += dRows[i]["value"].ObjToDouble();
+                    }
+                }
+            }
+            if (extraMoney != 0D)
+            {
+                dRows = dt.Select("cashPaid1='Paid Current Month'");
+                if (dRows.Length > 0)
+                {
+                    value = dRows[0]["value"].ObjToDouble();
+                    value += extraMoney;
+                    dRows[0]["value"] = value;
                 }
             }
             //if (endingRow < 0)
@@ -7268,6 +7350,22 @@ namespace SMFS
             }
             dt = loadBalanceDifferences(dt, "ENDING");
             dt = loadCadenceDeathBenefits(dt, "ENDING");
+        }
+        /****************************************************************************************/
+        private string clearBeforeDash ( string str )
+        {
+            int idx = str.IndexOf("-");
+            if ( idx > 0 )
+            {
+                try
+                {
+                    str = str.Substring(idx + 1);
+                }
+                catch ( Exception ex)
+                {
+                }
+            }
+            return str;
         }
         /****************************************************************************************/
         private void gridMain_MouseDown(object sender, MouseEventArgs e)
@@ -10560,6 +10658,18 @@ namespace SMFS
                 if (!String.IsNullOrWhiteSpace(funeral))
                     dRow["funeral"] = funeral;
                 dRow["desc"] = desc;
+                if ( G1.get_column_number ( dx, "Forethought redx") >= 0 )
+                    dRow["Forethought redx"] = "Y";
+                if (G1.get_column_number(dx, "Security National redx") >= 0)
+                    dRow["Security National redx"] = "Y";
+                if (G1.get_column_number(dx, "FDLIC Old Webb redx") >= 0)
+                    dRow["FDLIC Old Webb redx"] = "Y";
+                if (G1.get_column_number(dx, "FDLIC Old CCI redx") >= 0)
+                    dRow["FDLIC Old CCI redx"] = "Y";
+                if (G1.get_column_number(dx, "Unity Old Barham redx") >= 0)
+                    dRow["Unity Old Barham redx"] = "Y";
+                if (G1.get_column_number(dx, "Unity Old Webb redx") >= 0)
+                    dRow["Unity Old Webb redx"] = "Y";
 
                 dRow["Forethought"] = Forethought;
                 if (Forethought == 0D)
@@ -12642,6 +12752,12 @@ namespace SMFS
                     {
                         string data = dr[column].ObjToString();
                         G1.update_db_table("trust_data_edits", "record", record, new string[] { "policyStatus", data });
+                    }
+                    else if (column.ToUpper() == "CASHPAID1")
+                    {
+                        string data = dr[column].ObjToString();
+                        lastName = lastName.Replace("*", "");
+                        G1.update_db_table("trust_data_edits", "record", record, new string[] { "lastName", data + "-" + lastName });
                     }
 
                     LoadEndingBalances(dt, true );
@@ -16072,33 +16188,50 @@ namespace SMFS
                 string column = e.Column.FieldName.ToUpper();
                 DataTable dt = (DataTable)dgv6.DataSource;
                 int row = gridMain6.GetDataSourceRowIndex(e.RowHandle);
+                if (row >= dt.Rows.Count)
+                    return;
 
                 string red1 = "";
                 string red2 = "";
 
-                int col = G1.get_column_number(dt, "Security National redx");
-                if ( col >= 0 )
-                    red1 = dt.Rows[row]["Security National redx"].ObjToString();
-
-                col = G1.get_column_number(dt, "Forethought redx");
-                if (col >= 0)
-                    red2 = dt.Rows[row]["Forethought redx"].ObjToString();
-
-                if ( red1 == "Y")
+                try
                 {
-                    if (column.IndexOf("SECURITY NATIONAL") >= 0)
+                    if (column == "NUM")
                     {
-                        e.Appearance.ForeColor = Color.Red;
-                        ColorizeCell(e.Appearance);
+                        string manual = dt.Rows[row]["manual"].ObjToString();
+                        if (manual.Trim().ToUpper() == "Y")
+                            e.Appearance.BackColor = Color.Red;
+                        else
+                            e.Appearance.BackColor = Color.Transparent;
+                    }
+
+                    int col = G1.get_column_number(dt, "Security National redx");
+                    if (col >= 0)
+                        red1 = dt.Rows[row]["Security National redx"].ObjToString();
+
+                    col = G1.get_column_number(dt, "Forethought redx");
+                    if (col >= 0)
+                        red2 = dt.Rows[row]["Forethought redx"].ObjToString();
+
+                    if (red1 == "Y")
+                    {
+                        if (column.IndexOf("SECURITY NATIONAL") >= 0)
+                        {
+                            e.Appearance.ForeColor = Color.Red;
+                            ColorizeCell(e.Appearance);
+                        }
+                    }
+                    if (red2 == "Y")
+                    {
+                        if (column.IndexOf("FORETHOUGHT") >= 0)
+                        {
+                            e.Appearance.ForeColor = Color.Red;
+                            ColorizeCell(e.Appearance);
+                        }
                     }
                 }
-                if ( red2 == "Y" )
+                catch ( Exception ex)
                 {
-                    if (column.IndexOf("FORETHOUGHT") >= 0)
-                    {
-                        e.Appearance.ForeColor = Color.Red;
-                        ColorizeCell(e.Appearance);
-                    }
                 }
             }
         }

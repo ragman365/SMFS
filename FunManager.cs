@@ -167,7 +167,7 @@ namespace SMFS
             foundLocalPreference = G1.RestoreGridLayout(this, this.dgv, gridMain, LoginForm.username, saveName, ref skinName);
 
             workFormat = "Primary";
-            loadGroupCombo(cmbSelectColumns, "TrustEOY", workFormat);
+            loadGroupCombo(cmbSelectColumns, "FuneralBonus", workFormat);
             cmbSelectColumns.Text = workFormat;
 
 
@@ -495,9 +495,26 @@ namespace SMFS
             AddSummaryColumn("upgrade", null, "Custom");
             AddSummaryColumn("otherBonuses", null, "Custom");
             AddSummaryColumn("urn", null, "Custom");
+            AddSummaryColumn("newDiscount", null, "Custom");
 
             gridMain.Columns["SRVLOC"].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
             gridMain.Columns["SRVLOC"].SummaryItem.DisplayFormat = "{0:N0}";
+
+            AddSummaryColumn("totalDiscount", gridMain4, "Sum");
+            AddSummaryColumn("timTotalDiscount", gridMain4, "Sum");
+            AddSummaryColumn("otherBonus", gridMain4, "Sum");
+            AddSummaryColumn("timOtherBonus", gridMain4, "Sum");
+            AddSummaryColumn("casketCost", gridMain4, "Sum");
+            AddSummaryColumn("timCasketCost", gridMain4, "Sum");
+            AddSummaryColumn("vaultCost", gridMain4, "Sum");
+            AddSummaryColumn("timVaultCost", gridMain4, "Sum");
+            AddSummaryColumn("cashAdvance", gridMain4, "Sum");
+            AddSummaryColumn("timCashAdvance", gridMain4, "Sum");
+            AddSummaryColumn("serviceAmount", gridMain4, "Sum");
+            AddSummaryColumn("timServiceAmount", gridMain4, "Sum");
+            AddSummaryColumn("netFuneral", gridMain4, "Sum");
+            AddSummaryColumn("timNetFuneral", gridMain4, "Sum");
+
 
             //AddSummaryColumn("currentprice", null);
             //AddSummaryColumn("difference", null);
@@ -1125,6 +1142,7 @@ namespace SMFS
             double classA = 0D;
             double trustDiscount = 0D;
             string gotRental = "";
+            bool testTD = true;
 
             double currentServices = 0D;
             double casketAmount = 0D;
@@ -1322,6 +1340,13 @@ namespace SMFS
                 dRow["casketCost"] = casketCost;
             }
 
+            casketCost = dRow["casketCost"].ObjToDouble();
+            if ( casketCost < 0D )
+            {
+                casketCost = 0D;
+                dRow["casketCost"] = 0D;
+            }
+
             currentServices = dRow["currentServices"].ObjToDouble();
             casketAmount = dRow["casketAmount"].ObjToDouble(); 
             if (asCash > 0D || asNothing > 0D || asService > 0D || asMerc > 0D || fromService > 0D || fromMerc > 0D)
@@ -1410,14 +1435,19 @@ namespace SMFS
                 }
             }
 
+            double actualPayments = dRow["totalPayments"].ObjToDouble();
+
             TotalsbalanceDue = totalFuneral - compDiscount - classA + trustGrowth - trustPaymentsReceived - dbr - insDiscount + insGrowth - insPaymentsReceived - cashReceived - totalDiscount;
             double totalPayments = trustPayments + insPayments + cashReceived;
-            double actualPayments = dRow["totalPayments"].ObjToDouble();
             //totalPayments = custPrice;
             //TotalsbalanceDue = totalFuneral - custPrice - totalDiscount;
             TotalsbalanceDue = totalFuneral - totalPayments - preneedDiscount - packageDiscount - compDiscount;
-            if ( actualPayments > 0D)
+            if (actualPayments > 0D)
+            {
                 TotalsbalanceDue = totalFuneral - actualPayments - preneedDiscount - packageDiscount;
+                if (TotalsbalanceDue < 0D)
+                    TotalsbalanceDue = 0D;
+            }
             TotalsbalanceDue = G1.RoundValue(TotalsbalanceDue);
             balanceDue = TotalsbalanceDue;
             if (balanceDue > 0D)
@@ -1440,6 +1470,21 @@ namespace SMFS
             }
 
             dRow["balanceDue"] = balanceDue;
+            //if (testTD)
+            //{
+            //    double totalPaymentsx = trustPaymentsReceived + dbr + insPaymentsReceived + cashReceived;
+            //    totalPaymentsx = actualPayments - trustPayments - insPayments;
+            //    double newTotalDiscount = totalFuneral - (totalPaymentsx + trustPaymentsReceived + insPaymentsReceived + dbr);
+            //    totalDiscount = newTotalDiscount + compDiscount;
+            //    totalDiscount -= balanceDue;
+            //    if (totalDiscount < 0D)
+            //    {
+            //        totalDiscount = 0D;
+            //        dRow["totalDiscount"] = 0D;
+            //    }
+            //    dRow["totalDiscount"] = totalDiscount;
+            //}
+
             if ( totalDiscount < 0D )
             {
                 totalDiscount = 0D;
@@ -1483,6 +1528,7 @@ namespace SMFS
                     else
                         trustPending += pendingBalance * 0.50D;
                     //totalDiscount += trustPending;
+                    trustPending = Math.Truncate(trustPending);
                     otherBonuses += trustPending;
                 }
             }
@@ -1535,20 +1581,23 @@ namespace SMFS
                 string trust = "";
                 string loc = "";
                 string contract = "";
-                bool isOkay = true;
-                string trust_policy = dt.Rows[0]["trust_policy"].ObjToString();
-                if ( !String.IsNullOrWhiteSpace ( trust_policy ))
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    contract = Trust85.decodeContractNumber(trust_policy, ref trust, ref loc);
-                    if ( contract.Length >= 5 )
+                    bool isOkay = true;
+                    string trust_policy = dt.Rows[i]["trust_policy"].ObjToString();
+                    if (!String.IsNullOrWhiteSpace(trust_policy))
                     {
-                        contract = contract.Substring(2,1);
-                        if (contract == "3")
-                            isOkay = false;
+                        contract = Trust85.decodeContractNumber(trust_policy, ref trust, ref loc);
+                        if (contract.Length >= 5)
+                        {
+                            contract = contract.Substring(2, 1);
+                            if (contract == "3")
+                                isOkay = false;
+                        }
                     }
+                    if (isOkay)
+                        pending += dt.Rows[i]["payment"].ObjToDouble();
                 }
-                if ( isOkay )
-                    pending = dt.Rows[0]["payment"].ObjToDouble();
             }
             return pending;
         }
@@ -2535,7 +2584,7 @@ namespace SMFS
                 return;
             }
 
-            SelectDisplayColumns sform = new SelectDisplayColumns(dgv, "TrustEOY", "Primary", actualName);
+            SelectDisplayColumns sform = new SelectDisplayColumns(dgv, "FuneralBonus", "Primary", actualName);
             sform.Done += new SelectDisplayColumns.d_void_selectionDone(sxform_Done);
             sform.Show();
         }
@@ -5191,6 +5240,26 @@ namespace SMFS
                                 tempDt = AddException(service, currentPrice, "asCash", tempDt);
                         }
                     }
+                    else if (service.ToUpper().IndexOf("TRANSPORTATION") >= 0)
+                    {
+                        if (type.ToUpper() != "CASH ADVANCE")
+                        {
+                            if (type.ToUpper() == "MERCHANDISE")
+                                tempDt = AddException(service, currentPrice, "fromMerc", tempDt);
+                            else
+                                tempDt = AddException(service, currentPrice, "asCash", tempDt);
+                        }
+                    }
+                    else if (service.ToUpper().IndexOf("MILES") >= 0)
+                    {
+                        if (type.ToUpper() != "CASH ADVANCE")
+                        {
+                            if (type.ToUpper() == "MERCHANDISE")
+                                tempDt = AddException(service, currentPrice, "fromMerc", tempDt);
+                            else
+                                tempDt = AddException(service, currentPrice, "asCash", tempDt);
+                        }
+                    }
                     else if (service.ToUpper().IndexOf("ENGRAV") >= 0)
                     {
                         if (type.ToUpper() != "CASH ADVANCE")
@@ -5319,7 +5388,7 @@ namespace SMFS
                 service.IndexOf("BOOKMARK") >= 0 || service.IndexOf("SHIPPING") >= 0 ||
                 service.IndexOf("SHIPPING") >= 0 || service.ToUpper().IndexOf("MEDALLION") >= 0 ||
                 service.IndexOf("LIFE PRINT") >= 0 || service.ToUpper().IndexOf("LIFE STOR") >= 0 ||
-                service.ToUpper().IndexOf("INFANT") >= 0 )
+                service.IndexOf("TRANSPORTATION") >= 0 || service.ToUpper().IndexOf("INFANT") >= 0 )
                 isCash = true;
             return isCash;
         }
@@ -5920,6 +5989,7 @@ namespace SMFS
 
             DataTable dx = (DataTable)dgv.DataSource;
 
+            string contractNumber = "";
             string serviceId = "";
             double casketCost = 0D;
             double vaultCost = 0D;
@@ -5951,9 +6021,10 @@ namespace SMFS
             for (int i = 1; i < dx.Rows.Count; i++)
             {
                 status = "";
+                contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
                 serviceId = dx.Rows[i]["serviceId"].ObjToString();
                 serviceId = CleanServiceId(serviceId);
-                if (serviceId == "BS25022")
+                if (serviceId == "TY25008")
                 {
                 }
                 dRows = timJonesDt.Select("Column1='" + serviceId + "'");
@@ -5980,6 +6051,7 @@ namespace SMFS
                             if (badDt == null)
                             {
                                 badDt = new DataTable();
+                                badDt.Columns.Add("contractNumber");
                                 badDt.Columns.Add("serviceId");
                                 badDt.Columns.Add("BAD");
                                 badDt.Columns.Add("casketdesc");
@@ -5993,12 +6065,16 @@ namespace SMFS
                                 badDt.Columns.Add("timOtherBonus", Type.GetType("System.Double"));
                                 badDt.Columns.Add("totalDiscount", Type.GetType("System.Double"));
                                 badDt.Columns.Add("timTotalDiscount", Type.GetType("System.Double"));
-                                badDt.Columns.Add("timServiceAmount", Type.GetType("System.Double"));
                                 badDt.Columns.Add("serviceAmount", Type.GetType("System.Double"));
+                                badDt.Columns.Add("timServiceAmount", Type.GetType("System.Double"));
+                                badDt.Columns.Add("netFuneral", Type.GetType("System.Double"));
+                                badDt.Columns.Add("timNetFuneral", Type.GetType("System.Double"));
+                                badDt.Columns.Add("dateChanged", Type.GetType("System.DateTime"));
                             }
 
                             dRow = badDt.NewRow();
                             dRow["BAD"] = status;
+                            dRow["contractNumber"] = contractNumber;
                             dRow["serviceId"] = serviceId;
                             dRow["cashAdvance"] = dx.Rows[i]["cashAdvance"].ObjToDouble();
                             dRow["timCashAdvance"] = dRows[0]["column9"].ObjToDouble();
@@ -6011,8 +6087,10 @@ namespace SMFS
                             dRow["totalDiscount"] = dx.Rows[i]["totalDiscount"].ObjToDouble();
                             dRow["timTotalDiscount"] = dRows[0]["column12"].ObjToDouble();
                             dRow["casketdesc"] = dx.Rows[i]["casketdesc"].ObjToString();
+                            dRow["serviceAmount"] = dx.Rows[i]["currentServices"].ObjToDouble();
                             dRow["timServiceAmount"] = dRows[0]["column6"].ObjToDouble();
-                            dRow["serviceAmount"] = dx.Rows[i]["currentServices"].ObjToString();
+                            dRow["netFuneral"] = dx.Rows[i]["netFuneral"].ObjToDouble();
+                            dRow["timNetFuneral"] = dRows[0]["column20"].ObjToDouble();
                             badDt.Rows.Add(dRow);
                         }
                     }
@@ -6024,6 +6102,21 @@ namespace SMFS
                 }
                 else
                     dx.Rows[i]["bad"] = "BAD ID";
+            }
+
+            string cmd = "";
+            DataTable dd = null;
+            DateTime date = DateTime.Now;
+            for ( int i=0; i<badDt.Rows.Count; i++)
+            {
+                contractNumber = badDt.Rows[i]["contractNumber"].ObjToString();
+                cmd = "Select * from fcust_changes where contractNumber = '" + contractNumber + "' ORDER BY `tmstamp` DESC LIMIT 1;";
+                dd = G1.get_db_data(cmd);
+                if ( dd.Rows.Count > 0 )
+                {
+                    date = dd.Rows[0]["tmstamp"].ObjToDateTime();
+                    badDt.Rows[i]["dateChanged"] = G1.DTtoMySQLDT(date);
+                }
             }
 
             G1.NumberDataTable(badDt);
@@ -6044,12 +6137,23 @@ namespace SMFS
             if (G1.validate_numeric(str))
             {
                 double timValue = dRows[0][timCol].ObjToDouble();
+                timValue = G1.RoundValue(timValue);
                 double myValue = dx.Rows[i][myCol].ObjToDouble();
                 myValue = G1.RoundValue(myValue);
                 if (myValue != timValue)
                 {
                     //if ( String.IsNullOrWhiteSpace ( status ))
                     //    status = "BAD ";
+                    status += abrev + ",";
+                }
+            }
+            else
+            {
+                double timValue = 0D;
+                double myValue = dx.Rows[i][myCol].ObjToDouble();
+                myValue = G1.RoundValue(myValue);
+                if (myValue != timValue)
+                {
                     status += abrev + ",";
                 }
             }
@@ -7184,6 +7288,26 @@ namespace SMFS
                                     asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
                             }
                         }
+                        else if (service.ToUpper().IndexOf("TRANSPORTATION") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                    fromMerc += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("MILES") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                    fromMerc += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
                         else if (service.ToUpper().IndexOf("ENGRAV") >= 0)
                         {
                             if (type.ToUpper() != "CASH ADVANCE")
@@ -7659,6 +7783,21 @@ namespace SMFS
                 }
                 this.Cursor = Cursors.Default;
             }
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
         }
         /***********************************************************************************************/
     }

@@ -1637,6 +1637,11 @@ namespace SMFS
                     e.Cancel = true;
                     return;
                 }
+                if ( result == DialogResult.No )
+                {
+                    G1.AddToAudit(LoginForm.username, "Funerals", "Exiting Funeral","Changes Made, Did Not Save Changes!", workContract );
+                    checkForModified(true);
+                }
                 if (result == DialogResult.Yes || serialModified)
                     SaveAllData();
                 doSave = false;
@@ -1752,28 +1757,44 @@ namespace SMFS
                 editFunForms.FireEventSaveFunServices(true);
         }
         /****************************************************************************************/
-        private bool checkForModified()
+        private bool checkForModified( bool showAudit = false )
         {
             bool modified = false;
             if (editFunFamily != null)
             {
                 familyModified = editFunFamily.FireEventFunServicesModified();
                 if (familyModified)
+                {
                     modified = true;
+                    if ( showAudit )
+                        G1.AddToAudit(LoginForm.username, "Funerals", "Exiting Funeral", "Family Changes Made, Did Not Save Changes!", workContract);
+                }
             }
             if (editFunFamilyNew != null)
             {
                 familyModifiedNew = editFunFamilyNew.FireEventFunServicesModified();
                 if (familyModifiedNew)
+                {
                     modified = true;
+                    if (showAudit)
+                        G1.AddToAudit(LoginForm.username, "Funerals", "Exiting Funeral", "Family Changes Made, Did Not Save Changes!", workContract);
+                }
             }
             if (editFunServices != null)
             {
                 funModified = editFunServices.FireEventFunServicesModified();
                 if (funModified)
+                {
                     modified = true;
+                    if (showAudit)
+                        G1.AddToAudit(LoginForm.username, "Funerals", "Exiting Funeral", "Service Changes Made, Did Not Save Changes!", workContract);
+                }
                 else if (serialModified)
+                {
                     modified = true;
+                    if (showAudit)
+                        G1.AddToAudit(LoginForm.username, "Funerals", "Exiting Funeral", "Serial Number Changes Made, Did Not Save Changes!", workContract);
+                }
             }
             if (editFunCustomer != null)
             {
@@ -1782,25 +1803,39 @@ namespace SMFS
                 {
                     modified = true;
                     customerModified = true;
+                    if (showAudit)
+                        G1.AddToAudit(LoginForm.username, "Funerals", "Exiting Funeral", "Demographics Changes Made, Did Not Save Changes!", workContract);
                 }
             }
             if (editFunPayments != null)
             {
                 payModified = editFunPayments.FireEventFunServicesModified();
                 if (payModified)
+                {
                     modified = true;
+                    if (showAudit)
+                        G1.AddToAudit(LoginForm.username, "Funerals", "Exiting Funeral", "Payment Changes Made, Did Not Save Changes!", workContract);
+                }
             }
             if (editFunLegal != null)
             {
                 legalModified = editFunLegal.FireEventFunServicesModified();
                 if (legalModified)
+                {
                     modified = true;
+                    if (showAudit)
+                        G1.AddToAudit(LoginForm.username, "Funerals", "Exiting Funeral", "Legal Member Changes Made, Did Not Save Changes!", workContract);
+                }
             }
             if (editFunForms != null)
             {
                 formsModified = editFunForms.FireEventFunServicesModified();
                 if (formsModified)
+                {
                     modified = true;
+                    if (showAudit)
+                        G1.AddToAudit(LoginForm.username, "Funerals", "Exiting Funeral", "Form Changes Made, Did Not Save Changes!", workContract);
+                }
             }
             return modified;
         }
@@ -2111,6 +2146,19 @@ namespace SMFS
         /****************************************************************************************/
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            if (editFunServices != null)
+            {
+                bool modified = editFunServices.FireEventFunServicesModified();
+                if (modified && workDatabase.ToUpper() == "SMFS")
+                {
+                    if (!G1.RobbyServer)
+                    {
+                        MessageBox.Show("***ERROR***\nYou cannot go to G&S Contract while Services have been modified and not saved!\nPlease SAVE your changes before moving on.", "Services Data Modified Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        return;
+                    }
+                }
+            }
+
             this.Cursor = Cursors.WaitCursor;
             if (editFunServices == null)
                 InitializeServicePanel( true );

@@ -1201,6 +1201,25 @@ namespace SMFS
             return 0;
         }
         /***************************************************************************************/
+        public static bool ValidateServiceId ( string serviceId )
+        {
+            string cmd = "Select * from `funeralhomes`;";
+            DataTable dx = G1.get_db_data(cmd);
+            if (dx.Rows.Count <= 0)
+                return false;
+            string contract = "";
+            string loc = "";
+            string trust = "";
+            contract = Trust85.decodeContractNumber(serviceId, ref trust, ref loc);
+
+            DataRow[] dRows = dx.Select("atneedcode='" + loc + "'");
+            if (dRows.Length <= 0)
+                dRows = dx.Select("merchandisecode='" + loc + "'");
+            if (dRows.Length <= 0)
+                return false;
+            return true;
+        }
+        /***************************************************************************************/
         public void FireEventSaveFunServices(bool save = false)
         {
             if ((save && funModified) || (save && otherModified))
@@ -1208,20 +1227,26 @@ namespace SMFS
                 string serviceId = txtServiceId.Text;
                 if ( !String.IsNullOrWhiteSpace ( oldServiceId) && String.IsNullOrWhiteSpace ( serviceId))
                 {
-                    MessageBox.Show("***ERROR*** Service ID In " + oldServiceId + "!\nNew Service ID is BLANK!", "Service ID ERROR Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                    DialogResult result = MessageBox.Show("***ERROR*** Continue Anyway?", "Blank Service ID Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                    if (result == DialogResult.Yes)
-                    {
-                        G1.AddToAudit(LoginForm.username, "FunCustomers", "Save Customer", "Saving Blank Service ID - Old=" + oldServiceId + "!", workContract);
-                    }
-                    else
-                        return;
+                    MessageBox.Show("***ERROR*** Old Service ID is " + oldServiceId + "!\nNew Service ID is BLANK!", "Service ID ERROR Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return; // Exit if came in with Service Id and is now blank
                 }
                 if (NewContract.CheckServiceIdExists(serviceId, workContract))
                 {
                     MessageBox.Show("***ERROR*** A Service ID of " + serviceId + " Already Exists Somewhere!", "Service ID EXISTS Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     return;
                 }
+
+                string dodd = txtDOD.Text;
+                if (G1.validate_date(dodd)) // If Valid Deceased Date
+                {
+                    bool good = ValidateServiceId(serviceId); // Check for Valid Service Id
+                    if (!good)
+                    {
+                        MessageBox.Show("***ERROR*** A Service ID of " + serviceId + "\nis not a value At Need Code\nor Merchandise Code!", "Service ID Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        return;
+                    }
+                }
+
                 this.Cursor = Cursors.WaitCursor;
                 string record = workRecord;
                 string fname = txtFirstName.Text;

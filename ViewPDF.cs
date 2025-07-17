@@ -15,6 +15,7 @@ using DevExpress.XtraBars.Ribbon;
 using Microsoft.Ink;
 using DevExpress.Pdf;
 using DevExpress.Pdf.Interop;
+//using DevExpress.Pdf.ViewModel;
 using System.Drawing;
 using iTextSharp.text.pdf;
 /***********************************************************************************************/
@@ -37,6 +38,7 @@ namespace SMFS
         private bool workGSContract = false;
         private bool gotSignatures = false;
         private bool fileGotPrinted = false;
+        private bool workFullCollapse = false;
 
         private Point _origin = Point.Empty;
         private Point _terminus = Point.Empty;
@@ -48,7 +50,7 @@ namespace SMFS
         private DataTable fieldDt = null;
         public static DataTable signatureDt = null;
         /***********************************************************************************************/
-        public ViewPDF(string title, string contractNumber, string filename, bool fullScreen = false, bool allowLapseButton = false )
+        public ViewPDF(string title, string contractNumber, string filename, bool fullScreen = false, bool allowLapseButton = false, bool fullCollapse = false )
         {
             InitializeComponent();
             workTitle = title;
@@ -56,6 +58,7 @@ namespace SMFS
             workContract = contractNumber;
             workFullScreen = fullScreen;
             workLapses = allowLapseButton;
+            workFullCollapse = fullCollapse;
         }
         /***********************************************************************************************/
         public ViewPDF(string title, string filename, bool fullScreen = false)
@@ -172,6 +175,11 @@ namespace SMFS
             if (showRibbon)
                 ribbonControl1.Visible = true;
             ribbonControl1.Visible = true;
+            if ( workFullCollapse )
+            {
+                showRibbon = false;
+                ribbonControl1.Visible = false;
+            }
             if (workFullScreen)
                 GoFullscreen(true);
             modified = false;
@@ -202,10 +210,18 @@ namespace SMFS
                 }
                 else
                 {
+                    if (workFullCollapse)
+                    {
+                        pdfViewer1.NavigationPaneInitialVisibility = DevExpress.XtraPdfViewer.PdfNavigationPaneVisibility.Hidden;
+                        pdfViewer1.ZoomMode = DevExpress.XtraPdfViewer.PdfZoomMode.PageLevel;
+                        btnSign.Hide();
+                    }
                     pdfViewer1.LoadDocument(workFile);
                     pdfViewer1.FormFieldValueChanged += PdfViewer1_FormFieldValueChanged;
                     pdfFileSaveAsBarItem1.Enabled = false;
                     pdfFileOpenBarItem1.Enabled = false;
+                    this.Show();
+                    this.pdfViewer1.Focus();
                 }
             }
             catch (Exception ex)
