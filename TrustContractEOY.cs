@@ -1256,6 +1256,8 @@ namespace SMFS
                 dRow["allowInsurance"] = allowInsurance;
                 dRow["annuity"] = annuity;
                 dRow["balanceDue"] = balanceDue;
+                dRow["A_contracts"] = A_contracts;
+                dRow["A_remainingBal"] = A_remainingBal;
                 dt2.Rows.Add(dRow);
                 /*
                 if ( L_contracts != 0D )
