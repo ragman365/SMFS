@@ -881,8 +881,17 @@ namespace SMFS
 
             try
             {
+                /*
                 string cmd = "SELECT t.tmstamp,t.contractNumber,t.firstName, t.lastname,t.address1 as address2013,t.city as city2013, t.state as state2013, t.zip1 as zip2013,t.ssn as ssn2013, ";
                 cmd += "c.lastDatePaid8 as payDate8, c.balanceDue, c.ServiceId, c.serviceTotal, c.merchandiseTotal,c.allowMerchandise,c.allowInsurance,c.downPayment,c.cashAdvance ";
+                cmd += " FROM `customers` t LEFT JOIN `contracts` c ON t.`contractNumber` = c.`contractNumber`";
+                cmd += " WHERE (t.`deceasedDate` >= '" + date2 + "' OR t.`deceasedDate` < '19101231' ) AND t.`contractNumber` <> '' ";
+                cmd += " ORDER by t.`contractNumber`";
+                cmd += ";";
+                */
+                // 7-21-2025 - Added c.lapsed, and c.lapseDate8
+                string cmd = "SELECT t.tmstamp,t.contractNumber,t.firstName, t.lastname,t.address1 as address2013,t.city as city2013, t.state as state2013, t.zip1 as zip2013,t.ssn as ssn2013, ";
+                cmd += "c.lastDatePaid8 as payDate8, c.balanceDue, c.ServiceId, c.serviceTotal, c.merchandiseTotal,c.allowMerchandise,c.allowInsurance,c.downPayment,c.cashAdvance,c.lapsed,c.lapseDate8 ";
                 cmd += " FROM `customers` t LEFT JOIN `contracts` c ON t.`contractNumber` = c.`contractNumber`";
                 cmd += " WHERE (t.`deceasedDate` >= '" + date2 + "' OR t.`deceasedDate` < '19101231' ) AND t.`contractNumber` <> '' ";
                 cmd += " ORDER by t.`contractNumber`";
