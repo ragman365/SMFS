@@ -351,6 +351,7 @@
             this.btnRight = new System.Windows.Forms.Button();
             this.btnLeft = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.chkIncludeRiles = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -405,7 +406,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1808, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1808, 30);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -415,7 +416,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -453,7 +454,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -475,10 +476,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1808, 541);
+            this.panelAll.Size = new System.Drawing.Size(1808, 539);
             this.panelAll.TabIndex = 6;
             // 
             // panelBottom
@@ -488,7 +489,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 78);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1808, 463);
+            this.panelBottom.Size = new System.Drawing.Size(1808, 461);
             this.panelBottom.TabIndex = 8;
             // 
             // tabControl1
@@ -506,7 +507,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1808, 463);
+            this.tabControl1.Size = new System.Drawing.Size(1808, 461);
             this.tabControl1.TabIndex = 5;
             // 
             // tabDetail
@@ -515,7 +516,7 @@
             this.tabDetail.Location = new System.Drawing.Point(4, 25);
             this.tabDetail.Name = "tabDetail";
             this.tabDetail.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDetail.Size = new System.Drawing.Size(1800, 434);
+            this.tabDetail.Size = new System.Drawing.Size(1800, 432);
             this.tabDetail.TabIndex = 0;
             this.tabDetail.Text = "Detail";
             this.tabDetail.UseVisualStyleBackColor = true;
@@ -531,7 +532,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox3});
-            this.dgv.Size = new System.Drawing.Size(1794, 428);
+            this.dgv.Size = new System.Drawing.Size(1794, 426);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -5586,6 +5587,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.chkIncludeRiles);
             this.panelTop.Controls.Add(this.chkRestoreDetail);
             this.panelTop.Controls.Add(this.cmbSelectColumns);
             this.panelTop.Controls.Add(this.btnSelectColumns);
@@ -5609,7 +5611,7 @@
             // chkRestoreDetail
             // 
             this.chkRestoreDetail.AutoSize = true;
-            this.chkRestoreDetail.Location = new System.Drawing.Point(1078, 46);
+            this.chkRestoreDetail.Location = new System.Drawing.Point(1263, 20);
             this.chkRestoreDetail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chkRestoreDetail.Name = "chkRestoreDetail";
             this.chkRestoreDetail.Size = new System.Drawing.Size(114, 21);
@@ -5755,6 +5757,18 @@
             this.pictureBox1.TabIndex = 146;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // chkIncludeRiles
+            // 
+            this.chkIncludeRiles.AutoSize = true;
+            this.chkIncludeRiles.Checked = true;
+            this.chkIncludeRiles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkIncludeRiles.Location = new System.Drawing.Point(1078, 46);
+            this.chkIncludeRiles.Name = "chkIncludeRiles";
+            this.chkIncludeRiles.Size = new System.Drawing.Size(146, 21);
+            this.chkIncludeRiles.TabIndex = 162;
+            this.chkIncludeRiles.Text = "Include Riles Trusts";
+            this.chkIncludeRiles.UseVisualStyleBackColor = true;
             // 
             // TrustContractEOY
             // 
@@ -6141,5 +6155,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn247;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn248;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn249;
+        private System.Windows.Forms.CheckBox chkIncludeRiles;
     }
 }

@@ -452,11 +452,13 @@
     <Compile Include="ImportCasketCosts.Designer.cs">
       <DependentUpon>ImportCasketCosts.cs</DependentUpon>
     </Compile>
-    <Compile Include="TrustContractEOY.cs">
+    <Compile Include="..\..\..\Desktop\TrustContractEOY\Mine\TrustContractEOY.cs">
       <SubType>Form</SubType>
+      <Link>TrustContractEOY.cs</Link>
     </Compile>
-    <Compile Include="TrustContractEOY.Designer.cs">
+    <Compile Include="..\..\..\Desktop\TrustContractEOY\Mine\TrustContractEOY.Designer.cs">
       <DependentUpon>TrustContractEOY.cs</DependentUpon>
+      <Link>TrustContractEOY.Designer.cs</Link>
     </Compile>
     <Compile Include="TrustSplit.cs">
       <SubType>Form</SubType>
@@ -2554,8 +2556,9 @@
     <EmbeddedResource Include="ImportCasketCosts.resx">
       <DependentUpon>ImportCasketCosts.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TrustContractEOY.resx">
+    <EmbeddedResource Include="..\..\..\Desktop\TrustContractEOY\Mine\TrustContractEOY.resx">
       <DependentUpon>TrustContractEOY.cs</DependentUpon>
+      <Link>TrustContractEOY.resx</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="TrustSplit.resx">
       <DependentUpon>TrustSplit.cs</DependentUpon>
