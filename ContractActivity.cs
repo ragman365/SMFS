@@ -35,6 +35,9 @@ using DevExpress.XtraGrid.Views.BandedGrid;
 using ExcelLibrary.BinaryFileFormat;
 using DevExpress.XtraBars.ViewInfo;
 using System.Text;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraEditors.ViewInfo;
 
 /****************************************************************************************/
 namespace SMFS
@@ -510,6 +513,10 @@ namespace SMFS
             dt.Columns.Add("Location Name");
             dt.Columns.Add("GOOD");
             dt.Columns.Add("gsdate");
+            dt.Columns.Add("issueD");
+            dt.Columns.Add("policyNumber");
+            dt.Columns.Add("policyAmount");
+            dt.Columns.Add("payerNumber");
 
             bool isGood = false;
             DateTime gsDate = DateTime.Now;
@@ -575,6 +582,10 @@ namespace SMFS
             double trustFiledRemaining = 0D;
 
             bool doGrowth = false;
+            string issueDate = "";
+            string policyNumber = "";
+            string payerNumber = "";
+            string policyAmount = "";
 
             DataRow[] dRows = null;
 
@@ -647,6 +658,16 @@ namespace SMFS
                         dt.Rows[i]["currentPrice"] = currentPrice;
 
                         classA = dt.Rows[i]["classa"].ObjToDouble();
+
+                        if (classA > 0D)
+                        {
+                            GetClassaDetail(contractNumber, serviceId, ref issueDate, ref policyNumber, ref policyAmount, ref payerNumber);
+                            dt.Rows[i]["issueD"] = issueDate;
+                            dt.Rows[i]["policyNumber"] = policyNumber;
+                            dt.Rows[i]["payerNumber"] = payerNumber;
+                            dt.Rows[i]["policyAmount"] = policyAmount;
+                        }
+
                         //discount += classA;
                         totalReceived = dt.Rows[i]["trustAmountReceived"].ObjToDouble();
                         totalReceived = Math.Abs(totalReceived);
@@ -946,6 +967,117 @@ namespace SMFS
             //}
 
             return dt;
+        }
+        //****************************************************************************************/
+        private bool GetClassaDetail ( string contractNumber, string serviceId, ref string issueDate, ref string policyNumber, ref string policyAmount, ref string payerNumber )
+        {
+            issueDate = "";
+            policyNumber = "";
+            payerNumber = "";
+            policyAmount = "";
+            if (String.IsNullOrWhiteSpace(contractNumber))
+                return false;
+            DataTable dt = null;
+            string payer = "";
+            string policy = "";
+            string date = "";
+            string type = "";
+            string reference = "";
+            string trust_policy = "";
+            double money = 0D;
+            string report = "";
+            string deleteFlag = "";
+            string service = "";
+            string[] Lines = null;
+            DateTime deceasedDate = DateTime.Now;
+            bool rv = false;
+            DateTime limitDate = new DateTime(2020, 1, 1);
+            DataTable policyDt = new DataTable();
+            policyDt.Columns.Add("issueDate");
+            policyDt.Columns.Add("policyNumber");
+            policyDt.Columns.Add("policyAmount");
+            policyDt.Columns.Add("payerNumber");
+
+            DataRow[] dRows = null;
+            DataRow dRow = null;
+
+            string cmd = "Select * from `cust_payments` WHERE `contractNumber` = '" + contractNumber + "';";
+            DataTable dx = G1.get_db_data(cmd);
+
+            for (int i = 0; i < dx.Rows.Count; i++)
+            {
+                type = dx.Rows[i]["type"].ObjToString().ToUpper();
+                if ( type == "CLASS A")
+                {
+                    trust_policy = dx.Rows[i]["trust_policy"].ObjToString();
+                    reference = dx.Rows[i]["referenceNumber"].ObjToString();
+                    Lines = trust_policy.Split('/');
+                    if ( Lines.Length >= 2 )
+                    {
+                        payer = Lines[0].Trim();
+                        cmd = "Select * from `policies` WHERE `policyNumber` = '" + reference + "';";
+                        dt = G1.get_db_data(cmd);
+                        if ( dt.Rows.Count > 0 )
+                        {
+                            for (int j = 0; j < dt.Rows.Count; j++)
+                            {
+                                report = dt.Rows[j]["report"].ObjToString();
+                                if (String.IsNullOrWhiteSpace(report))
+                                    continue;
+                                deleteFlag = dt.Rows[j]["deleteFlag"].ObjToString();
+                                if (!String.IsNullOrWhiteSpace(deleteFlag))
+                                    continue;
+                                deceasedDate = dt.Rows[j]["deceasedDate"].ObjToDateTime();
+                                if (deceasedDate < limitDate)
+                                    continue;
+                                service = dt.Rows[j]["serviceId"].ObjToString();
+                                if ( !String.IsNullOrWhiteSpace ( service ))
+                                {
+                                    if (service != serviceId)
+                                        continue;
+                                }
+                                date = dt.Rows[j]["issueDate8"].ObjToDateTime().ToString("MM/dd/yyyy");
+                                money = dt.Rows[j]["liability"].ObjToDouble();
+
+                                dRows = policyDt.Select("issueDate='" + date + "' AND policyNumber='" + reference + "' AND payerNumber='" + payer + "'");
+                                if ( dRows.Length == 0 )
+                                {
+                                    dRow = policyDt.NewRow();
+                                    dRow["issueDate"] = date;
+                                    dRow["policyNumber"] = reference;
+                                    dRow["payerNumber"] = payer;
+                                    dRow["policyAmount"] = G1.ReformatMoney(money);
+                                    policyDt.Rows.Add(dRow);
+                                }
+
+                                //issueDate += date + "\n";
+                                //policyNumber += reference + "\n";
+                                //payerNumber += payer + "\n";
+                            }
+                            rv = true;
+                        }
+                    }
+                }
+            }
+
+            for (int j = 0; j < policyDt.Rows.Count; j++)
+            {
+                date = policyDt.Rows[j]["issueDate"].ObjToString();
+                reference = policyDt.Rows[j]["policyNumber"].ObjToString();
+                payer = policyDt.Rows[j]["payerNumber"].ObjToString();
+                policy = policyDt.Rows[j]["policyAmount"].ObjToString();
+
+                issueDate += date + "\n";
+                policyNumber += reference + "\n";
+                payerNumber += payer + "\n";
+                policyAmount += policy + "\n";
+            }
+
+            issueDate = issueDate.TrimEnd('\n');
+            policyNumber = policyNumber.TrimEnd('\n');
+            payerNumber = payerNumber.TrimEnd('\n');
+            policyAmount = policyAmount.TrimEnd('\n');
+            return rv;
         }
         ///****************************************************************************************/
         //private DataTable LoadData(DateTime startDate, DateTime stopDate, DataTable mainDt, bool ytd)
@@ -3315,6 +3447,66 @@ namespace SMFS
         {
             gridMain.RefreshData();
             gridMain.RefreshEditor(true);
+        }
+        /***********************************************************************************************/
+        private void gridMain_CalcRowHeight(object sender, RowHeightEventArgs e)
+        {
+            GridView View = sender as GridView;
+            if (e.RowHandle >= 0)
+            {
+                string cancelled = View.GetRowCellDisplayText(e.RowHandle, View.Columns["policyNumber"]);
+                if (!String.IsNullOrWhiteSpace(cancelled))
+                {
+                    int originalRowHeight = e.RowHeight;
+                    cancelled = cancelled.TrimEnd('\n');
+                    string[] Lines = cancelled.Split('\n');
+                    int count = Lines.Length;
+                    if (count > 1)
+                        e.RowHeight = originalRowHeight * count;
+                }
+            }
+        }
+        /****************************************************************************************/
+        /***********************************************************************************************/
+        private void gridMain_CalcRowHeightx(object sender, RowHeightEventArgs e)
+        {
+            GridView View = sender as GridView;
+            if (e.RowHandle >= 0)
+            {
+                int maxHeight = 0;
+                int newHeight = 0;
+                bool doit = false;
+                string name = "";
+                foreach (GridColumn column in gridMain.Columns)
+                {
+                    name = column.FieldName.ToUpper();
+                    if (name == "ISSUED" || name == "POLICYNUMBER" || name == "PAYERNNUMBER" )
+                        doit = true;
+                    if (doit)
+                    {
+                        using (RepositoryItemMemoEdit edit = new RepositoryItemMemoEdit())
+                        {
+                            using (MemoEditViewInfo viewInfo = edit.CreateViewInfo() as MemoEditViewInfo)
+                            {
+                                viewInfo.EditValue = gridMain.GetRowCellValue(e.RowHandle, column.FieldName);
+                                viewInfo.Bounds = new Rectangle(0, 0, column.VisibleWidth, dgv.Height);
+                                using (Graphics graphics = dgv.CreateGraphics())
+                                using (GraphicsCache cache = new GraphicsCache(graphics))
+                                {
+                                    viewInfo.CalcViewInfo(graphics);
+                                    var height = ((IHeightAdaptable)viewInfo).CalcHeight(cache, column.VisibleWidth);
+                                    newHeight = Math.Max(height, maxHeight);
+                                    if (newHeight > maxHeight)
+                                        maxHeight = newHeight;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (maxHeight > 0)
+                    e.RowHeight = maxHeight;
+            }
         }
         /****************************************************************************************/
     }

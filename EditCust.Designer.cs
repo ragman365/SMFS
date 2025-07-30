@@ -111,7 +111,7 @@ namespace SMFS
             this.toolCustomerDemographics.Image = ((System.Drawing.Image)(resources.GetObject("toolCustomerDemographics.Image")));
             this.toolCustomerDemographics.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolCustomerDemographics.Name = "toolCustomerDemographics";
-            this.toolCustomerDemographics.Size = new System.Drawing.Size(37, 24);
+            this.toolCustomerDemographics.Size = new System.Drawing.Size(27, 24);
             this.toolCustomerDemographics.Text = "toolCustomerDemographics";
             this.toolCustomerDemographics.ToolTipText = "Customer Demographics";
             this.toolCustomerDemographics.Click += new System.EventHandler(this.toolCustomerDemographics_Click);
@@ -122,7 +122,7 @@ namespace SMFS
             this.toolFamily.Image = ((System.Drawing.Image)(resources.GetObject("toolFamily.Image")));
             this.toolFamily.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolFamily.Name = "toolFamily";
-            this.toolFamily.Size = new System.Drawing.Size(37, 24);
+            this.toolFamily.Size = new System.Drawing.Size(27, 24);
             this.toolFamily.Text = "Customer Family";
             this.toolFamily.Click += new System.EventHandler(this.toolFamily_Click);
             // 
@@ -132,7 +132,7 @@ namespace SMFS
             this.toolServices.Image = ((System.Drawing.Image)(resources.GetObject("toolServices.Image")));
             this.toolServices.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolServices.Name = "toolServices";
-            this.toolServices.Size = new System.Drawing.Size(37, 24);
+            this.toolServices.Size = new System.Drawing.Size(27, 24);
             this.toolServices.Text = "Services";
             this.toolServices.Click += new System.EventHandler(this.toolServices_Click);
             // 
@@ -142,7 +142,7 @@ namespace SMFS
             this.toolPayments.Image = ((System.Drawing.Image)(resources.GetObject("toolPayments.Image")));
             this.toolPayments.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolPayments.Name = "toolPayments";
-            this.toolPayments.Size = new System.Drawing.Size(37, 24);
+            this.toolPayments.Size = new System.Drawing.Size(27, 24);
             this.toolPayments.Text = "Payments";
             this.toolPayments.ToolTipText = "Payments";
             this.toolPayments.Click += new System.EventHandler(this.toolPayments_Click);
@@ -159,10 +159,10 @@ namespace SMFS
             this.toolLegal,
             this.toolForms,
             this.toolStripButton1});
-            this.tblLeft.Location = new System.Drawing.Point(0, 67);
+            this.tblLeft.Location = new System.Drawing.Point(0, 69);
             this.tblLeft.MaximumSize = new System.Drawing.Size(58, 489);
             this.tblLeft.Name = "tblLeft";
-            this.tblLeft.Size = new System.Drawing.Size(40, 489);
+            this.tblLeft.Size = new System.Drawing.Size(30, 489);
             this.tblLeft.Stretch = true;
             this.tblLeft.TabIndex = 0;
             this.tblLeft.Text = "toolStrip1";
@@ -173,7 +173,7 @@ namespace SMFS
             this.toolLegal.Image = ((System.Drawing.Image)(resources.GetObject("toolLegal.Image")));
             this.toolLegal.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolLegal.Name = "toolLegal";
-            this.toolLegal.Size = new System.Drawing.Size(37, 24);
+            this.toolLegal.Size = new System.Drawing.Size(27, 24);
             this.toolLegal.Text = "Funeral Information";
             this.toolLegal.Click += new System.EventHandler(this.toolLegal_Click);
             // 
@@ -183,7 +183,7 @@ namespace SMFS
             this.toolForms.Image = ((System.Drawing.Image)(resources.GetObject("toolForms.Image")));
             this.toolForms.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolForms.Name = "toolForms";
-            this.toolForms.Size = new System.Drawing.Size(37, 24);
+            this.toolForms.Size = new System.Drawing.Size(27, 24);
             this.toolForms.Tag = "Forms";
             this.toolForms.Text = "Forms";
             this.toolForms.ToolTipText = "Forms";
@@ -195,7 +195,7 @@ namespace SMFS
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(37, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(27, 24);
             this.toolStripButton1.Text = "Customer Contract";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -328,11 +328,11 @@ namespace SMFS
             this.panelAll.Controls.Add(this.panelDesign);
             this.panelAll.Controls.Add(this.panelServices);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(40, 67);
+            this.panelAll.Location = new System.Drawing.Point(30, 69);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.MaximumSize = new System.Drawing.Size(0, 6154);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1342, 536);
+            this.panelAll.Size = new System.Drawing.Size(1352, 534);
             this.panelAll.TabIndex = 6;
             this.panelAll.Paint += new System.Windows.Forms.PaintEventHandler(this.panelAll_Paint);
             // 
@@ -387,7 +387,7 @@ namespace SMFS
             this.btnAdmin,
             this.btnContracts,
             this.btnCustomer});
-            this.tlbMain.Location = new System.Drawing.Point(0, 28);
+            this.tlbMain.Location = new System.Drawing.Point(0, 30);
             this.tlbMain.Name = "tlbMain";
             this.tlbMain.Size = new System.Drawing.Size(1382, 39);
             this.tlbMain.TabIndex = 5;
@@ -398,7 +398,7 @@ namespace SMFS
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -436,7 +436,7 @@ namespace SMFS
             this.funeralDirectorToolStripMenuItem,
             this.funeralArrangerToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // funeralDirectorToolStripMenuItem
@@ -456,7 +456,7 @@ namespace SMFS
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // menuStrip1
@@ -472,7 +472,7 @@ namespace SMFS
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1382, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1382, 30);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -481,7 +481,7 @@ namespace SMFS
             this.selectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.funeralHomeToolStripMenuItem});
             this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
-            this.selectToolStripMenuItem.Size = new System.Drawing.Size(63, 24);
+            this.selectToolStripMenuItem.Size = new System.Drawing.Size(63, 26);
             this.selectToolStripMenuItem.Text = "Select";
             // 
             // funeralHomeToolStripMenuItem
@@ -494,14 +494,14 @@ namespace SMFS
             // savedContractsMenu
             // 
             this.savedContractsMenu.Name = "savedContractsMenu";
-            this.savedContractsMenu.Size = new System.Drawing.Size(129, 24);
+            this.savedContractsMenu.Size = new System.Drawing.Size(129, 26);
             this.savedContractsMenu.Text = "Saved Contracts";
             this.savedContractsMenu.Click += new System.EventHandler(this.savedContractsMenu_Click);
             // 
             // changeLogToolStripMenuItem
             // 
             this.changeLogToolStripMenuItem.Name = "changeLogToolStripMenuItem";
-            this.changeLogToolStripMenuItem.Size = new System.Drawing.Size(102, 24);
+            this.changeLogToolStripMenuItem.Size = new System.Drawing.Size(102, 26);
             this.changeLogToolStripMenuItem.Text = "Change Log";
             this.changeLogToolStripMenuItem.Click += new System.EventHandler(this.changeLogToolStripMenuItem_Click);
             // 

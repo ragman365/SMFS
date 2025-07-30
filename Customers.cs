@@ -4547,5 +4547,10 @@ namespace SMFS
             this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
+        private void lookupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            quickLookupToolStripMenuItem_Click(null, null);
+        }
+        /***********************************************************************************************/
     }
 }

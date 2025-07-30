@@ -39,6 +39,11 @@ namespace SMFS
         private bool loading = true;
         private bool foundLocalPreference = false;
         private string workFormat = "";
+
+        private DateTime cutDate = new DateTime(2006, 6, 1);
+        private DateTime preDate = new DateTime(2006, 1, 1);
+        private DateTime postDate = new DateTime(2006, 6, 2);
+
         /***********************************************************************************************/
         public TrustContractEOY()
         {
@@ -262,7 +267,11 @@ namespace SMFS
 
             if (dt != null) // <--- Added this section to fix selecting location
             {
-                DataRow tempDrow = funDt.Rows[0];
+                DataTable ddt = G1.get_db_data("Select * from `funeralhomes` LIMIT 1;");
+                if (ddt.Rows.Count <= 0)
+                    return;
+                DataRow tempDrow = ddt.Rows[0];
+                //DataRow tempDrow = funDt.NewRow();
                 DataTable fDt = funDt.Clone();
                 DataTable dx = G1.GetGroupBy(dt, "location");
                 for (int i = 0; i < dx.Rows.Count; i++)
@@ -280,6 +289,10 @@ namespace SMFS
                         tempDrow["keycode"] = loc;
                         tempDrow["LocationCode"] = loc;
                         fDt.ImportRow(tempDrow);
+                        //dRow = fDt.NewRow();
+                        //dRow["keycode"] = loc;
+                        //dRow["LocationCode"] = loc;
+                        //fDt.ImportRow(dRow);
                     }
                 }
                 chkComboLocNames.Properties.DataSource = fDt;
@@ -339,6 +352,15 @@ namespace SMFS
         private void gridMain_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
             ColumnView view = sender as ColumnView;
+
+            if (e.Column.FieldName.ToUpper() == "MYISSUEDATE")
+            {
+                DateTime date = e.DisplayText.ObjToString().ObjToDateTime();
+                e.DisplayText = date.ToString("MM/dd/yyyy");
+                if (date.Year < 30)
+                    e.DisplayText = "";
+                return;
+            }
 
             if (e.Column.FieldName.ToUpper().IndexOf("DATE") >= 0 && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
             {
@@ -686,31 +708,47 @@ namespace SMFS
             double balance = 0D;
             double interest = 0D;
             double removals = 0D;
+            string contractNumber = "";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 is2002 = dt.Rows[i]["is2002"].ObjToString();
                 if (string.IsNullOrWhiteSpace(is2002))
                 {
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    if ( contractNumber == "U0086")
+                    {
+                    }
                     balance = dt.Rows[i]["endingBalance"].ObjToDouble();
                     interest = dt.Rows[i]["interest"].ObjToDouble();
                     removals = dt.Rows[i]["currentRemovals"].ObjToDouble();
-                    if (removals == 0D)
-                        dt.Rows[i]["endingBalance"] = balance + interest;
+                    if (balance <= 0D && removals > 0D)
+                    {
+                        dt.Rows[i]["endingBalance"] = 0D;
+                    }
+                    else
+                    {
+                        if (removals == 0D)
+                            dt.Rows[i]["endingBalance"] = balance + interest;
+                        else
+                            dt.Rows[i]["endingBalance"] = interest;
+                    }
                 }
             }
 
-            DataRow[] dRows = dt.Select("endingBalance > '0.00' and currentRemovals = '0.00'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
+            //DataRow[] dRows = dt.Select("endingBalance > '0.00' and currentRemovals = '0.00'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
 
 
             if (chkIncludeSMFS.Checked)
                 dt = pullSMFSdata(dt);
 
+            if ( !chkIncludeRiles.Checked )
+                dt = SMFS.FilterForRiles(dt);
+
             dt = processNewStuff(dt);
 
             dt = processTheData(dt);
-
 
             G1.NumberDataTable(dt);
 
@@ -730,7 +768,9 @@ namespace SMFS
             
             loadLocatons(dt); // <--- Added this here to capture any location available in dt
 
+            Trust85.FindContract(dt, "B11007F");
             dt = RemoveNoContracts(dt, true);
+            Trust85.FindContract(dt, "B11007F");
 
             dgv.DataSource = dt;
 
@@ -758,9 +798,9 @@ namespace SMFS
                 }
             }
 
-            dRows = dt.Select("serviceTotal is not null");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
+            //dRows = dt.Select("serviceTotal is not null");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
             return dt;
         }
         /***********************************************************************************************/
@@ -882,9 +922,10 @@ namespace SMFS
             try
             {
                 string cmd = "SELECT t.tmstamp,t.contractNumber,t.firstName, t.lastname,t.address1 as address2013,t.city as city2013, t.state as state2013, t.zip1 as zip2013,t.ssn as ssn2013, ";
-                cmd += "c.lastDatePaid8 as payDate8, c.balanceDue, c.ServiceId, c.serviceTotal, c.merchandiseTotal,c.allowMerchandise,c.allowInsurance,c.downPayment,c.cashAdvance ";
+                cmd += "c.lastDatePaid8 as payDate8, c.balanceDue, c.ServiceId, c.serviceTotal, c.merchandiseTotal,c.allowMerchandise,c.allowInsurance,c.downPayment,c.cashAdvance,c.lapsed,c.lapseDate8,c.issueDate8 ";
                 cmd += " FROM `customers` t LEFT JOIN `contracts` c ON t.`contractNumber` = c.`contractNumber`";
-                cmd += " WHERE (t.`deceasedDate` >= '" + date2 + "' OR t.`deceasedDate` < '19101231' ) AND t.`contractNumber` <> '' ";
+                cmd += " WHERE (t.`deceasedDate` >= '" + date2 + "' OR t.`deceasedDate` < '19001231' ) AND t.`contractNumber` <> '' ";
+                cmd += " AND c.`issueDate8` <= '" + date2 + "' AND c.`dateRemoved` < '10000101' ";
                 cmd += " ORDER by t.`contractNumber`";
                 cmd += ";";
 
@@ -898,9 +939,6 @@ namespace SMFS
                 for (int i = 0; i < dx.Rows.Count; i++)
                 {
                     contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
-                    //if (contractNumber == "CO2012")
-                    //{
-                    //}
                     contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
                     if (contract.Length > 2)
                     {
@@ -908,23 +946,91 @@ namespace SMFS
                         if (G1.validate_numeric(contract))
                         {
                             year = contract.ObjToInt32();
-                            if (year > 2)
+                            if (year >= 2)
                                 dx.Rows[i]["Is2002"] = "2002";
                         }
                     }
-
                 }
 
-                dt.Merge(dx);
+                DataTable newDt = FindOtherNotInGood(dx, dt);
+
+                double endingBalance = 0D;
+                double balanceDue = 0D;
+
+                if (G1.get_column_number(newDt, "endingBalance") < 0)
+                    newDt.Columns.Add("endingBalance", Type.GetType("System.Double"));
+
+                DateTime issueDate = DateTime.Now;
+
+                string is2002 = "";
+
+                for ( int i=0; i<newDt.Rows.Count; i++)
+                {
+                    contractNumber = newDt.Rows[i]["contractNumber"].ObjToString();
+                    if ( contractNumber == "B01086" )
+                    {
+
+                    }
+                    is2002 = newDt.Rows[i]["is2002"].ObjToString();
+                    balanceDue = newDt.Rows[i]["balanceDue"].ObjToDouble();
+                    issueDate = newDt.Rows[i]["issueDate8"].ObjToDateTime();
+                    if ( issueDate.Year < 1000 )
+                    {
+                        if (String.IsNullOrWhiteSpace(is2002))
+                            newDt.Rows[i]["issueDate8"] = G1.DTtoMySQLDT(preDate);
+                        else
+                            newDt.Rows[i]["issueDate8"] = G1.DTtoMySQLDT(postDate);
+                    }
+
+                    if (String.IsNullOrWhiteSpace(is2002))
+                    {
+                        if (balanceDue > 0D)
+                            newDt.Rows[i]["endingBalance"] = balanceDue * 0.5D;
+                    }
+                    else
+                    {
+                        if (balanceDue > 0D)
+                            newDt.Rows[i]["endingBalance"] = balanceDue * 0.85D;
+                    }
+                }
+
+                if (chkActiveOnly.Checked)
+                    dt.Rows.Clear();
+
+                dt.Merge(newDt);
 
                 dt = G1.RemoveDuplicates(dt, "contractNumber");
-
-
             }
             catch ( Exception ex)
             {
             }
             return dt;
+        }
+        /***********************************************************************************************/
+        private DataTable FindOtherNotInGood(DataTable otherDt, DataTable goodDt)
+        {
+            DataTable dx = goodDt.Copy();
+            dx = dx.DefaultView.ToTable(true, "contractNumber");
+
+            var prod = dx.AsEnumerable().ToDictionary(p => p["contractNumber"]);
+            var query = from imp in otherDt.AsEnumerable()
+                        where !prod.ContainsKey(imp["contractNumber"])
+                        select imp;
+
+            DataTable newDt = otherDt.Clone();
+            try
+            {
+                newDt = query.CopyToDataTable();
+            }
+            catch (Exception ex)
+            {
+            }
+
+            //Trust85.FindContract(goodDt, "WM25007LI");
+            //Trust85.FindContract(otherDt, "WM25007LI");
+            //Trust85.FindContract(newDt, "WM25007LI");
+
+            return newDt;
         }
         /***********************************************************************************************/
         private DataTable findDifferences ( DataTable dt2, DataTable dx2 )
@@ -1068,7 +1174,7 @@ namespace SMFS
                         oldLocInd = locInd;
                         oldServiceLoc = serviceLoc;
                     }
-                    
+
                     if (oldLoc != location)
                     {
                         dRow = dt2.NewRow();
@@ -1178,6 +1284,11 @@ namespace SMFS
                     if (!String.IsNullOrWhiteSpace(lapsed))
                     {
                         L_contracts++;
+                        contracts++;
+                        trust50 += dt.Rows[i]["trust50"].ObjToDouble();
+                        trust5085 = trust50 + total;
+                        contractValue += dt.Rows[i]["contractValue"].ObjToDouble();
+                        total += dt.Rows[i]["trust85"].ObjToDouble();
                         //L_total += dt.Rows[i]["endingBalance"].ObjToDouble();
                         L_total += dt.Rows[i]["trust85"].ObjToDouble();
                         L_trust50 += dt.Rows[i]["trust50"].ObjToDouble();
@@ -1711,6 +1822,10 @@ namespace SMFS
             //Trust85.FindContract(dt, "WT030");
 
             // HU Tab - dgv3 - gridMain3
+            //if (1 == 1)
+            //{
+            //    return dt;
+            //}
             dRows = dt.Select("serviceLoc = 'Hartman Hughes Pre'");
             DataTable hudt = dt.Clone();
             if (dRows.Length > 0)
@@ -1721,9 +1836,9 @@ namespace SMFS
             dgv3.DataSource = hudt;
 
             // Remove Hartman Hughes Pre from Pre/Post/Riles
-            dRows = dt.Select("serviceLoc <> 'Hartman Hughes Pre'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
+            //dRows = dt.Select("serviceLoc <> 'Hartman Hughes Pre'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
 
             DataView tempView = dt.DefaultView;
             tempView.Sort = "serviceLoc";
@@ -1741,12 +1856,12 @@ namespace SMFS
 
             // Remove Old Jones PN(Southland) Pre from Pre/Post/Riles
             //dRows = dt.Select("serviceLoc <> 'Old Jones PN(Southland) Pre'");
-            dRows = dt.Select("serviceLoc <> 'JPN Pre'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
-            DataView tempView2 = dt.DefaultView;
-            tempView2.Sort = "serviceLoc";
-            dt = tempView2.ToTable();
+            //dRows = dt.Select("serviceLoc <> 'JPN Pre'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
+            //DataView tempView2 = dt.DefaultView;
+            //tempView2.Sort = "serviceLoc";
+            //dt = tempView2.ToTable();
 
             // NMOC Tab - dgv5 - gridMain5
             //dRows = dt.Select("serviceLoc = 'Newton Mem GRDN O/C Pre'");
@@ -1760,12 +1875,12 @@ namespace SMFS
 
             // Remove Newton Mem GRDN O/C Pre from Pre/Post/Riles
             //dRows = dt.Select("serviceLoc <> 'Newton Mem GRDN O/C Pre'");
-            dRows = dt.Select("serviceLoc <> 'NCOC Pre'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
-            DataView tempView3 = dt.DefaultView;
-            tempView3.Sort = "serviceLoc";
-            dt = tempView3.ToTable();
+            //dRows = dt.Select("serviceLoc <> 'NCOC Pre'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
+            //DataView tempView3 = dt.DefaultView;
+            //tempView3.Sort = "serviceLoc";
+            //dt = tempView3.ToTable();
 
             // Cemeteries Tab - dgv6 - gridMain6
             //dRows = dt.Select("serviceLoc = 'Hillcrest Cemetery Post' or serviceLoc = 'Hillcrest Cemetery Pre' or serviceLoc = 'Newton Memorial Gardens Pre' or serviceLoc = 'Newton Memorial Gardens Post'");
@@ -1785,36 +1900,36 @@ namespace SMFS
             dgv6.DataSource = hcdt;
 
             // Remove Hillcrest POST from Pre/Post/Riles
-            dRows = dt.Select("serviceLoc <> 'Hillcrest Cemetery Post'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
-            DataView tempView4 = dt.DefaultView;
-            tempView4.Sort = "serviceLoc";
-            dt = tempView4.ToTable();
+            //dRows = dt.Select("serviceLoc <> 'Hillcrest Cemetery Post'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
+            //DataView tempView4 = dt.DefaultView;
+            //tempView4.Sort = "serviceLoc";
+            //dt = tempView4.ToTable();
 
             // Remove Hillcrest PRE from Pre/Post/Riles
-            dRows = dt.Select("serviceLoc <> 'Hillcrest Cemetery Pre'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
-            DataView tempView5 = dt.DefaultView;
-            tempView5.Sort = "serviceLoc";
-            dt = tempView5.ToTable();
+            //dRows = dt.Select("serviceLoc <> 'Hillcrest Cemetery Pre'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
+            //DataView tempView5 = dt.DefaultView;
+            //tempView5.Sort = "serviceLoc";
+            //dt = tempView5.ToTable();
 
             // Remove NMG Pre from Pre/Post/Riles
-            dRows = dt.Select("serviceLoc <> 'Newton Memorial Gardens Pre'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
-            DataView tempView6 = dt.DefaultView;
-            tempView6.Sort = "serviceLoc";
-            dt = tempView6.ToTable();
+            //dRows = dt.Select("serviceLoc <> 'Newton Memorial Gardens Pre'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
+            //DataView tempView6 = dt.DefaultView;
+            //tempView6.Sort = "serviceLoc";
+            //dt = tempView6.ToTable();
 
             // Remove NMG Post from Pre/Post/Riles
-            dRows = dt.Select("serviceLoc <> 'Newton Memorial Gardens Post'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
-            DataView tempView7 = dt.DefaultView;
-            tempView7.Sort = "serviceLoc";
-            dt = tempView7.ToTable();
+            //dRows = dt.Select("serviceLoc <> 'Newton Memorial Gardens Post'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
+            //DataView tempView7 = dt.DefaultView;
+            //tempView7.Sort = "serviceLoc";
+            //dt = tempView7.ToTable();
 
             // Remove AFA
             DataTable afaDt = dt.Clone();
@@ -1826,40 +1941,40 @@ namespace SMFS
             afaDt = tempView8.ToTable();
             dgv8.DataSource = afaDt;
 
-            dRows = dt.Select("contractNumber NOT LIKE 'AFA%'");
-            if (dRows.Length > 0)
-                dt = dRows.CopyToDataTable();
-            tempView = dt.DefaultView;
-            tempView.Sort = "serviceLoc";
-            dt = tempView.ToTable();
+            //dRows = dt.Select("contractNumber NOT LIKE 'AFA%'");
+            //if (dRows.Length > 0)
+            //    dt = dRows.CopyToDataTable();
+            //tempView = dt.DefaultView;
+            //tempView.Sort = "serviceLoc";
+            //dt = tempView.ToTable();
 
             DataTable summaryDt = dt.Copy();
-            DataTable tempDt = (DataTable)dgv3.DataSource;
-            summaryDt.Merge(tempDt);
+            //DataTable tempDt = (DataTable)dgv3.DataSource;
+            //summaryDt.Merge(tempDt);
 
-            tempDt = (DataTable)dgv4.DataSource;
-            summaryDt.Merge(tempDt);
+            //tempDt = (DataTable)dgv4.DataSource;
+            //summaryDt.Merge(tempDt);
 
-            tempDt = (DataTable)dgv5.DataSource;
-            summaryDt.Merge(tempDt);
+            //tempDt = (DataTable)dgv5.DataSource;
+            //summaryDt.Merge(tempDt);
 
-            tempDt = (DataTable)dgv6.DataSource;
-            summaryDt.Merge(tempDt);
+            //tempDt = (DataTable)dgv6.DataSource;
+            //summaryDt.Merge(tempDt);
 
-            tempDt = (DataTable)dgv8.DataSource;
-            summaryDt.Merge(tempDt);
+            //tempDt = (DataTable)dgv8.DataSource;
+            //summaryDt.Merge(tempDt);
 
-            G1.NumberDataTable(summaryDt);
-            //dgv9.DataSource = summaryDt;
+            //G1.NumberDataTable(summaryDt);
+            ////dgv9.DataSource = summaryDt;
 
-            tempView = summaryDt.DefaultView;
-            tempView.Sort = "serviceLoc";
-            summaryDt = tempView.ToTable();
+            //tempView = summaryDt.DefaultView;
+            //tempView.Sort = "serviceLoc";
+            //summaryDt = tempView.ToTable();
 
-            dRows = summaryDt.Select("contractNumber='NNM68A'");
-            if ( dRows.Length > 0 )
-            {
-            }
+            //dRows = summaryDt.Select("contractNumber='NNM68A'");
+            //if ( dRows.Length > 0 )
+            //{
+            //}
 
             return summaryDt;
         }
@@ -1926,7 +2041,6 @@ namespace SMFS
             double trust85 = 0D;
             double trust50 = 0D;
             DateTime issueDate = DateTime.Now;
-            DateTime cutDate = new DateTime(2006, 6, 1);
 
             dt.Columns.Add("trust50", Type.GetType("System.Double"));
             dt.Columns.Add("trust85", Type.GetType("System.Double"));
@@ -1949,6 +2063,7 @@ namespace SMFS
             double tValue = 0D;
             double iValue = 0D;
             double aValue = 0D;
+            string is2002 = "";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
@@ -1980,6 +2095,20 @@ namespace SMFS
                     dt = AddOne(dt, i, "TandI");
                 else if (iValue != 0D && aValue != 0D)
                     dt = AddOne(dt, i, "IandA");
+                if ( issueDate.Year < 1000 )
+                {
+                    is2002 = dt.Rows[i]["is2002"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(is2002))
+                    {
+                        dt.Rows[i]["issueDate8"] = G1.DTtoMySQLDT(preDate);
+                        dt.Rows[i]["MyIssueDate"] = preDate.ToString("yyyyMMdd");
+                    }
+                    else
+                    {
+                        dt.Rows[i]["issueDate8"] = G1.DTtoMySQLDT(postDate);
+                        dt.Rows[i]["MyIssueDate"] = postDate.ToString("yyyyMMdd");
+                    }
+                }
                 if (endingBalance > 0D)
                 {
                     if (issueDate < cutDate)
@@ -1992,9 +2121,7 @@ namespace SMFS
 
             }
 
-            dRows = dt.Select("location='B'");
-            int newCount = dRows.Length;
-
+            dt.AcceptChanges();
             return dt;
         }
         /***********************************************************************************************/

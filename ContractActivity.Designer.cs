@@ -57,6 +57,11 @@ namespace SMFS
             this.bandedGridColumn22 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn24 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn13 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn32 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+            this.bandedGridColumn31 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn33 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn30 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn14 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn15 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn25 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -128,6 +133,7 @@ namespace SMFS
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chkComboLocation.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -166,6 +172,8 @@ namespace SMFS
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
+            this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemMemoEdit1});
             this.dgv.Size = new System.Drawing.Size(1780, 257);
             this.dgv.TabIndex = 8;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -359,6 +367,10 @@ namespace SMFS
             this.bandedGridColumn12,
             this.bandedGridColumn4,
             this.bandedGridColumn13,
+            this.bandedGridColumn32,
+            this.bandedGridColumn31,
+            this.bandedGridColumn33,
+            this.bandedGridColumn30,
             this.bandedGridColumn24,
             this.bandedGridColumn15,
             this.bandedGridColumn14,
@@ -421,6 +433,7 @@ namespace SMFS
             this.gridMain.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridMain_CustomDrawCell);
             this.gridMain.CustomDrawRowFooterCell += new DevExpress.XtraGrid.Views.Grid.FooterCellCustomDrawEventHandler(this.gridMain_CustomDrawRowFooterCell);
             this.gridMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridMain_RowCellStyle);
+            this.gridMain.CalcRowHeight += new DevExpress.XtraGrid.Views.Grid.RowHeightEventHandler(this.gridMain_CalcRowHeight);
             this.gridMain.CustomSummaryCalculate += new DevExpress.Data.CustomSummaryEventHandler(this.gridMain_CustomSummaryCalculate);
             this.gridMain.CustomRowFilter += new DevExpress.XtraGrid.Views.Base.RowFilterEventHandler(this.gridMain_CustomRowFilter);
             this.gridMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain_CustomColumnDisplayText);
@@ -444,6 +457,10 @@ namespace SMFS
             this.gridBand5.Columns.Add(this.bandedGridColumn22);
             this.gridBand5.Columns.Add(this.bandedGridColumn24);
             this.gridBand5.Columns.Add(this.bandedGridColumn13);
+            this.gridBand5.Columns.Add(this.bandedGridColumn32);
+            this.gridBand5.Columns.Add(this.bandedGridColumn31);
+            this.gridBand5.Columns.Add(this.bandedGridColumn33);
+            this.gridBand5.Columns.Add(this.bandedGridColumn30);
             this.gridBand5.Columns.Add(this.bandedGridColumn14);
             this.gridBand5.Columns.Add(this.bandedGridColumn15);
             this.gridBand5.Columns.Add(this.bandedGridColumn25);
@@ -470,7 +487,7 @@ namespace SMFS
             this.gridBand5.MinWidth = 30;
             this.gridBand5.Name = "gridBand5";
             this.gridBand5.VisibleIndex = 0;
-            this.gridBand5.Width = 2697;
+            this.gridBand5.Width = 3003;
             // 
             // bandedGridColumn48
             // 
@@ -648,6 +665,54 @@ namespace SMFS
             this.bandedGridColumn13.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn13.Visible = true;
             this.bandedGridColumn13.Width = 86;
+            // 
+            // bandedGridColumn32
+            // 
+            this.bandedGridColumn32.Caption = "Issue Date";
+            this.bandedGridColumn32.ColumnEdit = this.repositoryItemMemoEdit1;
+            this.bandedGridColumn32.FieldName = "issueD";
+            this.bandedGridColumn32.MinWidth = 25;
+            this.bandedGridColumn32.Name = "bandedGridColumn32";
+            this.bandedGridColumn32.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn32.Visible = true;
+            this.bandedGridColumn32.Width = 83;
+            // 
+            // repositoryItemMemoEdit1
+            // 
+            this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
+            // 
+            // bandedGridColumn31
+            // 
+            this.bandedGridColumn31.Caption = "Policy #";
+            this.bandedGridColumn31.ColumnEdit = this.repositoryItemMemoEdit1;
+            this.bandedGridColumn31.FieldName = "policyNumber";
+            this.bandedGridColumn31.MinWidth = 25;
+            this.bandedGridColumn31.Name = "bandedGridColumn31";
+            this.bandedGridColumn31.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn31.Visible = true;
+            this.bandedGridColumn31.Width = 83;
+            // 
+            // bandedGridColumn33
+            // 
+            this.bandedGridColumn33.Caption = "Policy Amount";
+            this.bandedGridColumn33.ColumnEdit = this.repositoryItemMemoEdit1;
+            this.bandedGridColumn33.FieldName = "policyAmount";
+            this.bandedGridColumn33.MinWidth = 25;
+            this.bandedGridColumn33.Name = "bandedGridColumn33";
+            this.bandedGridColumn33.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn33.Visible = true;
+            this.bandedGridColumn33.Width = 69;
+            // 
+            // bandedGridColumn30
+            // 
+            this.bandedGridColumn30.Caption = "Payer #";
+            this.bandedGridColumn30.ColumnEdit = this.repositoryItemMemoEdit1;
+            this.bandedGridColumn30.FieldName = "payerNumber";
+            this.bandedGridColumn30.MinWidth = 25;
+            this.bandedGridColumn30.Name = "bandedGridColumn30";
+            this.bandedGridColumn30.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn30.Visible = true;
+            this.bandedGridColumn30.Width = 71;
             // 
             // bandedGridColumn14
             // 
@@ -1406,6 +1471,7 @@ namespace SMFS
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chkComboLocation.Properties)).EndInit();
@@ -1510,5 +1576,10 @@ namespace SMFS
         private System.Windows.Forms.ToolStripMenuItem unlockScreenFormatToolStripMenuItem;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn29;
         private System.Windows.Forms.CheckBox chkCliffDiff;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn32;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn31;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn30;
+        private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit1;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn33;
     }
 }
