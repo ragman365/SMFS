@@ -2844,5 +2844,13 @@ namespace SMFS
             insForm.Show();
         }
         /***********************************************************************************************/
+        private void classAPayersByCompanyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            ClassApayersByCompany insForm = new ClassApayersByCompany("Active");
+            insForm.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
     }
 }

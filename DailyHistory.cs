@@ -2502,7 +2502,7 @@ namespace SMFS
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 foundLI = false;
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (contractNumber.ToUpper().Contains("LI") )
                     dt.Rows[i]["retained"] = 0D;
                 if ( contractNumber.EndsWith ( "L"))
@@ -3395,7 +3395,7 @@ namespace SMFS
                     string list = "";
                     for (int i = 0; i < ddx.Rows.Count; i++)
                     {
-                        string contract = ddx.Rows[i]["contractNumber"].ObjToString();
+                        string contract = ddx.Rows[i]["contractNumber"].ObjToString().Trim();;
                         list += "'" + contract + "',";
                     }
                     list = list.TrimEnd(',');
@@ -3752,7 +3752,7 @@ namespace SMFS
                     string list = "";
                     for ( int i=0; i<ddx.Rows.Count; i++)
                     {
-                        string contract = ddx.Rows[i]["contractNumber"].ObjToString();
+                        string contract = ddx.Rows[i]["contractNumber"].ObjToString().Trim();;
                         list += "'" + contract + "',";
                     }
                     list = list.TrimEnd(',');
@@ -6898,7 +6898,7 @@ namespace SMFS
                 months = (payment + credit - debit + creditDue) / monthlyPayment;
                 months = G1.RoundValue(months);
                 imonths = (int)months;
-                string contract = ddt.Rows[i]["contractNumber"].ObjToString();
+                string contract = ddt.Rows[i]["contractNumber"].ObjToString().Trim();;
                 nextDueDate = nextDueDate.AddMonths(imonths);
                 break;
             }
@@ -8560,7 +8560,7 @@ namespace SMFS
             DataRow[] dRows = null;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 contractNumber = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
                 if (!locations.Contains(loc))
                 {
@@ -8637,7 +8637,7 @@ namespace SMFS
                     status = dt.Rows[i]["edited"].ObjToString();
                     if (status.ToUpper() == "TRUSTADJ" )
                     {
-                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();;
                         //if ( contractNumber == "B17059UI")
                         //{
                         //}
@@ -8886,7 +8886,7 @@ namespace SMFS
                     string list = "";
                     for (int i = 0; i < ddx.Rows.Count; i++)
                     {
-                        string contract = ddx.Rows[i]["contractNumber"].ObjToString();
+                        string contract = ddx.Rows[i]["contractNumber"].ObjToString().Trim();;
                         list += "'" + contract + "',";
                     }
                     list = list.TrimEnd(',');
@@ -9467,6 +9467,98 @@ namespace SMFS
 
             //G1.RemoveLocalPreferences(LoginForm.username, "DailyHistoryLayout");
             foundLocalPreference = false;
+        }
+        /****************************************************************************************/
+        private void reverseTCAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain.GetFocusedDataRow();
+            int rowHandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowHandle);
+            string contract = workContract;
+            string name = workName;
+            string depositNumber = dr["depositNumber"].ObjToString();
+            if ( depositNumber.ToUpper().IndexOf ( "TCA") < 0 )
+            {
+                MessageBox.Show("***ERROR*** This entry does not appear to be a TCA!", "Reverse TCA Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+            DialogResult result = MessageBox.Show("Are you sure you want to create a Reverse TCA for customer (" + workContract + ") ?", "Reverse TCA Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            if (result == DialogResult.No)
+                return;
+            if (String.IsNullOrWhiteSpace(contract))
+                return;
+            DataTable dt = (DataTable)dgv.DataSource;
+            string record = dt.Rows[row]["record"].ObjToString();
+            double downPayment = dt.Rows[row]["downPayment"].ObjToDouble();
+            double payment = dt.Rows[row]["paymentAmount"].ObjToDouble();
+            double ccFee = dt.Rows[row]["ccFee"].ObjToDouble();
+            double originalPayment = payment;
+            double credit = dt.Rows[row]["creditAdjustment"].ObjToDouble();
+            double debit = dt.Rows[row]["debitAdjustment"].ObjToDouble();
+            double interest = dt.Rows[row]["interestPaid"].ObjToDouble();
+            double trust100P = dt.Rows[row]["trust100P"].ObjToDouble();
+            double trust85P = dt.Rows[row]["trust85P"].ObjToDouble();
+            string loc = dt.Rows[row]["location"].ObjToString();
+            double oldBalance = dt.Rows[row]["oldBalance"].ObjToDouble();
+            if (oldBalance == 0D && row > 0)
+                oldBalance = dt.Rows[row - 1]["balance"].ObjToDouble();
+            DateTime oldDueDate = dt.Rows[row]["oldDueDate8"].ObjToDateTime();
+            if (oldDueDate.Year <= 2 && row > 0)
+                oldDueDate = dt.Rows[row - 1]["currentDueDate8"].ObjToDateTime();
+            DateTime oldDOLP = dt.Rows[row]["oldDOLP"].ObjToDateTime();
+            if (oldDOLP.Year <= 2 && row > 0)
+                oldDOLP = dt.Rows[row - 1]["payDate8"].ObjToDateTime();
+
+            DataTable dx = dt.Clone();
+            G1.copy_dt_row(dt, row, dx, 0);
+
+            downPayment = downPayment * -1D;
+            payment = payment * -1D;
+            ccFee = ccFee * -1D;
+            credit = credit * -1D;
+            debit = debit * -1D;
+            interest = interest * -1D;
+            trust100P = trust100P * -1D;
+            trust85P = trust85P * -1D;
+
+            DateTime today = DateTime.Now;
+            string datePaid = today.ToString("MM/dd/yyyy");
+            string dueDate = dt.Rows[row]["dueDate8"].ObjToDateTime().ToString("MM/dd/yyyy");
+            string lastName = dt.Rows[row]["lastName"].ObjToString();
+            string firstName = dt.Rows[row]["firstName"].ObjToString();
+            string checknumber = dt.Rows[row]["checkNumber"].ObjToString();
+            string location = dt.Rows[row]["location"].ObjToString();
+            string agent = dt.Rows[row]["agentNumber"].ObjToString();
+            string user = dt.Rows[row]["userId"].ObjToString();
+            user = LoginForm.username;
+            string debitReason = dt.Rows[row]["debitReason"].ObjToString();
+            string creditReason = dt.Rows[row]["creditReason"].ObjToString();
+            if (creditReason.ToUpper().IndexOf("REVERS") >= 0 )
+            {
+                result = MessageBox.Show("You CANNOT Reverse a Reversal for customer (" + workContract + ") !!", "BAD-Reversal Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            creditReason = "Reverse TCA";
+
+            record = G1.create_record(paymentsFile, "lastName", "-1");
+            G1.update_db_table(paymentsFile, "record", record, new string[] { "contractNumber", workContract, "lastName", lastName, "firstName", firstName, "paymentAmount", payment.ToString(), "ccFee", ccFee.ToString(), "interestPaid", interest.ToString(), "debitAdjustment", debit.ToString(), "creditAdjustment", credit.ToString(), "debitReason", debitReason, "creditReason", creditReason });
+            G1.update_db_table(paymentsFile, "record", record, new string[] { "CheckNumber", checknumber, "dueDate8", dueDate, "payDate8", datePaid, "trust85P", trust85P.ToString(), "trust100P", trust100P.ToString(), "location", location, "agentNumber", agent, "userId", user, "depositNumber", depositNumber, "edited", "TrustAdj" });
+
+            //string cmd = "Select * from `" + contractsFile + "` where `contractNumber` = '" + workContract + "';";
+            //dx = G1.get_db_data(cmd);
+            //if (dx.Rows.Count > 0)
+            //{
+            //    record = dx.Rows[0]["record"].ObjToString();
+            //    G1.update_db_table(contractsFile, "record", record, new string[] { "balanceDue", oldBalance.ToString(), "dueDate8", oldDueDate.ToString("yyyy-MM-dd"), "lastDatePaid8", oldDOLP.ToString("yyyy-MM-dd") });
+            //}
+
+            //ReverseACH(workContract, depositNumber, originalPayment);
+
+            string audit = "Paid Date: " + datePaid + " Pmt/Credit/Debit: " + payment.ToString() + "/" + credit.ToString() + "/" + debit.ToString();
+            G1.AddToAudit(LoginForm.username, "ManualPayment", "Reverse TCA", audit, workContract);
+
+            DailyHistory_Load(null, null);
+
         }
         /****************************************************************************************/
     }

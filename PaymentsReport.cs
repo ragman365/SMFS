@@ -2038,7 +2038,7 @@ namespace SMFS
                     SetupSelectColumn(dt);
                     for ( int i=0; i<dt.Rows.Count; i++)
                     {
-                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                         DataRow [] dR = workPayOffDt.Select("contractNumber='" + contractNumber + "'");
                         if ( dR.Length > 0 )
                         {
@@ -2352,7 +2352,7 @@ namespace SMFS
                     }
                     days = Commission.CalcBusinessDays(deceasedDate, issueDate);
                     dt.Rows[i]["businessDays"] = days;
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     cmd = "Select * from `payments` where `contractNumber` = '" + contractNumber + "' AND `payDate8` >= '" + date1 + "' AND `payDate8` <= '" + date2 + "';";
                     DataTable ddx = G1.get_db_data(cmd);
                     if ( ddx.Rows.Count > 0 )
@@ -2503,7 +2503,7 @@ namespace SMFS
                 try
                 {
                     foundLI = false;
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if (contractNumber.ToUpper().EndsWith ( "LI"))
                     {
                         if ( contractNumber == "CT19037LI")
@@ -2649,7 +2649,7 @@ namespace SMFS
                     totalContract = DailyHistory.GetFinanceValue(dt.Rows[i]);
                     dt.Rows[i]["totalContract"] = totalContract;
                     //************************************************************************
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     //if (contractNumber != "M18040LI")
                     //    continue;
 
@@ -2851,7 +2851,7 @@ namespace SMFS
                             dt.Rows[i]["zip1"] = zip;
                         }
                     }
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if ( contractNumber == "ZZ0003043")
                     {
                     }
@@ -3015,7 +3015,7 @@ namespace SMFS
                         Trust85.FindContract(paymentsReportDt, "B23029L");
                         for (int i = 0; i < paymentsReportDt.Rows.Count; i++)
                         {
-                            contractNumber = paymentsReportDt.Rows[i]["contractNumber"].ObjToString();
+                            contractNumber = paymentsReportDt.Rows[i]["contractNumber"].ObjToString().Trim();
                             payDate8 = paymentsReportDt.Rows[i]["payDate8"].ObjToDateTime();
                             str = payDate8.ToString("MM/dd/yyyy");
                             if (contractNumber == "CT19050LI")
@@ -3109,7 +3109,7 @@ namespace SMFS
                     Application.DoEvents();
 
                     foundLI = false;
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if (contractNumber.ToUpper().EndsWith("LI"))
                     {
                         if (contractNumber == "L24053LI")
@@ -3149,7 +3149,7 @@ namespace SMFS
                 {
                     numMonths = 0;
                     monthlyPayment = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if ( contractNumber == "ZZ0004047")
                     {
                     }
@@ -3266,7 +3266,7 @@ namespace SMFS
                 try
                 {
                     foundLI = false;
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if (contractNumber.ToUpper().EndsWith("LI"))
                     {
                         if (contractNumber == "FF20052LI")
@@ -3352,7 +3352,7 @@ namespace SMFS
             string contractNumber = "";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if ( contractNumber == "CT19049LI")
                 {
                 }
@@ -3377,7 +3377,7 @@ namespace SMFS
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 cmd = "Select * from `lapse_list` where `contractNumber` = '" + contractNumber + "' AND `detail` = 'Paid Off Notice';";
                 dx = G1.get_db_data(cmd);
                 if (dx.Rows.Count > 0)
@@ -3472,7 +3472,7 @@ namespace SMFS
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if ( contractNumber == "CT23030LI")
                 {
                 }
@@ -3537,7 +3537,7 @@ namespace SMFS
         
             for ( int i=0; i<lastRow; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (contractNumber == "L19029LI")
                 {
                 }
@@ -3584,7 +3584,7 @@ namespace SMFS
             string contractNumber = "";
             for ( int i=dt.Rows.Count-1; i>=0; i--)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if ( contractNumber == "L19029LI")
                 {
                 }
@@ -3612,7 +3612,7 @@ namespace SMFS
             decimal totalMonths = 0;
             for ( int i=0; i<dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 monthlyPayment = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
                 dx = FindMismatches.LoadMainData2(contractNumber, "", monthlyPayment);
                 if (dx.Rows.Count <= 0)
@@ -3645,7 +3645,7 @@ namespace SMFS
             string contractNumber = "";
             for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 newBusiness = dt.Rows[i]["newBusiness"].ObjToDouble();
                 if (newBusiness == 0D)
                     dt.Rows.RemoveAt(i);
@@ -3658,7 +3658,7 @@ namespace SMFS
             string contractNumber = "";
             for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 newBusiness = dt.Rows[i]["newBusiness"].ObjToDouble();
                 if (newBusiness > 0D)
                 {
@@ -3690,7 +3690,7 @@ namespace SMFS
                     dt.Rows.RemoveAt(i);
                     continue;
                 }
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if ( contractNumber == "E19040LI")
                 {
                     Trust85.FindContract(dt, "E19040LI");
@@ -3763,7 +3763,7 @@ namespace SMFS
 
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if ( contractNumber == "NNM21004")
                     {
                     }
@@ -4457,7 +4457,7 @@ namespace SMFS
                             interest += dt.Rows[i]["interestPaid1"].ObjToDouble();
                             credit += dt.Rows[i]["creditAdjustment"].ObjToDouble();
                             debit += dt.Rows[i]["debitAdjustment"].ObjToDouble();
-                            contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                            contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                             DataRow dRow = locationDt.NewRow();
                             payment = G1.RoundValue(payment);
                             str = G1.ReformatMoney(payment);
@@ -4582,7 +4582,7 @@ namespace SMFS
                             interest += dt.Rows[i]["interestPaid1"].ObjToDouble();
                             credit += dt.Rows[i]["creditAdjustment"].ObjToDouble();
                             debit += dt.Rows[i]["debitAdjustment"].ObjToDouble();
-                            contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                            contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                             payment = G1.RoundValue(payment);
                             str = G1.ReformatMoney(payment);
 
@@ -4802,7 +4802,7 @@ namespace SMFS
 
         //    for (int i = 0; i < dx.Rows.Count; i++)
         //    {
-        //        contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+        //        contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
         //        cmd = "Select * from `payments` where `contractNumber` = '" + contractNumber + "' AND `downPayment` > '0';";
         //        DataTable ddx = G1.get_db_data(cmd);
         //        if (ddx.Rows.Count > 0)
@@ -4860,7 +4860,7 @@ namespace SMFS
             string contractNumber = "";
             for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 monthlyPayment = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
                 balanceDue = dt.Rows[i]["balanceDue"].ObjToDouble();
                 financedAmount = dt.Rows[i]["financedAmount"].ObjToDouble();
@@ -4883,7 +4883,7 @@ namespace SMFS
             double payment = 0D;
             for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 debit = dt.Rows[i]["debitAdjustment"].ObjToDouble();
                 credit = dt.Rows[i]["creditAdjustment"].ObjToDouble();
                 payment = dt.Rows[i]["paymentAmount"].ObjToDouble();
@@ -4920,7 +4920,7 @@ namespace SMFS
 
             for ( int i=dt.Rows.Count-1; i>=0; i--)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if ( contractNumber == "E23041LI")
                 {
                 }
@@ -4965,7 +4965,7 @@ namespace SMFS
             string contract = "";
             for (int i = 0; i < dx.Rows.Count; i++)
             {
-                contract = dx.Rows[i]["contractNumber"].ObjToString();
+                contract = dx.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (contract == "CT19050LI")
                 {
                 }
@@ -6297,7 +6297,7 @@ namespace SMFS
                 try
                 {
                     financed = DailyHistory.GetFinanceValue(dt.Rows[i]);
-                    contract = dt.Rows[i]["contractNumber"].ObjToString();
+                    contract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     contract = Trust85.decodeContractNumber(contract, ref trust, ref loc);
                     //                    dt.Rows[i]["trust"] = trust;
 
@@ -6336,7 +6336,7 @@ namespace SMFS
             dx.Columns.Add("trust");
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contract = dt.Rows[i]["contractNumber"].ObjToString();
+                contract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 contract = Trust85.decodeContractNumber(contract, ref trust, ref loc);
                 if (insurance)
                     trust = dt.Rows[i]["userId"].ObjToString();
@@ -7070,7 +7070,7 @@ namespace SMFS
 
             for ( int i=0; i<dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (contractNumber == "B18017LI")
                 {
 
@@ -7106,7 +7106,7 @@ namespace SMFS
                 paymentAmount = 0D;
                 debitAdjustment = 0D;
                 creditAdjustment = 0D;
-                contractNumber = trickDt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = trickDt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if ( contractNumber == "B18017LI")
                 {
 
@@ -7150,7 +7150,7 @@ namespace SMFS
                 paymentAmount = 0D;
                 debitAdjustment = 0D;
                 creditAdjustment = 0D;
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (contractNumber == "B18017LI")
                 {
 
@@ -7195,7 +7195,7 @@ namespace SMFS
 
             for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (contractNumber == "P17903DI")
                 {
                 }
@@ -7377,7 +7377,7 @@ namespace SMFS
                 string edited = "";
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if ( contractNumber.ToUpper().IndexOf ( "NNM") >= 0 )
                     {
                     }
@@ -7468,7 +7468,7 @@ namespace SMFS
                         totalDBR = 0D;
                     }
 
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if ( contractNumber == "nnm2005")
                     {
                     }
@@ -7852,7 +7852,7 @@ namespace SMFS
             {
                 for (int i = 0; i < dx.Rows.Count; i++)
                 {
-                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
                     if ( contractNumber == "CT23030LI")
                     {
                     }
@@ -7871,7 +7871,7 @@ namespace SMFS
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     newBusiness = dt.Rows[i]["newBusiness"].ObjToDouble();
                     downPayment1 = dt.Rows[i]["downPayment1"].ObjToDouble();
                     downPayment = dt.Rows[i]["downPayment"].ObjToDouble();
@@ -7915,7 +7915,7 @@ namespace SMFS
 
             for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (contractNumber == "CT23030LI")
                 {
                 }
@@ -7979,7 +7979,7 @@ namespace SMFS
             //for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (contractNumber == "HT16086UI")
                 {
                 }
@@ -8512,7 +8512,7 @@ namespace SMFS
                     if (select != "1")
                         continue;
                 }
-                contract = dt.Rows[i]["contractNumber"].ObjToString();
+                contract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 contractList += contract + ",";
                 balanceDue = dt.Rows[i]["balanceDue"].ObjToDouble();
                 payment = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
@@ -8989,7 +8989,7 @@ namespace SMFS
                     if (select != "1")
                         continue;
                 }
-                contract = dt.Rows[i]["contractNumber"].ObjToString();
+                contract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 contractList += contract + ",";
                 balanceDue = dt.Rows[i]["balanceDue"].ObjToDouble();
                 payment = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
@@ -9352,7 +9352,7 @@ namespace SMFS
             double trust100P = 0D;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (String.IsNullOrWhiteSpace(contractNumber))
                     continue;
                 for (int j = (i + 1); j < dt.Rows.Count; j++)
@@ -9375,7 +9375,7 @@ namespace SMFS
             }
             for (int i = (dt.Rows.Count - 1); i >= 0; i--)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (String.IsNullOrWhiteSpace(contractNumber))
                     dt.Rows.RemoveAt(i);
             }
@@ -9792,7 +9792,7 @@ namespace SMFS
             DataTable badDt = dx.Clone();
             for ( int i=0; i<dx.Rows.Count; i++)
             {
-                contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
                 dR1 = dx.Select("contractNumber='" + contractNumber + "'");
                 dR2 = dt.Select("contractNumber='" + contractNumber + "'");
                 if ( dR1.Length != dR2.Length)
@@ -9820,7 +9820,7 @@ namespace SMFS
             }
             for ( int i=0; i<dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 dR1 = dx.Select("contractNumber='" + contractNumber + "'");
                 if ( dR1.Length <= 0)
                 {
@@ -9832,7 +9832,7 @@ namespace SMFS
             }
             for (int i = 0; i < dx.Rows.Count; i++)
             {
-                contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
                 dR1 = dt.Select("contractNumber='" + contractNumber + "'");
                 if (dR1.Length <= 0)
                 {
@@ -9878,7 +9878,7 @@ namespace SMFS
             int oldRow = -1;
             for ( int i=0; i<dx.Rows.Count; i++)
             {
-                contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
                 //if (contractNumber == "E21044LI")
                 //{
                 //    Trust85.FindContract(dx, contractNumber);
@@ -9907,7 +9907,7 @@ namespace SMFS
             DataTable badDt = dx.Clone();
             for (int i = 0; i < dx.Rows.Count; i++)
             {
-                contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
                 //if ( contractNumber == "E21044LI")
                 //{
                 //}
@@ -9954,7 +9954,7 @@ namespace SMFS
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 dR1 = dx.Select("contractNumber='" + contractNumber + "'");
                 if (dR1.Length <= 0)
                 {
@@ -9970,7 +9970,7 @@ namespace SMFS
             }
             for (int i = 0; i < dx.Rows.Count; i++)
             {
-                contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (String.IsNullOrWhiteSpace(contractNumber))
                     continue;
                 dR1 = dt.Select("contractNumber='" + contractNumber + "'");
@@ -10415,7 +10415,7 @@ namespace SMFS
                 record = G1.create_record("dbrs", "note", "-1");
                 if (G1.BadRecord("dbrs", record))
                     return;
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 dbr = dt.Rows[i]["dbr"].ObjToDouble();
                 if (dbr == 0D)
                     continue;
@@ -10869,7 +10869,7 @@ namespace SMFS
             //    Application.DoEvents();
 
             //    foundLI = false;
-            //    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+            //    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
             //    if (contractNumber.ToUpper().EndsWith("LI"))
             //    {
             //        findRecord = dt.Rows[i]["record2"].ObjToString();

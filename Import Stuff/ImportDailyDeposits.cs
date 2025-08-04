@@ -4295,6 +4295,7 @@ namespace SMFS
                     //cmd = "Select * from `icustomers` where `payer` = '" + cnum + "';";
                     //DataTable ddx = G1.get_db_data(cmd);
                     //if (ddx.Rows.Count > 0)
+                    cnum = cnum.Trim();
                     if (!String.IsNullOrWhiteSpace(cnum))
                     {
                         if (!String.IsNullOrWhiteSpace(newPayer))

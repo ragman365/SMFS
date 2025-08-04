@@ -143,6 +143,7 @@
             this.activePoliciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deceasedPoliciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lapsePoliciesReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.classAPayersByCompanyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -160,10 +161,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1733, 413);
+            this.panelAll.Size = new System.Drawing.Size(1733, 415);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -173,7 +174,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 118);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1733, 295);
+            this.panelBottom.Size = new System.Drawing.Size(1733, 297);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -190,7 +191,7 @@
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1,
             this.repositoryItemCheckEdit2});
-            this.dgv.Size = new System.Drawing.Size(1733, 295);
+            this.dgv.Size = new System.Drawing.Size(1733, 297);
             this.dgv.TabIndex = 2;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1542,7 +1543,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1733, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1733, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1552,7 +1553,7 @@
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1590,7 +1591,7 @@
             this.saveFormatToolStripMenuItem,
             this.removeFormatToolStripMenuItem});
             this.formatsToolStripMenuItem.Name = "formatsToolStripMenuItem";
-            this.formatsToolStripMenuItem.Size = new System.Drawing.Size(76, 26);
+            this.formatsToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
             this.formatsToolStripMenuItem.Text = "Formats";
             // 
             // saveFormatToolStripMenuItem
@@ -1612,31 +1613,39 @@
             this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.activePoliciesToolStripMenuItem,
             this.deceasedPoliciesToolStripMenuItem,
-            this.lapsePoliciesReportToolStripMenuItem});
+            this.lapsePoliciesReportToolStripMenuItem,
+            this.classAPayersByCompanyToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // activePoliciesToolStripMenuItem
             // 
             this.activePoliciesToolStripMenuItem.Name = "activePoliciesToolStripMenuItem";
-            this.activePoliciesToolStripMenuItem.Size = new System.Drawing.Size(259, 26);
+            this.activePoliciesToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.activePoliciesToolStripMenuItem.Text = "Active Policies Report";
             this.activePoliciesToolStripMenuItem.Click += new System.EventHandler(this.activePoliciesToolStripMenuItem_Click);
             // 
             // deceasedPoliciesToolStripMenuItem
             // 
             this.deceasedPoliciesToolStripMenuItem.Name = "deceasedPoliciesToolStripMenuItem";
-            this.deceasedPoliciesToolStripMenuItem.Size = new System.Drawing.Size(259, 26);
+            this.deceasedPoliciesToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.deceasedPoliciesToolStripMenuItem.Text = "Deceased Policies Report";
             this.deceasedPoliciesToolStripMenuItem.Click += new System.EventHandler(this.deceasedPoliciesToolStripMenuItem_Click);
             // 
             // lapsePoliciesReportToolStripMenuItem
             // 
             this.lapsePoliciesReportToolStripMenuItem.Name = "lapsePoliciesReportToolStripMenuItem";
-            this.lapsePoliciesReportToolStripMenuItem.Size = new System.Drawing.Size(259, 26);
+            this.lapsePoliciesReportToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.lapsePoliciesReportToolStripMenuItem.Text = "Lapse Policies Report";
             this.lapsePoliciesReportToolStripMenuItem.Click += new System.EventHandler(this.lapsePoliciesReportToolStripMenuItem_Click);
+            // 
+            // classAPayersByCompanyToolStripMenuItem
+            // 
+            this.classAPayersByCompanyToolStripMenuItem.Name = "classAPayersByCompanyToolStripMenuItem";
+            this.classAPayersByCompanyToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
+            this.classAPayersByCompanyToolStripMenuItem.Text = "Class A Payers By Company";
+            this.classAPayersByCompanyToolStripMenuItem.Click += new System.EventHandler(this.classAPayersByCompanyToolStripMenuItem_Click);
             // 
             // Policies
             // 
@@ -1782,5 +1791,6 @@
         private System.Windows.Forms.Button btnRight;
         private System.Windows.Forms.Button btnLeft;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.ToolStripMenuItem classAPayersByCompanyToolStripMenuItem;
     }
 }

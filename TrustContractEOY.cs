@@ -714,7 +714,7 @@ namespace SMFS
                 is2002 = dt.Rows[i]["is2002"].ObjToString();
                 if (string.IsNullOrWhiteSpace(is2002))
                 {
-                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if ( contractNumber == "U0086")
                     {
                     }
@@ -865,7 +865,7 @@ namespace SMFS
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 contractValue = DailyHistory.GetContractValueMinus(dt.Rows[i]);
                 dt.Rows[i]["contractValue"] = contractValue;
                 allowInsurance = dt.Rows[i]["allowInsurance"].ObjToDouble();
@@ -903,6 +903,22 @@ namespace SMFS
             return dt;
         }
         /***********************************************************************************************/
+        private int DecodeContractYear ( string contractNumber )
+        {
+            string contract = "";
+            string trust = "";
+            string loc = "";
+            int year = -1;
+            contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
+            if (contract.Length > 2)
+            {
+                contract = contract.Substring(0, 2);
+                if (G1.validate_numeric(contract))
+                    year = contract.ObjToInt32();
+            }
+            return year;
+        }
+        /***********************************************************************************************/
         private DataTable pullSMFSdata(DataTable dt)
         {
             DateTime date = dateTimePicker2.Value;
@@ -922,7 +938,7 @@ namespace SMFS
             try
             {
                 string cmd = "SELECT t.tmstamp,t.contractNumber,t.firstName, t.lastname,t.address1 as address2013,t.city as city2013, t.state as state2013, t.zip1 as zip2013,t.ssn as ssn2013, ";
-                cmd += "c.lastDatePaid8 as payDate8, c.balanceDue, c.ServiceId, c.serviceTotal, c.merchandiseTotal,c.allowMerchandise,c.allowInsurance,c.downPayment,c.cashAdvance,c.lapsed,c.lapseDate8,c.issueDate8 ";
+                cmd += "c.lastDatePaid8 as payDate8, c.balanceDue, c.ServiceId, c.serviceTotal, c.merchandiseTotal,c.allowMerchandise,c.allowInsurance,c.downPayment,c.cashAdvance,c.lapsed,c.lapseDate8,c.issueDate8,t.firstPayDate";
                 cmd += " FROM `customers` t LEFT JOIN `contracts` c ON t.`contractNumber` = c.`contractNumber`";
                 cmd += " WHERE (t.`deceasedDate` >= '" + date2 + "' OR t.`deceasedDate` < '19001231' ) AND t.`contractNumber` <> '' ";
                 cmd += " AND c.`issueDate8` <= '" + date2 + "' AND c.`dateRemoved` < '10000101' ";
@@ -938,18 +954,10 @@ namespace SMFS
 
                 for (int i = 0; i < dx.Rows.Count; i++)
                 {
-                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
-                    contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
-                    if (contract.Length > 2)
-                    {
-                        contract = contract.Substring(0, 2);
-                        if (G1.validate_numeric(contract))
-                        {
-                            year = contract.ObjToInt32();
-                            if (year >= 2)
-                                dx.Rows[i]["Is2002"] = "2002";
-                        }
-                    }
+                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
+                    year = DecodeContractYear(contractNumber);
+                    if ( year >= 2 )
+                        dx.Rows[i]["Is2002"] = "2002";
                 }
 
                 DataTable newDt = FindOtherNotInGood(dx, dt);
@@ -966,23 +974,37 @@ namespace SMFS
 
                 for ( int i=0; i<newDt.Rows.Count; i++)
                 {
-                    contractNumber = newDt.Rows[i]["contractNumber"].ObjToString();
+                    contractNumber = newDt.Rows[i]["contractNumber"].ObjToString().Trim();
                     if ( contractNumber == "B01086" )
                     {
 
                     }
+                    year = DecodeContractYear(contractNumber);
                     is2002 = newDt.Rows[i]["is2002"].ObjToString();
                     balanceDue = newDt.Rows[i]["balanceDue"].ObjToDouble();
                     issueDate = newDt.Rows[i]["issueDate8"].ObjToDateTime();
+                    if (issueDate.Year < 1000)
+                    {
+                        issueDate = newDt.Rows[i]["firstPayDate"].ObjToDateTime();
+                        if ( issueDate.Year > 1000 )
+                            newDt.Rows[i]["issueDate8"] = G1.DTtoMySQLDT(issueDate);
+                    }
                     if ( issueDate.Year < 1000 )
                     {
-                        if (String.IsNullOrWhiteSpace(is2002))
+                        year = DecodeContractYear(contractNumber);
+                        if ( year == 6 )
+                        {
+                            issueDate = GetFirstDatePaid(contractNumber);
+                            newDt.Rows[i]["issueDate8"] = G1.DTtoMySQLDT(issueDate);
+                        }   
+                        else if ( year < 6 )
                             newDt.Rows[i]["issueDate8"] = G1.DTtoMySQLDT(preDate);
                         else
                             newDt.Rows[i]["issueDate8"] = G1.DTtoMySQLDT(postDate);
                     }
 
-                    if (String.IsNullOrWhiteSpace(is2002))
+                    issueDate = newDt.Rows[i]["issueDate8"].ObjToDateTime();
+                    if ( issueDate < cutDate )
                     {
                         if (balanceDue > 0D)
                             newDt.Rows[i]["endingBalance"] = balanceDue * 0.5D;
@@ -1005,6 +1027,22 @@ namespace SMFS
             {
             }
             return dt;
+        }
+        /***********************************************************************************************/
+        private DateTime GetFirstDatePaid ( string contractNumber )
+        {
+            DateTime date = preDate;
+            try
+            {
+                string cmd = "Select * from `payments` where `contractNumber` = '" + contractNumber + "' ORDER BY `payDate8` LIMIT 1;";
+                DataTable dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                    date = dx.Rows[0]["payDate8"].ObjToDateTime();
+            }
+            catch ( Exception ex )
+            {
+            }
+            return date;
         }
         /***********************************************************************************************/
         private DataTable FindOtherNotInGood(DataTable otherDt, DataTable goodDt)
@@ -2066,7 +2104,7 @@ namespace SMFS
             string is2002 = "";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 if (contractNumber == "NC0C35")
                 {
                     dt.Rows[i]["contractNumber"] = "NCOC35";
@@ -2174,7 +2212,7 @@ namespace SMFS
         //    {
         //        date = dx.Rows[i]["date"].ObjToDateTime();
         //        date1 = date.ToString("yyyyMMdd");
-        //        contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+        //        contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
         //        column = dx.Rows[i]["what"].ObjToString();
         //        detail = dx.Rows[i]["detail"].ObjToString();
         //        dRows = dt.Select("contractNumber='" + contractNumber + "' AND `aIssueDate` = '" + date1 + "'");
@@ -2220,7 +2258,7 @@ namespace SMFS
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 dRows = dx.Select("contractNumber='" + contractNumber + "'");
                 if (dRows.Length > 0)
                     dt.Rows[i]["bookOrder"] = "DRAFT";
@@ -2259,7 +2297,7 @@ namespace SMFS
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 cmd = "Select * from `dbrs` where contractNumber = '" + contractNumber + "';";
                 dx = G1.get_db_data(cmd);
                 if (dx.Rows.Count > 0)
@@ -2320,7 +2358,7 @@ namespace SMFS
             //    {
             //        try
             //        {
-            //            contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+            //            contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
             //            if (contractNumber == "CT24042LI")
             //            {
             //            }
@@ -2466,8 +2504,8 @@ namespace SMFS
                 {
                     if (String.IsNullOrWhiteSpace(lastLocation))
                     {
-                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                        summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString();
+                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
+                        summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                         summaryLastContract = summaryFirstContract;
                         count = 1;
                         lastLocation = location;
@@ -2481,12 +2519,12 @@ namespace SMFS
                     summaryDt.Rows.Add(dRow);
 
                     lastLocation = location;
-                    summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString();
+                    summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     summaryLastContract = summaryFirstContract;
                     count = 1;
                     continue;
                 }
-                summaryLastContract = dt.Rows[i]["contractNumber"].ObjToString();
+                summaryLastContract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 count++;
             }
             dRow = summaryDt.NewRow();
@@ -2543,8 +2581,8 @@ namespace SMFS
                 {
                     if (String.IsNullOrWhiteSpace(lastLocation))
                     {
-                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                        summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString();
+                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
+                        summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                         summaryLastContract = summaryFirstContract;
                         count = 1;
                         lastLocation = location;
@@ -2568,12 +2606,12 @@ namespace SMFS
                     }
 
                     lastLocation = location;
-                    summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString();
+                    summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     summaryLastContract = summaryFirstContract;
                     count = 1;
                     continue;
                 }
-                summaryLastContract = dt.Rows[i]["contractNumber"].ObjToString();
+                summaryLastContract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 count++;
             }
             dRows = summaryDt.Select("location='" + lastLocation + "'");
@@ -2636,8 +2674,8 @@ namespace SMFS
                 {
                     if (String.IsNullOrWhiteSpace(lastLocation))
                     {
-                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                        summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString();
+                        contractNumber = dt.Rows[i]["contractNumber"].ObjToString().Trim();
+                        summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                         summaryLastContract = summaryFirstContract;
                         count = 1;
                         lastLocation = location;
@@ -2661,12 +2699,12 @@ namespace SMFS
                     }
 
                     lastLocation = location;
-                    summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString();
+                    summaryFirstContract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                     summaryLastContract = summaryFirstContract;
                     count = 1;
                     continue;
                 }
-                summaryLastContract = dt.Rows[i]["contractNumber"].ObjToString();
+                summaryLastContract = dt.Rows[i]["contractNumber"].ObjToString().Trim();
                 count++;
             }
             dRows = summaryDt.Select("location='" + lastLocation + "'");

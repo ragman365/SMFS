@@ -1203,6 +1203,12 @@ namespace SMFS
         /***************************************************************************************/
         public static bool ValidateServiceId ( string serviceId )
         {
+            if (serviceId.ToUpper().IndexOf("O/S ") == 0)
+                return true;
+
+            if (serviceId.ToUpper().IndexOf("OS ") == 0)
+                return true;
+
             string cmd = "Select * from `funeralhomes`;";
             DataTable dx = G1.get_db_data(cmd);
             if (dx.Rows.Count <= 0)

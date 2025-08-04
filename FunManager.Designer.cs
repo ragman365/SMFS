@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FunManager));
-            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -254,6 +254,8 @@
             this.bandedGridColumn142 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn106 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn141 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn119 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn121 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn108 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn107 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn110 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -264,10 +266,10 @@
             this.bandedGridColumn118 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn112 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn113 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn144 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn145 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn114 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn120 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn119 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn121 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemCheckEdit6 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemCheckEdit8 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemCheckEdit9 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
@@ -325,8 +327,6 @@
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unLockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bandedGridColumn144 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn145 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -423,7 +423,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 25);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(1746, 343);
+            this.tabMain.Size = new System.Drawing.Size(1746, 341);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Bonus Info";
             this.tabMain.UseVisualStyleBackColor = true;
@@ -439,7 +439,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1740, 337);
+            this.dgv.Size = new System.Drawing.Size(1740, 335);
             this.dgv.TabIndex = 13;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -2218,7 +2218,7 @@
             this.tabServices.Location = new System.Drawing.Point(4, 25);
             this.tabServices.Name = "tabServices";
             this.tabServices.Padding = new System.Windows.Forms.Padding(3);
-            this.tabServices.Size = new System.Drawing.Size(1746, 343);
+            this.tabServices.Size = new System.Drawing.Size(1746, 341);
             this.tabServices.TabIndex = 1;
             this.tabServices.Text = "Service Master";
             this.tabServices.UseVisualStyleBackColor = true;
@@ -2238,7 +2238,7 @@
             this.repositoryItemCheckEdit1,
             this.repositoryItemCheckEdit3,
             this.repositoryItemCheckEdit4});
-            this.dgv2.Size = new System.Drawing.Size(1740, 337);
+            this.dgv2.Size = new System.Drawing.Size(1740, 335);
             this.dgv2.TabIndex = 8;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -2635,7 +2635,7 @@
             this.tabInventory.Controls.Add(this.panelTimAll);
             this.tabInventory.Location = new System.Drawing.Point(4, 25);
             this.tabInventory.Name = "tabInventory";
-            this.tabInventory.Size = new System.Drawing.Size(1746, 343);
+            this.tabInventory.Size = new System.Drawing.Size(1746, 341);
             this.tabInventory.TabIndex = 2;
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
@@ -2647,7 +2647,7 @@
             this.panelTimAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTimAll.Location = new System.Drawing.Point(0, 0);
             this.panelTimAll.Name = "panelTimAll";
-            this.panelTimAll.Size = new System.Drawing.Size(1746, 343);
+            this.panelTimAll.Size = new System.Drawing.Size(1746, 341);
             this.panelTimAll.TabIndex = 7;
             // 
             // panelTimBottom
@@ -2656,7 +2656,7 @@
             this.panelTimBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTimBottom.Location = new System.Drawing.Point(0, 49);
             this.panelTimBottom.Name = "panelTimBottom";
-            this.panelTimBottom.Size = new System.Drawing.Size(1746, 294);
+            this.panelTimBottom.Size = new System.Drawing.Size(1746, 292);
             this.panelTimBottom.TabIndex = 9;
             // 
             // dgv3
@@ -2674,7 +2674,7 @@
             this.dgv3.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit5,
             this.repositoryItemPictureEdit2});
-            this.dgv3.Size = new System.Drawing.Size(1746, 294);
+            this.dgv3.Size = new System.Drawing.Size(1746, 292);
             this.dgv3.TabIndex = 6;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -3026,7 +3026,7 @@
             this.tabDiscretionary.Controls.Add(this.dgv5);
             this.tabDiscretionary.Location = new System.Drawing.Point(4, 25);
             this.tabDiscretionary.Name = "tabDiscretionary";
-            this.tabDiscretionary.Size = new System.Drawing.Size(1746, 343);
+            this.tabDiscretionary.Size = new System.Drawing.Size(1746, 341);
             this.tabDiscretionary.TabIndex = 4;
             this.tabDiscretionary.Text = "Discretionary";
             this.tabDiscretionary.UseVisualStyleBackColor = true;
@@ -3051,7 +3051,7 @@
             this.repositoryItemCheckEdit17,
             this.repositoryItemCheckEdit22,
             this.repositoryItemCheckEdit13});
-            this.dgv5.Size = new System.Drawing.Size(1746, 343);
+            this.dgv5.Size = new System.Drawing.Size(1746, 341);
             this.dgv5.TabIndex = 7;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -3889,6 +3889,32 @@
             this.bandedGridColumn141.Visible = true;
             this.bandedGridColumn141.Width = 94;
             // 
+            // bandedGridColumn119
+            // 
+            this.bandedGridColumn119.Caption = "Service Amount";
+            this.bandedGridColumn119.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn119.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn119.FieldName = "serviceAmount";
+            this.bandedGridColumn119.MinWidth = 25;
+            this.bandedGridColumn119.Name = "bandedGridColumn119";
+            this.bandedGridColumn119.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn119.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn119.Visible = true;
+            this.bandedGridColumn119.Width = 94;
+            // 
+            // bandedGridColumn121
+            // 
+            this.bandedGridColumn121.Caption = "Tim Sevice Amount";
+            this.bandedGridColumn121.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn121.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn121.FieldName = "timServiceAmount";
+            this.bandedGridColumn121.MinWidth = 25;
+            this.bandedGridColumn121.Name = "bandedGridColumn121";
+            this.bandedGridColumn121.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn121.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn121.Visible = true;
+            this.bandedGridColumn121.Width = 94;
+            // 
             // bandedGridColumn108
             // 
             this.bandedGridColumn108.Caption = "Cash Advance";
@@ -4018,6 +4044,30 @@
             this.bandedGridColumn113.Visible = true;
             this.bandedGridColumn113.Width = 86;
             // 
+            // bandedGridColumn144
+            // 
+            this.bandedGridColumn144.Caption = "Net Funeral";
+            this.bandedGridColumn144.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn144.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn144.FieldName = "netFuneral";
+            this.bandedGridColumn144.MinWidth = 25;
+            this.bandedGridColumn144.Name = "bandedGridColumn144";
+            this.bandedGridColumn144.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn144.Visible = true;
+            this.bandedGridColumn144.Width = 69;
+            // 
+            // bandedGridColumn145
+            // 
+            this.bandedGridColumn145.Caption = "Tim Net Funeral";
+            this.bandedGridColumn145.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn145.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn145.FieldName = "timNetFuneral";
+            this.bandedGridColumn145.MinWidth = 25;
+            this.bandedGridColumn145.Name = "bandedGridColumn145";
+            this.bandedGridColumn145.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn145.Visible = true;
+            this.bandedGridColumn145.Width = 72;
+            // 
             // bandedGridColumn114
             // 
             this.bandedGridColumn114.Caption = "Casket Desc";
@@ -4036,32 +4086,6 @@
             this.bandedGridColumn120.MinWidth = 49;
             this.bandedGridColumn120.Name = "bandedGridColumn120";
             this.bandedGridColumn120.Width = 188;
-            // 
-            // bandedGridColumn119
-            // 
-            this.bandedGridColumn119.Caption = "Service Amount";
-            this.bandedGridColumn119.DisplayFormat.FormatString = "N2";
-            this.bandedGridColumn119.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn119.FieldName = "serviceAmount";
-            this.bandedGridColumn119.MinWidth = 25;
-            this.bandedGridColumn119.Name = "bandedGridColumn119";
-            this.bandedGridColumn119.OptionsColumn.AllowEdit = false;
-            this.bandedGridColumn119.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn119.Visible = true;
-            this.bandedGridColumn119.Width = 94;
-            // 
-            // bandedGridColumn121
-            // 
-            this.bandedGridColumn121.Caption = "Tim Sevice Amount";
-            this.bandedGridColumn121.DisplayFormat.FormatString = "N2";
-            this.bandedGridColumn121.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn121.FieldName = "timServiceAmount";
-            this.bandedGridColumn121.MinWidth = 25;
-            this.bandedGridColumn121.Name = "bandedGridColumn121";
-            this.bandedGridColumn121.OptionsColumn.AllowEdit = false;
-            this.bandedGridColumn121.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn121.Visible = true;
-            this.bandedGridColumn121.Width = 94;
             // 
             // repositoryItemCheckEdit6
             // 
@@ -4529,10 +4553,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton2.Caption = "contextButton1";
-            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton2.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
+            contextButton1.Caption = "contextButton1";
+            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton1.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton1);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // repositoryItemMemoEdit1
@@ -4573,7 +4597,7 @@
             this.toolStripRemoveFormat,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -4629,7 +4653,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // miscToolStripMenuItem
             // 
@@ -4637,7 +4661,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unLockScreenFormatToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -4653,30 +4677,6 @@
             this.unLockScreenFormatToolStripMenuItem.Size = new System.Drawing.Size(239, 26);
             this.unLockScreenFormatToolStripMenuItem.Text = "UnLock Screen Format";
             this.unLockScreenFormatToolStripMenuItem.Click += new System.EventHandler(this.unLockScreenFormatToolStripMenuItem_Click);
-            // 
-            // bandedGridColumn144
-            // 
-            this.bandedGridColumn144.Caption = "Net Funeral";
-            this.bandedGridColumn144.DisplayFormat.FormatString = "N2";
-            this.bandedGridColumn144.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn144.FieldName = "netFuneral";
-            this.bandedGridColumn144.MinWidth = 25;
-            this.bandedGridColumn144.Name = "bandedGridColumn144";
-            this.bandedGridColumn144.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn144.Visible = true;
-            this.bandedGridColumn144.Width = 69;
-            // 
-            // bandedGridColumn145
-            // 
-            this.bandedGridColumn145.Caption = "Tim Net Funeral";
-            this.bandedGridColumn145.DisplayFormat.FormatString = "N2";
-            this.bandedGridColumn145.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn145.FieldName = "timNetFuneral";
-            this.bandedGridColumn145.MinWidth = 25;
-            this.bandedGridColumn145.Name = "bandedGridColumn145";
-            this.bandedGridColumn145.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn145.Visible = true;
-            this.bandedGridColumn145.Width = 72;
             // 
             // FunManager
             // 
