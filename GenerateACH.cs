@@ -132,8 +132,22 @@ namespace SMFS
             {
                 string achDirectory = AdminOptions.GetOptionAnswer("BANKPLUS Path");
                 if (String.IsNullOrWhiteSpace(achDirectory))
+                    achDirectory = AdminOptions.GetOptionAnswer("Renasant Path");
+                if (String.IsNullOrWhiteSpace(achDirectory))
                 {
                     MessageBox.Show("***Problem*** You must first SETUP a BANK PLUS Directory using the MISC Menu Option!", "Setup BANK PLUS  Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Cursor = Cursors.Default;
+                    return;
+                }
+            }
+            if (workWho.ToUpper() == "RENASANT BANK")
+            {
+                string achDirectory = AdminOptions.GetOptionAnswer("Renasant Path");
+                if (String.IsNullOrWhiteSpace(achDirectory))
+                    achDirectory = AdminOptions.GetOptionAnswer("BANKPLUS Path");
+                if (String.IsNullOrWhiteSpace(achDirectory))
+                {
+                    MessageBox.Show("***Problem*** You must first SETUP a Renasant Directory using the MISC Menu Option!", "Setup BANK PLUS  Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Cursor = Cursors.Default;
                     return;
                 }
@@ -580,7 +594,7 @@ namespace SMFS
             string directory = "";
             using (var fbd = new FolderBrowserDialog())
             {
-                string achPath = AdminOptions.GetOptionAnswer("BANKPLUS Path");
+                string achPath = AdminOptions.GetOptionAnswer("Renasant Path");
                 if (!String.IsNullOrWhiteSpace(achPath))
                 {
                     string root = Directory.GetDirectoryRoot(achPath);
@@ -596,9 +610,9 @@ namespace SMFS
                     directory = fbd.SelectedPath;
                     directory = directory.Replace("\\", "/");
                     directory = directory + "/";
-                    string record = AdminOptions.VerifyOption("BANKPLUS Path", directory);
+                    string record = AdminOptions.VerifyOption("Renasant Path", directory);
                     if (String.IsNullOrWhiteSpace(record))
-                        MessageBox.Show("***ERROR*** Creating New BANKPLUS Path Option in Options Table!");
+                        MessageBox.Show("***ERROR*** Creating New Renasant Path Option in Options Table!");
                 }
             }
         }
@@ -781,7 +795,7 @@ namespace SMFS
                 dx.Columns["DebitCredit"].Caption = "Debit/Credit";
                 dx.Columns["effectiveDate"].Caption = "Effective Date";
 
-                CreateCSVfile(dx, fullPath, true, ",", true);
+                //CreateCSVfile(dx, fullPath, true, ",", true);
             }
             catch (Exception ex)
             {
@@ -798,17 +812,135 @@ namespace SMFS
                 UpdateACH(dt);
 
             int records = dx.Rows.Count;
-            MessageBox.Show("***INFO*** File " + fullPath + " Created with " + records.ToString() + " Customers.", "Create ACH Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show("***INFO*** File " + fullPath + " Created with " + records.ToString() + " Customers.", "Create ACH Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             lastFileCreated = fullPath;
 
             btnGenerateFile.Hide();
             chkProblems.Hide();
-//            btnImport.Show();
-            if (workWho.ToUpper() == "BANK PLUS")
-                GenerateBankPlusACH(originalDt);
+            //            btnImport.Show();
+
+            GenerateBankPlusACH(originalDt);
+
+
+            //if (workWho.ToUpper() == "BANK PLUS")
+            //    GenerateBankPlusACH(originalDt);
+            //else if (workWho.ToUpper() == "RENASANT BANK")
+            //    GenerateBankPlusACH(originalDt);
+
             this.Cursor = Cursors.Default;
         }
+        /***********************************************************************************************/
+//        private void btnGenerateFile_ClickX(object sender, EventArgs e)
+//        {
+//            this.Cursor = Cursors.WaitCursor;
+
+//            DataTable dt = (DataTable)dgv.DataSource;
+//            DataTable dx = dt.Copy();
+//            DataTable originalDt = null;
+//            string fullPath = "";
+
+//            try
+//            {
+//                string achDirectory = AdminOptions.GetOptionAnswer("ACH Path");
+//                if (String.IsNullOrWhiteSpace(achDirectory))
+//                {
+//                    MessageBox.Show("***Problem*** You must first SETUP an ACH Directory using the MISC Menu Option!", "Setup ACH Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
+//                    this.Cursor = Cursors.Default;
+//                    return;
+//                }
+//                DateTime date = this.dateTimePicker1.Value;
+//                string filename = "SMFS.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4");
+//                fullPath = achDirectory + filename;
+//                int count = 0;
+//                for (; ; )
+//                {
+//                    if (!File.Exists(fullPath + ".csv"))
+//                        break;
+//                    count++;
+//                    filename = "SMFS.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4") + "_" + count.ToString();
+//                    fullPath = achDirectory + filename;
+//                }
+
+//                fullPath += ".csv";
+
+//                DataView tempview = dx.DefaultView;
+//                tempview.Sort = "name asc";
+//                dx = tempview.ToTable();
+//                string status = "";
+//                for (int i = (dx.Rows.Count - 1); i >= 0; i--)
+//                {
+//                    status = dx.Rows[i]["status"].ObjToString();
+//                    if (status.ToUpper() == "IGNORE!")
+//                        dx.Rows.RemoveAt(i);
+//                }
+
+//                originalDt = dx.Copy();
+
+//                dx.Columns.Remove("dayOfMonth");
+//                dx.Columns.Remove("frequencyInMonths");
+//                dx.Columns.Remove("tmstamp");
+//                dx.Columns.Remove("record");
+//                dx.Columns.Remove("num");
+//                dx.Columns.Remove("dateBeginning");
+//                dx.Columns.Remove("status");
+//                dx.Columns.Remove("numPayments");
+//                dx.Columns.Remove("leftPayments");
+//                dx.Columns.Remove("legacy");
+//                dx.Columns.Remove("contractNumber");
+//                dx.Columns.Remove("payer");
+//                dx.Columns.Remove("code");
+//                dx.Columns.Remove("backupName");
+//                dx.Columns.Remove("location");
+
+//                dx.Columns["name"].SetOrdinal(0);
+//                dx.Columns["ID"].SetOrdinal(1);
+//                dx.Columns["routingNumber"].SetOrdinal(2);
+//                dx.Columns["accountNumber"].SetOrdinal(3);
+//                dx.Columns["acctType"].SetOrdinal(4);
+//                dx.Columns["payment"].SetOrdinal(5);
+//                dx.Columns["DebitCredit"].SetOrdinal(6);
+//                dx.Columns["effectiveDate"].SetOrdinal(7);
+//                //dx.Columns["contractNumber"].SetOrdinal(8);
+//                //dx.Columns["payer"].SetOrdinal(9);
+//                //dx.Columns["code"].SetOrdinal(10);
+
+//                dx.Columns["name"].Caption = "Last Name, First";
+//                dx.Columns["routingNumber"].Caption = "Routing #";
+//                dx.Columns["accountNumber"].Caption = "Acct #";
+//                dx.Columns["AcctType"].Caption = "Acct Type";
+//                dx.Columns["payment"].Caption = "Amount";
+//                dx.Columns["DebitCredit"].Caption = "Debit/Credit";
+//                dx.Columns["effectiveDate"].Caption = "Effective Date";
+
+//                CreateCSVfile(dx, fullPath, true, ",", true);
+//            }
+//            catch (Exception ex)
+//            {
+//                MessageBox.Show("***ERROR*** on Building ACH CSV File " + ex.Message.ToString());
+//                btnGenerateFile.Hide();
+//                chkProblems.Hide();
+//                this.Cursor = Cursors.Default;
+//                return;
+//            }
+
+//            DialogResult result = MessageBox.Show("***QUESTION*** Do you want to update the ACH Table by reducing the payments left?", "Update ACH Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+//            if (result == DialogResult.Yes)
+//                UpdateACH(dt);
+
+//            int records = dx.Rows.Count;
+//            MessageBox.Show("***INFO*** File " + fullPath + " Created with " + records.ToString() + " Customers.", "Create ACH Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+//            lastFileCreated = fullPath;
+
+//            btnGenerateFile.Hide();
+//            chkProblems.Hide();
+////            btnImport.Show();
+//            if (workWho.ToUpper() == "BANK PLUS")
+//                GenerateBankPlusACH(originalDt);
+//            this.Cursor = Cursors.Default;
+        //}
         /***********************************************************************************************/
         private bool CheckForSecNat(string payer, double payment)
         {
@@ -1134,25 +1266,32 @@ namespace SMFS
 
             try
             {
-                string achDirectory = AdminOptions.GetOptionAnswer("BANKPLUS Path");
-                if (String.IsNullOrWhiteSpace(achDirectory))
-                {
-                    MessageBox.Show("***Problem*** You must first SETUP a BANK PLUS Directory using the MISC Menu Option!", "Setup BANK PLUS  Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.Cursor = Cursors.Default;
-                    return;
-                }
-                DateTime date = this.dateTimePicker1.Value;
-                string filename = "SMFS.BP.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4");
-                fullPath = achDirectory + filename;
-                int count = 0;
-                for (; ; )
-                {
-                    if (!File.Exists(fullPath + ".csv"))
-                        break;
-                    count++;
-                    filename = "SMFS.BP.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4") + "_" + count.ToString();
-                    fullPath = achDirectory + filename;
-                }
+                //string achDirectory = "";
+                //if (workWho.ToUpper() == "BANK PLUS")
+                //    achDirectory = AdminOptions.GetOptionAnswer("BANKPLUS Path");
+                //else if ( workWho.ToUpper() == "RENASANT BANK")
+                //    achDirectory = AdminOptions.GetOptionAnswer("Renasant Path");
+                //if (String.IsNullOrWhiteSpace(achDirectory))
+                //{
+                //    if (workWho.ToUpper() == "BANK PLUS")
+                //        MessageBox.Show("***Problem*** You must first SETUP a BANK PLUS Directory using the MISC Menu Option!", "Setup BANK PLUS  Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    else if (workWho.ToUpper() == "RENASANT BANK")
+                //        MessageBox.Show("***Problem*** You must first SETUP a Renasant Bank Directory using the MISC Menu Option!", "Setup BANK PLUS  Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    this.Cursor = Cursors.Default;
+                //    return;
+                //}
+                //DateTime date = this.dateTimePicker1.Value;
+                //string filename = "SMFS.BP.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4");
+                //fullPath = achDirectory + filename;
+                //int count = 0;
+                //for (; ; )
+                //{
+                //    if (!File.Exists(fullPath + ".csv"))
+                //        break;
+                //    count++;
+                //    filename = "SMFS.BP.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4") + "_" + count.ToString();
+                //    fullPath = achDirectory + filename;
+                //}
 
                 fullPath += ".csv";
 
@@ -1242,7 +1381,7 @@ namespace SMFS
                     dt.Rows.Add(dRow);
                 }
 
-                CreateCSVfile(dt, fullPath, true, ",", true);
+                //CreateCSVfile(dt, fullPath, true, ",", true);
             }
             catch (Exception ex)
             {
@@ -1254,7 +1393,7 @@ namespace SMFS
             }
 
             int records = dx.Rows.Count;
-            MessageBox.Show("***INFO*** Bank Plus File " + fullPath + " Created with " + records.ToString() + " Customers.", "Create Bank Plus Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show("***INFO*** Bank Plus File " + fullPath + " Created with " + records.ToString() + " Customers.", "Create Bank Plus Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             lastFileCreated = fullPath;
 
@@ -1276,10 +1415,22 @@ namespace SMFS
             {
                 G1.AddToAudit(LoginForm.username, "GenerateACH", "Create ACH File", "Starting New ACH Create File!" );
 
-                string achDirectory = AdminOptions.GetOptionAnswer("BANKPLUS Path");
+                string achDirectory = "";
+                if (workWho.ToUpper() == "BANK PLUS")
+                    achDirectory = AdminOptions.GetOptionAnswer("BANKPLUS Path");
+                else if (workWho.ToUpper() == "RENASANT BANK")
+                {
+                    achDirectory = AdminOptions.GetOptionAnswer("Renasant Path");
+                    if (String.IsNullOrWhiteSpace(achDirectory))
+                        achDirectory = AdminOptions.GetOptionAnswer("BANKPLUS Path");
+                }
+
                 if (String.IsNullOrWhiteSpace(achDirectory))
                 {
-                    MessageBox.Show("***Problem*** You must first SETUP a BANK PLUS Directory using the MISC Menu Option!", "Setup BANK PLUS  Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (workWho.ToUpper() == "BANK PLUS")
+                        MessageBox.Show("***Problem*** You must first SETUP a BANK PLUS Directory using the MISC Menu Option!", "Setup BANK PLUS  Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else if (workWho.ToUpper() == "RENASANT BANK")
+                        MessageBox.Show("***Problem*** You must first SETUP a Renasant Bank Directory using the MISC Menu Option!", "Setup BANK PLUS  Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Cursor = Cursors.Default;
                     return;
                 }
@@ -1396,12 +1547,19 @@ namespace SMFS
 
                 }
                 G1.AddToAudit(LoginForm.username, "GenerateACH", "Create ACH File", "Creating CSV File!");
-                CreateCSVfile(dt, fullPath, true, ",", true);
+                if (File.Exists(fullPath))
+                    File.Delete(fullPath);
+
+                CreateCSVfile(dt, fullPath, false, ",", true);
                 G1.AddToAudit(LoginForm.username, "GenerateACH", "Create ACH File", "Finished CSV File!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("***ERROR*** on Building Bank Plus CSV File " + ex.Message.ToString());
+                if (workWho.ToUpper() == "BANK PLUS")
+                    MessageBox.Show("***ERROR*** on Building Bank Plus CSV File " + ex.Message.ToString());
+                else if (workWho.ToUpper() == "RENASANT BANK")
+                    MessageBox.Show("***ERROR*** on Building Renasant Bank CSV File " + ex.Message.ToString());
+
                 btnGenerateFile.Hide();
                 chkProblems.Hide();
                 this.Cursor = Cursors.Default;
@@ -1409,7 +1567,10 @@ namespace SMFS
             }
 
             int records = dx.Rows.Count;
-            MessageBox.Show("***INFO*** Bank Plus File " + fullPath + " Created with " + records.ToString() + " Customers.", "Create Bank Plus Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (workWho.ToUpper() == "BANK PLUS")
+                MessageBox.Show("***INFO*** Bank Plus File " + fullPath + " Created with " + records.ToString() + " Customers.", "Create Bank Plus Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else if (workWho.ToUpper() == "RENASANT BANK")
+                MessageBox.Show("***INFO*** Renasant File " + fullPath + " Created with " + records.ToString() + " Customers.", "Create Renasant Bank Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             lastFileCreated = fullPath;
 

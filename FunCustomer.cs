@@ -3986,11 +3986,14 @@ namespace SMFS
         /****************************************************************************************/
         private void txtServiceId_KeyDown(object sender, KeyEventArgs e)
         {
+            bool duplicate = false;
             if (e.KeyCode == Keys.Enter)
             {
                 string serviceId = txtServiceId.Text.Trim();
-                if (NewContract.CheckServiceIdExists(serviceId, workContract))
+                if (NewContract.CheckServiceIdExists(serviceId, workContract, mainSSN ))
+                {
                     MessageBox.Show("***ERROR*** A Service ID of " + serviceId + " Already Exists Somewhere!", "Service ID EXISTS Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                }
             }
         }
         /****************************************************************************************/

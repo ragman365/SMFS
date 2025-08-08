@@ -1964,6 +1964,11 @@ namespace SMFS
                         amountGrowth = dt.Rows[i]["amountGrowth"].ObjToString();
                         grossAmountReceived = dt.Rows[i]["grossAmountReceived"].ObjToString();
                         payment = dt.Rows[i]["payment"].ObjToDouble();
+                        if ( status.ToUpper() == "DEPOSITED" && payment > 0D && grossAmountReceived.ObjToDouble() == 0D )
+                        {
+                            grossAmountReceived = payment.ToString();
+                            dt.Rows[i]["grossAmountReceived"] = grossAmountReceived;
+                        }
                         totalFiled += amountFiled.ObjToDouble();
                         //totalReceived += amountReceived.ObjToDouble();
                         totalAmountDiscount += amountDiscount.ObjToDouble();
@@ -2633,7 +2638,11 @@ namespace SMFS
                         merchandiseDiscount += difference;
                         currentMerchandise += currentPrice;
                         if (service.IndexOf("D-") == 0)
+                        {
                             service = service.Substring(2).Trim();
+                            if (service.ToUpper().IndexOf("BATESVILLE") >= 0)
+                                service = service.ToUpper().Replace("BATESVILLE", "").Trim();
+                        }
                         oldService = service;
                         if (service.IndexOf("ACKNOW") < 0 && service.IndexOf("GRAVE MARKER") < 0 && service.ToUpper().IndexOf("REGISTER BOOK") < 0)
                         {
@@ -2726,7 +2735,11 @@ namespace SMFS
 
                                     service = funDt.Rows[i]["service"].ObjToString().ToUpper();
                                     if (service.IndexOf("D-") == 0)
+                                    {
                                         service = service.Replace("D-", "").Trim();
+                                        if (service.ToUpper().IndexOf("BATESVILLE") >= 0)
+                                            service = service.ToUpper().Replace("BATESVILLE", "").Trim();
+                                    }
                                     bateDt = G1.get_db_data("Select * from `batesville_inventory` where `casketDescription` = '" + service + "';");
                                     if ( bateDt.Rows.Count <= 0 )
                                     {
@@ -2779,7 +2792,11 @@ namespace SMFS
                                 {
                                     service = funDt.Rows[i]["service"].ObjToString().ToUpper();
                                     if (service.IndexOf("D-") == 0)
+                                    {
                                         service = service.Replace("D-", "").Trim();
+                                        if (service.ToUpper().IndexOf("BATESVILLE") >= 0)
+                                            service = service.ToUpper().Replace("BATESVILLE", "").Trim();
+                                    }
                                     bateDt = G1.get_db_data("Select * from `batesville_inventory` where `casketDescription` = '" + service + "';");
                                     if ( bateDt.Rows.Count > 0 )
                                     {
@@ -2819,6 +2836,7 @@ namespace SMFS
                                         {
                                             Lines = service.Split(' ');
                                             str = "";
+                                            bool foundIt = false;
                                             for (int kk = 0; kk < Lines.Length; kk++)
                                             {
                                                 if (String.IsNullOrWhiteSpace(Lines[kk].ObjToString()))
@@ -2832,7 +2850,29 @@ namespace SMFS
                                                 {
                                                     urnDesc = service;
                                                     urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    foundIt = true;
                                                     break;
+                                                }
+                                            }
+                                            if ( !foundIt )
+                                            {
+                                                str = "";
+                                                for (int kk = 0; kk < Lines.Length; kk++)
+                                                {
+                                                    if (String.IsNullOrWhiteSpace(Lines[kk].ObjToString()))
+                                                        continue;
+                                                    if (str.Length > 0)
+                                                        str += " ";
+                                                    str += Lines[kk].ObjToString().Trim();
+                                                    cmd = "Select * from `secondary_inventory` where `casketDesc` LIKE '" + str + "%';";
+                                                    bateDt = G1.get_db_data(cmd);
+                                                    if (bateDt.Rows.Count >= 1 && kk >= 1)
+                                                    {
+                                                        urnDesc = service;
+                                                        urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                        foundIt = true;
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }

@@ -210,6 +210,7 @@
             this.gridMain5 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn122 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn146 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn140 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn139 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn123 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -386,10 +387,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1754, 475);
+            this.panelAll.Size = new System.Drawing.Size(1754, 477);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -399,7 +400,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 105);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1754, 370);
+            this.panelBottom.Size = new System.Drawing.Size(1754, 372);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -413,7 +414,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1754, 370);
+            this.tabControl1.Size = new System.Drawing.Size(1754, 372);
             this.tabControl1.TabIndex = 14;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -423,7 +424,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 25);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(1746, 341);
+            this.tabMain.Size = new System.Drawing.Size(1746, 343);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Bonus Info";
             this.tabMain.UseVisualStyleBackColor = true;
@@ -439,7 +440,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1740, 335);
+            this.dgv.Size = new System.Drawing.Size(1740, 337);
             this.dgv.TabIndex = 13;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -2635,7 +2636,7 @@
             this.tabInventory.Controls.Add(this.panelTimAll);
             this.tabInventory.Location = new System.Drawing.Point(4, 25);
             this.tabInventory.Name = "tabInventory";
-            this.tabInventory.Size = new System.Drawing.Size(1746, 341);
+            this.tabInventory.Size = new System.Drawing.Size(1746, 343);
             this.tabInventory.TabIndex = 2;
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
@@ -2647,7 +2648,7 @@
             this.panelTimAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTimAll.Location = new System.Drawing.Point(0, 0);
             this.panelTimAll.Name = "panelTimAll";
-            this.panelTimAll.Size = new System.Drawing.Size(1746, 341);
+            this.panelTimAll.Size = new System.Drawing.Size(1746, 343);
             this.panelTimAll.TabIndex = 7;
             // 
             // panelTimBottom
@@ -2656,7 +2657,7 @@
             this.panelTimBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTimBottom.Location = new System.Drawing.Point(0, 49);
             this.panelTimBottom.Name = "panelTimBottom";
-            this.panelTimBottom.Size = new System.Drawing.Size(1746, 292);
+            this.panelTimBottom.Size = new System.Drawing.Size(1746, 294);
             this.panelTimBottom.TabIndex = 9;
             // 
             // dgv3
@@ -2674,7 +2675,7 @@
             this.dgv3.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit5,
             this.repositoryItemPictureEdit2});
-            this.dgv3.Size = new System.Drawing.Size(1746, 292);
+            this.dgv3.Size = new System.Drawing.Size(1746, 294);
             this.dgv3.TabIndex = 6;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -3204,7 +3205,8 @@
             this.bandedGridColumn137,
             this.bandedGridColumn125,
             this.bandedGridColumn138,
-            this.bandedGridColumn140});
+            this.bandedGridColumn140,
+            this.bandedGridColumn146});
             this.gridMain5.DetailHeight = 431;
             this.gridMain5.GridControl = this.dgv5;
             this.gridMain5.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
@@ -3227,6 +3229,7 @@
             // 
             this.gridBand6.Caption = "gridBand1";
             this.gridBand6.Columns.Add(this.bandedGridColumn122);
+            this.gridBand6.Columns.Add(this.bandedGridColumn146);
             this.gridBand6.Columns.Add(this.bandedGridColumn140);
             this.gridBand6.Columns.Add(this.bandedGridColumn139);
             this.gridBand6.Columns.Add(this.bandedGridColumn123);
@@ -3246,7 +3249,7 @@
             this.gridBand6.MinWidth = 30;
             this.gridBand6.Name = "gridBand6";
             this.gridBand6.VisibleIndex = 0;
-            this.gridBand6.Width = 1003;
+            this.gridBand6.Width = 1097;
             // 
             // bandedGridColumn122
             // 
@@ -3260,6 +3263,18 @@
             this.bandedGridColumn122.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn122.Visible = true;
             this.bandedGridColumn122.Width = 49;
+            // 
+            // bandedGridColumn146
+            // 
+            this.bandedGridColumn146.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
+            this.bandedGridColumn146.AppearanceHeader.Options.UseForeColor = true;
+            this.bandedGridColumn146.Caption = "Bad";
+            this.bandedGridColumn146.FieldName = "bad";
+            this.bandedGridColumn146.MinWidth = 25;
+            this.bandedGridColumn146.Name = "bandedGridColumn146";
+            this.bandedGridColumn146.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn146.Visible = true;
+            this.bandedGridColumn146.Width = 94;
             // 
             // bandedGridColumn140
             // 
@@ -4584,7 +4599,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1754, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1754, 28);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -4597,7 +4612,7 @@
             this.toolStripRemoveFormat,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -4653,7 +4668,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
             // 
             // miscToolStripMenuItem
             // 
@@ -4661,7 +4676,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unLockScreenFormatToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -5051,5 +5066,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn143;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn144;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn145;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn146;
     }
 }

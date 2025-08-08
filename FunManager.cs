@@ -2943,8 +2943,15 @@ namespace SMFS
         private void recalculateBalanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataRow dr = gridMain.GetFocusedDataRow();
+
             int rowHandle = gridMain.FocusedRowHandle;
             int row = gridMain.GetDataSourceRowIndex(rowHandle);
+            if (dgv5.Visible)
+            {
+                dr = gridMain5.GetFocusedDataRow();
+                rowHandle = gridMain5.FocusedRowHandle;
+                row = gridMain5.GetDataSourceRowIndex(rowHandle);
+            }
             string contractNumber = dr["contractNumber"].ObjToString();
 
             string cmd = "Select * from `fcust_extended` where `contractNumber` = '" + contractNumber + "';";
@@ -2966,6 +2973,13 @@ namespace SMFS
 
             this.Cursor = Cursors.WaitCursor;
             dt = (DataTable)dgv.DataSource;
+            if ( dgv5.Visible )
+            {
+                DataRow[] dRows = dt.Select("serviceId='" + serviceId + "'");
+                if (dRows.Length <= 0)
+                    return;
+                dr = dRows[0];
+            }
 
             ProcessRow( dt, ref dr);
 
@@ -2976,6 +2990,16 @@ namespace SMFS
 
             if (timJonesDt != null )
                 CompareTimJones();
+
+            if (dgv5.Visible)
+            {
+                gridMain5.FocusedRowHandle = rowHandle;
+                gridMain5.SelectRow(rowHandle);
+                gridMain5.RefreshEditor(true);
+                dgv5.RefreshDataSource();
+                gridMain5.RefreshData();
+                dgv5.Refresh();
+            }
 
             this.Cursor = Cursors.Default;
         }
@@ -5982,6 +6006,9 @@ namespace SMFS
 
             this.Cursor = Cursors.Default;
 
+            if (timJonesDt == null)
+                return;
+
             if (timJonesDt.Rows.Count <= 0)
                 return;
 
@@ -6127,6 +6154,8 @@ namespace SMFS
 
             dgv.DataSource = dx;
             dgv.Refresh();
+
+            LoadDiscretionary(dx);
 
             this.Cursor = Cursors.Default;
         }
@@ -6366,7 +6395,9 @@ namespace SMFS
                         try
                         {
                             string casketCode = "";
+                            string casketDesc = "";
                             DataRow[] dRows = null;
+                            DataRow dRow = null;
 
                             DataTable dx = (DataTable)dgv3.DataSource;
                             if (G1.get_column_number(dx, "timCost") < 0)
@@ -6375,6 +6406,7 @@ namespace SMFS
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
                                 cost = dt.Rows[i]["casketCost"].ObjToDouble();
+                                casketDesc = dt.Rows[i]["casketDescription"].ObjToString();
                                 casketCode = dt.Rows[i]["casketCode"].ObjToString();
                                 if ( casketCode == "O39")
                                 {
@@ -6384,6 +6416,14 @@ namespace SMFS
                                     dRows = dx.Select("casketcode='" + casketCode + "'");
                                     if (dRows.Length > 0)
                                         dRows[0]["timCost"] = cost;
+                                    else
+                                    {
+                                        dRow = dx.NewRow();
+                                        dRow["timCost"] = cost;
+                                        dRow["casketCode"] = casketCode;
+                                        dRow["casketDesc"] = casketDesc;
+                                        dx.Rows.Add(dRow);
+                                    }
                                 }
                             }
                             dgv3.DataSource = dx;
@@ -7027,7 +7067,7 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
-        private void LoadDiscretionary ()
+        private void LoadDiscretionary ( DataTable dx = null )
         {
             DateTime date = this.dateTimePicker2.Value;
             DateTime firstDate = new DateTime(date.Year, date.Month, 1);
@@ -7082,6 +7122,29 @@ namespace SMFS
                     {
                         if (CheckCustomException(type, service))
                             dt.Rows.RemoveAt(i);
+                    }
+                }
+
+                if ( dx == null )
+                {
+                    gridMain5.Columns["bad"].Visible = false;
+                }
+                else
+                {
+                    gridMain5.Columns["bad"].Visible = true;
+                    if (G1.get_column_number(dt, "bad") < 0)
+                        dt.Columns.Add("bad");
+
+                    string serviceId = "";
+                    for ( int i=0; i<dt.Rows.Count; i++)
+                    {
+                        serviceId = dt.Rows[i]["serviceId"].ObjToString();
+                        if ( !String.IsNullOrWhiteSpace ( serviceId ))
+                        {
+                            dRows = dx.Select("serviceId='" + serviceId + "'");
+                            if (dRows.Length > 0)
+                                dt.Rows[i]["bad"] = dRows[0]["BAD"].ObjToString();
+                        }
                     }
                 }
 

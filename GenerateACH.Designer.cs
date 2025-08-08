@@ -149,7 +149,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -187,21 +187,21 @@
             this.selectACHDirectoryToolStripMenuItem,
             this.selectBankPlusACHDirectoryToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // selectACHDirectoryToolStripMenuItem
             // 
             this.selectACHDirectoryToolStripMenuItem.Name = "selectACHDirectoryToolStripMenuItem";
-            this.selectACHDirectoryToolStripMenuItem.Size = new System.Drawing.Size(293, 26);
+            this.selectACHDirectoryToolStripMenuItem.Size = new System.Drawing.Size(295, 26);
             this.selectACHDirectoryToolStripMenuItem.Text = "Select ACH Directory";
             this.selectACHDirectoryToolStripMenuItem.Click += new System.EventHandler(this.selectACHDirectoryToolStripMenuItem_Click);
             // 
             // selectBankPlusACHDirectoryToolStripMenuItem
             // 
             this.selectBankPlusACHDirectoryToolStripMenuItem.Name = "selectBankPlusACHDirectoryToolStripMenuItem";
-            this.selectBankPlusACHDirectoryToolStripMenuItem.Size = new System.Drawing.Size(293, 26);
-            this.selectBankPlusACHDirectoryToolStripMenuItem.Text = "Select BankPlus ACH Directory";
+            this.selectBankPlusACHDirectoryToolStripMenuItem.Size = new System.Drawing.Size(295, 26);
+            this.selectBankPlusACHDirectoryToolStripMenuItem.Text = "Select Renasant ACH Directory";
             this.selectBankPlusACHDirectoryToolStripMenuItem.Click += new System.EventHandler(this.selectBankPlusACHDirectoryToolStripMenuItem_Click);
             // 
             // panelAll
@@ -755,7 +755,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage2.Size = new System.Drawing.Size(1498, 442);
+            this.tabPage2.Size = new System.Drawing.Size(1498, 440);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "ACH Skipped";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -771,7 +771,7 @@
             this.dgv2.Name = "dgv2";
             this.dgv2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox2});
-            this.dgv2.Size = new System.Drawing.Size(1492, 434);
+            this.dgv2.Size = new System.Drawing.Size(1492, 432);
             this.dgv2.TabIndex = 5;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});

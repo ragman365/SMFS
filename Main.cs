@@ -4566,7 +4566,8 @@ namespace SMFS
         /***********************************************************************************************/
         private void generateACHPaymentsForBankPlusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GenerateACH achForm = new GenerateACH("Bank Plus");
+            //GenerateACH achForm = new GenerateACH("Bank Plus");
+            GenerateACH achForm = new GenerateACH("Renasant Bank");
             achForm.Show();
         }
         /***********************************************************************************************/

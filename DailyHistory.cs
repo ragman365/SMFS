@@ -7606,7 +7606,7 @@ namespace SMFS
                         MessageBox.Show("***INFO*** Okay, Nothing Changed!", "Down Payment Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
-                    manualForm = new ManualPayment(contract, name, dt, trust85Actual, trust85Max, row, true);
+                    manualForm = new ManualPayment(contract, name, dt, downPayment, trust85Max, row, true);
                     manualForm.TopMost = true;
                     manualForm.ManualDone += ManualForm_ManualDone;
                     manualForm.ShowDialog();

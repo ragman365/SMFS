@@ -548,7 +548,7 @@
             this.toolStripMenuItem18,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem18
@@ -1346,7 +1346,7 @@
             this.trustsToolStripMenuItem,
             this.insuranceToolStripMenuItem});
             this.quickStartToolStripMenuItem.Name = "quickStartToolStripMenuItem";
-            this.quickStartToolStripMenuItem.Size = new System.Drawing.Size(91, 26);
+            this.quickStartToolStripMenuItem.Size = new System.Drawing.Size(91, 24);
             this.quickStartToolStripMenuItem.Text = "QuickStart";
             // 
             // trustsToolStripMenuItem
@@ -1419,7 +1419,7 @@
             this.toolStripMenuItem24,
             this.toolStripMenuItem22});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // toolStripMenuItem17
@@ -1773,7 +1773,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
@@ -1798,7 +1798,7 @@
             this.mergeTwoSpreadsheetsToolStripMenuItem,
             this.pDFSharpToolStripMenuItem});
             this.miscToolStripMenuItem1.Name = "miscToolStripMenuItem1";
-            this.miscToolStripMenuItem1.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem1.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem1.Text = "Misc";
             // 
             // displayAuditToolStripMenuItem1
@@ -2071,7 +2071,7 @@
             this.rilesToolStripMenuItem,
             this.oldPassareSystemToolStripMenuItem});
             this.activateToolStripMenuItem.Name = "activateToolStripMenuItem";
-            this.activateToolStripMenuItem.Size = new System.Drawing.Size(77, 26);
+            this.activateToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
             this.activateToolStripMenuItem.Text = "Activate";
             // 
             // mainSystemToolStripMenuItem
@@ -2105,7 +2105,7 @@
             this.bankReportsToolStripMenuItem,
             this.dailyDepositReportFromAllSourcesToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // runACHReportToolStripMenuItem
@@ -2125,8 +2125,8 @@
             // generateACHPaymentsForBankPlusToolStripMenuItem
             // 
             this.generateACHPaymentsForBankPlusToolStripMenuItem.Name = "generateACHPaymentsForBankPlusToolStripMenuItem";
-            this.generateACHPaymentsForBankPlusToolStripMenuItem.Size = new System.Drawing.Size(344, 26);
-            this.generateACHPaymentsForBankPlusToolStripMenuItem.Text = "Generate ACH Payments for Bank Plus";
+            this.generateACHPaymentsForBankPlusToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
+            this.generateACHPaymentsForBankPlusToolStripMenuItem.Text = "Generate ACH Payments for Renasant Bank";
             this.generateACHPaymentsForBankPlusToolStripMenuItem.Click += new System.EventHandler(this.generateACHPaymentsForBankPlusToolStripMenuItem_Click);
             // 
             // aRReportsToolStripMenuItem

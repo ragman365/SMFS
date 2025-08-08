@@ -386,6 +386,8 @@ namespace SMFS
         private bool CheckDueDate()
         {
             bool rtn = true;
+            if (workDownPayment)
+                return rtn;
             string nextDueDate = GetData("Next Due Date");
             DateTime date = nextDueDate.ObjToDateTime();
             int day = date.Day;
@@ -974,6 +976,8 @@ namespace SMFS
                                 payment = "0.00";
                             }
                             G1.update_db_table(contractFile, "record", contractRecord, new string[] { "balanceDue", newbalanceDue.ToString(), "downPayment", dPayment.ToString() });
+
+                            //UpdateAllDownPayments(workContract, datePaid, dPayment, trust85P.ObjToDouble(), trust100P.ObjToDouble());
                             //string pbalance = G1.ReformatMoney(balanceDue);
                             //lblBalance.Text = "Balance :$" + pbalance;
                         }
@@ -988,6 +992,13 @@ namespace SMFS
                         G1.update_db_table(paymentFile, "record", record, new string[] { "contractNumber", workContract, "lastName", lastName, "firstName", firstName, "paymentAmount", payment, "interestPaid", interest, "ccFee", ccFee, "debitAdjustment", debit, "creditAdjustment", credit, "debitReason", debitReason, "creditReason", creditReason, "unpaid_interest", unpaid_interest });
                         G1.update_db_table(paymentFile, "record", record, new string[] { "CheckNumber", checknumber, "dueDate8", dueDate, "payDate8", datePaid, "trust85P", trust85P, "trust100P", trust100P, "location", location, "agentNumber", agent, "userId", user, "depositNumber", depositNumber, "edited", edited, "bank_account", bankAccount });
                     }
+                    if ( workDownPayment )
+                    {
+                        string downPayment = GetData("Down Payment");
+                        double dPayment = GetMoney("Down Payment");
+                        UpdateAllDownPayments(workContract, datePaid, dPayment, trust85P.ObjToDouble(), trust100P.ObjToDouble());
+                    }
+
                     //if (isPaid)
                     //{
                     //    D_trust85P = trust85P.ObjToDouble();
@@ -1086,6 +1097,87 @@ namespace SMFS
             }
             if (correctedCA)
                 this.Close();
+        }
+        /***************************************************************************************/
+        private void UpdateAllDownPayments ( string contractNumber, string datePaid, double downPayment, double trust85P, double trust100P )
+        {
+            //cashremitted
+            //contracts
+            //downpayments
+            //newbusiness
+            //payments
+            //trust2013r
+            //trustdetail
+
+            string record = "";
+            string cmd = "";
+            DataTable dx = null;
+            DateTime date = datePaid.ObjToDateTime();
+            DateTime monthEndDate = DateTime.MinValue;
+            DateTime monthFirstDate = DateTime.MinValue;
+
+            if ( date.Year > 1000 )
+            {
+                monthFirstDate = new DateTime(date.Year, date.Month, 1);
+                int days = DateTime.DaysInMonth(date.Year, date.Month);
+                monthEndDate = new DateTime(date.Year, date.Month, days);
+            }
+
+            try
+            {
+                cmd = "Select * from `cashremitted` where contractNumber = '" + contractNumber + "' and `newbusiness` > '0.00';";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    record = dx.Rows[0]["record"].ObjToString();
+                    G1.update_db_table("cashremitted", "record", record, new string[] { "downPayment", downPayment.ToString(), "newbusiness", downPayment.ToString(), "dpp", downPayment.ToString(), "trust85P", trust85P.ToString(), "trust100P", trust100P.ToString() });
+                }
+
+                cmd = "Select * from `newbusiness` where contractNumber = '" + contractNumber + "';";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    record = dx.Rows[0]["record"].ObjToString();
+                    G1.update_db_table("newbusiness", "record", record, new string[] { "downPayment", downPayment.ToString(), "downPayment1", downPayment.ToString(), "newbusiness", downPayment.ToString(), "trust85P", trust85P.ToString(), "trust100P", trust100P.ToString() });
+                }
+
+                cmd = "Select * from `downpayments` where `trustNumber` = '" + contractNumber + "';";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    double lossRecovery = dx.Rows[0]["lossRecoveryFee"].ObjToDouble();
+                    double ccFee = dx.Rows[0]["ccFee"].ObjToDouble();
+                    double totalDeposit = downPayment + lossRecovery + ccFee;
+                    record = dx.Rows[0]["record"].ObjToString();
+                    G1.update_db_table("downpayments", "record", record, new string[] { "downPayment", downPayment.ToString(), "totalDeposit", totalDeposit.ToString() });
+                }
+
+                cmd = "Select * from `trust2013r` where contractNumber = '" + contractNumber + "' AND `payDate8` = '" + monthEndDate.ToString("yyyyMMdd") + "' order by `payDate8`;";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    record = dx.Rows[0]["record"].ObjToString();
+
+                    cmd = "Select * from `payments` where `contractNumber` = '" + contractNumber + "' AND `payDate8` >= '" + monthFirstDate.ToString("yyyyMMdd") + "' AND `payDate8` <= '" + monthEndDate.ToString("yyyyMMdd") + "';";
+                    DataTable dt = G1.get_db_data(cmd);
+                    double payments = 0D;
+                    for ( int i=0; i<dt.Rows.Count; i++)
+                        payments += dt.Rows[i]["trust85P"].ObjToDouble();
+
+                    G1.update_db_table("trust2013r", "record", record, new string[] { "paymentCurrMonth", payments.ToString(), "currentPayments", payments.ToString(), "endingBalance", payments.ToString() });
+                }
+
+                cmd = "Select * from `trustdetail` where contractNumber = '" + contractNumber + "' AND `downPayment` > '0.00';";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    record = dx.Rows[0]["record"].ObjToString();
+                    G1.update_db_table("trustdetail", "record", record, new string[] { "downPayment", downPayment.ToString(), "downPayment1", downPayment.ToString(), "totalPayments", downPayment.ToString(), "dpp", downPayment.ToString(), "trust85P", trust85P.ToString(), "trust100P", trust100P.ToString() });
+                }
+            }
+            catch ( Exception ex)
+            {
+            }
         }
         /***************************************************************************************/
         private void UpdateForcedPayoff ()
@@ -1319,6 +1411,8 @@ namespace SMFS
                 downPayment = DailyHistory.GetDownPaymentFromPayments(workContract);
             string pdownPayment = G1.ReformatMoney(downPayment);
             originalDownPayment = downPayment;
+            if (workDownPayment)
+                payment = downPayment;
 
             balanceDue = dx.Rows[0]["balanceDue"].ObjToString().ObjToDouble();
             if (workDt.Rows.Count > 0)
@@ -1368,6 +1462,8 @@ namespace SMFS
                 principal = 0D;
                 interest = payment;
             }
+            if (workDownPayment)
+                principal = downPayment;
 
             issue = issueDate.ObjToDateTime();
             //DateTime testDate = new DateTime(2017, 12, 1);

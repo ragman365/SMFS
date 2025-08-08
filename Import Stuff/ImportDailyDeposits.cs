@@ -1488,6 +1488,8 @@ namespace SMFS
             string contractNumber = "";
             string payer = "";
             DataTable payerDt = null;
+            string columnName = "";
+            DataRow dRow = null;
 
             DateTime ACHdate = dateTimePicker1.Value;
             DialogResult result = MessageBox.Show("Are you sure you want to assign " + ACHdate.ToString("MM/dd/yyyy") + " as the IMPORT DATE for this ACH File?", "ACH Import", MessageBoxButtons.YesNo);
@@ -1496,8 +1498,14 @@ namespace SMFS
 
             DataTable importDt = Import.ImportCSVfile(filename);
 
+            DataTable dt = null;
+
             if ( importDt.Rows.Count > 0)
             {
+                if ( G1.get_column_number ( importDt, "Amount") < 0 )
+                {
+                    importDt = AddRenasantHeader(importDt);
+                }
                 if ( G1.get_column_number ( importDt, "code") < 0 )
                 {
                     importDt.Columns["Customer Number"].ColumnName = "contractNumber";
@@ -1536,7 +1544,7 @@ namespace SMFS
                 }
             }
 
-            DataTable dt = new DataTable();
+            dt = new DataTable();
             dt.Columns.Add("num");
             dt.Columns.Add("name");
             dt.Columns.Add("code");
@@ -1684,6 +1692,43 @@ namespace SMFS
             G1.NumberDataTable(dt);
             //            picLoader.Hide();
             return dt;
+        }
+        /***********************************************************************************************/
+        private DataTable AddRenasantHeader ( DataTable importDt )
+        {
+            string columnName = "";
+            DataRow dRow = importDt.NewRow();
+            for (int i = 0; i < importDt.Columns.Count; i++)
+            {
+                try
+                {
+                    columnName = importDt.Columns[i].ColumnName.ObjToString();
+                    dRow[i] = columnName;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            //tempDt.Rows.Add(dRow);
+            try
+            {
+                importDt.Rows.InsertAt(dRow, 0);
+                importDt.Columns[0].ColumnName = "Num";
+                importDt.Columns[1].ColumnName = "Customer Number";
+                importDt.Columns[2].ColumnName = "Reference ID";
+                importDt.Columns[3].ColumnName = "Last Name, First";
+                importDt.Columns[4].ColumnName = "Routing #";
+                importDt.Columns[5].ColumnName = "Acct #";
+                importDt.Columns[6].ColumnName = "Acct Type";
+                importDt.Columns[7].ColumnName = "Amount";
+                importDt.Columns[8].ColumnName = "Debit/Credit";
+                importDt.Columns[9].ColumnName = "Effective Date";
+                importDt.Columns[10].ColumnName = "Location";
+            }
+            catch (Exception ex)
+            {
+            }
+            return importDt;
         }
         /***********************************************************************************************/
         private DataTable ImportBankfile()

@@ -513,7 +513,7 @@ namespace SMFS
             return found;
         }
         /***********************************************************************************************/
-        public static bool CheckServiceIdExists ( string serviceId, string contractNumber = "" )
+        public static bool CheckServiceIdExists ( string serviceId, string contractNumber = "", string ssn = "" )
         {
             if (String.IsNullOrWhiteSpace(serviceId))
                 return false;
