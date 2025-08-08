@@ -954,10 +954,18 @@ namespace SMFS
 
                 for (int i = 0; i < dx.Rows.Count; i++)
                 {
-                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
-                    year = DecodeContractYear(contractNumber);
-                    if ( year >= 2 )
-                        dx.Rows[i]["Is2002"] = "2002";
+                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
+                    contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
+                    if (contract.Length > 2)
+                    {
+                        contract = contract.Substring(0, 2);
+                        if (G1.validate_numeric(contract))
+                        {
+                            year = contract.ObjToInt32();
+                            if (year >= 2)
+                                dx.Rows[i]["Is2002"] = "2002";
+                        }
+                    }
                 }
 
                 DataTable newDt = FindOtherNotInGood(dx, dt);
@@ -1063,10 +1071,6 @@ namespace SMFS
             catch (Exception ex)
             {
             }
-
-            //Trust85.FindContract(goodDt, "WM25007LI");
-            //Trust85.FindContract(otherDt, "WM25007LI");
-            //Trust85.FindContract(newDt, "WM25007LI");
 
             return newDt;
         }
@@ -1396,6 +1400,8 @@ namespace SMFS
                 dRow["allowInsurance"] = allowInsurance;
                 dRow["annuity"] = annuity;
                 dRow["balanceDue"] = balanceDue;
+                dRow["A_contracts"] = A_contracts;
+                dRow["A_remainingBal"] = A_remainingBal;
                 dt2.Rows.Add(dRow);
                 /*
                 if ( L_contracts != 0D )
