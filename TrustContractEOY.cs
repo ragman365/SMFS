@@ -954,18 +954,11 @@ namespace SMFS
 
                 for (int i = 0; i < dx.Rows.Count; i++)
                 {
-                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
-                    contract = Trust85.decodeContractNumber(contractNumber, ref trust, ref loc);
-                    if (contract.Length > 2)
-                    {
-                        contract = contract.Substring(0, 2);
-                        if (G1.validate_numeric(contract))
-                        {
-                            year = contract.ObjToInt32();
-                            if (year >= 2)
-                                dx.Rows[i]["Is2002"] = "2002";
-                        }
-                    }
+                    contractNumber = dx.Rows[i]["contractNumber"].ObjToString().Trim();
+                    year = DecodeContractYear(contractNumber);
+
+                    if (year >= 2)
+                        dx.Rows[i]["Is2002"] = "2002";
                 }
 
                 DataTable newDt = FindOtherNotInGood(dx, dt);
