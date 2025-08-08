@@ -116,7 +116,7 @@ namespace SMFS
             else if (now.Month >= 7)
             {
                 start = new DateTime(now.Year, 7, 1);
-                stop = new DateTime(now.Year, 9, 31);
+                stop = new DateTime(now.Year, 9, 30);
             }
             else if (now.Month >= 4)
             {
