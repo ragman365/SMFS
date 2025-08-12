@@ -154,6 +154,7 @@
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolAgentReportList = new System.Windows.Forms.ToolStripMenuItem();
             this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.permanentlyDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.panelBottomRight.SuspendLayout();
@@ -189,10 +190,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1502, 709);
+            this.panelAll.Size = new System.Drawing.Size(1502, 711);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -202,7 +203,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 119);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1502, 590);
+            this.panelBottom.Size = new System.Drawing.Size(1502, 592);
             this.panelBottom.TabIndex = 3;
             // 
             // panelBottomRight
@@ -212,7 +213,7 @@
             this.panelBottomRight.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRight.Name = "panelBottomRight";
-            this.panelBottomRight.Size = new System.Drawing.Size(1502, 590);
+            this.panelBottomRight.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomRight.TabIndex = 8;
             // 
             // panelBottomRightChecks
@@ -223,7 +224,7 @@
             this.panelBottomRightChecks.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecks.Name = "panelBottomRightChecks";
-            this.panelBottomRightChecks.Size = new System.Drawing.Size(1502, 590);
+            this.panelBottomRightChecks.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomRightChecks.TabIndex = 7;
             // 
             // panelBottomRightChecksBottom
@@ -233,7 +234,7 @@
             this.panelBottomRightChecksBottom.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksBottom.Name = "panelBottomRightChecksBottom";
-            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1502, 590);
+            this.panelBottomRightChecksBottom.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomRightChecksBottom.TabIndex = 9;
             // 
             // panelBottomBottom
@@ -242,7 +243,7 @@
             this.panelBottomBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBottomBottom.Location = new System.Drawing.Point(0, 0);
             this.panelBottomBottom.Name = "panelBottomBottom";
-            this.panelBottomBottom.Size = new System.Drawing.Size(1502, 590);
+            this.panelBottomBottom.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomBottom.TabIndex = 9;
             // 
             // dgv
@@ -268,7 +269,7 @@
             this.repositoryItemComboBox6,
             this.repositoryItemComboBox7,
             this.repositoryItemMemoEdit2});
-            this.dgv.Size = new System.Drawing.Size(1502, 590);
+            this.dgv.Size = new System.Drawing.Size(1502, 592);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -281,43 +282,44 @@
             this.assignNewAgentToolStripMenuItem,
             this.goToPreneedToolStripMenuItem,
             this.duplicateContactToolStripMenuItem,
-            this.goToFuneralToolStripMenuItem});
+            this.goToFuneralToolStripMenuItem,
+            this.permanentlyDeleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(200, 124);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 176);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // editDetailMenu
             // 
             this.editDetailMenu.Name = "editDetailMenu";
-            this.editDetailMenu.Size = new System.Drawing.Size(199, 24);
+            this.editDetailMenu.Size = new System.Drawing.Size(210, 24);
             this.editDetailMenu.Text = "Edit Detail";
             this.editDetailMenu.Click += new System.EventHandler(this.editDetailMenu_Click);
             // 
             // assignNewAgentToolStripMenuItem
             // 
             this.assignNewAgentToolStripMenuItem.Name = "assignNewAgentToolStripMenuItem";
-            this.assignNewAgentToolStripMenuItem.Size = new System.Drawing.Size(199, 24);
+            this.assignNewAgentToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.assignNewAgentToolStripMenuItem.Text = "Assign New Agent";
             this.assignNewAgentToolStripMenuItem.Click += new System.EventHandler(this.assignNewAgentToolStripMenuItem_Click);
             // 
             // goToPreneedToolStripMenuItem
             // 
             this.goToPreneedToolStripMenuItem.Name = "goToPreneedToolStripMenuItem";
-            this.goToPreneedToolStripMenuItem.Size = new System.Drawing.Size(199, 24);
+            this.goToPreneedToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.goToPreneedToolStripMenuItem.Text = "Go To Preneed";
             this.goToPreneedToolStripMenuItem.Click += new System.EventHandler(this.goToPreneedToolStripMenuItem_Click);
             // 
             // duplicateContactToolStripMenuItem
             // 
             this.duplicateContactToolStripMenuItem.Name = "duplicateContactToolStripMenuItem";
-            this.duplicateContactToolStripMenuItem.Size = new System.Drawing.Size(199, 24);
+            this.duplicateContactToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.duplicateContactToolStripMenuItem.Text = "Duplicate Contact";
             this.duplicateContactToolStripMenuItem.Click += new System.EventHandler(this.duplicateContactToolStripMenuItem_Click);
             // 
             // goToFuneralToolStripMenuItem
             // 
             this.goToFuneralToolStripMenuItem.Name = "goToFuneralToolStripMenuItem";
-            this.goToFuneralToolStripMenuItem.Size = new System.Drawing.Size(199, 24);
+            this.goToFuneralToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.goToFuneralToolStripMenuItem.Text = "Go To Funeral";
             this.goToFuneralToolStripMenuItem.Click += new System.EventHandler(this.goToFuneralToolStripMenuItem_Click);
             // 
@@ -1228,7 +1230,7 @@
             this.panelBottomRightChecksTop.Location = new System.Drawing.Point(0, 0);
             this.panelBottomRightChecksTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottomRightChecksTop.Name = "panelBottomRightChecksTop";
-            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1502, 590);
+            this.panelBottomRightChecksTop.Size = new System.Drawing.Size(1502, 592);
             this.panelBottomRightChecksTop.TabIndex = 8;
             this.panelBottomRightChecksTop.Visible = false;
             // 
@@ -1667,7 +1669,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1502, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1502, 28);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1676,7 +1678,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1705,7 +1707,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
             // 
             // screenOptionsToolStripMenuItem
             // 
@@ -1713,7 +1715,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -1736,7 +1738,7 @@
             this.toolAgentReportList,
             this.reportsToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // toolAgentReportList
@@ -1752,6 +1754,13 @@
             this.reportsToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.reportsToolStripMenuItem.Text = "Reports";
             this.reportsToolStripMenuItem.Click += new System.EventHandler(this.reportsToolStripMenuItem_Click);
+            // 
+            // permanentlyDeleteToolStripMenuItem
+            // 
+            this.permanentlyDeleteToolStripMenuItem.Name = "permanentlyDeleteToolStripMenuItem";
+            this.permanentlyDeleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.permanentlyDeleteToolStripMenuItem.Text = "Permanently Delete";
+            this.permanentlyDeleteToolStripMenuItem.Click += new System.EventHandler(this.permanentlyDeleteToolStripMenuItem_Click);
             // 
             // ContactsPreneed
             // 
@@ -1927,5 +1936,6 @@
         private System.Windows.Forms.Panel panelBottomBottom;
         private System.Windows.Forms.Button btnRunReport;
         private System.Windows.Forms.ComboBox cmbReport;
+        private System.Windows.Forms.ToolStripMenuItem permanentlyDeleteToolStripMenuItem;
     }
 }

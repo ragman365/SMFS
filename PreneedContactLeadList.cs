@@ -150,28 +150,38 @@ namespace SMFS
             //lblpocEmail.Text = str;
         }
         /***********************************************************************************************/
+        private DataTable originalDT = null;
+        
         private void LoadData()
         {
             this.Cursor = Cursors.WaitCursor;
-
-
-
+            
             string cmd = "Select * from `relatives` WHERE `contractNumber` = '" + workContractNumber + "' ";
             cmd += " AND `depRelationship` <> 'DISCLOSURES' ";
             cmd += " AND `depRelationship` <> 'CLERGY' ";
-            cmd += " AND `depRelationship` <> 'PB' ";
+//            cmd += " AND `depRelationship` <> 'PB' ";
             cmd += " AND `depRelationship` <> 'HPB' ";
             cmd += " AND `depRelationship` <> 'MUSICIAN' ";
             cmd += " AND `depRelationship` <> 'FUNERAL DIRECTOR' ";
-            cmd += " AND `depRelationship` <> 'PALLBEARER' ";
+//            cmd += " AND `depRelationship` <> 'PALLBEARER' ";
             cmd += " AND `deceased` <> '1' ";
             cmd += " ORDER by `depLastName`,`depFirstName`,`depMI` ";
 
-            DataTable dt = G1.get_db_data(cmd);
-
-            dt.Columns.Add("addContact");
-            dt.Columns.Add("pp");
-            dt.Columns.Add("agent");
+            DataTable dt = null;
+            if (originalDT != null)
+            {
+                dt = originalDT.Copy();
+            }
+            else
+            {
+                dt = G1.get_db_data(cmd);
+                dt.Columns.Add("addContact");
+                dt.Columns.Add("pp");
+                dt.Columns.Add("agent");
+                dt.Columns.Add("mod");
+                dt.Columns.Add("hide");
+                originalDT = dt.Copy();
+            }
 
             string firstName = "";
             string lastName = "";
@@ -183,7 +193,7 @@ namespace SMFS
 
             AddMod(dt, gridMain);
 
-            if ( !showAll )
+            if ( !showAll && !showPB)
                 dt = filterResults(dt);
 
             SetupAddContact ( dt );
@@ -232,7 +242,7 @@ namespace SMFS
 
             this.Cursor = Cursors.Default;
 
-            showAll = false;
+//            showAll = false;
 
         }
         /***********************************************************************************************/
@@ -319,7 +329,10 @@ namespace SMFS
                         break;
                 }
                 if (!found)
-                    dt.Rows.RemoveAt(i);
+                {
+                    //                    dt.Rows.RemoveAt(i);
+                    dt.Rows[i]["hide"] = "1";
+                }
             }
 
             return dt;
@@ -360,7 +373,32 @@ namespace SMFS
                 e.Visible = false;
                 e.Handled = true;
             }
-
+            string relationship = dt.Rows[row]["depRelationship"].ObjToString();
+            if (!showPB && !showAll)
+            {
+                string hide = dt.Rows[row]["hide"].ObjToString();
+                if (hide == "1")
+                {
+                    e.Visible = false;
+                    e.Handled = true;
+                }
+            }
+            if (showPB)
+            {
+                if (relationship.ToUpper() != "PB" && relationship.ToUpper() != "PALLBEARER")
+                {
+                    e.Visible = false;
+                    e.Handled = true;
+                }
+            }
+            else 
+            {
+                if (relationship.ToUpper() == "PB" || relationship.ToUpper() == "PALLBEARER")
+                {
+                    e.Visible = false;
+                    e.Handled = true;
+                }
+            }
         }
         /****************************************************************************************/
         private void gridMain_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
@@ -650,7 +688,7 @@ namespace SMFS
         protected void OnDone()
         {
             DataTable dt = (DataTable)dgv.DataSource;
-
+            dt = originalDT.Copy();
             DataTable dx = dt.Clone();
 
             string mod = "";
@@ -695,6 +733,13 @@ namespace SMFS
                 else
                     dr["addContact"] = "0";
                 dr["mod"] = "Y";
+                string record = dr["record"].ObjToString();
+                DataRow[] dRows = originalDT.Select("record = '" + record + "'");
+                if (dRows.Length > 0)
+                {
+                    dRows[0]["addContact"] = dr["addContact"].ObjToString();
+                    dRows[0]["mod"] = dr["mod"].ObjToString();
+                }
             }
             catch ( Exception ex)
             {
@@ -781,14 +826,23 @@ namespace SMFS
                 return;
 
             dr["mod"] = "Y";
-
+            string record = dr["record"].ObjToString();
+            DataRow[] dRows = originalDT.Select("record = '" + record + "'");
+            if (dRows.Length > 0)
+            {
+                string field = gridMain.FocusedColumn.FieldName;
+                dRows[0][field] = dr[field].ObjToString();
+                dRows[0]["mod"] = dr["mod"].ObjToString();
+            }
+            if (1 == 1)
+                return;
             GridColumn currCol = gridMain.FocusedColumn;
             string currentColumn = currCol.FieldName;
             if (currentColumn.ToUpper() == "NUM")
                 return;
 
             string what = dr[currentColumn].ObjToString();
-            string record = dr["record"].ObjToString();
+//            string record = dr["record"].ObjToString();
             string agent = dr["agent"].ObjToString();
             //if (!String.IsNullOrWhiteSpace(agent))
             //{
@@ -876,7 +930,16 @@ namespace SMFS
         private bool showAll = false;
         private void btnShowAll_Click(object sender, EventArgs e)
         {
-            showAll = true;
+            if (showAll)
+            {
+                showAll = false;
+                btnShowAll.BackColor = Color.Transparent;
+            }
+            else
+            {
+                showAll = true;
+                btnShowAll.BackColor = Color.LimeGreen;
+            }
             LoadData();
         }
         /****************************************************************************************/
@@ -901,6 +964,22 @@ namespace SMFS
                 fastForm.Text = "Possible Preneeds for " + saveName + " " + lastName;
                 fastForm.ShowDialog();
             }
+        }
+        /****************************************************************************************/
+        bool showPB = false;
+        private void btnShowPB_Click(object sender, EventArgs e)
+        {
+            if (showPB)
+            {
+                showPB = false;
+                btnShowPB.BackColor = Color.Transparent;
+            }
+            else
+            {
+                showPB = true;
+                btnShowPB.BackColor = Color.LimeGreen;
+            }
+            LoadData();
         }
         /****************************************************************************************/
     }

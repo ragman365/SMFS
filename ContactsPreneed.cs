@@ -122,6 +122,11 @@ namespace SMFS
 
             btnShowAnniversary.BackColor = Color.Transparent;
 
+            if (!G1.isAdmin())
+            {
+                permanentlyDeleteToolStripMenuItem.Dispose();
+            }
+
             SetupToolTips();
 
             //if (!G1.isAdmin())
@@ -2093,7 +2098,7 @@ namespace SMFS
         }
         /****************************************************************************************/
         private void pictureBox11_Click(object sender, EventArgs e)
-        { // Remove Existing Payment
+        { // Remove Existing Contact
             DataTable dt = (DataTable)dgv.DataSource;
             DataRow dr = gridMain.GetFocusedDataRow();
             if (dr == null)
@@ -5225,7 +5230,6 @@ namespace SMFS
             if (String.IsNullOrWhiteSpace(customReport))
                 return;
 
-
             string cmd = "Select * from `contacts_reports` WHERE `module` = 'Contacts Preneed' AND `report` = '" + customReport + "';";
             DataTable ddd = G1.get_db_data(cmd);
             if (ddd.Rows.Count <= 0)
@@ -5287,6 +5291,51 @@ namespace SMFS
 
                 this.Cursor = Cursors.Default;
             }
+        }
+        /****************************************************************************************/
+        private void permanentlyDeleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            DataRow dr = gridMain.GetFocusedDataRow();
+            if (dr == null)
+                return;
+
+            int row = gridMain.FocusedRowHandle;
+            row = gridMain.GetDataSourceRowIndex(row);
+            string agent = dr["agent"].ObjToString();
+            if (G1.isAdmin())
+            {
+                DialogResult result = MessageBox.Show("Do you want to DELETE This Contact! ", "Delete Preneed Contact Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                if (result == DialogResult.Yes)
+                {
+                    string record = dr["record"].ObjToString();
+                    G1.delete_db_table("contacts_preneed", "record", record);
+
+                    //dt = (DataTable)dgv.DataSource;
+                    //int row = gridMain.GetDataSourceRowIndex(gridMain.FocusedRowHandle);
+                    try
+                    {
+                        dt.Rows.RemoveAt(row);
+                        dt.AcceptChanges();
+                        //gridMain.DeleteRow(gridMain.FocusedRowHandle);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    dt.AcceptChanges();
+                    G1.NumberDataTable(dt);
+                    dgv.DataSource = dt;
+                    dgv.RefreshDataSource();
+                    dgv.Refresh();
+
+                    //LoadData();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Do do not have permission to\ndelete this contact!", "Delete Contact Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            }
+            this.Cursor = Cursors.Arrow;
         }
         /****************************************************************************************/
     }

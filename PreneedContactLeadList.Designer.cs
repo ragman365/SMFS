@@ -77,6 +77,7 @@
             this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelClaimTop = new System.Windows.Forms.Panel();
+            this.btnShowPB = new System.Windows.Forms.Button();
             this.lblCurrentAgent = new System.Windows.Forms.Label();
             this.btnShowAll = new System.Windows.Forms.Button();
             this.lblEmail = new System.Windows.Forms.Label();
@@ -120,10 +121,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelClaimTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1798, 538);
+            this.panelAll.Size = new System.Drawing.Size(1798, 540);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -133,7 +134,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 124);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1798, 414);
+            this.panelBottom.Size = new System.Drawing.Size(1798, 416);
             this.panelBottom.TabIndex = 3;
             // 
             // dgv
@@ -156,7 +157,7 @@
             this.repositoryItemCheckEdit7,
             this.repositoryItemDateEdit1,
             this.repositoryItemCheckEdit12});
-            this.dgv.Size = new System.Drawing.Size(1798, 414);
+            this.dgv.Size = new System.Drawing.Size(1798, 416);
             this.dgv.TabIndex = 9;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain,
@@ -340,6 +341,8 @@
             this.gridMain.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.gridMain.OptionsView.ShowGroupPanel = false;
             this.gridMain.PaintStyleName = "Flat";
+            this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
+            this.gridMain.CustomRowFilter += new DevExpress.XtraGrid.Views.Base.RowFilterEventHandler(this.gridMain_CustomRowFilter);
             // 
             // gridBand6
             // 
@@ -782,6 +785,7 @@
             // panelClaimTop
             // 
             this.panelClaimTop.BackColor = System.Drawing.Color.Honeydew;
+            this.panelClaimTop.Controls.Add(this.btnShowPB);
             this.panelClaimTop.Controls.Add(this.lblCurrentAgent);
             this.panelClaimTop.Controls.Add(this.btnShowAll);
             this.panelClaimTop.Controls.Add(this.lblEmail);
@@ -797,6 +801,17 @@
             this.panelClaimTop.Name = "panelClaimTop";
             this.panelClaimTop.Size = new System.Drawing.Size(1798, 124);
             this.panelClaimTop.TabIndex = 2;
+            // 
+            // btnShowPB
+            // 
+            this.btnShowPB.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnShowPB.Location = new System.Drawing.Point(1108, 5);
+            this.btnShowPB.Name = "btnShowPB";
+            this.btnShowPB.Size = new System.Drawing.Size(119, 56);
+            this.btnShowPB.TabIndex = 148;
+            this.btnShowPB.Text = "Show All Pallbearers";
+            this.btnShowPB.UseVisualStyleBackColor = true;
+            this.btnShowPB.Click += new System.EventHandler(this.btnShowPB_Click);
             // 
             // lblCurrentAgent
             // 
@@ -894,7 +909,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1798, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1798, 28);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -903,7 +918,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -932,7 +947,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
             // 
             // contextMenuStrip1
             // 
@@ -1055,5 +1070,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem searchForPreNeedToolStripMenuItem;
         private System.Windows.Forms.Label lblCurrentAgent;
+        private System.Windows.Forms.Button btnShowPB;
     }
 }
