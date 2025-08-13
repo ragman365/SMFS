@@ -5729,10 +5729,15 @@ namespace SMFS
         {
             if ( workDatabase.ToUpper() != "SMFS" )
             {
-                funModified = false;
-                btnSaveServices.Hide();
-                btnSaveServices.Refresh();
-                return;
+                if (G1.isAdmin())
+                    SaveTheseServices();
+                else
+                {
+                    funModified = false;
+                    btnSaveServices.Hide();
+                    btnSaveServices.Refresh();
+                    return;
+                }
             }
             SaveTheseServices();
         }
@@ -8541,6 +8546,7 @@ namespace SMFS
         {
             DataRow dr = gridMain.GetFocusedDataRow();
             dr["type"] = "Merchandise";
+            dr["mod"] = "1";
             funModified = true;
             btnSaveServices.Show();
         }
@@ -8549,6 +8555,7 @@ namespace SMFS
         {
             DataRow dr = gridMain.GetFocusedDataRow();
             dr["type"] = "service";
+            dr["mod"] = "1";
             funModified = true;
             btnSaveServices.Show();
         }

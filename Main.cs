@@ -80,6 +80,9 @@ namespace SMFS
             lblTotal.Hide();
             barImport.Hide();
 
+            importDailyDepositFileToolStripMenuItem.Dispose();
+            importACHFileToolStripMenuItem.Dispose();
+
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Reflection.AssemblyName assemblyName = assembly.GetName();
             string location = assembly.Location;

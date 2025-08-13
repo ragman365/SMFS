@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Funerals));
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
@@ -160,6 +160,7 @@
             this.burialDetailReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.funeralArrangerTotalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.burialCremationSummaryReportTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.passareDetailReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trustsClaimsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outsideTrustClaimsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -170,7 +171,6 @@
             this.funeralCommissionsForArrangersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showChangesWOSavingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.passareDetailReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -1363,10 +1363,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton1.Caption = "contextButton1";
-            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton1.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton1);
+            contextButton2.Caption = "contextButton1";
+            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton2.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // panelTop
@@ -1882,6 +1882,13 @@
             this.burialCremationSummaryReportTestToolStripMenuItem.Text = "Burial/Cremation Summary Report Test";
             this.burialCremationSummaryReportTestToolStripMenuItem.Click += new System.EventHandler(this.burialCremationSummaryReportTestToolStripMenuItem_Click);
             // 
+            // passareDetailReportToolStripMenuItem
+            // 
+            this.passareDetailReportToolStripMenuItem.Name = "passareDetailReportToolStripMenuItem";
+            this.passareDetailReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
+            this.passareDetailReportToolStripMenuItem.Text = "Passare Detail Report";
+            this.passareDetailReportToolStripMenuItem.Click += new System.EventHandler(this.passareDetailReportToolStripMenuItem_Click);
+            // 
             // aRToolStripMenuItem
             // 
             this.aRToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1958,13 +1965,6 @@
             this.showChangesWOSavingToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.showChangesWOSavingToolStripMenuItem.Text = "Show Changes W/O Saving";
             this.showChangesWOSavingToolStripMenuItem.Click += new System.EventHandler(this.showChangesWOSavingToolStripMenuItem_Click);
-            // 
-            // passareDetailReportToolStripMenuItem
-            // 
-            this.passareDetailReportToolStripMenuItem.Name = "passareDetailReportToolStripMenuItem";
-            this.passareDetailReportToolStripMenuItem.Size = new System.Drawing.Size(350, 26);
-            this.passareDetailReportToolStripMenuItem.Text = "Passare Detail Report";
-            this.passareDetailReportToolStripMenuItem.Click += new System.EventHandler(this.passareDetailReportToolStripMenuItem_Click);
             // 
             // Funerals
             // 

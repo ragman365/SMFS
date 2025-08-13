@@ -42,6 +42,7 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Mail;
+using System.Linq;
 
 /****************************************************************************************/
 namespace SMFS
@@ -62,16 +63,143 @@ namespace SMFS
         public PassareDetailReport()
         {
             InitializeComponent();
+
+            SetupTotalsSummary();
+        }
+        /****************************************************************************************/
+        private void SetupTotalsSummary()
+        {
+            //AddSummaryColumn("amountReceived", null, "Custom");
+            //AddSummaryColumn("amountFiled", null, "Custom");
+            //AddSummaryColumn("custPrice", null, "Custom");
+            //AddSummaryColumn("custMerchandise", null, "Custom");
+            //AddSummaryColumn("custServices", null, "Custom");
+            //AddSummaryColumn("totalDiscount", null, "Custom");
+            //AddSummaryColumn("currentPrice", null, "Custom");
+            //AddSummaryColumn("currentMerchandise", null, "Custom");
+            //AddSummaryColumn("currentServices", null, "Custom");
+            //AddSummaryColumn("balanceDue", null, "Custom");
+            //AddSummaryColumn("additionalDiscount", null, "Custom");
+            //AddSummaryColumn("classa", null, "Custom");
+            //AddSummaryColumn("grossAmountReceived", null, "Custom");
+            //AddSummaryColumn("amountDiscount", null, "Custom");
+            //AddSummaryColumn("amountGrowth1", null, "Custom");
+            //AddSummaryColumn("cashAdvance", null, "Custom");
+            //AddSummaryColumn("trustAmountFiled", null, "Custom");
+            //AddSummaryColumn("trustAmountReceived", null, "Custom");
+            //AddSummaryColumn("insAmountFiled", null, "Custom");
+            //AddSummaryColumn("insAmountReceived", null, "Custom");
+            //AddSummaryColumn("trustPayment", null, "Custom");
+            //AddSummaryColumn("netFuneral", null, "Custom");
+            //AddSummaryColumn("cashCheck", null, "Custom");
+            //AddSummaryColumn("cc", null, "Custom");
+
+            AddSummaryColumn("casketAmount", null);
+            AddSummaryColumn("vaultAmount", null);
+            AddSummaryColumn("urnAmount", null);
+
+            AddSummaryColumn("trusts", null);
+            AddSummaryColumn("insurance", null);
+            AddSummaryColumn("checks", null);
+            AddSummaryColumn("totalCash", null);
+            AddSummaryColumn("card", null);
+            AddSummaryColumn("payments", null);
+            AddSummaryColumn("refunds", null);
+
+            AddSummaryColumn("netFuneral", null);
+            AddSummaryColumn("totalCollected", null);
+
+            AddSummaryColumn("custPrice", null);
+            AddSummaryColumn("discounts", null);
+
+            //AddSummaryColumn("casketCost", null, "Custom");
+            //AddSummaryColumn("vaultCost", null, "Custom");
+            //AddSummaryColumn("endingBalance", null, "Custom");
+            //AddSummaryColumn("upgrade", null, "Custom");
+            //AddSummaryColumn("otherBonuses", null, "Custom");
+            //AddSummaryColumn("urn", null, "Custom");
+            //AddSummaryColumn("newDiscount", null, "Custom");
+        }
+        /****************************************************************************************/
+        private void AddSummaryColumn(string columnName, DevExpress.XtraGrid.Views.Grid.GridView gMain = null, string summaryItemType = "", string format = "")
+        {
+            if (gMain == null)
+                gMain = gridMain;
+            if (String.IsNullOrWhiteSpace(format))
+                format = "{0:N2}";
+            if (summaryItemType.ToUpper() == "CUSTOM")
+            {
+                gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
+                GridSummaryItem item = null;
+                bool found = false;
+                for (int i = 0; i < gMain.GroupSummary.Count; i++)
+                {
+                    item = gMain.GroupSummary[i];
+                    if (item.FieldName == columnName)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    gMain.GroupSummary.Add(new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Custom, columnName, gMain.Columns[columnName], format));
+                }
+            }
+            else
+            {
+                gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+                GridSummaryItem item = null;
+                bool found = false;
+                for (int i = 0; i < gMain.GroupSummary.Count; i++)
+                {
+                    item = gMain.GroupSummary[i];
+                    if (item.FieldName == columnName)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    gMain.GroupSummary.Add(new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, columnName, gMain.Columns[columnName], format));
+                }
+            }
+            gMain.Columns[columnName].SummaryItem.DisplayFormat = format;
         }
         /****************************************************************************************/
         private void PassareDetailReport_Load(object sender, EventArgs e)
         {
+            string title = "Funeral Detail Report";
+            if (G1.oldCopy)
+            {
+                menuStrip1.BackColor = Color.LightBlue;
+                title = "Passare Funeral Detail Report";
+            }
+
+            this.Text = title;
+
+            btnGenerate.Hide();
+            btnSendEmail.Hide();
+
+            gridMain.Columns["ID"].Visible = false;
+            gridMain.Columns["tmstamp"].Visible = false;
+
+            if ( !G1.isAdmin() )
+            {
+                miscToolStripMenuItem.Dispose();
+                deletePaymentsToolStripMenuItem.Dispose();
+            }
+
             btnGenerate.Hide();
 
             dgv2.Hide();
             dgv.Dock = DockStyle.Fill;
 
             DateTime now = DateTime.Now;
+
+            now = new DateTime(2020, 1, 1);
+
             DateTime startDate = now.AddMonths(-1);
             startDate = new DateTime(startDate.Year, startDate.Month, 1);
             this.dateTimePicker1.Value = startDate;
@@ -80,10 +208,10 @@ namespace SMFS
             this.dateTimePicker2.Value = stopDate;
 
             gridMain.Columns["num"].Visible = true;
-            gridMain.Columns["contractNumber"].Visible = true;
+            //gridMain.Columns["contractNumber"].Visible = true;
 
             gridMain.OptionsPrint.PrintBandHeader = false;
-            gridMain.OptionsPrint.PrintFooter = false;
+            gridMain.OptionsPrint.PrintFooter = true;
 
             getLocations();
 
@@ -199,8 +327,8 @@ namespace SMFS
             ScaleCells();
             this.Cursor = Cursors.Default;
 
-            btnGenerate.Show();
-            btnGenerate.Refresh();
+            //btnGenerate.Show();
+            //btnGenerate.Refresh();
         }
         /****************************************************************************************/
         private void runData()
@@ -288,6 +416,38 @@ namespace SMFS
             dt.Columns.Add("phone");
             dt.Columns.Add("address");
             dt.Columns.Add("paidBy");
+            dt.Columns.Add("discounts", Type.GetType("System.Double"));
+            //dt.Columns.Add("casketAmount", Type.GetType("System.Double"));
+            //dt.Columns.Add("vaultAmount", Type.GetType("System.Double"));
+            dt.Columns.Add("urnAmount", Type.GetType("System.Double"));
+
+            dt.Columns.Add("trusts", Type.GetType("System.Double"));
+            dt.Columns.Add("insurance", Type.GetType("System.Double"));
+            dt.Columns.Add("payments", Type.GetType("System.Double"));
+            dt.Columns.Add("totalCash", Type.GetType("System.Double"));
+            dt.Columns.Add("checks", Type.GetType("System.Double"));
+            dt.Columns.Add("refunds", Type.GetType("System.Double"));
+            dt.Columns.Add("card", Type.GetType("System.Double"));
+
+            dt.Columns.Add("trustDepositDate");
+            dt.Columns.Add("insuranceDepositDate");
+            dt.Columns.Add("paymentDepositDate");
+            dt.Columns.Add("checkDepositDate");
+            dt.Columns.Add("refundDepositDate");
+            dt.Columns.Add("cashDepositDate");
+            dt.Columns.Add("cardDepositDate");
+
+            dt.Columns.Add("netFuneral", Type.GetType("System.Double"));
+            dt.Columns.Add("totalCollected", Type.GetType("System.Double"));
+
+            if (G1.get_column_number(dt, "casketdesc") < 0)
+                dt.Columns.Add("casketdesc");
+            if (G1.get_column_number(dt, "vaultDesc") < 0)
+                dt.Columns.Add("vaultDesc");
+            if (G1.get_column_number(dt, "urnDesc") < 0)
+                dt.Columns.Add("urnDesc");
+
+
             //dt.Columns.Add("GOOD");
             //dt.Columns.Add("gsdate");
 
@@ -303,6 +463,10 @@ namespace SMFS
             string funeralClass = "";
             double dValue = 0D;
             string serviceLoc = "";
+            string status = "";
+            string type = "";
+            string what = "";
+            double amount = 0D;
 
             double currentPrice = 0D;
             double discount = 0D;
@@ -327,38 +491,75 @@ namespace SMFS
             double trustDiscount = 0D;
             double insuranceDiscount = 0D;
             double preneedDiscount = 0D;
+            double totalDiscount = 0D;
+            double additionalDiscount = 0D;
+            double compDiscount = 0D;
+            double payment = 0D;
 
             double contractTotal = 0D;
             double totalCost = 0D;
             double preDiscount = 0D;
+            string description = "";
 
             string casket = "";
             string vault = "";
-
-            string prospects = "";
-            string relationship = "";
             string record = "";
-            string firstName = "";
-            string middleName = "";
-            string lastName = "";
-            string phone = "";
-            string phoneType = "";
-            string address = "";
 
-            string proNames = "";
-            string proRelation = "";
-            string proPhone = "";
-            string proAddress = "";
+            //string prospects = "";
+            //string relationship = "";
+            //string firstName = "";
+            //string middleName = "";
+            //string lastName = "";
+            //string phone = "";
+            //string phoneType = "";
+            //string address = "";
+
+            //string proNames = "";
+            //string proRelation = "";
+            //string proPhone = "";
+            //string proAddress = "";
+
+            double trusts = 0D;
+            double insurance = 0D;
+            double checks = 0D;
+            double cash = 0D;
+            double refunds = 0D;
+            double card = 0D;
+
+            string trustDepositDate = "";
+            string insuranceDepositDate = "";
+            string checkDepositDate = "";
+            string cashDepositDate = "";
+            string refundDepositDate = "";
+            string paymentDepositDate = "";
+            string cardDepositDate = "";
+
+
+
+            double netFuneral = 0D;
+            double totalCollected = 0D;
+            double grossFuneral = 0D;
 
             string paidBy = "";
             string paid = "";
 
 
             DataRow[] dRows = null;
+            DataRow dRow = null;
             DataTable dx = null;
             DataTable rDt = null;
+            DataTable pDt = null;
+
+            DataTable rtDt = null;
 
             int count = 0;
+
+            int lastRow = dt.Rows.Count;
+
+            barImport.Show();
+            barImport.Minimum = 0;
+            barImport.Maximum = dt.Rows.Count;
+            barImport.Refresh();
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -366,14 +567,11 @@ namespace SMFS
                 {
                     Application.DoEvents();
 
+                    barImport.Value = i + 1;
+                    barImport.Refresh();
+
                     contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
-                    if (contractNumber == "B18019L")
-                    {
-                    }
                     serviceId = dt.Rows[i]["serviceId"].ObjToString();
-                    if (serviceId.ToUpper() == "BS22002")
-                    {
-                    }
 
                     serviceLoc = dt.Rows[i]["serviceLoc"].ObjToString();
 
@@ -382,6 +580,13 @@ namespace SMFS
                     {
                         dt.Rows[i]["contractNumber"] = "";
                         continue;
+                    }
+
+                    if ( String.IsNullOrWhiteSpace ( serviceLoc))
+                    {
+                        Trust85.decodeContractNumber(serviceId, ref trust, ref loc);
+                        serviceLoc = loc;
+                        dt.Rows[i]["serviceLoc"] = loc;
                     }
 
                     if (DailyHistory.gotCemetery(serviceId))
@@ -423,53 +628,28 @@ namespace SMFS
                             dt.Rows[i]["vault"] = dx.Rows[0]["casketdesc"].ObjToString();
                     }
 
-                    prospects = "";
-                    proNames = "";
-                    proPhone = "";
-                    proRelation = "";
-                    proAddress = "";
-                    
-                    cmd = "Select * from `relatives` where `contractNumber` = '" + contractNumber + "';";
-                    rDt = G1.get_db_data(cmd);
-                    for ( int j=0; j<rDt.Rows.Count; j++)
+                    cmd = "Select * from `cust_payments` where `contractNumber` = '" + contractNumber + "';";
+                    pDt = G1.get_db_data(cmd);
+
+                    if (G1.get_column_number(pDt, "description") < 0)
+                        pDt.Columns.Add("descrition");
+
+                    totalDiscount = 0D;
+                    totalAllPayments = 0D;
+                    for (int j = 0; j < pDt.Rows.Count; j++)
                     {
-                        relationship = rDt.Rows[j]["depRelationship"].ObjToString().Trim();
-                        if (String.IsNullOrWhiteSpace(relationship))
+                        status = pDt.Rows[j]["status"].ObjToString().ToUpper();
+                        if (status != "DEPOSITED" && status != "ACCEPT")
                             continue;
-                        if (relationship == "PB" || relationship == "HPB" || relationship == "CLERGY" || relationship == "MUSICIAN")
-                            continue;
-                        if (relationship == "FUNERAL DIRECTOR" || relationship == "DISCLOSURES")
-                            continue;
-                        record = rDt.Rows[j]["record"].ObjToString();
-                        firstName = rDt.Rows[j]["depFirstName"].ObjToString().Trim();
-                        middleName = rDt.Rows[j]["depMI"].ObjToString();
-                        lastName = rDt.Rows[j]["depLastName"].ObjToString();
-
-                        phoneType = rDt.Rows[j]["phoneType"].ObjToString();
-                        phone = rDt.Rows[j]["phone"].ObjToString();
-                        address = rDt.Rows[j]["address"].ObjToString() + ", " + rDt.Rows[j]["city"].ObjToString() + ", " + rDt.Rows[j]["state"].ObjToString() + ", " + rDt.Rows[j]["zip"].ObjToString();
-
-                        prospects += record + ",";
-
-                        proPhone += phone + ", " + phoneType + "~";
-                        proAddress += address + "~";
-                        proNames += firstName + ", " + middleName + ", " + lastName + "~";
-                        proRelation += relationship + "~";
+                        type = pDt.Rows[j]["type"].ObjToString().ToUpper();
+                        payment = pDt.Rows[j]["payment"].ObjToDouble();
+                        description = pDt.Rows[j]["description"].ObjToString().ToUpper();
+                        if (type.IndexOf("ADJUSTMENT") >= 0 || type.IndexOf ( "DISCOUNT") >= 0 || description.IndexOf ( "DISCOUNT") >= 0 )
+                            totalDiscount += payment;
                     }
 
-                    prospects = prospects.TrimEnd(',');
-                    dt.Rows[i]["prospects"] = prospects;
-
-                    proNames = proNames.TrimEnd('~');
-                    proAddress = proAddress.TrimEnd('~');
-                    proPhone = proPhone.TrimEnd('~');
-                    proRelation = proRelation.TrimEnd('~');
-
-                    dt.Rows[i]["name"] = proNames;
-                    dt.Rows[i]["relation"] = proRelation;
-                    dt.Rows[i]["address"] = proAddress;
-                    dt.Rows[i]["phone"] = proPhone;
-
+                    dt.Rows[i]["discounts"] = totalDiscount;
+ 
                     cmd = "Select * from `cust_payment_details` where `contractNumber` = '" + contractNumber + "';";
                     rDt = G1.get_db_data(cmd);
                     paidBy = "";
@@ -485,12 +665,175 @@ namespace SMFS
                     paidBy = paidBy.Trim();
                     paidBy = paidBy.TrimEnd(',');
                     dt.Rows[i]["paidBy"] = paidBy;
+
+                    dRow = dt.Rows[i];
+
+                    //string contractNumber = dr["contractNumber"].ObjToString();
+
+                    cmd = "Select * from `fcust_extended` where `contractNumber` = '" + contractNumber + "';";
+                    DataTable ddt = G1.get_db_data(cmd);
+                    if (ddt.Rows.Count <= 0)
+                        continue;
+                    record = ddt.Rows[0]["record"].ObjToString();
+                    dRow = ddt.Rows[0];
+                    //string number = dr["num"].ObjToString();
+                    //string serviceId = dr["serviceId"].ObjToString();
+                    //string srvloc = dr["SRVLOC"].ObjToString();
+                    //string serviceLoc = dr["serviceLoc"].ObjToString();
+
+                    rtDt = CalculateCustomerDetails(contractNumber, null, dRow, true);
+
+                    for ( int j=0; j<rtDt.Rows.Count; j++)
+                    {
+                        type = rtDt.Rows[j]["type"].ObjToString().ToUpper();
+                        what = rtDt.Rows[j]["what"].ObjToString();
+                        amount = rtDt.Rows[j]["amount"].ObjToDouble();
+
+                        if (type == "CASKET")
+                        {
+                            dt.Rows[i]["casketdesc"] = what;
+                            dt.Rows[i]["casketAmount"] = amount;
+                        }
+                        if (type == "VAULT")
+                        {
+                            dt.Rows[i]["vaultDesc"] = what;
+                            dt.Rows[i]["vaultAmount"] = amount;
+                        }
+                        if (type == "URN")
+                        {
+                            dt.Rows[i]["urnDesc"] = what;
+                            dt.Rows[i]["urnAmount"] = amount;
+                        }
+                    }
+
+                    trusts = 0D;
+                    insurance = 0D;
+                    checks = 0D;
+                    cash = 0D;
+                    refunds = 0D;
+                    payments = 0D;
+                    card = 0D;
+                    totalCollected = 0D;
+
+                    trustDepositDate = "";
+                    insuranceDepositDate = "";
+                    checkDepositDate = "";
+                    cashDepositDate = "";
+                    refundDepositDate = "";
+                    paymentDepositDate = "";
+                    cardDepositDate = "";
+                    DateTime dateModified = DateTime.Now;
+
+
+                    for (int j = 0; j < pDt.Rows.Count; j++)
+                    {
+                        status = pDt.Rows[j]["status"].ObjToString().ToUpper();
+                        if (status != "DEPOSITED" && status != "ACCEPT")
+                            continue;
+                        type = pDt.Rows[j]["type"].ObjToString().ToUpper();
+                        payment = pDt.Rows[j]["payment"].ObjToDouble();
+                        description = pDt.Rows[j]["description"].ObjToString().ToUpper();
+                        dateModified = pDt.Rows[j]["dateModified"].ObjToDateTime();
+                        if (type == "TRUST")
+                        {
+                            trusts += payment;
+                            if (!String.IsNullOrWhiteSpace(trustDepositDate))
+                                trustDepositDate += "\n";
+                            trustDepositDate += dateModified.ToString("MM/dd/yyyy");
+                        }
+                        else if (type == "CHECK")
+                        {
+                            checks += payment;
+                            if (!String.IsNullOrWhiteSpace(checkDepositDate))
+                                checkDepositDate += "\n";
+                            checkDepositDate += dateModified.ToString("MM/dd/yyyy");
+                        }
+                        else if (type == "CASH")
+                        {
+                            cash += payment;
+                            if (!String.IsNullOrWhiteSpace(cashDepositDate))
+                                cashDepositDate += "\n";
+                            cashDepositDate += dateModified.ToString("MM/dd/yyyy");
+                        }
+                        else if (type == "REFUND")
+                        {
+                            refunds += payment;
+                            if (!String.IsNullOrWhiteSpace(refundDepositDate))
+                                refundDepositDate += "\n";
+                            refundDepositDate += dateModified.ToString("MM/dd/yyyy");
+                        }
+                        else if (type.IndexOf("INSURANCE") >= 0)
+                        {
+                            insurance += payment;
+                            if (!String.IsNullOrWhiteSpace(insuranceDepositDate))
+                                insuranceDepositDate += "\n";
+                            insuranceDepositDate += dateModified.ToString("MM/dd/yyyy");
+                        }
+                        else if (type == "PAYMENTS")
+                        {
+                            if (description.IndexOf("CHECK") >= 0)
+                            {
+                                checks += payment;
+                                if (!String.IsNullOrWhiteSpace(checkDepositDate))
+                                    checkDepositDate += "\n";
+                                checkDepositDate += dateModified.ToString("MM/dd/yyyy");
+                            }
+                            else if (description.IndexOf("CASH") >= 0)
+                            {
+                                cash += payment;
+                                if (!String.IsNullOrWhiteSpace(cashDepositDate))
+                                    cashDepositDate += "\n";
+                                cashDepositDate += dateModified.ToString("MM/dd/yyyy");
+                            }
+                            else if (description.IndexOf("CARD") >= 0)
+                            {
+                                card += payment;
+                                if (!String.IsNullOrWhiteSpace(cardDepositDate))
+                                    cardDepositDate += "\n";
+                                cardDepositDate += dateModified.ToString("MM/dd/yyyy");
+                            }
+                            else
+                            {
+                                payments += payment;
+                                if (!String.IsNullOrWhiteSpace(paymentDepositDate))
+                                    paymentDepositDate += "\n";
+                                paymentDepositDate += dateModified.ToString("MM/dd/yyyy");
+                            }
+                        }
+                    }
+
+                    dt.Rows[i]["trusts"] = trusts;
+                    dt.Rows[i]["trustDepositDate"] = trustDepositDate;
+                    dt.Rows[i]["insurance"] = insurance;
+                    dt.Rows[i]["insuranceDepositDate"] = insuranceDepositDate;
+                    dt.Rows[i]["checks"] = checks;
+                    dt.Rows[i]["checkDepositDate"] = checkDepositDate;
+                    dt.Rows[i]["totalCash"] = cash;
+                    dt.Rows[i]["cashDepositDate"] = cashDepositDate;
+                    dt.Rows[i]["card"] = card;
+                    dt.Rows[i]["cardDepositDate"] = cardDepositDate;
+                    dt.Rows[i]["refunds"] = refunds;
+                    dt.Rows[i]["refundDepositDate"] = refundDepositDate;
+                    dt.Rows[i]["payments"] = payments;
+                    dt.Rows[i]["paymentDepositDate"] = paymentDepositDate;
+
+                    totalCollected = trusts + insurance + checks + cash + card + refunds + payments;
+                    grossFuneral = dt.Rows[i]["custPrice"].ObjToDouble();
+                    netFuneral = grossFuneral - totalDiscount;
+
+                    dt.Rows[i]["netFuneral"] = netFuneral;
+                    dt.Rows[i]["totalCollected"] = totalCollected;
+
                     count++;
                 }
                 catch (Exception ex)
                 {
                 }
             }
+
+            barImport.Value = lastRow;
+            barImport.Refresh();
+
             return dt;
         }
         /***********************************************************************************************/
@@ -1260,8 +1603,7 @@ namespace SMFS
                 DevExpress.XtraPrinting.PrintingSystem printingSystem1 = new DevExpress.XtraPrinting.PrintingSystem(this.components);
                 DevExpress.XtraPrinting.PrintableComponentLink printableComponentLink1 = new DevExpress.XtraPrinting.PrintableComponentLink(this.components);
 
-                printingSystem1.Links.AddRange(new object[] {
-            printableComponentLink1});
+                printingSystem1.Links.AddRange(new object[] {printableComponentLink1});
 
 
                 printableComponentLink1.Component = dgv;
@@ -1457,6 +1799,7 @@ namespace SMFS
             //Printer.DrawQuad(6, 8, 4, 4, title, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
 
             string reportName = "Daily Schedule of Services";
+            reportName = this.Text;
             string report = reportName + " Report for " + this.dateTimePicker1.Value.ToString("MM/dd/yyyy") + " through " + this.dateTimePicker2.Value.ToString("MM/dd/yyyy");
             Printer.DrawQuad(5, 8, 8, 4, report, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
 
@@ -1551,9 +1894,12 @@ namespace SMFS
             newFont = font;
             size = scale / 100D * originalHeaderSize;
             font = new Font(HeaderFont.Name, (float)size, FontStyle.Bold);
+            double columnWidth = 0D;
             for (int i = 0; i < gridMain.Columns.Count; i++)
             {
                 gridMain.Columns[i].AppearanceHeader.Font = font;
+                columnWidth = (double) gridMain.Columns[i].Width;
+                gridMain.Columns[i].Width = (int) (columnWidth * (scale/100D));
             }
             //gridMain.Appearance.HeaderPanel.Font = font;
             //gridMain.AppearancePrint.HeaderPanel.Font = font;
@@ -1736,6 +2082,11 @@ namespace SMFS
         private void gridMain_DoubleClick(object sender, EventArgs e)
         {
             DataRow dr = gridMain.GetFocusedDataRow();
+            DataTable dt = (DataTable)dgv.DataSource;
+
+            if (G1.get_column_number(dt, "contractNumber") < 0)
+                dt.Columns.Add("contractNumber");
+
             string contract = dr["contractNumber"].ObjToString();
             if (!String.IsNullOrWhiteSpace(contract))
             {
@@ -1744,6 +2095,22 @@ namespace SMFS
                 custForm.Tag = contract;
                 custForm.Show();
                 this.Cursor = Cursors.Default;
+            }
+            else
+            {
+                string ID = dr["ID"].ObjToString();
+                if ( !String.IsNullOrWhiteSpace (ID))
+                {
+                    string[] Lines = ID.Split('~');
+                    if (Lines.Length <= 0)
+                        return;
+                    contract = Lines[0].Trim();
+                    this.Cursor = Cursors.WaitCursor;
+                    EditCust custForm = new EditCust(contract);
+                    custForm.Tag = contract;
+                    custForm.Show();
+                    this.Cursor = Cursors.Default;
+                }
             }
         }
         /****************************************************************************************/
@@ -2434,6 +2801,1394 @@ namespace SMFS
             if (pageBreak)
                 e.PS.InsertPageBreak(e.Y);
             pageBreak = false;
+        }
+        /****************************************************************************************/
+        private void locateDuplicatePaymentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string cmd = "Select * from `cust_payments`;";
+            DataTable dt = G1.get_db_data(cmd);
+
+            dt.Columns.Add("ID");
+
+            string contractNumber = "";
+            string serviceId = "";
+            string type = "";
+            double payment = 0D;
+            string sValue = "";
+            string detail = "";
+
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                //serviceId = dt.Rows[i]["serviceId"].ObjToString();
+                type = dt.Rows[i]["type"].ObjToString();
+                payment = dt.Rows[i]["payment"].ObjToDouble();
+                sValue = payment.ToString();
+                detail = contractNumber + "~" + type + "~" + sValue;
+
+                dt.Rows[i]["ID"] = detail;
+            }
+
+            var duplicateRows = dt.AsEnumerable()
+                .GroupBy(row => new { ID = row.Field<string>("ID") })
+                .Where(group => group.Count() > 1)
+                .SelectMany(group => group); // Select all rows from duplicate groups
+
+            DataTable dx = new DataTable();
+            dx.Columns.Add("ID");
+            dx.Columns.Add("tmstamp");
+            dx.Columns.Add("record");
+
+            DataRow dRow = null;
+            string tmStamp = "";
+            string record = "";
+
+            try
+            {
+                foreach (DataRow row in duplicateRows)
+                {
+                    detail = row["ID"].ObjToString();
+                    tmStamp = row["tmstamp"].ObjToString();
+                    record = row["record"].ObjToString();
+                    dRow = dx.NewRow();
+                    dRow["ID"] = detail;
+                    dRow["tmstamp"] = tmStamp;
+                    dRow["record"] = record;
+                    dx.Rows.Add(dRow);
+                }
+            }
+            catch ( Exception ex)
+            {
+            }
+
+            gridMain.Columns["ID"].Visible = true;
+            gridMain.Columns["tmstamp"].Visible = true;
+
+            G1.NumberDataTable(dx);
+
+            dgv.DataSource = dx;
+            dgv.Refresh();
+        }
+        /****************************************************************************************/
+        private void deletePaymentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain.GetFocusedDataRow();
+
+            int rowHandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowHandle);
+
+            int[] rows = gridMain.GetSelectedRows();
+            DataTable dt = (DataTable)dgv.DataSource;
+            int lastRow = dt.Rows.Count;
+            lastRow = rows.Length;
+
+            string contractNumber = "";
+            string record = "";
+
+            this.Cursor = Cursors.WaitCursor;
+
+            for (int i = 0; i < lastRow; i++)
+            {
+                row = rows[i];
+                try
+                {
+                    row = gridMain.GetDataSourceRowIndex(row);
+
+                    dr = dt.Rows[row];
+                    record = dr["record"].ObjToString();
+
+                    G1.delete_db_table("cust_payments", "record", record);
+                }
+                catch ( Exception ex)
+                {
+                    MessageBox.Show("***ERROR*** " + ex.Message.ToString(), "Delete Payment(s) Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                }
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        public DataTable CalculateCustomerDetails(string contractNumber, string custExtendedRecord, DataRow dR, bool Rebalance = false)
+        {
+            DateTime startTime = DateTime.Now; // ZAMMA
+
+            //PleaseWait pleaseForm = null;
+            //pleaseForm = new PleaseWait("Please Wait!\nUpdating Funeral Informtion");
+            //pleaseForm.Show();
+            //pleaseForm.Refresh();
+
+            //this.Cursor = Cursors.WaitCursor;
+
+            DataTable rtDt = new DataTable();
+            rtDt.Columns.Add("type");
+            rtDt.Columns.Add("what");
+            rtDt.Columns.Add("amount", Type.GetType("System.Double"));
+
+            string cmd = "Select * from `cust_payments` c LEFT JOIN `cust_payment_details` x ON c.`record` = x.`paymentRecord` where c.`contractNumber` = '" + contractNumber + "' order by c.`record` ;";
+            //cmd = "Select * from `cust_payments` c where c.`contractNumber` = '" + contractNumber + "';";
+            DataTable dt = G1.get_db_data(cmd);
+
+            double oldDiscount = dR["totalDiscount"].ObjToDouble();
+
+            string amountFiled = "";
+            string amountReceived = "";
+            string amountDiscount = "";
+            string amountGrowth = "";
+            string grossAmountReceived = "";
+            double totalFiled = 0D;
+            double totalReceived = 0D;
+            double totalDiscount = 0D;
+            double totalAmountGrowth = 0D;
+            double totalAmountDiscount = 0D;
+            double totalGross = 0D;
+            double payment = 0D;
+            double totalPayments = 0D;
+            double actualPayments = 0D;
+            double totalDBR = 0D;
+            double dbr = 0D;
+            double totalRefund = 0D;
+            double refund = 0D;
+            double money = 0D;
+            double totalMoney = 0D;
+
+            double trustAmountFiled = 0D;
+            double trustFiledRemaining = 0D;
+            double tempReceived = 0D;
+            double insAmountFiled = 0D;
+            double trustAmountReceived = 0D;
+            double trustPaid = 0D;
+            double trustDiscount = 0D;
+            double insAmountReceived = 0D;
+            double amtActuallyReceived = 0D;
+            double insuraceDirectGrowth = 0D;
+
+            DataTable exceptionDt = G1.get_db_data("Select * from `funeral_master`;");
+
+            DateTime date = DateTime.Now;
+
+            string str = "";
+            string type = "";
+            string cash = "";
+            string status = "";
+            string deposit = "";
+            string creditCard = "";
+            string check = "";
+            string ccDepNumber = "";
+            string chkDepNumber = "";
+            string trustDepNumber = "";
+            string insDepNumber = "";
+            double dValue = 0D;
+            double balanceDue = 0D;
+            double discount = 0D;
+            double classa = 0D;
+            double insuranceDirectGrowth = 0D;
+            string approvedBy = "";
+            DateTime dateEntered = DateTime.Now;
+            DateTime dateModified = DateTime.Now;
+            string lastRecord = "";
+            string record = "";
+            string trustNumber = "";
+            DataRow[] dRows = null;
+            DataRow dRow = null;
+            string pRecord = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                try
+                {
+                    record = dt.Rows[i]["record"].ObjToString();
+                    if (lastRecord != record)
+                    {
+                        status = dt.Rows[i]["status"].ObjToString().ToUpper();
+                        if (status.ToUpper() == "CANCELLED" || status.ToUpper() == "REJECTED")
+                            continue;
+                        amountFiled = dt.Rows[i]["amountFiled"].ObjToString();
+                        amountReceived = dt.Rows[i]["amountReceived"].ObjToString();
+                        amountDiscount = dt.Rows[i]["amountDiscount"].ObjToString();
+                        amountGrowth = dt.Rows[i]["amountGrowth"].ObjToString();
+                        grossAmountReceived = dt.Rows[i]["grossAmountReceived"].ObjToString();
+                        payment = dt.Rows[i]["payment"].ObjToDouble();
+                        if (status.ToUpper() == "DEPOSITED" && payment > 0D && grossAmountReceived.ObjToDouble() == 0D)
+                        {
+                            grossAmountReceived = payment.ToString();
+                            dt.Rows[i]["grossAmountReceived"] = grossAmountReceived;
+                        }
+                        totalFiled += amountFiled.ObjToDouble();
+                        //totalReceived += amountReceived.ObjToDouble();
+                        totalAmountDiscount += amountDiscount.ObjToDouble();
+                        type = dt.Rows[i]["type"].ObjToString().ToUpper();
+                        if (type != "TRUST")
+                            totalAmountGrowth += amountGrowth.ObjToDouble();
+                        totalGross += grossAmountReceived.ObjToDouble();
+
+                        amtActuallyReceived += dt.Rows[i]["amtActuallyReceived"].ObjToDouble();
+
+                        type = dt.Rows[i]["type"].ObjToString().ToUpper();
+                        if (type.ToUpper() == "CHECK" || type.ToUpper() == "CASH" || type.ToUpper() == "CREDIT CARD" || type.ToUpper().IndexOf("ACH") > 0)
+                        {
+                            money = dt.Rows[i]["payment"].ObjToDouble();
+                            totalMoney += money;
+                        }
+                        if (type.ToUpper() == "REFUND")
+                        {
+                            refund = dt.Rows[i]["payment"].ObjToDouble();
+                            totalRefund += refund;
+                            continue;
+                        }
+                        if (status.ToUpper() == "DEPOSITED" || status.ToUpper() == "ACCEPT")
+                            actualPayments += payment;
+                        if (type.ToUpper() == "DISCOUNT" || status.ToUpper() == "DEPOSITED")
+                        {
+                            totalPayments += payment;
+                            if (status.ToUpper() == "DEPOSITED")
+                                totalReceived += payment;
+                        }
+                        if (type == "INSURANCE DIRECT" && status == "DEPOSITED")
+                            insuranceDirectGrowth += amountGrowth.ObjToDouble();
+
+                        if (type.ToUpper() == "CHECK" && (status.ToUpper() == "ACCEPT" || status.ToUpper() == "DEPOSITED"))
+                        {
+                            totalPayments += payment;
+                            totalReceived += payment;
+
+                            str = G1.ReformatMoney(payment);
+                            check += "CK - " + str + " ";
+                        }
+                        if (type == "CASH")
+                        {
+                            totalPayments += payment;
+                            totalReceived += payment;
+
+                            dValue = dt.Rows[i]["payment"].ObjToDouble();
+                            str = G1.ReformatMoney(dValue);
+                            cash += "CA - " + str + " ";
+                        }
+                        else if (type == "OTHER")
+                        {
+                            totalPayments += payment;
+                            totalReceived += payment;
+
+                            dValue = dt.Rows[i]["payment"].ObjToDouble();
+                            str = G1.ReformatMoney(dValue);
+                            cash += "CA - " + str + " ";
+                        }
+                        else if (type == "CREDIT CARD")
+                        {
+                            totalPayments += payment;
+                            totalReceived += payment;
+
+                            dValue = dt.Rows[i]["payment"].ObjToDouble();
+                            str = G1.ReformatMoney(dValue);
+                            creditCard += "CC - " + str + " ";
+                        }
+                        else if (type == "CLASS A")
+                        {
+                            classa += dt.Rows[i]["payment"].ObjToDouble();
+                        }
+                        str = dt.Rows[i]["depositNumber"].ObjToString();
+                        if (!String.IsNullOrWhiteSpace(str))
+                        {
+                            if (type == "CASH")
+                                deposit += str + " ";
+                            else if (type == "CREDIT CARD")
+                                ccDepNumber += str + " ";
+                            else if (type == "CHECK")
+                                chkDepNumber += str + " ";
+                        }
+                        if (type == "DISCOUNT")
+                        {
+                            discount += dt.Rows[i]["payment"].ObjToDouble();
+                            str = dt.Rows[i]["approvedBy"].ObjToString();
+                            if (!String.IsNullOrWhiteSpace(str))
+                                approvedBy += str + " ";
+                        }
+                        if (type == "TRUST")
+                        {
+                            trustPaid += dt.Rows[i]["paid"].ObjToDouble();
+                            trustDepNumber += str + " ";
+                            amountFiled = dt.Rows[i]["trustAmtFiled"].ObjToString();
+                            tempReceived = dt.Rows[i]["amtActuallyReceived"].ObjToDouble();
+                            if (tempReceived == 0D)
+                                trustFiledRemaining += amountFiled.ObjToDouble();
+                            if (status == "PENDING")
+                            {
+                                if (amountFiled.ObjToDouble() > 0D)
+                                    trustAmountFiled += amountFiled.ObjToDouble();
+                                //else
+                                //    trustAmountFiled += payment;
+                            }
+                            else if (status == "DEPOSITED")
+                            {
+                                if (amountFiled.ObjToDouble() > 0D)
+                                    trustAmountFiled += amountFiled.ObjToDouble();
+                                trustAmountReceived += amountReceived.ObjToDouble();
+                            }
+                            dbr = dt.Rows[i]["dbr"].ObjToDouble();
+                            if (dbr == 0D || 1 == 1)
+                            {
+                                trustNumber = dt.Rows[i]["trust_policy"].ObjToString();
+                                if (!String.IsNullOrWhiteSpace(trustNumber))
+                                {
+                                    dbr = DailyHistory.GetPossibleDBR(trustNumber);
+                                    dbr = G1.RoundValue(dbr);
+                                    if (dbr > 0D)
+                                    {
+                                        pRecord = dt.Rows[i]["paymentRecord"].ObjToString();
+                                        if (!String.IsNullOrWhiteSpace(pRecord))
+                                        {
+                                            dRows = dt.Select("paymentRecord='" + pRecord + "' AND status1='CANCELLED'");
+                                            if (dRows.Length > 0)
+                                                dbr = 0D;
+                                        }
+                                    }
+                                    totalDBR += dbr;
+                                }
+                            }
+                            else
+                                totalDBR += dbr;
+                        }
+                        else if (type.ToUpper().IndexOf("INSURANCE") >= 0)
+                        {
+                            insDepNumber += str + " ";
+                            if (status == "PENDING")
+                            {
+                                if (amountFiled.ObjToDouble() > 0D)
+                                    insAmountFiled += amountFiled.ObjToDouble();
+                                else
+                                    insAmountFiled += payment;
+                                //else
+                                //    insAmountFiled += payment;
+                            }
+                            else if (status == "DEPOSITED")
+                            {
+                                if (amountFiled.ObjToDouble() > 0D)
+                                    insAmountFiled += amountFiled.ObjToDouble();
+                                else
+                                    insAmountFiled += payment;
+                                insAmountReceived += amountReceived.ObjToDouble();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        status = dt.Rows[i]["status"].ObjToString().ToUpper();
+                        if (status.ToUpper() == "CANCELLED")
+                            continue;
+                        amountFiled = dt.Rows[i]["amountFiled"].ObjToString();
+                        amountReceived = dt.Rows[i]["amountReceived"].ObjToString();
+                        amountDiscount = dt.Rows[i]["amountDiscount"].ObjToString();
+                        amountGrowth = dt.Rows[i]["amountGrowth"].ObjToString();
+                        grossAmountReceived = dt.Rows[i]["grossAmountReceived"].ObjToString();
+                        payment = dt.Rows[i]["payment"].ObjToDouble();
+                        type = dt.Rows[i]["type"].ObjToString().ToUpper();
+                        if (type == "TRUST")
+                        {
+                            amountFiled = dt.Rows[i]["TrustAmtFiled"].ObjToString();
+                            trustAmountFiled += amountFiled.ObjToDouble();
+                            if (amountReceived.ObjToDouble() == 0D)
+                                trustDiscount += amountFiled.ObjToDouble();
+                            tempReceived = dt.Rows[i]["amtActuallyReceived"].ObjToDouble();
+                            if (tempReceived == 0D)
+                                trustFiledRemaining += amountFiled.ObjToDouble();
+                        }
+
+                    }
+                    lastRecord = record;
+                    //date = dt.Rows[i]["dateFiled"].ObjToDateTime();
+                    //if (date.Year > 100)
+                    //    dateFiled += date.ToString("MM/dd/yyyy") + " ";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("***ERROR*** 1 " + ex.Message.ToString(), "Rebalance Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                }
+            }
+
+            amtActuallyReceived = G1.RoundValue(amtActuallyReceived);
+            trustDiscount = G1.RoundValue(trustDiscount);
+            trustDiscount = trustAmountFiled - trustAmountReceived;
+            trustDiscount = G1.RoundValue(trustDiscount);
+
+            trustDiscount = trustPaid - trustAmountFiled;
+            trustDiscount = G1.RoundValue(trustDiscount);
+
+            string serviceId = dR["ServiceId"].ObjToString();
+            EditCust.DetermineActiveGroups(contractNumber, serviceId);
+
+            string myActiveFuneralHomeGroup = EditCust.activeFuneralHomeGroup;
+            string myActiveFuneralHomeCasketGroup = EditCust.activeFuneralHomeCasketGroup;
+
+            EditCustomer.activeFuneralHomeGroup = myActiveFuneralHomeGroup;
+            EditCustomer.activeFuneralHomeCasketGroup = myActiveFuneralHomeCasketGroup;
+
+
+            double newContractTotal = 0D;
+            double newTotalCost = 0D;
+            double newPreDiscount = 0D;
+            Funerals.calculateTotalServices(contractNumber, ref newContractTotal, ref newTotalCost, ref newPreDiscount);
+
+
+            FunServices funForm = new FunServices(contractNumber);
+            DataTable funDt = funForm.funServicesDT;
+
+            double price = 0D;
+            double totalServices = 0D;
+            double totalMerchandise = 0D;
+            double totalCashAdvance = 0D;
+            double totalCost = 0D;
+            double difference = 0D;
+            double totalDifference = 0D;
+            double currentPrice = 0D;
+            double totalCurrentPrice = 0D;
+            double contractTotal = 0D;
+            double preDiscount = 0D;
+            double thirdDiscount = 0D;
+
+            //FunServices.CalcTotalServices(funDt, ref contractTotal, ref totalCost, ref preDiscount);
+
+            if (SMFS.activeSystem.ToUpper() == "OTHER")
+            {
+                preDiscount = Math.Abs(preDiscount);
+                preDiscount = 0D;
+            }
+
+            double trustPayments = 0D;
+            double trustPaymentsReceived = 0D;
+            double trustGrowth = 0D;
+            double insurancePayments = 0D;
+            double insurancePaymentsReceived = 0D;
+            double insuranceGrowth = 0D;
+            double cashReceived = 0D;
+            double compDiscounts = 0D;
+            double classA = 0D;
+            double otherPreDiscount = 0D;
+            double insGrowth = 0D;
+            trustFiledRemaining = 0D;
+            string cc = "";
+
+            double payments = Funerals.calculateTotalPayments(contractNumber, ref trustPayments, ref trustPaymentsReceived, ref insurancePayments, ref insurancePaymentsReceived, ref cashReceived, ref compDiscounts, ref classA, ref trustFiledRemaining, ref thirdDiscount, ref trustGrowth, ref insuranceGrowth, ref otherPreDiscount, ref insGrowth);
+            if (SMFS.activeSystem.ToUpper() == "OTHER")
+            {
+                trustAmountReceived = trustPaymentsReceived;
+                if (trustPayments > 0D)
+                    trustPayments += otherPreDiscount;
+                else
+                    compDiscounts += otherPreDiscount;
+                trustDiscount = otherPreDiscount;
+                //compDiscounts = otherPreDiscount;
+            }
+
+            string service = "";
+            string oldService = "";
+
+            double currentServices = 0D;
+            double currentMerchandise = 0D;
+
+            double merchandiseDiscount = 0D;
+            double servicesDiscount = 0D;
+
+            double totalPackagePrice = 0D;
+            double packagePrice = 0D;
+            double packageDiscount = 0D;
+            bool gotPackage = false;
+
+            bool gotDesc = false;
+
+            string[] Lines = null;
+            DataTable mDt = null;
+            string casket = "";
+            string vault = "";
+            string vaultDesc = "";
+            string casketCode = "";
+            string serialNumber = "";
+            string casketDesc = "";
+            double casketAmount = 0D;
+            double casketCost = 0D;
+            double vaultAmount = 0D;
+            double vaultCost = 0D;
+            double urnCost = 0D;
+            string urnDesc = "";
+            string casketType = "";
+            string casketGauge = "";
+            double urn = 0D;
+            double headCapPanel = 0D;
+            double misc = 0D;
+            double upgrade = 0D;
+            double salesTax = 0D;
+            double taxMerchandise = 0D;
+            double taxAmount = 0D;
+            double asService = 0D;
+            double asCash = 0D;
+            double asNothing = 0D;
+            double asMerc = 0D;
+            double fromService = 0D;
+            double fromMerc = 0D;
+            string zeroData = "";
+            bool getCost = false;
+            string gotRental = "";
+            string isCash = "";
+            string ignore = "";
+            bool gotIgnore = false;
+
+            string fpc = "";
+            DataTable bateDt = null;
+
+
+            if (funDt != null)
+            {
+                dRows = funDt.Select("serialNumber<>''");
+                if (dRows.Length == 0)
+                {
+                    dRows = funDt.Select("service LIKE '%Family Provided Casket%'");
+                    if (dRows.Length > 0)
+                        fpc = "Y";
+                }
+                for (int i = 0; i < funDt.Rows.Count; i++)
+                {
+                    getCost = false;
+                    ignore = funDt.Rows[i]["ignore"].ObjToString().ToUpper();
+                    if (ignore == "Y")
+                    {
+                        gotIgnore = true;
+                        type = funDt.Rows[i]["type"].ObjToString().ToUpper();
+                        price = funDt.Rows[i]["price"].ObjToDouble();
+                        currentPrice = funDt.Rows[i]["currentPrice"].ObjToDouble();
+                        difference = currentPrice - price;
+                        if (type == "SERVICE")
+                        {
+                            servicesDiscount += difference;
+                            servicesDiscount -= currentPrice;
+
+                        }
+                        else if (type == "MERCHANDISE")
+                        {
+                            merchandiseDiscount += difference;
+                            merchandiseDiscount -= currentPrice;
+                        }
+                        else if (type == "CASH ADVANCE")
+                        {
+                        }
+                        continue;
+                    }
+
+                    isCash = funDt.Rows[i]["asCash"].ObjToString().ToUpper();
+                    zeroData = funDt.Rows[i]["data"].ObjToString();
+                    upgrade = funDt.Rows[i]["upgrade"].ObjToDouble();
+                    price = funDt.Rows[i]["price"].ObjToDouble();
+                    if (price <= 0D && upgrade <= 0D)
+                    {
+                        service = funDt.Rows[i]["service"].ObjToString().ToUpper();
+                        if (service != "PACKAGE DISCOUNT")
+                        {
+                            if (zeroData.ToUpper() != "ZERO")
+                                continue;
+                        }
+                    }
+
+                    //if (price == 0D) // Changed 3/13/2025 because of Funeral Bonus // 3/14/2025 Changed Back Because of BN25016
+                    //    continue;
+                    currentPrice = funDt.Rows[i]["currentPrice"].ObjToDouble();
+                    difference = currentPrice - price;
+
+                    type = funDt.Rows[i]["type"].ObjToString().ToUpper();
+                    service = funDt.Rows[i]["service"].ObjToString().ToUpper();
+                    if (service.IndexOf("D- ") == 0)
+                        service = service.Replace("D- ", "");
+                    else if (service.IndexOf("D-") == 0)
+                        service = service.Replace("D-", "");
+
+                    dRows = exceptionDt.Select("service='" + service + "'");
+
+                    if (isCash == "Y")
+                    {
+                        if (dRows.Length > 0)
+                            dRows[0]["asCash"] = 1;
+                        else
+                        {
+                            dRow = exceptionDt.NewRow();
+                            dRow["service"] = service;
+                            dRow["asCash"] = 1;
+                            exceptionDt.Rows.Add(dRow);
+                            dRows = exceptionDt.Select("service='" + service + "'");
+                        }
+                    }
+
+                    if (dRows.Length > 0 && type.ToUpper() != "CASH ADVANCE")
+                    {
+                        if (dRows[0]["asService"].ObjToString() == "1")
+                            asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                        if (dRows[0]["fromService"].ObjToString() == "1")
+                        {
+                            if (type == "SERVICE")
+                                fromService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                        }
+                        if (dRows[0]["fromMerc"].ObjToString() == "1")
+                        {
+                            if (type == "MERCHANDISE")
+                            {
+                                fromMerc += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                //casketCost += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        if (dRows[0]["asCash"].ObjToString() == "1")
+                        {
+                            if (type.ToUpper() == "MERCHANDISE")
+                            {
+                                asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                            else
+                                asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                        }
+                        if (dRows[0]["asNothing"].ObjToString() == "1")
+                            asNothing += funDt.Rows[i]["currentprice"].ObjToDouble();
+                        if (dRows[0]["asMerc"].ObjToString() == "1")
+                        {
+                            if (type.ToUpper() != "MERCHANDISE")
+                                asMerc += funDt.Rows[i]["price"].ObjToDouble();
+                        }
+                    }
+                    else
+                    {
+                        if (service.ToUpper().IndexOf("MILEAGE") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                    fromMerc += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("TRANSPORTATION") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                    fromMerc += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("MILES") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                    fromMerc += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("ENGRAV") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("MEDALLION") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("KEEPSAKE") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("LIFE PRINT") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                getCost = true;
+                                //casketAmount += funDt.Rows[i]["price"].ObjToDouble();
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("LIFE STOR") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("BOOKMARK") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    asService += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (service.ToUpper().IndexOf("SHIPPING") >= 0)
+                        {
+                            if (type.ToUpper() != "CASH ADVANCE")
+                            {
+                                casketAmount += funDt.Rows[i]["price"].ObjToDouble();
+                                if (type.ToUpper() == "MERCHANDISE")
+                                {
+                                    fromMerc += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    casketCost += funDt.Rows[i]["currentprice"].ObjToDouble();
+                                }
+                                else
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                        else if (type.ToUpper() == "SERVICE")
+                        {
+                            if (service.ToUpper().IndexOf("D-") == 0)
+                            {
+                                if (service.ToUpper().IndexOf("INFANT") < 0)
+                                    asCash += funDt.Rows[i]["currentprice"].ObjToDouble();
+                            }
+                        }
+                    }
+                    if (service == "TOTAL LISTED PRICE")
+                    {
+                        totalPackagePrice = funDt.Rows[i]["price"].ObjToDouble();
+                        continue;
+                    }
+                    else if (service == "PACKAGE PRICE")
+                    {
+                        gotPackage = true;
+                        packagePrice = funDt.Rows[i]["price"].ObjToDouble();
+                        continue;
+                    }
+                    else if (service == "PACKAGE DISCOUNT")
+                    {
+                        packageDiscount = funDt.Rows[i]["price"].ObjToDouble();
+                        packageDiscount = Math.Abs(packageDiscount);
+                        continue;
+                    }
+
+                    type = funDt.Rows[i]["type"].ObjToString().ToUpper();
+                    if (price < 0D)
+                    {
+                        price = Math.Abs(price);
+                        if (type.ToUpper() == "SERVICE")
+                            servicesDiscount += funDt.Rows[i]["difference"].ObjToDouble();
+                        else if (type.ToUpper() == "MERCHANDISE")
+                            merchandiseDiscount += funDt.Rows[i]["difference"].ObjToDouble();
+                        continue;
+                    }
+
+                    taxAmount = funDt.Rows[i]["taxAmount"].ObjToDouble();
+                    if (taxAmount > 0D)
+                    {
+                        salesTax += taxAmount;
+                        taxMerchandise += price;
+                    }
+
+                    if (type == "SERVICE")
+                    {
+                        totalServices += price;
+                        servicesDiscount += difference;
+                        currentServices += currentPrice;
+                        if (service.IndexOf("RENTAL CASKET") >= 0)
+                        {
+                            casketDesc = service;
+                            casketCode = "Rental";
+                            gotRental = "Y";
+                        }
+                        else if (service.ToUpper().IndexOf("INFANT") >= 0)
+                        {
+                            casketDesc = service;
+                            casketCost = price;
+                            casketCode = "Infant";
+                        }
+                    }
+                    else if (type == "MERCHANDISE")
+                    {
+                        if (service.IndexOf("RENTAL CASKET") >= 0)
+                        {
+                            casketDesc = service;
+                            casketCode = "Rental";
+                            gotRental = "Y";
+                        }
+                        if (service.ToUpper().IndexOf("INFANT") >= 0)
+                        {
+                            casketDesc = service;
+                            casketCost = price;
+                            casketCode = "Infant";
+                        }
+                        totalMerchandise += price;
+                        merchandiseDiscount += difference;
+                        currentMerchandise += currentPrice;
+                        if (service.IndexOf("D-") == 0)
+                        {
+                            service = service.Substring(2).Trim();
+                            if (service.ToUpper().IndexOf("BATESVILLE") >= 0)
+                                service = service.ToUpper().Replace("BATESVILLE", "").Trim();
+                        }
+                        oldService = service;
+                        if (service.IndexOf("ACKNOW") < 0 && service.IndexOf("GRAVE MARKER") < 0 && service.ToUpper().IndexOf("REGISTER BOOK") < 0)
+                        {
+                            if (service.IndexOf("V") == 0)
+                            {
+                                Lines = service.Split(' ');
+                                service = service.Replace(Lines[0].Trim(), "").Trim();
+                                if (String.IsNullOrWhiteSpace(service))
+                                    service = oldService;
+                            }
+
+                            cmd = "SELECT * FROM `casket_master` WHERE `casketDesc` = '" + service + "';";
+                            mDt = G1.get_db_data(cmd);
+                            if (mDt.Rows.Count <= 0)
+                            {
+                                Lines = service.Split(' ');
+                                str = Lines[0].Trim();
+                                cmd = "SELECT * FROM `casket_master` WHERE `casketcode` = '" + str + "';";
+                                mDt = G1.get_db_data(cmd);
+                                if (mDt.Rows.Count <= 0)
+                                {
+                                    service = service.Replace(Lines[0].Trim(), "").Trim();
+                                    cmd = "SELECT * FROM `casket_master` WHERE `casketDesc` = '" + service + "';";
+                                    mDt = G1.get_db_data(cmd);
+                                    if (mDt.Rows.Count <= 0)
+                                    {
+                                        cmd = "SELECT * FROM `casket_master` WHERE `casketDesc` LIKE '" + str + "%';";
+                                        mDt = G1.get_db_data(cmd);
+                                    }
+                                }
+                            }
+                            if (mDt.Rows.Count > 0)
+                            {
+                                casketCode = mDt.Rows[0]["casketcode"].ObjToString();
+                                if (casketCode.ToUpper().IndexOf("V") == 0)
+                                {
+                                    vault = casketCode;
+                                    vaultAmount = funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    if (vaultAmount <= 0D)
+                                        vaultAmount = funDt.Rows[i]["price"].ObjToDouble();
+                                    vaultCost = mDt.Rows[0]["casketcost"].ObjToDouble();
+                                    vaultDesc = mDt.Rows[0]["casketdesc"].ObjToString();
+                                }
+                                else if (casketCode.ToUpper().IndexOf("URN") == 0)
+                                {
+                                    dValue = funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    if (dValue <= 0D)
+                                        dValue = funDt.Rows[i]["price"].ObjToDouble();
+                                    urn += dValue;
+                                    if (mDt.Rows.Count > 0)
+                                    {
+                                        urnCost = mDt.Rows[0]["casketcost"].ObjToDouble();
+                                        urnDesc = mDt.Rows[0]["casketdesc"].ObjToString();
+                                    }
+                                }
+                                else if (casketCode.ToUpper().IndexOf("UV") == 0)
+                                {
+                                    dValue = funDt.Rows[i]["price"].ObjToDouble();
+                                    urn += dValue;
+                                }
+                                else if (casketCode.ToUpper() != "MISC" || getCost)
+                                {
+                                    casket = casketCode;
+                                    dValue = funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    if (dValue <= 0D)
+                                        dValue = funDt.Rows[i]["price"].ObjToDouble();
+                                    casketAmount += dValue;
+                                    serialNumber = funDt.Rows[i]["SerialNumber"].ObjToString();
+                                    //if (!String.IsNullOrWhiteSpace(serialNumber))
+                                    //{
+                                    casketCost += mDt.Rows[0]["casketcost"].ObjToDouble();
+                                    casketDesc = mDt.Rows[0]["casketdesc"].ObjToString();
+                                    casketGauge = Funerals.getCasketGauge(serialNumber, casketCode, casketDesc, ref casketType);
+                                    if (casketCode.ToUpper() == "INFANT" && vaultCost > 0D)
+                                        vaultCost = 0D;
+
+                                    //}
+                                }
+                            }
+                            else
+                            {
+                                str = funDt.Rows[i]["serialNumber"].ObjToString();
+                                if (!String.IsNullOrWhiteSpace(str))
+                                {
+                                    serialNumber = str;
+                                    dValue = funDt.Rows[i]["currentprice"].ObjToDouble();
+                                    if (dValue <= 0D)
+                                        dValue = funDt.Rows[i]["price"].ObjToDouble();
+                                    casketAmount += dValue;
+                                    casketDesc = funDt.Rows[i]["service"].ObjToString();
+
+                                    service = funDt.Rows[i]["service"].ObjToString().ToUpper();
+                                    if (service.IndexOf("D-") == 0)
+                                    {
+                                        service = service.Replace("D-", "").Trim();
+                                        if (service.ToUpper().IndexOf("BATESVILLE") >= 0)
+                                            service = service.ToUpper().Replace("BATESVILLE", "").Trim();
+                                    }
+                                    bateDt = G1.get_db_data("Select * from `batesville_inventory` where `casketDescription` = '" + service + "';");
+                                    if (bateDt.Rows.Count <= 0)
+                                    {
+                                        Lines = service.Split(' ');
+                                        if (Lines.Length > 0)
+                                        {
+                                            cc = Lines[0].Trim();
+                                            bateDt = G1.get_db_data("Select * from `batesville_inventory` where `casketCode` = '" + cc + "';");
+                                        }
+                                    }
+                                    if (bateDt.Rows.Count > 0)
+                                    {
+                                        casketCode = bateDt.Rows[0]["casketCode"].ObjToString().ToUpper();
+                                        if (casketCode.IndexOf("V") == 0)
+                                            vaultCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                        else
+                                            casketCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                    }
+                                    else
+                                    {
+                                        bateDt = G1.get_db_data("Select * from `secondary_inventory` where `casketDesc` = '" + service + "';");
+                                        if (bateDt.Rows.Count > 0)
+                                        {
+                                            str = bateDt.Rows[0]["type"].ObjToString().ToUpper();
+                                            if (str == "CASKET")
+                                            {
+                                                casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                casketDesc = service;
+                                                casketCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                casketGauge = bateDt.Rows[0]["casketgauge"].ObjToString();
+                                            }
+                                            else if (str == "VAULT")
+                                            {
+                                                casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                casketDesc = service;
+                                                vaultCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                casketGauge = bateDt.Rows[0]["casketgauge"].ObjToString();
+                                                vaultAmount = currentPrice;
+                                            }
+                                            else if (str == "URN")
+                                            {
+                                                casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                casketDesc = service;
+                                                urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    service = funDt.Rows[i]["service"].ObjToString().ToUpper();
+                                    if (service.IndexOf("D-") == 0)
+                                    {
+                                        service = service.Replace("D-", "").Trim();
+                                        if (service.ToUpper().IndexOf("BATESVILLE") >= 0)
+                                            service = service.ToUpper().Replace("BATESVILLE", "").Trim();
+                                    }
+                                    bateDt = G1.get_db_data("Select * from `batesville_inventory` where `casketDescription` = '" + service + "';");
+                                    if (bateDt.Rows.Count > 0)
+                                    {
+                                        casketCode = bateDt.Rows[0]["casketCode"].ObjToString().ToUpper();
+                                        if (casketCode.IndexOf("V") == 0)
+                                            vaultCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                        else
+                                            casketCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                    }
+                                    if (bateDt.Rows.Count <= 0)
+                                    {
+                                        Lines = service.Split(' ');
+                                        if (Lines.Length > 0)
+                                        {
+                                            str = Lines[0].Trim();
+                                            bateDt = G1.get_db_data("Select * from `batesville_inventory` where `casketCode` = '" + str + "';");
+                                            if (bateDt.Rows.Count > 0)
+                                            {
+                                                if (casketCode.IndexOf("V") == 0)
+                                                {
+                                                    vault = service;
+                                                    vaultCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    vaultAmount = currentPrice;
+                                                }
+                                                else
+                                                {
+                                                    casketCode = bateDt.Rows[0]["casketCode"].ObjToString().ToUpper();
+                                                    casketCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    casketAmount = currentPrice;
+                                                    casketDesc = bateDt.Rows[0]["casketDescription"].ObjToString();
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (bateDt.Rows.Count <= 0)
+                                    {
+                                        bateDt = G1.get_db_data("Select * from `secondary_inventory` where `casketDesc` = '" + service + "';");
+                                        if (bateDt.Rows.Count > 0)
+                                        {
+                                            str = bateDt.Rows[0]["type"].ObjToString().ToUpper();
+                                            if (str == "CASKET")
+                                            {
+                                                casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                casketDesc = service;
+                                                casket = service;
+                                                casketCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                casketGauge = bateDt.Rows[0]["casketgauge"].ObjToString();
+                                            }
+                                            else if (str == "VAULT")
+                                            {
+                                                vault = service;
+                                                vaultDesc = service;
+                                                vaultCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                vaultAmount = currentPrice;
+                                            }
+                                            else if (str == "URN")
+                                            {
+                                                urnDesc = service;
+                                                urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                            }
+                                        }
+                                        else if (service.ToUpper().IndexOf("URN") >= 0)
+                                        {
+                                            Lines = service.Split(' ');
+                                            str = "";
+                                            bool foundIt = false;
+                                            for (int kk = 0; kk < Lines.Length; kk++)
+                                            {
+                                                if (String.IsNullOrWhiteSpace(Lines[kk].ObjToString()))
+                                                    continue;
+                                                if (str.Length > 0)
+                                                    str += " ";
+                                                str += Lines[kk].ObjToString().Trim();
+                                                cmd = "Select * from `batesville_inventory` where `casketDescription` LIKE '" + str + "%';";
+                                                bateDt = G1.get_db_data(cmd);
+                                                if (bateDt.Rows.Count >= 1 && kk >= 1)
+                                                {
+                                                    urnDesc = service;
+                                                    urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    foundIt = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!foundIt)
+                                            {
+                                                str = "";
+                                                for (int kk = 0; kk < Lines.Length; kk++)
+                                                {
+                                                    if (String.IsNullOrWhiteSpace(Lines[kk].ObjToString()))
+                                                        continue;
+                                                    if (str.Length > 0)
+                                                        str += " ";
+                                                    str += Lines[kk].ObjToString().Trim();
+                                                    cmd = "Select * from `secondary_inventory` where `casketDesc` LIKE '" + str + "%';";
+                                                    bateDt = G1.get_db_data(cmd);
+                                                    if (bateDt.Rows.Count >= 1 && kk >= 1)
+                                                    {
+                                                        urnDesc = service;
+                                                        urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                        foundIt = true;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Lines = service.Split(' ');
+                                            str = "";
+                                            for (int kk = 0; kk < Lines.Length; kk++)
+                                            {
+                                                if (String.IsNullOrWhiteSpace(Lines[kk].ObjToString()))
+                                                    continue;
+                                                if (str.Length > 0)
+                                                    str += " ";
+                                                str += Lines[kk].ObjToString().Trim();
+                                                cmd = "Select * from `secondary_inventory` where `casketDesc` LIKE '" + str + "%';";
+                                                bateDt = G1.get_db_data(cmd);
+                                                if (bateDt.Rows.Count >= 1 && kk >= 1)
+                                                {
+                                                    //urnDesc = service;
+                                                    //urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    str = bateDt.Rows[0]["type"].ObjToString().ToUpper();
+                                                    if (str == "CASKET")
+                                                    {
+                                                        casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                        casketDesc = service;
+                                                        casketCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                        casketGauge = bateDt.Rows[0]["casketgauge"].ObjToString();
+                                                    }
+                                                    else if (str == "VAULT")
+                                                    {
+                                                        casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                        casketDesc = service;
+                                                        vaultCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                        casketGauge = bateDt.Rows[0]["casketgauge"].ObjToString();
+                                                        vaultAmount = currentPrice;
+                                                    }
+                                                    else if (str == "URN")
+                                                    {
+                                                        casketCode = bateDt.Rows[0]["casketCode"].ObjToString();
+                                                        casketDesc = service;
+                                                        urnCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (type == "CASH ADVANCE")
+                        totalCashAdvance += currentPrice; // Changed 3/13/2025 for Funeral Bonus
+                    totalCurrentPrice += currentPrice;
+                    totalDifference += (currentPrice - price);
+                }
+            }
+
+            if (String.IsNullOrWhiteSpace(casketDesc) && funDt.Rows.Count > 0)
+            {
+                DataView tempview = funDt.DefaultView; // Check for Discrestionary
+                tempview.Sort = "price desc";
+                funDt = tempview.ToTable();
+
+                for (int i = 0; i < funDt.Rows.Count; i++)
+                {
+                    type = funDt.Rows[i]["type"].ObjToString().ToUpper();
+                    if (type == "MERCHANDISE")
+                    {
+                        service = funDt.Rows[i]["service"].ObjToString().ToUpper();
+                        if (service.IndexOf("D-") == 0)
+                        {
+                            dValue = funDt.Rows[i]["currentprice"].ObjToDouble();
+                            if (dValue <= 0D)
+                                dValue = funDt.Rows[i]["price"].ObjToDouble();
+                            casketAmount += dValue;
+                            serialNumber = funDt.Rows[i]["SerialNumber"].ObjToString();
+                            casketDesc = service;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            totalCost = totalCurrentPrice - totalDifference;
+            if (gotPackage)
+                totalCost = packagePrice;
+            totalCurrentPrice = newContractTotal;
+            totalCost = newTotalCost;
+
+            if (trustPaymentsReceived > trustPayments)
+            {
+                //compD = trustPayments - trustPaymentsReceived;
+                //compD = G1.RoundValue(compD);
+
+                //dt.Rows[i]["classa"] = dt.Rows[i]["classa"].ObjToDouble() + compD;
+            }
+            else
+            {
+                trustDiscount = trustPayments - trustPaymentsReceived - dbr; // Not used
+                trustDiscount = trustAmountFiled - trustPaymentsReceived - dbr; // Not used
+                trustDiscount = trustPayments - trustAmountFiled; // Not used, had to add trustFiledRemaining to get proper trust discount
+                trustDiscount = trustPayments - trustPaymentsReceived - trustFiledRemaining - dbr;
+                trustDiscount = trustPayments - trustPaymentsReceived - dbr;
+                dValue = trustDiscount;
+                dValue = Math.Abs(dValue);
+                //dt.Rows[i]["trustDiscount"] = dValue;
+                trustDiscount = trustPayments - trustPaymentsReceived - dbr;
+            }
+            //trustDiscount = trustPayments - trustPaymentsReceived - dbr;
+
+            double insuranceDiscount = insurancePayments - insurancePaymentsReceived;
+            insuranceDiscount += insuranceGrowth;
+
+            //balanceDue = custPrice - classa - trustPaymentsReceived - cashReceived - insurancePaymentsReceived - trustDiscount - insuranceDiscount;
+
+            classa = classA;
+            balanceDue = newTotalCost - classa - trustPaymentsReceived - cashReceived - insurancePaymentsReceived - trustDiscount - insuranceDiscount - compDiscounts - totalDBR - thirdDiscount + insuranceGrowth;
+
+            balanceDue = newTotalCost - compDiscounts - classA - trustDiscount + trustGrowth - trustPaymentsReceived - dbr - insuranceDiscount + insuranceGrowth - insurancePaymentsReceived - cashReceived;
+
+            double TotalsbalanceDue = newTotalCost - compDiscounts - classA + trustGrowth - trustPaymentsReceived - dbr - insuranceDiscount + insuranceGrowth - insurancePaymentsReceived - cashReceived;
+            if (SMFS.activeSystem.ToUpper() == "OTHER")
+                TotalsbalanceDue -= trustDiscount;
+            balanceDue = TotalsbalanceDue;
+
+            totalRefund = Math.Abs(totalRefund);
+            balanceDue += totalRefund;
+            balanceDue = G1.RoundValue(balanceDue);
+
+            if (balanceDue + totalAmountGrowth == 0D)
+            {
+                cmd = "Select * from `cust_payments` WHERE `contractNumber` = '" + contractNumber + "' AND `type` = 'Insurance Direct';";
+                DataTable payDt = G1.get_db_data(cmd);
+                if (payDt.Rows.Count > 0)
+                    balanceDue = 0D;
+            }
+
+
+            //balanceDue = totalCost - totalPayments;
+            totalDiscount = servicesDiscount + merchandiseDiscount;
+            if (totalDifference > totalDiscount)
+            {
+                if (!gotIgnore)
+                    totalDiscount = totalDifference;
+                //preDiscount = totalDiscount;
+            }
+            if (gotPackage)
+            {
+                if (preDiscount < packageDiscount)
+                    packageDiscount = preDiscount;
+                totalDiscount = packageDiscount;
+                preDiscount = 0D;
+            }
+            if (oldDiscount != totalDiscount)
+            {
+            }
+
+            string isPackage = "";
+            if (gotPackage)
+                isPackage = "Y";
+
+            rtDt = AddNewItem(rtDt, "casket", casketDesc, casketAmount );
+            rtDt = AddNewItem(rtDt, "vault", vaultDesc, vaultAmount);
+            rtDt = AddNewItem(rtDt, "urn", urnDesc, urn);
+
+            //if (!String.IsNullOrWhiteSpace(custExtendedRecord))
+            //{
+            //    //if ( !Rebalance )
+            //    G1.update_db_table("fcust_extended", "record", custExtendedRecord, new string[] { "casketCost", casketCost.ToString(), "vaultCost", vaultCost.ToString(), "insGrowth", insGrowth.ToString(), "gotRental", gotRental, "totalPayments", actualPayments.ToString() });
+            //    G1.update_db_table("fcust_extended", "record", custExtendedRecord, new string[] { "amountFiled", totalFiled.ToString(), "amountReceived", totalReceived.ToString(), "cash", cash, "check", check, "depositNumber", deposit, "balanceDue", balanceDue.ToString(), "additionalDiscount", discount.ToString(), "approvedBy", approvedBy, "creditCard", creditCard, "ccDepNumber", ccDepNumber, "checkDepNumber", chkDepNumber, "grossAmountReceived", totalGross.ObjToString(), "classa", classa.ToString(), "amountDiscount", totalAmountDiscount.ObjToString(), "amountGrowth", totalAmountGrowth.ObjToString(), "gotPackage", isPackage, "casket", casket, "vault", vault, "casketAmount", casketAmount.ToString(), "vaultAmount", vaultAmount.ToString(), "urnDesc", urnDesc, "urnCost", urnCost.ToString() });
+            //    G1.update_db_table("fcust_extended", "record", custExtendedRecord, new string[] { "custPrice", totalCost.ToString(), "custMerchandise", totalMerchandise.ToString(), "custServices", totalServices.ToString(), "merchandiseDiscount", merchandiseDiscount.ToString(), "servicesDiscount", servicesDiscount.ToString(), "totalDiscount", totalDiscount.ToString(), "currentPrice", totalCurrentPrice.ToString(), "currentMerchandise", currentMerchandise.ToString(), "currentServices", currentServices.ToString(), "serialNumber", serialNumber, "casketdesc", casketDesc, "preneedDiscount", preDiscount.ToString(), "packageDiscount", packageDiscount.ToString(), "cashAdvance", totalCashAdvance.ToString() });
+            //    G1.update_db_table("fcust_extended", "record", custExtendedRecord, new string[] { "trustAmountFiled", trustAmountFiled.ObjToString(), "trustAmountReceived", trustAmountReceived.ObjToString(), "insAmountFiled", insAmountFiled.ObjToString(), "insAmountReceived", insAmountReceived.ObjToString(), "casketgauge", casketGauge, "caskettype", casketType, "urn", urn.ToString(), "trustDepNumber", trustDepNumber, "insDepNumber", insDepNumber, "refund", totalRefund.ToString(), "FPC", fpc, "thirdDiscount", thirdDiscount.ToString(), "trustGrowth", trustGrowth.ToString(), "insuranceGrowth", insuranceGrowth.ToString(), "money", totalMoney.ToString() });
+            //    G1.update_db_table("fcust_extended", "record", custExtendedRecord, new string[] { "compDiscount", compDiscounts.ToString(), "cashReceived", cashReceived.ToString(), "trustPayments", trustPayments.ToString(), "trustPaymentsReceived", trustPaymentsReceived.ToString(), "insurancePayments", insurancePayments.ToString(), "insurancePaymentsReceived", insurancePaymentsReceived.ToString(), "taxAmount", salesTax.ToString(), "taxMerchandise", taxMerchandise.ToString(), "dbr", totalDBR.ToString(), "trustFiledRemaining", trustFiledRemaining.ToString(), "asService", asService.ToString(), "asCash", asCash.ToString(), "asNothing", asNothing.ToString(), "asMerc", asMerc.ToString(), "fromService", fromService.ToString(), "fromMerc", fromMerc.ToString() });
+
+            //    //cmd = "UPDATE `fcust_extended` SET `tmstamp` = CURRENT_TIMESTAMP() WHERE `record` = '" + custExtendedRecord + "'; ";
+            //    //G1.get_db_data(cmd);
+
+            //    //UpdateTimeStamp("fcust_extended", "tmstamp", custExtendedRecord);
+            //}
+            try // Ramma Zamma
+            {
+                //dR["balanceDue"] = balanceDue;
+                //dR["custPrice"] = totalCost;
+                //dR["custMerchandise"] = totalMerchandise;
+                //dR["custServices"] = totalServices;
+                //dR["merchandiseDiscount"] = merchandiseDiscount;
+                //dR["servicesDiscount"] = servicesDiscount;
+                //dR["additionalDiscount"] = discount;
+                //dR["totalDiscount"] = totalDiscount;
+
+                //dR["amountFiled"] = totalFiled;
+                //dR["amountReceived"] = totalReceived;
+
+                //dR["currentPrice"] = totalCurrentPrice;
+                //dR["currentMerchandise"] = currentMerchandise;
+                //dR["currentServices"] = currentServices;
+
+                //dR["grossAmountReceived"] = totalGross;
+
+                //dR["amountDiscount"] = totalAmountDiscount;
+                //dR["amountGrowth"] = totalAmountGrowth;
+                //dR["serialNumber"] = serialNumber;
+                //dR["casketdesc"] = casketDesc;
+
+                //dR["check"] = check;
+                //dR["checkDepNumber"] = chkDepNumber;
+
+
+                //DataTable newDt = ReplaceData(serviceId);
+
+                //if (newDt != null)
+                //{
+                //    string field = "";
+                //    for (int i = 0; i < newDt.Columns.Count; i++)
+                //    {
+                //        try
+                //        {
+                //            field = newDt.Columns[i].ColumnName.Trim();
+                //            dR[field] = newDt.Rows[0][i];
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //        }
+                //    }
+                //    dValue = insurancePaymentsReceived;
+                //    dValue = Math.Abs(dValue);
+                //    if (G1.is_valid_column(dR, "insuranceAmountReceived"))
+                //        dR["insuranceAmountReceived"] = dValue;
+
+                //    dValue = insurancePaymentsReceived;
+                //    dValue = Math.Abs(dValue);
+                //    if (G1.is_valid_column(dR, "insurancePayments"))
+                //        dR["insurancePayments"] = dValue;
+                //    if (SMFS.activeSystem.ToUpper() == "OTHER")
+                //    {
+                //        if (preDiscount == 0D && packageDiscount > 0D)
+                //            dR["preneedDiscount"] = packageDiscount;
+                //    }
+                //    else
+                //    {
+                //        if (preDiscount > 0D)
+                //        {
+                //        }
+                //        if (preDiscount == 0D && packageDiscount > 0D)
+                //            dR["preneedDiscount"] = packageDiscount;
+                //    }
+                //}
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("***ERROR*** 2 " + ex.Message.ToString(), "Rebalance Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            }
+
+            //this.Cursor = Cursors.Default;
+            //pleaseForm.FireEvent1();
+            //pleaseForm.Dispose();
+            //pleaseForm = null;
+
+            //DateTime stopTime = DateTime.Now;
+            //TimeSpan ts = stopTime - startTime;
+
+            return rtDt;
+        }
+        /****************************************************************************************/
+        public DataTable AddNewItem ( DataTable dt, string type, string what, double amount )
+        {
+            DataRow dRow = dt.NewRow();
+            dRow["type"] = type;
+            dRow["what"] = what;
+            dRow["amount"] = amount;
+            dt.Rows.Add(dRow);
+            return dt;
         }
         /****************************************************************************************/
     }

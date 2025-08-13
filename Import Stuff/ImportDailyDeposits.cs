@@ -69,8 +69,11 @@ namespace SMFS
             else if (type.ToUpper() == "CC")
                 workCC = true;
             else if (type.ToUpper() == "SMFS DRAFTS")
+            {
                 workDraft = true;
-            else if ( type.ToUpper() == "BANKCC")
+                this.Text = "Import SMFS Drafts";
+            }
+            else if (type.ToUpper() == "BANKCC")
             {
                 workBankCC = true;
                 bankDt = dt;
@@ -98,6 +101,10 @@ namespace SMFS
                 btnImportFile.Text = "Import ACH File";
                 gridBand2.Caption = "ACH Data";
                 this.Text = "Import ACH File";
+
+                if ( workDraft )
+                    this.Text = "Import SMFS Drafts";
+
                 lblACHDate.Show();
                 this.dateTimePicker1.Show();
             }
@@ -126,6 +133,7 @@ namespace SMFS
                 btnImportFile.Text = "Import TFBX File";
                 gridBand2.Caption = "The First Data";
                 this.Text = "Import TFBX File";
+                this.Text = "Import Renasant Lockbox File";
                 lblACHDate.Text = "TFBX Process Date";
                 lblACHDate.Show();
                 this.dateTimePicker1.Show();

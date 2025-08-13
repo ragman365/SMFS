@@ -548,7 +548,7 @@
             this.toolStripMenuItem18,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem18
@@ -1171,12 +1171,12 @@
             // lockBoxImportsToolStripMenuItem
             // 
             this.lockBoxImportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.importDailyDepositFileToolStripMenuItem,
             this.toolStripMenuItem20,
+            this.importSMFSDrafts,
+            this.importDailyDepositFileToolStripMenuItem,
             this.importACHFileToolStripMenuItem,
             this.importCreditCardPaymentsToolStripMenuItem,
             this.menuCreditCardsFromBank,
-            this.importSMFSDrafts,
             this.runDailyReportToolStripMenuItem,
             this.menuBankDeposits,
             this.menuTDP,
@@ -1184,7 +1184,7 @@
             this.matchBankDepositsToolStripMenuItem});
             this.lockBoxImportsToolStripMenuItem.Name = "lockBoxImportsToolStripMenuItem";
             this.lockBoxImportsToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
-            this.lockBoxImportsToolStripMenuItem.Text = "LockBox Imports";
+            this.lockBoxImportsToolStripMenuItem.Text = "Daily Imports";
             // 
             // importDailyDepositFileToolStripMenuItem
             // 
@@ -1197,7 +1197,7 @@
             // 
             this.toolStripMenuItem20.Name = "toolStripMenuItem20";
             this.toolStripMenuItem20.Size = new System.Drawing.Size(333, 26);
-            this.toolStripMenuItem20.Text = "Import The FIrst Daily Deposit File";
+            this.toolStripMenuItem20.Text = "Import Renasant Lockbox File";
             this.toolStripMenuItem20.Click += new System.EventHandler(this.toolStripMenuItem20_Click);
             // 
             // importACHFileToolStripMenuItem
@@ -1346,7 +1346,7 @@
             this.trustsToolStripMenuItem,
             this.insuranceToolStripMenuItem});
             this.quickStartToolStripMenuItem.Name = "quickStartToolStripMenuItem";
-            this.quickStartToolStripMenuItem.Size = new System.Drawing.Size(91, 24);
+            this.quickStartToolStripMenuItem.Size = new System.Drawing.Size(91, 26);
             this.quickStartToolStripMenuItem.Text = "QuickStart";
             // 
             // trustsToolStripMenuItem
@@ -1419,7 +1419,7 @@
             this.toolStripMenuItem24,
             this.toolStripMenuItem22});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // toolStripMenuItem17
@@ -1773,7 +1773,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
@@ -1798,7 +1798,7 @@
             this.mergeTwoSpreadsheetsToolStripMenuItem,
             this.pDFSharpToolStripMenuItem});
             this.miscToolStripMenuItem1.Name = "miscToolStripMenuItem1";
-            this.miscToolStripMenuItem1.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem1.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem1.Text = "Misc";
             // 
             // displayAuditToolStripMenuItem1
@@ -2071,7 +2071,7 @@
             this.rilesToolStripMenuItem,
             this.oldPassareSystemToolStripMenuItem});
             this.activateToolStripMenuItem.Name = "activateToolStripMenuItem";
-            this.activateToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
+            this.activateToolStripMenuItem.Size = new System.Drawing.Size(77, 26);
             this.activateToolStripMenuItem.Text = "Activate";
             // 
             // mainSystemToolStripMenuItem
@@ -2105,20 +2105,20 @@
             this.bankReportsToolStripMenuItem,
             this.dailyDepositReportFromAllSourcesToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // runACHReportToolStripMenuItem
             // 
             this.runACHReportToolStripMenuItem.Name = "runACHReportToolStripMenuItem";
-            this.runACHReportToolStripMenuItem.Size = new System.Drawing.Size(344, 26);
+            this.runACHReportToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
             this.runACHReportToolStripMenuItem.Text = "Generate ACH Payments for The First";
             this.runACHReportToolStripMenuItem.Click += new System.EventHandler(this.runACHReportToolStripMenuItem_Click);
             // 
             // listACHCustomersToolStripMenuItem
             // 
             this.listACHCustomersToolStripMenuItem.Name = "listACHCustomersToolStripMenuItem";
-            this.listACHCustomersToolStripMenuItem.Size = new System.Drawing.Size(344, 26);
+            this.listACHCustomersToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
             this.listACHCustomersToolStripMenuItem.Text = "List ACH Customers";
             this.listACHCustomersToolStripMenuItem.Click += new System.EventHandler(this.listACHCustomersToolStripMenuItem_Click);
             // 
@@ -2132,7 +2132,7 @@
             // aRReportsToolStripMenuItem
             // 
             this.aRReportsToolStripMenuItem.Name = "aRReportsToolStripMenuItem";
-            this.aRReportsToolStripMenuItem.Size = new System.Drawing.Size(344, 26);
+            this.aRReportsToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
             this.aRReportsToolStripMenuItem.Text = "A/R Reports";
             this.aRReportsToolStripMenuItem.Click += new System.EventHandler(this.aRReportsToolStripMenuItem_Click);
             // 
@@ -2147,7 +2147,7 @@
             this.deathClaimReportsToolStripMenuItem,
             this.bankCCCoversheetToolStripMenuItem});
             this.bankReportsToolStripMenuItem.Name = "bankReportsToolStripMenuItem";
-            this.bankReportsToolStripMenuItem.Size = new System.Drawing.Size(344, 26);
+            this.bankReportsToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
             this.bankReportsToolStripMenuItem.Text = "Bank Reports";
             // 
             // lockboxDepositReportToolStripMenuItem
@@ -2274,7 +2274,7 @@
             // dailyDepositReportFromAllSourcesToolStripMenuItem
             // 
             this.dailyDepositReportFromAllSourcesToolStripMenuItem.Name = "dailyDepositReportFromAllSourcesToolStripMenuItem";
-            this.dailyDepositReportFromAllSourcesToolStripMenuItem.Size = new System.Drawing.Size(344, 26);
+            this.dailyDepositReportFromAllSourcesToolStripMenuItem.Size = new System.Drawing.Size(375, 26);
             this.dailyDepositReportFromAllSourcesToolStripMenuItem.Text = "Daily Deposit Report from All Sources";
             this.dailyDepositReportFromAllSourcesToolStripMenuItem.Click += new System.EventHandler(this.dailyDepositReportFromAllSourcesToolStripMenuItem_Click);
             // 

@@ -1435,7 +1435,7 @@ namespace SMFS
                     return;
                 }
                 DateTime date = this.dateTimePicker1.Value;
-                string filename = "SMFS.NEW.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4");
+                string filename = "SMFS.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4");
                 fullPath = achDirectory + filename;
                 int count = 0;
                 for (; ; )
@@ -1443,7 +1443,7 @@ namespace SMFS
                     if (!File.Exists(fullPath + ".csv"))
                         break;
                     count++;
-                    filename = "SMFS.NEW.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4") + "_" + count.ToString();
+                    filename = "SMFS.Draft " + date.Month.ToString("D2") + "." + date.Day.ToString("D2") + "." + date.Year.ToString("D4") + "_" + count.ToString();
                     fullPath = achDirectory + filename;
                 }
 

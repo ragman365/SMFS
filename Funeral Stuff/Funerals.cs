@@ -2806,7 +2806,32 @@ namespace SMFS
                                         else
                                             casketCost = bateDt.Rows[0]["cost"].ObjToDouble();
                                     }
-                                    else
+                                    if ( bateDt.Rows.Count <= 0 )
+                                    {
+                                        Lines = service.Split(' ');
+                                        if ( Lines.Length > 0 )
+                                        {
+                                            str = Lines[0].Trim();
+                                            bateDt = G1.get_db_data("Select * from `batesville_inventory` where `casketCode` = '" + str + "';");
+                                            if ( bateDt.Rows.Count > 0 )
+                                            {
+                                                if (casketCode.IndexOf("V") == 0)
+                                                {
+                                                    vault = service;
+                                                    vaultCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    vaultAmount = currentPrice;
+                                                }
+                                                else
+                                                {
+                                                    casketCode = bateDt.Rows[0]["casketCode"].ObjToString().ToUpper();
+                                                    casketCost = bateDt.Rows[0]["cost"].ObjToDouble();
+                                                    casketAmount = currentPrice;
+                                                    casketDesc = bateDt.Rows[0]["casketDescription"].ObjToString();
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if ( bateDt.Rows.Count <= 0 )
                                     {
                                         bateDt = G1.get_db_data("Select * from `secondary_inventory` where `casketDesc` = '" + service + "';");
                                         if (bateDt.Rows.Count > 0)
@@ -4056,6 +4081,7 @@ namespace SMFS
             MatchTable("cust_payment_details");
             MatchTable("cust_payment_outside");
             MatchTable("cust_payment_ins_checklist");
+            MatchTable("funeral_master");
         }
         /***********************************************************************************************/
         private void MatchTable ( string table )

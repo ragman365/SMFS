@@ -3630,6 +3630,10 @@ namespace GeneralLib
         /****************************************************************************/
         public static string AddToAudit(string user, string module, string field, string what, string contract = "")
         {
+            string database = G1.conn1.Database.ObjToString();
+            if (database.ToUpper() != "SMFS")
+                return "";
+
             string record = G1.create_record("audit", "module", "-1");
             bool error = false;
             if (String.IsNullOrWhiteSpace(record))
