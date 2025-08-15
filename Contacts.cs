@@ -65,14 +65,15 @@ namespace SMFS
             InitializeComponent();
         }
         /****************************************************************************************/
-        public Contacts(DataTable dt, string Report = "" )
+        public Contacts(DataTable dt, string Report = "", string agent = "" )
         {
             InitializeComponent();
             workDt = dt;
             workReport = Report;
+            workAgent = agent;
         }
         /****************************************************************************************/
-        public Contacts(DataTable dt, DataTable dx, bool custom = false, string Report = "", string agent = "", string sendWhere = "", string sendTo = "" )
+        public Contacts(DataTable dt, DataTable dx, bool custom = false, string Report = "", string agent = "", string sendWhere = "", string sendTo = "", bool auto = false )
         {
             InitializeComponent();
             workDt = dt;
@@ -80,8 +81,11 @@ namespace SMFS
             isCustom = custom;
             workAgent = agent;
             customReport = Report;
+            workReport = Report;
             workSendWhere = sendWhere;
             workSendTo = sendTo;
+            workEmail = sendTo;
+            workAuto = auto;
         }
         /****************************************************************************************/
         public Contacts(DataTable dt, bool auto, string agent, string email, string report, string send, string username, string displayFormat, bool custom, DataTable dx)
@@ -422,6 +426,8 @@ namespace SMFS
             string date2 = G1.DateTimeToSQLDateTime(date);
 
             string employee = cmbEmployee.Text.Trim();
+            if (!String.IsNullOrWhiteSpace(workAgent))
+                employee = workAgent;
 
             string record = "";
             string oldRecord = "";
@@ -569,6 +575,9 @@ namespace SMFS
 
 
             string employee = cmbEmployee.Text.Trim();
+            if (!String.IsNullOrWhiteSpace(workAgent))
+                employee = workAgent;
+
 
             DataTable newDt = dt.Clone();
             DataTable trackDt = null;
@@ -2158,6 +2167,9 @@ namespace SMFS
                 }
 
                 printableComponentLink1.ExportToPdf(filename);
+
+                if (String.IsNullOrWhiteSpace(sendWhere))
+                    sendWhere = workSendWhere;
 
                 RemoteProcessing.AutoRunSend(workReport + " for " + today.ToString("MM/dd/yyyy"), filename, workAgent, sendWhere, "", workEmail, sendUsername, true );
             }

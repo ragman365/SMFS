@@ -31,6 +31,7 @@ namespace SMFS
             string frequency = "";
             string sendWhere = "";
             string sendTo = "";
+            string reportName = "";
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 status = dt.Rows[i]["status"].ObjToString();
@@ -54,6 +55,23 @@ namespace SMFS
                 report = dt.Rows[i]["report"].ObjToString();
                 sendWhere = dt.Rows[i]["sendWhere"].ObjToString();
                 sendTo = dt.Rows[i]["sendTo"].ObjToString();
+
+                reportName = "";
+                if (report.IndexOf("{") > 0)
+                {
+                    int idx = report.IndexOf("{");
+                    if (idx > 0)
+                    {
+                        reportName = report.Substring(idx);
+                        report = report.Substring(0, idx);
+                        reportName = reportName.Replace("{", "");
+                        reportName = reportName.Replace("}", "");
+                        reportName = reportName.Trim();
+                        report = report.Replace("{", "");
+                        report = report.Trim();
+                    }
+                }
+
 
                 //G1.WriteAudit("Run Report " + report + "!");
 
@@ -104,14 +122,14 @@ namespace SMFS
                 {
                     //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
                     //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
-                    ContactReportsAgents reportForm = new ContactReportsAgents (true, true, sendWhere, sendTo, "", "" );
+                    ContactReportsAgents reportForm = new ContactReportsAgents (true, true, sendWhere, sendTo, LoginForm.username,   report, reportName );
                     continue;
                 }
                 else if (report.ToUpper() == "AGENT CONTACT REPORTS")
                 {
                     //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report", "Starting Report . . . . . . . ", "");
                     //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
-                    ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, sendTo, "", "");
+                    ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, sendTo, LoginForm.username, report, reportName);
                     continue;
                 }
                 else if (report.ToUpper().IndexOf ("AGENT AUTORUN REPORTS") == 0 )

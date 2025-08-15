@@ -1472,7 +1472,11 @@ namespace SMFS
             bool isCustom = false;
 
             cmd = ContactsPreneed.BuildReportQuery(workModule, dt, workAgent, ref isCustom);
+            if (String.IsNullOrWhiteSpace(cmd))
+                return;
             dx = G1.get_db_data(cmd);
+            if (dx == null)
+                return;
 
             if (dx != null)
             {
@@ -1484,7 +1488,7 @@ namespace SMFS
                 {
                     form = new Contacts();
                     if (!isCustom)
-                        form = new Contacts(dx);
+                        form = new Contacts(dx, "", workAgent );
                     else
                         form = new Contacts(dx, dt, true, customReport);
                 }

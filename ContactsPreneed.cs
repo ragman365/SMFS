@@ -93,7 +93,22 @@ namespace SMFS
             customReport = Report;
         }
         /****************************************************************************************/
-        public ContactsPreneed(DataTable dt, bool auto, string agent, string email, string report, string send, string username, string displayFormat, bool custom, DataTable dx )
+        public ContactsPreneed(DataTable dt, bool auto, DataTable dx, bool custom = false, string Report = "", string agent = "", string sendEmail = "", string sendTo = "")
+        {
+            InitializeComponent();
+            workDt = dt;
+            workAuto = auto;
+            customDt = dx;
+            isCustom = custom;
+            workAgent = agent;
+            customReport = Report;
+            workReport = Report;
+            workEmail = sendTo;
+            sendUsername = sendTo;
+            sendWhere = sendEmail;
+        }
+        /****************************************************************************************/
+            public ContactsPreneed(DataTable dt, bool auto, string agent, string email, string report, string send, string username, string displayFormat, bool custom, DataTable dx )
         {
             InitializeComponent();
             workDt = dt;

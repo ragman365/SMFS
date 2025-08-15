@@ -78,6 +78,8 @@ namespace SMFS
             workReportIn = report;
             forceReportName = ReportName;
             RunAutoReports();
+            if (auto)
+                this.Close();
         }
         /****************************************************************************************/
         private void RunAutoReports()
@@ -103,6 +105,7 @@ namespace SMFS
                 cmd += " AND `report` = '" + forceReportName + "' ";
             cmd += ";";
 
+            DataTable agentDt = null;
             DataTable dt = G1.get_db_data(cmd);
             if ( dt.Rows.Count <= 0 )
             {
@@ -122,6 +125,10 @@ namespace SMFS
             }
             else
             {
+                agentDt = dt.Copy();
+
+                agentDt = LoadEmails(agentDt);
+
                 cmd = "Select * from `contacts_reports` WHERE `report` = '" + forceReportName + "';";
                 dt = G1.get_db_data(cmd);
                 if (dt.Rows.Count > 0)
@@ -134,7 +141,17 @@ namespace SMFS
                     if (dt.Rows.Count <= 0)
                         return;
                     force = true;
+
+                    for ( int i=0; i<agentDt.Rows.Count; i++)
+                    {
+                        workAgent = agentDt.Rows[i]["agent"].ObjToString();
+                        workSendTo = agentDt.Rows[i]["email"].ObjToString();
+                        if ( !String.IsNullOrWhiteSpace ( workSendTo) && String.IsNullOrWhiteSpace ( sendWhere ))
+                            sendWhere = "Email";
+                        runReport(dt, forceReportName, workAgent, workSendTo, sendWhere, LoginForm.username, "");
+                    }
                 }
+                return;
             }
 
             if ( 1 == 1 )
@@ -1349,6 +1366,9 @@ namespace SMFS
 
             string cmd = ContactsPreneed.BuildReportQuery(workModule, dt, workAgent, ref isCustom);
 
+            if (String.IsNullOrWhiteSpace(cmd))
+                return;
+
             dx = G1.get_db_data(cmd);
 
             if ( !String.IsNullOrWhiteSpace ( agent) && agent.ToUpper() != "ALL")
@@ -1375,9 +1395,13 @@ namespace SMFS
                 {
                     form = new Contacts();
                     if (!isCustom)
-                        form = new Contacts(dx, report);
+                    {
+                        form = new Contacts(dx, dt, false, report, workAgent, sendWhere, workSendTo, autoRun );
+                        //form.Show();
+                    }
+
                     else
-                        form = new Contacts(dx, dt, true, report, "", sendWhere, workSendTo);
+                        form = new Contacts(dx, dt, true, report, workAgent, sendWhere, workSendTo);
                 }
                 else
                 {
@@ -1385,7 +1409,7 @@ namespace SMFS
                     if (!isCustom)
                         form = new ContactsPreneed(dx, report );
                     else
-                        form = new ContactsPreneed(dx, dt, true, report );
+                        form = new ContactsPreneed(dx, autoRun, dt, true, report, workAgent, sendWhere, workSendTo );
                 }
 
                 //if ( autoRun )
