@@ -933,18 +933,40 @@ namespace SMFS
                 string zipCode = data.ObjToString();
                 string city = "";
                 string state = "";
+                string stateAbbrev = "";
                 string county = "";
 
-                // Get city, state, and county.
-                string cmd = "Select * from `ref_states` where `state` = '" + state + "';";
+                // Get city, state, and county from ref_zipcodes.
+                string cmd = "Select * FROM `ref_zipcodes` WHERE zipcode = '" + zipCode + "';";
+                DataTable dz = G1.get_db_data(cmd);
+                if (dz.Rows.Count > 0)
+                {
+                    state = dz.Rows[0]["state"].ObjToString();
+                    city = dz.Rows[0]["city"].ObjToString();
+                    county = dz.Rows[0]["county"].ObjToString();
+                }
+                // Gets the abbreviation of the state based on state.
+                cmd = "Select * from `ref_states` where `state` = '" + state + "';";
                 DataTable dx = G1.get_db_data(cmd);
                 if (dx.Rows.Count > 0)
-                    state = dx.Rows[0]["abbrev"].ObjToString();
+                    stateAbbrev = dx.Rows[0]["abbrev"].ObjToString();
 
                 DataRow[] dRows = dt.Select("field='state'");
                 if (dRows.Length > 0)
                 {
-                    dRows[0]["data"] = state.ToString();
+                    dRows[0]["data"] = stateAbbrev.ToString();
+                }
+
+                dRows = dt.Select("field='city'");
+                if (dRows.Length > 0)
+                {
+                    dRows[0]["data"] = city.ToString();
+                }
+
+                dRows = dt.Select("field='county'");
+                if (dRows.Length > 0)
+                {
+                    dRows[0]["data"] = county.ToString();
                 }
                 /*
                 bool rv = FunFamily.LookupZipcode(zipCode, ref city, ref state, ref county);
