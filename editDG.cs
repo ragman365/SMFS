@@ -550,6 +550,15 @@ namespace SMFS
                                     myDate = dateForm.myDateAnswer;
                                     DateTime date = myDate.ObjToDateTime();
                                     dt.Rows[row]["data"] = date.ToString("MM/dd/yyyy");
+                                    if (field.ToUpper() == "BIRTHDAY")
+                                    {
+                                        int age = G1.CalculateAgeCorrect(date, DateTime.Now);
+                                        DataRow[] dRows = dt.Select("field='age'");
+                                        if (dRows.Length > 0)
+                                        {
+                                            dRows[0]["data"] = age.ToString();
+                                        }
+                                    }
 
                                     btnAccept.Show();
                                     btnAccept.Refresh();
@@ -897,18 +906,69 @@ namespace SMFS
             int rowHandle = gridMain.FocusedRowHandle;
             int row = gridMain.GetDataSourceRowIndex(rowHandle);
             DataRow dr = gridMain.GetFocusedDataRow();
+            DataTable dt = (DataTable)dgv.DataSource;
             if (dr == null)
                 return;
 
             string field = dr["field"].ObjToString().ToUpper();
             string data = dr["data"].ObjToString();
-            if ( field.IndexOf ( "HOME PHONE") >= 0 || field.IndexOf ( "WORK PHONE") >= 0 || field.IndexOf ( "MOBILE PHONE") >= 0 )
+            if (field.IndexOf("HOME PHONE") >= 0 || field.IndexOf("WORK PHONE") >= 0 || field.IndexOf("MOBILE PHONE") >= 0)
             {
                 string phone = data;
                 phone = AgentProspectReport.reformatPhone(phone, true);
                 dr["data"] = phone;
             }
+            else if (field.ToUpper() == "BIRTHDAY")
+            {
+                DateTime date = data.ObjToDateTime();
+                int age = G1.CalculateAgeCorrect(date, DateTime.Now);
+                DataRow[] dRows = dt.Select("field='age'");
+                if (dRows.Length > 0)
+                {
+                    dRows[0]["data"] = age.ToString();
+                }
+            }
+            else if (field.ToUpper() == "ZIP")
+            {
+                string zipCode = data.ObjToString();
+                string city = "";
+                string state = "";
+                string county = "";
 
+                // Get city, state, and county.
+                string cmd = "Select * from `ref_states` where `state` = '" + state + "';";
+                DataTable dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                    state = dx.Rows[0]["abbrev"].ObjToString();
+
+                DataRow[] dRows = dt.Select("field='state'");
+                if (dRows.Length > 0)
+                {
+                    dRows[0]["data"] = state.ToString();
+                }
+                /*
+                bool rv = FunFamily.LookupZipcode(zipCode, ref city, ref state, ref county);
+                if (rv)
+                {
+                    if (!String.IsNullOrWhiteSpace(state))
+                    {
+                        string cmd = "Select * from `ref_states` where `state` = '" + state + "';";
+                        DataTable dx = G1.get_db_data(cmd);
+                        if (dx.Rows.Count > 0)
+                            state = dx.Rows[0]["abbrev"].ObjToString();
+                    }
+                    if (!String.IsNullOrWhiteSpace(city))
+                        textEdit_patientCity.Text = city;
+                    if (!String.IsNullOrWhiteSpace(state))
+                        comboStates.Text = state;
+                    if (!String.IsNullOrWhiteSpace(county))
+                    {
+                        ChangeVitalsField("deccounty", county);
+                        txtCounty.Text = county;
+                    }
+                }
+                */
+            }
             btnAccept.Show();
             btnAccept.Refresh();
             btnCancel.Show();

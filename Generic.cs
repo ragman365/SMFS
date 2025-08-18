@@ -2024,6 +2024,11 @@ namespace GeneralLib
                 //string type = cs.Type;
                 //string def = cs.Default;
 
+                if (field.ToUpper().IndexOf("DATE") >= 0)
+                { 
+                
+                } 
+
                 if (type == "INT" || type == "BIGINT")
                 {
                     if (data == null)
@@ -2100,7 +2105,9 @@ namespace GeneralLib
                         cmd += ", ";
                     if (data == "0000-00-00")
                     {
-                        cmd += " `" + field + "` = '0000-00-00' ";
+                        //                        cmd += " `" + field + "` = '0000-00-00' ";
+                        dt = DateTime.MinValue;
+                        cmd += " `" + field + "` = '" + G1.DTtoYMDString(dt) + "' ";
                     }
                     else
                         cmd += " `" + field + "` = '" + G1.DTtoYMDString(dt) + "' ";
@@ -2116,6 +2123,10 @@ namespace GeneralLib
                     //cmd += " `" + field + "` = '" + data + "' ";
                     //found = true;
                     #endregion
+                }
+                else if (type == "MYSQLDATETIME")
+                { 
+                    
                 }
                 else if (type == "TIME")
                 {
