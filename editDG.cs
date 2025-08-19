@@ -945,7 +945,7 @@ namespace SMFS
                     city = dz.Rows[0]["city"].ObjToString();
                     county = dz.Rows[0]["county"].ObjToString();
                 }
-                // Gets the abbreviation of the state based on state.
+                // Gets the abbreviation of the state based on the field state.
                 cmd = "Select * from `ref_states` where `state` = '" + state + "';";
                 DataTable dx = G1.get_db_data(cmd);
                 if (dx.Rows.Count > 0)
@@ -968,6 +968,50 @@ namespace SMFS
                 {
                     dRows[0]["data"] = county.ToString();
                 }
+            }
+            else if (field.ToUpper() == "CITY") // This isn't working yet.
+            {
+                // If there is only one zip code for the city, then you can populate zip code and state from city.
+                string zipCode = "";
+                string city = data.ObjToString();
+                string state = "";
+                string stateAbbrev = "";
+                string county = "";
+                // Can we find the zip code? If there is already a zip code, I don't want to mess with it.
+                DataRow[] dRows = dt.Select("field='ZIP'");
+
+                string cmd = "Select * FROM `ref_zipcodes` WHERE city = '" + city + "';";
+                DataTable dz = G1.get_db_data(cmd);
+                if (dz.Rows.Count == 1)
+                {
+                    // There's only one record. Populate the rest of the fields for the user.
+                    state = dz.Rows[0]["state"].ObjToString();
+                    zipCode = dz.Rows[0]["zipcode"].ObjToString();
+                    county = dz.Rows[0]["county"].ObjToString();
+
+                    // Gets the abbreviation of the state based on the field state.
+                    cmd = "Select * from `ref_states` where `state` = '" + state + "';";
+                    DataTable dx = G1.get_db_data(cmd);
+                    if (dx.Rows.Count > 0)
+                        stateAbbrev = dx.Rows[0]["abbrev"].ObjToString();
+
+                    dRows = dt.Select("field='state'");
+                    if (dRows.Length > 0)
+                    {
+                        dRows[0]["data"] = stateAbbrev.ToString();
+                    }
+
+                    dRows = dt.Select("field='ZIP'");
+                    if (dRows.Length > 0)
+                    {
+                        dRows[0]["data"] = zipCode.ToString();
+                    }
+                }
+                else if (dz.Rows.Count == 0)
+                {
+                    MessageBox.Show("City name not found. Please verify the spelling before continuing.");
+                }
+                // If you can do this type of validation here, then you need validation on save. Ensure city name is spelled correctly and matches zip code and state before saving.
             }
 
             btnAccept.Show();
