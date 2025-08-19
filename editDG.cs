@@ -968,29 +968,8 @@ namespace SMFS
                 {
                     dRows[0]["data"] = county.ToString();
                 }
-                /*
-                bool rv = FunFamily.LookupZipcode(zipCode, ref city, ref state, ref county);
-                if (rv)
-                {
-                    if (!String.IsNullOrWhiteSpace(state))
-                    {
-                        string cmd = "Select * from `ref_states` where `state` = '" + state + "';";
-                        DataTable dx = G1.get_db_data(cmd);
-                        if (dx.Rows.Count > 0)
-                            state = dx.Rows[0]["abbrev"].ObjToString();
-                    }
-                    if (!String.IsNullOrWhiteSpace(city))
-                        textEdit_patientCity.Text = city;
-                    if (!String.IsNullOrWhiteSpace(state))
-                        comboStates.Text = state;
-                    if (!String.IsNullOrWhiteSpace(county))
-                    {
-                        ChangeVitalsField("deccounty", county);
-                        txtCounty.Text = county;
-                    }
-                }
-                */
             }
+
             btnAccept.Show();
             btnAccept.Refresh();
             btnCancel.Show();
