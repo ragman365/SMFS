@@ -94,6 +94,13 @@ namespace SMFS
                     workReport = workReport.Replace("}", "").Trim();
                     forceReportName = workReport;
                 }
+                else
+                {
+                    if ( !String.IsNullOrWhiteSpace (workReportIn ))
+                    {
+                        forceReportName = workReportIn;
+                    }
+                }
             }
 
             bool force = false;
@@ -142,12 +149,18 @@ namespace SMFS
                         return;
                     force = true;
 
+                    string classification = "";
+
                     for ( int i=0; i<agentDt.Rows.Count; i++)
                     {
                         workAgent = agentDt.Rows[i]["agent"].ObjToString();
                         workSendTo = agentDt.Rows[i]["email"].ObjToString();
                         if ( !String.IsNullOrWhiteSpace ( workSendTo) && String.IsNullOrWhiteSpace ( sendWhere ))
                             sendWhere = "Email";
+                        classification = agentDt.Rows[i]["classification"].ObjToString().ToUpper();
+                        if (classification == "ADMIN" || classification == "SUPERUSER")
+                            workAgent = "All";
+
                         runReport(dt, forceReportName, workAgent, workSendTo, sendWhere, LoginForm.username, "");
                     }
                 }
@@ -540,6 +553,9 @@ namespace SMFS
                 }
             }
 
+            if (G1.get_column_number(dt, "classification") < 0)
+                dt.Columns.Add("classification");
+
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 lName = dt.Rows[i]["lastName"].ObjToString();
@@ -552,6 +568,8 @@ namespace SMFS
 
                     username = dRows[0]["username"].ObjToString();
                     dt.Rows[i]["username"] = username;
+
+                    dt.Rows[i]["classification"] = dRows[0]["classification"].ObjToString();
                 }
             }
 
@@ -1380,6 +1398,10 @@ namespace SMFS
 
             if ( dx != null )
             {
+                if ( agent.ToUpper() == "ALL" && autoRun && sendWhere.ToUpper() == "EMAIL" )
+                {
+                    dx = showAllAgents(dx);
+                }
                 if (autoRun && !String.IsNullOrWhiteSpace(sendWhere) && workSendTo.ToUpper() == "AGENT")
                 {
                     AutoRunContacts(workModule, dx, dt, forceReportName, workAgent, sendWhere );
@@ -1443,6 +1465,46 @@ namespace SMFS
 
                 this.Cursor = Cursors.Default;
             }
+        }
+        /****************************************************************************************/
+        private DataTable showAllAgents( DataTable dx )
+        {
+            string cmd = "Select * from `users` WHERE `email` <> '';";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+                return dx;
+            string agent = "";
+            string name = "";
+            DataRow[] dRows = null;
+            DataRow dRow = null;
+
+            string classification = "";
+            bool got = false;
+            if (G1.get_column_number(dx, "oldRecord") >= 0)
+                got = true;
+
+            object maxValueObject = dx.Compute("MAX(record)", string.Empty);
+            int maxValue = Convert.ToInt32(maxValueObject);
+
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                classification = dt.Rows[i]["classification"].ObjToString().ToUpper();
+                if (classification == "ADMIN" || classification == "SUPERUSER")
+                    continue;
+
+                name = dt.Rows[i]["lastName"].ObjToString() + ", " + dt.Rows[i]["firstName"].ObjToString();
+                dRows = dx.Select("agent='" + name + "'");
+                if ( dRows.Length <= 0 )
+                {
+                    dRow = dx.NewRow();
+                    dRow["agent"] = name;
+                    dRow["record"] = maxValue + i + 10;
+                    if (got)
+                        dRow["oldRecord"] = maxValue + i + 10;
+                    dx.Rows.Add(dRow);
+                }
+            }
+            return dx;
         }
         /****************************************************************************************/
         private void AutoRunContacts ( string workModule, DataTable dx, DataTable dt, string report, string workAgent, string sendWhere )

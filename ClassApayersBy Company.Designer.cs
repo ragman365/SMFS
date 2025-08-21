@@ -65,6 +65,7 @@
             this.bandedGridColumn24 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn25 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn26 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn45 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn21 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn20 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn12 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -91,6 +92,8 @@
             this.bandedGridColumn73 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridView5 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkAss = new System.Windows.Forms.CheckBox();
+            this.chkGroupBy = new System.Windows.Forms.CheckBox();
             this.btnReport = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.chkComboCompanies = new DevExpress.XtraEditors.CheckedComboBoxEdit();
@@ -138,7 +141,7 @@
             this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1334, 423);
+            this.panelAll.Size = new System.Drawing.Size(1418, 423);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -150,7 +153,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 50);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1334, 373);
+            this.panelBottom.Size = new System.Drawing.Size(1418, 373);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv3
@@ -646,7 +649,8 @@
             this.bandedGridColumn30,
             this.bandedGridColumn31,
             this.bandedGridColumn32,
-            this.bandedGridColumn33});
+            this.bandedGridColumn33,
+            this.bandedGridColumn45});
             this.gridMain2.DetailHeight = 431;
             this.gridMain2.GridControl = this.dgv2;
             this.gridMain2.Name = "gridMain2";
@@ -688,6 +692,7 @@
             this.gridBand1.Columns.Add(this.bandedGridColumn24);
             this.gridBand1.Columns.Add(this.bandedGridColumn25);
             this.gridBand1.Columns.Add(this.bandedGridColumn26);
+            this.gridBand1.Columns.Add(this.bandedGridColumn45);
             this.gridBand1.Columns.Add(this.bandedGridColumn21);
             this.gridBand1.Columns.Add(this.bandedGridColumn20);
             this.gridBand1.Columns.Add(this.bandedGridColumn12);
@@ -862,6 +867,15 @@
             this.bandedGridColumn26.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn26.Visible = true;
             this.bandedGridColumn26.Width = 68;
+            // 
+            // bandedGridColumn45
+            // 
+            this.bandedGridColumn45.Caption = "Full Insured Name";
+            this.bandedGridColumn45.FieldName = "FullInsuredName";
+            this.bandedGridColumn45.MinWidth = 25;
+            this.bandedGridColumn45.Name = "bandedGridColumn45";
+            this.bandedGridColumn45.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn45.Width = 94;
             // 
             // bandedGridColumn21
             // 
@@ -1291,6 +1305,8 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Aquamarine;
+            this.panelTop.Controls.Add(this.chkAss);
+            this.panelTop.Controls.Add(this.chkGroupBy);
             this.panelTop.Controls.Add(this.btnReport);
             this.panelTop.Controls.Add(this.label3);
             this.panelTop.Controls.Add(this.chkComboCompanies);
@@ -1311,8 +1327,30 @@
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1334, 50);
+            this.panelTop.Size = new System.Drawing.Size(1418, 50);
             this.panelTop.TabIndex = 1;
+            // 
+            // chkAss
+            // 
+            this.chkAss.AutoSize = true;
+            this.chkAss.Location = new System.Drawing.Point(1224, 15);
+            this.chkAss.Name = "chkAss";
+            this.chkAss.Size = new System.Drawing.Size(180, 21);
+            this.chkAss.TabIndex = 144;
+            this.chkAss.Text = "Include Associate Policies";
+            this.chkAss.UseVisualStyleBackColor = true;
+            this.chkAss.CheckedChanged += new System.EventHandler(this.chkAss_CheckedChanged);
+            // 
+            // chkGroupBy
+            // 
+            this.chkGroupBy.AutoSize = true;
+            this.chkGroupBy.Location = new System.Drawing.Point(1041, 14);
+            this.chkGroupBy.Name = "chkGroupBy";
+            this.chkGroupBy.Size = new System.Drawing.Size(177, 21);
+            this.chkGroupBy.TabIndex = 143;
+            this.chkGroupBy.Text = "Group By Insured Name";
+            this.chkGroupBy.UseVisualStyleBackColor = true;
+            this.chkGroupBy.CheckedChanged += new System.EventHandler(this.chkGroupBy_CheckedChanged);
             // 
             // btnReport
             // 
@@ -1344,14 +1382,15 @@
             this.chkComboCompanies.Name = "chkComboCompanies";
             this.chkComboCompanies.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.chkComboCompanies.Properties.DisplayMember = "first_two_digits";
+            this.chkComboCompanies.Properties.DisplayMember = "companyCode";
             this.chkComboCompanies.Properties.SeparatorChar = '|';
             this.chkComboCompanies.Size = new System.Drawing.Size(199, 22);
             this.chkComboCompanies.TabIndex = 140;
+            this.chkComboCompanies.EditValueChanged += new System.EventHandler(this.chkComboCompanies_EditValueChanged);
             // 
             // txtPayer
             // 
-            this.txtPayer.Location = new System.Drawing.Point(1635, 12);
+            this.txtPayer.Location = new System.Drawing.Point(1737, 12);
             this.txtPayer.Name = "txtPayer";
             this.txtPayer.Size = new System.Drawing.Size(100, 23);
             this.txtPayer.TabIndex = 139;
@@ -1359,7 +1398,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1577, 15);
+            this.label2.Location = new System.Drawing.Point(1679, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 17);
             this.label2.TabIndex = 138;
@@ -1391,7 +1430,7 @@
             // 
             // txtCompanyCode
             // 
-            this.txtCompanyCode.Location = new System.Drawing.Point(1471, 12);
+            this.txtCompanyCode.Location = new System.Drawing.Point(1573, 12);
             this.txtCompanyCode.Name = "txtCompanyCode";
             this.txtCompanyCode.Size = new System.Drawing.Size(100, 23);
             this.txtCompanyCode.TabIndex = 135;
@@ -1399,7 +1438,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1356, 15);
+            this.label1.Location = new System.Drawing.Point(1458, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(113, 17);
             this.label1.TabIndex = 134;
@@ -1494,7 +1533,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1334, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1418, 30);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1541,7 +1580,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1334, 453);
+            this.ClientSize = new System.Drawing.Size(1418, 453);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -1658,5 +1697,8 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn44;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn35;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
+        private System.Windows.Forms.CheckBox chkGroupBy;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn45;
+        private System.Windows.Forms.CheckBox chkAss;
     }
 }

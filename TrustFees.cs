@@ -122,18 +122,22 @@ namespace SMFS
         {
             if (dgv.Visible)
             {
-                if (gridMain.OptionsFind.AlwaysVisible == true)
-                    gridMain.OptionsFind.AlwaysVisible = false;
-                else
-                    gridMain.OptionsFind.AlwaysVisible = true;
+                G1.SpyGlass(gridMain);
+                //if (gridMain.OptionsFind.AlwaysVisible == true)
+                //    gridMain.OptionsFind.AlwaysVisible = false;
+                //else
+                //    gridMain.OptionsFind.AlwaysVisible = true;
             }
-            else if ( dgv3.Visible )
+            else if (dgv3.Visible)
             {
-                if (gridMain3.OptionsFind.AlwaysVisible == true)
-                    gridMain3.OptionsFind.AlwaysVisible = false;
-                else
-                    gridMain3.OptionsFind.AlwaysVisible = true;
+                G1.SpyGlass(gridMain3);
+                //if (gridMain3.OptionsFind.AlwaysVisible == true)
+                //    gridMain3.OptionsFind.AlwaysVisible = false;
+                //else
+                //    gridMain3.OptionsFind.AlwaysVisible = true;
             }
+            else if (dgv4.Visible)
+                G1.SpyGlass(gridMain4);
         }
         /****************************************************************************************/
         private void btnImport_Click(object sender, EventArgs e)
@@ -636,6 +640,9 @@ namespace SMFS
         private void runNew()
         {
             this.Cursor = Cursors.WaitCursor;
+
+            loading = true;
+
             DataTable dx = GetLastMonthData();
 
             string startDate = this.dateTimePicker1.Value.ToString("yyyyMMdd");
@@ -674,6 +681,7 @@ namespace SMFS
             double oldCommission = 0D;
             double oldContractValue = 0D;
             string oldStatus = "";
+            string excludeStatus = "";
 
             double totalPaid = 0D;
             double percentage = 0D;
@@ -686,7 +694,12 @@ namespace SMFS
             string lname = "";
             string lapsed = "";
             string delFlag = "";
+            string exclude = "";
             string contractNumber1 = "";
+
+            DateTime now = DateTime.Now;
+            DateTime deceasedCheck = new DateTime(now.Year, now.Month, now.Day);
+            deceasedCheck = deceasedCheck.AddMonths(-24);
 
             double fees = 0D;
 
@@ -718,7 +731,7 @@ namespace SMFS
                     //    continue;
 
                     contractNumber = dx.Rows[i]["contractNumber"].ObjToString();
-                    if (contractNumber == "HT20003L")
+                    if (contractNumber == "CA014")
                     {
                     }
                     lname = dx.Rows[i]["lastName"].ObjToString();
@@ -734,7 +747,7 @@ namespace SMFS
                     if (contractNumber == "L14082UI")
                     {
                     }
-                    if (contractNumber == "39360")
+                    if (contractNumber == "B00029")
                     {
                     }
 
@@ -776,10 +789,46 @@ namespace SMFS
                     lapsed = dRows[0]["lapsed"].ObjToString();
                     lapseDate = dRows[0]["lapseDate8"].ObjToDateTime();
                     reinstateDate = dRows[0]["reinstateDate8"].ObjToDateTime();
+
+                    //oldStatus = "";
+
                     deceasedDate = dRows[0]["deceasedDate"].ObjToDateTime();
+                    //if (deceasedDate.Year > 1900)
+                    //{
+                    //    oldStatus = dRows[0]["allowPolicyS8"].ObjToString();
+                    //    if (oldStatus == "INCLUDE")
+                    //        deceasedDate = DateTime.MinValue;
+                    //    else
+                    //    {
+                    //        if (deceasedDate < deceasedCheck)
+                    //        {
+                    //            oldStatus = "EXCLUDE";
+                    //            dRows[0]["allowPolicyS8"] = oldStatus;
+                    //        }
+                    //    }
+                    //}
+
+                    excludeStatus = dRows[0]["allowPolicyS8"].ObjToString();
                     if (deceasedDate.Year > 1900)
                     {
                         status = "DECEASED";
+                        if (deceasedDate < deceasedCheck)
+                        {
+                            if (oldStatus.ToUpper() != "DECEASED")
+                            {
+                                if (String.IsNullOrWhiteSpace(excludeStatus))
+                                {
+                                    status = "EXCLUDE";
+                                }
+                                else
+                                {
+                                    if (excludeStatus == "INCLUDE")
+                                        status = "ACTIVE";
+                                    else
+                                        status = "EXCLUDE";
+                                }
+                            }
+                        }
                         dx.Rows[i]["lapseDate"] = G1.DTtoMySQLDT(deceasedDate);
                         dx.Rows[i]["status"] = status;
                         if (oldStatus.ToUpper() == "ACTIVE" && status.ToUpper() == "DECEASED")
@@ -792,6 +841,8 @@ namespace SMFS
                             dx.Rows[i]["status"] = status;
                             continue;
                         }
+                        if (status == "EXCLUDE")
+                            continue;
                     }
 
                     if ( dueDate8 == paidOffDate && dx.Rows[i]["NewContract"].ObjToString() != "Y")
@@ -917,8 +968,10 @@ namespace SMFS
                 }
                 catch (Exception ex)
                 {
-
                 }
+
+                //if (i > 50)
+                //    break;
             }
             barImport.Value = lastrow;
             barImport.Refresh();
@@ -929,9 +982,36 @@ namespace SMFS
             tempview.Sort = "status asc, contractNumber asc";
             dx = tempview.ToTable();
 
+            dRows = dx.Select("status='EXCLUDE'");
+            DataTable excludeDt = dx.Clone();
+            if ( dRows.Length > 0 )
+            {
+                excludeDt = dRows.CopyToDataTable();
+            }
+
+            try
+            {
+                dRows = dx.Select("status<>'EXCLUDE'");
+                if (dRows.Length > 0)
+                    dx = dRows.CopyToDataTable();
+            }
+            catch ( Exception ex)
+            {
+            }
+
 
             G1.NumberDataTable(dx);
             dgv.DataSource = dx;
+
+            if (G1.get_column_number(excludeDt, "num") >= 0)
+                excludeDt.Columns.Remove("num");
+            excludeDt.Columns.Add("num", typeof(string)).SetOrdinal(0);
+
+            G1.NumberDataTable(excludeDt);
+            dgv4.DataSource = excludeDt;
+
+            loading = false;
+
             this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/
@@ -946,6 +1026,7 @@ namespace SMFS
 
                 runNew();
                 btnSaveDetail.Show();
+                dgv2.Visible = true;
                 return;
             }
 
@@ -1208,6 +1289,8 @@ namespace SMFS
                 printableComponentLink1.Component = dgv2;
             else if (dgv3.Visible)
                 printableComponentLink1.Component = dgv3;
+            else if (dgv4.Visible)
+                printableComponentLink1.Component = dgv4;
 
             printableComponentLink1.PrintingSystemBase = printingSystem1;
 
@@ -1234,9 +1317,11 @@ namespace SMFS
             if ( dgv.Visible )
                 G1.AdjustColumnWidths(gridMain, 0.65D, true);
             else if (dgv2.Visible)
-                G1.AdjustColumnWidths(gridMain, 0.65D, true);
+                G1.AdjustColumnWidths(gridMain2, 0.65D, true);
             else if (dgv3.Visible)
-                G1.AdjustColumnWidths(gridMain, 0.65D, true);
+                G1.AdjustColumnWidths(gridMain3, 0.65D, true);
+            else if (dgv4.Visible)
+                G1.AdjustColumnWidths(gridMain4, 0.65D, true);
 
             printableComponentLink1.CreateDocument();
             printableComponentLink1.ShowPreview();
@@ -1244,9 +1329,11 @@ namespace SMFS
             if (dgv.Visible)
                 G1.AdjustColumnWidths(gridMain, 0.65D, false );
             else if (dgv2.Visible)
-                G1.AdjustColumnWidths(gridMain, 0.65D, false );
+                G1.AdjustColumnWidths(gridMain2, 0.65D, false );
             else if (dgv3.Visible)
-                G1.AdjustColumnWidths(gridMain, 0.65D, false );
+                G1.AdjustColumnWidths(gridMain3, 0.65D, false );
+            else if (dgv4.Visible)
+                G1.AdjustColumnWidths(gridMain4, 0.65D, false);
 
             isPrinting = false;
         }
@@ -1267,6 +1354,8 @@ namespace SMFS
                 printableComponentLink1.Component = dgv2;
             else if (dgv3.Visible)
                 printableComponentLink1.Component = dgv3;
+            else if (dgv4.Visible)
+                printableComponentLink1.Component = dgv4;
 
             printableComponentLink1.PrintingSystemBase = printingSystem1;
             printableComponentLink1.CreateDetailHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateDetailHeaderArea);
@@ -1329,6 +1418,8 @@ namespace SMFS
                 Printer.DrawQuad(5, 8, 4, 4, "Trust Salary/Fee Report", Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
             else if (dgv3.Visible)
                 Printer.DrawQuad(5, 8, 4, 4, "Trust Allocation Mismatch", Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
+            else if (dgv4.Visible)
+                Printer.DrawQuad(5, 8, 4, 4, "Trust Exclusion Report", Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Bottom);
 
             DateTime date = DateTime.Now;
             string workDate = date.Month.ToString("D2") + "/" + date.Day.ToString("D2") + "/" + (date.Year % 100).ToString("D2");
@@ -1533,13 +1624,16 @@ namespace SMFS
 
             try
             {
+                loading = true;
                 DataTable dt = G1.get_db_data(cmd);
                 G1.NumberDataTable(dt);
                 dgv.DataSource = dt;
+                loading = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("***ERROR*** Delete Previous Data " + ex.Message.ToString());
+                MessageBox.Show("***ERROR*** Reading Previous Data " + ex.Message.ToString(), "Read Previous Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                loading = false;
             }
             btnSaveDetail.Hide();
         }
@@ -1754,6 +1848,40 @@ namespace SMFS
                     else
                         e.DisplayText = "";
                 }
+            }
+        }
+        /****************************************************************************************/
+        private void excludeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            DataRow dr = gridMain.GetFocusedDataRow();
+            int rowhandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowhandle);
+
+            string contractNumber = dr["contractNumber"].ObjToString();
+            string cmd = "Select * from `customers` where `contractNumber` = '" + contractNumber + "';";
+            DataTable dx = G1.get_db_data(cmd);
+            if (dx.Rows.Count > 0)
+            {
+                string record = dx.Rows[0]["record"].ObjToString();
+                G1.update_db_table("customers", "record", record, new string[] {"allowPolicyS8", "EXCLUDE" });
+            }
+        }
+        /****************************************************************************************/
+        private void includeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv4.DataSource;
+            DataRow dr = gridMain4.GetFocusedDataRow();
+            int rowhandle = gridMain4.FocusedRowHandle;
+            int row = gridMain4.GetDataSourceRowIndex(rowhandle);
+
+            string contractNumber = dr["contractNumber"].ObjToString();
+            string cmd = "Select * from `customers` where `contractNumber` = '" + contractNumber + "';";
+            DataTable dx = G1.get_db_data(cmd);
+            if (dx.Rows.Count > 0)
+            {
+                string record = dx.Rows[0]["record"].ObjToString();
+                G1.update_db_table("customers", "record", record, new string[] { "allowPolicyS8", "INCLUDE" });
             }
         }
         /****************************************************************************************/

@@ -86,6 +86,64 @@ namespace SMFS
             gridMain.Columns[columnName].SummaryItem.DisplayFormat = format;
         }
         /****************************************************************************************/
+        private void ClearAllPositions(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null)
+        {
+            if (gMain == null)
+                gMain = gridMain;
+            for (int i = 0; i < gMain.Columns.Count; i++)
+            {
+                gMain.Columns[i].Visible = false;
+            }
+        }
+        /****************************************************************************************/
+        private void SetReportColumns(DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gMain = null)
+        {
+            if (gMain == null)
+                gMain = gridMain;
+
+            int i = 1;
+            if (!chkGroupBy.Checked)
+            {
+                G1.SetColumnPosition(gMain, "num", i++);
+                G1.SetColumnPosition(gMain, "payer", i++);
+                G1.SetColumnPosition(gMain, "payerName", i++);
+                G1.SetColumnPosition(gMain, "amtOfMonthlyPayt", i++);
+                G1.SetColumnPosition(gMain, "payerD_date", i++);
+                G1.SetColumnPosition(gMain, "address1", i++);
+                G1.SetColumnPosition(gMain, "address2", i++);
+                G1.SetColumnPosition(gMain, "city", i++);
+                G1.SetColumnPosition(gMain, "state", i++);
+                G1.SetColumnPosition(gMain, "zip1", i++);
+                G1.SetColumnPosition(gMain, "policyFirstName", i++);
+                G1.SetColumnPosition(gMain, "policyLastName", i++);
+                G1.SetColumnPosition(gMain, "policyNumber", i++);
+                G1.SetColumnPosition(gMain, "issueDate81", i++);
+                G1.SetColumnPosition(gMain, "premium", i++);
+                G1.SetColumnPosition(gMain, "liability", i++);
+                G1.SetColumnPosition(gMain, "policyD_date", i++);
+            }
+            else
+            {
+                G1.SetColumnPosition(gMain, "num", i++);
+                G1.SetColumnPosition(gMain, "policyFirstName", i++);
+                G1.SetColumnPosition(gMain, "policyLastName", i++);
+                G1.SetColumnPosition(gMain, "policyNumber", i++);
+                G1.SetColumnPosition(gMain, "issueDate81", i++);
+                G1.SetColumnPosition(gMain, "premium", i++);
+                G1.SetColumnPosition(gMain, "liability", i++);
+                G1.SetColumnPosition(gMain, "policyD_date", i++);
+                G1.SetColumnPosition(gMain, "payer", i++);
+                G1.SetColumnPosition(gMain, "payerName", i++);
+                G1.SetColumnPosition(gMain, "amtOfMonthlyPayt", i++);
+                G1.SetColumnPosition(gMain, "payerD_date", i++);
+                G1.SetColumnPosition(gMain, "address1", i++);
+                G1.SetColumnPosition(gMain, "address2", i++);
+                G1.SetColumnPosition(gMain, "city", i++);
+                G1.SetColumnPosition(gMain, "state", i++);
+                G1.SetColumnPosition(gMain, "zip1", i++);
+            }
+        }
+        /****************************************************************************************/
         private void ClassApayersByCompany_Load(object sender, EventArgs e)
         {
             btnReport.Hide();
@@ -116,6 +174,9 @@ namespace SMFS
 
             dgv2.Show();
             dgv2.Dock = DockStyle.Fill;
+
+            ClearAllPositions(gridMain2);
+            SetReportColumns(gridMain2);
 
             loading = false;
         }
@@ -201,14 +262,24 @@ namespace SMFS
         /***********************************************************************************************/
         private void loadComboCompanies ()
         {
-            string cmd = "Select *,LEFT(policyNumber, 2) AS first_two_digits from `policies` ";
+            //string cmd = "Select *,LEFT(policyNumber, 2) AS first_two_digits from `policies` ";
+            //cmd += " WHERE `deceasedDate` <= '0001-01-01' AND `lapsed` <> 'Y' ";
+            //cmd += " AND `report` = 'Not Third Party' ";
+            //cmd += " AND `lapsed` <> 'Y' ";
+            //cmd += " AND `lapsedDate8` <= '0100-01-01' ";
+            //cmd += " AND ( `liability` >= '0.00' AND `liability` <= '450.00' ) ";
+            //cmd += " GROUP BY `first_two_digits` ";
+            //cmd += " ORDER by `first_two_digits` ";
+            //cmd += ";";
+
+            string cmd = "Select * from `policies` ";
             cmd += " WHERE `deceasedDate` <= '0001-01-01' AND `lapsed` <> 'Y' ";
             cmd += " AND `report` = 'Not Third Party' ";
             cmd += " AND `lapsed` <> 'Y' ";
             cmd += " AND `lapsedDate8` <= '0100-01-01' ";
             cmd += " AND ( `liability` >= '0.00' AND `liability` <= '450.00' ) ";
-            cmd += " GROUP BY `first_two_digits` ";
-            cmd += " ORDER by `first_two_digits` ";
+            cmd += " GROUP BY `companyCode` ";
+            cmd += " ORDER by `companyCode` ";
             cmd += ";";
 
             DataTable dt = G1.get_db_data(cmd);
@@ -221,6 +292,22 @@ namespace SMFS
         }
         /*******************************************************************************************/
         private string getCompanyQuery()
+        {
+            string procLoc = "";
+            string[] locIDs = this.chkComboCompanies.EditValue.ToString().Split('|');
+            for (int i = 0; i < locIDs.Length; i++)
+            {
+                if (!String.IsNullOrWhiteSpace(locIDs[i]))
+                {
+                    if (procLoc.Trim().Length > 0)
+                        procLoc += " OR ";
+                    procLoc += "q.`companyCode` = '" + locIDs[i].Trim() + "'";
+                }
+            }
+            return procLoc.Length > 0 ? " AND (" + procLoc + ") " : "";
+        }
+        /*******************************************************************************************/
+        private string getCompanyQueryx()
         {
             string procLoc = "";
             string[] locIDs = this.chkComboCompanies.EditValue.ToString().Split('|');
@@ -438,130 +525,6 @@ namespace SMFS
 
             this.Cursor = Cursors.Default;
 
-            //tempview = dt.DefaultView;
-            //tempview.Sort = "companyCode asc, payer asc";
-            //dt = tempview.ToTable();
-
-            //string oldPayer = "";
-            //string oldCompany = "";
-            //string company = "";
-
-            //for (int i = 0; i < dt.Rows.Count; i++)
-            //{
-            //    company = dt.Rows[i]["companyCode"].ObjToString();
-            //    if (String.IsNullOrWhiteSpace(oldCompany) )
-            //        oldCompany = company;
-            //    if (company != oldCompany)
-            //    {
-            //        oldCompany = company;
-            //        if (i > 0)
-            //            dt.Rows[i - 1]["persons"] = 1D;
-            //        oldPayer = "";
-            //    }
-            //    payer = dt.Rows[i]["payer"].ObjToString().Trim();
-            //    if (string.IsNullOrWhiteSpace(oldPayer))
-            //        oldPayer = payer;
-            //    if (oldPayer != payer)
-            //    {
-            //        if (i > 0)
-            //            dt.Rows[i - 1]["persons"] = 1D;
-            //        oldPayer = payer;
-            //    }
-            //}
-            //if (lastRow >= 0)
-            //{
-            //    lastRow = dt.Rows.Count - 1;
-            //    dt.Rows[lastRow]["persons"] = 1D;
-            //}
-
-
-            //dRows = null;
-            //companyCode = "";
-            //double liability = 0D;
-            //double totalLiability = 0D;
-            //double premium = 0D;
-            //double totalPremium = 0D;
-            //DataTable ddd = null;
-            //payer = "";
-            //string oldPayer = "";
-
-            //try
-            //{
-            //    if (G1.get_column_number(dt, "found") < 0)
-            //        dt.Columns.Add("found", Type.GetType("System.Double"));
-            //    for ( int i=0; i<dt.Rows.Count; i++)
-            //    {
-            //        dt.Rows[i]["found"] = 0D;
-            //    }
-
-            //    for (int i = 0; i < companyDt.Rows.Count; i++)
-            //    {
-            //        companyCode = companyDt.Rows[i]["company"].ObjToString();
-            //        dRows = dt.Select("companyCode='" + companyCode + "'");
-            //        if (dRows.Length <= 0)
-            //            continue;
-
-            //        liability = 0D;
-            //        totalLiability = 0D;
-            //        premium = 0D;
-            //        totalPremium = 0D;
-            //        persons = 0D;
-            //        policies = 0D;
-
-            //        for (int j = 0; j < dRows.Length; j++)
-            //        {
-            //            persons += dRows[j]["persons"].ObjToDouble();
-            //            policies += dRows[j]["policies"].ObjToDouble();
-            //            totalLiability += dRows[j]["liability"].ObjToDouble();
-            //            totalPremium += dRows[j]["premium"].ObjToDouble();
-            //            dRows[j]["found"] = 1D;
-            //            dRows[j]["policies"] = 1D;
-            //        }
-
-            //        ddd = dRows.CopyToDataTable();
-
-            //        tempview = ddd.DefaultView;
-            //        tempview.Sort = "payer asc";
-            //        ddd = tempview.ToTable();
-            //        persons = 0;
-            //        oldPayer = "";
-
-            //        for (int j = 0; j < ddd.Rows.Count; j++)
-            //            persons += ddd.Rows[j]["persons"].ObjToDouble();
-
-
-            //        // for (int j = 0; j < ddd.Rows.Count; j++)
-            //        //{
-            //        //    payer = ddd.Rows[j]["payer"].ObjToString();
-            //        //    if (String.IsNullOrWhiteSpace(oldPayer))
-            //        //        oldPayer = payer;
-            //        //    if (oldPayer == payer)
-            //        //        continue;
-            //        //    if (oldPayer != payer)
-            //        //    {
-            //        //        persons++;
-            //        //        oldPayer = payer;
-            //        //    }
-            //        //}
-
-            //        companyDt.Rows[i]["persons"] = persons;
-            //        //companyDt.Rows[i]["policies"] = policies;
-            //        companyDt.Rows[i]["policies"] = dRows.Length;
-            //        companyDt.Rows[i]["liability"] = totalLiability;
-            //        companyDt.Rows[i]["premium"] = totalPremium;
-            //    }
-            //}
-            //catch ( Exception ex )
-            //{
-            //}
-
-            //dRows = dt.Select("found = '0'");
-            //if (dRows.Length > 0)
-            //{
-            //    ddd = dRows.CopyToDataTable();
-            //    for (int i = 0; i < dRows.Length; i++)
-            //        dRows[i]["companyCode"] = "Bad";
-            //}
 
             dgv.Hide();
             dgv.DataSource = companyDt;
@@ -571,14 +534,32 @@ namespace SMFS
 
             if (G1.get_column_number(dt, "OriginalRow") < 0)
                 dt.Columns.Add("OriginalRow");
+            if (G1.get_column_number(dt, "FullInsuredName") < 0)
+                dt.Columns.Add("FullInsuredName");
+            string firstName = "";
+            string lastName = "";
             for (int i = 0; i < dt.Rows.Count; i++)
+            {
                 dt.Rows[i]["OriginalRow"] = dt.Rows[i]["num"].ObjToString();
+                lastName = dt.Rows[i]["policyLastName"].ObjToString();
+                firstName = dt.Rows[i]["policyFirstName"].ObjToString();
+                dt.Rows[i]["FullInsuredName"] = lastName + ", " + firstName;
+            }
 
             dgv2.DataSource = dt;
             dgv2.Show();
 
             btnReport.Show();
             btnReport.Refresh();
+
+            if ( chkGroupBy.Checked || chkAss.Checked )
+            {
+                gridMain2.ExpandAllGroups();
+                gridMain2.RefreshEditor(true);
+                gridMain2.RefreshData();
+                gridMain2.OptionsCustomization.AllowColumnResizing = true;
+                gridMain2.OptionsView.ColumnAutoWidth = false;
+            }
 
             this.Cursor = Cursors.Default;
         }
@@ -1649,6 +1630,71 @@ namespace SMFS
             if (pageBreak)
                 e.PS.InsertPageBreak(e.Y);
             pageBreak = false;
+        }
+        /****************************************************************************************/
+        private void chkGroupBy_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox check = (CheckBox)sender;
+            DataTable dt = (DataTable)dgv2.DataSource;
+            if (dt == null)
+                return;
+
+            if ( check.Checked )
+            {
+                ClearAllPositions(gridMain2);
+                SetReportColumns(gridMain2);
+
+                gridMain2.Columns["FullInsuredName"].GroupIndex = 0;
+                gridMain2.ExpandAllGroups();
+                gridMain2.OptionsCustomization.AllowColumnResizing = true;
+                gridMain2.OptionsView.ColumnAutoWidth = false;
+            }
+            else
+            {
+                gridMain2.Columns["FullInsuredName"].GroupIndex = -1;
+
+                ClearAllPositions(gridMain2);
+                SetReportColumns(gridMain2);
+            }
+
+            gridMain2.RefreshEditor(true);
+            gridMain2.RefreshData();
+            gridMain2.OptionsCustomization.AllowColumnResizing = true;
+            gridMain2.OptionsView.ColumnAutoWidth = false;
+        }
+        /****************************************************************************************/
+        private void chkAss_CheckedChanged(object sender, EventArgs e)
+        {
+            if ( !chkAss.Checked )
+            {
+                gridMain2.Columns["payerName"].GroupIndex = -1;
+                //chkAss.Checked = false;
+                ClearAllPositions( gridMain2 );
+                SetReportColumns( gridMain2 );
+
+                gridMain2.Columns["FullInsuredName"].GroupIndex = -1;
+                gridMain2.RefreshEditor(true);
+                gridMain2.RefreshData();
+                gridMain2.OptionsCustomization.AllowColumnResizing = true;
+                gridMain2.OptionsView.ColumnAutoWidth = false;
+                return;
+            }
+            if ( chkGroupBy.Checked )
+                chkGroupBy.Checked = false;
+
+            gridMain2.Columns["FullInsuredName"].GroupIndex = -1;
+            gridMain2.Columns["payerName"].GroupIndex = 0;
+            gridMain2.ExpandAllGroups();
+            gridMain2.RefreshEditor(true);
+            gridMain2.RefreshData();
+            gridMain2.OptionsCustomization.AllowColumnResizing = true;
+            gridMain2.OptionsView.ColumnAutoWidth = false;
+        }
+        /****************************************************************************************/
+        private void chkComboCompanies_EditValueChanged(object sender, EventArgs e)
+        {
+            //chkComboCompanies.Text = chkComboCompanies.EditValue;
+            chkComboCompanies.Refresh();
         }
         /****************************************************************************************/
     }

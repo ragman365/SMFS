@@ -1154,6 +1154,9 @@ namespace SMFS
                 value = 0D;
                 trustAmtFiled = 0D;
                 principal = 0D;
+
+                DataTable badDt = null;
+
                 Trust85.FindContract(dt, "WM22025LI");
                 for (int i = dt.Rows.Count - 1; i >= 0; i--)
                 {
@@ -1271,11 +1274,21 @@ namespace SMFS
                         contract = ddx.Rows[j]["contractNumber"].ObjToString().ToUpper();
                         paidFrom = ddx.Rows[j]["trust_policy"].ObjToString().ToUpper();
                         if (!String.IsNullOrWhiteSpace(paidFrom))
+                        {
                             contract = paidFrom;
+                            cmd = "Select * from `policytrusts` WHERE `contractNumber` = '" + contract + "';";
+                            badDt = G1.get_db_data(cmd);
+                            if ( badDt.Rows.Count > 0 )
+                            {
+                                string badCt = badDt.Rows[0]["badTrustNumber"].ObjToString();
+                                if (!String.IsNullOrWhiteSpace(badCt))
+                                    contract = badCt;
+                            }
+                        }
                         if (contract == "L08033")
                         {
                         }
-                        if (contract == "P15099UI")
+                        if (contract == "HT24054L")
                         {
                         }
                         if (contract == "B24006L")
@@ -5789,6 +5802,12 @@ namespace SMFS
 
             tabControl1.SelectedTab = tabPage1;
 
+            if ( policyTrustsDt != null )
+            {
+                policyTrustsDt.Dispose();
+                policyTrustsDt = null;
+            }
+
             //if (dgv2.Visible)
             //{
             //    //LoadSplit();
@@ -8239,6 +8258,11 @@ namespace SMFS
                 dx.Rows.Add(dRow);
                 if (firstRow < 0)
                     firstRow = dx.Rows.Count - 1;
+            }
+
+            if ( 1 == 1 )
+            {
+                dd = null;
             }
 
             dd = null;

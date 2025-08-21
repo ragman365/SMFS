@@ -1794,147 +1794,159 @@ namespace SMFS
         /***********************************************************************************************/
         private void LoadForethoughtDC()
         {
-            string filename = importedFile.Trim();
-            if (filename.ToUpper().IndexOf("ACTIVE") < 0)
-                return;
-            string[] Lines = filename.Split(' ');
-            filename = "";
-            for ( int i=0; i<Lines.Length; i++ )
+            try
             {
-                if (String.IsNullOrWhiteSpace(Lines[i]))
-                    continue;
-                filename += Lines[i].Trim() + " ";
-            }
-
-            filename = filename.Trim();
-            filename = filename.ToUpper().Replace("ACTIVE", "DC");
-
-            DataTable dt = ExcelWriter.ReadFile2(filename);
-            if (dt.Rows.Count <= 0)
-                return;
-
-            int firstRow = -1;
-            string search = "INSURED LAST NAME";
-            string str = "";
-            DataTable newDt = dt.Clone();
-
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                for (int j = 0; j < dt.Columns.Count; j++)
+                string filename = importedFile.Trim();
+                if (filename.ToUpper().IndexOf("ACTIVE") < 0)
+                    return;
+                string[] Lines = filename.Split(' ');
+                filename = "";
+                for (int i = 0; i < Lines.Length; i++)
                 {
-                    str = dt.Rows[i][j].ObjToString().ToUpper();
-                    if (str == search)
+                    if (String.IsNullOrWhiteSpace(Lines[i]))
+                        continue;
+                    filename += Lines[i].Trim() + " ";
+                }
+
+                filename = filename.Trim();
+                filename = filename.ToUpper().Replace("ACTIVE", "DC");
+
+                DataTable dt = ExcelWriter.ReadFile2(filename);
+                if (dt.Rows.Count <= 0)
+                    return;
+
+                int firstRow = -1;
+                string search = "INSURED LAST NAME";
+                string str = "";
+                DataTable newDt = dt.Clone();
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dt.Columns.Count; j++)
                     {
-                        firstRow = i;
-                        search = "Pol ID";
+                        str = dt.Rows[i][j].ObjToString().ToUpper();
+                        if (str == search)
+                        {
+                            firstRow = i;
+                            search = "Pol ID";
+                            break;
+                        }
+                    }
+                    if (firstRow >= 0)
                         break;
+                }
+                if (firstRow < 0)
+                    return;
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    str = dt.Rows[firstRow][i].ObjToString().Trim();
+                    if (String.IsNullOrWhiteSpace(str))
+                        continue;
+                    if (G1.get_column_number(dt, str) >= 0)
+                        str = str + "2";
+                    newDt.Columns[i].ColumnName = str;
+                    newDt.Columns[i].Caption = str;
+
+                    dt.Columns[i].ColumnName = str;
+                    dt.Columns[i].Caption = str;
+                }
+                for (int i = (firstRow + 1); i < dt.Rows.Count; i++)
+                {
+                    try
+                    {
+                        str = dt.Rows[i]["Pol Id"].ObjToString().Trim();
+                        if (String.IsNullOrWhiteSpace(str))
+                            continue;
+                        if (!G1.validate_numeric(str))
+                            continue;
+                        str = dt.Rows[i]["Firm Name"].ObjToString();
+                        if (String.IsNullOrWhiteSpace(str))
+                            continue;
+                        newDt.ImportRow(dt.Rows[i]);
+                    }
+                    catch (Exception ex)
+                    {
                     }
                 }
-                if (firstRow >= 0)
-                    break;
-            }
-            if (firstRow < 0)
-                return;
-            for (int i = 0; i < dt.Columns.Count; i++)
-            {
-                str = dt.Rows[firstRow][i].ObjToString();
-                if (String.IsNullOrWhiteSpace(str))
-                    continue;
-                if (G1.get_column_number(dt, str) >= 0)
-                    str = str + "2";
-                newDt.Columns[i].ColumnName = str;
-                newDt.Columns[i].Caption = str;
 
-                dt.Columns[i].ColumnName = str;
-                dt.Columns[i].Caption = str;
-            }
-            for (int i = (firstRow + 1); i < dt.Rows.Count; i++)
-            {
-                str = dt.Rows[i]["Pol Id"].ObjToString();
-                if (String.IsNullOrWhiteSpace(str))
-                    continue;
-                if (!G1.validate_numeric(str))
-                    continue;
-                str = dt.Rows[i]["Firm Name"].ObjToString();
-                if (String.IsNullOrWhiteSpace(str))
-                    continue;
-                newDt.ImportRow(dt.Rows[i]);
-            }
+                workDC = true;
 
-            workDC = true;
+                newDt = mapForethoughtDC(newDt);
 
-            newDt = mapForethoughtDC(newDt);
+                newDt = FindLastActive(newDt, gridMain2);
 
-            newDt = FindLastActive(newDt, gridMain2);
+                str = actualFile.Trim();
+                str = str.Replace("ACTIVE", "DC");
+                tabPage2.Text = str;
 
-            str = actualFile.Trim();
-            str = str.Replace("ACTIVE", "DC");
-            tabPage2.Text = str;
+                newDt = AddNumColumn(newDt);
+                dgv2.DataSource = newDt;
 
-            newDt = AddNumColumn(newDt);
-            dgv2.DataSource = newDt;
+                DateTime date = DetermineDate();
+                date = date.AddMonths(-1);
+                int days = DateTime.DaysInMonth(date.Year, date.Month);
+                date = new DateTime(date.Year, date.Month, days);
+                string date1 = date.ToString("yyyy-MM-dd");
 
-            DateTime date = DetermineDate();
-            date = date.AddMonths(-1);
-            int days = DateTime.DaysInMonth(date.Year, date.Month);
-            date = new DateTime(date.Year, date.Month, days);
-            string date1 = date.ToString("yyyy-MM-dd");
+                string cmd = "Select * from `trust_data` WHERE `date` = '" + date1 + "' AND `trustCompany` = '" + workWhat.Trim() + "';";
+                DataTable dx = G1.get_db_data(cmd);
+                //if (dx.Rows.Count > 0)
+                //    dgv3.DataSource = dx;
 
-            string cmd = "Select * from `trust_data` WHERE `date` = '" + date1 + "' AND `trustCompany` = '" + workWhat.Trim() + "';";
-            DataTable dx = G1.get_db_data(cmd);
-            //if (dx.Rows.Count > 0)
-            //    dgv3.DataSource = dx;
+                string policyNumber = "";
+                string contractNumber = "";
+                DataRow[] dRows = null;
+                DateTime deathPaidDate = DateTime.Now;
+                double deathClaimAmount = 0D;
 
-            string policyNumber = "";
-            string contractNumber = "";
-            DataRow[] dRows = null;
-            DateTime deathPaidDate = DateTime.Now;
-            double deathClaimAmount = 0D;
+                problemDt = newDt.Clone();
 
-            problemDt = newDt.Clone();
-
-            for (int i = 0; i < newDt.Rows.Count; i++)
-            {
-                policyNumber = newDt.Rows[i]["policyNumber"].ObjToString();
-                deathPaidDate = newDt.Rows[i]["deathPaidDate"].ObjToDateTime();
-                deathClaimAmount = newDt.Rows[i]["deathClaimAmount"].ObjToDouble();
-                if (!String.IsNullOrWhiteSpace(policyNumber))
+                for (int i = 0; i < newDt.Rows.Count; i++)
                 {
-                    dRows = dx.Select("policyNumber='" + policyNumber + "'");
-                    if (dRows.Length > 0)
+                    policyNumber = newDt.Rows[i]["policyNumber"].ObjToString();
+                    deathPaidDate = newDt.Rows[i]["deathPaidDate"].ObjToDateTime();
+                    deathClaimAmount = newDt.Rows[i]["deathClaimAmount"].ObjToDouble();
+                    if (!String.IsNullOrWhiteSpace(policyNumber))
                     {
-                        dRows[0]["deathPaidDate"] = deathPaidDate.ToString("yyyy-MM-dd");
-                        dRows[0]["deathClaimAmount"] = deathClaimAmount;
-                        contractNumber = dRows[0]["contractNumber"].ObjToString();
-                        newDt.Rows[i]["contractNumber"] = contractNumber;
-                        newDt.Rows[i]["found"] = contractNumber;
-                        if (String.IsNullOrWhiteSpace(contractNumber))
+                        dRows = dx.Select("policyNumber='" + policyNumber + "'");
+                        if (dRows.Length > 0)
+                        {
+                            dRows[0]["deathPaidDate"] = deathPaidDate.ToString("yyyy-MM-dd");
+                            dRows[0]["deathClaimAmount"] = deathClaimAmount;
+                            contractNumber = dRows[0]["contractNumber"].ObjToString();
+                            newDt.Rows[i]["contractNumber"] = contractNumber;
+                            newDt.Rows[i]["found"] = contractNumber;
+                            if (String.IsNullOrWhiteSpace(contractNumber))
+                                problemDt.ImportRow(newDt.Rows[i]);
+                        }
+                        else
                             problemDt.ImportRow(newDt.Rows[i]);
                     }
                     else
                         problemDt.ImportRow(newDt.Rows[i]);
                 }
-                else
-                    problemDt.ImportRow(newDt.Rows[i]);
-            }
-            if (dx.Rows.Count > 0)
-            {
-                dx = AddNumColumn(dx);
-                dgv3.DataSource = dx;
-                dgv2.DataSource = newDt;
-            }
+                if (dx.Rows.Count > 0)
+                {
+                    dx = AddNumColumn(dx);
+                    dgv3.DataSource = dx;
+                    dgv2.DataSource = newDt;
+                }
 
-            tabPage3.Text = date1 + " Last Month";
+                tabPage3.Text = date1 + " Last Month";
 
-            tabControl1.TabPages.Remove(tabPage4);
-            if ( problemDt.Rows.Count > 0 )
+                tabControl1.TabPages.Remove(tabPage4);
+                if (problemDt.Rows.Count > 0)
+                {
+                    problemDt = AddNumColumn(problemDt);
+                    tabControl1.TabPages.Add(tabPage4);
+                    dgv4.DataSource = problemDt;
+                    gridMain4.RefreshData();
+                    gridMain4.RefreshEditor(true);
+                    dgv4.Refresh();
+                }
+            }
+            catch ( Exception ex )
             {
-                problemDt = AddNumColumn(problemDt);
-                tabControl1.TabPages.Add(tabPage4);
-                dgv4.DataSource = problemDt;
-                gridMain4.RefreshData();
-                gridMain4.RefreshEditor(true);
-                dgv4.Refresh();
             }
 
             workDC = false;

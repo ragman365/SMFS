@@ -1811,6 +1811,8 @@ namespace SMFS
                 }
                 if (String.IsNullOrWhiteSpace(referenceNumber))
                     referenceNumber = trustOrPolicy;
+                else if (trustOrPolicy.ToUpper().IndexOf("DBR") >= 0)
+                    referenceNumber += " " + trustOrPolicy;
                 description = paymentsDt.Rows[i]["description"].ObjToString();
                 Lines = description.Split('~');
                 if (Lines.Length > 0)

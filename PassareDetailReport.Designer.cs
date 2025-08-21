@@ -31,8 +31,8 @@ namespace SMFS
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.Utils.ContextButton contextButton3 = new DevExpress.Utils.ContextButton();
-            DevExpress.Utils.ContextButton contextButton4 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PassareDetailReport));
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
@@ -172,10 +172,10 @@ namespace SMFS
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1841, 391);
+            this.panelAll.Size = new System.Drawing.Size(1841, 389);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -186,7 +186,7 @@ namespace SMFS
             this.panelBottom.Location = new System.Drawing.Point(0, 76);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1841, 315);
+            this.panelBottom.Size = new System.Drawing.Size(1841, 313);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv2
@@ -595,10 +595,10 @@ namespace SMFS
             // 
             // repositoryItemPictureEdit2
             // 
-            contextButton3.Caption = "contextButton1";
-            contextButton3.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton3.Name = "contextButton1";
-            this.repositoryItemPictureEdit2.ContextButtons.Add(contextButton3);
+            contextButton1.Caption = "contextButton1";
+            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton1.Name = "contextButton1";
+            this.repositoryItemPictureEdit2.ContextButtons.Add(contextButton1);
             this.repositoryItemPictureEdit2.Name = "repositoryItemPictureEdit2";
             // 
             // repositoryItemCheckEdit2
@@ -1388,10 +1388,10 @@ namespace SMFS
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton4.Caption = "contextButton1";
-            contextButton4.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton4.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton4);
+            contextButton2.Caption = "contextButton1";
+            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton2.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // repositoryItemMemoEdit1
@@ -1672,7 +1672,7 @@ namespace SMFS
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1841, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1841, 30);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1682,7 +1682,7 @@ namespace SMFS
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1719,7 +1719,7 @@ namespace SMFS
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.agentLocationsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // agentLocationsToolStripMenuItem
@@ -1734,7 +1734,7 @@ namespace SMFS
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.locateDuplicatePaymentsToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // locateDuplicatePaymentsToolStripMenuItem
