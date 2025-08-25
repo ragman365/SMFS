@@ -1046,7 +1046,7 @@
             // 
             // bandedGridColumn31
             // 
-            this.bandedGridColumn31.Caption = "Next Activity";
+            this.bandedGridColumn31.Caption = "Next Touch Activity";
             this.bandedGridColumn31.FieldName = "scheduledActivity";
             this.bandedGridColumn31.MinWidth = 25;
             this.bandedGridColumn31.Name = "bandedGridColumn31";
@@ -1751,14 +1751,14 @@
             // toolAgentReportList
             // 
             this.toolAgentReportList.Name = "toolAgentReportList";
-            this.toolAgentReportList.Size = new System.Drawing.Size(224, 26);
+            this.toolAgentReportList.Size = new System.Drawing.Size(207, 26);
             this.toolAgentReportList.Text = "Agent Report List";
             this.toolAgentReportList.Click += new System.EventHandler(this.toolAgentReportList_Click);
             // 
             // reportsToolStripMenuItem
             // 
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.reportsToolStripMenuItem.Text = "Reports";
             this.reportsToolStripMenuItem.Click += new System.EventHandler(this.reportsToolStripMenuItem_Click);
             // 
