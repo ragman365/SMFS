@@ -864,6 +864,8 @@ namespace SMFS
                 string code = "01";
                 if (!String.IsNullOrWhiteSpace(workPayer))
                     code = "02";
+                if (acctType.ToUpper() == "CHECKING")
+                    code = "01";
                 else if (acctType.ToUpper() == "SAVINGS")
                     code = "02";
                 G1.update_db_table("ach", "record", record, new string[] { "contractNumber", workContract, "payer", workPayer, "code", code, "routingNumber", routingNumber, "accountNumber", accountNumber, "frequencyInMonths", frequency, "dayOfMonth", dom, "acctType", acctType, "payment", payment, "dateBeginning", dateBeginning.ToString("yyyy-MM-dd"), "numPayments", numPayments, "leftPayments", leftPayments });

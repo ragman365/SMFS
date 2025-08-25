@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FunManager));
-            DevExpress.Utils.ContextButton contextButton3 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton4 = new DevExpress.Utils.ContextButton();
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -4568,10 +4568,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton3.Caption = "contextButton1";
-            contextButton3.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton3.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton3);
+            contextButton4.Caption = "contextButton1";
+            contextButton4.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton4.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton4);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // repositoryItemMemoEdit1
