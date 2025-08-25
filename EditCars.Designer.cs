@@ -90,17 +90,17 @@
             this.panelAll.Location = new System.Drawing.Point(0, 0);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1395, 453);
+            this.panelAll.Size = new System.Drawing.Size(1777, 453);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
             // 
             this.panelBottom.Controls.Add(this.dgv);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 83);
+            this.panelBottom.Location = new System.Drawing.Point(0, 81);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1395, 370);
+            this.panelBottom.Size = new System.Drawing.Size(1777, 372);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -113,7 +113,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1395, 370);
+            this.dgv.Size = new System.Drawing.Size(1777, 372);
             this.dgv.TabIndex = 12;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain,
@@ -489,10 +489,10 @@
             this.panelTop.Controls.Add(this.pictureBox12);
             this.panelTop.Controls.Add(this.pictureBox11);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Location = new System.Drawing.Point(0, 30);
+            this.panelTop.Location = new System.Drawing.Point(0, 28);
             this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1395, 53);
+            this.panelTop.Size = new System.Drawing.Size(1777, 53);
             this.panelTop.TabIndex = 1;
             // 
             // btnInsert
@@ -594,7 +594,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1395, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1777, 28);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -604,7 +604,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -642,7 +642,7 @@
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // importToolStripMenuItem
@@ -656,7 +656,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1395, 453);
+            this.ClientSize = new System.Drawing.Size(1777, 453);
             this.Controls.Add(this.panelAll);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "EditCars";

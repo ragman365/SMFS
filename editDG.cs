@@ -1011,7 +1011,7 @@ namespace SMFS
                 {
                     MessageBox.Show("City name not found. Please verify the spelling before continuing.");
                 }
-                // If you can do this type of validation here, then you need validation on save. Ensure city name is spelled correctly and matches zip code and state before saving.
+                // If you can do this type of validation here, then you can validate on save. Ensure city name is spelled correctly and matches zip code and state before saving.
             }
 
             btnAccept.Show();
