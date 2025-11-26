@@ -44,6 +44,7 @@
             this.repositoryItemComboBox11 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.repositoryItemComboBox12 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkNoSolve = new System.Windows.Forms.CheckBox();
             this.btnAbort = new System.Windows.Forms.Button();
             this.btnPost = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -52,7 +53,6 @@
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkNoSolve = new System.Windows.Forms.CheckBox();
             this.panelAll.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -72,28 +72,32 @@
             this.panelAll.Controls.Add(this.panel1);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 24);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(566, 280);
+            this.panelAll.Size = new System.Drawing.Size(660, 344);
             this.panelAll.TabIndex = 0;
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.dgv);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 49);
+            this.panel1.Location = new System.Drawing.Point(0, 60);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(566, 231);
+            this.panel1.Size = new System.Drawing.Size(660, 284);
             this.panel1.TabIndex = 3;
             // 
             // dgv
             // 
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Location = new System.Drawing.Point(0, 0);
             this.dgv.LookAndFeel.SkinMaskColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.dgv.LookAndFeel.SkinName = "The Asphalt World";
             this.dgv.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Style3D;
             this.dgv.MainView = this.gridMain;
+            this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
             this.dgv.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit4,
@@ -102,7 +106,7 @@
             this.repositoryItemComboBox8,
             this.repositoryItemComboBox11,
             this.repositoryItemComboBox12});
-            this.dgv.Size = new System.Drawing.Size(566, 231);
+            this.dgv.Size = new System.Drawing.Size(660, 284);
             this.dgv.TabIndex = 10;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -269,6 +273,7 @@
             this.gridMain.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
             this.bandedGridColumn93,
             this.bandedGridColumn94});
+            this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.GroupFormat = "[#image]{1} {2}";
             this.gridMain.Name = "gridMain";
@@ -282,7 +287,7 @@
             this.gridMain.OptionsView.ShowBands = false;
             this.gridMain.OptionsView.ShowGroupPanel = false;
             this.gridMain.PaintStyleName = "Style3D";
-            this.gridMain.RowHeight = 3;
+            this.gridMain.RowHeight = 4;
             this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
             // 
             // gridBand5
@@ -290,9 +295,10 @@
             this.gridBand5.Caption = "gridBand1";
             this.gridBand5.Columns.Add(this.bandedGridColumn93);
             this.gridBand5.Columns.Add(this.bandedGridColumn94);
+            this.gridBand5.MinWidth = 12;
             this.gridBand5.Name = "gridBand5";
             this.gridBand5.VisibleIndex = 0;
-            this.gridBand5.Width = 501;
+            this.gridBand5.Width = 584;
             // 
             // bandedGridColumn93
             // 
@@ -304,11 +310,12 @@
             this.bandedGridColumn93.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn93.Caption = "Field Name";
             this.bandedGridColumn93.FieldName = "field";
+            this.bandedGridColumn93.MinWidth = 23;
             this.bandedGridColumn93.Name = "bandedGridColumn93";
             this.bandedGridColumn93.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn93.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn93.Visible = true;
-            this.bandedGridColumn93.Width = 300;
+            this.bandedGridColumn93.Width = 350;
             // 
             // bandedGridColumn94
             // 
@@ -318,25 +325,28 @@
             this.bandedGridColumn94.AppearanceHeader.Options.UseFont = true;
             this.bandedGridColumn94.Caption = "Answer";
             this.bandedGridColumn94.FieldName = "data";
+            this.bandedGridColumn94.MinWidth = 23;
             this.bandedGridColumn94.Name = "bandedGridColumn94";
             this.bandedGridColumn94.Visible = true;
-            this.bandedGridColumn94.Width = 201;
+            this.bandedGridColumn94.Width = 234;
             // 
             // gridBand7
             // 
             this.gridBand7.Caption = "gridBand2";
+            this.gridBand7.MinWidth = 12;
             this.gridBand7.Name = "gridBand7";
             this.gridBand7.Visible = false;
             this.gridBand7.VisibleIndex = -1;
-            this.gridBand7.Width = 54;
+            this.gridBand7.Width = 63;
             // 
             // gridBand8
             // 
             this.gridBand8.Caption = "gridBand3";
+            this.gridBand8.MinWidth = 12;
             this.gridBand8.Name = "gridBand8";
             this.gridBand8.Visible = false;
             this.gridBand8.VisibleIndex = -1;
-            this.gridBand8.Width = 68;
+            this.gridBand8.Width = 79;
             // 
             // repositoryItemCheckEdit4
             // 
@@ -362,7 +372,7 @@
             "Double",
             "Date"});
             this.repositoryItemComboBox10.Name = "repositoryItemComboBox10";
-            this.repositoryItemComboBox10.PopupFormSize = new System.Drawing.Size(100, 100);
+            this.repositoryItemComboBox10.PopupFormSize = new System.Drawing.Size(117, 123);
             this.repositoryItemComboBox10.PopupSizeable = true;
             // 
             // repositoryItemComboBox8
@@ -374,7 +384,7 @@
             "Active",
             "Inactive"});
             this.repositoryItemComboBox8.Name = "repositoryItemComboBox8";
-            this.repositoryItemComboBox8.PopupFormSize = new System.Drawing.Size(100, 50);
+            this.repositoryItemComboBox8.PopupFormSize = new System.Drawing.Size(117, 62);
             // 
             // repositoryItemComboBox11
             // 
@@ -403,17 +413,30 @@
             this.panelTop.Controls.Add(this.btnPost);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
+            this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(566, 49);
+            this.panelTop.Size = new System.Drawing.Size(660, 60);
             this.panelTop.TabIndex = 1;
+            // 
+            // chkNoSolve
+            // 
+            this.chkNoSolve.AutoSize = true;
+            this.chkNoSolve.Location = new System.Drawing.Point(162, 20);
+            this.chkNoSolve.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkNoSolve.Name = "chkNoSolve";
+            this.chkNoSolve.Size = new System.Drawing.Size(194, 21);
+            this.chkNoSolve.TabIndex = 27;
+            this.chkNoSolve.Text = "Do Not Solve for Unknown";
+            this.chkNoSolve.UseVisualStyleBackColor = true;
             // 
             // btnAbort
             // 
             this.btnAbort.BackColor = System.Drawing.Color.SandyBrown;
             this.btnAbort.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnAbort.Location = new System.Drawing.Point(400, 12);
+            this.btnAbort.Location = new System.Drawing.Point(467, 15);
+            this.btnAbort.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnAbort.Name = "btnAbort";
-            this.btnAbort.Size = new System.Drawing.Size(110, 23);
+            this.btnAbort.Size = new System.Drawing.Size(128, 28);
             this.btnAbort.TabIndex = 26;
             this.btnAbort.Text = "Exit w/o Posting";
             this.btnAbort.UseVisualStyleBackColor = false;
@@ -424,9 +447,10 @@
             this.btnPost.BackColor = System.Drawing.Color.SandyBrown;
             this.btnPost.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btnPost.FlatAppearance.BorderSize = 2;
-            this.btnPost.Location = new System.Drawing.Point(12, 12);
+            this.btnPost.Location = new System.Drawing.Point(14, 15);
+            this.btnPost.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnPost.Name = "btnPost";
-            this.btnPost.Size = new System.Drawing.Size(97, 23);
+            this.btnPost.Size = new System.Drawing.Size(113, 28);
             this.btnPost.TabIndex = 25;
             this.btnPost.Text = "Post Adjustment";
             this.btnPost.UseVisualStyleBackColor = false;
@@ -435,11 +459,13 @@
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.Bisque;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(566, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(660, 30);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -449,7 +475,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -458,47 +484,38 @@
             this.printPreviewToolStripMenuItem,
             this.printToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(99, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(122, 26);
             this.toolStripMenuItem1.Text = "Print";
             // 
             // printPreviewToolStripMenuItem
             // 
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.printPreviewToolStripMenuItem.Text = "Print Preview";
             this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.printPreviewToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // chkNoSolve
-            // 
-            this.chkNoSolve.AutoSize = true;
-            this.chkNoSolve.Location = new System.Drawing.Point(139, 16);
-            this.chkNoSolve.Name = "chkNoSolve";
-            this.chkNoSolve.Size = new System.Drawing.Size(152, 17);
-            this.chkNoSolve.TabIndex = 27;
-            this.chkNoSolve.Text = "Do Not Solve for Unknown";
-            this.chkNoSolve.UseVisualStyleBackColor = true;
-            // 
             // TrustAdjustment
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(566, 304);
+            this.ClientSize = new System.Drawing.Size(660, 374);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "TrustAdjustment";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trust85 Adjustment";

@@ -23,7 +23,9 @@ namespace SMFS
         private double workTrust100 = 0D;
         private double workTrust85 = 0D;
         private double workRetained = 0D;
+        private double workInterest = 0D;
         private string workReason = "";
+        private string workDepositNumber = "";
         private string workContract = "";
         private string workName = "";
         private bool workEdit = false;
@@ -31,14 +33,18 @@ namespace SMFS
         private double _Trust100Amount = 0D;
         private double _Trust85Amount = 0D;
         private double _TrustRetained = 0D;
+        private double _TrustInterest = 0D;
+        private string _TrustDepositNumber = "";
         private string _TrustReason = "";
         public DateTime TrustDate { get { return _TrustDate; } }
         public double Trust100Amount { get { return _Trust100Amount; } }
         public double Trust85Amount { get { return _Trust85Amount; } }
         public double TrustRetained { get { return _TrustRetained; } }
+        public double TrustInterest { get { return _TrustInterest; } }
         public string TrustReason { get { return _TrustReason; } }
+        public string TrustDepositNumber { get { return _TrustDepositNumber; } }
         /****************************************************************************************/
-        public TrustAdjustment(string contract, string name, DateTime date, double trust100, double trust85, double retained, string reason, bool editing)
+        public TrustAdjustment(string contract, string name, DateTime date, double trust100, double trust85, double retained, double interest, string depositNumber, string reason, bool editing)
         {
             InitializeComponent();
             workEdit = editing;
@@ -46,6 +52,8 @@ namespace SMFS
             workTrust100 = trust100;
             workTrust85 = trust85;
             workRetained = retained;
+            workInterest = interest;
+            workDepositNumber = depositNumber;
             workReason = reason;
             workContract = contract;
             workName = name;
@@ -86,6 +94,17 @@ namespace SMFS
             dR["data"] = str;
             dt.Rows.Add(dR);
 
+            str = G1.ReformatMoney(workInterest);
+            dR = dt.NewRow();
+            dR["field"] = "Interest";
+            dR["data"] = str;
+            dt.Rows.Add(dR);
+
+            dR = dt.NewRow();
+            dR["field"] = "Trust Deposit Number";
+            dR["data"] = workDepositNumber;
+            dt.Rows.Add(dR);
+
             dR = dt.NewRow();
             dR["field"] = "Trust Adjustment Reason";
             dR["data"] = workReason;
@@ -102,7 +121,9 @@ namespace SMFS
             _Trust100Amount = dt.Rows[1]["data"].ObjToString().ObjToDouble();
             _Trust85Amount = dt.Rows[2]["data"].ObjToString().ObjToDouble();
             _TrustRetained = dt.Rows[3]["data"].ObjToString().ObjToDouble();
-            _TrustReason = dt.Rows[4]["data"].ObjToString();
+            _TrustInterest = dt.Rows[4]["data"].ObjToString().ObjToDouble();
+            _TrustDepositNumber = dt.Rows[5]["data"].ObjToString();
+            _TrustReason = dt.Rows[6]["data"].ObjToString();
             printPreviewToolStripMenuItem_Click(null, null);
             this.DialogResult = DialogResult.OK;
             this.Cursor = Cursors.Default;
@@ -179,14 +200,14 @@ namespace SMFS
                     money = str.ObjToDouble();
                     str = G1.ReformatMoney(money);
                     dr["data"] = str;
-                    if (!chkNoSolve.Checked)
-                    {
-                        workTrust85 = money;
-                        workTrust100 = money / 0.85D;
-                        workRetained = workTrust100 * (-1D);
-                        PutMoney("Trust100 Adjustment Amount", workTrust100);
-                        PutMoney("Retained Interest", workRetained);
-                    }
+                    //if (!chkNoSolve.Checked)
+                    //{
+                    //    workTrust85 = money;
+                    //    workTrust100 = money / 0.85D;
+                    //    workRetained = workTrust100 * (-1D);
+                    //    PutMoney("Trust100 Adjustment Amount", workTrust100);
+                    //    PutMoney("Retained Interest", workRetained);
+                    //}
                 }
                 else if (field == "Retained Interest")
                 {
@@ -204,13 +225,30 @@ namespace SMFS
                     money = str.ObjToDouble();
                     str = G1.ReformatMoney(money);
                     dr["data"] = str;
-                    if (!chkNoSolve.Checked)
+                    //if (!chkNoSolve.Checked)
+                    //{
+                    //    workTrust100 = money * (-1D);
+                    //    workTrust85 = workTrust100 * 0.85D;
+                    //    PutMoney("Trust100 Adjustment Amount", workTrust100);
+                    //    PutMoney("Trust85 Adjustment Amount", workTrust85);
+                    //}
+                }
+                else if (field == "Interest")
+                {
+                    double money = 0D;
+                    string str = dr["data"].ObjToString();
+                    if (!G1.validate_numeric(str))
                     {
-                        workTrust100 = money * (-1D);
-                        workTrust85 = workTrust100 * 0.85D;
-                        PutMoney("Trust100 Adjustment Amount", workTrust100);
-                        PutMoney("Trust85 Adjustment Amount", workTrust85);
+                        MessageBox.Show("***ERROR*** Invalid Amount Entered!");
+                        str = G1.ReformatMoney(workRetained);
+                        money = str.ObjToDouble();
+                        str = G1.ReformatMoney(money);
+                        dr["data"] = str;
+                        return;
                     }
+                    money = str.ObjToDouble();
+                    str = G1.ReformatMoney(money);
+                    dr["data"] = str;
                 }
             }
         }

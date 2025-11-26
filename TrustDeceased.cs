@@ -5855,9 +5855,16 @@ namespace SMFS
                     //dx = LoadDeceasedSNFT(this.dateTimePicker1.Value, this.dateTimePicker2.Value, workReport, ref newDt);
                     dx = LoadDeceased(this.dateTimePicker1.Value, this.dateTimePicker2.Value, workReport, ref newDt);
                 }
-                else if (workReport == "Post 2002 Report - Forethought")
+                else if (workReport == "Post 2002 Report - SN")
                 {
-                    gridMain.Columns["value"].Caption = "Forethought Trust Money";
+                    gridMain.Columns["value"].Caption = "SN Trust Money";
+                    gridMain.Columns["refunds"].Visible = false;
+                    //dx = LoadDeceasedSNFT(this.dateTimePicker1.Value, this.dateTimePicker2.Value, workReport, ref newDt);
+                    dx = LoadDeceased(this.dateTimePicker1.Value, this.dateTimePicker2.Value, workReport, ref newDt);
+                }
+                else if (workReport == "Post 2002 Report - FT")
+                {
+                    gridMain.Columns["value"].Caption = "FT Trust Money";
                     gridMain.Columns["refunds"].Visible = false;
                     //dx = LoadDeceasedSNFT(this.dateTimePicker1.Value, this.dateTimePicker2.Value, workReport, ref newDt);
                     dx = LoadDeceased(this.dateTimePicker1.Value, this.dateTimePicker2.Value, workReport, ref newDt);
@@ -7553,6 +7560,46 @@ namespace SMFS
             cmbSelectColumns.SelectedItem = "FDLIC Post Totals";
         }
         /****************************************************************************************/
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+
+            workReport = menu.Text;
+
+            chkOldStuff.Checked = false;
+            cmbPreOrPost.Text = "Post";
+            chkJustTrustsSelected.Checked = true;
+
+            chkCmbCompany.DeselectAll();
+
+            chkCmbCompany.SetEditValue("Security National");
+
+            chkCmbCompany.Refresh();
+
+            cmbSelectColumns.Text = "SN Post Totals";
+            cmbSelectColumns.SelectedItem = "SN Post Totals";
+        }
+        /****************************************************************************************/
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+
+            workReport = menu.Text;
+
+            chkOldStuff.Checked = false;
+            cmbPreOrPost.Text = "Post";
+            chkJustTrustsSelected.Checked = true;
+
+            chkCmbCompany.DeselectAll();
+
+            chkCmbCompany.SetEditValue("FORETHOUGHT");
+
+            chkCmbCompany.Refresh();
+
+            cmbSelectColumns.Text = "FT Post Totals";
+            cmbSelectColumns.SelectedItem = "FT Post Totals";
+        }
+        /****************************************************************************************/
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             chkGroup_CheckedChanged(chkGroup, null);
@@ -8192,6 +8239,40 @@ namespace SMFS
                 gridMain2.Columns["otherFuneral"].Visible = true;
                 gridMain2.Columns["dateReceived"].Visible = true;
             }
+            else if (workReport == "Post 2002 Report - SN")
+            {
+                dx.Columns.Add("otherdesc");
+                dx.Columns.Add("otherContract");
+                dx.Columns.Add("otherFuneral");
+                dx.Columns.Add("othertrust");
+
+                gridMain2.Columns["otherdesc"].Visible = true;
+                gridMain2.Columns["otherContract"].Visible = true;
+                gridMain2.Columns["otherFuneral"].Visible = true;
+                gridMain2.Columns["dateReceived"].Visible = true;
+
+                gridMain2.Columns["smfsBalance"].Visible = false;
+
+                gridMain2.Columns["diff"].Visible = true;
+                gridMain2.Columns["cadenceDeathBenefits"].Visible = true;
+            }
+            else if (workReport == "Post 2002 Report - FT")
+            {
+                dx.Columns.Add("otherdesc");
+                dx.Columns.Add("otherContract");
+                dx.Columns.Add("otherFuneral");
+                dx.Columns.Add("othertrust");
+
+                gridMain2.Columns["otherdesc"].Visible = true;
+                gridMain2.Columns["otherContract"].Visible = true;
+                gridMain2.Columns["otherFuneral"].Visible = true;
+                gridMain2.Columns["dateReceived"].Visible = true;
+
+                gridMain2.Columns["smfsBalance"].Visible = false;
+
+                gridMain2.Columns["diff"].Visible = true;
+                gridMain2.Columns["cadenceDeathBenefits"].Visible = true;
+            }
             else if (workReport == "Post 2002 Report - FDLIC")
             {
                 dx.Columns.Add("otherdesc");
@@ -8330,7 +8411,7 @@ namespace SMFS
                                 name = Lines[1] + " " + Lines[0];
                         }
                     }
-                    if (i == 0 && trustCompany != "Forethought" )
+                    if (i == 0 && trustCompany != "Forethought" || workReport == "Post 2002 Report - FT" )
                     {
                         dx.Rows[j]["date"] = G1.DTtoMySQLDT(dd.Rows[j]["date"].ObjToDateTime().ToString("yyyy-MM-dd"));
                         receivedDate = dd.Rows[j]["dateReceived"].ObjToDateTime();
@@ -8566,6 +8647,58 @@ namespace SMFS
                 //G1.SetColumnPosition(gridMain2, "otherContract", i++);
             }
             else if (workReport == "Post 2002 Report - FDLIC")
+            {
+                ClearAllPositions(gridMain2);
+
+                G1.SetColumnPosition(gridMain2, "num", i++);
+                G1.SetColumnPosition(gridMain2, "month", i++);
+                G1.SetColumnPosition(gridMain2, "value", i++);
+                G1.SetColumnPosition(gridMain2, "cashPaid1", i++);
+                G1.SetColumnPosition(gridMain2, "desc", i++);
+                G1.SetColumnPosition(gridMain2, "date", i++);
+                G1.SetColumnPosition(gridMain2, "contract", i++);
+                G1.SetColumnPosition(gridMain2, "funeral", i++);
+
+                G1.SetColumnPosition(gridMain2, "sn1", i++);
+                G1.SetColumnPosition(gridMain2, "sn2", i++);
+                G1.SetColumnPosition(gridMain2, "junk1", i++);
+                G1.SetColumnPosition(gridMain2, "otherdesc", i++);
+                G1.SetColumnPosition(gridMain2, "received", i++);
+                G1.SetColumnPosition(gridMain2, "junk2", i++);
+                G1.SetColumnPosition(gridMain2, "otherFuneral", i++);
+                G1.SetColumnPosition(gridMain2, "diff", i++);
+                G1.SetColumnPosition(gridMain2, "cadenceDeathBenefits", i++);
+                //G1.SetColumnPosition(gridMain2, "cashPaid2", i++);
+                //G1.SetColumnPosition(gridMain2, "dateReceived", i++);
+                //G1.SetColumnPosition(gridMain2, "otherContract", i++);
+            }
+            else if (workReport == "Post 2002 Report - SN")
+            {
+                ClearAllPositions(gridMain2);
+
+                G1.SetColumnPosition(gridMain2, "num", i++);
+                G1.SetColumnPosition(gridMain2, "month", i++);
+                G1.SetColumnPosition(gridMain2, "value", i++);
+                G1.SetColumnPosition(gridMain2, "cashPaid1", i++);
+                G1.SetColumnPosition(gridMain2, "desc", i++);
+                G1.SetColumnPosition(gridMain2, "date", i++);
+                G1.SetColumnPosition(gridMain2, "contract", i++);
+                G1.SetColumnPosition(gridMain2, "funeral", i++);
+
+                G1.SetColumnPosition(gridMain2, "sn1", i++);
+                G1.SetColumnPosition(gridMain2, "sn2", i++);
+                G1.SetColumnPosition(gridMain2, "junk1", i++);
+                G1.SetColumnPosition(gridMain2, "otherdesc", i++);
+                G1.SetColumnPosition(gridMain2, "received", i++);
+                G1.SetColumnPosition(gridMain2, "junk2", i++);
+                G1.SetColumnPosition(gridMain2, "otherFuneral", i++);
+                G1.SetColumnPosition(gridMain2, "diff", i++);
+                G1.SetColumnPosition(gridMain2, "cadenceDeathBenefits", i++);
+                //G1.SetColumnPosition(gridMain2, "cashPaid2", i++);
+                //G1.SetColumnPosition(gridMain2, "dateReceived", i++);
+                //G1.SetColumnPosition(gridMain2, "otherContract", i++);
+            }
+            else if (workReport == "Post 2002 Report - FT")
             {
                 ClearAllPositions(gridMain2);
 

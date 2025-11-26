@@ -206,7 +206,8 @@ namespace SMFS
                 else
                 {
 //                    dRows = dx.Select("firstName='" + firstName + "' AND lastName='" + lastName + "' AND type='Goal'");
-                    dRows = dx.Select("customer='" + workAgent + "' AND type='Goal'");
+                    //dRows = dx.Select("customer='" + workAgent + "' AND type='Goal'");
+                    dRows = dx.Select("customer='" + workAgent + "' ");
                 }
                 if (dRows.Length <= 0)
                     continue;
@@ -214,6 +215,14 @@ namespace SMFS
 
                 double commission = 0D;
                 string commType = "";
+                double contractCommission = 0D;
+                double total_Commission = 0D;
+                double splitGoalCommission = 0D;
+                double totalGoalCommission = 0D;
+                double totalPastFailures = 0D;
+                double totalReins = 0D;
+                double totalRecap = 0D;
+                double goalCommission = 0D;
 
                 for ( int j=0; j<dx.Rows.Count; j++)
                 {
@@ -222,6 +231,13 @@ namespace SMFS
 
                     splitBaseCommission = dx.Rows[j]["splitBaseCommission"].ObjToDouble();
                     splitCommission = dx.Rows[j]["splitCommission"].ObjToDouble();
+                    contractCommission = dx.Rows[j]["contractCommission"].ObjToDouble();
+                    total_Commission = dx.Rows[j]["totalCommission"].ObjToDouble();
+                    splitGoalCommission = dx.Rows[j]["splitGoalCommission"].ObjToDouble();
+                    totalRecap = dx.Rows[j]["Recap"].ObjToDouble();
+                    totalReins = dx.Rows[j]["Reins"].ObjToDouble();
+                    totalPastFailures = dx.Rows[j]["pastFailures"].ObjToDouble();
+                    goalCommission = dx.Rows[j]["goalCommission"].ObjToDouble();
 
                     if (commissionType.ToUpper().IndexOf("STANDARD") >= 0)
                     {
@@ -230,17 +246,45 @@ namespace SMFS
                             if (splitBaseCommission > 0D)
                                 commission += splitBaseCommission;
                             else
-                                commission += dx.Rows[j]["totalCommission"].ObjToDouble() - dx.Rows[j]["contractCommission"].ObjToDouble();
+                            {
+                                //commission += dx.Rows[j]["totalCommission"].ObjToDouble() - dx.Rows[j]["contractCommission"].ObjToDouble();
+                                commission += dx.Rows[j]["TotalCommission"].ObjToDouble() - contractCommission;
+                            }
                         }
                         else if (!String.IsNullOrWhiteSpace(splits))
                             commission += dx.Rows[j]["splitBaseCommission"].ObjToDouble();
                         else
-                            commission += dx.Rows[j]["totalCommission"].ObjToDouble();
+                        {
+                            commission += dx.Rows[j]["TotalCommission"].ObjToDouble() - contractCommission;
+                            //commission += dx.Rows[j]["totalCommission"].ObjToDouble();
+                            //commission += dx.Rows[j]["commission"].ObjToDouble();
+                        }
                     }
                     else
                     {
-                        commission += dx.Rows[j]["totalCommission"].ObjToDouble();
+                        //commission += dx.Rows[j]["totalCommission"].ObjToDouble();
+                        //commission += goalCommission + splitGoalCommission - totalPastFailures + totalReins - totalRecap;
+                        commission += goalCommission - totalRecap + totalReins - totalPastFailures;
                     }
+
+                    //if (commissionType.ToUpper().IndexOf("STANDARD") >= 0)
+                    //{
+                    //    if (commType == "GOAL")
+                    //    {
+                    //        if (splitBaseCommission > 0D)
+                    //            commission += splitBaseCommission;
+                    //        else
+                    //            commission += dx.Rows[j]["totalCommission"].ObjToDouble() - dx.Rows[j]["contractCommission"].ObjToDouble();
+                    //    }
+                    //    else if (!String.IsNullOrWhiteSpace(splits))
+                    //        commission += dx.Rows[j]["splitBaseCommission"].ObjToDouble();
+                    //    else
+                    //        commission += dx.Rows[j]["totalCommission"].ObjToDouble();
+                    //}
+                    //else
+                    //{
+                    //    commission += dx.Rows[j]["totalCommission"].ObjToDouble();
+                    //}
                 }
 
                 commission = G1.RoundValue(commission);

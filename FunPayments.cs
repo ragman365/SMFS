@@ -724,6 +724,7 @@ namespace SMFS
                 double actualCashAdvance = cashAdvanceTotal + totalCashAdvance - ignoreCashAdvance;
 
                 double subtotal = servicesTotal + merchandiseTotal + cashAdvanceTotal + totalCashAdvance + totalServices + totalMerchandise - totalIgnore;
+                //double subtotal = servicesTotal + merchandiseTotal + cashAdvanceTotal + totalCashAdvance + totalServices + totalMerchandise;
                 //subtotal += salesTax;
                 money = G1.ReformatMoney(subtotal);
                 //txtSubtotal.Text = money;
@@ -1114,6 +1115,8 @@ namespace SMFS
                 txtPayments.Refresh();
 
                 double totalDue = total - totalPayments - Math.Abs ( totalDiscount);
+                if ( totalDiscount > 0D )
+                    totalDue = total - totalPayments + Math.Abs(totalDiscount);
                 data = G1.ReformatMoney(totalDue);
                 txtTotalDue.Text = "$" + data;
                 txtTotalDue.Refresh();

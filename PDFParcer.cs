@@ -14,6 +14,8 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.xml;
 using iTextSharp.text.pdf.parser;
+
+
 using GeneralLib;
 
 namespace GeneralLib
@@ -40,6 +42,34 @@ namespace GeneralLib
 
         #endregion
 
+        public static bool IsPrintableAscii(byte value)
+        {
+            // Printable ASCII characters are typically considered to be in the range 32-126.
+            return value >= 32 && value <= 126;
+        }
+
+        public static string GetxRef ( string  [] Lines )
+        {
+            string xRef = "";
+            string str = "";
+            bool gotxref = false;
+            for ( int i=0; i<Lines.Length; i++)
+            {
+                str = Lines[i].ObjToString();
+                if (str.IndexOf("trailer") == 0)
+                    break;
+                if ( gotxref )
+                {
+                    xRef += str + "\n";
+                    continue;
+                }
+                if ( str.IndexOf ( "xref") == 0 )
+                    gotxref = true;
+                if (str.IndexOf("%%eof") == 0)
+                    break;
+            }
+            return xRef;
+        }
         #region ExtractText
         /// <summary>
         /// Extracts a text from a PDF file.
@@ -49,32 +79,119 @@ namespace GeneralLib
         /// <returns>the extracted text</returns>
         public static string ExtractText(string inFileName, string outFileName)
         {
-            string pdfText = "";
+            string strText = "";
+
+
             StreamWriter outFile = null;
             try
             {
-                // Create a reader for the given PDF file
-//                PdfReader reader = new PdfReader(inFileName);
+                StringBuilder sb = new StringBuilder();
 
-                using (FileStream oFile = new FileStream("c:/rag/result.pdf", FileMode.Create))
+                using (iTextSharp.text.pdf.PdfReader reader = new iTextSharp.text.pdf.PdfReader(inFileName))
                 {
-                    PdfReader pdfReader = new PdfReader(inFileName);
-                    StringBuilder sb = new StringBuilder();
-                    foreach (var de in pdfReader.AcroFields.Fields)
+                    for ( int pageNo = 1; pageNo <= reader.NumberOfPages; pageNo++)
                     {
-                        sb.Append(de.Key.ToString() + Environment.NewLine);
+                        iTextSharp.text.pdf.parser.ITextExtractionStrategy its = new iTextSharp.text.pdf.parser.SimpleTextExtractionStrategy();
+                        String s = iTextSharp.text.pdf.parser.PdfTextExtractor.GetTextFromPage(reader, pageNo, its);
+                        s = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(s)));
+                        sb.Append(s);
                     }
-                    string str = sb.ToString();
-                    str = str.Replace("\r", "");
-                    string[] Lines = str.Split('\n');
-
-                    PdfStamper pdfStamper = new PdfStamper(pdfReader, oFile);
-                    AcroFields fields = pdfStamper.AcroFields;
-                    fields.SetField("First Name", "Robby");
-                    str = fields.GetField("First Name");
-                    pdfStamper.Close();
-                    pdfReader.Close();
                 }
+
+                strText = sb.ToString();
+                if (1 == 1)
+                    return strText;
+
+                byte[] fileBytes = File.ReadAllBytes(inFileName);
+
+                string sstr = G1.ConvertToString(fileBytes);
+                string xstr = string.Empty;
+                //string xstr = G1.DecompressString(sstr);
+
+
+                string[] Lines = sstr.Split('\n');
+                string xRef = GetxRef(Lines);
+                bool gotStream = false;
+                string stream = "";
+                for ( int i=0; i<Lines.Length; i++)
+                {
+                    sstr = Lines[i].ObjToString();
+                    if ( sstr.IndexOf ( "stream") == 0 )
+                    {
+                        gotStream = true;
+                        stream = string.Empty;
+                        continue;
+                    }
+                    else if ( sstr.IndexOf ( "endstream") == 0 )
+                    {
+                        gotStream = false;
+                        //sstr = G1.ConvertToString(Lines[i].ObjToBytes());
+                        //xstr = G1.DecompressString(sstr);
+                    }
+                    else if ( gotStream )
+                    {
+                        stream += sstr;
+                    }
+                }
+
+                //xstr = G1.decompress(fileBytes);
+
+
+                //string stuff = xExtractTextFromPDFBytes(fileBytes);
+
+                //string stuff = ExtractTextFromPDFBytes( fileBytes );
+                char c;
+                string myStr = " ";
+                string  allString = "";
+                string converted = "";
+                for ( int i=0; i<fileBytes.Length; i++)
+                {
+                    if (IsPrintableAscii(fileBytes[i]))
+                    {
+                        converted = Encoding.UTF8.GetString(fileBytes, i, 1);
+                        allString += converted;
+                    }
+                }
+
+                string[] xLines = allString.Split('\n');
+
+
+                ////PdfReader pdfReader = new PdfReader(inFileName);
+                ////StringBuilder sb = new StringBuilder();
+                ////byte[] bytes = pdfReader.AcroForm.GetBytes();
+                ////foreach (var de in pdfReader.AcroFields.Fields)
+                ////{
+                ////    sb.Append(de.Key.ToString() + Environment.NewLine);
+                ////}
+                ////string str = sb.ToString();
+                ////str = str.Replace("\r", "");
+                ////string[] LLines = str.Split('\n');
+
+
+                ////// Create a reader for the given PDF file
+                //////                PdfReader reader = new PdfReader(inFileName);
+
+                ////using (FileStream oFile = new FileStream( inFileName, FileMode.Create))
+                ////{
+                ////    //PdfReader pdfReader = new PdfReader(inFileName);
+
+
+                ////    //StringBuilder sb = new StringBuilder();
+                ////    //foreach (var de in pdfReader.AcroFields.Fields)
+                ////    //{
+                ////    //    sb.Append(de.Key.ToString() + Environment.NewLine);
+                ////    //}
+                ////    //string str = sb.ToString();
+                ////    //str = str.Replace("\r", "");
+                ////    //string[] Lines = str.Split('\n');
+
+                ////    PdfStamper pdfStamper = new PdfStamper(pdfReader, oFile);
+                ////    AcroFields fields = pdfStamper.AcroFields;
+                ////    fields.SetField("First Name", "Robby");
+                ////    str = fields.GetField("First Name");
+                ////    pdfStamper.Close();
+                ////    pdfReader.Close();
+                ////}
 
                 //    //                outFile = File.CreateText(outFileName);
                 //    outFile = new StreamWriter(outFileName, false, System.Text.Encoding.UTF8);
@@ -127,7 +244,7 @@ namespace GeneralLib
                 //    }
                 //    return pdfText;
             }
-            catch
+            catch ( Exception ex)
             {
                 return "";
             }
@@ -135,7 +252,7 @@ namespace GeneralLib
             {
                 if (outFile != null) outFile.Close();
             }
-            return pdfText;
+            return strText;
         }
         #endregion
 
@@ -185,7 +302,8 @@ namespace GeneralLib
 
                 // Keep previous chars to get extract numbers etc.:
                 char[] previousCharacters = new char[_numberOfCharsToKeep];
-                for (int j = 0; j < _numberOfCharsToKeep; j++) previousCharacters[j] = ' ';
+                for (int j = 0; j < _numberOfCharsToKeep; j++) 
+                    previousCharacters[j] = ' ';
 
 
                 for (int i = 0; i < input.Length; i++)
@@ -336,7 +454,132 @@ namespace GeneralLib
             return false;
         }
         #endregion
-//        public static string ReadPdfFile(object Filename, DataTable ReadLibray)
+
+        public static string xExtractTextFromPDFBytes(byte[] input)
+        {
+            if (input == null || input.Length == 0) return "";
+
+            try
+            {
+                string resultString = "";
+
+                // Flag showing if we are we currently inside a text object
+                bool inTextObject = false;
+
+                // Flag showing if the next character is literal
+                // e.g. '\\' to get a '\' character or '\(' to get '('
+                bool nextLiteral = false;
+
+                // () Bracket nesting level. Text appears inside ()
+                int bracketDepth = 0;
+
+                // Keep previous chars to get extract numbers etc.:
+                char[] previousCharacters = new char[_numberOfCharsToKeep];
+                for (int j = 0; j < _numberOfCharsToKeep; j++) previousCharacters[j] = ' ';
+
+
+                for (int i = 0; i < input.Length; i++)
+                {
+                    char c = (char)input[i];
+
+                    if (inTextObject)
+                    {
+                        // Position the text
+                        if (bracketDepth == 0)
+                        {
+                            if (CheckToken(new string[] { "TD", "Td" }, previousCharacters))
+                            {
+                                resultString += "\n\r";
+                            }
+                            else
+                            {
+                                if (CheckToken(new string[] { "'", "T*", "\"" }, previousCharacters))
+                                {
+                                    resultString += "\n";
+                                }
+                                else
+                                {
+                                    if (CheckToken(new string[] { "Tj" }, previousCharacters))
+                                    {
+                                        resultString += " ";
+                                    }
+                                }
+                            }
+                        }
+
+                        // End of a text object, also go to a new line.
+                        if (bracketDepth == 0 &&
+                            CheckToken(new string[] { "ET" }, previousCharacters))
+                        {
+
+                            inTextObject = false;
+                            resultString += " ";
+                        }
+                        else
+                        {
+                            // Start outputting text
+                            if ((c == '(') && (bracketDepth == 0) && (!nextLiteral))
+                            {
+                                bracketDepth = 1;
+                            }
+                            else
+                            {
+                                // Stop outputting text
+                                if ((c == ')') && (bracketDepth == 1) && (!nextLiteral))
+                                {
+                                    bracketDepth = 0;
+                                }
+                                else
+                                {
+                                    // Just a normal text character:
+                                    if (bracketDepth == 1)
+                                    {
+                                        // Only print out next character no matter what.
+                                        // Do not interpret.
+                                        if (c == '\\' && !nextLiteral)
+                                        {
+                                            nextLiteral = true;
+                                        }
+                                        else
+                                        {
+                                            if (((c >= ' ') && (c <= '~')) ||
+                                                ((c >= 128) && (c < 255)))
+                                            {
+                                                resultString += c.ToString();
+                                            }
+
+                                            nextLiteral = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Store the recent characters for
+                    // when we have to go back for a checking
+                    for (int j = 0; j < _numberOfCharsToKeep - 1; j++)
+                    {
+                        previousCharacters[j] = previousCharacters[j + 1];
+                    }
+                    previousCharacters[_numberOfCharsToKeep - 1] = c;
+
+                    // Start of a text object
+                    if (!inTextObject && CheckToken(new string[] { "BT" }, previousCharacters))
+                    {
+                        inTextObject = true;
+                    }
+                }
+                return resultString;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+
+        //        public static string ReadPdfFile(object Filename, DataTable ReadLibray)
         public static string ReadPdfFile(object Filename)
         {
             PdfReader reader2 = null;

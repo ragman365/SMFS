@@ -86,6 +86,7 @@ namespace SMFS
         private DateTime exDate = DateTime.Now;
         private DataTable feeDt = null;
         private bool workJustTCA = false;
+        private string paymentMessage = "";
         /***************************************************************************************/
         public ManualPayment(string contract, string name)
         {
@@ -152,6 +153,9 @@ namespace SMFS
         {
             try
             {
+                btnMessage.Hide();
+                paymentMessage = "";
+
                 LoadBankAccounts();
 
                 feeDt = LoadCCFeeTable();
@@ -1923,6 +1927,12 @@ namespace SMFS
             DataTable dt = (DataTable)dgv.DataSource;
             DataRow dr = gridMain.GetFocusedDataRow();
             CalcNewStuff();
+
+            if ( !String.IsNullOrWhiteSpace ( paymentMessage ))
+            {
+                btnMessage.Show();
+                btnMessage.Refresh();
+            }
         }
         /***************************************************************************************/
         private void ChangeDownPayment ()
@@ -1944,6 +1954,9 @@ namespace SMFS
         /***************************************************************************************/
         private void CalcNewStuff()
         {
+            btnMessage.Hide();
+            paymentMessage = "";
+
             if ( LoginForm.useNewTCACalculation )
             {
                 CalcNewStuffNew();
@@ -2378,12 +2391,23 @@ namespace SMFS
                 else
                     interest = CalculateInterest(date, rate, balanceDue, days);
             }
+            if ( interest == 0D && credit > 0D )
+            {
+                DateTime dueDate = GetData("Date Paid", true).ObjToDateTime();
+                days = DailyHistory.GetDaysSinceLastPayment(workContract, dueDate);
+                lblDays.Text = "Days since Last Payment :" + days.ToString();
+                lblDays.Refresh();
+            }
             double newprincipal = payment - interest - debit + credit;
 
             double balance = 0D;
 
-            if ( debit == 0D )
-                ImportDailyDeposits.HandleUnpaidInterest(workContract, payment, ref interest, ref unpaid_interest, ref newprincipal, ref balance);
+            if (debit == 0D)
+            {
+                double tempPayment = payment - debit + credit;
+                string localMessage = ImportDailyDeposits.HandleUnpaidInterest(workContract, tempPayment, ref interest, ref unpaid_interest, ref newprincipal, ref balance);
+                LoadPaymentMessage(localMessage);
+            }
             if (debit != 0D)
             {
                 if ( interest > 0D )
@@ -2504,7 +2528,14 @@ namespace SMFS
             PutMoney("balance", value);
 
             days = DailyHistory.GetDaysSinceLastPayment(workContract, date);
+            //if (interest == 0D && credit > 0D)
+            //{
+            //    DateTime dueDate = GetData("Due Date", false).ObjToDateTime();
+            //    days = DailyHistory.GetDaysSinceLastPayment(workContract, dueDate);
+            //}
+
             lblDays.Text = "Days since Last Payment :" + days.ToString();
+            lblDays.Refresh();
 
             double months = 1D;
 
@@ -2728,6 +2759,16 @@ namespace SMFS
             }
 
             //lblCalcTrust85.Text = "Trust85C: $" + G1.ReformatMoney(Trust85Paid) + " of " + G1.ReformatMoney(workTrust85Max) + " Expected";
+        }
+        /***************************************************************************************/
+        private void LoadPaymentMessage ( string message )
+        {
+            if ( !String.IsNullOrWhiteSpace ( message ))
+            {
+                if (!String.IsNullOrWhiteSpace(paymentMessage))
+                    paymentMessage += "\n";
+                paymentMessage += message;
+            }
         }
         /***************************************************************************************/
         private bool isCCBank ()
@@ -3570,8 +3611,15 @@ namespace SMFS
                             PutMoney("CC FEE", 0D);
                         double debit = GetMoney("Debit");
                         double credit = GetMoney("Credit");
-                        if ( debit == 0D && credit == 0D )
+                        if (debit == 0D && credit == 0D)
+                        {
                             CalcNewStuff();
+                            if ( !String.IsNullOrWhiteSpace ( paymentMessage ))
+                            {
+                                btnMessage.Show();
+                                btnMessage.Refresh();
+                            }
+                        }
                     }
                 }
             }
@@ -3778,6 +3826,11 @@ namespace SMFS
                         e.Appearance.BackColor = Color.LimeGreen;
                 }
             }
+        }
+        /***************************************************************************************/
+        private void btnMessage_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("*** Info ***\n" + paymentMessage, "Payment Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
         /***************************************************************************************/
     }

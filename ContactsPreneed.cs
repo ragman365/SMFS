@@ -4053,8 +4053,16 @@ namespace SMFS
         private DataTable cleanupPhones ( DataTable dt )
         {
             string phone = "";
+            string firstName = "";
+            string lastName = "";
             for ( int i=0; i<dt.Rows.Count; i++)
             {
+                firstName = dt.Rows[i]["firstName"].ObjToString().ToUpper();
+                lastName = dt.Rows[i]["lastName"].ObjToString().ToUpper();
+                if ( firstName == "RONNIE" && lastName == "RAGGIO")
+                {
+
+                }
                 phone = dt.Rows[i]["mobilePhone"].ObjToString();
                 phone = AgentProspectReport.reformatPhone(phone, true);
                 dt.Rows[i]["mobilePhone"] = phone;

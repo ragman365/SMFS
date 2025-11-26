@@ -2282,6 +2282,10 @@ namespace SMFS
 
             try
             {
+                if (phone.IndexOf("(") >= 0)
+                {
+                }
+
                 string[] Lines = phone.Split(',');
                 if (Lines.Length == 2)
                     phoneType = Lines[1];
@@ -2291,6 +2295,7 @@ namespace SMFS
                 str = str.Replace(")", "");
                 if (str.Length >= 9)
                 {
+                    str = str.Replace(" ", "");
                     if ( !noParen )
                         newPhone = "(";
                     newPhone += str.Substring(0, 3);

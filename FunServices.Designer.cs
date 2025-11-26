@@ -45,6 +45,7 @@
             this.releaseInventoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.upgradeForToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.subsituteServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clarifyItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -109,7 +110,6 @@
             this.btnSaveServices = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.clarifyItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.panelBottomRight.SuspendLayout();
@@ -196,7 +196,7 @@
             this.subsituteServiceToolStripMenuItem,
             this.clarifyItemToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(235, 296);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(235, 268);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // menuSubstitute
@@ -267,6 +267,13 @@
             this.subsituteServiceToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
             this.subsituteServiceToolStripMenuItem.Text = "Subsitute Service";
             this.subsituteServiceToolStripMenuItem.Click += new System.EventHandler(this.subsituteServiceToolStripMenuItem_Click);
+            // 
+            // clarifyItemToolStripMenuItem
+            // 
+            this.clarifyItemToolStripMenuItem.Name = "clarifyItemToolStripMenuItem";
+            this.clarifyItemToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.clarifyItemToolStripMenuItem.Text = "Clarify Item";
+            this.clarifyItemToolStripMenuItem.Click += new System.EventHandler(this.clarifyItemToolStripMenuItem_Click);
             // 
             // gridMain
             // 
@@ -424,7 +431,6 @@
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "currentprice", this.currentprice5, "{0:N2})")});
             this.gridMain.Name = "gridMain";
             this.gridMain.OptionsBehavior.AutoPopulateColumns = false;
-            this.gridMain.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.MouseDown;
             this.gridMain.OptionsPrint.PrintBandHeader = false;
             this.gridMain.OptionsView.EnableAppearanceEvenRow = true;
             this.gridMain.OptionsView.EnableAppearanceOddRow = true;
@@ -784,6 +790,7 @@
             this.chkAll.TabIndex = 154;
             this.chkAll.Text = "Show All";
             this.chkAll.UseVisualStyleBackColor = true;
+            this.chkAll.CheckedChanged += new System.EventHandler(this.chkAll_CheckedChanged);
             // 
             // btnCheckInventory
             // 
@@ -1163,13 +1170,6 @@
             this.pictureBox4.TabIndex = 7;
             this.pictureBox4.TabStop = false;
             this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
-            // 
-            // clarifyItemToolStripMenuItem
-            // 
-            this.clarifyItemToolStripMenuItem.Name = "clarifyItemToolStripMenuItem";
-            this.clarifyItemToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
-            this.clarifyItemToolStripMenuItem.Text = "Clarify Item";
-            this.clarifyItemToolStripMenuItem.Click += new System.EventHandler(this.clarifyItemToolStripMenuItem_Click);
             // 
             // FunServices
             // 

@@ -743,7 +743,10 @@ namespace SMFS
             SetupEdit(false);
 
             if (!G1.isAdminOrSuper())
+            {
                 chkFullEdit.Hide();
+                btnVerifyDP.Hide();
+            }
 
             labelValue.Hide();
             labValue.Hide();
@@ -1443,57 +1446,38 @@ namespace SMFS
                     double newbalance = 0D;
                     iDate = DailyHistory.getNextDueDate(dx, payment, ref newbalance);
 
-                    //for (int j = 0; j < dx.Rows.Count; j++)
-                    //{
-                    //    if (dx.Rows[j]["fill"].ObjToString().ToUpper() == "D")
-                    //        continue;
-
-                    //    edited = dx.Rows[j]["edited"].ObjToString().Trim().ToUpper();
-                    //    if (edited == "TRUSTADJ")
-                    //        continue;
-
-                    //    docp = dx.Rows[j]["payDate8"].ObjToDateTime();
-                    //    if (docp > testDate && docp < maxDate)
-                    //    {
-                    //        //if (edited.ToUpper() == "MANUAL")
-                    //        //    continue;
-                    //        pastInterest = dx.Rows[j]["interestPaid"].ObjToDouble();
-                    //        interest = dx.Rows[j]["int"].ObjToDouble();
-                    //        if (interest != pastInterest)
-                    //        {
-                    //            if (interest == 0D || pastInterest == 0D)
-                    //            {
-                    //                gridMain.Columns["fix"].Visible = true;
-                    //                pastRecord = dx.Rows[j]["record"].ObjToString();
-                    //                myFields = "interestPaid," + interest.ToString();
-                    //                dt.Rows[row]["fix"] = "FIX";
-                    //                //                            G1.update_db_table("payments", "record", pastRecord, myFields);
-                    //            }
-                    //        }
-                    //    }
-                    //}
-
-                    oldDueDate = dt.Rows[row]["dueDate"].ObjToDateTime();
+                    double t100 = 0D;
                     for (int j = 0; j < dx.Rows.Count; j++)
                     {
-                        if (dx.Rows[j]["fill"].ObjToString().ToUpper() == "D")
-                            continue;
-                        edited = dx.Rows[j]["edited"].ObjToString().Trim().ToUpper();
-                        if (edited == "TRUSTADJ" || edited == "CEMETERY" )
-                            continue;
-
-                        newBalance = dx.Rows[j]["balance"].ObjToDouble();
-                        iDate = dx.Rows[j]["nextDueDate"].ObjToDateTime();
-                        if (newBalance <= 0D && oldDueDate.Year >= 2039)
-                            iDate = oldDueDate;
-                        ts = iDate - oldDueDate;
-                        dt.Rows[row]["days"] = ts.Days;
-                        dt.Rows[row]["newduedate"] = iDate.ToString("MM/dd/yyyy");
-                        dt.Rows[row]["creditBalance"] = dx.Rows[j]["runningCB"].ObjToDouble();
-                        dt.Rows[row]["cbal"] = newBalance;
-//                        dt.Rows[row]["cint"] = totalInterest;
-                        break;
+                        t100 += dx.Rows[j]["trust100P"].ObjToDouble();
                     }
+
+                    newBalance = contractValue - t100;
+                    dt.Rows[row]["cbal"] = newBalance;
+                    dt.Rows[row]["balanceDue"] = newBalance;
+                    dt.Rows[row]["paid"] = t100;
+
+//                    oldDueDate = dt.Rows[row]["dueDate"].ObjToDateTime();
+//                    for (int j = 0; j < dx.Rows.Count; j++)
+//                    {
+//                        if (dx.Rows[j]["fill"].ObjToString().ToUpper() == "D")
+//                            continue;
+//                        edited = dx.Rows[j]["edited"].ObjToString().Trim().ToUpper();
+//                        if (edited == "TRUSTADJ" || edited == "CEMETERY" )
+//                            continue;
+
+//                        newBalance = dx.Rows[j]["balance"].ObjToDouble();
+//                        iDate = dx.Rows[j]["nextDueDate"].ObjToDateTime();
+//                        if (newBalance <= 0D && oldDueDate.Year >= 2039)
+//                            iDate = oldDueDate;
+//                        ts = iDate - oldDueDate;
+//                        dt.Rows[row]["days"] = ts.Days;
+//                        dt.Rows[row]["newduedate"] = iDate.ToString("MM/dd/yyyy");
+//                        dt.Rows[row]["creditBalance"] = dx.Rows[j]["runningCB"].ObjToDouble();
+//                        dt.Rows[row]["cbal"] = newBalance;
+////                        dt.Rows[row]["cint"] = totalInterest;
+//                        break;
+//                    }
                     //trust85 = DailyHistory.CalculatePayout(contract, dx);
                     //dt.Rows[row]["trust85"] = trust85;
                     //contractValue = dt.Rows[row]["contractValue"].ObjToDouble();
@@ -4161,6 +4145,12 @@ namespace SMFS
                 dt.Columns.Add("cbal", Type.GetType("System.Double"));
             gridMain.Columns["cbal"].Visible = true;
             gridMain.Columns["cbal"].Caption = "TEB";
+
+            if (G1.get_column_number(dt, "T100") < 0)
+                dt.Columns.Add("T100", Type.GetType("System.Double"));
+            gridMain.Columns["T100"].Visible = true;
+            gridMain.Columns["T100"].Caption = "T100";
+
             gridMain.RefreshEditor(true);
 
             string contractNumber = "";
@@ -4550,6 +4540,36 @@ namespace SMFS
         private void lookupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             quickLookupToolStripMenuItem_Click(null, null);
+        }
+        /***********************************************************************************************/
+        private void btnVerifyDP_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+
+            this.Cursor = Cursors.WaitCursor;
+
+            string contractNumber = "";
+            double downPayment = 0D;
+            double contractValue = 0D;
+            string record = "";
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
+                downPayment = dt.Rows[i]["downPayment"].ObjToDouble();
+                contractValue = dt.Rows[i]["contractValue"].ObjToDouble();
+                if ( downPayment == 0D && contractValue > 0D )
+                {
+                    downPayment = DailyHistory.GetDownPaymentFromPayments(contractNumber);
+                    if ( downPayment > 0D )
+                    {
+                        dt.Rows[i]["downPayment"] = downPayment;
+                        record = dt.Rows[i]["record1"].ObjToString();
+
+                    }
+                }
+            }
+
+            this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/
     }

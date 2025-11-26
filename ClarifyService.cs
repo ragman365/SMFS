@@ -25,6 +25,7 @@ namespace SMFS
         private string _Type = "";
         private string _CasketType = "";
         private string _CasketGauge = "";
+        private string _asCash = "";
 
         private string workService = "";
         /***********************************************************************************************/
@@ -65,6 +66,9 @@ namespace SMFS
 
                 str = dt.Rows[0]["casketgauge"].ObjToString();
                 txtCasketGauge.Text = str;
+
+                str = dt.Rows[0]["asCash"].ObjToString();
+                cmbAsCash.Text = str;
             }
 
             cmbCasketType.Items.Clear();
@@ -87,7 +91,7 @@ namespace SMFS
                 this.Close();
                 return;
             }
-            ClarifyDone.Invoke("Cancel", "", "", "", "", "", "" );
+            ClarifyDone.Invoke("Cancel", "", "", "", "", "", "", "" );
             this.Hide();
             //this.Close();
             return;
@@ -101,6 +105,7 @@ namespace SMFS
             _Type       = cmbType.Text;
             _CasketType = cmbCasketType.Text;
             _CasketGauge = txtCasketGauge.Text;
+            _asCash = cmbAsCash.Text;
             this.DialogResult = DialogResult.OK;
             OnDone();
             return;
@@ -129,13 +134,13 @@ namespace SMFS
             OnDone();
         }
         /***************************************************************************************/
-        public delegate void d_void_eventdone_string(string workService, string casketCode, string casketDesc, string casketCost, string Type, string casketType, string casketGauge );
+        public delegate void d_void_eventdone_string(string workService, string casketCode, string casketDesc, string casketCost, string Type, string casketType, string casketGauge, string asCash );
         public event d_void_eventdone_string ClarifyDone;
         protected void OnDone()
         {
             if (ClarifyDone != null)
             {
-                ClarifyDone.Invoke( workService, _CasketCode, _CasketDesc, _CasketCost, _Type, _CasketType, _CasketGauge );
+                ClarifyDone.Invoke( workService, _CasketCode, _CasketDesc, _CasketCost, _Type, _CasketType, _CasketGauge, _asCash );
                 this.Hide();
                 //this.Close();
             }

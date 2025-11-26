@@ -7,6 +7,7 @@ using DevExpress.XtraReports.Configuration;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using GeneralLib;
+//using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 
@@ -1401,15 +1402,15 @@ namespace SMFS
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     string file = ofd.FileName;
-                    //ViewPDF pdfForm = new ViewPDF("Third Party", "", file);
-                    //pdfForm.Show();
-                    //ParsePdf(file);
                     string data = GetText(file);
                 }
             }
         }
         public static string GetText(string filePath)
         {
+            string junkFile = "";
+            string stuff = P1.ExtractText(filePath, junkFile);
+
             var sb = new StringBuilder();
             try
             {
@@ -1424,16 +1425,33 @@ namespace SMFS
                         prevPage = s;
                     }
                     reader.Close();
+
+                    //ParsePdf(filePath);
+
+
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
+            //var reader = new PdfReader(filePath);
+            //var streamBytes = reader.GetPageContent(1);
+            //var tokenizer = new PRTokeniser(new RandomAccessFileOrArray(streamBytes));
+            //var sb = new StringBuilder();
+            //while (tokenizer.NextToken())
+            //{
+            //    if (tokenizer.TokenType == PRTokeniser.TokType.STRING)
+            //    {
+            //        var currentText = tokenizer.StringValue;
+            //        currentText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(currentText)));
+            //        sb.Append(tokenizer.StringValue);
+            //    }
+            //}
             return sb.ToString();
         }
         /****************************************************************************************/
-        private void ParsePdf(string filename)
+        public static void ParsePdf(string filename)
         {
             string data = "";
             using (PdfReader reader = new PdfReader(filename))
@@ -4691,10 +4709,17 @@ namespace SMFS
         /***********************************************************************************************/
         private void editGeneralReferenceTablesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            PleaseWait pleaseForm = G1.StartWait("Please Wait, Loading Edit Tables!");
+
             this.Cursor = Cursors.WaitCursor;
+
             EditTables editForm = new EditTables();
             editForm.Show();
+
             this.Cursor = Cursors.Default;
+
+            G1.StopWait(ref pleaseForm);
+            pleaseForm = null;
         }
         /***********************************************************************************************/
         private void editDirectorsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6050,6 +6075,14 @@ namespace SMFS
             this.Cursor = Cursors.WaitCursor;
             EditPackageOrder contactForm = new EditPackageOrder();
             contactForm.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private void vernonMuseContactsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            ImportMuseContacts importForm = new ImportMuseContacts();
+            importForm.Show();
             this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/

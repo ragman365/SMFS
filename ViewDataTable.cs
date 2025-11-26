@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using GeneralLib;
 using DevExpress.XtraPrinting;
 using DevExpress.Utils;
+using DevExpress.XtraGrid;
 /***********************************************************************************************/
 namespace SMFS
 {
@@ -30,12 +31,13 @@ namespace SMFS
             workTotals = totals;
         }
         /***********************************************************************************************/
-        public ViewDataTable(DataTable dt, bool multiSelect = false, string fields = "")
+        public ViewDataTable(DataTable dt, bool multiSelect = false, string fields = "", string totals = "" )
         {
             InitializeComponent();
             workDt = dt;
             workFields = fields;
             workMulti = multiSelect;
+            workTotals = totals;
             btnFinished.Hide();
         }
         /***********************************************************************************************/
@@ -156,8 +158,18 @@ namespace SMFS
             //    format = "${0:0,0.00}";
             if (String.IsNullOrWhiteSpace(format))
                 format = "{0:0,0.00}";
-            gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-            gMain.Columns[columnName].SummaryItem.DisplayFormat = format;
+
+            if (workMulti)
+            {
+                gridMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Custom;
+                gridMain.Columns[columnName].SummaryItem.DisplayFormat = format;
+
+            }
+            else
+            {
+                gMain.Columns[columnName].SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+                gMain.Columns[columnName].SummaryItem.DisplayFormat = format;
+            }
         }
         /***********************************************************************************************/
         private void SetupSelection(DataTable dt)
@@ -369,6 +381,51 @@ namespace SMFS
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             G1.SpyGlass(gridMain);
+        }
+        /***********************************************************************************************/
+        private void gridMain_CustomSummaryCalculate(object sender, DevExpress.Data.CustomSummaryEventArgs e)
+        {
+            if (!workMulti)
+                return;
+            if (String.IsNullOrWhiteSpace(workTotals))
+                return;
+            try
+            {
+                string what = "";
+                double value = e.TotalValue.ObjToDouble();
+                string field = (e.Item as GridSummaryItem).FieldName.ObjToString();
+                DataTable dt = (DataTable)dgv.DataSource;
+
+                if (G1.get_column_number(dt, "Select") < 0)
+                    return;
+
+                double totalValue = 0D;
+                string select = "";
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    select = dt.Rows[i]["Select"].ObjToString();
+                    if ( select != "1" )
+                        continue;
+
+                    totalValue += dt.Rows[i][field].ObjToDouble();
+                }
+
+                e.TotalValue = totalValue;
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        /***********************************************************************************************/
+        private void gridMain_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
+        {
+        }
+        /***********************************************************************************************/
+        private void repositoryItemCheckEdit4_CheckedChanged(object sender, EventArgs e)
+        {
+            gridMain.PostEditor();
+            gridMain.UpdateTotalSummary();
         }
         /***********************************************************************************************/
     }

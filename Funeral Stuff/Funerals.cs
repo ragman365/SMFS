@@ -1918,6 +1918,10 @@ namespace SMFS
             double insAmountReceived = 0D;
             double amtActuallyReceived = 0D;
             double insuraceDirectGrowth = 0D;
+            bool gotDescriptionary = false;
+
+            DataTable secondDt = G1.get_db_data("Select * from `secondary_inventory`;");
+
 
             DataTable exceptionDt = G1.get_db_data("Select * from `funeral_master`;");
 
@@ -2301,6 +2305,7 @@ namespace SMFS
                 for (int i = 0; i < funDt.Rows.Count; i++)
                 {
                     getCost = false;
+                    gotDescriptionary = false;
                     ignore = funDt.Rows[i]["ignore"].ObjToString().ToUpper();
                     if ( ignore == "Y")
                     {
@@ -2348,11 +2353,41 @@ namespace SMFS
                     type = funDt.Rows[i]["type"].ObjToString().ToUpper();
                     service = funDt.Rows[i]["service"].ObjToString().ToUpper();
                     if (service.IndexOf("D- ") == 0)
-                        service = service.Replace ("D- ", "");
-                    else if ( service.IndexOf ( "D-") == 0 )
+                    {
+                        service = service.Replace("D- ", "");
+                        gotDescriptionary = true;
+                    }
+                    else if (service.IndexOf("D-") == 0)
+                    {
                         service = service.Replace("D-", "");
+                        gotDescriptionary = true;
+                    }
 
                     dRows = exceptionDt.Select("service='" + service + "'");
+
+                    if ( dRows.Length == 0 && gotDescriptionary )
+                    {
+                        if ( secondDt != null )
+                        {
+                            dRows = secondDt.Select("casketDesc='" + service + "'");
+                            if ( dRows.Length > 0 )
+                            {
+                                if (dRows[0]["asCash"].ObjToString().ToUpper() == "YES")
+                                {
+                                    isCash = "";
+                                    dRow = exceptionDt.NewRow();
+                                    dRow["service"] = service;
+                                    dRow["asCash"] = 1;
+                                    exceptionDt.Rows.Add(dRow);
+                                    dRows = exceptionDt.Select("service='" + service + "'");
+                                }
+                                else
+                                    dRows = exceptionDt.Select("service='XYZZYABC'");
+                            }
+                            else
+                                dRows = exceptionDt.Select("service='XYZZYABC'");
+                        }
+                    }
 
                     if ( isCash == "Y" )
                     {

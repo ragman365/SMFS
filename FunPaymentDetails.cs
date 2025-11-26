@@ -256,6 +256,7 @@ namespace SMFS
                         if (dRows.Length > 0)
                             continue;
                     }
+                    bool myDBR = false;
                     dbr = dt.Rows[i]["dbr"].ObjToDouble();
                     if ( deceasedDate.Year > 1000 )
                     {
@@ -265,12 +266,12 @@ namespace SMFS
                         dateFiled = dt.Rows[i]["dateFiled"].ObjToDateTime();
                         if ( dateFiled.Year > 1000 )
                         {
-                            double jDBR = PaymentsReport.isDBR(contract, dateFiled );
+                            double jDBR = PaymentsReport.isDBR(contract, dateFiled, ref myDBR );
                             if (jDBR > 0D)
                                 dbr = jDBR;
                         }
                     }
-                    if (oldDBR != dbr)
+                    if (oldDBR != dbr || myDBR )
                         dt.Rows[i]["mod"] = "Y";
                     totalDBR += dbr;
 
@@ -305,7 +306,8 @@ namespace SMFS
                         dbDBR += dbrDt.Rows[i]["dbr"].ObjToDouble();
                 }
 
-                double xDBR = PaymentsReport.isDBR(contract);
+                bool myDBR = false;
+                double xDBR = PaymentsReport.isDBR(contract, ref myDBR );
             }
 
             //if (dbDBR > 0D)
@@ -584,8 +586,9 @@ namespace SMFS
                             endingBalance = beginningBalance;
                         double totalTrust = endingBalance + trust85Pending;
                         DateTime dateEntered = workDR["dateEntered"].ObjToDateTime();
-                        dbr = PaymentsReport.isDBR(contract, dateEntered );
-                        if (dbr > 0D)
+                        bool myDBR = false;
+                        dbr = PaymentsReport.isDBR(contract, dateEntered, ref myDBR );
+                        if (dbr > 0D || myDBR )
                             totalTrust = totalTrust - dbr;
                         totalTrust = G1.RoundValue(totalTrust);
                         str = G1.ReformatMoney(totalTrust);
@@ -3303,8 +3306,9 @@ namespace SMFS
                 endingBalance = beginningBalance;
             double totalTrust = endingBalance + trust85Pending;
             totalTrust = endingBalance;
-            double dbr = PaymentsReport.isDBR(contract, dateEOM );
-            if (dbr > 0D)
+            bool myDBR = false;
+            double dbr = PaymentsReport.isDBR(contract, dateEOM, ref myDBR );
+            if (dbr > 0D || myDBR )
                 totalTrust = totalTrust - dbr;
             totalTrust = G1.RoundValue(totalTrust);
             dr["trustAmtFiled"] = totalTrust; // Dont do this yet/ Need Confirmation from Cliff/Charlotte

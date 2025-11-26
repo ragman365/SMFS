@@ -126,18 +126,20 @@
             this.aquantToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.veteranInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem31 = new System.Windows.Forms.ToolStripMenuItem();
             this.preneedContactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vernonMuseContactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashRemitDBRsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashRemittedDPsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashRemittedPaymentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importContractFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lockBoxImportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importDailyDepositFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem20 = new System.Windows.Forms.ToolStripMenuItem();
+            this.importSMFSDrafts = new System.Windows.Forms.ToolStripMenuItem();
+            this.importDailyDepositFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importACHFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importCreditCardPaymentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCreditCardsFromBank = new System.Windows.Forms.ToolStripMenuItem();
-            this.importSMFSDrafts = new System.Windows.Forms.ToolStripMenuItem();
             this.runDailyReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBankDeposits = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTDP = new System.Windows.Forms.ToolStripMenuItem();
@@ -588,7 +590,7 @@
             this.finalInsuranceImportsToolStripMenuItem,
             this.passareImportsToolStripMenuItem,
             this.smartDirectorImportsToolStripMenuItem,
-            this.preneedContactsToolStripMenuItem,
+            this.toolStripMenuItem31,
             this.cashRemitDBRsToolStripMenuItem,
             this.cashRemittedDPsToolStripMenuItem,
             this.cashRemittedPaymentsToolStripMenuItem});
@@ -1133,12 +1135,28 @@
             this.veteranInformationToolStripMenuItem.Text = "Veteran Information";
             this.veteranInformationToolStripMenuItem.Click += new System.EventHandler(this.veteranInformationToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem31
+            // 
+            this.toolStripMenuItem31.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.preneedContactsToolStripMenuItem,
+            this.vernonMuseContactsToolStripMenuItem});
+            this.toolStripMenuItem31.Name = "toolStripMenuItem31";
+            this.toolStripMenuItem31.Size = new System.Drawing.Size(254, 26);
+            this.toolStripMenuItem31.Text = "Preneed Contacts";
+            // 
             // preneedContactsToolStripMenuItem
             // 
             this.preneedContactsToolStripMenuItem.Name = "preneedContactsToolStripMenuItem";
-            this.preneedContactsToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
-            this.preneedContactsToolStripMenuItem.Text = "Preneed Contacts";
+            this.preneedContactsToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.preneedContactsToolStripMenuItem.Text = "Preneed Conracts";
             this.preneedContactsToolStripMenuItem.Click += new System.EventHandler(this.preneedContactsToolStripMenuItem_Click);
+            // 
+            // vernonMuseContactsToolStripMenuItem
+            // 
+            this.vernonMuseContactsToolStripMenuItem.Name = "vernonMuseContactsToolStripMenuItem";
+            this.vernonMuseContactsToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.vernonMuseContactsToolStripMenuItem.Text = "Vernon Muse Contacts";
+            this.vernonMuseContactsToolStripMenuItem.Click += new System.EventHandler(this.vernonMuseContactsToolStripMenuItem_Click);
             // 
             // cashRemitDBRsToolStripMenuItem
             // 
@@ -1186,19 +1204,26 @@
             this.lockBoxImportsToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
             this.lockBoxImportsToolStripMenuItem.Text = "Daily Imports";
             // 
-            // importDailyDepositFileToolStripMenuItem
-            // 
-            this.importDailyDepositFileToolStripMenuItem.Name = "importDailyDepositFileToolStripMenuItem";
-            this.importDailyDepositFileToolStripMenuItem.Size = new System.Drawing.Size(333, 26);
-            this.importDailyDepositFileToolStripMenuItem.Text = "Import Daily Deposit File";
-            this.importDailyDepositFileToolStripMenuItem.Click += new System.EventHandler(this.importDailyDepositFileToolStripMenuItem_Click);
-            // 
             // toolStripMenuItem20
             // 
             this.toolStripMenuItem20.Name = "toolStripMenuItem20";
             this.toolStripMenuItem20.Size = new System.Drawing.Size(333, 26);
             this.toolStripMenuItem20.Text = "Import Renasant Lockbox File";
             this.toolStripMenuItem20.Click += new System.EventHandler(this.toolStripMenuItem20_Click);
+            // 
+            // importSMFSDrafts
+            // 
+            this.importSMFSDrafts.Name = "importSMFSDrafts";
+            this.importSMFSDrafts.Size = new System.Drawing.Size(333, 26);
+            this.importSMFSDrafts.Text = "Import SMFS Draft";
+            this.importSMFSDrafts.Click += new System.EventHandler(this.importSMFSDrafts_Click);
+            // 
+            // importDailyDepositFileToolStripMenuItem
+            // 
+            this.importDailyDepositFileToolStripMenuItem.Name = "importDailyDepositFileToolStripMenuItem";
+            this.importDailyDepositFileToolStripMenuItem.Size = new System.Drawing.Size(333, 26);
+            this.importDailyDepositFileToolStripMenuItem.Text = "Import Daily Deposit File";
+            this.importDailyDepositFileToolStripMenuItem.Click += new System.EventHandler(this.importDailyDepositFileToolStripMenuItem_Click);
             // 
             // importACHFileToolStripMenuItem
             // 
@@ -1220,13 +1245,6 @@
             this.menuCreditCardsFromBank.Size = new System.Drawing.Size(333, 26);
             this.menuCreditCardsFromBank.Text = "Import CC Pmts from Bank";
             this.menuCreditCardsFromBank.Click += new System.EventHandler(this.menuCreditCardsFromBank_Click);
-            // 
-            // importSMFSDrafts
-            // 
-            this.importSMFSDrafts.Name = "importSMFSDrafts";
-            this.importSMFSDrafts.Size = new System.Drawing.Size(333, 26);
-            this.importSMFSDrafts.Text = "Import SMFS Draft";
-            this.importSMFSDrafts.Click += new System.EventHandler(this.importSMFSDrafts_Click);
             // 
             // runDailyReportToolStripMenuItem
             // 
@@ -2547,7 +2565,6 @@
         private System.Windows.Forms.ToolStripMenuItem editRelationCategoriesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editRelationAgeRangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editAllTrackingDataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem preneedContactsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cashRemitDBRsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDBRTableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cashRemittedDPsToolStripMenuItem;
@@ -2555,6 +2572,9 @@
         private System.Windows.Forms.ToolStripMenuItem editBatesvilleInventoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editSecondaryInventoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editServicePackageSelectionOrderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem31;
+        private System.Windows.Forms.ToolStripMenuItem preneedContactsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vernonMuseContactsToolStripMenuItem;
     }
 }
 

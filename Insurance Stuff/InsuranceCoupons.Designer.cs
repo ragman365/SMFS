@@ -83,6 +83,7 @@
             this.btnProcess = new System.Windows.Forms.Button();
             this.chkIncludeHeader = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.btnSave = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -111,7 +112,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1348, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1348, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -121,7 +122,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -159,7 +160,7 @@
             this.readOldDataToolStripMenuItem,
             this.compare2ndFileToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // readOldDataToolStripMenuItem
@@ -181,10 +182,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1348, 390);
+            this.panelAll.Size = new System.Drawing.Size(1348, 392);
             this.panelAll.TabIndex = 5;
             // 
             // panelBottom
@@ -194,7 +195,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 97);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1348, 293);
+            this.panelBottom.Size = new System.Drawing.Size(1348, 295);
             this.panelBottom.TabIndex = 7;
             // 
             // tabControl1
@@ -207,7 +208,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1348, 293);
+            this.tabControl1.Size = new System.Drawing.Size(1348, 295);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -217,7 +218,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(1340, 264);
+            this.tabPage1.Size = new System.Drawing.Size(1340, 266);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "SMFS";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -230,7 +231,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1334, 256);
+            this.dgv.Size = new System.Drawing.Size(1334, 258);
             this.dgv.TabIndex = 1;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -367,6 +368,7 @@
             this.gridMain.OptionsView.EnableAppearanceOddRow = true;
             this.gridMain.OptionsView.ShowGroupPanel = false;
             this.gridMain.PaintStyleName = "Style3D";
+            this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
             this.gridMain.DoubleClick += new System.EventHandler(this.gridMain_DoubleClick);
             // 
             // gridBand2
@@ -817,6 +819,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.btnSave);
             this.panelTop.Controls.Add(this.label7);
             this.panelTop.Controls.Add(this.label6);
             this.panelTop.Controls.Add(this.cmbReport);
@@ -1029,6 +1032,17 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.Lime;
+            this.btnSave.Location = new System.Drawing.Point(1138, 61);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 30);
+            this.btnSave.TabIndex = 153;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // InsuranceCoupons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1121,5 +1135,6 @@
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.CheckedComboBoxEdit chkComboSDI;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnSave;
     }
 }

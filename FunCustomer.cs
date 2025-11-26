@@ -1233,13 +1233,19 @@ namespace SMFS
                 string serviceId = txtServiceId.Text;
                 if ( !String.IsNullOrWhiteSpace ( oldServiceId) && String.IsNullOrWhiteSpace ( serviceId))
                 {
-                    MessageBox.Show("***ERROR*** Old Service ID is " + oldServiceId + "!\nNew Service ID is BLANK!", "Service ID ERROR Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                    return; // Exit if came in with Service Id and is now blank
+                    if (!G1.isAdmin())
+                    {
+                        MessageBox.Show("***ERROR*** Old Service ID is " + oldServiceId + "!\nNew Service ID is BLANK!", "Service ID ERROR Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        return; // Exit if came in with Service Id and is now blank
+                    }
                 }
                 if (NewContract.CheckServiceIdExists(serviceId, workContract))
                 {
-                    MessageBox.Show("***ERROR*** A Service ID of " + serviceId + " Already Exists Somewhere!", "Service ID EXISTS Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                    return;
+                    if (!G1.isAdmin())
+                    {
+                        MessageBox.Show("***ERROR*** A Service ID of " + serviceId + " Already Exists Somewhere!", "Service ID EXISTS Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        return;
+                    }
                 }
 
                 string dodd = txtDOD.Text;
@@ -1248,7 +1254,7 @@ namespace SMFS
                     bool good = ValidateServiceId(serviceId); // Check for Valid Service Id
                     if (!good)
                     {
-                        MessageBox.Show("***ERROR*** A Service ID of " + serviceId + "\nis not a value At Need Code\nor Merchandise Code!", "Service ID Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        MessageBox.Show("***ERROR*** A Service ID of " + serviceId + "\nis not a valid At Need Code\nor Merchandise Code!", "Service ID Error Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         return;
                     }
                 }
@@ -4073,7 +4079,8 @@ namespace SMFS
             }
             else
             {
-                MessageBox.Show("***ERROR*** Invalid Date!", "Date Problem Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                if ( date != "01/01/0001")
+                    MessageBox.Show("***ERROR*** Invalid First Pay Date!", "Date Problem Dialog", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
         }
         /****************************************************************************************/

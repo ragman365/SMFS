@@ -90,10 +90,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1245, 336);
+            this.panelAll.Size = new System.Drawing.Size(1245, 334);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -103,7 +103,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 49);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1245, 287);
+            this.panelBottom.Size = new System.Drawing.Size(1245, 285);
             this.panelBottom.TabIndex = 3;
             // 
             // dgv
@@ -122,7 +122,7 @@
             this.repositoryItemComboBox2,
             this.repositoryItemComboBox3,
             this.repositoryItemComboBox4});
-            this.dgv.Size = new System.Drawing.Size(1245, 287);
+            this.dgv.Size = new System.Drawing.Size(1245, 285);
             this.dgv.TabIndex = 5;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -603,7 +603,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1245, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1245, 30);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -612,7 +612,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuPrint});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -641,7 +641,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // bandedGridColumn5
             // 

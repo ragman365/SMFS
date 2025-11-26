@@ -3332,6 +3332,7 @@ namespace SMFS
             bool contractValueBad = false;
             bool contractAPRbad = false;
             bool numPaymentsBad = false;
+            double paymentAmount = 0D;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 try
@@ -3341,8 +3342,9 @@ namespace SMFS
                     {
                         contractValue = dt.Rows[i]["CONTRACT_AMOUNT"].ObjToDouble();
                         apr = dt.Rows[i]["APR"].ObjToDouble();
+                        paymentAmount = dt.Rows[i]["PREMIUM"].ObjToDouble();
                         showError = false;
-                        if (apr > 5D)
+                        if (apr != 7.5D)
                         {
                             TOTAL_TO_PAY = dt.Rows[i]["TOTAL_TO_PAY"].ObjToString();
                             PREMIUM = dt.Rows[i]["PREMIUM"].ObjToString();
@@ -3357,11 +3359,21 @@ namespace SMFS
                                 showError = true;
                                 contractValueBad = true;
                             }
+                            if ( PREMIUM == TOTAL_TO_PAY )
+                            {
+                                showError = false;
+                                contractValueBad = false;
+                            }
                         }
                         else if (apr <= 5D && contractValue < 2000D)
                         {
                             showError = true;
                             contractAPRbad = true;
+                            if (PREMIUM == TOTAL_TO_PAY)
+                            {
+                                showError = false;
+                                contractValueBad = false;
+                            }
                         }
                         if (showError)
                             MessageBox.Show("***WARNING*** APR (" + apr.ToString() + "%) may be incorrect for this contract (" + contractNumber + ")!\nPlease check it out!");
@@ -6807,6 +6819,13 @@ namespace SMFS
                         return;
                     }
                 }
+                string firstMin = firstName;
+                if (firstName.Length > 3)
+                    firstMin = firstName.Substring(0, 3);
+                string lastMin = lastName;
+                if (lastName.Length > 3)
+                    lastMin = lastName.Substring(0, 3);
+
                 DateTime date1 = dateDpPaid.AddDays(-14);
                 DateTime date2 = dateDpPaid.AddDays(14);
                 string cmd = "Select * from `downpayments` WHERE ";
@@ -6816,7 +6835,7 @@ namespace SMFS
                 else
                 {
                     //cmd += " AND `firstName` = '" + firstName + "' AND `lastName` = '" + lastName + "' ";
-                    cmd += " AND `lastName` = '" + lastName + "' ";
+                    cmd += " AND `lastName` LIKE '" + lastMin + "%' AND `firstName` LIKE '" + firstMin + "%'";
                 }
                 cmd += ";";
                 DataTable dd = G1.get_db_data(cmd);
@@ -6847,7 +6866,13 @@ namespace SMFS
                 {
                     sPayment = G1.ReformatMoney(downPayment);
 
-                    viewForm = new ViewDataTable(dd, true, "date,downPayment,ccfee,firstName,lastName,depositNumber,location,(record),(bankAccount)");
+                    DataRow[] dRows = dd.Select("trustNumber=''");
+                    if (dRows.Length > 0)
+                        dd = dRows.CopyToDataTable();
+                    else
+                        dd.Rows.Clear();
+
+                    viewForm = new ViewDataTable(dd, true, "date,trustNumber,downPayment,ccfee,firstName,lastName,depositNumber,location,(record),(bankAccount)","downPayment");
                     viewForm.Text = "Looking for downPayments between " + date1 + " to " + date2 + " for " + fullName + " for $" + sPayment;
                     viewForm.TopMost = true;
                     viewForm.ManualDone += ViewForm_ManualDone;

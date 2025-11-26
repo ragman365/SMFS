@@ -3128,6 +3128,42 @@ namespace GeneralLib
                 }
             }
         }
+        public static string decompress(byte[] input)
+        {
+            byte[] cutinput = new byte[input.Length - 2];
+            Array.Copy(input, 2, cutinput, 0, cutinput.Length);
+
+            var stream = new MemoryStream();
+
+            using (var compressStream = new MemoryStream(cutinput))
+            using (var decompressor = new DeflateStream(compressStream, CompressionMode.Decompress))
+                decompressor.CopyTo(stream);
+
+            return Encoding.Default.GetString(stream.ToArray());
+        }
+        /*******************************************************************************************/
+        public static void DecompressStreamData(byte[] data)
+        {
+
+            int start = 0;
+            while ((data[start] == 0x0a) | (data[start] == 0x0d)) start++; // skip trailling cr, lf
+
+            byte[] tempdata = new byte[data.Length - start];
+            Array.Copy(data, start, tempdata, 0, data.Length - start);
+
+            MemoryStream msInput = new MemoryStream(tempdata);
+            MemoryStream msOutput = new MemoryStream();
+            try
+            {
+                GZipStream decomp = new GZipStream(msInput, CompressionMode.Decompress);
+                decomp.CopyTo(msOutput);
+            }
+            catch (Exception e)
+            {
+                //MessageBox.Show(e.Message);
+            }
+
+        }
         /*******************************************************************************************/
         public static string commatize(long money)
         {
@@ -4796,10 +4832,28 @@ namespace GeneralLib
                 form.Dock = DockStyle.Fill;
                 form.Visible = true;
                 panel.Controls.Add(form);
+                RefreshAllControls(form.Controls);
                 //form.Visible = true;
             }
             catch ( Exception ex)
             {
+            }
+        }
+        public static void RefreshAllControls(Control.ControlCollection controls)
+        {
+            foreach (Control control in controls)
+            {
+                // Check if the control is a DevExpress BaseControl
+                if (control is DevExpress.XtraEditors.BaseControl devControl)
+                {
+                    devControl.Refresh();
+                }
+
+                // Recursively call for child controls
+                if (control.HasChildren)
+                {
+                    RefreshAllControls(control.Controls);
+                }
             }
         }
         /****************************************************************************/
@@ -5183,6 +5237,7 @@ namespace GeneralLib
                     gridMain.ShowFindPanel();
                     FindControl find = gridMain.GridControl.Controls.Find("FindControlCore", true)[0] as FindControl;
                     find.FindEdit.Focus();
+                    find.Refresh();
                 }
                 catch (Exception ex)
                 {
@@ -5272,7 +5327,20 @@ namespace GeneralLib
         /****************************************************************************/
         public static void ReadMyPDF()
         {
-            string filename = "C:/rag/MS_Death_Certificate.PDF";
+            string filename = "";
+            using (System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog())
+            {
+                ofd.Filter = "PDF Files|*.pdf";
+                ofd.Title = "Select a PDF File";
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    filename = ofd.FileName;
+                }
+                else
+                    return;
+            }
+
+            //string filename = "C:/rag/MS_Death_Certificate.PDF";
             DevExpress.XtraPdfViewer.PdfViewer pdfViewer1 = new DevExpress.XtraPdfViewer.PdfViewer();
             pdfViewer1.LoadDocument(filename);
             pdfViewer1.DetachStreamAfterLoadComplete = true;

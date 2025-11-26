@@ -28,9 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClassApayersByCompany));
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
+            this.dgv4 = new DevExpress.XtraGrid.GridControl();
+            this.gridMain4 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.dgv3 = new DevExpress.XtraGrid.GridControl();
             this.gridMain3 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -73,6 +78,10 @@
             this.bandedGridColumn31 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn14 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn33 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn46 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn47 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn48 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn49 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn13 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn16 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn17 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -92,6 +101,14 @@
             this.bandedGridColumn73 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridView5 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chkFullList = new System.Windows.Forms.CheckBox();
+            this.btnFamilySummary = new System.Windows.Forms.Button();
+            this.chkGreaterThan = new System.Windows.Forms.CheckBox();
+            this.chkLessThan = new System.Windows.Forms.CheckBox();
+            this.dateFilter = new System.Windows.Forms.DateTimePicker();
+            this.chkPrintBlank = new System.Windows.Forms.CheckBox();
+            this.chkGroupByName = new System.Windows.Forms.CheckBox();
             this.chkAss = new System.Windows.Forms.CheckBox();
             this.chkGroupBy = new System.Windows.Forms.CheckBox();
             this.btnReport = new System.Windows.Forms.Button();
@@ -116,8 +133,13 @@
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.calculatePremuimToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
@@ -131,6 +153,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chkComboCompanies.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelAll
@@ -138,34 +161,217 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1418, 423);
+            this.panelAll.Size = new System.Drawing.Size(1430, 425);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
             // 
+            this.panelBottom.Controls.Add(this.dgv4);
             this.panelBottom.Controls.Add(this.dgv3);
             this.panelBottom.Controls.Add(this.dgv2);
             this.panelBottom.Controls.Add(this.dgv);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 50);
+            this.panelBottom.Location = new System.Drawing.Point(0, 128);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1418, 373);
+            this.panelBottom.Size = new System.Drawing.Size(1430, 297);
             this.panelBottom.TabIndex = 2;
+            // 
+            // dgv4
+            // 
+            this.dgv4.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv4.Location = new System.Drawing.Point(1074, 8);
+            this.dgv4.LookAndFeel.SkinName = "Foggy";
+            this.dgv4.LookAndFeel.UseDefaultLookAndFeel = false;
+            this.dgv4.MainView = this.gridMain4;
+            this.dgv4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv4.Name = "dgv4";
+            this.dgv4.Size = new System.Drawing.Size(307, 195);
+            this.dgv4.TabIndex = 15;
+            this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridMain4,
+            this.gridView3});
+            // 
+            // gridMain4
+            // 
+            this.gridMain4.Appearance.BandPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.BandPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.BandPanel.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.gridMain4.Appearance.BandPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.BandPanel.Options.UseBackColor = true;
+            this.gridMain4.Appearance.BandPanel.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.BandPanel.Options.UseFont = true;
+            this.gridMain4.Appearance.BandPanel.Options.UseForeColor = true;
+            this.gridMain4.Appearance.BandPanelBackground.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.BandPanelBackground.BackColor2 = System.Drawing.Color.White;
+            this.gridMain4.Appearance.BandPanelBackground.Options.UseBackColor = true;
+            this.gridMain4.Appearance.ColumnFilterButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.ColumnFilterButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.ColumnFilterButton.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.ColumnFilterButton.Options.UseBackColor = true;
+            this.gridMain4.Appearance.ColumnFilterButton.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.ColumnFilterButton.Options.UseForeColor = true;
+            this.gridMain4.Appearance.ColumnFilterButtonActive.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(214)))), ((int)(((byte)(211)))));
+            this.gridMain4.Appearance.ColumnFilterButtonActive.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(214)))), ((int)(((byte)(211)))));
+            this.gridMain4.Appearance.ColumnFilterButtonActive.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.ColumnFilterButtonActive.Options.UseBackColor = true;
+            this.gridMain4.Appearance.ColumnFilterButtonActive.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.ColumnFilterButtonActive.Options.UseForeColor = true;
+            this.gridMain4.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.Empty.BackColor2 = System.Drawing.Color.White;
+            this.gridMain4.Appearance.Empty.Options.UseBackColor = true;
+            this.gridMain4.Appearance.EvenRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(232)))), ((int)(((byte)(220)))));
+            this.gridMain4.Appearance.EvenRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(232)))), ((int)(((byte)(220)))));
+            this.gridMain4.Appearance.EvenRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.EvenRow.Options.UseBackColor = true;
+            this.gridMain4.Appearance.EvenRow.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.EvenRow.Options.UseForeColor = true;
+            this.gridMain4.Appearance.FilterCloseButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.FilterCloseButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.FilterCloseButton.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.FilterCloseButton.Options.UseBackColor = true;
+            this.gridMain4.Appearance.FilterCloseButton.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.FilterCloseButton.Options.UseForeColor = true;
+            this.gridMain4.Appearance.FilterPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.FilterPanel.BackColor2 = System.Drawing.Color.White;
+            this.gridMain4.Appearance.FilterPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.FilterPanel.Options.UseBackColor = true;
+            this.gridMain4.Appearance.FilterPanel.Options.UseForeColor = true;
+            this.gridMain4.Appearance.FocusedCell.BackColor = System.Drawing.Color.White;
+            this.gridMain4.Appearance.FocusedCell.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.FocusedCell.Options.UseBackColor = true;
+            this.gridMain4.Appearance.FocusedCell.Options.UseForeColor = true;
+            this.gridMain4.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.FocusedRow.Options.UseBackColor = true;
+            this.gridMain4.Appearance.FocusedRow.Options.UseForeColor = true;
+            this.gridMain4.Appearance.FooterPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.FooterPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.FooterPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.FooterPanel.Options.UseBackColor = true;
+            this.gridMain4.Appearance.FooterPanel.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.FooterPanel.Options.UseForeColor = true;
+            this.gridMain4.Appearance.GroupButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.GroupButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.GroupButton.Options.UseBackColor = true;
+            this.gridMain4.Appearance.GroupButton.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.GroupFooter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(214)))), ((int)(((byte)(211)))));
+            this.gridMain4.Appearance.GroupFooter.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(214)))), ((int)(((byte)(211)))));
+            this.gridMain4.Appearance.GroupFooter.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.GroupFooter.Options.UseBackColor = true;
+            this.gridMain4.Appearance.GroupFooter.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.GroupFooter.Options.UseForeColor = true;
+            this.gridMain4.Appearance.GroupPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.GroupPanel.BackColor2 = System.Drawing.Color.White;
+            this.gridMain4.Appearance.GroupPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.GroupPanel.Options.UseBackColor = true;
+            this.gridMain4.Appearance.GroupPanel.Options.UseForeColor = true;
+            this.gridMain4.Appearance.GroupRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(214)))), ((int)(((byte)(211)))));
+            this.gridMain4.Appearance.GroupRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(214)))), ((int)(((byte)(211)))));
+            this.gridMain4.Appearance.GroupRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.GroupRow.Options.UseBackColor = true;
+            this.gridMain4.Appearance.GroupRow.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.GroupRow.Options.UseForeColor = true;
+            this.gridMain4.Appearance.HeaderPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(214)))), ((int)(((byte)(211)))));
+            this.gridMain4.Appearance.HeaderPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(214)))), ((int)(((byte)(211)))));
+            this.gridMain4.Appearance.HeaderPanel.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.HeaderPanel.Options.UseBackColor = true;
+            this.gridMain4.Appearance.HeaderPanel.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.HeaderPanel.Options.UseForeColor = true;
+            this.gridMain4.Appearance.HeaderPanelBackground.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.HeaderPanelBackground.BackColor2 = System.Drawing.Color.White;
+            this.gridMain4.Appearance.HeaderPanelBackground.Options.UseBackColor = true;
+            this.gridMain4.Appearance.HideSelectionRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(223)))), ((int)(((byte)(220)))));
+            this.gridMain4.Appearance.HideSelectionRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(195)))), ((int)(((byte)(191)))));
+            this.gridMain4.Appearance.HideSelectionRow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(100)))), ((int)(((byte)(111)))));
+            this.gridMain4.Appearance.HideSelectionRow.Options.UseBackColor = true;
+            this.gridMain4.Appearance.HideSelectionRow.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.HideSelectionRow.Options.UseForeColor = true;
+            this.gridMain4.Appearance.HorzLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.HorzLine.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(100)))), ((int)(((byte)(111)))));
+            this.gridMain4.Appearance.HorzLine.Options.UseBackColor = true;
+            this.gridMain4.Appearance.HorzLine.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.OddRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.OddRow.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.OddRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.OddRow.Options.UseBackColor = true;
+            this.gridMain4.Appearance.OddRow.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.OddRow.Options.UseForeColor = true;
+            this.gridMain4.Appearance.Preview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(247)))));
+            this.gridMain4.Appearance.Preview.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(247)))));
+            this.gridMain4.Appearance.Preview.Font = new System.Drawing.Font("Verdana", 7.5F);
+            this.gridMain4.Appearance.Preview.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(100)))), ((int)(((byte)(111)))));
+            this.gridMain4.Appearance.Preview.Options.UseBackColor = true;
+            this.gridMain4.Appearance.Preview.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.Preview.Options.UseFont = true;
+            this.gridMain4.Appearance.Preview.Options.UseForeColor = true;
+            this.gridMain4.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.Row.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.Row.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.Row.Options.UseBackColor = true;
+            this.gridMain4.Appearance.Row.Options.UseBorderColor = true;
+            this.gridMain4.Appearance.Row.Options.UseForeColor = true;
+            this.gridMain4.Appearance.RowSeparator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.gridMain4.Appearance.RowSeparator.BackColor2 = System.Drawing.Color.White;
+            this.gridMain4.Appearance.RowSeparator.Options.UseBackColor = true;
+            this.gridMain4.Appearance.SelectedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(208)))), ((int)(((byte)(205)))));
+            this.gridMain4.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+            this.gridMain4.Appearance.SelectedRow.Options.UseBackColor = true;
+            this.gridMain4.Appearance.SelectedRow.Options.UseForeColor = true;
+            this.gridMain4.Appearance.TopNewRow.BackColor = System.Drawing.Color.White;
+            this.gridMain4.Appearance.TopNewRow.Options.UseBackColor = true;
+            this.gridMain4.Appearance.VertLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(188)))), ((int)(((byte)(184)))));
+            this.gridMain4.Appearance.VertLine.Options.UseBackColor = true;
+            this.gridMain4.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            this.gridMain4.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridMain4.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand3});
+            this.gridMain4.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
+            this.gridMain4.DetailHeight = 431;
+            this.gridMain4.GridControl = this.dgv4;
+            this.gridMain4.Name = "gridMain4";
+            this.gridMain4.OptionsBehavior.AutoPopulateColumns = false;
+            this.gridMain4.OptionsNavigation.EnterMoveNextColumn = true;
+            this.gridMain4.OptionsPrint.AutoWidth = false;
+            this.gridMain4.OptionsPrint.PrintBandHeader = false;
+            this.gridMain4.OptionsSelection.MultiSelect = true;
+            this.gridMain4.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
+            this.gridMain4.OptionsView.EnableAppearanceEvenRow = true;
+            this.gridMain4.OptionsView.EnableAppearanceOddRow = true;
+            this.gridMain4.OptionsView.ShowBands = false;
+            this.gridMain4.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
+            this.gridMain4.OptionsView.ShowFooter = true;
+            this.gridMain4.OptionsView.ShowGroupPanel = false;
+            this.gridMain4.PaintStyleName = "Flat";
+            this.gridMain4.DoubleClick += new System.EventHandler(this.gridMain4_DoubleClick);
+            // 
+            // gridBand3
+            // 
+            this.gridBand3.Caption = "gridBand1";
+            this.gridBand3.MinWidth = 19;
+            this.gridBand3.Name = "gridBand3";
+            this.gridBand3.VisibleIndex = 0;
+            this.gridBand3.Width = 66;
+            // 
+            // gridView3
+            // 
+            this.gridView3.DetailHeight = 431;
+            this.gridView3.GridControl = this.dgv4;
+            this.gridView3.Name = "gridView3";
             // 
             // dgv3
             // 
             this.dgv3.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgv3.Location = new System.Drawing.Point(854, 18);
+            this.dgv3.Location = new System.Drawing.Point(656, 8);
             this.dgv3.LookAndFeel.SkinName = "Foggy";
             this.dgv3.LookAndFeel.UseDefaultLookAndFeel = false;
             this.dgv3.MainView = this.gridMain3;
             this.dgv3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv3.Name = "dgv3";
-            this.dgv3.Size = new System.Drawing.Size(383, 222);
+            this.dgv3.Size = new System.Drawing.Size(383, 195);
             this.dgv3.TabIndex = 14;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3,
@@ -476,7 +682,7 @@
             // dgv2
             // 
             this.dgv2.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgv2.Location = new System.Drawing.Point(450, 18);
+            this.dgv2.Location = new System.Drawing.Point(343, 8);
             this.dgv2.LookAndFeel.SkinName = "Foggy";
             this.dgv2.LookAndFeel.UseDefaultLookAndFeel = false;
             this.dgv2.MainView = this.gridMain2;
@@ -650,15 +856,19 @@
             this.bandedGridColumn31,
             this.bandedGridColumn32,
             this.bandedGridColumn33,
-            this.bandedGridColumn45});
+            this.bandedGridColumn45,
+            this.bandedGridColumn46,
+            this.bandedGridColumn47,
+            this.bandedGridColumn48,
+            this.bandedGridColumn49});
             this.gridMain2.DetailHeight = 431;
             this.gridMain2.GridControl = this.dgv2;
             this.gridMain2.Name = "gridMain2";
             this.gridMain2.OptionsBehavior.AutoPopulateColumns = false;
-            this.gridMain2.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.MouseDown;
             this.gridMain2.OptionsNavigation.EnterMoveNextColumn = true;
             this.gridMain2.OptionsPrint.AutoWidth = false;
             this.gridMain2.OptionsPrint.PrintBandHeader = false;
+            this.gridMain2.OptionsSelection.MultiSelect = true;
             this.gridMain2.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
             this.gridMain2.OptionsView.EnableAppearanceEvenRow = true;
             this.gridMain2.OptionsView.EnableAppearanceOddRow = true;
@@ -669,8 +879,12 @@
             this.gridMain2.PaintStyleName = "Flat";
             this.gridMain2.BeforePrintRow += new DevExpress.XtraGrid.Views.Base.BeforePrintRowEventHandler(this.gridMain2_BeforePrintRow);
             this.gridMain2.AfterPrintRow += new DevExpress.XtraGrid.Views.Base.AfterPrintRowEventHandler(this.gridMain2_AfterPrintRow);
+            this.gridMain2.CustomDrawGroupPanel += new DevExpress.XtraGrid.Views.Base.CustomDrawEventHandler(this.gridMain2_CustomDrawGroupPanel);
             this.gridMain2.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridMain2_CustomDrawCell);
+            this.gridMain2.CustomDrawGroupRow += new DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventHandler(this.gridMain2_CustomDrawGroupRow);
+            this.gridMain2.CustomDrawRowFooter += new DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventHandler(this.gridMain2_CustomDrawRowFooter);
             this.gridMain2.CustomRowFilter += new DevExpress.XtraGrid.Views.Base.RowFilterEventHandler(this.gridMain2_CustomRowFilter);
+            this.gridMain2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridMain2_MouseDown);
             this.gridMain2.DoubleClick += new System.EventHandler(this.gridMain2_DoubleClick);
             // 
             // gridBand1
@@ -700,6 +914,10 @@
             this.gridBand1.Columns.Add(this.bandedGridColumn31);
             this.gridBand1.Columns.Add(this.bandedGridColumn14);
             this.gridBand1.Columns.Add(this.bandedGridColumn33);
+            this.gridBand1.Columns.Add(this.bandedGridColumn46);
+            this.gridBand1.Columns.Add(this.bandedGridColumn47);
+            this.gridBand1.Columns.Add(this.bandedGridColumn48);
+            this.gridBand1.Columns.Add(this.bandedGridColumn49);
             this.gridBand1.Columns.Add(this.bandedGridColumn13);
             this.gridBand1.Columns.Add(this.bandedGridColumn16);
             this.gridBand1.Columns.Add(this.bandedGridColumn17);
@@ -810,7 +1028,7 @@
             // bandedGridColumn15
             // 
             this.bandedGridColumn15.Caption = "Payer Premium";
-            this.bandedGridColumn15.FieldName = "amtOfMonthlyPayt";
+            this.bandedGridColumn15.FieldName = "amtOfMonthlyPayt1";
             this.bandedGridColumn15.MinWidth = 29;
             this.bandedGridColumn15.Name = "bandedGridColumn15";
             this.bandedGridColumn15.OptionsColumn.AllowEdit = false;
@@ -953,6 +1171,42 @@
             this.bandedGridColumn33.Visible = true;
             this.bandedGridColumn33.Width = 83;
             // 
+            // bandedGridColumn46
+            // 
+            this.bandedGridColumn46.Caption = "Customer Deceased Date";
+            this.bandedGridColumn46.FieldName = "deceasedDate";
+            this.bandedGridColumn46.MinWidth = 25;
+            this.bandedGridColumn46.Name = "bandedGridColumn46";
+            this.bandedGridColumn46.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn46.Width = 94;
+            // 
+            // bandedGridColumn47
+            // 
+            this.bandedGridColumn47.Caption = "Contract Deceased Date";
+            this.bandedGridColumn47.FieldName = "deceasedDate1";
+            this.bandedGridColumn47.MinWidth = 25;
+            this.bandedGridColumn47.Name = "bandedGridColumn47";
+            this.bandedGridColumn47.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn47.Width = 94;
+            // 
+            // bandedGridColumn48
+            // 
+            this.bandedGridColumn48.Caption = "Policy Deceased Date";
+            this.bandedGridColumn48.FieldName = "deceasedDate2";
+            this.bandedGridColumn48.MinWidth = 25;
+            this.bandedGridColumn48.Name = "bandedGridColumn48";
+            this.bandedGridColumn48.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn48.Width = 94;
+            // 
+            // bandedGridColumn49
+            // 
+            this.bandedGridColumn49.Caption = "Payer Deceased Date";
+            this.bandedGridColumn49.FieldName = "deceasedDate3";
+            this.bandedGridColumn49.MinWidth = 25;
+            this.bandedGridColumn49.Name = "bandedGridColumn49";
+            this.bandedGridColumn49.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn49.Width = 94;
+            // 
             // bandedGridColumn13
             // 
             this.bandedGridColumn13.Caption = "Report";
@@ -992,7 +1246,7 @@
             // dgv
             // 
             this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgv.Location = new System.Drawing.Point(105, 18);
+            this.dgv.Location = new System.Drawing.Point(21, 8);
             this.dgv.LookAndFeel.SkinName = "Foggy";
             this.dgv.LookAndFeel.UseDefaultLookAndFeel = false;
             this.dgv.MainView = this.gridMain;
@@ -1305,6 +1559,14 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Aquamarine;
+            this.panelTop.Controls.Add(this.checkBox1);
+            this.panelTop.Controls.Add(this.chkFullList);
+            this.panelTop.Controls.Add(this.btnFamilySummary);
+            this.panelTop.Controls.Add(this.chkGreaterThan);
+            this.panelTop.Controls.Add(this.chkLessThan);
+            this.panelTop.Controls.Add(this.dateFilter);
+            this.panelTop.Controls.Add(this.chkPrintBlank);
+            this.panelTop.Controls.Add(this.chkGroupByName);
             this.panelTop.Controls.Add(this.chkAss);
             this.panelTop.Controls.Add(this.chkGroupBy);
             this.panelTop.Controls.Add(this.btnReport);
@@ -1327,13 +1589,102 @@
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1418, 50);
+            this.panelTop.Size = new System.Drawing.Size(1430, 128);
             this.panelTop.TabIndex = 1;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(409, 90);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(206, 21);
+            this.checkBox1.TabIndex = 152;
+            this.checkBox1.Text = "Show Payers with Unique CC";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // chkFullList
+            // 
+            this.chkFullList.AutoSize = true;
+            this.chkFullList.Location = new System.Drawing.Point(796, 52);
+            this.chkFullList.Name = "chkFullList";
+            this.chkFullList.Size = new System.Drawing.Size(203, 21);
+            this.chkFullList.TabIndex = 151;
+            this.chkFullList.Text = "Include All Family Companies";
+            this.chkFullList.UseVisualStyleBackColor = true;
+            // 
+            // btnFamilySummary
+            // 
+            this.btnFamilySummary.BackColor = System.Drawing.Color.Lime;
+            this.btnFamilySummary.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.btnFamilySummary.Location = new System.Drawing.Point(536, 43);
+            this.btnFamilySummary.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnFamilySummary.Name = "btnFamilySummary";
+            this.btnFamilySummary.Size = new System.Drawing.Size(252, 36);
+            this.btnFamilySummary.TabIndex = 150;
+            this.btnFamilySummary.Text = "Generate Family Summary";
+            this.btnFamilySummary.UseVisualStyleBackColor = false;
+            this.btnFamilySummary.Click += new System.EventHandler(this.btnFamilySummary_Click);
+            // 
+            // chkGreaterThan
+            // 
+            this.chkGreaterThan.AutoSize = true;
+            this.chkGreaterThan.Location = new System.Drawing.Point(344, 47);
+            this.chkGreaterThan.Name = "chkGreaterThan";
+            this.chkGreaterThan.Size = new System.Drawing.Size(110, 21);
+            this.chkGreaterThan.TabIndex = 149;
+            this.chkGreaterThan.Text = "Greater Than";
+            this.chkGreaterThan.UseVisualStyleBackColor = true;
+            this.chkGreaterThan.CheckedChanged += new System.EventHandler(this.chkGreaterThan_CheckedChanged);
+            // 
+            // chkLessThan
+            // 
+            this.chkLessThan.AutoSize = true;
+            this.chkLessThan.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkLessThan.Location = new System.Drawing.Point(9, 46);
+            this.chkLessThan.Name = "chkLessThan";
+            this.chkLessThan.Size = new System.Drawing.Size(91, 21);
+            this.chkLessThan.TabIndex = 148;
+            this.chkLessThan.Text = "Less Than";
+            this.chkLessThan.UseVisualStyleBackColor = true;
+            this.chkLessThan.CheckedChanged += new System.EventHandler(this.chkLessThan_CheckedChanged);
+            // 
+            // dateFilter
+            // 
+            this.dateFilter.Location = new System.Drawing.Point(105, 44);
+            this.dateFilter.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dateFilter.Name = "dateFilter";
+            this.dateFilter.Size = new System.Drawing.Size(233, 23);
+            this.dateFilter.TabIndex = 147;
+            this.dateFilter.ValueChanged += new System.EventHandler(this.dateFilter_ValueChanged);
+            // 
+            // chkPrintBlank
+            // 
+            this.chkPrintBlank.AutoSize = true;
+            this.chkPrintBlank.Location = new System.Drawing.Point(1041, 46);
+            this.chkPrintBlank.Name = "chkPrintBlank";
+            this.chkPrintBlank.Size = new System.Drawing.Size(222, 21);
+            this.chkPrintBlank.TabIndex = 146;
+            this.chkPrintBlank.Text = "Add Blank Row Between Payers";
+            this.chkPrintBlank.UseVisualStyleBackColor = true;
+            this.chkPrintBlank.CheckedChanged += new System.EventHandler(this.chkPrintBlank_CheckedChanged);
+            // 
+            // chkGroupByName
+            // 
+            this.chkGroupByName.AutoSize = true;
+            this.chkGroupByName.Location = new System.Drawing.Point(1041, 26);
+            this.chkGroupByName.Name = "chkGroupByName";
+            this.chkGroupByName.Size = new System.Drawing.Size(177, 21);
+            this.chkGroupByName.TabIndex = 145;
+            this.chkGroupByName.Text = "Group By Insured Name";
+            this.chkGroupByName.UseVisualStyleBackColor = true;
+            this.chkGroupByName.CheckedChanged += new System.EventHandler(this.chkGroupByName_CheckedChanged);
             // 
             // chkAss
             // 
             this.chkAss.AutoSize = true;
-            this.chkAss.Location = new System.Drawing.Point(1224, 15);
+            this.chkAss.Location = new System.Drawing.Point(1224, 8);
             this.chkAss.Name = "chkAss";
             this.chkAss.Size = new System.Drawing.Size(180, 21);
             this.chkAss.TabIndex = 144;
@@ -1344,11 +1695,11 @@
             // chkGroupBy
             // 
             this.chkGroupBy.AutoSize = true;
-            this.chkGroupBy.Location = new System.Drawing.Point(1041, 14);
+            this.chkGroupBy.Location = new System.Drawing.Point(1041, 6);
             this.chkGroupBy.Name = "chkGroupBy";
-            this.chkGroupBy.Size = new System.Drawing.Size(177, 21);
+            this.chkGroupBy.Size = new System.Drawing.Size(173, 21);
             this.chkGroupBy.TabIndex = 143;
-            this.chkGroupBy.Text = "Group By Insured Name";
+            this.chkGroupBy.Text = "Show By Insured Name";
             this.chkGroupBy.UseVisualStyleBackColor = true;
             this.chkGroupBy.CheckedChanged += new System.EventHandler(this.chkGroupBy_CheckedChanged);
             // 
@@ -1356,7 +1707,7 @@
             // 
             this.btnReport.BackColor = System.Drawing.Color.Lime;
             this.btnReport.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.btnReport.Location = new System.Drawing.Point(536, 5);
+            this.btnReport.Location = new System.Drawing.Point(536, 6);
             this.btnReport.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(167, 36);
@@ -1407,7 +1758,7 @@
             // chkGroupCompany
             // 
             this.chkGroupCompany.AutoSize = true;
-            this.chkGroupCompany.Location = new System.Drawing.Point(240, 59);
+            this.chkGroupCompany.Location = new System.Drawing.Point(240, 90);
             this.chkGroupCompany.Margin = new System.Windows.Forms.Padding(4);
             this.chkGroupCompany.Name = "chkGroupCompany";
             this.chkGroupCompany.Size = new System.Drawing.Size(152, 21);
@@ -1419,7 +1770,7 @@
             // chkGroupPayer
             // 
             this.chkGroupPayer.AutoSize = true;
-            this.chkGroupPayer.Location = new System.Drawing.Point(105, 59);
+            this.chkGroupPayer.Location = new System.Drawing.Point(105, 90);
             this.chkGroupPayer.Margin = new System.Windows.Forms.Padding(4);
             this.chkGroupPayer.Name = "chkGroupPayer";
             this.chkGroupPayer.Size = new System.Drawing.Size(127, 21);
@@ -1447,7 +1798,7 @@
             // chkCompanyDetail
             // 
             this.chkCompanyDetail.AutoSize = true;
-            this.chkCompanyDetail.Location = new System.Drawing.Point(796, 59);
+            this.chkCompanyDetail.Location = new System.Drawing.Point(796, 90);
             this.chkCompanyDetail.Margin = new System.Windows.Forms.Padding(4);
             this.chkCompanyDetail.Name = "chkCompanyDetail";
             this.chkCompanyDetail.Size = new System.Drawing.Size(165, 21);
@@ -1459,7 +1810,7 @@
             // chkGroupByCompany
             // 
             this.chkGroupByCompany.AutoSize = true;
-            this.chkGroupByCompany.Location = new System.Drawing.Point(1074, 59);
+            this.chkGroupByCompany.Location = new System.Drawing.Point(1074, 90);
             this.chkGroupByCompany.Margin = new System.Windows.Forms.Padding(4);
             this.chkGroupByCompany.Name = "chkGroupByCompany";
             this.chkGroupByCompany.Size = new System.Drawing.Size(152, 21);
@@ -1533,7 +1884,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1418, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1430, 28);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1576,11 +1927,27 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.calculatePremuimToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(203, 28);
+            // 
+            // calculatePremuimToolStripMenuItem
+            // 
+            this.calculatePremuimToolStripMenuItem.Name = "calculatePremuimToolStripMenuItem";
+            this.calculatePremuimToolStripMenuItem.Size = new System.Drawing.Size(202, 24);
+            this.calculatePremuimToolStripMenuItem.Text = "Calculate Premuim";
+            this.calculatePremuimToolStripMenuItem.Click += new System.EventHandler(this.calculatePremuimToolStripMenuItem_Click);
+            // 
             // ClassApayersByCompany
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1418, 453);
+            this.ClientSize = new System.Drawing.Size(1430, 453);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -1591,6 +1958,9 @@
             this.Load += new System.EventHandler(this.ClassApayersByCompany_Load);
             this.panelAll.ResumeLayout(false);
             this.panelBottom.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMain4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
@@ -1606,6 +1976,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1700,5 +2071,23 @@
         private System.Windows.Forms.CheckBox chkGroupBy;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn45;
         private System.Windows.Forms.CheckBox chkAss;
+        private System.Windows.Forms.CheckBox chkGroupByName;
+        private System.Windows.Forms.CheckBox chkPrintBlank;
+        private System.Windows.Forms.CheckBox chkGreaterThan;
+        private System.Windows.Forms.CheckBox chkLessThan;
+        private System.Windows.Forms.DateTimePicker dateFilter;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn46;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn47;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn48;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn49;
+        private System.Windows.Forms.Button btnFamilySummary;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem calculatePremuimToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkFullList;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private DevExpress.XtraGrid.GridControl dgv4;
+        private DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain4;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView3;
     }
 }

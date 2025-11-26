@@ -2236,7 +2236,7 @@ namespace SMFS
                     }
                     else
                     { // This is the 1% Goal Commission Calculation
-                        if (agentCode == "N07")
+                        if (agentCode == "H78")
                         {
                         }
                         formulaSales = G1.RoundValue(formulaSales);

@@ -1170,7 +1170,7 @@ namespace SMFS
             fromMerc = 0D;
 
             serviceId = dRow["serviceId"].ObjToString();
-            if (serviceId == "RF25054")
+            if (serviceId == "RF25091")
             {
             }
             isArranger = false;
@@ -1558,6 +1558,8 @@ namespace SMFS
             //if (netFuneral <= 0D)
             //    netFuneral = 0D;
             dRow["netFuneral"] = netFuneral;
+            if (salesTax > 0D)
+                dRow["currentPrice"] = totalFuneral;
 
             if (otherBonuses > 0D)
             {
@@ -7847,20 +7849,75 @@ namespace SMFS
                 this.Cursor = Cursors.Default;
             }
         }
-
-        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        /***********************************************************************************************/
+        private void findItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DataRow dr = gridMain5.GetFocusedDataRow();
+            int rowHandle = gridMain5.FocusedRowHandle;
+            int row = gridMain5.GetDataSourceRowIndex(rowHandle);
+            string serviceId = dr["serviceId"].ObjToString();
 
+            string cmd = "Select * from `fcust_extended` where `serviceId` = '" + serviceId + "';";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+                return;
+            string contractNumber = dt.Rows[0]["contractNumber"].ObjToString();
+            string service = dt.Rows[0]["service"].ObjToString();
+            if (service.IndexOf("D-") == 0)
+                service = service.Replace("D-", "").Trim();
+            string type = dt.Rows[0]["type"].ObjToString();
+
+            DataTable dx = (DataTable)dgv.DataSource;
+            DataRow[] dRows = dx.Select("contractNumber='" + contractNumber + "'");
+            if (dRows.Length <= 0)
+                return;
+            dr = dRows[0];
+
+            string record = dr["record"].ObjToString();
         }
-
-        private void label2_Click(object sender, EventArgs e)
+        /***********************************************************************************************/
+        private void clarifyItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DataTable dt = (DataTable)dgv5.DataSource;
+            if (dt.Rows.Count <= 0)
+                return;
+            DataRow dr = gridMain5.GetFocusedDataRow();
+            if (dr == null)
+                return;
+            int rowHandle = gridMain5.FocusedRowHandle;
+            int row = gridMain5.GetDataSourceRowIndex(rowHandle);
 
+            string service = dr["service"].ObjToString();
+            if (service.IndexOf("D-") == 0)
+                service = service.Replace("D-", "").Trim();
+
+            ClarifyService clarifyForm = new ClarifyService(service);
+            clarifyForm.ClarifyDone += ClarifyForm_ClarifyDone;
+            clarifyForm.Show();
         }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        /****************************************************************************************/
+        private void ClarifyForm_ClarifyDone(string workService, string casketCode, string casketDesc, string casketCost, string Type, string casketType, string casketGauge, string asCash)
         {
+            if (workService.ToUpper() == "CANCEL")
+                return;
 
+            if (String.IsNullOrWhiteSpace(casketDesc))
+                return;
+
+            string record = "";
+            string cmd = "Select * from `secondary_inventory` WHERE `casketDesc` = '" + casketDesc + "';";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+            {
+                record = G1.create_record("secondary_inventory", "order", "-1");
+                if (G1.BadRecord("secondary_inventory", record))
+                {
+                    return;
+                }
+            }
+            else
+                record = dt.Rows[0]["record"].ObjToString();
+            G1.update_db_table("secondary_inventory", "record", record, new string[] { "record", record, "casketCode", casketCode, "casketDesc", casketDesc, "cost", casketCost, "type", Type, "casketType", casketType, "casketGauge", casketGauge, "asCash", asCash, "order", record });
         }
         /***********************************************************************************************/
     }

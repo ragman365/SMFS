@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomerDetails));
-            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
@@ -697,7 +697,7 @@
             this.tabContact.Controls.Add(this.labelControl27);
             this.tabContact.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabContact.Name = "tabContact";
-            this.tabContact.Size = new System.Drawing.Size(1478, 463);
+            this.tabContact.Size = new System.Drawing.Size(1478, 461);
             this.tabContact.Text = "Contact Info";
             // 
             // comboStates
@@ -990,7 +990,7 @@
             this.tabFamily.Controls.Add(this.panelFamilyAll);
             this.tabFamily.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabFamily.Name = "tabFamily";
-            this.tabFamily.Size = new System.Drawing.Size(1478, 463);
+            this.tabFamily.Size = new System.Drawing.Size(1478, 461);
             this.tabFamily.Text = "Family";
             // 
             // panelFamilyAll
@@ -999,7 +999,7 @@
             this.panelFamilyAll.Location = new System.Drawing.Point(0, 0);
             this.panelFamilyAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelFamilyAll.Name = "panelFamilyAll";
-            this.panelFamilyAll.Size = new System.Drawing.Size(1478, 463);
+            this.panelFamilyAll.Size = new System.Drawing.Size(1478, 461);
             this.panelFamilyAll.TabIndex = 0;
             // 
             // tabTrusts
@@ -1007,7 +1007,7 @@
             this.tabTrusts.Controls.Add(this.panelTrustInfoAll);
             this.tabTrusts.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabTrusts.Name = "tabTrusts";
-            this.tabTrusts.Size = new System.Drawing.Size(1478, 463);
+            this.tabTrusts.Size = new System.Drawing.Size(1478, 461);
             this.tabTrusts.Text = "Trust Info";
             // 
             // panelTrustInfoAll
@@ -1018,7 +1018,7 @@
             this.panelTrustInfoAll.Location = new System.Drawing.Point(0, 0);
             this.panelTrustInfoAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTrustInfoAll.Name = "panelTrustInfoAll";
-            this.panelTrustInfoAll.Size = new System.Drawing.Size(1478, 463);
+            this.panelTrustInfoAll.Size = new System.Drawing.Size(1478, 461);
             this.panelTrustInfoAll.TabIndex = 0;
             // 
             // panelTrustInfoBottom
@@ -1027,7 +1027,7 @@
             this.panelTrustInfoBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTrustInfoBottom.Location = new System.Drawing.Point(0, 325);
             this.panelTrustInfoBottom.Name = "panelTrustInfoBottom";
-            this.panelTrustInfoBottom.Size = new System.Drawing.Size(1478, 138);
+            this.panelTrustInfoBottom.Size = new System.Drawing.Size(1478, 136);
             this.panelTrustInfoBottom.TabIndex = 177;
             // 
             // dgvTrust
@@ -1038,7 +1038,7 @@
             this.dgvTrust.Location = new System.Drawing.Point(0, 0);
             this.dgvTrust.MainView = this.gridTrust;
             this.dgvTrust.Name = "dgvTrust";
-            this.dgvTrust.Size = new System.Drawing.Size(1478, 138);
+            this.dgvTrust.Size = new System.Drawing.Size(1478, 136);
             this.dgvTrust.TabIndex = 3;
             this.dgvTrust.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridTrust});
@@ -1927,7 +1927,7 @@
             this.tabACH.Controls.Add(this.labelControl12);
             this.tabACH.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabACH.Name = "tabACH";
-            this.tabACH.Size = new System.Drawing.Size(1478, 463);
+            this.tabACH.Size = new System.Drawing.Size(1478, 461);
             this.tabACH.Text = "ACH";
             // 
             // txtLeftPayments
@@ -2187,7 +2187,7 @@
             this.tabCC.Controls.Add(this.labelControl39);
             this.tabCC.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabCC.Name = "tabCC";
-            this.tabCC.Size = new System.Drawing.Size(1478, 463);
+            this.tabCC.Size = new System.Drawing.Size(1478, 461);
             this.tabCC.Text = "CC";
             // 
             // labelControl46
@@ -4899,10 +4899,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton1.Caption = "contextButton1";
-            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton1.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton1);
+            contextButton2.Caption = "contextButton1";
+            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton2.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // panelAgreementTop

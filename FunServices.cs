@@ -266,18 +266,6 @@ namespace SMFS
 
 
             this.Tag = workContract;
-
-            RefreshTopText();
-
-            //this.ForceRefresh();
-            //Application.DoEvents();
-            //this.ForceRefresh();
-            //this.Update();
-
-            //int width = this.Width;
-            //int height = this.Height;
-            //this.Size = new Size(width - 50, height - 50);
-
         }
         /***************************************************************************************/
         private void RefreshTopText ()
@@ -1280,8 +1268,11 @@ namespace SMFS
                         if (Lines.Length > 1)
                         {
                             casketCode = Lines[0].Trim();
-                            if (ShowCasketPicture(casketCode))
-                                break;
+                            if (casketCode != "D-" && casketCode.ToUpper() != "STOCK" )
+                            {
+                                if (ShowCasketPicture(casketCode))
+                                    break;
+                            }
                         }
                     }
                 }
@@ -1627,6 +1618,8 @@ namespace SMFS
             if (String.IsNullOrWhiteSpace(casketCode))
                 return false;
             bool found = false;
+            if (casketCode.IndexOf("D-") == 0)
+                return false;
             string cmd = "Select * from `inventorylist` where `casketcode` = '" + casketCode + "';";
             DataTable dx = G1.get_db_data(cmd);
             if (dx.Rows.Count > 0)
@@ -2574,13 +2567,23 @@ namespace SMFS
             {
                 if (btnMerchandise.BackColor == Color.Yellow)
                 {
-                    DataRow[] dRows = dt.Select("service LIKE '%RENTAL CASKET%'");
+                    DataRow [] dRows = dt.Select("service LIKE '%RENTAL CASKET%'");
                     if (dRows.Length > 0)
                     {
-                        btnSaveServices_Click(null, null);
-                        btnSaveServices.Hide();
-                        btnSaveServices.Refresh();
-                        funModified = false;
+                        dRows = dt.Select("service='D-' AND type='merchandise'");
+                        if (dRows.Length == 0)
+                        {
+                            btnSaveServices_Click(null, null);
+                            btnSaveServices.Hide();
+                            btnSaveServices.Refresh();
+                            funModified = false;
+                        }
+                        else
+                        {
+                            btnSaveServices.Show();
+                            btnSaveServices.Refresh();
+                            funModified = true;
+                        }
                     }
                     else
                     {
@@ -3303,19 +3306,19 @@ namespace SMFS
                             difference = price; // Something is wrong here
                             servicesTotal += price;
                             if (ignore == "Y")
-                                ignoreServices += difference;
+                                ignoreServices += price;
                         }
                         else if (type.ToUpper() == "MERCHANDISE")
                         {
                             merchandiseTotal += price;
                             if (ignore == "Y")
-                                ignoreMerchandise += difference;
+                                ignoreMerchandise += price;
                         }
                         else if (type.ToUpper() == "CASH ADVANCE")
                         {
                             cashAdvanceTotal += price;
                             if (ignore == "Y")
-                                ignoreCashAdvance += difference;
+                                ignoreCashAdvance += price;
                         }
                     }
                     else
@@ -3355,6 +3358,7 @@ namespace SMFS
                         if (deleted == "DELETED" || deleted == "D")
                             continue;
 
+                        type = dt.Rows[i]["type"].ObjToString();
                         select = dt.Rows[i]["select"].ObjToString();
                         ignore = dt.Rows[i]["ignore"].ObjToString().ToUpper();
                         price = dt.Rows[i]["price"].ObjToDouble();
@@ -3370,6 +3374,10 @@ namespace SMFS
                             continue;
                         if ( ignore == "Y" )
                         {
+                            //if (type.ToUpper() == "MERCHANDISE")
+                            //    ignoreMerchandise += price;
+                            //else if (type.ToUpper() == "SERVICE")
+                            //    ignoreServices += price;
                             //customerDiscount = customerDiscount - price;
                             //continue;
                         }
@@ -3381,20 +3389,24 @@ namespace SMFS
                 double totalIgnore = ignoreServices + ignoreMerchandise + ignoreCashAdvance;
 
                 string money = G1.ReformatMoney(servicesTotal + totalServices - ignoreServices);
+                //string money = G1.ReformatMoney(servicesTotal + totalServices );
                 txtServices.Text = money;
                 txtServices.Refresh();
 
                 money = G1.ReformatMoney(merchandiseTotal + totalMerchandise - ignoreMerchandise );
+                //money = G1.ReformatMoney(merchandiseTotal + totalMerchandise);
                 txtMerchandise.Text = money;
                 txtMerchandise.Refresh();
 
                 money = G1.ReformatMoney(cashAdvanceTotal + totalCashAdvance - ignoreCashAdvance );
+                // = G1.ReformatMoney(cashAdvanceTotal + totalCashAdvance );
                 txtCashAdvance.Text = money;
                 txtCashAdvance.Refresh();
 
                 double actualCashAdvance = cashAdvanceTotal + totalCashAdvance - ignoreCashAdvance;
 
                 double subtotal = servicesTotal + merchandiseTotal + cashAdvanceTotal + totalCashAdvance + totalServices + totalMerchandise - totalIgnore ;
+                //double subtotal = servicesTotal + merchandiseTotal + cashAdvanceTotal + totalCashAdvance + totalServices + totalMerchandise;
                 money = G1.ReformatMoney(subtotal);
                 txtSubtotal.Text = money;
                 txtSubtotal.Refresh();
@@ -7166,9 +7178,29 @@ namespace SMFS
                 //dt.Rows[row]["select"] = select;
                 //dt.AcceptChanges();
                 //ReCalcTotal(dt);
+                editingPrice = false;
                 return;
             }
-            if (field.ToUpper() == "PRICE" && showCashAdvanced)
+            if ( field.ToUpper() == "PRICE")
+            {
+                double price = dr["price"].ObjToDouble();
+                double currentPrice = dr["currentprice"].ObjToDouble();
+                double difference = currentPrice - price;
+                dr["difference"] = difference;
+                dt.Rows[row]["difference"] = difference;
+                dr["mod"] = "1";
+                dt.Rows[row]["mod"] = "1";
+                funModified = true;
+                btnSaveServices.Show();
+                btnSaveServices.Refresh();
+                if (!editingPrice)
+                {
+                    ReCalcTotal(dt);
+                    gridMain.RefreshEditor(true);
+                }
+                return;
+            }
+            else if (field.ToUpper() == "PRICE" && showCashAdvanced)
             {
                 double price = dr["price"].ObjToDouble();
                 dr["currentprice"] = price;
@@ -7179,6 +7211,7 @@ namespace SMFS
 
             else if (field.ToUpper() == "SERIALNUMBER")
             {
+                editingPrice = false;
                 bool foundIt = false;
                 string serialNumber = dr[field].ObjToString();
                 if (String.IsNullOrWhiteSpace(serialNumber) && !String.IsNullOrWhiteSpace(fixSerialNumber))
@@ -7213,6 +7246,7 @@ namespace SMFS
             funModified = true;
             btnSaveServices.Show();
             gridMain.RefreshData();
+            editingPrice = false;
         }
         /****************************************************************************************/
         private bool updateInventory(string serialNumber)
@@ -7585,6 +7619,7 @@ namespace SMFS
             Printer.DrawQuadBorder(12, 1, 1, 12, BorderSide.Right, 1, Color.Black);
         }
         /****************************************************************************************/
+        private bool editingPrice = false;
         private void gridMain_ShowingEditor(object sender, CancelEventArgs e)
         {
             GridView view = sender as GridView;
@@ -7600,6 +7635,16 @@ namespace SMFS
             }
             if (!showCashAdvanced)
             {
+                if (view.FocusedColumn.FieldName.ToUpper() == "PRICE" )
+                {
+                    if ( workContract.ToUpper().IndexOf ( "SX") == 0 )
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                    editingPrice = true;
+                    return;
+                }
                 if (view.FocusedColumn.FieldName.ToUpper() != "SELECT" )
                     e.Cancel = true;
                 //if (view.FocusedColumn.FieldName.ToUpper() != "SELECT" && view.FocusedColumn.FieldName.ToUpper() != "PRICE")
@@ -7607,6 +7652,7 @@ namespace SMFS
             }
             else
             {
+                editingPrice = false;
                 if (view.FocusedColumn.FieldName.ToUpper() == "SELECT")
                 {
                     //funModified = true;
@@ -7772,7 +7818,8 @@ namespace SMFS
         private bool avoidUpdate = false;
         private void gridMain_CustomSummaryCalculate(object sender, DevExpress.Data.CustomSummaryEventArgs e)
         {
-
+            if (editingPrice)
+                return;
             //G1.WriteAudit("CustomSummaryCalculate");
             if (workFuneral)
             {
@@ -10425,8 +10472,11 @@ namespace SMFS
                 gotKey = true;
             else if (e.KeyData == Keys.Tab || e.KeyData == Keys.PageUp || e.KeyData == Keys.PageDown || e.KeyData == Keys.End)
                 gotKey = true;
-            if ( gotKey )
+            if (gotKey)
+            {
                 ChangeInventory();
+                editingPrice = false;
+            }
         }
         /****************************************************************************************/
         private void ListForm_ListDone(string s)
@@ -11374,6 +11424,8 @@ namespace SMFS
             if (!workFuneral)
                 return;
 
+            editingPrice = false;
+
             string field = gridMain.FocusedColumn.FieldName.ToUpper();
             if (field.ToUpper() != "SERIALNUMBER")
                 return;
@@ -11408,7 +11460,7 @@ namespace SMFS
             clarifyForm.Show();
         }
         /****************************************************************************************/
-        private void ClarifyForm_ClarifyDone(string workService, string casketCode, string casketDesc, string casketCost, string Type, string casketType, string casketGauge )
+        private void ClarifyForm_ClarifyDone(string workService, string casketCode, string casketDesc, string casketCost, string Type, string casketType, string casketGauge, string asCash )
         {
             string record = "";
             string cmd = "Select * from `secondary_inventory` WHERE `casketDesc` = '" + casketDesc + "';";
@@ -11423,7 +11475,12 @@ namespace SMFS
             }
             else
                 record = dt.Rows[0]["record"].ObjToString();
-            G1.update_db_table("secondary_inventory", "record", record, new string[] { "record", record, "casketCode", casketCode, "casketDesc", casketDesc, "cost", casketCost, "type", Type, "casketType", casketType, "casketGauge", casketGauge, "order", record });
+            G1.update_db_table("secondary_inventory", "record", record, new string[] { "record", record, "casketCode", casketCode, "casketDesc", casketDesc, "cost", casketCost, "type", Type, "casketType", casketType, "casketGauge", casketGauge, "asCash", asCash, "order", record });
+        }
+        /****************************************************************************************/
+        private void chkAll_CheckedChanged(object sender, EventArgs e)
+        {
+            btnShowAll_Click( null, null );
         }
         /****************************************************************************************/
     }

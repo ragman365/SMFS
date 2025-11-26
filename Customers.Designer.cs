@@ -127,6 +127,7 @@
             this.bandedGridColumn27 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn28 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn29 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn84 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn30 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn9 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn80 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -142,6 +143,7 @@
             this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn7 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnVerifyDP = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.chkFullEdit = new System.Windows.Forms.CheckBox();
             this.chkShowTEB = new System.Windows.Forms.CheckBox();
@@ -172,11 +174,11 @@
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.columnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importDailyDepositFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.importACHFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.importCreditCardPaymentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.columnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quickLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.previousContractsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -187,6 +189,7 @@
             this.scenario1DuplicateSSNsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scenario2EmptySSNDupliacteLastNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scenario3EmptySSNDuplicateAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trust85ReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
@@ -264,7 +267,6 @@
             this.commonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bankPaymentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv2)).BeginInit();
@@ -286,10 +288,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1674, 531);
+            this.panelAll.Size = new System.Drawing.Size(1674, 529);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -297,10 +299,10 @@
             this.panelBottom.Controls.Add(this.dgv2);
             this.panelBottom.Controls.Add(this.dgv);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 78);
+            this.panelBottom.Location = new System.Drawing.Point(0, 88);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1674, 453);
+            this.panelBottom.Size = new System.Drawing.Size(1674, 441);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv2
@@ -1054,7 +1056,8 @@
             this.bandedGridColumn79,
             this.bandedGridColumn80,
             this.bandedGridColumn82,
-            this.bandedGridColumn83});
+            this.bandedGridColumn83,
+            this.bandedGridColumn84});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.Name = "gridMain";
@@ -1171,6 +1174,7 @@
             this.gridBand1.Columns.Add(this.bandedGridColumn27);
             this.gridBand1.Columns.Add(this.bandedGridColumn28);
             this.gridBand1.Columns.Add(this.bandedGridColumn29);
+            this.gridBand1.Columns.Add(this.bandedGridColumn84);
             this.gridBand1.Columns.Add(this.bandedGridColumn30);
             this.gridBand1.Columns.Add(this.bandedGridColumn9);
             this.gridBand1.Columns.Add(this.bandedGridColumn80);
@@ -1532,6 +1536,18 @@
             this.bandedGridColumn29.Visible = true;
             this.bandedGridColumn29.Width = 159;
             // 
+            // bandedGridColumn84
+            // 
+            this.bandedGridColumn84.Caption = "Cash Advance";
+            this.bandedGridColumn84.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn84.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn84.FieldName = "cashAdvance";
+            this.bandedGridColumn84.MinWidth = 25;
+            this.bandedGridColumn84.Name = "bandedGridColumn84";
+            this.bandedGridColumn84.OptionsColumn.AllowEdit = false;
+            this.bandedGridColumn84.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn84.Width = 94;
+            // 
             // bandedGridColumn30
             // 
             this.bandedGridColumn30.Caption = "% Paid";
@@ -1688,6 +1704,7 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.panelTop.Controls.Add(this.btnVerifyDP);
             this.panelTop.Controls.Add(this.btnSave);
             this.panelTop.Controls.Add(this.chkFullEdit);
             this.panelTop.Controls.Add(this.chkShowTEB);
@@ -1715,8 +1732,20 @@
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1674, 78);
+            this.panelTop.Size = new System.Drawing.Size(1674, 88);
             this.panelTop.TabIndex = 1;
+            // 
+            // btnVerifyDP
+            // 
+            this.btnVerifyDP.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnVerifyDP.Location = new System.Drawing.Point(361, 54);
+            this.btnVerifyDP.Margin = new System.Windows.Forms.Padding(4);
+            this.btnVerifyDP.Name = "btnVerifyDP";
+            this.btnVerifyDP.Size = new System.Drawing.Size(100, 30);
+            this.btnVerifyDP.TabIndex = 142;
+            this.btnVerifyDP.Text = "Verify DP";
+            this.btnVerifyDP.UseVisualStyleBackColor = false;
+            this.btnVerifyDP.Click += new System.EventHandler(this.btnVerifyDP_Click);
             // 
             // btnSave
             // 
@@ -1999,8 +2028,8 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.columnsToolStripMenuItem,
             this.importToolStripMenuItem,
+            this.columnsToolStripMenuItem,
             this.miscToolStripMenuItem,
             this.lookupToolStripMenuItem,
             this.reportsToolStripMenuItem,
@@ -2010,7 +2039,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1674, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1674, 30);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2020,7 +2049,7 @@
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -2052,12 +2081,6 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
-            // columnsToolStripMenuItem
-            // 
-            this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
-            this.columnsToolStripMenuItem.Text = "Columns";
-            // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2065,7 +2088,7 @@
             this.importACHFileToolStripMenuItem1,
             this.importCreditCardPaymentsToolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(68, 24);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // importDailyDepositFileToolStripMenuItem1
@@ -2089,6 +2112,12 @@
             this.importCreditCardPaymentsToolStripMenuItem.Text = "Import Credit Card Payments";
             this.importCreditCardPaymentsToolStripMenuItem.Click += new System.EventHandler(this.importCreditCardPaymentsToolStripMenuItem_Click);
             // 
+            // columnsToolStripMenuItem
+            // 
+            this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+            this.columnsToolStripMenuItem.Text = "Columns";
+            // 
             // miscToolStripMenuItem
             // 
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2098,7 +2127,7 @@
             this.potentialPaidOffToolStripMenuItem,
             this.trustLookupQueriesToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // quickLookupToolStripMenuItem
@@ -2167,6 +2196,13 @@
             this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Text = "Scenario 3 Empty SSN Duplicate Address";
             this.scenario3EmptySSNDuplicateAddressToolStripMenuItem.Click += new System.EventHandler(this.scenario2EmptySSNDuplicateAddressToolStripMenuItem_Click);
             // 
+            // lookupToolStripMenuItem
+            // 
+            this.lookupToolStripMenuItem.Name = "lookupToolStripMenuItem";
+            this.lookupToolStripMenuItem.Size = new System.Drawing.Size(72, 26);
+            this.lookupToolStripMenuItem.Text = "Lookup";
+            this.lookupToolStripMenuItem.Click += new System.EventHandler(this.lookupToolStripMenuItem_Click);
+            // 
             // reportsToolStripMenuItem
             // 
             this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2177,7 +2213,7 @@
             this.toolStripMenuItem16,
             this.miscellaneousReportsMenu});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // trust85ReportToolStripMenuItem
@@ -2608,7 +2644,7 @@
             this.findProblemInsurancePaymentsToolStripMenuItem,
             this.findMismatchedPayersPoliciesToolStripMenuItem});
             this.insuranceReportsToolStripMenuItem.Name = "insuranceReportsToolStripMenuItem";
-            this.insuranceReportsToolStripMenuItem.Size = new System.Drawing.Size(140, 24);
+            this.insuranceReportsToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
             this.insuranceReportsToolStripMenuItem.Text = "Insurance Reports";
             // 
             // weekTotalsReportToolStripMenuItem
@@ -2718,7 +2754,7 @@
             this.trustCompanyDataToolStripMenuItem,
             this.editAgentMeetingsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // editTrustDownPaymentsToolStripMenuItem1
@@ -2761,7 +2797,7 @@
             this.commonToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bankPaymentsToolStripMenuItem});
             this.commonToolStripMenuItem.Name = "commonToolStripMenuItem";
-            this.commonToolStripMenuItem.Size = new System.Drawing.Size(84, 24);
+            this.commonToolStripMenuItem.Size = new System.Drawing.Size(84, 26);
             this.commonToolStripMenuItem.Text = "Common";
             // 
             // bankPaymentsToolStripMenuItem
@@ -2774,16 +2810,9 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
-            // 
-            // lookupToolStripMenuItem
-            // 
-            this.lookupToolStripMenuItem.Name = "lookupToolStripMenuItem";
-            this.lookupToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
-            this.lookupToolStripMenuItem.Text = "Lookup";
-            this.lookupToolStripMenuItem.Click += new System.EventHandler(this.lookupToolStripMenuItem_Click);
             // 
             // Customers
             // 
@@ -3056,5 +3085,7 @@
         private System.Windows.Forms.ToolStripMenuItem scenario3EmptySSNDuplicateAddressToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trustContractEOYValuesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lookupToolStripMenuItem;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn84;
+        private System.Windows.Forms.Button btnVerifyDP;
     }
 }

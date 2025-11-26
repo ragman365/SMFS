@@ -676,10 +676,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1554, 456);
+            this.panelAll.Size = new System.Drawing.Size(1554, 458);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -689,7 +689,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 139);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1554, 317);
+            this.panelBottom.Size = new System.Drawing.Size(1554, 319);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -712,7 +712,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1554, 317);
+            this.tabControl1.Size = new System.Drawing.Size(1554, 319);
             this.tabControl1.TabIndex = 5;
             // 
             // tabPayments
@@ -722,7 +722,7 @@
             this.tabPayments.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPayments.Name = "tabPayments";
             this.tabPayments.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPayments.Size = new System.Drawing.Size(1546, 288);
+            this.tabPayments.Size = new System.Drawing.Size(1546, 290);
             this.tabPayments.TabIndex = 0;
             this.tabPayments.Text = "Payments";
             this.tabPayments.UseVisualStyleBackColor = true;
@@ -741,7 +741,7 @@
             this.repositoryItemCheckEdit1,
             this.repositoryItemCheckEdit8,
             this.repositoryItemCheckEdit9});
-            this.dgv.Size = new System.Drawing.Size(1540, 280);
+            this.dgv.Size = new System.Drawing.Size(1540, 282);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -3057,7 +3057,7 @@
             this.tabCashRemitted.Location = new System.Drawing.Point(4, 25);
             this.tabCashRemitted.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabCashRemitted.Name = "tabCashRemitted";
-            this.tabCashRemitted.Size = new System.Drawing.Size(1546, 288);
+            this.tabCashRemitted.Size = new System.Drawing.Size(1546, 290);
             this.tabCashRemitted.TabIndex = 5;
             this.tabCashRemitted.Text = "Cash Remitted";
             this.tabCashRemitted.UseVisualStyleBackColor = true;
@@ -3074,7 +3074,7 @@
             this.dgv6.Name = "dgv6";
             this.dgv6.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemMemoEdit1});
-            this.dgv6.Size = new System.Drawing.Size(1546, 288);
+            this.dgv6.Size = new System.Drawing.Size(1546, 290);
             this.dgv6.TabIndex = 6;
             this.dgv6.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain6});
@@ -7318,7 +7318,7 @@
             this.tabMismatched.Location = new System.Drawing.Point(4, 25);
             this.tabMismatched.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabMismatched.Name = "tabMismatched";
-            this.tabMismatched.Size = new System.Drawing.Size(1546, 288);
+            this.tabMismatched.Size = new System.Drawing.Size(1546, 290);
             this.tabMismatched.TabIndex = 11;
             this.tabMismatched.Text = "Mismatched Data";
             this.tabMismatched.UseVisualStyleBackColor = true;
@@ -7335,7 +7335,7 @@
             this.dgv12.Name = "dgv12";
             this.dgv12.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit6});
-            this.dgv12.Size = new System.Drawing.Size(1546, 288);
+            this.dgv12.Size = new System.Drawing.Size(1546, 290);
             this.dgv12.TabIndex = 7;
             this.dgv12.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain12});
@@ -8170,7 +8170,7 @@
             this.tabOVP.Location = new System.Drawing.Point(4, 25);
             this.tabOVP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabOVP.Name = "tabOVP";
-            this.tabOVP.Size = new System.Drawing.Size(1546, 288);
+            this.tabOVP.Size = new System.Drawing.Size(1546, 290);
             this.tabOVP.TabIndex = 12;
             this.tabOVP.Text = "OVP";
             this.tabOVP.UseVisualStyleBackColor = true;
@@ -8187,7 +8187,7 @@
             this.dgv13.Name = "dgv13";
             this.dgv13.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit7});
-            this.dgv13.Size = new System.Drawing.Size(1546, 288);
+            this.dgv13.Size = new System.Drawing.Size(1546, 290);
             this.dgv13.TabIndex = 7;
             this.dgv13.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain13});
@@ -9751,7 +9751,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1554, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1554, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -9762,7 +9762,7 @@
             this.menuReadPrevious,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -9805,7 +9805,7 @@
             // columnsToolStripMenuItem
             // 
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
-            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 26);
+            this.columnsToolStripMenuItem.Size = new System.Drawing.Size(80, 24);
             this.columnsToolStripMenuItem.Text = "Columns";
             // 
             // testToolStripMenuItem
@@ -9815,7 +9815,7 @@
             this.compareBalanceSheetToolStripMenuItem,
             this.compareTrust2013ToolStripMenuItem});
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.testToolStripMenuItem.Text = "Test";
             // 
             // compareResultsToolStripMenuItem
@@ -9844,7 +9844,7 @@
             this.massReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generateMassReportToolStripMenuItem});
             this.massReportsToolStripMenuItem.Name = "massReportsToolStripMenuItem";
-            this.massReportsToolStripMenuItem.Size = new System.Drawing.Size(111, 26);
+            this.massReportsToolStripMenuItem.Size = new System.Drawing.Size(111, 24);
             this.massReportsToolStripMenuItem.Text = "Mass Reports";
             // 
             // generateMassReportToolStripMenuItem

@@ -3491,8 +3491,11 @@ namespace SMFS
                         if (deceasedDate.Year != payDate8.Year || deceasedDate.Month != payDate8.Month)
                             continue;
                     }
-                    double dbr = isDBR(contractNumber, this.dateTimePicker2.Value );
+                    bool myDBR = false;
+                    double dbr = isDBR(contractNumber, this.dateTimePicker2.Value, ref myDBR );
                     if (dbr > 0)
+                        setDBR = true;
+                    if (myDBR)
                         setDBR = true;
                     //if (dbr <= 0D)
                     //{
@@ -7385,9 +7388,10 @@ namespace SMFS
                     {
                     }
 
-                    if (contractNumber == "WM23029LI")
-                    {
-                    }
+                    //if (contractNumber == "WF25009LI")
+                    //{
+                    //        MessageBox.Show("Contract " + contractNumber + "!", "DBR Contract Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //}
                     tca = false;
                     edited = dt.Rows[i]["edited"].ObjToString();
                     trust85 = dt.Rows[i]["trust85P"].ObjToDouble();
@@ -7507,8 +7511,11 @@ namespace SMFS
                         if (debit > 0D)
                             str = "(" + str + ")";
                         dbrContracts += str + "\n";
-                        //if ( trust85 > 0D ) // ramma zamma
-                        //if ( debit == 0D ) // ramma zamma
+                        //if (contractNumber.Trim() == "WF25009LI")
+                        //    MessageBox.Show("Contract " + contractNumber + " " + dbrContracts + "!", "DBR Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            //if ( trust85 > 0D ) // ramma zamma
+                            //if ( debit == 0D ) // ramma zamma
                             totalDBR += trust85;
                         //if (debit > 0D)
                         //{
@@ -7534,6 +7541,8 @@ namespace SMFS
                         dValue = dt.Rows[i]["paymentAmount"].ObjToDouble();
                         if (dValue > 0D || tca)
                         {
+                            //if (contractNumber.Trim() == "WF25009LI")
+                            //    MessageBox.Show("Contract XX " + contractNumber + " " + dbrContracts + "!", "DBR Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             lastName = dt.Rows[i]["lastName"].ObjToString();
                             str = "MO-";
                             dbrContracts += str + lastName + "-";
@@ -7652,6 +7661,8 @@ namespace SMFS
 
             G1.NumberDataTable(locationDt);
             dgv6.DataSource = locationDt;
+            gridMain6.ValidateEditor();
+            gridMain6.PostEditor();
             gridMain6.ExpandAllGroups();
 
             Trust85.FindContract(dx, "CT24044LI");
@@ -8720,7 +8731,8 @@ namespace SMFS
                 //G1.Toggle_Font(rtb3, letterFont, letterSize);
                 //rtb3.AppendText("".PadLeft(padLeft) + line + "\n");
 
-                line = "merchandise or upgrade your selection, please call me and I will be happy to help you.";
+                //line = "merchandise or upgrade your selection, please call me and I will be happy to help you.";
+                line = "merchandise, please call me and I will be happy to help you.";
                 rtb3.SelectionAlignment = HorizontalAlignment.Left;
                 G1.Toggle_Font(rtb3, letterFont, letterSize);
                 rtb3.AppendText("".PadLeft(padLeft) + line + "\n\n");
@@ -11261,17 +11273,22 @@ namespace SMFS
 
         }
         /****************************************************************************************/
-        public static double isDBR ( string contract )
+        public static double isDBR ( string contract, ref bool myDBR )
         {
             DateTime runDate = DateTime.MinValue;
-            double dbr = isDBR(contract, runDate);
+            double dbr = isDBR(contract, runDate, ref myDBR );
             return dbr;
         }
         /****************************************************************************************/
-        public static double isDBR(string contract, DateTime runDate )
+        public static double isDBR(string contract, DateTime runDate, ref bool myDBR )
         {
             double dbr = 0D;
             double dbDBR = 0D;
+            myDBR = false;
+
+            if ( contract == "WF25009LI" )
+            {
+            }
 
             string cmd = "Select * from `customers` c JOIN `contracts` t ON c.`contractNumber` = t.`contractNumber` WHERE c.`contractNumber` = '" + contract + "';";
             DataTable dt = G1.get_db_data(cmd);
@@ -11309,6 +11326,7 @@ namespace SMFS
             {
                 if (runDate.Year > 1000 && deceasedDate >= dateBOM && deceasedDate <= dateEOM)
                 {
+                    myDBR = true;
                     for (int i = 0; i < dp.Rows.Count; i++)
                         dbr += dp.Rows[i]["trust85P"].ObjToDouble();
                 }
@@ -11316,6 +11334,7 @@ namespace SMFS
                 {
                     if (runDate.Year > 1000)
                     {
+                        myDBR = true;
                         for (int i = 0; i < dp.Rows.Count; i++)
                             currentPayments += dp.Rows[i]["trust85P"].ObjToDouble();
                     }
@@ -11344,6 +11363,7 @@ namespace SMFS
                 DataTable dx = G1.get_db_data(cmd);
                 if ( dx.Rows.Count > 0 )
                 {
+                    myDBR = true;
                     DateTime tmStamp = dx.Rows[0]["tmstamp"].ObjToDateTime();
                     cmd = "SELECT * FROM `dbrs` WHERE `contractNumber` = '" + contract + "' AND `cashRemitStopDate` = '" + dateEOM.ToString("yyyy-MM-dd") + "';";
                     dx = G1.get_db_data(cmd);
@@ -11354,6 +11374,7 @@ namespace SMFS
                 }
                 else
                 {
+                    myDBR = true;
                     for (int i = 0; i < dp.Rows.Count; i++)
                         dbr += dp.Rows[i]["trust85P"].ObjToDouble();
                 }
@@ -11366,6 +11387,7 @@ namespace SMFS
                     DataTable dx = G1.get_db_data(cmd);
                     if (dx.Rows.Count > 0)
                     {
+                        myDBR = true;
                         DateTime tmStamp = dx.Rows[0]["tmstamp"].ObjToDateTime();
                         cmd = "SELECT * FROM `dbrs` WHERE `contractNumber` = '" + contract + "' AND `cashRemitStopDate` = '" + dateEOM.ToString("yyyy-MM-dd") + "';";
                         dx = G1.get_db_data(cmd);
@@ -11374,13 +11396,17 @@ namespace SMFS
                     }
                     else
                     {
+                        myDBR = true;
                         for (int i = 0; i < dp.Rows.Count; i++)
                             dbr += dp.Rows[i]["trust85P"].ObjToDouble();
                     }
                 }
             }
             if (dbr <= 0D && currentPayments > 0D)
+            {
+                myDBR = true;
                 dbr = currentPayments;
+            }
             return dbr;
         }
         /****************************************************************************************/

@@ -169,10 +169,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1435, 392);
+            this.panelAll.Size = new System.Drawing.Size(1435, 390);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -182,7 +182,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 55);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1435, 337);
+            this.panelBottom.Size = new System.Drawing.Size(1435, 335);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -196,7 +196,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1435, 337);
+            this.tabControl1.Size = new System.Drawing.Size(1435, 335);
             this.tabControl1.TabIndex = 6;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -207,7 +207,7 @@
             this.tabAllocation.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabAllocation.Name = "tabAllocation";
             this.tabAllocation.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabAllocation.Size = new System.Drawing.Size(1427, 308);
+            this.tabAllocation.Size = new System.Drawing.Size(1427, 306);
             this.tabAllocation.TabIndex = 0;
             this.tabAllocation.Text = "Trust Allocations";
             this.tabAllocation.UseVisualStyleBackColor = true;
@@ -223,7 +223,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1421, 300);
+            this.dgv.Size = new System.Drawing.Size(1421, 298);
             this.dgv.TabIndex = 5;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -595,7 +595,7 @@
             this.tabSalary.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabSalary.Name = "tabSalary";
             this.tabSalary.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabSalary.Size = new System.Drawing.Size(1427, 308);
+            this.tabSalary.Size = new System.Drawing.Size(1427, 306);
             this.tabSalary.TabIndex = 1;
             this.tabSalary.Text = "Salary/Fee Data";
             this.tabSalary.UseVisualStyleBackColor = true;
@@ -608,7 +608,7 @@
             this.panelDataAll.Location = new System.Drawing.Point(3, 4);
             this.panelDataAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelDataAll.Name = "panelDataAll";
-            this.panelDataAll.Size = new System.Drawing.Size(1421, 300);
+            this.panelDataAll.Size = new System.Drawing.Size(1421, 298);
             this.panelDataAll.TabIndex = 0;
             // 
             // panelDataBottom
@@ -619,7 +619,7 @@
             this.panelDataBottom.Location = new System.Drawing.Point(0, 44);
             this.panelDataBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelDataBottom.Name = "panelDataBottom";
-            this.panelDataBottom.Size = new System.Drawing.Size(1421, 256);
+            this.panelDataBottom.Size = new System.Drawing.Size(1421, 254);
             this.panelDataBottom.TabIndex = 2;
             // 
             // dgv2
@@ -632,7 +632,7 @@
             this.dgv2.MainView = this.gridMain2;
             this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv2.Name = "dgv2";
-            this.dgv2.Size = new System.Drawing.Size(1421, 256);
+            this.dgv2.Size = new System.Drawing.Size(1421, 254);
             this.dgv2.TabIndex = 6;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -980,7 +980,7 @@
             this.tabMismatch.Location = new System.Drawing.Point(4, 25);
             this.tabMismatch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabMismatch.Name = "tabMismatch";
-            this.tabMismatch.Size = new System.Drawing.Size(1427, 308);
+            this.tabMismatch.Size = new System.Drawing.Size(1427, 306);
             this.tabMismatch.TabIndex = 2;
             this.tabMismatch.Text = "MisMatch";
             this.tabMismatch.UseVisualStyleBackColor = true;
@@ -995,7 +995,7 @@
             this.dgv3.MainView = this.gridMain3;
             this.dgv3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv3.Name = "dgv3";
-            this.dgv3.Size = new System.Drawing.Size(1427, 308);
+            this.dgv3.Size = new System.Drawing.Size(1427, 306);
             this.dgv3.TabIndex = 6;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -1429,7 +1429,7 @@
             this.tabExcluded.Controls.Add(this.dgv4);
             this.tabExcluded.Location = new System.Drawing.Point(4, 25);
             this.tabExcluded.Name = "tabExcluded";
-            this.tabExcluded.Size = new System.Drawing.Size(1427, 308);
+            this.tabExcluded.Size = new System.Drawing.Size(1427, 306);
             this.tabExcluded.TabIndex = 3;
             this.tabExcluded.Text = "Excluded";
             this.tabExcluded.UseVisualStyleBackColor = true;
@@ -1445,7 +1445,7 @@
             this.dgv4.MainView = this.gridMain4;
             this.dgv4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv4.Name = "dgv4";
-            this.dgv4.Size = new System.Drawing.Size(1427, 308);
+            this.dgv4.Size = new System.Drawing.Size(1427, 306);
             this.dgv4.TabIndex = 6;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -1968,7 +1968,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1435, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1435, 30);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1979,7 +1979,7 @@
             this.toolStripMenuItem2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -2023,7 +2023,7 @@
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importOldDataToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // importOldDataToolStripMenuItem

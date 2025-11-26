@@ -1,16 +1,20 @@
-﻿using System;
+﻿using DevExpress.Data;
+using DevExpress.Utils;
+using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using DevExpress.XtraPrinting;
+using GeneralLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using GeneralLib;
-using DevExpress.XtraPrinting;
-using DevExpress.Utils;
 /****************************************************************************************/
 namespace SMFS
 {
@@ -24,6 +28,7 @@ namespace SMFS
         private DataTable companyDt = null;
         private DataTable companyDt1 = null;
         private DataTable uniqueDt = null;
+        private DataTable originalDt = null;
         /****************************************************************************************/
         public ClassApayersByCompany( string report )
         {
@@ -57,10 +62,10 @@ namespace SMFS
 
             this.gridMain2.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[]
 {
-            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "liability", this.bandedGridColumn14, "{0:0,0.00}"),
+            //new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "liability", this.bandedGridColumn14, "{0:0,0.00}"),
             new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "persons", this.bandedGridColumn18, "{0:0}"),
-            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "policies", this.bandedGridColumn19, "{0:0}"),
-            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "premium", this.bandedGridColumn15, "{0:0,0.00}")
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "policies", this.bandedGridColumn19, "{0:0}")
+            //new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "premium", this.bandedGridColumn15, "{0:0,0.00}")
 });
 
             gridMain.OptionsView.ShowFooter = true;
@@ -102,7 +107,7 @@ namespace SMFS
                 gMain = gridMain;
 
             int i = 1;
-            if (!chkGroupBy.Checked)
+            if (!chkGroupBy.Checked && !chkGroupByName.Checked )
             {
                 G1.SetColumnPosition(gMain, "num", i++);
                 G1.SetColumnPosition(gMain, "payer", i++);
@@ -147,11 +152,13 @@ namespace SMFS
         private void ClassApayersByCompany_Load(object sender, EventArgs e)
         {
             btnReport.Hide();
+            btnFamilySummary.Hide();
+            chkFullList.Hide();
 
-            chkGroupPayer.Hide();
-            chkGroupCompany.Hide();
-            chkCompanyDetail.Hide();
-            chkGroupByCompany.Hide();
+            //chkGroupPayer.Hide();
+            //chkGroupCompany.Hide();
+            //chkCompanyDetail.Hide();
+            //chkGroupByCompany.Hide();
 
             string cmd = "Select * from `i_companies` ORDER BY `order`;";
             companyDt = G1.get_db_data(cmd);
@@ -162,9 +169,11 @@ namespace SMFS
 
             DateTime date = DateTime.Now;
             DateTime newDate = new DateTime(date.Year - 1, 1, 1);
-            //this.dateTimePicker1.Value = newDate;
-            newDate = new DateTime(newDate.Year, 12, 31);
+            newDate = new DateTime(date.Year, date.Month, 1);
             this.dateTimePicker2.Value = newDate;
+
+            newDate = new DateTime(1984, 7, 1);
+            dateFilter.Value = newDate;
 
             dgv.Hide();
             dgv.Dock = DockStyle.Fill;
@@ -175,8 +184,11 @@ namespace SMFS
             dgv2.Show();
             dgv2.Dock = DockStyle.Fill;
 
-            ClearAllPositions(gridMain2);
-            SetReportColumns(gridMain2);
+            dgv4.Hide();
+            dgv4.Dock = DockStyle.Fill;
+
+            //ClearAllPositions(gridMain2);
+            //SetReportColumns(gridMain2);
 
             loading = false;
         }
@@ -286,7 +298,7 @@ namespace SMFS
 
             chkComboCompanies.Properties.DataSource = dt;
 
-            string ccCodes = "CC|CS|CI|UC|UF|UI";
+            string ccCodes = "CC|CCI|CCS|UC|UF|UI";
             chkComboCompanies.EditValue = ccCodes;
             chkComboCompanies.Text = ccCodes;
         }
@@ -302,6 +314,22 @@ namespace SMFS
                     if (procLoc.Trim().Length > 0)
                         procLoc += " OR ";
                     procLoc += "q.`companyCode` = '" + locIDs[i].Trim() + "'";
+                }
+            }
+            return procLoc.Length > 0 ? " AND (" + procLoc + ") " : "";
+        }
+        /*******************************************************************************************/
+        private string getNotCompanyQuery()
+        {
+            string procLoc = "";
+            string[] locIDs = this.chkComboCompanies.EditValue.ToString().Split('|');
+            for (int i = 0; i < locIDs.Length; i++)
+            {
+                if (!String.IsNullOrWhiteSpace(locIDs[i]))
+                {
+                    if (procLoc.Trim().Length > 0)
+                        procLoc += " AND ";
+                    procLoc += "q.`companyCode` <> '" + locIDs[i].Trim() + "'";
                 }
             }
             return procLoc.Length > 0 ? " AND (" + procLoc + ") " : "";
@@ -327,6 +355,8 @@ namespace SMFS
         {
             this.Cursor = Cursors.WaitCursor;
 
+            saveSortString = "";
+
             DateTime date = this.dateTimePicker2.Value;
             string date1 = date.AddMonths(-6).ToString("yyyy-MM-dd");
 
@@ -341,10 +371,11 @@ namespace SMFS
             cmd += " JOIN `policies` q ON p.`contractNumber` = q.`contractNumber` ";
             cmd += " LEFT JOIN `payers` c ON q.`payer` = c.`payer` ";
             cmd += " WHERE q.`deceasedDate` <= '0001-01-01' AND q.`lapsed` <> 'Y' ";
+            cmd += " AND p.`deceasedDate` <= '0001-01-01' ";
             cmd += " AND q.`report` = 'Not Third Party' ";
             cmd += " AND c.`dueDate8` >= '" + date1 + "' ";
-            cmd += " AND c.`lapsed` <> 'Y' ";
-            cmd += " AND q.`lapsedDate8` <= '0100-01-01' ";
+            //cmd += " AND c.`lapsed` <> 'Y' ";
+            cmd += " AND ( q.`lapsedDate8` <= '0100-01-01' || q.`lapsedDate8` >= '" + date1 + "' ) ";
             cmd += " AND ( q.`liability` >= '0.00' AND q.`liability` <= '450.00' ) ";
             if (!String.IsNullOrWhiteSpace(companyCode) || !String.IsNullOrWhiteSpace(payerCode) )
             {
@@ -357,15 +388,12 @@ namespace SMFS
             {
                 cmd += getCompanyQuery();
             }
+
+            cmd += " AND p.`contractNumber` LIKE 'ZZ%' ";
+
             cmd += " ORDER by q.`payer` ";
             cmd += ";";
             DataTable dt2 = G1.get_db_data(cmd);
-
-            DataRow[] dRows = dt2.Select("lapsed2='Y'");
-            if ( dRows.Length > 0 )
-            {
-                DataTable dddx = dRows.CopyToDataTable();
-            }
 
             DateTime payerDueDate = DateTime.Now;
             DateTime dolp = DateTime.Now;
@@ -376,6 +404,9 @@ namespace SMFS
             string payerFirstName = "";
             string payerLastName = "";
             string payerName = "";
+
+            double premium = 0D;
+            string oldPayer = "";
 
             try
             {
@@ -394,6 +425,12 @@ namespace SMFS
 
                 for ( int i=0; i<dt2.Rows.Count; i++)
                 {
+                    payer = dt2.Rows[i]["payer"].ObjToString();
+                    if (payer != oldPayer)
+                        premium = Policies.CalcMonthlyPremium(payer, DateTime.Now);
+
+                    dt2.Rows[i]["amtOfMonthlyPayt1"] = premium;
+
                     payerFirstName = dt2.Rows[i]["firstName"].ObjToString();
                     payerLastName = dt2.Rows[i]["lastName"].ObjToString();
                     payerName = payerLastName + ", " + payerFirstName;
@@ -402,56 +439,15 @@ namespace SMFS
                     date = dt2.Rows[i]["dueDate81"].ObjToDateTime();
                     dt2.Rows[i]["payerD_date"] = date.ToString("MM/dd/yyyy");
                     dt2.Rows[i]["policyD_date"] = date.ToString("MM/dd/yyyy");
-                }
 
-                //for (int i = 0; i < dt2.Rows.Count; i++)
-                //{
-                //    //dt.Rows[i]["firstName"] = payerFname;
-                //    //dt.Rows[i]["lastName"] = payerLname;
-                //    payer = dt2.Rows[i]["payer"].ObjToString();
-                //    if ( payer == "100767")
-                //    {
-                //    }
-                //    date = dt2.Rows[i]["deceasedDate2"].ObjToDateTime();
-                //    dt2.Rows[i]["ddate"] = date.ToString("yyyy-MM-dd");
-                //    date = dt2.Rows[i]["dueDate8"].ObjToDateTime();
-                //    payerDueDate = dt2.Rows[i]["dueDate81"].ObjToDateTime();
-                //    if (payerDueDate >= date)
-                //    {
-                //        orphanContract = dt2.Rows[i]["contractNumber"].ObjToString();
-                //        if (orphanContract.IndexOf("OO") == 0 || orphanContract.IndexOf("MM") == 0)
-                //        {
-                //            contractNumber = dt2.Rows[i]["contractNumber3"].ObjToString();
-                //            if (contractNumber.IndexOf("ZZ") == 0)
-                //                dt2.Rows[i]["contractNumber"] = contractNumber;
-                //        }
-                //        date = payerDueDate;
-                //        dt2.Rows[i]["dueDate8"] = G1.DTtoMySQLDT(date.ToString("yyyy-MM-dd"));
-                //        dolp = dt2.Rows[i]["lastDatePaid8"].ObjToDateTime();
-                //        payerDolp = dt2.Rows[i]["lastDatePaid81"].ObjToDateTime();
-                //        if (payerDolp > dolp)
-                //            dt2.Rows[i]["lastDatePaid8"] = G1.DTtoMySQLDT(payerDolp.ToString("yyyy-MM-dd"));
-                //    }
-                //    dt2.Rows[i]["dueDate"] = date.ToString("yyyy-MM-dd");
-                //}
+                    oldPayer = payer;
+                }
             }
             catch ( Exception ex )
             {
             }
 
-            //dRows = dt2.Select("payer='100767'");
-            //if (dRows.Length > 0)
-            //{
-            //    DataTable dddx = dRows.CopyToDataTable();
-            //}
             dt2 = FilterInactive(dt2);
-
-            //dRows = dt2.Select("payer='100004'");
-            //if (dRows.Length > 0)
-            //{
-            //    DataTable dddx = dRows.CopyToDataTable();
-            //}
-
 
             dt2.Columns.Add("persons", Type.GetType("System.Double"));
             dt2.Columns.Add("policies", Type.GetType("System.Double"));
@@ -536,21 +532,36 @@ namespace SMFS
                 dt.Columns.Add("OriginalRow");
             if (G1.get_column_number(dt, "FullInsuredName") < 0)
                 dt.Columns.Add("FullInsuredName");
+            if (G1.get_column_number(dt, "issueDateStr") < 0)
+                dt.Columns.Add("issueDateStr");
             string firstName = "";
             string lastName = "";
+            DateTime issueDate = DateTime.Now;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 dt.Rows[i]["OriginalRow"] = dt.Rows[i]["num"].ObjToString();
                 lastName = dt.Rows[i]["policyLastName"].ObjToString();
                 firstName = dt.Rows[i]["policyFirstName"].ObjToString();
                 dt.Rows[i]["FullInsuredName"] = lastName + ", " + firstName;
+
+                issueDate = dt.Rows[i]["issueDate81"].ObjToDateTime();
+                dt.Rows[i]["issueDateStr"] = issueDate.ToString("yyyyMMdd");
             }
+
+            originalDt = dt;
 
             dgv2.DataSource = dt;
             dgv2.Show();
 
             btnReport.Show();
             btnReport.Refresh();
+
+            btnFamilySummary.Show();
+            btnFamilySummary.Refresh();
+
+            chkFullList.Show();
+            chkFullList.Refresh();
+
 
             if ( chkGroupBy.Checked || chkAss.Checked )
             {
@@ -868,6 +879,12 @@ namespace SMFS
                 noHeader = true;
             }
 
+            else if (dgv4.Visible)
+            {
+                printableComponentLink1.Component = dgv4;
+                noHeader = true;
+            }
+
             printableComponentLink1.PrintingSystemBase = printingSystem1;
             printableComponentLink1.CreateDetailHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateDetailHeaderArea);
 
@@ -922,6 +939,8 @@ namespace SMFS
                 printableComponentLink1.Component = dgv2;
             else if (dgv3.Visible)
                 printableComponentLink1.Component = dgv3;
+            else if (dgv4.Visible)
+                printableComponentLink1.Component = dgv4;
 
             printableComponentLink1.PrintingSystemBase = printingSystem1;
             printableComponentLink1.CreateDetailHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateDetailHeaderArea);
@@ -1414,10 +1433,27 @@ namespace SMFS
             int row = e.ListSourceRow;
             DataTable dt = (DataTable)dgv2.DataSource;
             double liability = dt.Rows[row]["liability"].ObjToDouble();
-            if ( liability < 0D || liability > 450.00D )
+            if (liability < 0D || liability > 450.00D)
             {
-                e.Visible = false;
-                e.Handled = true;
+                if (!chkFullList.Checked)
+                {
+                    e.Visible = false;
+                    e.Handled = true;
+                }
+            }
+
+            GridView view = sender as GridView;
+            int rowHandle = view.GetRowHandle(e.ListSourceRow);
+
+            // Example condition: Hide rows belonging to a group with an empty value
+            if (view.IsGroupRow(rowHandle))
+            {
+                object groupValue = view.GetGroupRowValue(rowHandle);
+                if (groupValue == null || groupValue.ToString() == "")
+                {
+                    e.Visible = false;
+                    e.Handled = true;
+                }
             }
         }
         /****************************************************************************************/
@@ -1449,6 +1485,7 @@ namespace SMFS
         }
         /****************************************************************************************/
         private Color backColor = Color.Red;
+        private string saveSortString = "";
         private void btnReport_Click(object sender, EventArgs e)
         {
             if ( dgv3.Visible )
@@ -1466,6 +1503,13 @@ namespace SMFS
             backColor = btnReport.BackColor;
 
             DataTable dt = (DataTable)dgv2.DataSource;
+
+            string sortString = "";
+
+            dt = GetSortedDataTable(gridMain2, dt, ref sortString );
+
+            saveSortString = sortString;
+
 
             DataTable d3 = new DataTable();
             d3.Columns.Add("c1");
@@ -1512,6 +1556,39 @@ namespace SMFS
             btnReport.Text = "GO BACK";
             btnReport.BackColor = Color.Pink;
             btnReport.Refresh();
+        }
+        /****************************************************************************************/
+        public DataTable GetSortedDataTable( DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView gridMain2, DataTable dt, ref string sortedString )
+        {
+            string sortString = string.Empty;
+
+            GridView view = gridMain2 as GridView; 
+
+            for (int i = 0; i < view.SortedColumns.Count; i++)
+            {
+                GridColumn sortedColumn = view.SortedColumns[i];
+                if (G1.get_column_number(dt, sortedColumn.FieldName) < 0)
+                    dt.Columns.Add(sortedColumn.FieldName );
+
+                if (sortedColumn.SortOrder != ColumnSortOrder.None)
+                {
+                    if (!string.IsNullOrEmpty(sortString))
+                    {
+                        sortString += ", ";
+                    }
+                    sortString += sortedColumn.FieldName;
+                    sortString += (sortedColumn.SortOrder == ColumnSortOrder.Ascending) ? " ASC" : " DESC";
+                }
+            }
+
+            if (String.IsNullOrWhiteSpace(sortString))
+                return dt;
+
+            dt.DefaultView.Sort = sortString;
+
+            sortedString = sortString;
+
+            return dt.DefaultView.ToTable();
         }
         /****************************************************************************************/
         private DataTable AddMainHeader ( DataTable d3, DataTable dt, int i )
@@ -1634,17 +1711,25 @@ namespace SMFS
         /****************************************************************************************/
         private void chkGroupBy_CheckedChanged(object sender, EventArgs e)
         {
+            GroupOrSort((CheckBox) sender, false);
+        }
+        /****************************************************************************************/
+        private void GroupOrSort ( CheckBox sender, bool group = false )
+        {
             CheckBox check = (CheckBox)sender;
             DataTable dt = (DataTable)dgv2.DataSource;
             if (dt == null)
                 return;
 
-            if ( check.Checked )
+            if (check.Checked)
             {
+                //dt = GetSortedDataTable(gridMain2, dt);
+
                 ClearAllPositions(gridMain2);
                 SetReportColumns(gridMain2);
 
-                gridMain2.Columns["FullInsuredName"].GroupIndex = 0;
+                if ( group )
+                    gridMain2.Columns["FullInsuredName"].GroupIndex = 0;
                 gridMain2.ExpandAllGroups();
                 gridMain2.OptionsCustomization.AllowColumnResizing = true;
                 gridMain2.OptionsView.ColumnAutoWidth = false;
@@ -1695,6 +1780,1034 @@ namespace SMFS
         {
             //chkComboCompanies.Text = chkComboCompanies.EditValue;
             chkComboCompanies.Refresh();
+        }
+        /****************************************************************************************/
+        private void chkGroupByName_CheckedChanged(object sender, EventArgs e)
+        {
+            GroupOrSort((CheckBox)sender, true );
+        }
+        /****************************************************************************************/
+        private void chkPrintBlank_CheckedChanged(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv2.DataSource;
+
+            if (G1.get_column_number(dt, "UniqueName") < 0)
+                dt.Columns.Add("UniqueName");
+
+            string firstName = "";
+            string lastName = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                firstName = dt.Rows[i]["policyFirstName"].ObjToString();
+                lastName = dt.Rows[i]["policyLastName"].ObjToString();
+                dt.Rows[i]["UniqueName"] = lastName + "," + firstName;
+            }
+
+            string sortString = "";
+
+            CheckBox checkbox = (CheckBox)sender;
+            if ( !checkbox.Checked )
+            {
+                dt = CleanupDataTable(dt, saveSortString );
+
+                dgv2.DataSource = dt;
+
+                gridMain2.RefreshEditor(true);
+
+                gridMain2.Columns["payerName"].GroupIndex = -1;
+                gridMain2.OptionsCustomization.AllowColumnResizing = true;
+                gridMain2.OptionsView.ColumnAutoWidth = false;
+                return;
+            }
+
+            this.Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                dt = GetSortedDataTable(gridMain2, dt, ref sortString);
+
+                saveSortString = sortString;
+
+                dt = buildSortTable(dt, saveSortString);
+
+                dt = FormatGroupTotals(dt, saveSortString);
+            }
+            catch ( Exception ex)
+            {
+            }
+
+            dt.DefaultView.Sort = saveSortString;
+            dt.DefaultView.ToTable();
+
+            dgv2.DataSource = dt;
+
+            AddGridSort(saveSortString);
+
+            gridMain2.RefreshData();
+            gridMain2.RefreshEditor(true);
+
+            gridMain2.OptionsView.GroupFooterShowMode = GroupFooterShowMode.VisibleAlways;
+            gridMain2.OptionsView.GroupFooterShowMode = GroupFooterShowMode.Hidden;
+            gridMain2.OptionsView.ShowGroupPanel = false;
+
+
+            //gridMain2.Columns["payerName"].GroupIndex = -1;
+            gridMain2.OptionsView.ShowFooter = true;
+            //gridMain2.ExpandAllGroups();
+            gridMain2.OptionsCustomization.AllowColumnResizing = true;
+            gridMain2.OptionsView.ColumnAutoWidth = false;
+
+            gridMain2.RefreshEditor(true);
+
+            this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private DataTable FormatGroupTotals ( DataTable dt, string sortString )
+        {
+            if (String.IsNullOrWhiteSpace(sortString))
+                return dt;
+
+            string[] Lines = sortString.Split(' ');
+            if (Lines.Length <= 0)
+                return dt;
+
+            string column = Lines[0].Trim();
+
+            DataTable groupDt = G1.GetGroupBy(dt, "Payer");
+            int payerCount = groupDt.Rows.Count;
+
+            groupDt = G1.GetGroupBy(dt, "UniqueName");
+            int uniqueCount = groupDt.Rows.Count;
+
+            int lastRow = dt.Rows.Count - 1;
+            string payerName = dt.Rows[lastRow][column].ObjToString();
+
+            DataRow dRow = dt.NewRow();
+            if ( column.ToUpper().EndsWith ("X") )
+                dRow[column] = payerName + "X";
+            else
+                dRow[column + "X"] = payerName + "X";
+            dRow["payer"] = "Payer Count : ";
+            dRow["payerName"] = payerCount.ToString();
+            dRow["policyFirstName"] = "Unique Count : ";
+            dRow["policyLastName"] = uniqueCount.ToString();
+            dt.Rows.Add(dRow);
+
+            return dt;
+        }
+        /****************************************************************************************/
+        private DataTable CleanupDataTable( DataTable dt, string sortString )
+        {
+            if (String.IsNullOrWhiteSpace(sortString))
+                return dt;
+
+            string[] Lines = sortString.Split(' ');
+            if (Lines.Length <= 0)
+                return dt;
+
+            string column = Lines[0].Trim();
+            if (column.ToUpper().EndsWith("X"))
+            {
+                column = column.Replace("X", "").Trim();
+                sortString = sortString.Replace(Lines[0].Trim(), column);
+            }
+
+            DataRow[] dRows = dt.Select("payer <> 'Payer Count :'");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+
+            dRows = dt.Select(column + "<>''");
+            if (dRows.Length > 0)
+                dt = dRows.CopyToDataTable();
+
+            dt.DefaultView.Sort = sortString;
+
+            saveSortString = sortString;
+
+            dt.DefaultView.ToTable();
+
+            AddGridSort(sortString);
+
+            //gridMain2.SortInfo.ClearSorting();
+
+            //GridColumnSortInfo sortInfoName = new GridColumnSortInfo(gridMain2.Columns[column], ColumnSortOrder.Ascending);
+            //gridMain2.SortInfo.Add(sortInfoName);
+
+            return dt;
+        }
+        /****************************************************************************************/
+        private DataTable RemoveExtraBlankRows ( DataTable dt, string sortString )
+        {
+            if (String.IsNullOrWhiteSpace(sortString))
+                return dt;
+
+            string[] Lines = sortString.Split(' ');
+            if (Lines.Length <= 0)
+                return dt;
+
+            string column = Lines[0].Trim();
+            string lookup = column.TrimEnd('X');
+            string payerName = "";
+            string oldPayer = "";
+
+            try
+            {
+                for (int i = 0; i<dt.Rows.Count; i++)
+                {
+                    payerName = dt.Rows[i][lookup].ObjToString().Trim();
+                    if ( String.IsNullOrWhiteSpace ( payerName))
+                    {
+
+                    }
+                    //if (String.IsNullOrWhiteSpace(payerName) && String.IsNullOrWhiteSpace(oldPayer))
+                    //    continue;
+                    //if (String.IsNullOrWhiteSpace(oldPayer) && !String.IsNullOrWhiteSpace ( payerName))
+                    //    oldPayer = payerName;
+                    if (String.IsNullOrWhiteSpace(oldPayer) && String.IsNullOrWhiteSpace(payerName))
+                        dt.Rows[i][lookup] = "REMOVE";
+                    oldPayer = payerName;
+                }
+            }
+            catch ( Exception ex)
+            {
+            }
+
+            DataRow[] dRows = dt.Select(lookup + "='REMOVE'");
+            DataTable xxx = null;
+            if (dRows.Length > 0)
+                xxx = dRows.CopyToDataTable();
+            return dt;
+        }
+        /****************************************************************************************/
+        private DataTable buildSortTable ( DataTable dt, string sortString )
+        {
+            if (String.IsNullOrWhiteSpace(sortString))
+                return dt;
+
+            string[] Lines = sortString.Split(' ');
+            if (Lines.Length <= 0)
+                return dt;
+
+            string column = Lines[0].Trim();
+            string str = "";
+
+            if (G1.get_column_number(dt, column + "X") < 0)
+            {
+                if ( G1.get_column_number ( gridMain2, column + "X") < 0 )
+                    G1.AddNewColumn(gridMain2, column + "X", column + "X", "", FormatType.None, 200, false);
+                dt.Columns.Add(column + "X");
+            }
+
+            DataRow dRow = null;
+            DataRow[] dRows = null;
+            string oldColumn = "";
+            string payer = "";
+            string oldPayer = "";
+            string payerColumn = "";
+            string search = "";
+            bool addPayer = false;
+            DataTable tempDt = null;
+
+            if (sortString.ToUpper().IndexOf("PAYER") >= 0 && column.ToUpper() != "PAYER" )
+            {
+                payerColumn = "Payer";
+                addPayer = true;
+
+                DataView tempview = dt.DefaultView;
+                tempview.Sort = column + " asc, Payer asc";
+                dt = tempview.ToTable();
+
+                dRows = dt.Select("Payer='CC-965'");
+                if (dRows.Length > 0)
+                    tempDt = dRows.CopyToDataTable();
+
+                dRows = dt.Select("PolicyNumber='CC-965'");
+                if (dRows.Length > 0)
+                    tempDt = dRows.CopyToDataTable();
+            }
+
+            bool added = true;
+
+            string policyNumber = "";
+            string firstName = "";
+            string lastname = "";
+
+            for (int i = 0; i<dt.Rows.Count; i++)
+            {
+                str = dt.Rows[i][column].ObjToString().Trim();
+                payer = dt.Rows[i]["payer"].ObjToString();
+                policyNumber = dt.Rows[i]["policyNumber"].ObjToString();
+                firstName = dt.Rows[i]["policyFirstName"].ObjToString();
+                lastname = dt.Rows[i]["policyLastName"].ObjToString();
+                if ( policyNumber == "CC-965")
+                {
+                }
+
+                if (String.IsNullOrWhiteSpace(oldColumn))
+                {
+                    oldColumn = str;
+                    if (addPayer)
+                        oldColumn += payer;
+                        
+                }
+                if (addPayer)
+                    str += payer;
+
+                if (str != oldColumn)
+                {
+                    dt.Rows[i][column + "X"] = str;
+                    if (added)
+                    {
+                        search = column + "X='" + oldColumn + "     X'";
+                        try
+                        {
+                            //dRows = dt.Select(search);
+                            //if (dRows.Length <= 0)
+                            //{
+                                dRow = dt.NewRow();
+                                dRow[column + "X"] = oldColumn + "     X";
+                                dt.Rows.InsertAt(dRow, i);
+                            //}
+                        }
+                        catch ( Exception ex)
+                        {
+                        }
+                    }
+                    //i++;
+                    oldColumn = str;
+                    added = false;
+                    continue;
+                }
+                else
+                    added = true;
+                dt.Rows[i][column + "X"] = str + "     X";
+                //dt.Rows[i][column + "X"] = str;
+            }
+
+            dRows = dt.Select("PolicyNumber='CC-965'");
+            if (dRows.Length > 0)
+                tempDt = dRows.CopyToDataTable();
+
+
+            sortString = sortString.Replace(column, column + "X");
+
+            dt.DefaultView.Sort = sortString;
+
+            saveSortString = sortString;
+
+            dt.DefaultView.ToTable();
+
+            AddGridSort(sortString);
+
+            dRows = dt.Select("PolicyNumber='CC-965'");
+            if (dRows.Length > 0)
+                tempDt = dRows.CopyToDataTable();
+
+            //gridMain2.SortInfo.ClearSorting();
+
+            //GridColumnSortInfo sortInfoName = new GridColumnSortInfo(gridMain2.Columns[column + "X"], ColumnSortOrder.Ascending);
+            //gridMain2.SortInfo.Add(sortInfoName);
+
+            return dt;
+        }
+        /****************************************************************************************/
+        private void AddGridSort ( string sortString )
+        {
+            if (String.IsNullOrWhiteSpace(sortString))
+                return;
+
+            string[] Lines = sortString.Split(' ');
+            string column = "";
+
+            gridMain2.SortInfo.ClearSorting();
+
+            GridColumnSortInfo sortInfoName = null;
+
+            //GridColumnSortInfo sortInfoName = new GridColumnSortInfo(gridMain2.Columns[column + "X"], ColumnSortOrder.Ascending);
+            //gridMain2.SortInfo.Add(sortInfoName);
+
+            for ( int i=0; i<Lines.Length; i++)
+            {
+                column = Lines[i].Trim();
+                if (column.ToUpper() == "ASC," || column.ToUpper() == "ASC" )
+                    continue;
+                if (column.ToUpper() == "DESC," || column.ToUpper() == "DESC" )
+                    continue;
+                sortInfoName = new GridColumnSortInfo(gridMain2.Columns[column], ColumnSortOrder.Ascending);
+                gridMain2.SortInfo.Add(sortInfoName);
+            }
+        }
+        /****************************************************************************************/
+        private void gridMain2_CustomDrawRowFooter(object sender, DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventArgs e)
+        {
+            //if (!chkPrintBlank.Checked)
+            //{
+            //    gridMain2.OptionsView.GroupFooterShowMode = GroupFooterShowMode.Hidden;
+            //    return;
+            //}
+
+            //gridMain2.OptionsView.GroupFooterShowMode = GroupFooterShowMode.VisibleAlways;
+
+            ////e.Cache.FillRectangle(e.Cache.GetGradientBrush(e.Bounds, Color.White, Color.White, System.Drawing.Drawing2D.LinearGradientMode.Horizontal), e.Bounds);
+
+            //// Prevent default painting
+            //e.Handled = true;
+        }
+        /****************************************************************************************/
+        private void gridMain2_CustomDrawGroupPanel(object sender, DevExpress.XtraGrid.Views.Base.CustomDrawEventArgs e)
+        {
+            //if ( chkPrintBlank.Checked )
+            //{
+            //    e.Handled = true;
+            //    return;
+            //}
+        }
+        /****************************************************************************************/
+        private void gridMain2_CustomDrawGroupRow(object sender, DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventArgs e)
+        {
+            //var view = (GridView)sender;
+            //var info = (GridGroupRowInfo)e.Info;
+            //var caption = info.Column.Caption;
+            //if (info.Column.Caption == string.Empty)
+            //{
+            //    caption = info.Column.ToString();
+            //}
+            ////info.GroupText = $"{caption} : {info.GroupValueText} ({view.GetChildRowCount(e.RowHandle)})";
+            //e.Handled = true;
+        }
+        /****************************************************************************************/
+        private void dateFilter_ValueChanged(object sender, EventArgs e)
+        {
+            if (chkLessThan.Checked)
+                chkLessThan_CheckedChanged(null, null);
+            else if (chkGreaterThan.Checked)
+                chkGreaterThan_CheckedChanged(null, null);
+        }
+        /****************************************************************************************/
+        private void chkLessThan_CheckedChanged(object sender, EventArgs e)
+        {
+            if (originalDt == null)
+                return;
+
+            string localSort = "";
+            bool wasChecked = false;
+            if (chkPrintBlank.Checked)
+            {
+                localSort = saveSortString;
+                chkPrintBlank.Checked = false;
+                localSort = saveSortString;
+                wasChecked = true;
+            }
+
+            if (!chkLessThan.Checked )
+            {
+                dgv2.DataSource = originalDt;
+                gridMain2.RefreshData();
+                gridMain2.RefreshEditor(true);
+                if (wasChecked)
+                    chkPrintBlank.Checked = true;
+                return;
+            }
+
+            if (loading)
+                return;
+            loading = true;
+            chkGreaterThan.Checked = false;
+            loading = false;
+
+            DateTime date = dateFilter.Value;
+            string str = date.ToString("yyyyMMdd");
+
+            DataRow[] dRows = originalDt.Select("issueDateStr<'" + str + "'");
+            if ( dRows.Length > 0 )
+            {
+                DataTable dt = dRows.CopyToDataTable();
+
+                dt.DefaultView.Sort = saveSortString;
+                dt.DefaultView.ToTable();
+
+                dgv2.DataSource = dt;
+
+                gridMain2.RefreshData();
+                gridMain2.RefreshEditor(true);
+
+                if (wasChecked)
+                {
+                    AddGridSort(localSort);
+
+                    chkPrintBlank.Checked = true;
+
+                    dt = (DataTable)dgv2.DataSource;
+
+                    dt.DefaultView.Sort = saveSortString;
+                    dt.DefaultView.ToTable();
+
+                    AddGridSort(saveSortString);
+
+                    dgv2.DataSource = dt;
+                    gridMain2.RefreshData();
+                    gridMain2.RefreshEditor(true);
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void chkGreaterThan_CheckedChanged(object sender, EventArgs e)
+        {
+            if (originalDt == null)
+                return;
+
+            string localSort = "";
+            bool wasChecked = false;
+            if (chkPrintBlank.Checked)
+            {
+                localSort = saveSortString;
+                chkPrintBlank.Checked = false;
+                localSort = saveSortString;
+                wasChecked = true;
+            }
+
+            if (!chkGreaterThan.Checked)
+            {
+                dgv2.DataSource = originalDt;
+                gridMain2.RefreshData();
+                gridMain2.RefreshEditor(true);
+                if (wasChecked)
+                    chkPrintBlank.Checked = true;
+                return;
+            }
+
+            if (loading)
+                return;
+            loading = true;
+            chkLessThan.Checked = false;
+            loading = false;
+
+            DateTime date = dateFilter.Value;
+            string str = date.ToString("yyyyMMdd");
+
+            DataRow[] dRows = originalDt.Select("issueDateStr>='" + str + "'");
+            if (dRows.Length > 0)
+            {
+                DataTable dt = dRows.CopyToDataTable();
+
+                dt.DefaultView.Sort = saveSortString;
+                dt.DefaultView.ToTable();
+
+                dgv2.DataSource = dt;
+
+                gridMain2.RefreshData();
+                gridMain2.RefreshEditor(true);
+
+                if (wasChecked)
+                {
+                    AddGridSort(localSort);
+
+                    chkPrintBlank.Checked = true;
+
+                    dt = (DataTable)dgv2.DataSource;
+
+                    dt.DefaultView.Sort = saveSortString;
+                    dt.DefaultView.ToTable();
+
+                    AddGridSort(saveSortString);
+
+                    dgv2.DataSource = dt;
+                    gridMain2.RefreshData();
+                    gridMain2.RefreshEditor(true);
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void chkGreaterThan_CheckedChangedX(object sender, EventArgs e)
+        {
+            if (originalDt == null)
+                return;
+            if (loading)
+                return;
+
+            string localSort = "";
+
+            bool wasChecked = false;
+            if (chkPrintBlank.Checked)
+            {
+                localSort = saveSortString;
+
+                chkPrintBlank.Checked = false;
+                wasChecked = true;
+            }
+            if (!chkGreaterThan.Checked)
+            {
+                dgv2.DataSource = originalDt;
+                gridMain2.RefreshData();
+                gridMain2.RefreshEditor(true);
+                if (wasChecked)
+                    chkPrintBlank.Checked = true;
+                return;
+            }
+
+            loading = true;
+            chkLessThan.Checked = false;
+            loading = false;
+
+            DateTime date = dateFilter.Value;
+            string str = date.ToString("yyyyMMdd");
+
+            DataRow[] dRows = originalDt.Select("issueDateStr>='" + str + "'");
+            if (dRows.Length > 0)
+            {
+                DataTable dt = dRows.CopyToDataTable();
+
+                dt.DefaultView.Sort = saveSortString;
+                dt.DefaultView.ToTable();
+
+                dgv2.DataSource = dt;
+                gridMain2.RefreshData();
+                gridMain2.RefreshEditor(true);
+
+                if (wasChecked)
+                {
+                    chkPrintBlank.Checked = true;
+
+                    dt.DefaultView.Sort = localSort;
+                    dt.DefaultView.ToTable();
+
+                    dgv2.DataSource = dt;
+                    gridMain2.RefreshData();
+                    gridMain2.RefreshEditor(true);
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void gridMain2_MouseDown(object sender, MouseEventArgs e)
+        {
+            var hitInfo = gridMain2.CalcHitInfo(e.Location);
+            if (hitInfo.InRowCell)
+            {
+                try
+                {
+                    int rowHandle = hitInfo.RowHandle;
+                    gridMain2.SelectRow(rowHandle);
+                    gridMain2.RefreshEditor(true);
+                    //dgv.RefreshDataSource();
+                    DataTable dt = (DataTable)dgv2.DataSource;
+
+                    GridColumn column = hitInfo.Column;
+                    //currentColumn = column.FieldName.Trim();
+                    DataRow dr = gridMain2.GetFocusedDataRow();
+                    int row = gridMain2.GetDataSourceRowIndex(rowHandle);
+                    //string data = dt.Rows[row][currentColumn].ObjToString();
+
+                    //if (currentColumn.ToUpper() == "NOTES")
+                    //{
+                    //    if (!String.IsNullOrWhiteSpace(data))
+                    //    {
+                    //    }
+                    //}
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void btnFamilySummary_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+
+            //DataTable dt2 = (DataTable)dgv2.DataSource;
+            DataTable dt2 = originalDt.Copy();
+
+            dt2.DefaultView.Sort = "payerName asc, payer asc, policyFirstName asc";
+
+            string sortedString = dt2.DefaultView.Sort;
+
+            dt2 = dt2.DefaultView.ToTable();
+
+            dgv2.DataSource = dt2;
+            gridMain2.RefreshData();
+            gridMain2.RefreshEditor(true);
+
+            dgv2.Refresh();
+
+            saveSortString = "";
+
+            DateTime date = this.dateTimePicker2.Value;
+            string date1 = date.AddMonths(-6).ToString("yyyy-MM-dd");
+
+            string comboCompanies = chkComboCompanies.Text.Trim();
+
+            this.Text = date.Year.ToString() + " " + comboCompanies + " Policies in Force";
+
+            string companyCode = txtCompanyCode.Text.Trim();
+            string payerCode = txtPayer.Text.Trim();
+
+            string cmd = "Select * from `icustomers` p JOIN `icontracts` x ON p.`contractNumber` = x.`contractNumber` ";
+            cmd += " JOIN `policies` q ON p.`contractNumber` = q.`contractNumber` ";
+            cmd += " LEFT JOIN `payers` c ON q.`payer` = c.`payer` ";
+            cmd += " WHERE q.`deceasedDate` <= '0001-01-01' AND q.`lapsed` <> 'Y' ";
+            //cmd += " AND p.`deceasedDate` <= '0001-01-01' ";
+
+            if (!chkFullList.Checked)
+                cmd += " AND q.`report` = 'Not Third Party' ";
+            else
+                cmd += " AND q.`report` <> '' ";
+
+            cmd += " AND c.`dueDate8` >= '" + date1 + "' ";
+            //cmd += " AND c.`lapsed` <> 'Y' ";
+            cmd += " AND ( q.`lapsedDate8` <= '0100-01-01' || q.`lapsedDate8` >= '" + date1 + "' )";
+
+            if (!chkFullList.Checked)
+                cmd += " AND ( q.`liability` >= '0.00' AND q.`liability` <= '450.00' ) ";
+            else
+                cmd += " AND ( q.`liability` >= '0.00' ) ";
+            if (!String.IsNullOrWhiteSpace(companyCode) || !String.IsNullOrWhiteSpace(payerCode))
+            {
+                if (!String.IsNullOrWhiteSpace(companyCode))
+                    cmd += " AND q.`companyCode` = '" + companyCode + "' ";
+                if (!String.IsNullOrWhiteSpace(payerCode))
+                    cmd += " AND q.`payer` = '" + payerCode + "' ";
+            }
+            else
+            {
+                cmd += getNotCompanyQuery();
+            }
+
+            cmd += " AND p.`contractNumber` LIKE 'ZZ%' ";
+            cmd += " ORDER by q.`payer` ";
+            cmd += ";";
+            DataTable notDt2 = G1.get_db_data(cmd);
+
+
+            if (G1.get_column_number(notDt2, "ddate") < 0)
+                notDt2.Columns.Add("ddate");
+            if (G1.get_column_number(notDt2, "duedate") < 0)
+                notDt2.Columns.Add("duedate");
+            if (G1.get_column_number(notDt2, "payerD_date") < 0)
+                notDt2.Columns.Add("payerD_date");
+            if (G1.get_column_number(notDt2, "policyD_date") < 0)
+                notDt2.Columns.Add("policyD_date");
+            if (G1.get_column_number(notDt2, "payerName") < 0)
+                notDt2.Columns.Add("payerName");
+
+            //CustomerDetails.FixOrphanPolicies2(dt2);
+
+            string payer = "";
+            string oldPayer = "";
+            double premium = 0D;
+            string payerFirstName = "";
+            string payerLastName = "";
+            string payerName = "";
+            for (int i = 0; i < notDt2.Rows.Count; i++)
+            {
+                payer = notDt2.Rows[i]["payer"].ObjToString();
+                if (payer != oldPayer)
+                    premium = Policies.CalcMonthlyPremium(payer, DateTime.Now);
+
+                notDt2.Rows[i]["amtOfMonthlyPayt1"] = premium;
+
+                payerFirstName = notDt2.Rows[i]["firstName"].ObjToString();
+                payerLastName = notDt2.Rows[i]["lastName"].ObjToString();
+                payerName = payerLastName + ", " + payerFirstName;
+                notDt2.Rows[i]["payerName"] = payerName;
+
+                date = notDt2.Rows[i]["dueDate81"].ObjToDateTime();
+                notDt2.Rows[i]["payerD_date"] = date.ToString("MM/dd/yyyy");
+                notDt2.Rows[i]["policyD_date"] = date.ToString("MM/dd/yyyy");
+
+                oldPayer = payer;
+            }
+
+
+            DataTable groupDt = G1.GetGroupBy(dt2, "payer");
+
+            DataRow[] dRows = null;
+            payer = "";
+
+            DataTable tempDt = null;
+
+            for ( int i=0; i<groupDt.Rows.Count; i++)
+            {
+                payer = groupDt.Rows[i]["payer"].ObjToString();
+                if ( payer == "CC-5414")
+                {
+                }
+                dRows = notDt2.Select("payer='" + payer + "'");
+                if ( dRows.Length > 0 )
+                {
+                    tempDt = dRows.CopyToDataTable();
+                    dt2.Merge(tempDt);
+                }
+            }
+
+            DataTable dt = dt2.Copy();
+
+            cmd = "Select * from `i_companies` ORDER BY `order`;";
+            companyDt = G1.get_db_data(cmd);
+
+            companyDt.Columns.Add("persons", Type.GetType("System.Double"));
+            companyDt.Columns.Add("policies", Type.GetType("System.Double"));
+            companyDt.Columns.Add("liability", Type.GetType("System.Double"));
+            companyDt.Columns.Add("premium", Type.GetType("System.Double"));
+            companyDt.Columns.Add("num");
+            companyDt.Columns.Add("mod");
+            G1.NumberDataTable(companyDt);
+
+            companyDt1 = companyDt.Copy();
+
+            if (G1.get_column_number(dt, "persons") < 0)
+                dt.Columns.Add("persons", Type.GetType("System.Double"));
+            if (G1.get_column_number(dt, "policies") < 0)
+                dt.Columns.Add("policies", Type.GetType("System.Double"));
+
+            DataView tempview = dt.DefaultView;
+            tempview.Sort = "companyCode asc, policyNumber asc";
+            dt = tempview.ToTable();
+
+            double persons = 0;
+            double policies = 0;
+            string oldPolicy = "";
+            string policy = "";
+            payer = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dt.Rows[i]["num"] = i.ObjToDouble();
+                payer = dt.Rows[i]["payer"].ObjToString().Trim();
+                if (payer == "VI01893")
+                {
+                }
+                companyCode = dt.Rows[i]["companyCode"].ObjToString();
+                if (companyCode == "VI")
+                {
+                }
+                policy = dt.Rows[i]["policyNumber"].ObjToString().Trim();
+                if (String.IsNullOrWhiteSpace(oldPolicy))
+                    oldPolicy = policy;
+                dt.Rows[i]["persons"] = 0D;
+                dt.Rows[i]["policies"] = 0D;
+                dt2.Rows[i]["policies"] = 0D;
+                if (oldPolicy == policy)
+                    continue;
+                if (i >= 0)
+                {
+                    dt.Rows[i - 1]["policies"] = 1D;
+                    dt2.Rows[i - 1]["policies"] = 1D;
+                }
+                oldPolicy = policy;
+            }
+            int lastRow = dt.Rows.Count - 1;
+            if (lastRow >= 0)
+            {
+                dt.Rows[lastRow]["policies"] = 1D;
+                dt2.Rows[lastRow]["policies"] = 1D;
+            }
+
+            this.Cursor = Cursors.WaitCursor;
+
+            dt = LoadUniquePerPayer(dt, companyDt);
+
+            this.Cursor = Cursors.Default;
+
+
+            dgv.Hide();
+            dgv.DataSource = companyDt;
+
+
+            G1.NumberDataTable(dt);
+
+            if (G1.get_column_number(dt, "OriginalRow") < 0)
+                dt.Columns.Add("OriginalRow");
+            if (G1.get_column_number(dt, "FullInsuredName") < 0)
+                dt.Columns.Add("FullInsuredName");
+            if (G1.get_column_number(dt, "issueDateStr") < 0)
+                dt.Columns.Add("issueDateStr");
+            string firstName = "";
+            string lastName = "";
+            DateTime issueDate = DateTime.Now;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dt.Rows[i]["OriginalRow"] = dt.Rows[i]["num"].ObjToString();
+                lastName = dt.Rows[i]["policyLastName"].ObjToString();
+                firstName = dt.Rows[i]["policyFirstName"].ObjToString();
+                dt.Rows[i]["FullInsuredName"] = lastName + ", " + firstName;
+
+                issueDate = dt.Rows[i]["issueDate81"].ObjToDateTime();
+                dt.Rows[i]["issueDateStr"] = issueDate.ToString("yyyyMMdd");
+            }
+
+            //originalDt = dt;
+
+            tempview = dt.DefaultView;
+            tempview.Sort = "payerName asc, Payer asc";
+            dt = tempview.ToTable();
+
+
+            dgv2.DataSource = dt;
+            dgv2.Show();
+
+
+            gridMain2.Columns["payerName"].SortIndex = 0;
+            gridMain2.Columns["policyFirstName"].SortIndex = 1;
+
+            dt2.DefaultView.Sort = "payerName asc, payer asc, policyFirstName asc";
+
+            dt2 = dt2.DefaultView.ToTable();
+
+            dgv2.DataSource = dt2;
+            gridMain2.RefreshData();
+            gridMain2.RefreshEditor(true);
+
+            dgv2.Refresh();
+
+            this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private void calculatePremuimToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataTable dt2 = (DataTable)dgv2.DataSource;
+            if (dt2 == null)
+            {
+                MessageBox.Show("***INFO*** There are no rows of data!!", "Sum Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+            if (dt2.Rows.Count <= 0)
+            {
+                MessageBox.Show("***INFO*** There are no rows of data!!", "Sum Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+            DataRow dr = gridMain2.GetFocusedDataRow();
+
+            int rowHandle = gridMain2.FocusedRowHandle;
+            int row = gridMain2.GetDataSourceRowIndex(rowHandle);
+
+
+            int[] rows = gridMain2.GetSelectedRows();
+            int lastRow = dt2.Rows.Count;
+            lastRow = rows.Length;
+
+            int count = 0;
+
+            DataTable tempDt = null;
+
+            double total = 0D;
+            double value = 0D;
+
+            for (int i = 0; i < lastRow; i++)
+            {
+                row = rows[i];
+                value = gridMain2.GetRowCellValue(row, "premium").ObjToDouble();
+                total += value;
+            }
+
+            string str = G1.ReformatMoney(total);
+            MessageBox.Show("***INFO*** Total of the data is " + str + "!!", "Sum Total Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+        }
+        /****************************************************************************************/
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv2.DataSource;
+            DataView tempview = dt.DefaultView;
+            tempview.Sort = "payer asc, companyCode asc, policyNumber asc";
+            dt = tempview.ToTable();
+
+            string payer = "";
+            string oldPayer = "";
+            string companyCode = "";
+
+            DataRow dRow = null;
+            int lastRow = 0;
+            string column = "";
+            int idx = 0;
+
+            DataTable uDt = new DataTable();
+            uDt.Columns.Add("Num");
+            uDt.Columns.Add("Payer");
+            uDt.Columns.Add("Unique", Type.GetType("System.Double"));
+
+            G1.AddNewColumn(gridMain4, "Num", "Num", "", FormatType.None, 70, true);
+            G1.AddNewColumn(gridMain4, "Payer", "Payer", "", FormatType.None, 70, true);
+            G1.AddNewColumn(gridMain4, "Unique", "Unique", "", FormatType.Numeric, 70, true);
+
+            DataRow[] dRows = null;
+            DataTable ddt = null;
+
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                payer = dt.Rows[i]["payer"].ObjToString();
+                if (String.IsNullOrWhiteSpace(payer))
+                    continue;
+                if ( payer != oldPayer )
+                {
+                    dRow = uDt.NewRow();
+                    dRow["Payer"] = payer;
+                    uDt.Rows.Add(dRow);
+
+                    oldPayer = payer;
+                    lastRow = uDt.Rows.Count - 1;
+                }
+                companyCode = dt.Rows[i]["companyCode"].ObjToString();
+                column = companyCode.Substring(0, 1);
+                idx = G1.get_column_number(uDt, column);
+                if ( idx < 0 )
+                {
+                    uDt.Columns.Add(column, Type.GetType("System.Double"));
+                    uDt.Rows[lastRow][column] = 1;
+                    G1.AddNewColumn(gridMain4, column, column, "", FormatType.Numeric, 70, true);
+                    continue;
+                }
+                else
+                    uDt.Rows[lastRow][column] = 1;
+            }
+            double count = 0;
+            double dValue = 0D;
+            int col = G1.get_column_number(uDt, "Unique");
+            for (int row = 0; row < uDt.Rows.Count; row++)
+            {
+                count = 0;
+                for (int i = (col + 1); i < uDt.Columns.Count; i++)
+                {
+                    dValue = uDt.Rows[row][i].ObjToDouble();
+                    if (dValue > 0D)
+                        count++;
+                }
+                uDt.Rows[row]["Unique"] = count;
+            }
+
+            G1.ClearAllPositions(gridMain4);
+            string name = "";
+            int k = 1;
+            for ( int j=0; j<uDt.Columns.Count; j++)
+            {
+                name = uDt.Columns[j].ColumnName;
+                G1.SetColumnPosition(gridMain4, name, k++);
+            }
+
+            dgv2.Hide();
+            G1.NumberDataTable(uDt);
+            dgv4.DataSource = uDt;
+            dgv4.Show();
+        }
+        /****************************************************************************************/
+        private void gridMain4_DoubleClick(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain4.GetFocusedDataRow();
+            string payer = dr["payer"].ObjToString();
+            if (String.IsNullOrWhiteSpace(payer))
+                return;
+            string cmd = "Select * from `payers` where `payer` = '" + payer + "';";
+            DataTable dx = G1.get_db_data(cmd);
+            if (dx.Rows.Count <= 0)
+            {
+                MessageBox.Show("***ERROR*** Locating Payer " + payer + "!");
+                return;
+            }
+
+            string contract = dx.Rows[0]["contractNumber"].ObjToString();
+            this.Cursor = Cursors.WaitCursor;
+
+            CustomerDetails clientForm = new CustomerDetails(contract);
+            clientForm.Show();
+
+            this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/
     }

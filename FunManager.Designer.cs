@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FunManager));
-            DevExpress.Utils.ContextButton contextButton4 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -207,6 +207,9 @@
             this.btnGetTim = new System.Windows.Forms.Button();
             this.tabDiscretionary = new System.Windows.Forms.TabPage();
             this.dgv5 = new DevExpress.XtraGrid.GridControl();
+            this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.findItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clarifyItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain5 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn122 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -353,6 +356,7 @@
             this.panelTimTop.SuspendLayout();
             this.tabDiscretionary.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv5)).BeginInit();
+            this.contextMenuStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit16)).BeginInit();
@@ -3034,7 +3038,7 @@
             // 
             // dgv5
             // 
-            this.dgv5.ContextMenuStrip = this.contextMenuStrip1;
+            this.dgv5.ContextMenuStrip = this.contextMenuStrip3;
             this.dgv5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv5.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv5.Location = new System.Drawing.Point(0, 0);
@@ -3056,6 +3060,29 @@
             this.dgv5.TabIndex = 7;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
+            // 
+            // contextMenuStrip3
+            // 
+            this.contextMenuStrip3.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.findItemToolStripMenuItem,
+            this.clarifyItemToolStripMenuItem});
+            this.contextMenuStrip3.Name = "contextMenuStrip3";
+            this.contextMenuStrip3.Size = new System.Drawing.Size(155, 52);
+            // 
+            // findItemToolStripMenuItem
+            // 
+            this.findItemToolStripMenuItem.Name = "findItemToolStripMenuItem";
+            this.findItemToolStripMenuItem.Size = new System.Drawing.Size(154, 24);
+            this.findItemToolStripMenuItem.Text = "Find Item";
+            this.findItemToolStripMenuItem.Click += new System.EventHandler(this.findItemToolStripMenuItem_Click);
+            // 
+            // clarifyItemToolStripMenuItem
+            // 
+            this.clarifyItemToolStripMenuItem.Name = "clarifyItemToolStripMenuItem";
+            this.clarifyItemToolStripMenuItem.Size = new System.Drawing.Size(154, 24);
+            this.clarifyItemToolStripMenuItem.Text = "Clarify Item";
+            this.clarifyItemToolStripMenuItem.Click += new System.EventHandler(this.clarifyItemToolStripMenuItem_Click);
             // 
             // gridMain5
             // 
@@ -4434,7 +4461,6 @@
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(233, 23);
             this.dateTimePicker2.TabIndex = 97;
-            this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
             // 
             // label2
             // 
@@ -4444,7 +4470,6 @@
             this.label2.Size = new System.Drawing.Size(34, 17);
             this.label2.TabIndex = 96;
             this.label2.Text = "-To-";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // dateTimePicker1
             // 
@@ -4453,7 +4478,6 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(233, 23);
             this.dateTimePicker1.TabIndex = 95;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // chkSort
             // 
@@ -4568,10 +4592,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton4.Caption = "contextButton1";
-            contextButton4.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton4.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton4);
+            contextButton2.Caption = "contextButton1";
+            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton2.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // repositoryItemMemoEdit1
@@ -4612,7 +4636,7 @@
             this.toolStripRemoveFormat,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -4668,7 +4692,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // miscToolStripMenuItem
             // 
@@ -4676,7 +4700,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unLockScreenFormatToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -4732,6 +4756,7 @@
             this.panelTimTop.ResumeLayout(false);
             this.tabDiscretionary.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv5)).EndInit();
+            this.contextMenuStrip3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridMain5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit16)).EndInit();
@@ -5067,5 +5092,8 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn144;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn145;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn146;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
+        private System.Windows.Forms.ToolStripMenuItem findItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clarifyItemToolStripMenuItem;
     }
 }

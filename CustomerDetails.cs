@@ -394,6 +394,8 @@ namespace SMFS
                 editFunServices.LookAndFeel.SetSkinStyle(this.LookAndFeel.SkinName);
             }
             G1.LoadFormInPanel(editFunServices, this.panelClaimAll);
+
+            this.Refresh();
         }
         /***********************************************************************************************/
         private void LoadServices()
@@ -1081,6 +1083,9 @@ namespace SMFS
             DataTable dt = G1.get_db_data(cmd);
             dt.Columns.Add("mod");
 
+            if ( dt.Rows.Count > 0 && G1.isAdmin() )
+                dt = CheckPolicyPayerName(dt);
+
             double oldPremium = 0D;
             double newPremium = 0D;
             double monthlyPremium = 0D;
@@ -1187,6 +1192,35 @@ namespace SMFS
             saveRow = -1;
             if (G1.isField() || workWhat == "Policies" )
                 cmbSelectColumns.Text = "Policy Summary 2A";
+        }
+        /****************************************************************************************/
+        private DataTable CheckPolicyPayerName ( DataTable dt )
+        {
+            string policyPayerFname = dt.Rows[0]["firstName"].ObjToString();
+            string policyPayerLname = dt.Rows[0]["lastName"].ObjToString();
+            string payerFirstName = dt.Rows[0]["firstName1"].ObjToString();
+            string payerLastName = dt.Rows[0]["lastName1"].ObjToString();
+
+            if (policyPayerFname == payerFirstName && policyPayerLname == payerLastName)
+                return dt;
+
+            string policyPayerFullName = policyPayerFname + " " + policyPayerLname;
+            string payerFullName = payerFirstName + " " + payerLastName;
+
+            DialogResult result = MessageBox.Show("Primary Payer Name (" + payerFullName + ")\nDoes not match Policy Payer Name (" + policyPayerFullName + ")!\nDo you want to change the Policy Payer to match Primary Payer?", "Name Mismatch Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            if (result == DialogResult.No)
+                return dt;
+
+            string record = "";
+
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                record = dt.Rows[i]["record"].ObjToString();
+                G1.update_db_table("policies", "record", record, new string[] { "firstName", payerFirstName, "lastName", payerLastName });
+                dt.Rows[i]["firstName"] = payerFirstName;
+                dt.Rows[i]["lastName"] = payerLastName;
+            }
+            return dt;
         }
         /****************************************************************************************/
         public static void FixOrphanPolicies(DataTable dt)
@@ -2867,7 +2901,7 @@ namespace SMFS
                 printableComponentLink1.Landscape = true;
             }
 
-            Printer.setupPrinterMargins(50, 100, 80, 50);
+            Printer.setupPrinterMargins(10, 5, 80, 50);
 
             pageMarginLeft = Printer.pageMarginLeft;
             pageMarginRight = Printer.pageMarginRight;
@@ -5700,8 +5734,17 @@ namespace SMFS
         {
             ComboBox combo = (ComboBox)sender;
             string comboName = combo.Text;
+            string skinName = "";
             if (!String.IsNullOrWhiteSpace(comboName))
+            {
                 SetupSelectedColumns("Policies", comboName, dgv5);
+                foundLocalPreference = G1.RestoreGridLayout(this, this.dgv5, gridMain5, LoginForm.username, comboName, ref skinName);
+                if (!String.IsNullOrWhiteSpace(skinName))
+                {
+                    //if (skinName != "DevExpress Style")
+                    //    skinForm_SkinSelected("Skin : " + skinName);
+                }
+            }
             else
                 SetupSelectedColumns("Policies", "Primary", dgv5);
         }
@@ -5723,14 +5766,22 @@ namespace SMFS
         private bool foundPolicyPreference = false;
         private void btnLockPolicies_Click(object sender, EventArgs e)
         {
-            G1.SaveLocalPreferences(this, gridMain5, LoginForm.username, "PolicyDetailLayout");
+            string comboName = cmbSelectColumns.Text;
+            if (String.IsNullOrWhiteSpace(comboName))
+                comboName = "PolicyDetailLayout";
+
+            G1.SaveLocalPreferences(this, gridMain5, LoginForm.username, comboName );
             foundPolicyPreference = true;
         }
         /***********************************************************************************************/
         private void chkUseLockPositions_CheckedChanged(object sender, EventArgs e)
         {
             string skinName = "";
-            foundLocalPreference = G1.RestoreGridLayout(this, this.dgv5, gridMain5, LoginForm.username, "PolicyDetailLayout", ref skinName);
+            string comboName = cmbSelectColumns.Text;
+            if (String.IsNullOrWhiteSpace(comboName))
+                comboName = "PolicyDetailLayout";
+
+            foundLocalPreference = G1.RestoreGridLayout(this, this.dgv5, gridMain5, LoginForm.username, comboName, ref skinName);
 
             //if (!String.IsNullOrWhiteSpace(skinName))
             //{
@@ -5741,7 +5792,11 @@ namespace SMFS
         /***********************************************************************************************/
         private void btnUnlockPositions_Click(object sender, EventArgs e)
         {
-            G1.RemoveLocalPreferences(LoginForm.username, "PolicyDetailLayout");
+            string comboName = cmbSelectColumns.Text;
+            if (String.IsNullOrWhiteSpace(comboName))
+                comboName = "PolicyDetailLayout";
+
+            G1.RemoveLocalPreferences(LoginForm.username, comboName );
             foundPolicyPreference = false;
         }
         /***********************************************************************************************/

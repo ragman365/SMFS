@@ -214,7 +214,8 @@ namespace SMFS
             string skinName = "";
             majorSwitch = false;
             recalculateHistory = false;
-            enterTrustAdjustmentToolStripMenuItem.Enabled = false;
+            if ( !G1.isAdmin() )
+                enterTrustAdjustmentToolStripMenuItem.Enabled = false;
             if (paymentdRow == null )
             {
                 if ( workWhat.Trim().ToUpper().IndexOf ("PACKET PAYOFF") == 0 )
@@ -1132,12 +1133,17 @@ namespace SMFS
 
                 DateTime  Date = DateTime.Now;
                 DateTime oldLastDate = DateTime.Now;
+                string record = "";
 
                 for (int i = dt.Rows.Count - 1; i >= 0; i--)
                 {
                     if ( i == 0 )
                     {
                     }
+                    //record = dt.Rows[i]["record"].ObjToString();
+                    //if ( record == "343629")
+                    //{
+                    //}
                     status = dt.Rows[i]["fill"].ObjToString();
                     if (status == "D")
                     {
@@ -1220,7 +1226,14 @@ namespace SMFS
                             }
                             if (edited == "TRUSTADJ")
                             {
-                                dt.Rows[i]["principal"] = 0D;
+                                interest = dt.Rows[i]["interestPaid"].ObjToDouble();
+                                if (interest != 0D)
+                                {
+                                    dt.Rows[i]["principal"] = -1D * interest;
+                                    dt.Rows[i]["prince"] = -1D * interest;
+                                }
+                                else
+                                    dt.Rows[i]["principal"] = 0D;
                                 location = DailyHistory.DetermineBox(dt, i, 4);
                                 if ( i < (dt.Rows.Count - 1))
                                     dt.Rows[i]["balance"] = dt.Rows[i + 1]["balance"].ObjToDouble();
@@ -1857,8 +1870,12 @@ namespace SMFS
                     }
                     for (int i = 0; i < dRow.Length; i++)
                     {
-                        dRow[i]["principal"] = 0D;
-                        dRow[i]["prince"] = 0D;
+                        edited = dRow[i]["edited"].ObjToString();
+                        if (edited != "TRUSTADJ")
+                        {
+                            dRow[i]["principal"] = 0D;
+                            dRow[i]["prince"] = 0D;
+                        }
                         dRow[i]["dueDate8"] = G1.DTtoMySQLDT(dueDate);
                         dRow[i]["location"] = "";
                     }
@@ -5489,6 +5506,8 @@ namespace SMFS
                 interest = dt.Rows[i]["interestPaid"].ObjToDouble();
                 if (credit > 0D && interest == 0D)
                     continue;
+                else if ( credit > 0D && interest > 0D )
+                    break;
                 if (credit != 0D || debit != 0D)
                     continue;
                 break;
@@ -8114,7 +8133,7 @@ namespace SMFS
             string name = workName;
             DataTable workDt = (DataTable)dgv.DataSource;
 
-            using (TrustAdjustment trustForm = new TrustAdjustment(workContract, workName, DateTime.Now, 0D, 0D, 0D, "", false))
+            using (TrustAdjustment trustForm = new TrustAdjustment(workContract, workName, DateTime.Now, 0D, 0D, 0D, 0D, "", "", false))
             {
                 DialogResult result = trustForm.ShowDialog();
                 if (result == DialogResult.OK)
@@ -8133,10 +8152,14 @@ namespace SMFS
                     string trust = "";
                     string miniContract = Trust85.decodeContractNumber(workContract, ref trust, ref loc);
 
+                    loc = "None";
+
                     DateTime trustDate = trustForm.TrustDate;
                     double trust100Amount = trustForm.Trust100Amount;
                     double trust85Amount = trustForm.Trust85Amount;
                     double trustRetained = trustForm.TrustRetained;
+                    double trustInterest = trustForm.TrustInterest;
+                    string trustDepositNumber = trustForm.TrustDepositNumber;
                     string trustReason = trustForm.TrustReason;
                     string record = G1.create_record("payments", "lastName", "-1");
                     if (G1.BadRecord("payments", record))
@@ -8144,7 +8167,7 @@ namespace SMFS
                     //double trust100P = trustAmount / 0.85D;
                     //trust100P = G1.RoundValue(trust100P);
                     G1.update_db_table("payments", "record", record, new string[] { "contractNumber", workContract, "lastName", lastName, "firstName", firstName, "paymentAmount", "0", "interestPaid", "0", "debitAdjustment", "0", "creditAdjustment", "0", "debitReason", "", "creditReason", "" });
-                    G1.update_db_table("payments", "record", record, new string[] { "CheckNumber", "", "dueDate8", trustDate.ToString("yyyy-MM-dd"), "payDate8", trustDate.ToString("yyyy-MM-dd"), "trust85P", trust85Amount.ToString(), "trust100P", trust100Amount.ToString(), "retained", trustRetained.ToString(), "location", loc, "agentNumber", agent, "userId", LoginForm.username, "depositNumber", "X", "edited", "TrustAdj" });
+                    G1.update_db_table("payments", "record", record, new string[] { "CheckNumber", "", "dueDate8", trustDate.ToString("yyyy-MM-dd"), "payDate8", trustDate.ToString("yyyy-MM-dd"), "trust85P", trust85Amount.ToString(), "trust100P", trust100Amount.ToString(), "retained", trustRetained.ToString(), "interestPaid", trustInterest.ToString(), "location", loc, "agentNumber", agent, "userId", LoginForm.username, "depositNumber", trustDepositNumber, "edited", "TrustAdj" });
                     if (trust100Amount > 0D)
                         G1.update_db_table("payments", "record", record, new string[] { "creditReason", trustReason});
                     else
@@ -8170,6 +8193,8 @@ namespace SMFS
             double trust100Adjustment = 0D;
             double trust85Adjustment = 0D;
             double retained = 0D;
+            double interest = 0D;
+            string depositNumber = "";
             string reason = "";
             DateTime trustDate = DateTime.Now;
             if ( editing)
@@ -8181,10 +8206,12 @@ namespace SMFS
                 else
                     reason = dr["debitReason"].ObjToString();
                 retained = dr["retained"].ObjToDouble();
+                interest = dr["interestPaid"].ObjToDouble();
                 trustDate = dr["payDate8"].ObjToDateTime();
+                depositNumber = dr["depositNumber"].ObjToString();
             }
 
-            using (TrustAdjustment trustForm = new TrustAdjustment(workContract, workName, trustDate, trust100Adjustment, trust85Adjustment, retained, reason, editing))
+            using (TrustAdjustment trustForm = new TrustAdjustment(workContract, workName, trustDate, trust100Adjustment, trust85Adjustment, retained, interest, depositNumber, reason, editing))
             {
                 DialogResult result = trustForm.ShowDialog();
                 if (result == DialogResult.OK)
@@ -8203,10 +8230,14 @@ namespace SMFS
                     string trust = "";
                     string miniContract = Trust85.decodeContractNumber(workContract, ref trust, ref loc);
 
+                    loc = "None";
+
                     trustDate = trustForm.TrustDate;
                     double trust100Amount = trustForm.Trust100Amount;
                     double trust85Amount = trustForm.Trust85Amount;
                     double trustRetained = trustForm.TrustRetained;
+                    double trustInterest = trustForm.TrustInterest;
+                    string trustDepositNumber = trustForm.TrustDepositNumber;
                     string trustReason = trustForm.TrustReason;
                     string record = "";
                     if (!editing)
@@ -8220,7 +8251,7 @@ namespace SMFS
                     //double trust100P = trustAmount / 0.85D;
                     //trust100P = G1.RoundValue(trust100P);
                     G1.update_db_table("payments", "record", record, new string[] { "contractNumber", workContract, "lastName", lastName, "firstName", firstName, "paymentAmount", "0", "interestPaid", "0", "debitAdjustment", "0", "creditAdjustment", "0", "debitReason", "", "creditReason", "" });
-                    G1.update_db_table("payments", "record", record, new string[] { "CheckNumber", "", "dueDate8", trustDate.ToString("yyyy-MM-dd"), "payDate8", trustDate.ToString("yyyy-MM-dd"), "trust85P", trust85Amount.ToString(), "trust100P", trust100Amount.ToString(), "retained", trustRetained.ToString(), "location", loc, "agentNumber", agent, "userId", LoginForm.username, "depositNumber", "X", "edited", "TrustAdj" });
+                    G1.update_db_table("payments", "record", record, new string[] { "CheckNumber", "", "dueDate8", trustDate.ToString("yyyy-MM-dd"), "payDate8", trustDate.ToString("yyyy-MM-dd"), "trust85P", trust85Amount.ToString(), "trust100P", trust100Amount.ToString(), "retained", trustRetained.ToString(), "interesstPaid", trustInterest.ToString(), "location", loc, "agentNumber", agent, "userId", LoginForm.username, "depositNumber", trustDepositNumber, "edited", "TrustAdj" });
                     if (trust100Amount > 0D)
                         G1.update_db_table("payments", "record", record, new string[] { "creditReason", trustReason });
                     else

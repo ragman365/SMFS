@@ -1533,7 +1533,9 @@ namespace SMFS
         private void gridMain2_DoubleClick(object sender, EventArgs e)
         {
             DataRow dr = gridMain2.GetFocusedDataRow();
+            DataTable ddt = (DataTable)dgv2.DataSource;
             string contract = dr["contractNumber"].ObjToString();
+            string payer = dr["payer"].ObjToString();
             string record2 = "";
             bool gotRecord2 = false;
             try
@@ -1543,6 +1545,19 @@ namespace SMFS
             }
             catch ( Exception ex)
             {
+                if (String.IsNullOrWhiteSpace(contract))
+                    return;
+                workContract = contract;
+                string cmd = "Select * from `policies` where `contractNumber` = '" + contract + "';";
+                ddt = G1.get_db_data(cmd);
+                if (ddt.Rows.Count <= 0)
+                {
+                    cmd = "Select * from `policies` where `payer` = '" + payer + "';";
+                    ddt = G1.get_db_data(cmd);
+                    if ( ddt.Rows.Count <= 0 )
+                        return;
+                }
+                record2 = ddt.Rows[0]["record"].ObjToString();
             }
             if (!String.IsNullOrWhiteSpace(contract))
             {
@@ -1568,7 +1583,7 @@ namespace SMFS
                 }
                 else
                 {
-                    CustomerDetails clientForm = new CustomerDetails(contract);
+                    CustomerDetails clientForm = new CustomerDetails(contract, record2 );
                     clientForm.Show();
                 }
                 this.Cursor = Cursors.Default;

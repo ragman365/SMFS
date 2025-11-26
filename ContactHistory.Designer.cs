@@ -167,12 +167,12 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.goToFuneralToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 56);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(170, 28);
             // 
             // goToFuneralToolStripMenuItem
             // 
             this.goToFuneralToolStripMenuItem.Name = "goToFuneralToolStripMenuItem";
-            this.goToFuneralToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.goToFuneralToolStripMenuItem.Size = new System.Drawing.Size(169, 24);
             this.goToFuneralToolStripMenuItem.Text = "Go To Funeral";
             this.goToFuneralToolStripMenuItem.Click += new System.EventHandler(this.goToFuneralToolStripMenuItem_Click);
             // 

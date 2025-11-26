@@ -157,6 +157,7 @@ namespace SMFS
             if (G1.validate_date(date))
             {
                 DateTime startDate = date.ObjToDateTime();
+                startDate = txtFromDate.Text.ObjToDateTime();
                 DateTime endDate = txtToDate.Text.ObjToDateTime();
 
                 TimeSpan ts = endDate - startDate;

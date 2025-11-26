@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
             this.dgv = new DevExpress.XtraGrid.GridControl();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -62,6 +62,7 @@
             this.setManualPaymentPaidDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reinstateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnLapsed = new System.Windows.Forms.Button();
+            this.btnMessage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
@@ -77,9 +78,9 @@
             // 
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            gridLevelNode1.RelationName = "Level1";
+            gridLevelNode2.RelationName = "Level1";
             this.dgv.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode1});
+            gridLevelNode2});
             this.dgv.Location = new System.Drawing.Point(0, 0);
             this.dgv.LookAndFeel.SkinName = "iMaginary";
             this.dgv.LookAndFeel.UseDefaultLookAndFeel = false;
@@ -90,7 +91,7 @@
             this.repositoryItemComboBox1,
             this.repositoryItemCheckEdit1,
             this.repositoryItemComboBox2});
-            this.dgv.Size = new System.Drawing.Size(608, 560);
+            this.dgv.Size = new System.Drawing.Size(608, 562);
             this.dgv.TabIndex = 5;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -334,10 +335,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(608, 639);
+            this.panelAll.Size = new System.Drawing.Size(608, 641);
             this.panelAll.TabIndex = 6;
             // 
             // panelBottom
@@ -347,12 +348,13 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 79);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(608, 560);
+            this.panelBottom.Size = new System.Drawing.Size(608, 562);
             this.panelBottom.TabIndex = 8;
             // 
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.PeachPuff;
+            this.panelTop.Controls.Add(this.btnMessage);
             this.panelTop.Controls.Add(this.txtTrust85Paid);
             this.panelTop.Controls.Add(this.label2);
             this.panelTop.Controls.Add(this.lblCalcTrust85);
@@ -493,7 +495,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(608, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(608, 28);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -503,7 +505,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -541,7 +543,7 @@
             this.setManualPaymentPaidDateToolStripMenuItem,
             this.reinstateToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // setManualPaymentPaidDateToolStripMenuItem
@@ -572,6 +574,20 @@
             this.btnLapsed.Text = "Lapsed";
             this.btnLapsed.UseVisualStyleBackColor = false;
             this.btnLapsed.Click += new System.EventHandler(this.btnLapsed_Click);
+            // 
+            // btnMessage
+            // 
+            this.btnMessage.BackColor = System.Drawing.Color.Red;
+            this.btnMessage.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnMessage.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMessage.Location = new System.Drawing.Point(554, 11);
+            this.btnMessage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnMessage.Name = "btnMessage";
+            this.btnMessage.Size = new System.Drawing.Size(34, 28);
+            this.btnMessage.TabIndex = 39;
+            this.btnMessage.Text = "M";
+            this.btnMessage.UseVisualStyleBackColor = false;
+            this.btnMessage.Click += new System.EventHandler(this.btnMessage_Click);
             // 
             // ManualPayment
             // 
@@ -638,5 +654,6 @@
         private System.Windows.Forms.Label label2;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox2;
+        private System.Windows.Forms.Button btnMessage;
     }
 }

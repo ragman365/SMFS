@@ -37,6 +37,8 @@ namespace SMFS
         private void InsuranceCoupons_Load(object sender, EventArgs e)
         {
             btnProcess.Show();
+            btnSave.Hide();
+
             DateTime now = DateTime.Now;
             DateTime startDate = new DateTime(now.Year+1, 1, 1);
             DateTime stopDate = startDate.AddMonths(12);
@@ -442,6 +444,7 @@ namespace SMFS
             return groupDt;
         }
         /***********************************************************************************************/
+        private bool GenerateCoupons = false;
         private void btnProcess_Click(object sender, EventArgs e)
         {
             G1.CreateAudit("Insurance Coupon Generation");
@@ -535,6 +538,8 @@ namespace SMFS
             DataTable achDt = null;
 
             bool doit = false;
+            GenerateCoupons = true;
+
             for (int i = 0; i < lastRow; i++)
             {
                 Application.DoEvents();
@@ -768,6 +773,7 @@ namespace SMFS
                 }
             }
             DataTable dx = generateCouponList(localDt);
+
             G1.NumberDataTable(dx);
             dgv.DataSource = dx;
             originalDt = dx;
@@ -780,6 +786,7 @@ namespace SMFS
                 gridMain.RefreshData();
                 gridMain.Columns["contractNumber"].Visible = false;
                 gridMain.Columns["num"].Visible = false;
+                gridMain.Columns["record"].Visible = false;
                 if (cmbReport.Text.Trim() != "Report All")
                 {
                     gridMain.Columns["companyCodes"].Visible = false;
@@ -792,6 +799,8 @@ namespace SMFS
             }
             gridMain.RefreshData();
             this.Cursor = Cursors.Default;
+
+            GenerateCoupons = false;
         }
         /***********************************************************************************************/
         private DataTable GetUniquePolicies(DataTable policyDt)
@@ -810,9 +819,72 @@ namespace SMFS
             return groupDt;
         }
         /***********************************************************************************************/
+        private DataTable Locate_SDI_Key_Code ( DataTable payerDt, string payer )
+        {
+            string prefix = "";
+            string keyCode = "";
+            string checkPayer = "";
+            string burial_association = "";
+            int len = 0;
+            int length = 0;
+            string str = "";
+            bool found = false;
+
+            DataRow dRow = null;
+            DataTable prefixDt = new DataTable();
+            prefixDt.Columns.Add("prefix");
+            prefixDt.Columns.Add("burial_association");
+            prefixDt.Columns.Add("SDI_Key_Code");
+
+            for ( int i=0; i<payerDt.Rows.Count; i++)
+            {
+                try
+                {
+                    keyCode = payerDt.Rows[i]["SDI_Key_Code"].ObjToString();
+                    burial_association = payerDt.Rows[i]["burial_association"].ObjToString();
+                    prefix = payerDt.Rows[i]["prefix"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(prefix))
+                        continue;
+                    len = prefix.Length;
+                    checkPayer = payer.Substring(0, len);
+                    if (prefix == checkPayer)
+                    {
+                        found = false;
+                        length = len;
+                        for ( int j=0; j<prefixDt.Rows.Count; j++)
+                        {
+                            str = prefixDt.Rows[j]["prefix"].ObjToString();
+                            if ( str.Length < length )
+                            {
+                                prefixDt.Rows[j]["prefix"] = prefix;
+                                prefixDt.Rows[j]["burial_association"] = burial_association;
+                                prefixDt.Rows[j]["SDI_Key_Code"] = keyCode;
+                                found = true;
+                            }
+                        }
+                        if (!found)
+                        {
+                            dRow = prefixDt.NewRow();
+                            dRow["prefix"] = prefix;
+                            dRow["burial_association"] = burial_association;
+                            dRow["SDI_Key_Code"] = keyCode;
+                            prefixDt.Rows.Add(dRow);
+                        }
+                    }
+                }
+                catch ( Exception ex )
+                {
+                }
+            }
+            return prefixDt;
+        }
+        /***********************************************************************************************/
         private DataTable generateCouponList(DataTable dt)
         {
             DataTable funDt = G1.get_db_data("Select * from `funeralhomes`;");
+            DataTable burialDt = G1.get_db_data("Select * from `burial_association`");
+
+            DataTable payerDt = BuildPayerTable(burialDt);
 
             DataTable dx = new DataTable();
             dx.Columns.Add("Number");
@@ -833,6 +905,7 @@ namespace SMFS
             dx.Columns.Add("reports");
             dx.Columns.Add("ach");
             dx.Columns.Add("funeralHome");
+            dx.Columns.Add("record");
 
             string contract = "";
             string payer = "";
@@ -870,6 +943,7 @@ namespace SMFS
             string loc = "";
             string cmd = "";
             double numberPayments = 0D;
+            string SDI_Key_Code = "";
             string TOTAL_TO_PAY = "";
             DataTable ddt = null;
             DateTime dueDate = DateTime.Now;
@@ -879,7 +953,9 @@ namespace SMFS
             string reports = "";
             string ach = "";
             string funeralHome = "";
+            string record = "";
             DataRow[] dRows = null;
+            DataTable prefixDt = null;
 
             DateTime firstDate = new DateTime(stopDate.Year, 1, 1);
 
@@ -889,6 +965,18 @@ namespace SMFS
             {
                 try
                 {
+                    record = dt.Rows[i]["record"].ObjToString();
+                    SDI_Key_Code = dt.Rows[i]["SDICode"].ObjToString();
+                    if ( String.IsNullOrWhiteSpace ( SDICode ))
+                        SDI_Key_Code = "YY";
+                    payer = dt.Rows[i]["payer"].ObjToString();
+                    prefixDt = Locate_SDI_Key_Code(payerDt, payer);
+                    if ( prefixDt.Rows.Count == 1 )
+                        SDI_Key_Code = prefixDt.Rows[0]["SDI_Key_Code"].ObjToString();
+                    else if ( prefixDt.Rows.Count > 1 )
+                    {
+                    }
+
                     companyCode = dt.Rows[i]["companyCodes"].ObjToString();
                     reports = dt.Rows[i]["reports"].ObjToString();
                     ach = dt.Rows[i]["ach"].ObjToString();
@@ -929,6 +1017,7 @@ namespace SMFS
                     funeralHome = "";
 
                     SDICode = getSDICode(agent, oldloc);
+                    SDICode = SDI_Key_Code;
                     if (String.IsNullOrWhiteSpace(SDICode))
                         SDICode = "XX";
                     dRow["Number"] = "947402" + SDICode;
@@ -1007,6 +1096,7 @@ namespace SMFS
                     dRow["reports"] = reports;
                     dRow["ach"] = ach;
                     dRow["funeralHome"] = funeralHome;
+                    dRow["record"] = record;
                     dx.Rows.Add(dRow);
                 }
                 catch (Exception ex)
@@ -1014,6 +1104,45 @@ namespace SMFS
                 }
             }
             return dx;
+        }
+        /***********************************************************************************************/
+        private DataTable BuildPayerTable ( DataTable burialDt )
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("prefix");
+            dt.Columns.Add("SDI_Key_Code");
+            dt.Columns.Add("burial_association");
+
+            string burial_association = "";
+            string payer_prefixes = "";
+            string prefix = "";
+            string SDI_Key_Code = "";
+
+            string[] Lines = null;
+
+            DataRow dRow = null;
+
+            for ( int i=0; i<burialDt.Rows.Count; i++)
+            {
+                burial_association = burialDt.Rows[i]["burial_association"].ObjToString();
+                SDI_Key_Code = burialDt.Rows[i]["SDI_Key_Code"].ObjToString();
+                payer_prefixes = burialDt.Rows[i]["payer_prefixes"].ObjToString();
+
+                if (String.IsNullOrWhiteSpace(payer_prefixes))
+                    continue;
+                Lines = payer_prefixes.Split(',');
+
+                for ( int j=0; j<Lines.Length; j++)
+                {
+                    prefix = Lines[j].ObjToString().Trim();
+                    dRow = dt.NewRow();
+                    dRow["burial_association"] = burial_association;
+                    dRow["SDI_Key_Code"] = SDI_Key_Code;
+                    dRow["prefix"] = prefix;
+                    dt.Rows.Add(dRow);
+                }
+            }
+            return dt;
         }
         /***********************************************************************************************/
         public static string getSDICode(string agent, string oldloc)
@@ -1368,6 +1497,53 @@ namespace SMFS
                 }
             }
             return procLoc.Length > 0 ? " `number` IN (" + procLoc + ") " : "";
+        }
+        /***********************************************************************************************/
+        private void gridMain_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (G1.get_column_number(dt, "mod") < 0)
+                dt.Columns.Add("mod");
+
+            int rowHandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowHandle);
+            DataRow dr = gridMain.GetFocusedDataRow();
+            if (dr == null)
+                return;
+
+            dr["mod"] = "Y";
+
+            btnSave.Show();
+            btnSave.Refresh();
+        }
+        /***********************************************************************************************/
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            if (G1.get_column_number(dt, "mod") < 0)
+                dt.Columns.Add("mod");
+
+            string mod = "";
+            string payer = "";
+            string record = "";
+            string sdiCode = "";
+            for ( int i=0; i<dt.Rows.Count; i++)
+            {
+                mod = dt.Rows[i]["mod"].ObjToString().ToUpper();
+                if (mod != "Y")
+                    continue;
+
+                record = dt.Rows[i]["record"].ObjToString();
+                payer = dt.Rows[i]["payer"].ObjToString();
+                sdiCode = dt.Rows[i]["Number"].ObjToString();
+                sdiCode = sdiCode.Replace("947402", "");
+                if (String.IsNullOrWhiteSpace(sdiCode))
+                    continue;
+
+                if (String.IsNullOrWhiteSpace(record))
+                    continue;
+                G1.update_db_table("payers", "record", record, new string[] { "SDICode", sdiCode });
+            }
         }
         /***********************************************************************************************/
     }

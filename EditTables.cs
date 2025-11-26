@@ -316,6 +316,13 @@ namespace SMFS
             if (String.IsNullOrWhiteSpace(column) || String.IsNullOrWhiteSpace(table))
                 return;
 
+            if ( table.ToUpper() == "REF_BURIAL_ASSOCIATION")
+            {
+                EditBurialAssociation burialForm = new EditBurialAssociation();
+                burialForm.Show();
+                return;
+            }
+
             string cmd = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'SMFS' AND table_name = '" + table + "';";
             DataTable dx = G1.get_db_data(cmd);
             if (dx.Rows.Count > 0)

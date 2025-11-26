@@ -1745,6 +1745,14 @@ namespace SMFS
                 dRow["service"] = date.ToString("MM/dd/yyyy") + " PreNeed Discount";
                 dt.Rows.Add(dRow);
             }
+            else if ( discount != 0D )
+            {
+                dRow = dt.NewRow();
+                dRow["type"] = "Payment";
+                dRow["price"] = G1.ReformatMoney(discount);
+                dRow["service"] = date.ToString("MM/dd/yyyy") + " PreNeed Discount";
+                dt.Rows.Add(dRow);
+            }
             TotalDiscounts = discount;
 
             gotPackage = myPackage;
@@ -1954,7 +1962,8 @@ namespace SMFS
                     {
                         //newTotalAllowances += Math.Abs(dt.Rows[i]["price"].ObjToDouble());
                         dValue = dt.Rows[i]["price"].ObjToDouble();
-                        dValue = Math.Abs(dValue);
+                        if ( service.ToUpper().IndexOf ( "PRENEED DISCOUNT") < 0 )
+                            dValue = Math.Abs(dValue);
                         newTotalAllowances += dValue;
                     }
                     else
@@ -3124,8 +3133,10 @@ namespace SMFS
                 //txtServices.Text = money;
                 //txtServices.Refresh();
 
-                money = G1.ReformatMoney(merchandiseTotal + totalMerchandise - ignoreMerchandise);
-                allMerchandise = merchandiseTotal + totalMerchandise - ignoreMerchandise;
+                //money = G1.ReformatMoney(merchandiseTotal + totalMerchandise - ignoreMerchandise);
+                money = G1.ReformatMoney(merchandiseTotal + totalMerchandise );
+                //allMerchandise = merchandiseTotal + totalMerchandise - ignoreMerchandise;
+                allMerchandise = merchandiseTotal + totalMerchandise;
                 //txtMerchandise.Text = money;
                 //txtMerchandise.Refresh();
 
@@ -3374,15 +3385,18 @@ namespace SMFS
 
                 if (amount <= 0D && upgrade <= 0D)
                 {
-                    data = dt.Rows[i]["data"].ObjToString().ToUpper();
-                    if (data != "ZERO")
-                        dt.Rows.RemoveAt(i);
-                    else
+                    if (service.ToUpper().IndexOf ( "PRENEED DISCOUNT") < 0 )
                     {
-                        //dt.Rows[i]["price"] = "0.00";
-                        //dt.Rows[i]["price1"] = "0.00";
-                        //dt.Rows[i]["pastPrice"] = "0.00";
-                        //dt.Rows[i]["currentPrice"] = "0.00";
+                        data = dt.Rows[i]["data"].ObjToString().ToUpper();
+                        if (data != "ZERO")
+                            dt.Rows.RemoveAt(i);
+                        else
+                        {
+                            //dt.Rows[i]["price"] = "0.00";
+                            //dt.Rows[i]["price1"] = "0.00";
+                            //dt.Rows[i]["pastPrice"] = "0.00";
+                            //dt.Rows[i]["currentPrice"] = "0.00";
+                        }
                     }
                 }
             }
@@ -4373,9 +4387,13 @@ namespace SMFS
             double ignoreCashAdvance = 0D;
 
             double professionalServices = TotalUpTable(allDt[0], ref ignoreProcessions);
+            //professionalServices += ignoreProcessions;
             double additionalServices = TotalUpTable(allDt[1], ref ignoreAdditional);
+            //additionalServices += ignoreAdditional;
             double automotiveServices = TotalUpTable(allDt[2], ref ignoreAuto);
+            //automotiveServices += ignoreAuto;
             double merchandice = TotalUpTable(allDt[3], ref ignoreMerchandise);
+            //merchandice = merchandice + ignoreMerchandise;
             double specialCharges = TotalUpTable(allDt[4], ref ignoreSpecial);
             double cashAdvance = TotalUpTable(allDt[5], ref ignoreCashAdvance);
 
@@ -4414,7 +4432,8 @@ namespace SMFS
             AppendToTable(allDt[6], "      TOTAL FUNERAL HOME CHARGES", data, "Arial Black", largeFontSize, "Lucida Console", smallFontSize);
 
             double balanceDue = TotalPackage - totalCredit;
-            balanceDue = TotalPackage - Math.Abs(newTotalAllowances) - newPayments;
+            //balanceDue = TotalPackage - Math.Abs(newTotalAllowances) - newPayments;
+            balanceDue = TotalPackage - newTotalAllowances - newPayments;
             //if (gotPackage && balanceDue < packagePrice) // Removed cuz of EV22042
             //{
             //    totalAllowances = totalAllowances - (packagePrice - balanceDue);
@@ -5784,6 +5803,7 @@ namespace SMFS
             y = 0;
             string detail2 = "";
             bool gotRefund = false;
+            bool gotPreneed = false;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 gotRefund = false;
@@ -5823,6 +5843,8 @@ namespace SMFS
                 ssize = dt.Rows[i]["2size2"].ObjToString();
                 data = dt.Rows[i]["details2"].ObjToString();
                 desc = dt.Rows[i]["description2"].ObjToString();
+                if (desc.ToUpper().IndexOf("PRENEED DISCOUNT") > 0)
+                    gotPreneed = true;
                 gotMoney = false;
                 if (!String.IsNullOrWhiteSpace(data))
                 {
@@ -5830,7 +5852,7 @@ namespace SMFS
                     text = text.Replace(",", "");
                     if (database.ToUpper() == "SMFS")
                     {
-                        if (!gotRefund)
+                        if (!gotRefund&& !gotPreneed )
                             text = text.Replace("-", "");
                     }
                     if (G1.validate_numeric(text))

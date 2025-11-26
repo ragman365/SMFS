@@ -1506,14 +1506,15 @@ namespace SMFS
 
             DataTable importDt = Import.ImportCSVfile(filename);
 
+            if (G1.get_column_number(importDt, "Amount") < 0)
+            {
+                importDt = AddRenasantHeader(importDt);
+            }
+
             DataTable dt = null;
 
             if ( importDt.Rows.Count > 0)
             {
-                if ( G1.get_column_number ( importDt, "Amount") < 0 )
-                {
-                    importDt = AddRenasantHeader(importDt);
-                }
                 if ( G1.get_column_number ( importDt, "code") < 0 )
                 {
                     importDt.Columns["Customer Number"].ColumnName = "contractNumber";
@@ -4823,9 +4824,10 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
-        public static void HandleUnpaidInterest ( string contractNumber, double payment, ref double interest, ref double unpaid_interest, ref double principal, ref double balance )
+        public static string HandleUnpaidInterest ( string contractNumber, double payment, ref double interest, ref double unpaid_interest, ref double principal, ref double balance )
         {
             //unpaid_interest = 0D;
+            string message = "";
             string cmd = "";
             if (DailyHistory.isInsurance(contractNumber))
                 cmd = "Select * from `icontracts` where `contractNumber` = '" + contractNumber + "';";
@@ -4848,6 +4850,7 @@ namespace SMFS
                         unpaid_interest = G1.RoundDown(unpaid_interest);
                         newprincipal = 0D;
                         balance = balance + unpaid_interest;
+                        message = "Unpaid Interest Issue";
                     }
                     else
                     {
@@ -4863,6 +4866,7 @@ namespace SMFS
                         unpaid_interest = 0D;
                 }
             }
+            return message;
         }
         /***********************************************************************************************/
         private bool CheckDeceasedRemoved ( string contractNumber )
