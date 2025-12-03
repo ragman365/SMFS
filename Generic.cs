@@ -4846,7 +4846,19 @@ namespace GeneralLib
                 // Check if the control is a DevExpress BaseControl
                 if (control is DevExpress.XtraEditors.BaseControl devControl)
                 {
-                    devControl.Refresh();
+                    if ( devControl.Visible )
+                        devControl.Refresh();
+                }
+                else if ( control is System.Windows.Forms.TextBox )
+                {
+                    TextBox tBox = (TextBox)control;
+                    if (tBox.Visible)
+                    {
+                        tBox.Refresh();
+                        tBox.Show();
+                        tBox.Refresh();
+                    }
+                    //control.Refresh();
                 }
 
                 // Recursively call for child controls

@@ -32,6 +32,7 @@ namespace SMFS
         private string custExtendedFile = "cust_extended";
         private bool insurance = false;
         private string workPayer = "";
+        private string payerRecord = "";
         private bool funModified = false;
         private bool customerModified = false;
         private bool loading = true;
@@ -140,11 +141,35 @@ namespace SMFS
                 //this.Close();
                 return;
             }
+            DataTable dx = null;
             if (insurance)
+            {
+                payerRecord = "";
                 workPayer = dt.Rows[0]["payer"].ObjToString();
+                if ( !String.IsNullOrWhiteSpace ( workPayer ))
+                {
+                    cmd = "Select * from `payers` where `payer` = '" + workPayer + "';";
+                    dx = G1.get_db_data(cmd);
+                    if (dx.Rows.Count > 0)
+                    {
+                        payerRecord = dx.Rows[0]["record"].ObjToString();
+                        string sdi = dx.Rows[0]["SDICode"].ObjToString();
+                        txtSDI.Text = sdi;
+                    }
+                }
+            }
+            else
+            {
+                payerRecord = "";
+                labelSDI.Hide();
+                labelSDI.Visible = false;
+                txtSDI.Hide();
+                txtSDI.Visible = false;
+                txtSDI.Refresh();
+            }
 
             cmd = "Select * from `" + contractsFile + "` where `contractNumber` = '" + workContract + "';";
-            DataTable dx = G1.get_db_data(cmd);
+            dx = G1.get_db_data(cmd);
             if (dx.Rows.Count <= 0)
             {
                 cmd = "Select * from `fcontracts` where `contractNumber` = '" + workContract + "';";
@@ -1394,6 +1419,13 @@ namespace SMFS
                         record = dd.Rows[0]["record"].ObjToString();
                         G1.update_db_table("creditcards", "record", record, new string[] { "status", "Pause" });
                     }
+                }
+
+                if (!String.IsNullOrWhiteSpace(workPayer))
+                {
+                    string sdiCode = txtSDI.Text.Trim();
+                    if (!String.IsNullOrWhiteSpace(payerRecord))
+                        G1.update_db_table("payers", "record", payerRecord, new string[] {"SDICode", sdiCode });
                 }
                 this.Cursor = Cursors.Default;
             }

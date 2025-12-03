@@ -264,7 +264,6 @@ namespace SMFS
             if (dRows.Length > 0)
                 fixSerialNumber = dRows[0]["SerialNumber"].ObjToString();
 
-
             this.Tag = workContract;
         }
         /***************************************************************************************/
@@ -2984,12 +2983,12 @@ namespace SMFS
 
             //G1.WriteAudit("RecalcTotal");
 
-            if (workFuneral)
-            {
-                Form form = G1.IsFormOpen("ViewPDF");
-                if (form != null)
-                    return false;
-            }
+            //if (workFuneral)
+            //{
+            //    Form form = G1.IsFormOpen("ViewPDF");
+            //    if (form != null)
+            //        return false;
+            //}
 
 
             string select = "";

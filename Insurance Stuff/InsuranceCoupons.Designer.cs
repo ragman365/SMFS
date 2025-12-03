@@ -64,6 +64,7 @@
             this.bandedGridColumn7 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.cmbReport = new System.Windows.Forms.ComboBox();
@@ -83,7 +84,6 @@
             this.btnProcess = new System.Windows.Forms.Button();
             this.chkIncludeHeader = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.btnSave = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -112,7 +112,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1348, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1348, 30);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -122,7 +122,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -160,7 +160,7 @@
             this.readOldDataToolStripMenuItem,
             this.compare2ndFileToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // readOldDataToolStripMenuItem
@@ -182,10 +182,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1348, 392);
+            this.panelAll.Size = new System.Drawing.Size(1348, 390);
             this.panelAll.TabIndex = 5;
             // 
             // panelBottom
@@ -195,7 +195,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 97);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1348, 295);
+            this.panelBottom.Size = new System.Drawing.Size(1348, 293);
             this.panelBottom.TabIndex = 7;
             // 
             // tabControl1
@@ -208,7 +208,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1348, 295);
+            this.tabControl1.Size = new System.Drawing.Size(1348, 293);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -218,7 +218,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(1340, 266);
+            this.tabPage1.Size = new System.Drawing.Size(1340, 264);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "SMFS";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -231,7 +231,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1334, 258);
+            this.dgv.Size = new System.Drawing.Size(1334, 256);
             this.dgv.TabIndex = 1;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -392,7 +392,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage2.Size = new System.Drawing.Size(1340, 264);
+            this.tabPage2.Size = new System.Drawing.Size(1340, 266);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "AS400";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -405,7 +405,7 @@
             this.dgv2.MainView = this.gridMain2;
             this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv2.Name = "dgv2";
-            this.dgv2.Size = new System.Drawing.Size(1334, 256);
+            this.dgv2.Size = new System.Drawing.Size(1334, 258);
             this.dgv2.TabIndex = 2;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -563,7 +563,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1340, 264);
+            this.tabPage3.Size = new System.Drawing.Size(1340, 266);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Differences";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -576,7 +576,7 @@
             this.dgv3.MainView = this.gridMain3;
             this.dgv3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv3.Name = "dgv3";
-            this.dgv3.Size = new System.Drawing.Size(1340, 264);
+            this.dgv3.Size = new System.Drawing.Size(1340, 266);
             this.dgv3.TabIndex = 3;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -845,6 +845,17 @@
             this.panelTop.Size = new System.Drawing.Size(1348, 97);
             this.panelTop.TabIndex = 6;
             // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.Lime;
+            this.btnSave.Location = new System.Drawing.Point(1138, 61);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 30);
+            this.btnSave.TabIndex = 153;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -1031,17 +1042,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // btnSave
-            // 
-            this.btnSave.BackColor = System.Drawing.Color.Lime;
-            this.btnSave.Location = new System.Drawing.Point(1138, 61);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 30);
-            this.btnSave.TabIndex = 153;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = false;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // InsuranceCoupons
             // 

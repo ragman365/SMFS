@@ -266,10 +266,10 @@ namespace SMFS
                     zip = dt.Rows[i]["zip"].ObjToString();
 
                     payer_prefixes = dt.Rows[i]["payer_prefixes"].ObjToString();
-                    rtnAddress = dt.Rows[i]["address"].ObjToString();
-                    rtnCity = dt.Rows[i]["city"].ObjToString();
-                    rtnState = dt.Rows[i]["state"].ObjToString();
-                    rtnZip = dt.Rows[i]["zip"].ObjToString();
+                    rtnAddress = dt.Rows[i]["rtnAddress"].ObjToString();
+                    rtnCity = dt.Rows[i]["rtnCity"].ObjToString();
+                    rtnState = dt.Rows[i]["rtnState"].ObjToString();
+                    rtnZip = dt.Rows[i]["rtnZip"].ObjToString();
 
                     G1.update_db_table(workTable, "record", record, new string[] { "SDI_Key_Code", SDI_Key_Code, "burial_association", burialAssociation, "payable", payable, "payer_prefixes", payer_prefixes, "address", address, "city", city, "state", state, "zip", zip, "rtnAddress", rtnAddress, "rtnCity", rtnCity, "rtnState", rtnState, "rtnZip", rtnZip });
                 }

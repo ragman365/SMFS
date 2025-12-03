@@ -819,7 +819,7 @@ namespace SMFS
             return groupDt;
         }
         /***********************************************************************************************/
-        private DataTable Locate_SDI_Key_Code ( DataTable payerDt, string payer )
+        public static DataTable Locate_SDI_Key_Code ( DataTable payerDt, string payer )
         {
             string prefix = "";
             string keyCode = "";
@@ -1106,7 +1106,7 @@ namespace SMFS
             return dx;
         }
         /***********************************************************************************************/
-        private DataTable BuildPayerTable ( DataTable burialDt )
+        public static DataTable BuildPayerTable ( DataTable burialDt )
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("prefix");

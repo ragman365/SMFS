@@ -404,6 +404,11 @@ namespace SMFS
             DateTime ddate = date.AddDays(limit);
             date2 = G1.DateTimeToSQLDateTime(ddate);
 
+            DataTable burialDt = G1.get_db_data("Select * from `burial_association`");
+
+            DataTable payerDt = InsuranceCoupons.BuildPayerTable(burialDt);
+
+
             //date = dateTimePicker2.Value;
             //string date2 = G1.DateTimeToSQLDateTime(date);
 
@@ -525,6 +530,9 @@ namespace SMFS
             DateTime lastPaidDate = DateTime.Now;
             int daysLate = 0;
 
+            DataTable prefixDt = null;
+            string SDI_Key_Code = "";
+
             this.Cursor = Cursors.WaitCursor;
 
             barImport.Minimum = 0;
@@ -612,10 +620,24 @@ namespace SMFS
                     agentCode = dt.Rows[i]["agentCode"].ObjToString();
                     dt.Rows[i]["agentName"] = GetAgentName(agentCode);
 
+                    SDI_Key_Code = dt.Rows[i]["SDICode"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(SDICode))
+                        SDI_Key_Code = "YY";
+
+                    prefixDt = InsuranceCoupons.Locate_SDI_Key_Code(payerDt, payer);
+                    if (prefixDt.Rows.Count == 1)
+                        SDI_Key_Code = prefixDt.Rows[0]["SDI_Key_Code"].ObjToString();
+                    else if (prefixDt.Rows.Count > 1)
+                    {
+                    }
+
                     oldloc = dt.Rows[i]["oldloc1"].ObjToString();
                     SDICode = dt.Rows[i]["SDICode"].ObjToString();
                     if ( String.IsNullOrWhiteSpace ( SDICode ))
                         SDICode = InsuranceCoupons.getSDICode(agentCode, oldloc);
+
+                    SDICode = SDI_Key_Code;
+
                     dt.Rows[i]["SDICode"] = SDICode;
 
                 }
@@ -1604,14 +1626,15 @@ namespace SMFS
                     payment = dt.Rows[i]["amtOfMonthlyPayt"].ObjToDouble();
                     SDICode = dt.Rows[i]["SDICode"].ObjToString();
                     if (SDICode == "06")
-                        SDICode = "13";
+                        SDICode = "05"; // Changed 12/3/2025 during change to Burial Associations
                     if ( payment > 500D)
                     {
                         contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
                         payment = Policies.CalcMonthlyPremium(contractNumber, "", payment);
                     }
                     miniContract = Trust85.decodeContractNumber(contract, ref trust, ref loc);
-                    LocateFuneralHome( SDICode, ref name, ref address, ref city, ref state, ref zip);
+                    LocateBurialAssociation ( SDICode, ref name, ref address, ref city, ref state, ref zip );
+                    //LocateFuneralHome( SDICode, ref name, ref address, ref city, ref state, ref zip);
                     if (String.IsNullOrWhiteSpace(name))
                     {
                         name = "South MS Funeral Services";
@@ -1829,6 +1852,37 @@ namespace SMFS
             city = dRows[0]["city"].ObjToString();
             state = dRows[0]["state"].ObjToString();
             zip = dRows[0]["zip"].ObjToString();
+        }
+        /****************************************************************************************/
+        DataTable bDt = null;
+
+        private void LocateBurialAssociation(string SDICode, ref string name, ref string address, ref string city, ref string state, ref string zip)
+        {
+            name = "";
+            address = "";
+            city = "";
+            state = "";
+            zip = "";
+
+            if (bDt == null)
+                bDt = G1.get_db_data("Select * from `burial_association`");
+
+            if (String.IsNullOrWhiteSpace(SDICode))
+                return;
+
+
+            DataRow[] dRows = bDt.Select("SDI_Key_Code='" + SDICode + "'");
+            if (dRows.Length <= 0)
+                dRows = bDt.Select("SDI_Key_Code='05'");
+            if (dRows.Length <= 0)
+                return;
+
+            //name = dRows[0]["LocationCode"].ObjToString();
+            name = dRows[0]["burial_association"].ObjToString();
+            address = dRows[0]["rtnAddress"].ObjToString();
+            city = dRows[0]["rtnCity"].ObjToString();
+            state = dRows[0]["rtnState"].ObjToString();
+            zip = dRows[0]["rtnZip"].ObjToString();
         }
         /****************************************************************************************/
         private void generateNoticesToolStripMenuItem_Click(object sender, EventArgs e)

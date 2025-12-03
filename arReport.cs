@@ -118,7 +118,10 @@ namespace SMFS
             string customersFile = "fcustomers";
             insurance = false;
 
-            string cmd = "SELECT *, (SELECT `pdfimages`.`record` FROM `pdfimages` WHERE `pdfimages`.`contractNumber` = e.`contractNumber` ) AS `picRecord` FROM `fcust_extended` e LEFT JOIN `fcontracts` p ON p.`contractNumber` = e.`contractNumber` left join `fcustomers` d ON e.`contractNumber` = d.`contractNumber` LEFT JOIN `icontracts` i ON i.`contractNumber` = e.`contractNumber` WHERE e.`ServiceID` <> '' ";
+            loading = true;
+
+            //string cmd = "SELECT *, (SELECT `pdfimages`.`record` FROM `pdfimages` WHERE `pdfimages`.`contractNumber` = e.`contractNumber` ) AS `picRecord` FROM `fcust_extended` e LEFT JOIN `fcontracts` p ON p.`contractNumber` = e.`contractNumber` left join `fcustomers` d ON e.`contractNumber` = d.`contractNumber` LEFT JOIN `icontracts` i ON i.`contractNumber` = e.`contractNumber` WHERE e.`ServiceID` <> '' ";
+            string cmd = "SELECT * FROM `fcust_extended` e LEFT JOIN `fcontracts` p ON p.`contractNumber` = e.`contractNumber` left join `fcustomers` d ON e.`contractNumber` = d.`contractNumber` LEFT JOIN `icontracts` i ON i.`contractNumber` = e.`contractNumber` WHERE e.`ServiceID` <> '' ";
             if ( chkUseDates.Checked )
             {
                 string date1 = this.dateTimePicker1.Value.ToString("yyyy-MM-dd");
@@ -157,6 +160,8 @@ namespace SMFS
             originalDt = dt.Copy();
             dgv.DataSource = dt;
             this.Cursor = Cursors.Default;
+
+            loading = false;
         }
         /***********************************************************************************************/
         private void PreProcessData ( DataTable dt )
@@ -280,6 +285,8 @@ namespace SMFS
         /***********************************************************************************************/
         private void SetupAgreementIcon(DataTable dt)
         {
+            if (1 == 1)
+                return;
             DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit selectnew = this.repCheckEdit1;
             selectnew.NullText = "";
             selectnew.ValueChecked = "1";
@@ -303,7 +310,9 @@ namespace SMFS
             DataRow dr = gridMain.GetFocusedDataRow();
             string contract = dr["contractNumber"].ObjToString();
             string value = dr["agreement"].ObjToString();
-            string record = dr["picRecord"].ObjToString();
+            value = "1";
+            //string record = dr["picRecord"].ObjToString();
+            string record = "";
             if (value == "1")
             {
                 string filename = "";
@@ -316,8 +325,11 @@ namespace SMFS
                     string firstName = dx.Rows[0]["firstName"].ObjToString();
                     string lastName = dx.Rows[0]["lastName"].ObjToString();
                     title = "Agreement for (" + contract + ") " + firstName + " " + lastName;
-                    if (!String.IsNullOrWhiteSpace(record))
+                    cmd = "Select * from `pdfImages` where `contractNumber` = '" + contract + "';";
+                    dx = G1.get_db_data(cmd);
+                    if ( dx.Rows.Count > 0 )
                     {
+                        record = dx.Rows[0]["record"].ObjToString();
                         if (!String.IsNullOrWhiteSpace ( record))
                             Customers.ShowPDfImage(record, title, filename);
                     }
@@ -475,6 +487,8 @@ namespace SMFS
                 return;
             this.Cursor = Cursors.WaitCursor;
 
+            loading = true;
+
             string cmd = "SELECT *, (SELECT `pdfimages`.`record` FROM `pdfimages` WHERE `pdfimages`.`contractNumber` = e.`contractNumber` ) AS `picRecord` FROM `cust_extended` e LEFT JOIN `contracts` p ON p.`contractNumber` = e.`contractNumber` left join `customers` d ON e.`contractNumber` = d.`contractNumber` LEFT JOIN `icontracts` i ON i.`contractNumber` = e.`contractNumber` LEFT JOIN `icustomers` a ON a.`contractNumber` = e.`contractNumber` WHERE e.`ServiceID` <> '' ";
             cmd += " AND p.`contractNumber` = '" + contract + "' ";
             cmd += " ORDER BY e.`serviceDate` DESC ";
@@ -519,6 +533,8 @@ namespace SMFS
             gridMain.RefreshData();
             dgv.Refresh();
 
+            loading = false;
+
 
             //EditCust custForm = new EditCust(contract);
             //custForm.Show();
@@ -552,6 +568,9 @@ namespace SMFS
             DataTable dt = (DataTable)dgv.DataSource;
             if (dt == null)
                 return;
+
+            loading = true;
+
             string cmd = "SELECT *, (SELECT `pdfimages`.`record` FROM `pdfimages` WHERE `pdfimages`.`contractNumber` = e.`contractNumber` ) AS `picRecord` FROM `fcust_extended` e LEFT JOIN `fcontracts` p ON p.`contractNumber` = e.`contractNumber` left join `fcustomers` d ON e.`contractNumber` = d.`contractNumber` WHERE e.`contractNumber` = '" + contractNumber + "';";
             //cmd += " AND e.`record` = '" + record + "';";
 
@@ -581,6 +600,8 @@ namespace SMFS
                     }
                 }
             }
+
+            loading = false;
         }
         /***********************************************************************************************/
         private void pictureDelete_Click(object sender, EventArgs e)
@@ -782,6 +803,8 @@ namespace SMFS
         /***********************************************************************************************/
         private void gridMain_CustomSummaryCalculate(object sender, DevExpress.Data.CustomSummaryEventArgs e)
         {
+            if (loading)
+                return;
             string field = (e.Item as GridSummaryItem).FieldName.ObjToString();
             if ( field.ToUpper() == "CASH")
             {

@@ -61,6 +61,8 @@
             this.panelTop = new System.Windows.Forms.Panel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.changeSSNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelSDI = new DevExpress.XtraEditors.LabelControl();
+            this.txtSDI = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.txtArrangementTime = new System.Windows.Forms.TextBox();
             this.labelControl17 = new DevExpress.XtraEditors.LabelControl();
@@ -731,6 +733,8 @@
             // panelTop
             // 
             this.panelTop.ContextMenuStrip = this.contextMenuStrip1;
+            this.panelTop.Controls.Add(this.labelSDI);
+            this.panelTop.Controls.Add(this.txtSDI);
             this.panelTop.Controls.Add(this.textBox1);
             this.panelTop.Controls.Add(this.txtArrangementTime);
             this.panelTop.Controls.Add(this.labelControl17);
@@ -809,6 +813,24 @@
             this.changeSSNToolStripMenuItem.Size = new System.Drawing.Size(159, 24);
             this.changeSSNToolStripMenuItem.Text = "Change SSN";
             this.changeSSNToolStripMenuItem.Click += new System.EventHandler(this.changeSSNToolStripMenuItem_Click);
+            // 
+            // labelSDI
+            // 
+            this.labelSDI.Location = new System.Drawing.Point(1041, 9);
+            this.labelSDI.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.labelSDI.Name = "labelSDI";
+            this.labelSDI.Size = new System.Drawing.Size(29, 16);
+            this.labelSDI.TabIndex = 187;
+            this.labelSDI.Text = "SDI :";
+            // 
+            // txtSDI
+            // 
+            this.txtSDI.Location = new System.Drawing.Point(1035, 30);
+            this.txtSDI.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtSDI.Name = "txtSDI";
+            this.txtSDI.Size = new System.Drawing.Size(38, 23);
+            this.txtSDI.TabIndex = 186;
+            this.txtSDI.TextChanged += new System.EventHandler(this.somethingChanged);
             // 
             // textBox1
             // 
@@ -2020,5 +2042,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem changeSSNToolStripMenuItem;
         private System.Windows.Forms.TextBox textBox1;
+        private DevExpress.XtraEditors.LabelControl labelSDI;
+        private System.Windows.Forms.TextBox txtSDI;
     }
 }

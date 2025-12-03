@@ -918,6 +918,7 @@ namespace SMFS
                     this.Refresh();
                     this.Update();
                     Application.DoEvents();
+                    G1.RefreshAllControls(editFunServices.Controls);
                 }
                 if (panelServicesActive)
                 {
