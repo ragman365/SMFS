@@ -1728,6 +1728,7 @@ namespace SMFS
                 GridColumn column = hitInfo.Column;
                 gridMain2.FocusedColumn = column;
                 string currentColumn = column.FieldName.Trim();
+                DateTime currentDateTime = DateTime.Now;
                 if (currentColumn.ToUpper() == "SERVICE_BEGIN_DATE")
                 {
                     DataRow dr = gridMain2.GetFocusedDataRow();
@@ -1744,7 +1745,15 @@ namespace SMFS
                             try
                             {
                                 string str = date.ToString("MM/dd/yyyy");
-                                dr["service_begin_date"] = G1.DTtoMySQLDT(str);
+
+                                if (currentDateTime < date)
+                                {
+                                    DialogResult result = MessageBox.Show("Date: " + date.ObjToString() + " cannot be greater than current date (" + currentDateTime.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                }
+                                else 
+                                {
+                                    dr["service_begin_date"] = G1.DTtoMySQLDT(str);
+                                }
 
                             }
                             catch (Exception ex)
@@ -1775,7 +1784,14 @@ namespace SMFS
                         if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
                         {
                             date = dateForm.myDateAnswer;
-                            dr["service_end_date"] = G1.DTtoMySQLDT(date);
+                            if (currentDateTime < date)
+                            {
+                                DialogResult result = MessageBox.Show("Date: " + date.ObjToString() + " cannot be greater than current date (" + currentDateTime.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            }
+                            else
+                            {
+                                dr["service_end_date"] = G1.DTtoMySQLDT(date);
+                            }
 
                             // Check to see if service end date is earlier than service begin date. If it is, notify the user and clear the field. Make the user select a different date.
 
