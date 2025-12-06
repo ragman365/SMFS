@@ -1483,8 +1483,15 @@ namespace SMFS
             if (G1.get_column_number(dx, "oldRecord") >= 0)
                 got = true;
 
+            int maxValue = 0;
             object maxValueObject = dx.Compute("MAX(record)", string.Empty);
-            int maxValue = Convert.ToInt32(maxValueObject);
+            try
+            {
+                maxValue = Convert.ToInt32(maxValueObject);
+            }
+            catch ( Exception ex )
+            {
+            }
 
             for ( int i=0; i<dt.Rows.Count; i++)
             {

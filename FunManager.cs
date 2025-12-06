@@ -1161,6 +1161,10 @@ namespace SMFS
             double insGrowth = 0D;
             double insDiscount = 0D;
             string casketDesc = "";
+            double cCost = 0D;
+            double uCost = 0D;
+            double vCost = 0D;
+            bool rtn = false;
 
             asService = 0D;
             asCash = 0D;
@@ -1170,7 +1174,7 @@ namespace SMFS
             fromMerc = 0D;
 
             serviceId = dRow["serviceId"].ObjToString();
-            if (serviceId == "RF25091")
+            if (serviceId == "HA25135")
             {
             }
             isArranger = false;
@@ -1282,6 +1286,13 @@ namespace SMFS
             dRow["principleReceived"] = contractValue - balanceDue;
 
             casketCost = dRow["casketCost"].ObjToDouble();
+            vaultCost = dRow["vaultCost"].ObjToDouble();
+            urnCost = dRow["urnCost"].ObjToDouble();
+            if ( chkPastCosts.Checked )
+            {
+                rtn = getPastCosts(dRow, ref casketCost, ref urnCost);
+                dRow["casketCost"] = casketCost;
+            }
             if (casketDesc.ToUpper().IndexOf("RENTAL") >= 0 || gotRental.ToUpper() == "Y" )
             {
                 casketCost = 0D;
@@ -3805,6 +3816,17 @@ namespace SMFS
                     casketCode = dt.Rows[i]["casket"].ObjToString().ToUpper();
                     casketCost = dt.Rows[i]["casketCost"].ObjToDouble();
                     urnCost = dt.Rows[i]["urnCost"].ObjToDouble();
+                    //if (chkPastCosts.Checked)
+                    //{
+                    //    double cCost = 0D;
+                    //    double uCost = 0D;
+                    //    bool rtn = getPastCosts(casketCode, casketDesc, ref cCost, ref uCost);
+                    //    if ( rtn )
+                    //    {
+                    //        casketCost = cCost;
+                    //        urnCost = uCost;
+                    //    }
+                    //}
                     if (casketCode == "ALTC")
                         continue;
                     else if (casketCode == "INFANT")
@@ -3833,6 +3855,67 @@ namespace SMFS
                     zeroForm.Show();
                 }
             }
+        }
+        /***********************************************************************************************/
+        private bool getPastCosts( DataRow dRow, ref double casketCost, ref double urnCost )
+        {
+            string casketCode = dRow["casket"].ObjToString();
+            string vault = dRow["vault"].ObjToString();
+            string casketdesc = dRow["casketdesc"].ObjToString();
+            string urndesc = dRow["urndesc"].ObjToString();
+
+            if ( casketCode == "N85")
+            {
+
+            }
+
+            string cmd = "";
+            DataTable dx = null;
+            if (!String.IsNullOrWhiteSpace(urndesc))
+            {
+                cmd = "Select * from `casket_master` WHERE `casketdesc` = '" + urndesc + "';";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    urnCost = dx.Rows[0]["pastCasketCost"].ObjToDouble();
+                    return true;
+                }
+            }
+
+            if ( !String.IsNullOrWhiteSpace ( casketCode ))
+            {
+                cmd = "Select * from `casket_master` WHERE `casketcode` = '" + casketCode + "';";
+                dx = G1.get_db_data(cmd);
+                if ( dx.Rows.Count > 0 )
+                {
+                    casketCost = dx.Rows[0]["pastCasketCost"].ObjToDouble();
+                    return true;
+                }
+            }
+            return false;
+        }
+        /***********************************************************************************************/
+        private bool getPastCosts ( string code, string desc, ref double casketCost, ref double urnCost )
+        {
+            string cmd = "";
+            if (!String.IsNullOrWhiteSpace(code))
+                cmd = "Select * from `casket_master` Where `casketCode` = '" + code + "';";
+            else
+                cmd = "Select * from `casket_desc` Where `casketdesc` = '" + desc + "';";
+            DataTable dx = G1.get_db_data(cmd);
+            if ( dx.Rows.Count > 0 )
+            {
+                casketCost = dx.Rows[0]["pastCasketCost"].ObjToDouble();
+                string casketCode = dx.Rows[0]["casketcode"].ObjToString().ToUpper();
+                if ( casketCode.Contains ( "URN") )
+                {
+                    urnCost = casketCost;
+                    casketCost = 0D;
+                    return true;
+                }
+
+            }
+            return false;
         }
         /***********************************************************************************************/
         private void ZeroForm_editDone(DataTable dt)

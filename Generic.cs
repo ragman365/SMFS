@@ -978,6 +978,11 @@ namespace GeneralLib
             }
         }
         /***********************************************************************************************/
+        public static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove)
+        {
+            return attributes & ~attributesToRemove;
+        }
+        /***********************************************************************************************/
         public static void GrantDirectoryAccess(string directory)
         {
             bool exists = System.IO.Directory.Exists(directory);

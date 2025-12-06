@@ -13,6 +13,9 @@ using DevExpress.Utils;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using GeneralLib;
+using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 /****************************************************************************************/
 namespace SMFS
@@ -1332,6 +1335,18 @@ namespace SMFS
             printableComponentLink1});
 
             printableComponentLink1.Component = dgv;
+            if (dgv2.Visible)
+                printableComponentLink1.Component = dgv2;
+            else if (dgv3.Visible)
+                printableComponentLink1.Component = dgv3;
+            else if (dgv4.Visible)
+                printableComponentLink1.Component = dgv4;
+            else if (dgv5.Visible)
+                printableComponentLink1.Component = dgv5;
+
+            if ( autoRun && workReportIn.ToUpper() == "UPCOMING REPORT")
+                printableComponentLink1.Component = dgv5;
+
             printableComponentLink1.PrintingSystemBase = printingSystem1;
 
             printableComponentLink1.EnablePageDialog = true;
@@ -1357,7 +1372,143 @@ namespace SMFS
             printingSystem1.Document.AutoFitToPagesWidth = 1;
 
             printableComponentLink1.CreateDocument();
-            printableComponentLink1.ShowPreview();
+            if (autoRun)
+            {
+                DataTable dt = null;
+                try
+                {
+                    DevExpress.XtraGrid.GridControl xDGV = (DevExpress.XtraGrid.GridControl)printableComponentLink1.Component;
+                    dt = (DataTable)xDGV.DataSource;
+                    if (dt == null)
+                        G1.AddToAudit("System", "AutoRun", "Cars Upcoming Report", "DT is NULL", "");
+                    else
+                    {
+                        int lastRow = dt.Rows.Count;
+                        //G1.AddToAudit("System", "AutoRun", "Cars Upcoming Report DT=", lastRow.ToString(), "");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    G1.AddToAudit("System", workReport, "AutoRun", "FAILED", "");
+                    return;
+                }
+                if (String.IsNullOrWhiteSpace(workSendTo))
+                    return;
+
+
+                string emailLocations = ParseOutEmails ();
+
+                string path = G1.GetReportPath();
+                DateTime today = DateTime.Now;
+
+                //string filename = "C:/SMFS_Reports/" + workReport + "_" + today.Year.ToString("D4") + today.Month.ToString("D2") + today.Day.ToString("D2") + "_" + today.Hour.ToString("D2") + today.Minute.ToString("D2") + ".pdf";
+                workReport = "Cars Upcoming Report";
+                //string filename = "C:/SMFS_Reports/" + workReport + "_" + today.Year.ToString("D4") + today.Month.ToString("D2") + today.Day.ToString("D2") + "_" + today.Hour.ToString("D2") + today.Minute.ToString("D2") + ".pdf";
+                path = "C:/SMFS_Reports/Cars/";
+                G1.verify_path(path);
+                string filename = path + workReport + ".pdf";
+                filename = G1.RandomizeFilename(filename);
+                if (File.Exists(filename))
+                {
+                    G1.GrantFileAccess(filename);
+
+                    FileAttributes attributes = File.GetAttributes(filename);
+                    if ((attributes & FileAttributes.Archive) == FileAttributes.Archive)
+                    {
+                        // Show the file.
+                        attributes = G1.RemoveAttribute(attributes, FileAttributes.Archive);
+                        File.SetAttributes(filename, attributes);
+                        //Console.WriteLine("The {0} file is no longer hidden.", path);
+                    }
+
+
+                    //if ( IsFileLocked ( filename ))
+                    //{
+                    //    if (!NativeMethods.MoveFileEx ( filename, null, MoveFileFlags.DelayUntilReboot))
+                    //    {
+                    //        //Console.Error.WriteLine("Unable to schedule 'a.txt' for deletion");
+                    //    }
+                    //}
+                    //else
+                    File.Delete(filename);
+                }
+
+                //G1.AddToAudit("System", "AutoRun", "Cars PDF", filename, "");
+                //G1.AddToAudit("System", "AutoRun", "Cars Send to", sendTo, "");
+                //G1.AddToAudit("System", "AutoRun", "Cars Send Where", sendWhere, "");
+                //G1.AddToAudit("System", "AutoRun", "Cars Send DA", da, "");
+
+                try
+                {
+                    printableComponentLink1.ExportToPdf(filename);
+                    //if (File.Exists(filename))
+                    //    G1.AddToAudit("System", "AutoRun", "Cars Upcoming Report", "FILE WAS CREATED!!!!!", "");
+                    //else
+                    //    G1.AddToAudit("System", "AutoRun", "Cars Upcoming Report", "No File Created", "");
+
+                    G1.GrantFileAccess(filename);
+
+                    FileAttributes attributes = File.GetAttributes(filename);
+                    if ((attributes & FileAttributes.Archive) == FileAttributes.Archive)
+                    {
+                        attributes = G1.RemoveAttribute(attributes, FileAttributes.Archive);
+                        File.SetAttributes(filename, attributes);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string message = ex.Message.ToString();
+                    //G1.AddToAudit("System", "AutoRun", "Cars Upcoming Report", message, "");
+                }
+
+                if (File.Exists(filename))
+                {
+                    //G1.AddToAudit("System", "AutoRun", "Cars Upcoming Send To", "Starting Email . . . . . . . ", "");
+                    string textDate = today.ToString("MM/dd/yyyy");
+                    //RemoteProcessing.AutoRunSendTo(workReport + " for " + textDate, filename, sendTo, sendWhere, da, emailLocations);
+
+                    RemoteProcessing.AutoRunSend(workReport + " for " + today.ToString("MM/dd/yyyy"), filename, sendTo, sendWhere, "", emailLocations, sendUsername, true);
+
+                    //RemoteProcessing.AutoRunSend(workReport + " for " + textDate, filename, sendTo, sendWhere, da, emailLocations);
+                }
+            }
+            else
+                printableComponentLink1.ShowPreviewDialog();
+        }
+        /***********************************************************************************************/
+        private string ParseOutEmails ()
+        {
+            string emails = "";
+            DataTable userDt = G1.get_db_data("Select * from `users`;");
+            string[] Lines = workSendTo.Split('~');
+
+            string user = "";
+            int idx = 0;
+
+            DataRow[] dRows = null;
+
+            for ( int i=0; i<Lines.Length; i++)
+            {
+                user = Lines[i].Trim();
+                idx = user.IndexOf(")");
+                if ( idx > 0 )
+                {
+                    user = user.Substring(0, idx);
+                    user = user.Replace("(", "").Trim();
+                    user = user.Replace(")", "").Trim();
+
+                    if (String.IsNullOrWhiteSpace(user))
+                        continue;
+                    dRows = userDt.Select("userName='" + user + "'");
+                    if ( dRows.Length > 0 )
+                    {
+                        emails += dRows[0]["email"].ObjToString().Trim() + "~";
+                    }
+                }
+            }
+
+            emails = emails.TrimEnd('~');
+            return emails;
         }
         /***********************************************************************************************/
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1432,7 +1583,7 @@ namespace SMFS
             //            Printer.DrawQuad(1, 9, 2, 3, "User : " + LoginForm.username, Color.Black, BorderSide.None, font, HorizontalAlignment.Left, VertAlignment.Center);
 
             font = new Font("Ariel", 10, FontStyle.Regular);
-            string title = this.Text;
+            string title = workReportIn;
             //if (workReport == "ACH Detail Report")
             //    title = "The First Drafts";
             //else
@@ -2900,7 +3051,7 @@ namespace SMFS
                 sendTo = dt.Rows[i]["sendTo"].ObjToString();
                 sendWhere = dt.Rows[i]["sendWhere"].ObjToString();
                 da = dt.Rows[i]["da"].ObjToString();
-                if (report.ToUpper() == "FUNERAL ACTIVITY REPORT")
+                if (report.ToUpper() == "UPCOMING REPORT")
                 {
                     //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report Load", "Starting Load . . . . . . . ", "");
                     Upcoming_Load(null, null);
@@ -2931,7 +3082,15 @@ namespace SMFS
             {
                 try
                 {
-//                    btnRun_Click(null, null);
+                    string timeEnd = "";
+                    //            timeEnd = "AND `service_sched_b_date` < DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
+                    string cmd = "SELECT * FROM `cars_maint` WHERE `service_sched_b_date` > CURDATE() " + timeEnd.Trim() + " ORDER BY `tmstamp`;";
+                    DataTable dt5 = G1.get_db_data(cmd);
+                    dt5.Columns.Add("num");
+                    dt5.Columns.Add("mod");
+                    G1.NumberDataTable(dt5);
+                    dgv5.DataSource = dt5;
+                    //                    btnRun_Click(null, null);
                 }
                 catch (Exception ex)
                 {
@@ -2939,7 +3098,7 @@ namespace SMFS
 
                 //G1.AddToAudit("System", "AutoRun", "Funeral Activity Print Preview", "Starting Report . . . . . . . ", "");
                 printPreviewToolStripMenuItem_Click(null, null);
-                this.Close();
+                //this.Close();
             }
         }
         /***********************************************************************************************/

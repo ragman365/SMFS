@@ -540,6 +540,8 @@ namespace SMFS
             int row = gridMain.GetDataSourceRowIndex(rowHandle);
             string report = dr["report"].ObjToString();
             string sendWhere = dr["sendWhere"].ObjToString();
+            string sendTo = dr["sendTo"].ObjToString();
+
             //string sendUsername = dr["username"].ObjToString();
             DialogResult result = MessageBox.Show("Are you sure you want to run Report (" + report + ") ?", "Run Report Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
             if (result == DialogResult.No)
@@ -615,7 +617,9 @@ namespace SMFS
             }
             else if (report.ToUpper() == "UPCOMING REPORT")
             {
-                EditCars reportForm = new EditCars(true, true, sendWhere, LoginForm.username, report, reportName);
+                EditCars carsForm = new EditCars(true, true, sendWhere, sendTo, LoginForm.username, report, reportName);
+
+                //EditCars reportForm = new EditCars(true, true, sendWhere, LoginForm.username, report, reportName);
             }
         }
         /***********************************************************************************************/

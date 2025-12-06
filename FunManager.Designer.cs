@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FunManager));
-            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton3 = new DevExpress.Utils.ContextButton();
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -331,6 +331,7 @@
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unLockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkPastCosts = new System.Windows.Forms.CheckBox();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -3809,6 +3810,8 @@
             this.gridMain4.Appearance.TopNewRow.Options.UseBackColor = true;
             this.gridMain4.Appearance.VertLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(169)))), ((int)(((byte)(107)))));
             this.gridMain4.Appearance.VertLine.Options.UseBackColor = true;
+            this.gridMain4.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            this.gridMain4.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this.gridMain4.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand5});
             this.gridMain4.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
@@ -4154,6 +4157,7 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Beige;
+            this.panelTop.Controls.Add(this.chkPastCosts);
             this.panelTop.Controls.Add(this.btnZeros);
             this.panelTop.Controls.Add(this.btnCompare);
             this.panelTop.Controls.Add(this.btnSaveBonus);
@@ -4592,10 +4596,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton2.Caption = "contextButton1";
-            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton2.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
+            contextButton3.Caption = "contextButton1";
+            contextButton3.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton3.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton3);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // repositoryItemMemoEdit1
@@ -4716,6 +4720,16 @@
             this.unLockScreenFormatToolStripMenuItem.Size = new System.Drawing.Size(239, 26);
             this.unLockScreenFormatToolStripMenuItem.Text = "UnLock Screen Format";
             this.unLockScreenFormatToolStripMenuItem.Click += new System.EventHandler(this.unLockScreenFormatToolStripMenuItem_Click);
+            // 
+            // chkPastCosts
+            // 
+            this.chkPastCosts.AutoSize = true;
+            this.chkPastCosts.Location = new System.Drawing.Point(1266, 81);
+            this.chkPastCosts.Name = "chkPastCosts";
+            this.chkPastCosts.Size = new System.Drawing.Size(120, 21);
+            this.chkPastCosts.TabIndex = 163;
+            this.chkPastCosts.Text = "Use Past Costs";
+            this.chkPastCosts.UseVisualStyleBackColor = true;
             // 
             // FunManager
             // 
@@ -5095,5 +5109,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
         private System.Windows.Forms.ToolStripMenuItem findItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clarifyItemToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkPastCosts;
     }
 }

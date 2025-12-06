@@ -139,6 +139,12 @@ namespace SMFS
                     AutoRunContacts(report, sendWhere, sendTo );
                     continue;
                 }
+                else if (report.ToUpper().IndexOf("UPCOMING REPORT") == 0)
+                {
+                    //G1.AddToAudit("System", "AutoRun", "Auto Run Cars Upcoming Events", "Starting Report . . . . . . . ", "");
+                    EditCars carsForm = new EditCars ( true, true, sendWhere, sendTo, LoginForm.username, report, reportName);
+                    continue;
+                }
             }
         }
         /***********************************************************************************************/
