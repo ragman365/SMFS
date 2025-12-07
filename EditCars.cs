@@ -1513,47 +1513,7 @@ namespace SMFS
         /***********************************************************************************************/
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.components == null)
-                this.components = new System.ComponentModel.Container();
-            DevExpress.XtraPrinting.PrintingSystem printingSystem1 = new DevExpress.XtraPrinting.PrintingSystem(this.components);
-            DevExpress.XtraPrinting.PrintableComponentLink printableComponentLink1 = new DevExpress.XtraPrinting.PrintableComponentLink(this.components);
 
-            printingSystem1.Links.AddRange(new object[] {
-            printableComponentLink1});
-
-            printableComponentLink1.Component = dgv;
-            if (dgv2.Visible)
-                printableComponentLink1.Component = dgv2;
-            else if (dgv3.Visible)
-                printableComponentLink1.Component = dgv3;
-            else if (dgv4.Visible)
-                printableComponentLink1.Component = dgv4;
-            else if (dgv5.Visible)
-                printableComponentLink1.Component = dgv5;
-            
-            printableComponentLink1.PrintingSystemBase = printingSystem1;
-            printableComponentLink1.CreateDetailHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateDetailHeaderArea);
-            printableComponentLink1.CreateMarginalHeaderArea += new DevExpress.XtraPrinting.CreateAreaEventHandler(this.printableComponentLink1_CreateMarginalHeaderArea);
-            printableComponentLink1.BeforeCreateAreas += new System.EventHandler(this.printableComponentLink1_BeforeCreateAreas);
-            printableComponentLink1.AfterCreateAreas += new System.EventHandler(this.printableComponentLink1_AfterCreateAreas);
-            printableComponentLink1.Landscape = true;
-
-            Printer.setupPrinterMargins(10, 5, 80, 50);
-
-            pageMarginLeft = Printer.pageMarginLeft;
-            pageMarginRight = Printer.pageMarginRight;
-            pageMarginTop = Printer.pageMarginTop;
-            pageMarginBottom = Printer.pageMarginBottom;
-
-            printableComponentLink1.Margins.Left = pageMarginLeft;
-            printableComponentLink1.Margins.Right = pageMarginRight;
-            printableComponentLink1.Margins.Top = pageMarginTop;
-            printableComponentLink1.Margins.Bottom = pageMarginBottom;
-
-            printingSystem1.Document.AutoFitToPagesWidth = 1;
-
-            printableComponentLink1.CreateDocument();
-            printableComponentLink1.PrintDlg();
         }
         /***********************************************************************************************/
         private void printableComponentLink1_BeforeCreateAreas(object sender, EventArgs e)
@@ -1584,6 +1544,20 @@ namespace SMFS
 
             font = new Font("Ariel", 10, FontStyle.Regular);
             string title = workReportIn;
+            if (String.IsNullOrWhiteSpace(title) )
+            {
+                if (dgv.Visible)
+                    title = this.tabPage1.Text + " Report";
+                else if (dgv2.Visible)
+                    title = this.tabPage2.Text + " Report";
+                else if (dgv3.Visible)
+                    title = this.tabPage3.Text + " Report";
+                else if (dgv4.Visible)
+                    title = this.tabPage4.Text + " Report";
+                else if (dgv5.Visible)
+                    title = this.tabPage5.Text + " Report";
+            }
+
             //if (workReport == "ACH Detail Report")
             //    title = "The First Drafts";
             //else
