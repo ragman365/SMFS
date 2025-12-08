@@ -2063,6 +2063,7 @@ namespace SMFS
                 {
                     DataRow dr = gridMain5.GetFocusedDataRow();
                     DateTime date = dr["service_begin_date"].ObjToDateTime();
+                    DateTime beginDate = dr["service_begin_date"].ObjToDateTime();
                     if (date.Year < 1000)
                         date = DateTime.Now;
                     using (GetDate dateForm = new GetDate(date, "Begin Date"))
@@ -2102,6 +2103,7 @@ namespace SMFS
                 {
                     DataRow dr = gridMain5.GetFocusedDataRow();
                     DateTime date = dr["service_end_date"].ObjToDateTime();
+                    DateTime beginDate = dr["service_begin_date"].ObjToDateTime();
                     if (date.Year < 1000)
                         date = DateTime.Now;
                     using (GetDate dateForm = new GetDate(date, "End Date"))
@@ -2116,14 +2118,19 @@ namespace SMFS
                                 DialogResult result = MessageBox.Show("Date: " + date.ObjToString() + " cannot be greater than current date (" + currentDateTime.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                             }
                             else
-                                dr["service_end_date"] = G1.DTtoMySQLDT(date);
-
-                            // Check to see if service end date is earlier than service begin date. If it is, notify the user and clear the field. Make the user select a different date.
+                            {
+                                if (beginDate > date)
+                                {
+                                    DialogResult result = MessageBox.Show("End Date: " + date.ObjToString() + " cannot be greater than start date (" + beginDate.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                }
+                                else
+                                    dr["service_end_date"] = G1.DTtoMySQLDT(date);
+                            }
 
                             UpcomingDataChanged();
                             dr["mod"] = "Y";
-                            gridMain2.ClearSelection();
-                            gridMain2.FocusedRowHandle = rowHandle;
+                            gridMain5.ClearSelection();
+                            gridMain5.FocusedRowHandle = rowHandle;
 
                             gridMain5.RefreshData();
                             gridMain5.RefreshEditor(true);
@@ -2213,12 +2220,12 @@ namespace SMFS
                             try
                             {
                                 string str = date.ToString("MM/dd/yyyy");
-                                if (sched_b_date > sched_e_date)
+                                if (sched_b_date > date)
                                 {
-                                    DialogResult result = MessageBox.Show("End Date: " + sched_e_date.ObjToString() + " cannot be less than start date (" + sched_b_date.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                    DialogResult result = MessageBox.Show("End Date: " + date.ObjToString() + " cannot be lesser than start date (" + sched_b_date.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                 }
                                 else
-                                    dr["service_sched_e_date"] = G1.DTtoMySQLDT(str);
+                                    dr["service_sched_e_date"] = G1.DTtoMySQLDT(str)
 
                             }
                             catch (Exception ex)
