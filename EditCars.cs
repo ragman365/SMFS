@@ -293,8 +293,6 @@ namespace SMFS
                 repositoryItemComboBox1.Items.Add(carDt.Rows[i]["record"].ObjToString() + " - " + carDt.Rows[i]["location"].ObjToString() + " - " + carDt.Rows[i]["year"].ObjToString() + " - " + carDt.Rows[i]["make"].ObjToString() + " - " + carDt.Rows[i]["model"].ObjToString());
                 repositoryItemComboBox10.Items.Add(carDt.Rows[i]["record"].ObjToString() + " - " + carDt.Rows[i]["location"].ObjToString() + " - " + carDt.Rows[i]["year"].ObjToString() + " - " + carDt.Rows[i]["make"].ObjToString() + " - " + carDt.Rows[i]["model"].ObjToString());
             }
-            
-            
         }
         /***********************************************************************************************/
         private void loadRepositoryVendors()
@@ -1902,7 +1900,8 @@ namespace SMFS
                     DataRow dr = gridMain2.GetFocusedDataRow();
                     DateTime date = dr["service_end_date"].ObjToDateTime();
                     DateTime beginDate = dr["service_begin_date"].ObjToDateTime();
-                    DateTime endDate = dr["service_end_date"].ObjToDateTime();
+                    // DateTime endDate = dr["service_end_date"].ObjToDateTime();
+                    DateTime endDate = date;
                     if (date.Year < 1000)
                         date = DateTime.Now;
                     using (GetDate dateForm = new GetDate(date, "End Date"))
@@ -1918,9 +1917,9 @@ namespace SMFS
                             }
                             else
                             {
-                                if (beginDate > endDate)
+                                if (beginDate > date)
                                 {
-                                    DialogResult result = MessageBox.Show("End Date: " + endDate.ObjToString() + " cannot be greater than start date (" + beginDate.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                    DialogResult result = MessageBox.Show("End Date: " + date.ObjToString() + " cannot be greater than start date (" + beginDate.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                 }
                                 else
                                     dr["service_end_date"] = G1.DTtoMySQLDT(date);
@@ -2019,9 +2018,9 @@ namespace SMFS
                             try
                             {
                                 string str = date.ToString("MM/dd/yyyy");
-                                if (sched_b_date > sched_e_date)
+                                if (sched_b_date > date)
                                 {
-                                    DialogResult result = MessageBox.Show("End Date: " + sched_e_date.ObjToString() + " cannot be lesser than start date (" + sched_b_date.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                    DialogResult result = MessageBox.Show("End Date: " + date.ObjToString() + " cannot be lesser than start date (" + sched_b_date.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                 }
                                 else
                                     dr["service_sched_e_date"] = G1.DTtoMySQLDT(str);
