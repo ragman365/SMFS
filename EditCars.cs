@@ -2225,7 +2225,7 @@ namespace SMFS
                                     DialogResult result = MessageBox.Show("End Date: " + date.ObjToString() + " cannot be lesser than start date (" + sched_b_date.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                 }
                                 else
-                                    dr["service_sched_e_date"] = G1.DTtoMySQLDT(str)
+                                    dr["service_sched_e_date"] = G1.DTtoMySQLDT(str);
 
                             }
                             catch (Exception ex)
