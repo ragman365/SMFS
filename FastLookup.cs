@@ -80,6 +80,9 @@ namespace SMFS
         {
             try
             {
+                txtRecords.Hide();
+                lblRecords.Hide();
+
                 string id = txtID.Text.Trim();
                 if ( !String.IsNullOrWhiteSpace ( id))
                 {
@@ -365,6 +368,8 @@ namespace SMFS
             string customerFile = "icustomers";
             string policies = "policies";
 
+            this.Cursor = Cursors.WaitCursor;
+
             if (!String.IsNullOrWhiteSpace(contract))
             {
                 cmd = "Select * from `" + customerFile + "` c JOIN `" + contractFile + "` m ON c.`contractNumber` = m.`contractNumber` where c.`contractNumber` = 'XYZZY';";
@@ -373,6 +378,13 @@ namespace SMFS
                 cmd = "Select * from `" + customerFile + "` c JOIN `" + contractFile + "` m ON c.`contractNumber` = m.`contractNumber` where ";
                 cmd += " c.`contractNumber` = '" + contract + "';";
                 dt = G1.get_db_data(cmd);
+                if (dt.Rows.Count <= 0 && contract.IndexOf("%") > 0)
+                {
+                    cmd = "Select * from `" + customerFile + "` c JOIN `" + contractFile + "` m ON c.`contractNumber` = m.`contractNumber` where ";
+                    cmd += " `payer` LIKE '" + contract + "' ";
+                    cmd += ";";
+                    dt = G1.get_db_data(cmd);
+                }
                 if (dt.Rows.Count <= 0)
                 {
                     cmd = "Select * from `" + customerFile + "` c JOIN `" + contractFile + "` m ON c.`contractNumber` = m.`contractNumber` where ";
@@ -386,13 +398,25 @@ namespace SMFS
                         {
                             bool rv = SearchTrusts( false, true );
                             if (!rv)
-                                MessageBox.Show("***ERROR*** Cannot locate any Insurance or Payer using " + contract + "!");
+                            {
+
+                                cmd = "Select * from `" + customerFile + "` c JOIN `" + contractFile + "` m ON c.`contractNumber` = m.`contractNumber` where ";
+                                cmd += " c.`payer` LIKE '" + contract + "%';";
+                                dt = G1.get_db_data(cmd);
+                                if ( dt.Rows.Count <= 0 )
+                                    MessageBox.Show("***ERROR*** Cannot locate any Insurance or Payer using " + contract + "!");
+                            }
                             else
                                 radioTrusts.Checked = true;
                         }
-                        return false;
+                        if (dt.Rows.Count <= 0 && dx.Rows.Count <= 0)
+                        {
+                            this.Cursor = Cursors.Default;
+                            return false;
+                        }
                     }
-                    G1.HardCopyDataTable(dx, dt);
+                    if ( dt.Rows.Count <= 0 && dx.Rows.Count > 0 )
+                        G1.HardCopyDataTable(dx, dt);
                 }
             }
             else
@@ -461,6 +485,9 @@ namespace SMFS
                 dt = G1.get_db_data(cmd);
             }
 
+
+            this.Cursor = Cursors.WaitCursor;
+
             dt.Columns.Add("liability", Type.GetType("System.Double"));
             dt.Columns.Add("address");
             dt.Columns.Add("policyNumber");
@@ -494,8 +521,13 @@ namespace SMFS
             int row = 0;
             DataRow [] dR = null;
             DataTable ddx = dt.Clone();
+
+            ShowRecords(dt.Rows.Count);
+
             for (int i = 0; i < dt.Rows.Count; i++)
             {
+                Application.DoEvents();
+
                 didit = false;
                 contractNumber = dt.Rows[i]["contractNumber"].ObjToString();
                 //contractValue = DailyHistory.GetContractValue(dt.Rows[i]);
@@ -592,6 +624,15 @@ namespace SMFS
             dgv2.Visible = true;
             this.Cursor = Cursors.Default;
             return true;
+        }
+        /****************************************************************************************/
+        private void ShowRecords ( int count )
+        {
+            txtRecords.Text = count.ToString();
+            txtRecords.Show();
+            txtRecords.Refresh();
+            lblRecords.Show();
+            lblRecords.Refresh();
         }
         /****************************************************************************************/
         private void ProcessReports ( DataTable dt )
@@ -995,6 +1036,12 @@ namespace SMFS
                 cmd = "Select * from `" + customerFile + "` c JOIN `" + contractFile + "` m ON c.`contractNumber` = m.`contractNumber` where ";
                 cmd += " c.`contractNumber` = '" + contract + "';";
                 dt = G1.get_db_data(cmd);
+                if ( contract.IndexOf ( "%" ) > 0 )
+                {
+                    cmd = "Select * from `" + customerFile + "` c JOIN `" + contractFile + "` m ON c.`contractNumber` = m.`contractNumber` where ";
+                    cmd += " c.`contractNumber` LIKE '" + contract + "%';";
+                    dt = G1.get_db_data(cmd);
+                }
                 if (dt.Rows.Count <= 0)
                 {
                     if (secondary)
@@ -1025,7 +1072,11 @@ namespace SMFS
                         }
                         else
                         {
-                            MessageBox.Show("***ERROR*** Cannot locate any Contract using " + contract + "!", "Bad Contract Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            createdCustomer = true;
+                            cmd = "Select * from `" + customerFile + "` c JOIN `" + contractFile + "` m ON c.`contractNumber` = m.`contractNumber` where c.`contractNumber` LIKE '" + contract + "%';";
+                            dt = G1.get_db_data(cmd);
+                            if ( dt.Rows.Count <= 0 )
+                                MessageBox.Show("***ERROR*** Cannot locate any Contract using " + contract + "!", "Bad Contract Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         }
                     }
                     else
@@ -2435,6 +2486,15 @@ namespace SMFS
             }
             else
                 return 0;
+        }
+        /****************************************************************************************/
+        private bool formClosing = false;
+        private void FastLookup_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (formClosing)
+                return;
+            formClosing = true;
+            this.Close();
         }
         /****************************************************************************************/
     }

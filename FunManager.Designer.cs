@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FunManager));
-            DevExpress.Utils.ContextButton contextButton3 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -279,6 +279,7 @@
             this.repositoryItemCheckEdit9 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemCheckEdit7 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkPastCosts = new System.Windows.Forms.CheckBox();
             this.btnZeros = new System.Windows.Forms.Button();
             this.btnCompare = new System.Windows.Forms.Button();
             this.btnSaveBonus = new System.Windows.Forms.Button();
@@ -331,7 +332,6 @@
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unLockScreenFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkPastCosts = new System.Windows.Forms.CheckBox();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -4196,6 +4196,16 @@
             this.panelTop.Size = new System.Drawing.Size(1754, 105);
             this.panelTop.TabIndex = 1;
             // 
+            // chkPastCosts
+            // 
+            this.chkPastCosts.AutoSize = true;
+            this.chkPastCosts.Location = new System.Drawing.Point(1266, 81);
+            this.chkPastCosts.Name = "chkPastCosts";
+            this.chkPastCosts.Size = new System.Drawing.Size(120, 21);
+            this.chkPastCosts.TabIndex = 163;
+            this.chkPastCosts.Text = "Use Past Costs";
+            this.chkPastCosts.UseVisualStyleBackColor = true;
+            // 
             // btnZeros
             // 
             this.btnZeros.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
@@ -4596,10 +4606,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton3.Caption = "contextButton1";
-            contextButton3.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton3.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton3);
+            contextButton1.Caption = "contextButton1";
+            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton1.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton1);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // repositoryItemMemoEdit1
@@ -4720,16 +4730,6 @@
             this.unLockScreenFormatToolStripMenuItem.Size = new System.Drawing.Size(239, 26);
             this.unLockScreenFormatToolStripMenuItem.Text = "UnLock Screen Format";
             this.unLockScreenFormatToolStripMenuItem.Click += new System.EventHandler(this.unLockScreenFormatToolStripMenuItem_Click);
-            // 
-            // chkPastCosts
-            // 
-            this.chkPastCosts.AutoSize = true;
-            this.chkPastCosts.Location = new System.Drawing.Point(1266, 81);
-            this.chkPastCosts.Name = "chkPastCosts";
-            this.chkPastCosts.Size = new System.Drawing.Size(120, 21);
-            this.chkPastCosts.TabIndex = 163;
-            this.chkPastCosts.Text = "Use Past Costs";
-            this.chkPastCosts.UseVisualStyleBackColor = true;
             // 
             // FunManager
             // 

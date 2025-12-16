@@ -124,6 +124,8 @@
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtRecords = new System.Windows.Forms.TextBox();
+            this.lblRecords = new System.Windows.Forms.Label();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv2)).BeginInit();
@@ -147,10 +149,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1519, 411);
+            this.panelAll.Size = new System.Drawing.Size(1519, 413);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -161,7 +163,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 122);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1519, 289);
+            this.panelBottom.Size = new System.Drawing.Size(1519, 291);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv2
@@ -858,6 +860,8 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.lblRecords);
+            this.panelTop.Controls.Add(this.txtRecords);
             this.panelTop.Controls.Add(this.btnPreneed);
             this.panelTop.Controls.Add(this.chkThirdOnly);
             this.panelTop.Controls.Add(this.txtID);
@@ -1202,7 +1206,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1519, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1519, 28);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1212,7 +1216,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -1245,6 +1249,23 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // txtRecords
+            // 
+            this.txtRecords.Location = new System.Drawing.Point(674, 82);
+            this.txtRecords.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtRecords.Name = "txtRecords";
+            this.txtRecords.Size = new System.Drawing.Size(70, 23);
+            this.txtRecords.TabIndex = 25;
+            // 
+            // lblRecords
+            // 
+            this.lblRecords.AutoSize = true;
+            this.lblRecords.Location = new System.Drawing.Point(744, 85);
+            this.lblRecords.Name = "lblRecords";
+            this.lblRecords.Size = new System.Drawing.Size(67, 17);
+            this.lblRecords.TabIndex = 26;
+            this.lblRecords.Text = ": Records";
+            // 
             // FastLookup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1256,6 +1277,7 @@
             this.Name = "FastLookup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lookup Contracts or Payers";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FastLookup_FormClosing);
             this.Load += new System.EventHandler(this.FastLookup_Load);
             this.panelAll.ResumeLayout(false);
             this.panelBottom.ResumeLayout(false);
@@ -1377,5 +1399,7 @@
         private System.Windows.Forms.Button btnPreneed;
         private System.Windows.Forms.ToolStripMenuItem deathPayoffAsOfTodayToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem customerPayoffAsOf10DaysToolStripMenuItem;
+        private System.Windows.Forms.Label lblRecords;
+        private System.Windows.Forms.TextBox txtRecords;
     }
 }

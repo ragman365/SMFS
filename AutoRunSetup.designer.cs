@@ -88,10 +88,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1357, 385);
+            this.panelAll.Size = new System.Drawing.Size(1357, 387);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -101,7 +101,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 59);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1357, 326);
+            this.panelBottom.Size = new System.Drawing.Size(1357, 328);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -119,7 +119,7 @@
             this.repositoryItemComboBox1,
             this.repositoryItemCheckedComboBoxEdit1,
             this.repositoryItemComboBox2});
-            this.dgv.Size = new System.Drawing.Size(1357, 326);
+            this.dgv.Size = new System.Drawing.Size(1357, 328);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -286,6 +286,7 @@
             this.gridMain.PaintStyleName = "Flat";
             this.gridMain.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridMain_CustomDrawCell);
             this.gridMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridMain_RowCellStyle);
+            this.gridMain.ShownEditor += new System.EventHandler(this.gridMain_ShownEditor);
             this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
             this.gridMain.CustomRowFilter += new DevExpress.XtraGrid.Views.Base.RowFilterEventHandler(this.gridMain_CustomRowFilter);
             // 
@@ -410,7 +411,6 @@
             this.bandedGridColumn4.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
             this.bandedGridColumn4.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn4.Caption = "Send To";
-            this.bandedGridColumn4.ColumnEdit = this.repositoryItemCheckedComboBoxEdit1;
             this.bandedGridColumn4.FieldName = "sendTo";
             this.bandedGridColumn4.MinWidth = 27;
             this.bandedGridColumn4.Name = "bandedGridColumn4";
@@ -586,7 +586,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1357, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1357, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -596,7 +596,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -632,7 +632,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 

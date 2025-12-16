@@ -14,6 +14,7 @@ using DevExpress.Utils;
 using DevExpress.XtraGrid.Views.Grid;
 using iTextSharp.text.pdf;
 using System.IO;
+using DevExpress.XtraGrid.Columns;
 //using iTextSharp.text;
 
 /***********************************************************************************************/
@@ -658,6 +659,34 @@ namespace SMFS
             SaveSetup();
             modified = false;
             btnSave.Hide();
+        }
+        /***********************************************************************************************/
+        private void gridMain_ShownEditor(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)dgv.DataSource;
+            int row = gridMain.FocusedRowHandle;
+
+            GridColumn currCol = gridMain.FocusedColumn;
+            DataRow dr = gridMain.GetFocusedDataRow();
+            string name = currCol.FieldName;
+            string data = dr[name].ObjToString();
+            string record = "";
+            string str = "";
+
+            if (name.ToUpper() == "SENDTO" )
+            {
+                SelectUserEmail userForm = new SelectUserEmail( row, data, dr );
+                userForm.Done += UserForm_Done;
+                userForm.Show();
+                userForm.BringToFront();
+                userForm.TopMost = true;
+            }
+        }
+        /***********************************************************************************************/
+        private void UserForm_Done(int row, string names, DataRow dr )
+        {
+            dr["SendTo"] = names;
+            gridMain.RefreshEditor(true);
         }
         /***********************************************************************************************/
     }

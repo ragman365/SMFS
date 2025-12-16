@@ -434,6 +434,12 @@
     <Compile Include="ClassApayersBy Company.Designer.cs">
       <DependentUpon>ClassApayersBy Company.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelectUserEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectUserEmail.designer.cs">
+      <DependentUpon>SelectUserEmail.cs</DependentUpon>
+    </Compile>
     <Compile Include="ShowChanges.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2574,6 +2580,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ClassApayersBy Company.resx">
       <DependentUpon>ClassApayersBy Company.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectUserEmail.resx">
+      <DependentUpon>SelectUserEmail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ShowChanges.resx">
       <DependentUpon>ShowChanges.cs</DependentUpon>

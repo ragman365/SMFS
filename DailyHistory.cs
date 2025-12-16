@@ -7155,6 +7155,7 @@ namespace SMFS
             double expected = 0D;
             double premium = 0D;
             DateTime deceasedDate = DateTime.Now;
+            DateTime lapseDate = DateTime.Now;
 
 
             string report = "";
@@ -7187,13 +7188,21 @@ namespace SMFS
                         continue;
                 }
                 lapsed = dx.Rows[i]["lapsed"].ObjToString().ToUpper();
+                if ( lapsed == "Y")
+                {
+                }
                 deceasedDate = dx.Rows[i]["deceasedDate"].ObjToDateTime();
+                lapseDate = dx.Rows[i]["lapsedDate8"].ObjToDateTime();
                 premium = dx.Rows[i]["premium"].ObjToDouble();
                 if ( deceasedDate.Year > 100 )
                     premium = dx.Rows[i]["historicPremium"].ObjToDouble();
+                else if (lapseDate.Year > 100)
+                    premium = dx.Rows[i]["historicPremium"].ObjToDouble();
                 if (deceasedDate.Year < 100)
                 {
-                    if ( lapsed != "Y" )
+                    if (lapsed != "Y")
+                        expected += premium;
+                    else if (payDate < lapseDate)
                         expected += premium;
                 }
                 else

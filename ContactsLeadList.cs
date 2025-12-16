@@ -702,8 +702,8 @@ namespace SMFS
                 zip = dt.Rows[i]["zip"].ObjToString();
 
                 email = dt.Rows[i]["email"].ObjToString();
-                phone = dt.Rows[i]["phone"].ObjToString();
-                phoneType = dt.Rows[i]["phoneType"].ObjToString();
+                phone = dt.Rows[i]["phone"].ObjToString().Trim();
+                phoneType = dt.Rows[i]["phoneType"].ObjToString().Trim();
                 homePhone = "";
                 mobilePhone = "";
                 workPhone = "";
