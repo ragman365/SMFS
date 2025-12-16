@@ -30,10 +30,14 @@ namespace SMFS
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditCars));
+            this.panelAllMain = new System.Windows.Forms.Panel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.dgv = new DevExpress.XtraGrid.GridControl();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn70 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn71 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn73 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -59,13 +63,12 @@ namespace SMFS
             this.btnSaveAll = new System.Windows.Forms.Button();
             this.pictureBox12 = new System.Windows.Forms.PictureBox();
             this.pictureBox11 = new System.Windows.Forms.PictureBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.maintPanelAll = new System.Windows.Forms.Panel();
             this.maintPanelBottom = new System.Windows.Forms.Panel();
             this.dgv2 = new DevExpress.XtraGrid.GridControl();
             this.gridMain2 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.bandedGridColumn16 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn14 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn15 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -199,8 +202,9 @@ namespace SMFS
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.panelAllMain.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -212,8 +216,6 @@ namespace SMFS
             ((System.ComponentModel.ISupportInitialize)(this.picSearchVehicles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.maintPanelAll.SuspendLayout();
             this.maintPanelBottom.SuspendLayout();
@@ -276,6 +278,41 @@ namespace SMFS
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
+            // panelAllMain
+            // 
+            this.panelAllMain.Controls.Add(this.tabControl1);
+            this.panelAllMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelAllMain.Location = new System.Drawing.Point(0, 28);
+            this.panelAllMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelAllMain.Name = "panelAllMain";
+            this.panelAllMain.Size = new System.Drawing.Size(1677, 445);
+            this.panelAllMain.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1677, 445);
+            this.tabControl1.TabIndex = 1;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.panelAll);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1669, 416);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Vehicles";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
             // panelAll
             // 
             this.panelAll.Controls.Add(this.panelBottom);
@@ -284,7 +321,7 @@ namespace SMFS
             this.panelAll.Location = new System.Drawing.Point(3, 3);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1763, 387);
+            this.panelAll.Size = new System.Drawing.Size(1663, 410);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -294,7 +331,7 @@ namespace SMFS
             this.panelBottom.Location = new System.Drawing.Point(0, 53);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1763, 334);
+            this.panelBottom.Size = new System.Drawing.Size(1663, 357);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -307,7 +344,7 @@ namespace SMFS
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1763, 334);
+            this.dgv.Size = new System.Drawing.Size(1663, 357);
             this.dgv.TabIndex = 12;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain,
@@ -475,13 +512,38 @@ namespace SMFS
             this.gridMain.OptionsView.ShowBands = false;
             this.gridMain.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.gridMain.OptionsView.ShowGroupPanel = false;
-            this.gridMain.PaintStyleName = "Flat";
+            this.gridMain.PaintStyleName = "Style3D";
             this.gridMain.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridMain_CustomDrawCell);
             this.gridMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain_CellValueChanged);
             this.gridMain.CustomRowFilter += new DevExpress.XtraGrid.Views.Base.RowFilterEventHandler(this.gridMain_CustomRowFilter);
             this.gridMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain_CustomColumnDisplayText);
             this.gridMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridMain_MouseDown);
             this.gridMain.DoubleClick += new System.EventHandler(this.gridMain_DoubleClick);
+            // 
+            // gridBand4
+            // 
+            this.gridBand4.Caption = "gridBand1";
+            this.gridBand4.Columns.Add(this.bandedGridColumn70);
+            this.gridBand4.Columns.Add(this.bandedGridColumn71);
+            this.gridBand4.Columns.Add(this.bandedGridColumn73);
+            this.gridBand4.Columns.Add(this.bandedGridColumn1);
+            this.gridBand4.Columns.Add(this.bandedGridColumn2);
+            this.gridBand4.Columns.Add(this.bandedGridColumn3);
+            this.gridBand4.Columns.Add(this.bandedGridColumn4);
+            this.gridBand4.Columns.Add(this.bandedGridColumn5);
+            this.gridBand4.Columns.Add(this.bandedGridColumn6);
+            this.gridBand4.Columns.Add(this.bandedGridColumn9);
+            this.gridBand4.Columns.Add(this.bandedGridColumn10);
+            this.gridBand4.Columns.Add(this.bandedGridColumn7);
+            this.gridBand4.Columns.Add(this.bandedGridColumn13);
+            this.gridBand4.Columns.Add(this.bandedGridColumn11);
+            this.gridBand4.Columns.Add(this.bandedGridColumn12);
+            this.gridBand4.Columns.Add(this.bandedGridColumn8);
+            this.gridBand4.MinWidth = 19;
+            this.gridBand4.Name = "gridBand4";
+            this.gridBand4.OptionsBand.FixedWidth = true;
+            this.gridBand4.VisibleIndex = 0;
+            this.gridBand4.Width = 2579;
             // 
             // bandedGridColumn70
             // 
@@ -664,7 +726,7 @@ namespace SMFS
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1763, 53);
+            this.panelTop.Size = new System.Drawing.Size(1663, 53);
             this.panelTop.TabIndex = 1;
             // 
             // btnInsert
@@ -757,37 +819,13 @@ namespace SMFS
             this.pictureBox11.TabStop = false;
             this.pictureBox11.Click += new System.EventHandler(this.pictureBox11_Click);
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Location = new System.Drawing.Point(0, 31);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1777, 422);
-            this.tabControl1.TabIndex = 1;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.panelAll);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1769, 393);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Vehicles";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.maintPanelAll);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1769, 393);
+            this.tabPage2.Size = new System.Drawing.Size(1726, 469);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Maintenance";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -799,7 +837,7 @@ namespace SMFS
             this.maintPanelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.maintPanelAll.Location = new System.Drawing.Point(3, 3);
             this.maintPanelAll.Name = "maintPanelAll";
-            this.maintPanelAll.Size = new System.Drawing.Size(1763, 387);
+            this.maintPanelAll.Size = new System.Drawing.Size(1720, 463);
             this.maintPanelAll.TabIndex = 0;
             // 
             // maintPanelBottom
@@ -808,7 +846,7 @@ namespace SMFS
             this.maintPanelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.maintPanelBottom.Location = new System.Drawing.Point(0, 54);
             this.maintPanelBottom.Name = "maintPanelBottom";
-            this.maintPanelBottom.Size = new System.Drawing.Size(1763, 333);
+            this.maintPanelBottom.Size = new System.Drawing.Size(1720, 409);
             this.maintPanelBottom.TabIndex = 1;
             // 
             // dgv2
@@ -826,7 +864,7 @@ namespace SMFS
             this.repositoryItemComboBox2,
             this.repositoryItemComboBox3,
             this.repositoryItemComboBox4});
-            this.dgv2.Size = new System.Drawing.Size(1763, 333);
+            this.dgv2.Size = new System.Drawing.Size(1720, 409);
             this.dgv2.TabIndex = 13;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2,
@@ -997,9 +1035,33 @@ namespace SMFS
             this.gridMain2.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.gridMain2.OptionsView.ShowGroupPanel = false;
             this.gridMain2.PaintStyleName = "Flat";
+            this.gridMain2.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
             this.gridMain2.CustomRowFilter += new DevExpress.XtraGrid.Views.Base.RowFilterEventHandler(this.gridMain2_CustomRowFilter);
             this.gridMain2.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain2_CustomColumnDisplayText);
             this.gridMain2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridMain2_MouseDown);
+            // 
+            // gridBand1
+            // 
+            this.gridBand1.Caption = "gridBand1";
+            this.gridBand1.Columns.Add(this.bandedGridColumn16);
+            this.gridBand1.Columns.Add(this.bandedGridColumn14);
+            this.gridBand1.Columns.Add(this.bandedGridColumn15);
+            this.gridBand1.Columns.Add(this.bandedGridColumn17);
+            this.gridBand1.Columns.Add(this.bandedGridColumn24);
+            this.gridBand1.Columns.Add(this.bandedGridColumn18);
+            this.gridBand1.Columns.Add(this.bandedGridColumn19);
+            this.gridBand1.Columns.Add(this.bandedGridColumn49);
+            this.gridBand1.Columns.Add(this.bandedGridColumn48);
+            this.gridBand1.Columns.Add(this.bandedGridColumn20);
+            this.gridBand1.Columns.Add(this.bandedGridColumn21);
+            this.gridBand1.Columns.Add(this.bandedGridColumn22);
+            this.gridBand1.Columns.Add(this.bandedGridColumn23);
+            this.gridBand1.Columns.Add(this.bandedGridColumn25);
+            this.gridBand1.MinWidth = 141;
+            this.gridBand1.Name = "gridBand1";
+            this.gridBand1.OptionsBand.FixedWidth = true;
+            this.gridBand1.VisibleIndex = 0;
+            this.gridBand1.Width = 2701;
             // 
             // bandedGridColumn16
             // 
@@ -1244,7 +1306,7 @@ namespace SMFS
             this.maintPanelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.maintPanelTop.Location = new System.Drawing.Point(0, 0);
             this.maintPanelTop.Name = "maintPanelTop";
-            this.maintPanelTop.Size = new System.Drawing.Size(1763, 54);
+            this.maintPanelTop.Size = new System.Drawing.Size(1720, 54);
             this.maintPanelTop.TabIndex = 0;
             // 
             // button1
@@ -1342,7 +1404,7 @@ namespace SMFS
             this.tabPage3.Controls.Add(this.vendPanelAll);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1769, 393);
+            this.tabPage3.Size = new System.Drawing.Size(1726, 469);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Vendors";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1351,17 +1413,19 @@ namespace SMFS
             // 
             this.vendPanelAll.Controls.Add(this.vendPanelBottom);
             this.vendPanelAll.Controls.Add(this.vendPanelTop);
-            this.vendPanelAll.Location = new System.Drawing.Point(1, 1);
+            this.vendPanelAll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vendPanelAll.Location = new System.Drawing.Point(0, 0);
             this.vendPanelAll.Name = "vendPanelAll";
-            this.vendPanelAll.Size = new System.Drawing.Size(1767, 422);
+            this.vendPanelAll.Size = new System.Drawing.Size(1726, 469);
             this.vendPanelAll.TabIndex = 0;
             // 
             // vendPanelBottom
             // 
             this.vendPanelBottom.Controls.Add(this.dgv3);
-            this.vendPanelBottom.Location = new System.Drawing.Point(1, 55);
+            this.vendPanelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vendPanelBottom.Location = new System.Drawing.Point(0, 54);
             this.vendPanelBottom.Name = "vendPanelBottom";
-            this.vendPanelBottom.Size = new System.Drawing.Size(1765, 367);
+            this.vendPanelBottom.Size = new System.Drawing.Size(1726, 415);
             this.vendPanelBottom.TabIndex = 2;
             // 
             // dgv3
@@ -1379,7 +1443,7 @@ namespace SMFS
             this.repositoryItemComboBox6,
             this.repositoryItemComboBox7,
             this.repositoryItemComboBox8});
-            this.dgv3.Size = new System.Drawing.Size(1765, 367);
+            this.dgv3.Size = new System.Drawing.Size(1726, 415);
             this.dgv3.TabIndex = 14;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3,
@@ -1546,6 +1610,7 @@ namespace SMFS
             this.gridMain3.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.gridMain3.OptionsView.ShowGroupPanel = false;
             this.gridMain3.PaintStyleName = "Flat";
+            this.gridMain3.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
             this.gridMain3.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain3_CellValueChanged);
             this.gridMain3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridMain3_MouseDown);
             // 
@@ -1758,7 +1823,7 @@ namespace SMFS
             this.vendPanelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.vendPanelTop.Location = new System.Drawing.Point(0, 0);
             this.vendPanelTop.Name = "vendPanelTop";
-            this.vendPanelTop.Size = new System.Drawing.Size(1767, 54);
+            this.vendPanelTop.Size = new System.Drawing.Size(1726, 54);
             this.vendPanelTop.TabIndex = 1;
             // 
             // btnInsertVend
@@ -1856,7 +1921,7 @@ namespace SMFS
             this.tabPage4.Controls.Add(this.panel_service_All);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1769, 393);
+            this.tabPage4.Size = new System.Drawing.Size(1726, 469);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Services";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1869,7 +1934,7 @@ namespace SMFS
             this.panel_service_All.Location = new System.Drawing.Point(0, 0);
             this.panel_service_All.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel_service_All.Name = "panel_service_All";
-            this.panel_service_All.Size = new System.Drawing.Size(1769, 393);
+            this.panel_service_All.Size = new System.Drawing.Size(1726, 469);
             this.panel_service_All.TabIndex = 1;
             // 
             // panel_service_bottom
@@ -1880,7 +1945,7 @@ namespace SMFS
             this.panel_service_bottom.Location = new System.Drawing.Point(0, 53);
             this.panel_service_bottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel_service_bottom.Name = "panel_service_bottom";
-            this.panel_service_bottom.Size = new System.Drawing.Size(1769, 340);
+            this.panel_service_bottom.Size = new System.Drawing.Size(1726, 416);
             this.panel_service_bottom.TabIndex = 2;
             // 
             // dgv4
@@ -1895,7 +1960,7 @@ namespace SMFS
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox9});
-            this.dgv4.Size = new System.Drawing.Size(1769, 340);
+            this.dgv4.Size = new System.Drawing.Size(1726, 416);
             this.dgv4.TabIndex = 15;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2057,6 +2122,7 @@ namespace SMFS
             this.gridMain4.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.gridMain4.OptionsView.ShowGroupPanel = false;
             this.gridMain4.PaintStyleName = "Flat";
+            this.gridMain4.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
             this.gridMain4.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain4_CellValueChanged);
             // 
             // gridBand3
@@ -2199,7 +2265,7 @@ namespace SMFS
             this.panel_service_top.Location = new System.Drawing.Point(0, 0);
             this.panel_service_top.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel_service_top.Name = "panel_service_top";
-            this.panel_service_top.Size = new System.Drawing.Size(1769, 53);
+            this.panel_service_top.Size = new System.Drawing.Size(1726, 53);
             this.panel_service_top.TabIndex = 1;
             // 
             // btnInsertServ
@@ -2297,7 +2363,7 @@ namespace SMFS
             this.tabPage5.Controls.Add(this.upcomingPanelAll);
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1769, 393);
+            this.tabPage5.Size = new System.Drawing.Size(1726, 469);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Upcoming";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -2309,7 +2375,7 @@ namespace SMFS
             this.upcomingPanelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.upcomingPanelAll.Location = new System.Drawing.Point(0, 0);
             this.upcomingPanelAll.Name = "upcomingPanelAll";
-            this.upcomingPanelAll.Size = new System.Drawing.Size(1769, 393);
+            this.upcomingPanelAll.Size = new System.Drawing.Size(1726, 469);
             this.upcomingPanelAll.TabIndex = 1;
             // 
             // upcomingPanelBottom
@@ -2318,7 +2384,7 @@ namespace SMFS
             this.upcomingPanelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.upcomingPanelBottom.Location = new System.Drawing.Point(0, 54);
             this.upcomingPanelBottom.Name = "upcomingPanelBottom";
-            this.upcomingPanelBottom.Size = new System.Drawing.Size(1769, 339);
+            this.upcomingPanelBottom.Size = new System.Drawing.Size(1726, 415);
             this.upcomingPanelBottom.TabIndex = 1;
             // 
             // dgv5
@@ -2336,7 +2402,7 @@ namespace SMFS
             this.repositoryItemComboBox11,
             this.repositoryItemComboBox12,
             this.repositoryItemComboBox13});
-            this.dgv5.Size = new System.Drawing.Size(1769, 339);
+            this.dgv5.Size = new System.Drawing.Size(1726, 415);
             this.dgv5.TabIndex = 13;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -2506,6 +2572,7 @@ namespace SMFS
             this.gridMain5.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.gridMain5.OptionsView.ShowGroupPanel = false;
             this.gridMain5.PaintStyleName = "Flat";
+            this.gridMain5.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
             this.gridMain5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridMain5_MouseDown);
             // 
             // gridBand5
@@ -2748,7 +2815,7 @@ namespace SMFS
             this.upcomingPanelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.upcomingPanelTop.Location = new System.Drawing.Point(0, 0);
             this.upcomingPanelTop.Name = "upcomingPanelTop";
-            this.upcomingPanelTop.Size = new System.Drawing.Size(1769, 54);
+            this.upcomingPanelTop.Size = new System.Drawing.Size(1726, 54);
             this.upcomingPanelTop.TabIndex = 0;
             // 
             // btnInsertUpcoming
@@ -2850,7 +2917,7 @@ namespace SMFS
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1856, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1677, 28);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2905,67 +2972,22 @@ namespace SMFS
             this.importToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
             this.importToolStripMenuItem.Text = "Import";
             // 
-            // gridBand1
-            // 
-            this.gridBand1.Caption = "gridBand1";
-            this.gridBand1.Columns.Add(this.bandedGridColumn16);
-            this.gridBand1.Columns.Add(this.bandedGridColumn14);
-            this.gridBand1.Columns.Add(this.bandedGridColumn15);
-            this.gridBand1.Columns.Add(this.bandedGridColumn17);
-            this.gridBand1.Columns.Add(this.bandedGridColumn24);
-            this.gridBand1.Columns.Add(this.bandedGridColumn18);
-            this.gridBand1.Columns.Add(this.bandedGridColumn19);
-            this.gridBand1.Columns.Add(this.bandedGridColumn49);
-            this.gridBand1.Columns.Add(this.bandedGridColumn48);
-            this.gridBand1.Columns.Add(this.bandedGridColumn20);
-            this.gridBand1.Columns.Add(this.bandedGridColumn21);
-            this.gridBand1.Columns.Add(this.bandedGridColumn22);
-            this.gridBand1.Columns.Add(this.bandedGridColumn23);
-            this.gridBand1.Columns.Add(this.bandedGridColumn25);
-            this.gridBand1.MinWidth = 141;
-            this.gridBand1.Name = "gridBand1";
-            this.gridBand1.OptionsBand.FixedWidth = true;
-            this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 2701;
-            // 
-            // gridBand4
-            // 
-            this.gridBand4.Caption = "gridBand1";
-            this.gridBand4.Columns.Add(this.bandedGridColumn70);
-            this.gridBand4.Columns.Add(this.bandedGridColumn71);
-            this.gridBand4.Columns.Add(this.bandedGridColumn73);
-            this.gridBand4.Columns.Add(this.bandedGridColumn1);
-            this.gridBand4.Columns.Add(this.bandedGridColumn2);
-            this.gridBand4.Columns.Add(this.bandedGridColumn3);
-            this.gridBand4.Columns.Add(this.bandedGridColumn4);
-            this.gridBand4.Columns.Add(this.bandedGridColumn5);
-            this.gridBand4.Columns.Add(this.bandedGridColumn6);
-            this.gridBand4.Columns.Add(this.bandedGridColumn9);
-            this.gridBand4.Columns.Add(this.bandedGridColumn10);
-            this.gridBand4.Columns.Add(this.bandedGridColumn7);
-            this.gridBand4.Columns.Add(this.bandedGridColumn13);
-            this.gridBand4.Columns.Add(this.bandedGridColumn11);
-            this.gridBand4.Columns.Add(this.bandedGridColumn12);
-            this.gridBand4.Columns.Add(this.bandedGridColumn8);
-            this.gridBand4.MinWidth = 19;
-            this.gridBand4.Name = "gridBand4";
-            this.gridBand4.OptionsBand.FixedWidth = true;
-            this.gridBand4.VisibleIndex = 0;
-            this.gridBand4.Width = 2579;
-            // 
             // EditCars
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1856, 453);
+            this.ClientSize = new System.Drawing.Size(1677, 473);
+            this.Controls.Add(this.panelAllMain);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.tabControl1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "EditCars";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EditTable";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditTable_FormClosing);
             this.Load += new System.EventHandler(this.EditCars_Load);
+            this.panelAllMain.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.panelAll.ResumeLayout(false);
             this.panelBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
@@ -2977,8 +2999,6 @@ namespace SMFS
             ((System.ComponentModel.ISupportInitialize)(this.picSearchVehicles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.maintPanelAll.ResumeLayout(false);
             this.maintPanelBottom.ResumeLayout(false);
@@ -3047,6 +3067,7 @@ namespace SMFS
 
         #endregion
 
+        private System.Windows.Forms.Panel panelAllMain;
         private System.Windows.Forms.Panel panelAll;
         private System.Windows.Forms.Panel panelBottom;
         private System.Windows.Forms.Panel panelTop;

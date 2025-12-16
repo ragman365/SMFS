@@ -62,12 +62,12 @@ namespace SMFS
         /****************************************************************************************/
         private void EditCars_Load(object sender, EventArgs e)
         {
-            Rectangle rect = this.Bounds;
-            int left = rect.X;
-            int top = rect.Y;
-            int width = rect.Width - 500;
-            int height = rect.Height;
-            this.SetBounds(left, top, width, height);
+            //Rectangle rect = this.Bounds;
+            //int left = rect.X;
+            //int top = rect.Y;
+            //int width = rect.Width - 500;
+            //int height = rect.Height;
+            //this.SetBounds(left, top, width, height);
             btnSaveAll.Hide();
             btnSaveAllMaint.Hide();
             btnSaveAllVend.Hide();
