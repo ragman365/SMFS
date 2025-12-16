@@ -62,6 +62,12 @@ namespace SMFS
         /****************************************************************************************/
         private void EditCars_Load(object sender, EventArgs e)
         {
+            Rectangle rect = this.Bounds;
+            int left = rect.X;
+            int top = rect.Y;
+            int width = rect.Width - 500;
+            int height = rect.Height;
+            this.SetBounds(left, top, width, height);
             btnSaveAll.Hide();
             btnSaveAllMaint.Hide();
             btnSaveAllVend.Hide();
@@ -696,6 +702,8 @@ namespace SMFS
                     return;
                 
                 G1.update_db_table("cars_maint", "record", record, new string[] { "cars_record", cars_record, "car", car, "service_type_record", service_type_record, "service", service, "category_record", category_record, "category", category, "service_sched_b_date", sched_b_date, "service_sched_e_date", sched_e_date, "service_begin_date", beginDate, "service_end_date", endDate, "mileage", mileage, "cost", cost, "vendor_record", vendor_record, "vendor_name", vendor_name, "notes", notes });
+
+                dgv2.Refresh();
             }
             modified_maint = false;
             btnSaveAllMaint.Hide();
@@ -2953,6 +2961,9 @@ namespace SMFS
                     return;
 
                 G1.update_db_table("cars_maint", "record", record, new string[] { "cars_record", cars_record, "car", car, "service_type_record", service_type_record, "service", service, "category_record", category_record, "category", category, "service_sched_b_date", sched_b_date, "service_sched_e_date", sched_e_date, "service_begin_date", beginDate, "service_end_date", endDate, "mileage", mileage, "cost", cost, "vendor_record", vendor_record, "vendor_name", vendor_name, "notes", notes });
+                // Refresh the table(s)
+                dgv5.Refresh();
+                dgv2.Refresh();
             }
             modified_maint = false;
             btnSaveAllUpcoming.Hide();
