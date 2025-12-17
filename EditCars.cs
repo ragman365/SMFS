@@ -16,6 +16,9 @@ using GeneralLib;
 using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraEditors.ViewInfo;
+using DevExpress.Utils.Drawing;
 
 /****************************************************************************************/
 namespace SMFS
@@ -3110,6 +3113,60 @@ namespace SMFS
             }
 
             //chkComboLocation.Properties.DataSource = _LocationList;
+        }
+
+        private void gridMain2_CalcRowHeight(object sender, RowHeightEventArgs e)
+        {
+            GridView View = sender as GridView;
+            if (e.RowHandle >= 0)
+            {
+                int maxHeight = 0;
+                int newHeight = 0;
+                bool doit = false;
+                string name = "";
+                string str = "";
+                int count = 0;
+                string[] Lines = null;
+                foreach (GridColumn column in gridMain.Columns)
+                {
+                    doit = false;
+                    name = column.FieldName.ToUpper();
+                    if (name == "NOTES")
+                        doit = true;
+                    if (doit)
+                    {
+                        using (RepositoryItemMemoEdit edit = new RepositoryItemMemoEdit())
+                        {
+                            using (MemoEditViewInfo viewInfo = edit.CreateViewInfo() as MemoEditViewInfo)
+                            {
+                                str = gridMain2.GetRowCellValue(e.RowHandle, column.FieldName).ObjToString();
+                                if (!String.IsNullOrWhiteSpace(str))
+                                {
+                                    Lines = str.Split('\n');
+                                    count = Lines.Length;
+                                }
+                                int oldHeight = e.RowHeight;
+                                viewInfo.EditValue = gridMain.GetRowCellValue(e.RowHandle, column.FieldName);
+                                viewInfo.Bounds = new Rectangle(0, 0, column.VisibleWidth, dgv2.Height);
+                                using (Graphics graphics = dgv2.CreateGraphics())
+                                using (GraphicsCache cache = new GraphicsCache(graphics))
+                                {
+                                    viewInfo.CalcViewInfo(graphics);
+                                    var height = ((IHeightAdaptable)viewInfo).CalcHeight(cache, column.VisibleWidth);
+                                    newHeight = Math.Max(height, maxHeight);
+                                    if (newHeight > maxHeight)
+                                    {
+                                        maxHeight = oldHeight * count;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (maxHeight > 0 && maxHeight > e.RowHeight)
+                    e.RowHeight = maxHeight;
+            }
         }
         /*******************************************************************************************/
     }
