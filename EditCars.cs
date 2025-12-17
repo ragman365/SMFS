@@ -3118,55 +3118,58 @@ namespace SMFS
         private void gridMain2_CalcRowHeight(object sender, RowHeightEventArgs e)
         {
             GridView View = sender as GridView;
-            if (e.RowHandle >= 0)
+            try
             {
-                int maxHeight = 0;
-                int newHeight = 0;
-                bool doit = false;
-                string name = "";
-                string str = "";
-                int count = 0;
-                string[] Lines = null;
-                foreach (GridColumn column in gridMain.Columns)
+                if (e.RowHandle >= 0)
                 {
-                    doit = false;
-                    name = column.FieldName.ToUpper();
-                    if (name == "NOTES")
-                        doit = true;
-                    if (doit)
+                    int maxHeight = 0;
+                    int newHeight = 0;
+                    string name = "";
+                    bool doit = false;
+                    foreach (GridColumn column in gridMain2.Columns)
                     {
-                        using (RepositoryItemMemoEdit edit = new RepositoryItemMemoEdit())
+                        doit = true;
+                        doit = false;
+                        name = column.FieldName.ToUpper();
+                        if (name == "NOTES")
+                            doit = true;
+                        if (doit)
                         {
-                            using (MemoEditViewInfo viewInfo = edit.CreateViewInfo() as MemoEditViewInfo)
+                            DataTable dt = (DataTable)dgv2.DataSource;
+                            int row = gridMain2.GetDataSourceRowIndex(e.RowHandle);
+                            string data = dt.Rows[row]["NOTES"].ObjToString().ToUpper();
+                            using (RepositoryItemMemoEdit edit = new RepositoryItemMemoEdit())
                             {
-                                str = gridMain2.GetRowCellValue(e.RowHandle, column.FieldName).ObjToString();
-                                if (!String.IsNullOrWhiteSpace(str))
+                                using (MemoEditViewInfo viewInfo = edit.CreateViewInfo() as MemoEditViewInfo)
                                 {
-                                    Lines = str.Split('\n');
-                                    count = Lines.Length;
-                                }
-                                int oldHeight = e.RowHeight;
-                                viewInfo.EditValue = gridMain.GetRowCellValue(e.RowHandle, column.FieldName);
-                                viewInfo.Bounds = new Rectangle(0, 0, column.VisibleWidth, dgv2.Height);
-                                using (Graphics graphics = dgv2.CreateGraphics())
-                                using (GraphicsCache cache = new GraphicsCache(graphics))
-                                {
-                                    viewInfo.CalcViewInfo(graphics);
-                                    var height = ((IHeightAdaptable)viewInfo).CalcHeight(cache, column.VisibleWidth);
-                                    newHeight = Math.Max(height, maxHeight);
-                                    if (newHeight > maxHeight)
+                                    viewInfo.EditValue = gridMain2.GetRowCellValue(e.RowHandle, column.FieldName);
+                                    viewInfo.Bounds = new Rectangle(0, 0, column.VisibleWidth, dgv2.Height);
+                                    using (Graphics graphics = dgv2.CreateGraphics())
+                                    using (GraphicsCache cache = new GraphicsCache(graphics))
                                     {
-                                        maxHeight = oldHeight * count;
+                                        viewInfo.CalcViewInfo(graphics);
+                                        var height = ((IHeightAdaptable)viewInfo).CalcHeight(cache, column.VisibleWidth);
+                                        newHeight = Math.Max(height, maxHeight);
+                                        if (newHeight > maxHeight)
+                                            maxHeight = newHeight;
                                     }
                                 }
                             }
                         }
                     }
-                }
 
-                if (maxHeight > 0 && maxHeight > e.RowHeight)
-                    e.RowHeight = maxHeight;
+                    if (maxHeight > 0)
+                        e.RowHeight = maxHeight;
+                }
             }
+            catch (Exception ex)
+            {
+            }
+        }
+        /*******************************************************************************************/
+        private void repositoryItemMemoEdit1_EditValueChanged(object sender, EventArgs e)
+        {
+            gridMain2_CellValueChanged( null, null );
         }
         /*******************************************************************************************/
     }

@@ -991,6 +991,8 @@ namespace SMFS
             this.gridMain2.Appearance.Row.ForeColor = System.Drawing.Color.Black;
             this.gridMain2.Appearance.Row.Options.UseBackColor = true;
             this.gridMain2.Appearance.Row.Options.UseForeColor = true;
+            this.gridMain2.Appearance.Row.Options.UseTextOptions = true;
+            this.gridMain2.Appearance.Row.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this.gridMain2.Appearance.RowSeparator.BackColor = System.Drawing.Color.White;
             this.gridMain2.Appearance.RowSeparator.Options.UseBackColor = true;
             this.gridMain2.Appearance.SelectedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(126)))), ((int)(((byte)(217)))));
@@ -1028,6 +1030,7 @@ namespace SMFS
             this.gridMain2.Name = "gridMain2";
             this.gridMain2.OptionsBehavior.AutoPopulateColumns = false;
             this.gridMain2.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.MouseDown;
+            this.gridMain2.OptionsCustomization.AllowRowSizing = true;
             this.gridMain2.OptionsNavigation.EnterMoveNextColumn = true;
             this.gridMain2.OptionsPrint.AutoWidth = false;
             this.gridMain2.OptionsPrint.PrintBandHeader = false;
@@ -1243,6 +1246,7 @@ namespace SMFS
             // bandedGridColumn25
             // 
             this.bandedGridColumn25.Caption = "notes";
+            this.bandedGridColumn25.ColumnEdit = this.repositoryItemMemoEdit1;
             this.bandedGridColumn25.FieldName = "notes";
             this.bandedGridColumn25.MinWidth = 188;
             this.bandedGridColumn25.Name = "bandedGridColumn25";
@@ -1252,6 +1256,8 @@ namespace SMFS
             // 
             // repositoryItemMemoEdit1
             // 
+            this.repositoryItemMemoEdit1.Appearance.Options.UseTextOptions = true;
+            this.repositoryItemMemoEdit1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
             // 
             // bandedGridColumn54
@@ -1411,7 +1417,7 @@ namespace SMFS
             this.tabPage3.Controls.Add(this.vendPanelAll);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1669, 416);
+            this.tabPage3.Size = new System.Drawing.Size(1669, 414);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Vendors";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1423,7 +1429,7 @@ namespace SMFS
             this.vendPanelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vendPanelAll.Location = new System.Drawing.Point(0, 0);
             this.vendPanelAll.Name = "vendPanelAll";
-            this.vendPanelAll.Size = new System.Drawing.Size(1669, 416);
+            this.vendPanelAll.Size = new System.Drawing.Size(1669, 414);
             this.vendPanelAll.TabIndex = 0;
             // 
             // vendPanelBottom
@@ -1432,7 +1438,7 @@ namespace SMFS
             this.vendPanelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vendPanelBottom.Location = new System.Drawing.Point(0, 54);
             this.vendPanelBottom.Name = "vendPanelBottom";
-            this.vendPanelBottom.Size = new System.Drawing.Size(1669, 362);
+            this.vendPanelBottom.Size = new System.Drawing.Size(1669, 360);
             this.vendPanelBottom.TabIndex = 2;
             // 
             // dgv3
@@ -1450,7 +1456,7 @@ namespace SMFS
             this.repositoryItemComboBox6,
             this.repositoryItemComboBox7,
             this.repositoryItemComboBox8});
-            this.dgv3.Size = new System.Drawing.Size(1669, 362);
+            this.dgv3.Size = new System.Drawing.Size(1669, 360);
             this.dgv3.TabIndex = 14;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3,
@@ -1928,7 +1934,7 @@ namespace SMFS
             this.tabPage4.Controls.Add(this.panel_service_All);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1669, 416);
+            this.tabPage4.Size = new System.Drawing.Size(1669, 414);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Services";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1941,7 +1947,7 @@ namespace SMFS
             this.panel_service_All.Location = new System.Drawing.Point(0, 0);
             this.panel_service_All.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel_service_All.Name = "panel_service_All";
-            this.panel_service_All.Size = new System.Drawing.Size(1669, 416);
+            this.panel_service_All.Size = new System.Drawing.Size(1669, 414);
             this.panel_service_All.TabIndex = 1;
             // 
             // panel_service_bottom
@@ -1952,7 +1958,7 @@ namespace SMFS
             this.panel_service_bottom.Location = new System.Drawing.Point(0, 53);
             this.panel_service_bottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel_service_bottom.Name = "panel_service_bottom";
-            this.panel_service_bottom.Size = new System.Drawing.Size(1669, 363);
+            this.panel_service_bottom.Size = new System.Drawing.Size(1669, 361);
             this.panel_service_bottom.TabIndex = 2;
             // 
             // dgv4
@@ -1967,7 +1973,7 @@ namespace SMFS
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox9});
-            this.dgv4.Size = new System.Drawing.Size(1669, 363);
+            this.dgv4.Size = new System.Drawing.Size(1669, 361);
             this.dgv4.TabIndex = 15;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2370,7 +2376,7 @@ namespace SMFS
             this.tabPage5.Controls.Add(this.upcomingPanelAll);
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1669, 416);
+            this.tabPage5.Size = new System.Drawing.Size(1669, 414);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Upcoming";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -2382,7 +2388,7 @@ namespace SMFS
             this.upcomingPanelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.upcomingPanelAll.Location = new System.Drawing.Point(0, 0);
             this.upcomingPanelAll.Name = "upcomingPanelAll";
-            this.upcomingPanelAll.Size = new System.Drawing.Size(1669, 416);
+            this.upcomingPanelAll.Size = new System.Drawing.Size(1669, 414);
             this.upcomingPanelAll.TabIndex = 1;
             // 
             // upcomingPanelBottom
@@ -2391,7 +2397,7 @@ namespace SMFS
             this.upcomingPanelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.upcomingPanelBottom.Location = new System.Drawing.Point(0, 54);
             this.upcomingPanelBottom.Name = "upcomingPanelBottom";
-            this.upcomingPanelBottom.Size = new System.Drawing.Size(1669, 362);
+            this.upcomingPanelBottom.Size = new System.Drawing.Size(1669, 360);
             this.upcomingPanelBottom.TabIndex = 1;
             // 
             // dgv5
@@ -2409,7 +2415,7 @@ namespace SMFS
             this.repositoryItemComboBox11,
             this.repositoryItemComboBox12,
             this.repositoryItemComboBox13});
-            this.dgv5.Size = new System.Drawing.Size(1669, 362);
+            this.dgv5.Size = new System.Drawing.Size(1669, 360);
             this.dgv5.TabIndex = 13;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
