@@ -1350,7 +1350,7 @@ namespace SMFS
             else if (dgv5.Visible)
                 printableComponentLink1.Component = dgv5;
 
-            if ( autoRun && workReportIn.ToUpper() == "UPCOMING REPORT")
+            if ( autoRun && workReportIn.ToUpper() == "UPCOMING CAR MAINTENANCE REPORT")
                 printableComponentLink1.Component = dgv5;
 
             printableComponentLink1.PrintingSystemBase = printingSystem1;
@@ -3042,7 +3042,7 @@ namespace SMFS
                 sendTo = dt.Rows[i]["sendTo"].ObjToString();
                 sendWhere = dt.Rows[i]["sendWhere"].ObjToString();
                 da = dt.Rows[i]["da"].ObjToString();
-                if (report.ToUpper() == "UPCOMING REPORT")
+                if (report.ToUpper() == "UPCOMING CAR MAINTENANCE REPORT")
                 {
                     //G1.AddToAudit("System", "AutoRun", "Funeral Activity Report Load", "Starting Load . . . . . . . ", "");
                     Upcoming_Load(null, null);
