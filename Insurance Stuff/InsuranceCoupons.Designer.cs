@@ -392,7 +392,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage2.Size = new System.Drawing.Size(1340, 266);
+            this.tabPage2.Size = new System.Drawing.Size(1340, 264);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "AS400";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -405,7 +405,7 @@
             this.dgv2.MainView = this.gridMain2;
             this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv2.Name = "dgv2";
-            this.dgv2.Size = new System.Drawing.Size(1334, 258);
+            this.dgv2.Size = new System.Drawing.Size(1334, 256);
             this.dgv2.TabIndex = 2;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -563,7 +563,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1340, 266);
+            this.tabPage3.Size = new System.Drawing.Size(1340, 264);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Differences";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -576,7 +576,7 @@
             this.dgv3.MainView = this.gridMain3;
             this.dgv3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv3.Name = "dgv3";
-            this.dgv3.Size = new System.Drawing.Size(1340, 266);
+            this.dgv3.Size = new System.Drawing.Size(1340, 264);
             this.dgv3.TabIndex = 3;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});

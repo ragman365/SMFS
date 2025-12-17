@@ -88,10 +88,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1357, 385);
+            this.panelAll.Size = new System.Drawing.Size(1357, 387);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -101,7 +101,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 59);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1357, 326);
+            this.panelBottom.Size = new System.Drawing.Size(1357, 328);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -119,7 +119,7 @@
             this.repositoryItemComboBox1,
             this.repositoryItemCheckedComboBoxEdit1,
             this.repositoryItemComboBox2});
-            this.dgv.Size = new System.Drawing.Size(1357, 326);
+            this.dgv.Size = new System.Drawing.Size(1357, 328);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -135,7 +135,7 @@
             // runReportToolStripMenuItem
             // 
             this.runReportToolStripMenuItem.Name = "runReportToolStripMenuItem";
-            this.runReportToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.runReportToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.runReportToolStripMenuItem.Text = "Run Report";
             this.runReportToolStripMenuItem.Click += new System.EventHandler(this.runReportToolStripMenuItem_Click);
             // 
@@ -586,7 +586,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1357, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1357, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 

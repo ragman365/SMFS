@@ -83,10 +83,7 @@ namespace SMFS
         /***********************************************************************************************/
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            if (gridMain.OptionsFind.AlwaysVisible == true)
-                gridMain.OptionsFind.AlwaysVisible = false;
-            else
-                gridMain.OptionsFind.AlwaysVisible = true;
+            G1.SpyGlass(gridMain);
         }
         /***********************************************************************************************/
         private void AutoRunSetup_FormClosing(object sender, FormClosingEventArgs e)
@@ -616,7 +613,7 @@ namespace SMFS
                 //FuneralActivityReport funeralForm = new FuneralActivityReport(true, true);
                 ContactReportsAgents reportForm = new ContactReportsAgents(true, true, sendWhere, LoginForm.username, report, reportName);
             }
-            else if (report.ToUpper() == "UPCOMING REPORT")
+            else if (report.ToUpper() == "UPCOMING CAR MAINTENANCE REPORT")
             {
                 EditCars carsForm = new EditCars(true, true, sendWhere, sendTo, LoginForm.username, report, reportName);
 
@@ -687,6 +684,9 @@ namespace SMFS
         {
             dr["SendTo"] = names;
             gridMain.RefreshEditor(true);
+            modified = true;
+            btnSave.Show();
+            btnSave.Refresh();
         }
         /***********************************************************************************************/
     }

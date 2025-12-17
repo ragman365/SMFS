@@ -799,7 +799,8 @@ namespace SMFS
 
             DataTable ddt = dt.Copy();
             DataView tempview = ddt.DefaultView;
-            tempview.Sort = "payDate8 desc, tmstamp desc, record desc";
+            //tempview.Sort = "payDate8 desc, tmstamp desc, record desc";
+            tempview.Sort = "payDate8 desc, record desc, tmstamp desc"; // Changed for contract L23037LI on 12/17/2025
             ddt = tempview.ToTable();
             dt.Rows.Clear();
             for (int i = 0; i < ddt.Rows.Count; i++)

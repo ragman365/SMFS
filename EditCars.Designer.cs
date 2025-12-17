@@ -284,10 +284,10 @@ namespace SMFS
             // 
             this.panelAllMain.Controls.Add(this.tabControl1);
             this.panelAllMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAllMain.Location = new System.Drawing.Point(0, 28);
+            this.panelAllMain.Location = new System.Drawing.Point(0, 30);
             this.panelAllMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAllMain.Name = "panelAllMain";
-            this.panelAllMain.Size = new System.Drawing.Size(1677, 445);
+            this.panelAllMain.Size = new System.Drawing.Size(1677, 443);
             this.panelAllMain.TabIndex = 0;
             // 
             // tabControl1
@@ -301,7 +301,7 @@ namespace SMFS
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1677, 445);
+            this.tabControl1.Size = new System.Drawing.Size(1677, 443);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -827,7 +827,7 @@ namespace SMFS
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1669, 416);
+            this.tabPage2.Size = new System.Drawing.Size(1669, 414);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Maintenance";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -839,7 +839,7 @@ namespace SMFS
             this.maintPanelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.maintPanelAll.Location = new System.Drawing.Point(3, 3);
             this.maintPanelAll.Name = "maintPanelAll";
-            this.maintPanelAll.Size = new System.Drawing.Size(1663, 410);
+            this.maintPanelAll.Size = new System.Drawing.Size(1663, 408);
             this.maintPanelAll.TabIndex = 0;
             // 
             // maintPanelBottom
@@ -848,7 +848,7 @@ namespace SMFS
             this.maintPanelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.maintPanelBottom.Location = new System.Drawing.Point(0, 54);
             this.maintPanelBottom.Name = "maintPanelBottom";
-            this.maintPanelBottom.Size = new System.Drawing.Size(1663, 356);
+            this.maintPanelBottom.Size = new System.Drawing.Size(1663, 354);
             this.maintPanelBottom.TabIndex = 1;
             // 
             // dgv2
@@ -867,7 +867,7 @@ namespace SMFS
             this.repositoryItemComboBox3,
             this.repositoryItemComboBox4,
             this.repositoryItemMemoEdit1});
-            this.dgv2.Size = new System.Drawing.Size(1663, 356);
+            this.dgv2.Size = new System.Drawing.Size(1663, 354);
             this.dgv2.TabIndex = 13;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2,
@@ -1417,7 +1417,7 @@ namespace SMFS
             this.tabPage3.Controls.Add(this.vendPanelAll);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1669, 414);
+            this.tabPage3.Size = new System.Drawing.Size(1669, 416);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Vendors";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1429,7 +1429,7 @@ namespace SMFS
             this.vendPanelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vendPanelAll.Location = new System.Drawing.Point(0, 0);
             this.vendPanelAll.Name = "vendPanelAll";
-            this.vendPanelAll.Size = new System.Drawing.Size(1669, 414);
+            this.vendPanelAll.Size = new System.Drawing.Size(1669, 416);
             this.vendPanelAll.TabIndex = 0;
             // 
             // vendPanelBottom
@@ -1438,7 +1438,7 @@ namespace SMFS
             this.vendPanelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vendPanelBottom.Location = new System.Drawing.Point(0, 54);
             this.vendPanelBottom.Name = "vendPanelBottom";
-            this.vendPanelBottom.Size = new System.Drawing.Size(1669, 360);
+            this.vendPanelBottom.Size = new System.Drawing.Size(1669, 362);
             this.vendPanelBottom.TabIndex = 2;
             // 
             // dgv3
@@ -1456,7 +1456,7 @@ namespace SMFS
             this.repositoryItemComboBox6,
             this.repositoryItemComboBox7,
             this.repositoryItemComboBox8});
-            this.dgv3.Size = new System.Drawing.Size(1669, 360);
+            this.dgv3.Size = new System.Drawing.Size(1669, 362);
             this.dgv3.TabIndex = 14;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3,
@@ -1934,7 +1934,7 @@ namespace SMFS
             this.tabPage4.Controls.Add(this.panel_service_All);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1669, 414);
+            this.tabPage4.Size = new System.Drawing.Size(1669, 416);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Services";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1947,7 +1947,7 @@ namespace SMFS
             this.panel_service_All.Location = new System.Drawing.Point(0, 0);
             this.panel_service_All.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel_service_All.Name = "panel_service_All";
-            this.panel_service_All.Size = new System.Drawing.Size(1669, 414);
+            this.panel_service_All.Size = new System.Drawing.Size(1669, 416);
             this.panel_service_All.TabIndex = 1;
             // 
             // panel_service_bottom
@@ -1958,7 +1958,7 @@ namespace SMFS
             this.panel_service_bottom.Location = new System.Drawing.Point(0, 53);
             this.panel_service_bottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel_service_bottom.Name = "panel_service_bottom";
-            this.panel_service_bottom.Size = new System.Drawing.Size(1669, 361);
+            this.panel_service_bottom.Size = new System.Drawing.Size(1669, 363);
             this.panel_service_bottom.TabIndex = 2;
             // 
             // dgv4
@@ -1973,7 +1973,7 @@ namespace SMFS
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox9});
-            this.dgv4.Size = new System.Drawing.Size(1669, 361);
+            this.dgv4.Size = new System.Drawing.Size(1669, 363);
             this.dgv4.TabIndex = 15;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2376,7 +2376,7 @@ namespace SMFS
             this.tabPage5.Controls.Add(this.upcomingPanelAll);
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1669, 414);
+            this.tabPage5.Size = new System.Drawing.Size(1669, 416);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Upcoming";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -2388,7 +2388,7 @@ namespace SMFS
             this.upcomingPanelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.upcomingPanelAll.Location = new System.Drawing.Point(0, 0);
             this.upcomingPanelAll.Name = "upcomingPanelAll";
-            this.upcomingPanelAll.Size = new System.Drawing.Size(1669, 414);
+            this.upcomingPanelAll.Size = new System.Drawing.Size(1669, 416);
             this.upcomingPanelAll.TabIndex = 1;
             // 
             // upcomingPanelBottom
@@ -2397,7 +2397,7 @@ namespace SMFS
             this.upcomingPanelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.upcomingPanelBottom.Location = new System.Drawing.Point(0, 54);
             this.upcomingPanelBottom.Name = "upcomingPanelBottom";
-            this.upcomingPanelBottom.Size = new System.Drawing.Size(1669, 360);
+            this.upcomingPanelBottom.Size = new System.Drawing.Size(1669, 362);
             this.upcomingPanelBottom.TabIndex = 1;
             // 
             // dgv5
@@ -2415,7 +2415,7 @@ namespace SMFS
             this.repositoryItemComboBox11,
             this.repositoryItemComboBox12,
             this.repositoryItemComboBox13});
-            this.dgv5.Size = new System.Drawing.Size(1669, 360);
+            this.dgv5.Size = new System.Drawing.Size(1669, 362);
             this.dgv5.TabIndex = 13;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -2930,7 +2930,7 @@ namespace SMFS
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1677, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1677, 30);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2940,7 +2940,7 @@ namespace SMFS
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -2976,7 +2976,7 @@ namespace SMFS
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // importToolStripMenuItem
