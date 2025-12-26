@@ -219,6 +219,7 @@ namespace SMFS
             loadRepositoryServiceType();
             loadRepositoryCategory();
             loadRepositoryServCategory();
+            loadRepositoryAssgnLoc();
         }
         /***********************************************************************************************/
         private void loadRepositoryCars()
@@ -378,6 +379,53 @@ namespace SMFS
             repositoryItemComboBox9.Items.Add("All");
             for (int i = 0; i < categoryDt.Rows.Count; i++)
                 repositoryItemComboBox9.Items.Add(categoryDt.Rows[i]["record"].ObjToString() + " - " + categoryDt.Rows[i]["name"].ObjToString());
+        }
+        /***********************************************************************************************/
+        private void loadRepositoryAssgnLoc()
+        {
+            string cmd = "SELECT record, name FROM `funeralhomes`";
+            DataTable locationDt = G1.get_db_data(cmd);
+
+            DataTable newLocationDt = locationDt.Clone();
+
+            DataView tempview = locationDt.DefaultView;
+            tempview.Sort = "record";
+            locationDt = tempview.ToTable();
+
+            repositoryItemCheckedComboBoxEdit1.Items.Add("All");
+            for (int i = 0; i < locationDt.Rows.Count; i++)
+                repositoryItemCheckedComboBoxEdit1.Items.Add(locationDt.Rows[i]["name"].ObjToString());
+
+            // Old Code from AddEditUsers
+            /*
+            int row = gridMain3.FocusedRowHandle;
+            GridColumn currCol = gridMain3.FocusedColumn;
+            string currentColumn = currCol.FieldName;
+            DataRow dr = gridMain3.GetFocusedDataRow();
+            string data = dr["assignedLocations"].ObjToString();
+            if (funDt == null)
+                return;
+            if (currentColumn.ToUpper() == "PERMISSIONS")
+            {
+                return;
+            }
+
+            this.repositoryItemCheckedComboBoxEdit1.Items.Clear();
+
+            string locationCode = "";
+            int count = 0;
+            for (int i = 0; i < funDt.Rows.Count; i++)
+            {
+                locationCode = funDt.Rows[i]["locationCode"].ObjToString();
+                if (data.Contains(locationCode))
+                    this.repositoryItemCheckedComboBoxEdit1.Items.Add(locationCode, true);
+                else
+                    this.repositoryItemCheckedComboBoxEdit1.Items.Add(locationCode, false);
+                count++;
+            }
+
+            this.repositoryItemCheckedComboBoxEdit1.ForceUpdateEditValue = DevExpress.Utils.DefaultBoolean.True;
+            */
         }
         /***********************************************************************************************/
         private void pictureBox12_Click(object sender, EventArgs e)
