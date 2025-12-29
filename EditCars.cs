@@ -195,7 +195,7 @@ namespace SMFS
             dgv4.DataSource = dt4;
 
             string timeEnd = "";
-//            timeEnd = "AND `service_sched_b_date` < DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
+            timeEnd = "AND `service_sched_b_date` < DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
             cmd = "SELECT * FROM `cars_maint` WHERE `service_sched_b_date` > CURDATE() "+timeEnd.Trim()+" ORDER BY `tmstamp`;";
             DataTable dt5 = G1.get_db_data(cmd);
             dt5.Columns.Add("num");
@@ -383,7 +383,7 @@ namespace SMFS
         /***********************************************************************************************/
         private void loadRepositoryAssgnLoc()
         {
-            string cmd = "SELECT record, name FROM `funeralhomes`";
+            string cmd = "SELECT record, locationCode, name FROM `funeralhomes`";
             DataTable locationDt = G1.get_db_data(cmd);
 
             DataTable newLocationDt = locationDt.Clone();
@@ -392,9 +392,21 @@ namespace SMFS
             tempview.Sort = "record";
             locationDt = tempview.ToTable();
 
+            DataRow dr = gridMain3.GetFocusedDataRow();
+            string data = dr["name"].ObjToString();
+
+            string locationCode = "";
+
             repositoryItemCheckedComboBoxEdit1.Items.Add("All");
             for (int i = 0; i < locationDt.Rows.Count; i++)
+            {
                 repositoryItemCheckedComboBoxEdit1.Items.Add(locationDt.Rows[i]["name"].ObjToString());
+                locationCode = locationDt.Rows[i]["locationCode"].ObjToString();
+                if (data.Contains(locationCode))
+                    this.repositoryItemCheckedComboBoxEdit1.Items.Add(locationCode, true);
+                else
+                    this.repositoryItemCheckedComboBoxEdit1.Items.Add(locationCode, false);
+            }
 
             // Old Code from AddEditUsers
             /*
@@ -821,6 +833,7 @@ namespace SMFS
             string state = "";
             string zip = "";
             string active = "";
+            string assignedLocations = "";
             string notes = "";
 
             string cmd = "DELETE from `cars_vendors` WHERE `type` = '-1'";
@@ -856,8 +869,9 @@ namespace SMFS
                 state = dt3.Rows[i]["state"].ObjToString();
                 zip = dt3.Rows[i]["zip"].ObjToString();
                 active = dt3.Rows[i]["active"].ObjToString();
+                assignedLocations = dt3.Rows[i]["assignedLocations"].ObjToString();
                 notes = dt3.Rows[i]["notes"].ObjToString();
-                G1.update_db_table("cars_vendors", "record", record, new string[] { "name", name, "type", type, "contact_name", contact_name, "phone", phone, "email", email, "mail_address", mail_address, "physical_address", physical_address, "city", city, "state", state, "zip", zip, "active", active, "notes", notes });
+                G1.update_db_table("cars_vendors", "record", record, new string[] { "name", name, "type", type, "contact_name", contact_name, "phone", phone, "email", email, "mail_address", mail_address, "physical_address", physical_address, "city", city, "state", state, "zip", zip, "active", active, "assignedLocations", assignedLocations, "notes", notes });
             }
             modified_maint = false;
             btnSaveAllVend.Hide();
@@ -3218,6 +3232,16 @@ namespace SMFS
         private void repositoryItemMemoEdit1_EditValueChanged(object sender, EventArgs e)
         {
             gridMain2_CellValueChanged( null, null );
+        }
+        /*******************************************************************************************/
+        private void tabControl1_MouseClick(object sender, MouseEventArgs e)
+        {
+            // Refresh all gridMain's when selecting a new tab.
+            dgv.Refresh();
+            dgv2.Refresh();
+            dgv3.Refresh();
+            dgv4.Refresh();
+            dgv5.Refresh();
         }
         /*******************************************************************************************/
     }
