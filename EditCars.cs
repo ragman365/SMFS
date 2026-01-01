@@ -187,7 +187,7 @@ namespace SMFS
             G1.NumberDataTable(dt3);
             dgv3.DataSource = dt3;
 
-            cmd = "SELECT * FROM `cars_service_type` ORDER BY `record`;";
+            cmd = "SELECT * FROM `cars_service_type` ORDER BY `order_num`;";
             DataTable dt4 = G1.get_db_data(cmd);
             dt4.Columns.Add("num");
             dt4.Columns.Add("mod");
@@ -2451,6 +2451,8 @@ namespace SMFS
         private void pictureBox15_Click(object sender, EventArgs e)
         {
             DataTable dt4 = (DataTable)dgv4.DataSource;
+            int row = gridMain4.FocusedRowHandle;
+            /*
             if (dt4.Rows.Count <= 0)
                 return;
             DataRow dr = gridMain4.GetFocusedDataRow();
@@ -2466,6 +2468,37 @@ namespace SMFS
             gridMain4.RefreshData();
             dgv4.Refresh();
             gridMain4_CellValueChanged(null, null);
+            */
+
+            dt4.AcceptChanges();
+            if (G1.get_column_number(dt4, "Count") < 0)
+                dt4.Columns.Add("Count", Type.GetType("System.Int32"));
+            for (int i = 0; i < dt4.Rows.Count; i++)
+                dt4.Rows[i]["Count"] = i.ToString();
+
+            dt4.Rows[row]["Count"] = (row - 1).ToString();
+            string order = dt4.Rows[row]["order_num"].ObjToString();
+            string record = dt4.Rows[row]["record"].ObjToString();
+
+            dt4.Rows[row - 1]["Count"] = row.ToString();
+            string order1 = dt4.Rows[row - 1]["order_num"].ObjToString();
+            string record1 = dt4.Rows[row - 1]["record"].ObjToString();
+
+            dt4.Rows[row]["order_num"] = order1;
+            G1.update_db_table("cars_service_type", "record", record, new string[] { "order_num", order1 });
+
+            dt4.Rows[row - 1]["order_num"] = order;
+            G1.update_db_table("cars_service_type", "record", record1, new string[] { "order_num", order });
+
+            G1.sortTable(dt4, "Count", "asc");
+
+            dt4.Columns.Remove("Count");
+            G1.NumberDataTable(dt4);
+
+            gridMain4.RefreshData();
+            dgv4.Refresh();
+            gridMain4_CellValueChanged(null, null);
+
         }
         /****************************************************************************************/
         private void button1_Click(object sender, EventArgs e)
@@ -2722,6 +2755,8 @@ namespace SMFS
         private void pictureBox14_Click(object sender, EventArgs e)
         {
             DataTable dt4 = (DataTable)dgv4.DataSource;
+            int row = gridMain4.FocusedRowHandle;
+            /*
             if (dt4.Rows.Count <= 0)
                 return;
             DataRow dr4 = gridMain4.GetFocusedDataRow();
@@ -2734,6 +2769,33 @@ namespace SMFS
             gridMain4.ClearSelection();
             gridMain4.SelectRow(rowHandle + 1);
             gridMain4.FocusedRowHandle = rowHandle + 1;
+            */
+            gridMain4.RefreshData();
+            dgv4.Refresh();
+            gridMain4_CellValueChanged(null, null);
+
+            dt4.Columns.Add("Count", Type.GetType("System.Int32"));
+            for (int i = 0; i < dt4.Rows.Count; i++)
+                dt4.Rows[i]["Count"] = i.ToString();
+            dt4.Rows[row]["Count"] = (row + 1).ToString();
+            string order_num = dt4.Rows[row]["order_num"].ObjToString();
+            string record = dt4.Rows[row]["record"].ObjToString();
+
+            dt4.Rows[row + 1]["Count"] = row.ToString();
+            string order_num1 = dt4.Rows[row + 1]["order_num"].ObjToString();
+            string record1 = dt4.Rows[row + 1]["record"].ObjToString();
+
+            dt4.Rows[row]["order_num"] = order_num1;
+            G1.update_db_table("cars_service_type", "record", record, new string[] { "order_num", order_num1 });
+
+            dt4.Rows[row + 1]["order_num"] = order_num;
+            G1.update_db_table("cars_service_type", "record", record1, new string[] { "order_num", order_num });
+
+            G1.sortTable(dt4, "Count", "asc");
+            dt4.Columns.Remove("Count");
+            for (int i = 0; i < dt4.Rows.Count; i++)
+                dt4.Rows[i]["Num"] = (i + 1).ToString();
+
             gridMain4.RefreshData();
             dgv4.Refresh();
             gridMain4_CellValueChanged(null, null);
@@ -3237,11 +3299,27 @@ namespace SMFS
         private void tabControl1_MouseClick(object sender, MouseEventArgs e)
         {
             // Refresh all gridMain's when selecting a new tab.
-            dgv.Refresh();
-            dgv2.Refresh();
-            dgv3.Refresh();
-            dgv4.Refresh();
-            dgv5.Refresh();
+            gridMain.PostEditor();
+            gridMain2.PostEditor();
+            gridMain3.PostEditor();
+            gridMain4.PostEditor();
+            gridMain5.PostEditor();
+        }
+        /*******************************************************************************************/
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Refresh all gridMain's when selecting a new tab.
+            gridMain.PostEditor();
+            gridMain2.PostEditor();
+            gridMain3.PostEditor();
+            gridMain4.PostEditor();
+            gridMain5.PostEditor();
+
+            gridMain.RefreshData();
+            gridMain2.RefreshData();
+            gridMain3.RefreshData();
+            gridMain4.RefreshData();
+            gridMain5.RefreshData();
         }
         /*******************************************************************************************/
     }
