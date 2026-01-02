@@ -340,8 +340,8 @@ namespace SMFS
             repositoryItemComboBox12.Items.Add("All");
             for (int i = 0; i < serviceDt.Rows.Count; i++)
             {
-                repositoryItemComboBox3.Items.Add(serviceDt.Rows[i]["record"].ObjToString() + " - " + serviceDt.Rows[i]["service_cat"].ObjToString());
-                repositoryItemComboBox12.Items.Add(serviceDt.Rows[i]["record"].ObjToString() + " - " + serviceDt.Rows[i]["service_cat"].ObjToString());
+                repositoryItemComboBox3.Items.Add(serviceDt.Rows[i]["record"].ObjToString() + " - " + serviceDt.Rows[i]["service_cat"].ObjToString() + " - " + serviceDt.Rows[i]["cat_desc"]);
+                repositoryItemComboBox12.Items.Add(serviceDt.Rows[i]["record"].ObjToString() + " - " + serviceDt.Rows[i]["service_cat"].ObjToString() + " - " + serviceDt.Rows[i]["cat_desc"]);
             }
         }
         /***********************************************************************************************/
@@ -661,6 +661,7 @@ namespace SMFS
             string service_type_record = "";
             string service = "";
 
+            // This will now need to pull from the repository repositoryItemComboBox3
             string category_field = ""; // Contains the data from the drop down.
             string category_record = ""; // record number
             string category = "";       // just the name of the category for the database.
@@ -735,14 +736,22 @@ namespace SMFS
                     service = service_type;
                 }
 
+                // Use service_type_record to pull in cat_record and cat_desc
+
                 // If there is no category record, then this is a new record and the number will be in the drop down. Else, it will be in its own column.
                 category_field = dt2.Rows[i]["category"].ObjToString();
                 category_record = dt2.Rows[i]["category_record"].ObjToString();
                 if (category_record == "")
                 {
+                    cmd = "SELECT cat_record, cat_desc FROM cars_service_type WHERE record = " + service_type_record;
+                    DataTable categoryDt = G1.get_db_data(cmd);
+                    category_record = categoryDt.Rows[0]["cat_record"].ObjToString();
+                    category = categoryDt.Rows[0]["cat_desc"].ObjToString();
+                    /*
                     indexNum = category_field.IndexOf(" ");
                     category_record = category_field.Substring(0, indexNum);
                     category = category_field.Substring(indexNum + 3);
+                    */
                 }
                 else
                 {
@@ -3063,9 +3072,15 @@ namespace SMFS
                 category_record = dt5.Rows[i]["category_record"].ObjToString();
                 if (category_record == "")
                 {
+                    /*
                     indexNum = category_field.IndexOf(" ");
                     category_record = category_field.Substring(0, indexNum);
                     category = category_field.Substring(indexNum + 3);
+                    */
+                    cmd = "SELECT cat_record, cat_desc FROM cars_service_type WHERE record = " + service_type_record;
+                    DataTable categoryDt = G1.get_db_data(cmd);
+                    category_record = categoryDt.Rows[0]["cat_record"].ObjToString();
+                    category = categoryDt.Rows[0]["cat_desc"].ObjToString();
                 }
                 else
                 {
