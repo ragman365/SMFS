@@ -1827,6 +1827,161 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
+        private void gridMain2_MouseDown(object sender, MouseEventArgs e)
+        {
+            DataTable dt = (DataTable)dgv2.DataSource; // Leave as a GetDate example
+
+            var hitInfo = gridMain2.CalcHitInfo(e.Location);
+            if (hitInfo.InRowCell)
+            {
+                int rowHandle = hitInfo.RowHandle;
+                gridMain2.FocusedRowHandle = rowHandle;
+                gridMain2.SelectRow(rowHandle);
+                gridMain2.RefreshEditor(true);
+                GridColumn column = hitInfo.Column;
+                gridMain2.FocusedColumn = column;
+                string currentColumn = column.FieldName.Trim();
+                DateTime currentDateTime = DateTime.Now;
+                DataRow dr = gridMain2.GetFocusedDataRow();
+                if (currentColumn.ToUpper() == "SERVICE_BEGIN_DATE")
+                {
+                    DateTime date = dr["service_begin_date"].ObjToDateTime();
+                    DateTime beginDate = dr["service_begin_date"].ObjToDateTime();
+                    if (date.Year < 1000)
+                        date = DateTime.Now;
+                    using (GetDate dateForm = new GetDate(date, "Begin Date"))
+                    {
+                        dateForm.TopMost = true;
+                        dateForm.ShowDialog();
+                        if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
+                        {
+                            date = dateForm.myDateAnswer;
+                            try
+                            {
+                                string str = date.ToString("MM/dd/yyyy");
+
+                                if (currentDateTime < date)
+                                {
+                                    DialogResult result = MessageBox.Show("Date: " + date.ObjToString() + " cannot be greater than current date (" + currentDateTime.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                }
+                                else
+                                {
+                                    dr["service_begin_date"] = G1.DTtoMySQLDT(str);
+                                }
+
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
+                    }
+                }
+                else if (currentColumn.ToUpper() == "SERVICE_END_DATE")
+                {
+                    DateTime date = dr["service_end_date"].ObjToDateTime();
+                    DateTime beginDate = dr["service_begin_date"].ObjToDateTime();
+                    // DateTime endDate = dr["service_end_date"].ObjToDateTime();
+                    DateTime endDate = date;
+                    if (date.Year < 1000)
+                        date = DateTime.Now;
+                    using (GetDate dateForm = new GetDate(date, "End Date"))
+                    {
+                        dateForm.TopMost = true;
+                        dateForm.ShowDialog();
+                        if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
+                        {
+                            date = dateForm.myDateAnswer;
+                            if (currentDateTime < date)
+                            {
+                                DialogResult result = MessageBox.Show("Date: " + date.ObjToString() + " cannot be greater than current date (" + currentDateTime.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            }
+                            else
+                            {
+                                if (beginDate > date)
+                                {
+                                    DialogResult result = MessageBox.Show("End Date: " + date.ObjToString() + " cannot be greater than start date (" + beginDate.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                }
+                                else
+                                    dr["service_end_date"] = G1.DTtoMySQLDT(date);
+                            }
+                        }
+                    }
+                }
+                else if (currentColumn.ToUpper() == "CARS_RECORD")
+                {
+                    DateTime date = dr["cars_record"].ObjToDateTime();
+                    if (date.Year < 1000)
+                        date = DateTime.Now;
+                    DataGridViewComboBoxColumn comboBoxColumn = new DataGridViewComboBoxColumn();
+                    comboBoxColumn.HeaderText = "Vehicle"; // Set the desired header text
+                    comboBoxColumn.Name = "Vehicle"; // Set a unique name for the column
+                }
+                else if (currentColumn.ToUpper() == "SERVICE_SCHED_B_DATE")
+                {
+                    DateTime date = dr["service_sched_b_date"].ObjToDateTime();
+                    if (date.Year < 1000)
+                        date = DateTime.Now;
+                    using (GetDate dateForm = new GetDate(date, "Scheduled Begin Date"))
+                    {
+                        dateForm.TopMost = true;
+                        dateForm.ShowDialog();
+                        if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
+                        {
+                            date = dateForm.myDateAnswer;
+                            try
+                            {
+                                string str = date.ToString("MM/dd/yyyy");
+                                dr["service_sched_b_date"] = G1.DTtoMySQLDT(str);
+
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
+                    }
+                }
+                else if (currentColumn.ToUpper() == "SERVICE_SCHED_E_DATE")
+                {
+                    DateTime date = dr["service_sched_e_date"].ObjToDateTime();
+                    DateTime sched_b_date = dr["service_sched_b_date"].ObjToDateTime();
+                    DateTime sched_e_date = dr["service_sched_e_date"].ObjToDateTime();
+                    if (date.Year < 1000)
+                        date = DateTime.Now;
+                    using (GetDate dateForm = new GetDate(date, "Scheduled End Date"))
+                    {
+                        dateForm.TopMost = true;
+                        dateForm.ShowDialog();
+                        if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
+                        {
+                            date = dateForm.myDateAnswer;
+                            try
+                            {
+                                string str = date.ToString("MM/dd/yyyy");
+                                if (sched_b_date > date)
+                                {
+                                    DialogResult result = MessageBox.Show("End Date: " + date.ObjToString() + " cannot be lesser than start date (" + sched_b_date.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                }
+                                else
+                                    dr["service_sched_e_date"] = G1.DTtoMySQLDT(str);
+
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
+                    }
+                }
+                MaintDataChanged();
+                dr["mod"] = "Y";
+                gridMain2.ClearSelection();
+                gridMain2.FocusedRowHandle = rowHandle;
+
+                gridMain2.RefreshData();
+                gridMain2.RefreshEditor(true);
+                gridMain2.SelectRow(rowHandle);
+            }
+        }
+        /***********************************************************************************************/
         private void gridMain3_MouseDown(object sender, MouseEventArgs e)
         {
             DataTable dt = (DataTable)dgv3.DataSource; // Leave as a GetDate example
@@ -1842,6 +1997,8 @@ namespace SMFS
                 gridMain3.FocusedColumn = column;
                 string currentColumn = column.FieldName.Trim();
             }
+            VendorDataChanged();
+            gridMain3.RefreshData();
         }
         /***********************************************************************************************/
         private void DataChanged()
@@ -1919,213 +2076,7 @@ namespace SMFS
             dr["mod"] = "Y";
         }
         /***********************************************************************************************/
-        private void gridMain2_MouseDown(object sender, MouseEventArgs e)
-        {
-            DataTable dt = (DataTable)dgv2.DataSource; // Leave as a GetDate example
-
-            var hitInfo = gridMain2.CalcHitInfo(e.Location);
-            if (hitInfo.InRowCell)
-            {
-                int rowHandle = hitInfo.RowHandle;
-                gridMain2.FocusedRowHandle = rowHandle;
-                gridMain2.SelectRow(rowHandle);
-                gridMain2.RefreshEditor(true);
-                GridColumn column = hitInfo.Column;
-                gridMain2.FocusedColumn = column;
-                string currentColumn = column.FieldName.Trim();
-                DateTime currentDateTime = DateTime.Now;
-                if (currentColumn.ToUpper() == "SERVICE_BEGIN_DATE")
-                {
-                    DataRow dr = gridMain2.GetFocusedDataRow();
-                    DateTime date = dr["service_begin_date"].ObjToDateTime();
-                    DateTime beginDate = dr["service_begin_date"].ObjToDateTime();
-                    if (date.Year < 1000)
-                        date = DateTime.Now;
-                    using (GetDate dateForm = new GetDate(date, "Begin Date"))
-                    {
-                        dateForm.TopMost = true;
-                        dateForm.ShowDialog();
-                        if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
-                        {
-                            date = dateForm.myDateAnswer;
-                            try
-                            {
-                                string str = date.ToString("MM/dd/yyyy");
-
-                                if (currentDateTime < date)
-                                {
-                                    DialogResult result = MessageBox.Show("Date: " + date.ObjToString() + " cannot be greater than current date (" + currentDateTime.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                }
-                                else 
-                                {
-                                    dr["service_begin_date"] = G1.DTtoMySQLDT(str);
-                                }
-
-                            }
-                            catch (Exception ex)
-                            {
-                            }
-
-                            MaintDataChanged();
-                            dr["mod"] = "Y";
-                            gridMain2.ClearSelection();
-                            gridMain2.FocusedRowHandle = rowHandle;
-
-                            gridMain2.RefreshData();
-                            gridMain2.RefreshEditor(true);
-                            gridMain2.SelectRow(rowHandle);
-                        }
-                    }
-                }
-                else if (currentColumn.ToUpper() == "SERVICE_END_DATE")
-                {
-                    DataRow dr = gridMain2.GetFocusedDataRow();
-                    DateTime date = dr["service_end_date"].ObjToDateTime();
-                    DateTime beginDate = dr["service_begin_date"].ObjToDateTime();
-                    // DateTime endDate = dr["service_end_date"].ObjToDateTime();
-                    DateTime endDate = date;
-                    if (date.Year < 1000)
-                        date = DateTime.Now;
-                    using (GetDate dateForm = new GetDate(date, "End Date"))
-                    {
-                        dateForm.TopMost = true;
-                        dateForm.ShowDialog();
-                        if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
-                        {
-                            date = dateForm.myDateAnswer;
-                            if (currentDateTime < date)
-                            {
-                                DialogResult result = MessageBox.Show("Date: " + date.ObjToString() + " cannot be greater than current date (" + currentDateTime.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            }
-                            else
-                            {
-                                if (beginDate > date)
-                                {
-                                    DialogResult result = MessageBox.Show("End Date: " + date.ObjToString() + " cannot be greater than start date (" + beginDate.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                }
-                                else
-                                    dr["service_end_date"] = G1.DTtoMySQLDT(date);
-                            }
-                            
-                            MaintDataChanged();
-                            dr["mod"] = "Y";
-                            gridMain2.ClearSelection();
-                            gridMain2.FocusedRowHandle = rowHandle;
-
-                            gridMain2.RefreshData();
-                            gridMain2.RefreshEditor(true);
-                            gridMain2.SelectRow(rowHandle);
-                        }
-                    }
-                }
-                else if (currentColumn.ToUpper() == "CARS_RECORD")
-                {
-                    DataRow dr = gridMain2.GetFocusedDataRow();
-                    DateTime date = dr["cars_record"].ObjToDateTime();
-                    if (date.Year < 1000)
-                        date = DateTime.Now;
-                    DataGridViewComboBoxColumn comboBoxColumn = new DataGridViewComboBoxColumn();
-                    comboBoxColumn.HeaderText = "Vehicle"; // Set the desired header text
-                    comboBoxColumn.Name = "Vehicle"; // Set a unique name for the column
-                    /*
-                    using (GetDate dateForm = new GetDate(date, "End Date"))
-                    {
-                        dateForm.TopMost = true;
-                        dateForm.ShowDialog();
-                        if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
-                        {
-                            date = dateForm.myDateAnswer;
-                            dr["service_end_date"] = G1.DTtoMySQLDT(date);
-                            MaintDataChanged();
-                            dr["mod"] = "Y";
-                            gridMain2.ClearSelection();
-                            gridMain2.FocusedRowHandle = rowHandle;
-
-                            gridMain2.RefreshData();
-                            gridMain2.RefreshEditor(true);
-                            gridMain2.SelectRow(rowHandle);
-                        }
-                    }
-                    */
-                }
-                else if (currentColumn.ToUpper() == "SERVICE_SCHED_B_DATE")
-                {
-                    DataRow dr = gridMain2.GetFocusedDataRow();
-                    DateTime date = dr["service_sched_b_date"].ObjToDateTime();
-                    if (date.Year < 1000)
-                        date = DateTime.Now;
-                    using (GetDate dateForm = new GetDate(date, "Scheduled Begin Date"))
-                    {
-                        dateForm.TopMost = true;
-                        dateForm.ShowDialog();
-                        if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
-                        {
-                            date = dateForm.myDateAnswer;
-                            try
-                            {
-                                string str = date.ToString("MM/dd/yyyy");
-                                dr["service_sched_b_date"] = G1.DTtoMySQLDT(str);
-
-                            }
-                            catch (Exception ex)
-                            {
-                            }
-
-                            MaintDataChanged();
-                            dr["mod"] = "Y";
-                            gridMain2.ClearSelection();
-                            gridMain2.FocusedRowHandle = rowHandle;
-
-                            gridMain2.RefreshData();
-                            gridMain2.RefreshEditor(true);
-                            gridMain2.SelectRow(rowHandle);
-                        }
-                    }
-                }
-                else if (currentColumn.ToUpper() == "SERVICE_SCHED_E_DATE")
-                {
-                    DataRow dr = gridMain2.GetFocusedDataRow();
-                    DateTime date = dr["service_sched_e_date"].ObjToDateTime();
-                    DateTime sched_b_date = dr["service_sched_b_date"].ObjToDateTime();
-                    DateTime sched_e_date = dr["service_sched_e_date"].ObjToDateTime();
-                    if (date.Year < 1000)
-                        date = DateTime.Now;
-                    using (GetDate dateForm = new GetDate(date, "Scheduled End Date"))
-                    {
-                        dateForm.TopMost = true;
-                        dateForm.ShowDialog();
-                        if (dateForm.DialogResult == System.Windows.Forms.DialogResult.OK)
-                        {
-                            date = dateForm.myDateAnswer;
-                            try
-                            {
-                                string str = date.ToString("MM/dd/yyyy");
-                                if (sched_b_date > date)
-                                {
-                                    DialogResult result = MessageBox.Show("End Date: " + date.ObjToString() + " cannot be lesser than start date (" + sched_b_date.ObjToString() + ").", "Incorrect Date Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                }
-                                else
-                                    dr["service_sched_e_date"] = G1.DTtoMySQLDT(str);
-
-                            }
-                            catch (Exception ex)
-                            {
-                            }
-
-                            MaintDataChanged();
-                            dr["mod"] = "Y";
-                            gridMain2.ClearSelection();
-                            gridMain2.FocusedRowHandle = rowHandle;
-
-                            gridMain2.RefreshData();
-                            gridMain2.RefreshEditor(true);
-                            gridMain2.SelectRow(rowHandle);
-                        }
-                    }
-                }
-            }
-        }
-        /****************************************************************************************/
+        
         private void gridMain5_MouseDown(object sender, MouseEventArgs e)
         {
             DataTable dt = (DataTable)dgv5.DataSource; // Leave as a GetDate example
