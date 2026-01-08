@@ -479,6 +479,7 @@ namespace SMFS
         {
             if (loading)
                 return;
+            DataTable dt = (DataTable)dgv3.DataSource;
             modified_vendor = true;
             btnSaveAllVend.Show();
             btnSaveAllVend.Refresh();
@@ -1825,6 +1826,7 @@ namespace SMFS
                 }
                 */
             }
+            gridMain.PostEditor();
         }
         /***********************************************************************************************/
         private void gridMain2_MouseDown(object sender, MouseEventArgs e)
@@ -1979,6 +1981,8 @@ namespace SMFS
                 gridMain2.RefreshData();
                 gridMain2.RefreshEditor(true);
                 gridMain2.SelectRow(rowHandle);
+
+                gridMain2.PostEditor();
             }
         }
         /***********************************************************************************************/
@@ -1996,9 +2000,16 @@ namespace SMFS
                 GridColumn column = hitInfo.Column;
                 gridMain3.FocusedColumn = column;
                 string currentColumn = column.FieldName.Trim();
+            
+                VendorDataChanged();
+                gridMain3.ClearSelection();
+                gridMain3.FocusedRowHandle = rowHandle;
+
+                gridMain3.RefreshData();
+                gridMain3.RefreshEditor(true);
+                gridMain3.SelectRow(rowHandle);
             }
-            VendorDataChanged();
-            gridMain3.RefreshData();
+            gridMain3.PostEditor();
         }
         /***********************************************************************************************/
         private void DataChanged()
@@ -2053,6 +2064,8 @@ namespace SMFS
 
             btnSaveAllVend.Show();
             btnSaveAllVend.Refresh();
+
+            DataTable dt = (DataTable)dgv3.DataSource;
 
             int rowHandle = gridMain3.FocusedRowHandle;
             DataRow dr = gridMain3.GetFocusedDataRow();
@@ -2277,6 +2290,7 @@ namespace SMFS
                     }
                 }
             }
+            gridMain5.PostEditor();
         }
         /****************************************************************************************/
         private void pictureBox5_Click(object sender, EventArgs e)
@@ -2542,7 +2556,7 @@ namespace SMFS
             dt2.Rows[row]["car"] = vehicle_text;
             gridMain2.RefreshEditor(true);
         }
-        /****************************************************************************************/
+        /*******************************************************************************************/
         private void repositoryItemComboBox1_Validating(object sender, CancelEventArgs e)
         {
             if (1 == 1)
@@ -3288,5 +3302,29 @@ namespace SMFS
             gridMain5.RefreshData();
         }
         /*******************************************************************************************/
+        private void repositoryItemCheckedComboBoxEdit1_EditValueChanged(object sender, EventArgs e)
+        {
+            CheckedComboBoxEdit box = (CheckedComboBoxEdit)sender;
+            string locations_text = box.Text;
+
+            btnSaveAllMaint.Show();
+            DataTable dt3 = (DataTable)dgv3.DataSource;
+            DataRow dr = gridMain3.GetFocusedDataRow();
+            int rowHandle = gridMain3.FocusedRowHandle;
+            int row = gridMain3.GetDataSourceRowIndex(rowHandle);
+
+            dr["mod"] = "Y";
+            dr["assigned_locations"] = locations_text;
+
+            dt3.Rows[row]["assigned_locations"] = locations_text;
+            gridMain3.RefreshEditor(true);
+        }
+        /*******************************************************************************************/
+        private void gridMain4_MouseDown(object sender, MouseEventArgs e)
+        {
+            gridMain.PostEditor();
+        }
+        /*******************************************************************************************/
+
     }
 }

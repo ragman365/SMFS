@@ -1129,7 +1129,7 @@ namespace SMFS
             this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
             this.repositoryItemComboBox1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.repositoryItemComboBox1.SelectedValueChanged += new System.EventHandler(this.repositoryItemComboBox1_SelectedValueChanged);
-            this.repositoryItemComboBox1.EditValueChanged += new System.EventHandler(this.repositoryItemComboBox1_EditValueChanged);
+            this.repositoryItemComboBox1.EditValueChanged += new System.EventHandler(this.repositoryItemComboBox4_SelectedValueChanged);
             this.repositoryItemComboBox1.Validating += new System.ComponentModel.CancelEventHandler(this.repositoryItemComboBox1_Validating);
             // 
             // bandedGridColumn24
@@ -1802,6 +1802,7 @@ namespace SMFS
             this.repositoryItemCheckedComboBoxEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemCheckedComboBoxEdit1.Name = "repositoryItemCheckedComboBoxEdit1";
+            this.repositoryItemCheckedComboBoxEdit1.EditValueChanged += new System.EventHandler(this.repositoryItemCheckedComboBoxEdit1_EditValueChanged);
             // 
             // bandedGridColumn39
             // 
@@ -2173,6 +2174,7 @@ namespace SMFS
             this.gridMain4.PaintStyleName = "Flat";
             this.gridMain4.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
             this.gridMain4.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain4_CellValueChanged);
+            this.gridMain4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridMain4_MouseDown);
             // 
             // gridBand3
             // 
