@@ -1802,6 +1802,7 @@ namespace SMFS
             this.repositoryItemCheckedComboBoxEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemCheckedComboBoxEdit1.Name = "repositoryItemCheckedComboBoxEdit1";
+            this.repositoryItemCheckedComboBoxEdit1.SeparatorChar = '~';
             this.repositoryItemCheckedComboBoxEdit1.EditValueChanged += new System.EventHandler(this.repositoryItemCheckedComboBoxEdit1_EditValueChanged);
             // 
             // bandedGridColumn39

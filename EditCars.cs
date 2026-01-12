@@ -79,6 +79,7 @@ namespace SMFS
             this.Text = "Edit Cars";
 
             string whereClause = "";
+            string whereClauseVendor = "";
             string assignedLocations = "";
             string[] locations = null;
             string location = "";
@@ -94,6 +95,7 @@ namespace SMFS
                 if (locations.Length > 0)
                 {
                     whereClause = "WHERE `location` = ";
+                    whereClauseVendor = "WHERE `assigned_location` CONTAINS ";
                 }
                 for (int j = 0; j < locations.Length; j++)
                 {
@@ -101,10 +103,12 @@ namespace SMFS
                     if (j == 0)
                     {
                         whereClause += "'" + location + "'";
+                        whereClauseVendor += "'" + location + "'";
                     }
                     else
                     {
                         whereClause += " OR `location` = '" + location + "' ";
+                        whereClauseVendor += " OR `assigned_location` CONTAINS '" + location + "' ";
                     }
                 }
 
@@ -114,7 +118,7 @@ namespace SMFS
                 menuStrip1.Items.Remove(miscToolStripMenuItem);
                 pictureBox6.Visible = false;
             }
-            /* * The following else statement is for an admin view, but was used for developing the user view. Most, if not all of this code is for testing purposes only. *
+            /* * The following else statement is for an admin view, but was used for developing the user view. Most, if not all of this code is for testing purposes only. 
             else
             {
                 // Admin view
@@ -122,6 +126,7 @@ namespace SMFS
                 string testUser = "";
                 testUser = "Chanse";
                 testUser = "WesleyM";
+                testUser = "DianaM";
                 string query = "SELECT `assignedLocations` FROM `users` WHERE `userName` = '" + testUser + "'";
                 DataTable userDt = G1.get_db_data(query);
                 if (userDt.Rows.Count > 0)
@@ -130,6 +135,7 @@ namespace SMFS
                 if (locations.Length > 0)
                 {
                     whereClause = "WHERE `location` = ";
+                    whereClauseVendor = "WHERE `assigned_locations` LIKE ";
                 }
                 for (int j = 0; j < locations.Length; j++)
                 {
@@ -137,10 +143,12 @@ namespace SMFS
                     if (j == 0)
                     {
                         whereClause += "'"+location+"'";
+                        whereClauseVendor += "'%" + location + "%'";
                     }
                     else
                     {
                         whereClause += " OR `location` = '"+location+"' ";
+                        whereClauseVendor += " OR `assigned_locations` LIKE '%" + location + "%' ";
                     }
                 }
 
@@ -180,7 +188,9 @@ namespace SMFS
             G1.NumberDataTable(dt2);
             dgv2.DataSource = dt2;
 
-            cmd = "SELECT * FROM `cars_vendors` ORDER BY `record`;";
+            cmd = "SELECT * FROM `cars_vendors` ";
+            cmd += whereClauseVendor.Trim();
+            cmd += " ORDER BY `record`;";
             DataTable dt3 = G1.get_db_data(cmd);
             dt3.Columns.Add("num");
             dt3.Columns.Add("mod");
@@ -219,7 +229,12 @@ namespace SMFS
             loadRepositoryServiceType();
             loadRepositoryCategory();
             loadRepositoryServCategory();
-            loadRepositoryAssgnLoc();
+            if (G1.isField())
+            { }
+            else
+            {
+                loadRepositoryAssgnLoc();
+            }
         }
         /***********************************************************************************************/
         private void loadRepositoryCars()
@@ -262,6 +277,7 @@ namespace SMFS
                 string testUser = "";
                 testUser = "Chanse";
                 testUser = "WesleyM";
+                testUser = "DianaM";
                 string query = "SELECT `assignedLocations` FROM `users` WHERE `userName` = '" + testUser + "'";
                 DataTable userDt = G1.get_db_data(query);
                 if (userDt.Rows.Count > 0)
@@ -307,7 +323,70 @@ namespace SMFS
         /***********************************************************************************************/
         private void loadRepositoryVendors()
         {
-            string cmd = "Select * from `cars_vendors` order by `record`;";
+            string whereClause = "";
+            string assignedLocations = "";
+            string[] locations = null;
+            string location = "";
+
+            if (G1.isField())
+            {
+                // Field User View. Add a condition so that they only see data from their assigned locations
+                string query = "SELECT `assignedLocations` FROM `users` WHERE `userName` = '" + LoginForm.username + "'";
+                DataTable userDt = G1.get_db_data(query);
+                if (userDt.Rows.Count > 0)
+                    assignedLocations = userDt.Rows[0]["assignedLocations"].ObjToString();
+                locations = assignedLocations.Split('~');
+                if (locations.Length > 0)
+                {
+                    whereClause= "WHERE `assigned_locations` LIKE ";
+                }
+                for (int j = 0; j < locations.Length; j++)
+                {
+                    location = locations[j].Trim();
+                    if (j == 0)
+                    {
+                        whereClause += "'%" + location + "%'";
+                    }
+                    else
+                    {
+                        whereClause += " OR `assigned_locations` LIKE '%" + location + "%' ";
+                    }
+                }
+            }
+            /*  * The following else statement is for an admin view, but was used for developing the user view. Most, if not all of this code is for testing purposes only. 
+            else
+            {
+                // Admin view
+                // For Testing Purposes, log in as different testUsers
+                string testUser = "";
+                testUser = "Chanse";
+                testUser = "WesleyM";
+                testUser = "DianaM";
+                string query = "SELECT `assignedLocations` FROM `users` WHERE `userName` = '" + testUser + "'";
+                DataTable userDt = G1.get_db_data(query);
+                if (userDt.Rows.Count > 0)
+                    assignedLocations = userDt.Rows[0]["assignedLocations"].ObjToString();
+                locations = assignedLocations.Split('~');
+                if (locations.Length > 0)
+                {
+                    whereClause = "WHERE `assigned_locations` LIKE ";
+                }
+                for (int j = 0; j < locations.Length; j++)
+                {
+                    location = locations[j].Trim();
+                    if (j == 0)
+                    {
+                        whereClause += "'%" + location + "%'";
+                    }
+                    else
+                    {
+                        whereClause += " OR `assigned_locations` LIKE '%" + location + "%' ";
+                    }
+                }
+            }
+            /**/
+
+            string cmd = "Select * from `cars_vendors` " + whereClause.Trim() + " order by `record`;";
             DataTable vendorDt = G1.get_db_data(cmd);
 
             DataTable newVendorDt = vendorDt.Clone();
@@ -843,7 +922,7 @@ namespace SMFS
             string state = "";
             string zip = "";
             string active = "";
-            string assignedLocations = "";
+            string assigned_locations = "";
             string notes = "";
 
             string cmd = "DELETE from `cars_vendors` WHERE `type` = '-1'";
@@ -879,9 +958,9 @@ namespace SMFS
                 state = dt3.Rows[i]["state"].ObjToString();
                 zip = dt3.Rows[i]["zip"].ObjToString();
                 active = dt3.Rows[i]["active"].ObjToString();
-                assignedLocations = dt3.Rows[i]["assignedLocations"].ObjToString();
+                assigned_locations = dt3.Rows[i]["assigned_locations"].ObjToString();
                 notes = dt3.Rows[i]["notes"].ObjToString();
-                G1.update_db_table("cars_vendors", "record", record, new string[] { "name", name, "type", type, "contact_name", contact_name, "phone", phone, "email", email, "mail_address", mail_address, "physical_address", physical_address, "city", city, "state", state, "zip", zip, "active", active, "assignedLocations", assignedLocations, "notes", notes });
+                G1.update_db_table("cars_vendors", "record", record, new string[] { "name", name, "type", type, "contact_name", contact_name, "phone", phone, "email", email, "mail_address", mail_address, "physical_address", physical_address, "city", city, "state", state, "zip", zip, "active", active, "assigned_locations", assigned_locations, "notes", notes });
             }
             modified_maint = false;
             btnSaveAllVend.Hide();
