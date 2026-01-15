@@ -3055,12 +3055,18 @@ namespace SMFS
             }
         }
         /****************************************************************************************/
+        private bool isVersion2 = false;
         private void LoadDetailHeader()
         {
             string cmd = "Select * from `" + contractsFile + "` a JOIN `" + customersFile + "` b on a.`contractNumber` = b.`contractNumber` where a.`contractNumber` = '" + workContract + "';";
             DataTable dx = G1.get_db_data(cmd);
             if (dx.Rows.Count <= 0)
                 return;
+            if (isInsurance(workContract))
+            {
+                if (dx.Rows[0]["version"].ObjToString() == "2.0")
+                    isVersion2 = true;
+            }
             DataTable contractDt = dx.Copy();
 
             double payment = dx.Rows[0]["amtOfMonthlyPayt"].ObjToString().ObjToDouble();
@@ -3402,23 +3408,38 @@ namespace SMFS
         private void LoadMainData()
         {
             bool insurance = false;
+            isVersion2 = false;
+            bool v2_Available = false;
             string cmd = "Select * from `" + paymentsFile + "` where `contractNumber` = '" + workContract + "' order by `payDate8` DESC, `tmstamp` DESC;";
             if (paymentsFile.Trim().ToUpper() == "IPAYMENTS" && !String.IsNullOrWhiteSpace(workPayer))
             {
-                insurance = true;
-                string ccd = "SELECT * from `icustomers` where `payer`= '" + workPayer + "';";
+                string ccd = "Select * from `icustomers` where `contractNumber` = '" + workContract + "';";
                 DataTable ddx = G1.get_db_data(ccd);
+                if (ddx.Rows.Count > 0)
+                {
+                    if (ddx.Rows[0]["version"].ObjToString() == "2.0")
+                        isVersion2 = true;
+                }
+                insurance = true;
+                ccd = "SELECT * from `icustomers` where `payer`= '" + workPayer + "';";
+                ddx = G1.get_db_data(ccd);
                 if (ddx.Rows.Count > 0)
                 {
                     string list = "";
                     for (int i = 0; i < ddx.Rows.Count; i++)
                     {
                         string contract = ddx.Rows[i]["contractNumber"].ObjToString().Trim();;
+                        if (ddx.Rows[i]["version"].ObjToString() == "2.0")
+                            v2_Available = true;
                         list += "'" + contract + "',";
                     }
                     list = list.TrimEnd(',');
                     list = "(" + list + ")";
                     cmd = "Select * from `" + paymentsFile + "` where `contractNumber` IN " + list + " order by `payDate8` DESC, `tmstamp` DESC;";
+                    if ( isVersion2 )
+                        cmd = "Select * from `" + paymentsFile + "` where `contractNumber` IN " + list + " AND `payDate8` >= '2026-01-01' order by `payDate8` DESC, `tmstamp` DESC;";
+                    else if (v2_Available )
+                        cmd = "Select * from `" + paymentsFile + "` where `contractNumber` IN " + list + " AND `payDate8` < '2026-01-01' order by `payDate8` DESC, `tmstamp` DESC;";
                 }
             }
             //            string cmd = "Select * from `payments` where `contractNumber` = '" + workContract + "' order by `dueDate8` DESC;";

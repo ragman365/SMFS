@@ -338,6 +338,14 @@ namespace SMFS
 
             dt = G1.get_db_data(cmd);
 
+            if (!String.IsNullOrWhiteSpace(paidInFull))
+            {
+                if ( paidInFull.ToUpper() == "EXCLUDE MERCHANDISE")
+                {
+                    dt = ExcludeMerchandise(dt);
+                }
+            }
+
             dt = FilterTrustClaims(dt);
 
             PreProcessData(dt);
@@ -378,6 +386,35 @@ namespace SMFS
                 chkComboLocation_EditValueChanged(null, null);
 
             this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private DataTable ExcludeMerchandise ( DataTable dt)
+        {
+            if (dt == null)
+                return dt;
+
+            DataTable funDt = G1.get_db_data("Select * from `funeralHomes`;");
+
+            DataTable mercDt = dt.Clone();
+
+            DataRow[] dRows = funDt.Select("merchandiseCode<>''");
+            if (dRows.Length > 0)
+                mercDt = dRows.CopyToDataTable();
+
+            DataRow dRow = mercDt.NewRow();
+            dRow["merchandiseCode"] = "NM";
+            mercDt.Rows.Add(dRow);
+
+            string loc = "";
+            for (int i = dt.Rows.Count - 1; i >= 0; i--)
+            {
+                loc = dt.Rows[i]["serviceLoc"].ObjToString();
+                dRows = mercDt.Select("merchandiseCode='" + loc + "'");
+                if (dRows.Length > 0)
+                    dt.Rows.RemoveAt(i);
+            }
+
+            return dt;
         }
         /***********************************************************************************************/
         public static DataTable LoadManagers ( DataTable dt  )
@@ -4291,6 +4328,121 @@ namespace SMFS
             this.Cursor = Cursors.WaitCursor;
             PassareDetailReport detailForm = new PassareDetailReport();
             detailForm.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private void blankGSContractToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataRow dr = gridMain.GetFocusedDataRow();
+            if (dr == null)
+                return;
+            int rowHandle = gridMain.FocusedRowHandle;
+            int row = gridMain.GetDataSourceRowIndex(rowHandle);
+            string workContract = dr["contractNumber"].ObjToString();
+            string serviceId = dr["serviceId"].ObjToString();
+
+            this.Cursor = Cursors.WaitCursor;
+
+            string cmd = "Select * from `cust_payments` where `contractNumber` = '" + workContract + "';";
+            DataTable workPaymentsDt = G1.get_db_data(cmd);
+            workPaymentsDt.Columns.Add("contractValue", Type.GetType("System.Double"));
+            workPaymentsDt.Rows.Clear();
+
+            FunServices serviceForm = new FunServices(workContract);
+            DataTable workServicesDt = serviceForm.funServicesDT;
+            workServicesDt.Rows.Clear();
+
+            string trust = "";
+            string loc = "";
+            Trust85.decodeContractNumber(serviceId, true, ref trust, ref loc);
+            LoginForm.activeFuneralHomeKeyCode = loc;
+
+            cmd = "Select * from `funeralhomes` where `atneedcode` = '" + LoginForm.activeFuneralHomeKeyCode + "';";
+            DataTable dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count <= 0)
+            {
+                if (!String.IsNullOrWhiteSpace(LoginForm.activeFuneralHomeKeyCode))
+                {
+                    DataTable funDt = G1.get_db_data("Select * from `funeralHomes` WHERE `keycode` = '" + LoginForm.activeFuneralHomeKeyCode + "';");
+                    if (funDt.Rows.Count <= 0)
+                    {
+                        funDt = G1.get_db_data("Select * from `funeralHomes` WHERE `merchandisecode` = '" + LoginForm.activeFuneralHomeKeyCode + "';");
+                        if (funDt.Rows.Count <= 0)
+                        {
+                            bool doit = true;
+                            cmd = "Select * from `fcust_extended` WHERE `serviceId` = '" + serviceId + "';";
+                            funDt = G1.get_db_data(cmd);
+                            if (funDt.Rows.Count > 0)
+                            {
+                                if (funDt.Rows[0]["OpenCloseFuneral"].ObjToString().ToUpper() == "Y")
+                                {
+                                    doit = false;
+                                    Trust85.decodeContractNumber(serviceId, true, ref trust, ref loc);
+                                    LoginForm.activeFuneralHomeKeyCode = loc;
+                                    //OpenCloseFuneral = true;
+                                }
+                            }
+                            if (doit)
+                            {
+                                using (FuneralHomeSelect funSelect = new FuneralHomeSelect())
+                                {
+                                    funSelect.ShowDialog();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            LoginForm.activeFuneralHomeKeyCode = funDt.Rows[0]["keycode"].ObjToString();
+                        }
+                    }
+                }
+            }
+
+
+
+            PleaseWait pleaseForm = G1.StartWait("Please Wait!\nGenerating G&&S Contract!!!");
+
+            this.Hide();
+            Contract1 conActive = new Contract1(workContract, workServicesDt, workPaymentsDt, false, false, true, true );
+            conActive.ShowDialog();
+            this.Show();
+            G1.StopWait(ref pleaseForm);
+
+            this.Cursor = Cursors.Default;
+        }
+        /***********************************************************************************************/
+        private void blankGAndSContactPerLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string cmd = "Select * from `funeralhomes` order by `keycode`;";
+            DataTable locDt = G1.get_db_data(cmd);
+
+            string keyCode = "";
+            this.Hide();
+
+            PleaseWait pleaseForm = G1.StartWait("Please Wait!\nGenerating G&&S Contract!!!");
+
+            string workContract = "abc123";
+
+            cmd = "Select * from `cust_payments` where `contractNumber` <> 'abc123' LIMIT 1;";
+            DataTable workPaymentsDt = G1.get_db_data(cmd);
+            workPaymentsDt.Columns.Add("contractValue", Type.GetType("System.Double"));
+            workPaymentsDt.Rows.Clear();
+
+            FunServices serviceForm = new FunServices(workContract);
+            DataTable workServicesDt = serviceForm.funServicesDT;
+            workServicesDt.Rows.Clear();
+
+            for ( int i=0; i<locDt.Rows.Count; i++)
+            {
+                keyCode = locDt.Rows[i]["keycode"].ObjToString();
+                LoginForm.activeFuneralHomeKeyCode = keyCode;
+
+                Contract1 conActive = new Contract1(workContract, workServicesDt, workPaymentsDt, false, false, true, true);
+                conActive.ShowDialog();
+                this.Show();
+            }
+
+            G1.StopWait(ref pleaseForm);
             this.Cursor = Cursors.Default;
         }
         /***********************************************************************************************/

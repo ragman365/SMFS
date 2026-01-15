@@ -60,6 +60,7 @@ namespace SMFS
         private string cashLocal = "";
         private string checkLocal = "";
         private string workDatabase = "SMFS";
+        private bool gotPackage = false;
         /****************************************************************************************/
         public FunPayments(DevExpress.XtraEditors.XtraForm mainControl, string contract, string payer = "", bool loading = false, bool noEdit = false )
         {
@@ -397,7 +398,7 @@ namespace SMFS
             if (G1.get_column_number(dt, "difference") < 0)
                 dt.Columns.Add("difference", Type.GetType("System.Double"));
 
-            bool gotPackage = FunServices.DoWeHavePackage(dt);
+            gotPackage = FunServices.DoWeHavePackage(dt);
             string service = "";
 
             FunServices.PreProcessUrns(dt);
@@ -1115,7 +1116,7 @@ namespace SMFS
                 txtPayments.Refresh();
 
                 double totalDue = total - totalPayments - Math.Abs ( totalDiscount);
-                if ( totalDiscount > 0D )
+                if ( totalDiscount > 0D && !gotPackage )
                     totalDue = total - totalPayments + Math.Abs(totalDiscount);
                 data = G1.ReformatMoney(totalDue);
                 txtTotalDue.Text = "$" + data;

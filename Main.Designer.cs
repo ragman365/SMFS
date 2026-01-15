@@ -155,6 +155,7 @@
             this.importCDFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runPolicyToTrustModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runPolicyVerifyModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importNewInsuranceCompanyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quickStartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trustsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -575,7 +576,8 @@
             this.lockBoxImportsToolStripMenuItem,
             this.importFuneralBCSACHPaymentsToolStripMenuItem,
             this.importBankDepositDetailToolStripMenuItem,
-            this.importTrustFileDataToolStripMenuItem});
+            this.importTrustFileDataToolStripMenuItem,
+            this.importNewInsuranceCompanyToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
             this.miscToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
             this.miscToolStripMenuItem.Text = "Imports";
@@ -1357,6 +1359,13 @@
             this.runPolicyVerifyModuleToolStripMenuItem.Size = new System.Drawing.Size(281, 26);
             this.runPolicyVerifyModuleToolStripMenuItem.Text = "Run Policy Verify Module";
             this.runPolicyVerifyModuleToolStripMenuItem.Click += new System.EventHandler(this.runPolicyVerifyModuleToolStripMenuItem_Click);
+            // 
+            // importNewInsuranceCompanyToolStripMenuItem
+            // 
+            this.importNewInsuranceCompanyToolStripMenuItem.Name = "importNewInsuranceCompanyToolStripMenuItem";
+            this.importNewInsuranceCompanyToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
+            this.importNewInsuranceCompanyToolStripMenuItem.Text = "Import New Insurance Company";
+            this.importNewInsuranceCompanyToolStripMenuItem.Click += new System.EventHandler(this.importNewInsuranceCompanyToolStripMenuItem_Click);
             // 
             // quickStartToolStripMenuItem
             // 
@@ -2575,6 +2584,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem31;
         private System.Windows.Forms.ToolStripMenuItem preneedContactsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vernonMuseContactsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importNewInsuranceCompanyToolStripMenuItem;
     }
 }
 

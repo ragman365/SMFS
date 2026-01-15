@@ -621,7 +621,7 @@ namespace SMFS
                     dt.Rows[i]["agentName"] = GetAgentName(agentCode);
 
                     SDI_Key_Code = dt.Rows[i]["SDICode"].ObjToString();
-                    if (String.IsNullOrWhiteSpace(SDICode))
+                    if (String.IsNullOrWhiteSpace(SDI_Key_Code))
                         SDI_Key_Code = "YY";
 
                     prefixDt = InsuranceCoupons.Locate_SDI_Key_Code(payerDt, payer);

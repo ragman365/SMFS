@@ -368,6 +368,12 @@
     <Compile Include="EditBurialAssociation.Designer.cs">
       <DependentUpon>EditBurialAssociation.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImportNewInsuranceCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportNewInsuranceCompany.Designer.cs">
+      <DependentUpon>ImportNewInsuranceCompany.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImportMuseContacts.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2547,6 +2553,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditBurialAssociation.resx">
       <DependentUpon>EditBurialAssociation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportNewInsuranceCompany.resx">
+      <DependentUpon>ImportNewInsuranceCompany.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportMuseContacts.resx">
       <DependentUpon>ImportMuseContacts.cs</DependentUpon>

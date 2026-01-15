@@ -185,7 +185,9 @@ namespace SMFS
                     DataTable payDt = G1.get_db_data(cmd);
                     if (payDt.Rows.Count > 0)
                     {
-                        workContract = payDt.Rows[0]["contractNumber"].ObjToString();
+                        string tempStr = payDt.Rows[0]["contractNumber"].ObjToString();
+                        if (!String.IsNullOrWhiteSpace(tempStr))
+                            workContract = tempStr;
                         cmd = "Select * from `" + contractsFile + "` where `contractNumber` = '" + workContract + "';";
                         dx = G1.get_db_data(cmd);
                     }

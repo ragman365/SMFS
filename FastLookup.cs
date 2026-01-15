@@ -157,7 +157,10 @@ namespace SMFS
                 if ( dt.Rows.Count <= 0 )
                 {
                     cmd = "Select * from `policies` p where ";
-                    cmd += " p.`payer` = '" + contract + "';";
+                    if ( contract.Contains ( "%" ))
+                        cmd += " p.`payer` LIKE '" + contract + "%';";
+                    else
+                        cmd += " p.`payer` = '" + contract + "';";
                     dt = G1.get_db_data(cmd);
                     if ( dt.Rows.Count > 0 )
                     {
@@ -784,8 +787,17 @@ namespace SMFS
             if (!String.IsNullOrWhiteSpace(contract))
             {
                 cmd = "Select * from `payers` where ";
-                cmd += " `payer` = '" + contract + "';";
+                if ( contract.Contains ( "%") )
+                    cmd += " `payer` LIKE '" + contract + "';";
+                else
+                    cmd += " `payer` = '" + contract + "';";
                 ddt = G1.get_db_data(cmd);
+
+                if ( ddt.Rows.Count <= 0 && !contract.Contains ("%" ))
+                {
+                    cmd = "Select * from `payers` where `payer` LIKE '" + contract + "%';";
+                    ddt = G1.get_db_data(cmd);
+                }
 
                 if (ddt.Rows.Count <= 0)
                 {

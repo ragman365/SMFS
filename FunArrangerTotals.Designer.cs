@@ -39,9 +39,16 @@
             this.num173 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn119 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn121 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn3 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn122 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn199 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkBonusDate = new System.Windows.Forms.CheckBox();
+            this.chkMerchandise = new System.Windows.Forms.CheckBox();
+            this.chkShowDetail = new System.Windows.Forms.CheckBox();
             this.chkSummarize = new System.Windows.Forms.CheckBox();
             this.chkGroupByLocation = new System.Windows.Forms.CheckBox();
             this.chkArranger = new System.Windows.Forms.CheckBox();
@@ -272,7 +279,11 @@
             this.bandedGridColumn199,
             this.bandedGridColumn119,
             this.bandedGridColumn121,
-            this.bandedGridColumn122});
+            this.bandedGridColumn122,
+            this.bandedGridColumn1,
+            this.bandedGridColumn2,
+            this.bandedGridColumn3,
+            this.bandedGridColumn4});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
@@ -302,6 +313,10 @@
             this.gridBand2.Columns.Add(this.num173);
             this.gridBand2.Columns.Add(this.bandedGridColumn119);
             this.gridBand2.Columns.Add(this.bandedGridColumn121);
+            this.gridBand2.Columns.Add(this.bandedGridColumn1);
+            this.gridBand2.Columns.Add(this.bandedGridColumn2);
+            this.gridBand2.Columns.Add(this.bandedGridColumn3);
+            this.gridBand2.Columns.Add(this.bandedGridColumn4);
             this.gridBand2.Columns.Add(this.bandedGridColumn122);
             this.gridBand2.Name = "gridBand2";
             this.gridBand2.VisibleIndex = 0;
@@ -340,6 +355,42 @@
             this.bandedGridColumn121.Visible = true;
             this.bandedGridColumn121.Width = 77;
             // 
+            // bandedGridColumn1
+            // 
+            this.bandedGridColumn1.Caption = "ServiceId";
+            this.bandedGridColumn1.FieldName = "serviceId";
+            this.bandedGridColumn1.MinWidth = 25;
+            this.bandedGridColumn1.Name = "bandedGridColumn1";
+            this.bandedGridColumn1.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn1.Width = 94;
+            // 
+            // bandedGridColumn2
+            // 
+            this.bandedGridColumn2.Caption = "Last Name";
+            this.bandedGridColumn2.FieldName = "lastName";
+            this.bandedGridColumn2.MinWidth = 25;
+            this.bandedGridColumn2.Name = "bandedGridColumn2";
+            this.bandedGridColumn2.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn2.Width = 94;
+            // 
+            // bandedGridColumn3
+            // 
+            this.bandedGridColumn3.Caption = "First Name";
+            this.bandedGridColumn3.FieldName = "firstName";
+            this.bandedGridColumn3.MinWidth = 25;
+            this.bandedGridColumn3.Name = "bandedGridColumn3";
+            this.bandedGridColumn3.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn3.Width = 94;
+            // 
+            // bandedGridColumn4
+            // 
+            this.bandedGridColumn4.Caption = "Deceased Date";
+            this.bandedGridColumn4.FieldName = "deceasedDate";
+            this.bandedGridColumn4.MinWidth = 25;
+            this.bandedGridColumn4.Name = "bandedGridColumn4";
+            this.bandedGridColumn4.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn4.Width = 94;
+            // 
             // bandedGridColumn122
             // 
             this.bandedGridColumn122.Caption = "Count";
@@ -367,6 +418,9 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Beige;
+            this.panelTop.Controls.Add(this.chkBonusDate);
+            this.panelTop.Controls.Add(this.chkMerchandise);
+            this.panelTop.Controls.Add(this.chkShowDetail);
             this.panelTop.Controls.Add(this.chkSummarize);
             this.panelTop.Controls.Add(this.chkGroupByLocation);
             this.panelTop.Controls.Add(this.chkArranger);
@@ -390,6 +444,40 @@
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1754, 73);
             this.panelTop.TabIndex = 1;
+            // 
+            // chkBonusDate
+            // 
+            this.chkBonusDate.AutoSize = true;
+            this.chkBonusDate.Location = new System.Drawing.Point(1433, 48);
+            this.chkBonusDate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkBonusDate.Name = "chkBonusDate";
+            this.chkBonusDate.Size = new System.Drawing.Size(203, 21);
+            this.chkBonusDate.TabIndex = 162;
+            this.chkBonusDate.Text = "Honor Bonus Date in Search";
+            this.chkBonusDate.UseVisualStyleBackColor = true;
+            // 
+            // chkMerchandise
+            // 
+            this.chkMerchandise.AutoSize = true;
+            this.chkMerchandise.Location = new System.Drawing.Point(1270, 48);
+            this.chkMerchandise.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkMerchandise.Name = "chkMerchandise";
+            this.chkMerchandise.Size = new System.Drawing.Size(157, 21);
+            this.chkMerchandise.TabIndex = 161;
+            this.chkMerchandise.Text = "Exclude Merchandise";
+            this.chkMerchandise.UseVisualStyleBackColor = true;
+            this.chkMerchandise.CheckedChanged += new System.EventHandler(this.chkMerchandise_CheckedChanged);
+            // 
+            // chkShowDetail
+            // 
+            this.chkShowDetail.AutoSize = true;
+            this.chkShowDetail.Location = new System.Drawing.Point(1163, 48);
+            this.chkShowDetail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkShowDetail.Name = "chkShowDetail";
+            this.chkShowDetail.Size = new System.Drawing.Size(101, 21);
+            this.chkShowDetail.TabIndex = 160;
+            this.chkShowDetail.Text = "Show Detail";
+            this.chkShowDetail.UseVisualStyleBackColor = true;
             // 
             // chkSummarize
             // 
@@ -845,5 +933,12 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn199;
         private System.Windows.Forms.CheckBox chkSummarize;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn1;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn2;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn3;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn4;
+        private System.Windows.Forms.CheckBox chkShowDetail;
+        private System.Windows.Forms.CheckBox chkMerchandise;
+        private System.Windows.Forms.CheckBox chkBonusDate;
     }
 }

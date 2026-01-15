@@ -6086,5 +6086,13 @@ namespace SMFS
             this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/
+        private void importNewInsuranceCompanyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            ImportNewInsuranceCompany importForm = new ImportNewInsuranceCompany();
+            importForm.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
     }
 }

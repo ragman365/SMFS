@@ -2847,6 +2847,16 @@ namespace GeneralLib
         /****************************************************************************************/
         public static DataTable RemoveDuplicates(DataTable dt, string columnName)
         {
+            string type = dt.Columns[columnName].DataType.ToString();
+            if ( type == "System.Int64")
+            {
+                dt.Columns.Add("TempColumn", typeof(string));
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["TempColumn"] = row[columnName].ToString();
+                }
+                columnName = "TempColumn";
+            }
             DataTable newDt = dt.Copy();
             try
             {
@@ -2854,6 +2864,8 @@ namespace GeneralLib
                                  .GroupBy(x => x.Field<string>(columnName))
                                  .Select(y => y.First())
                                  .CopyToDataTable();
+                if (type == "System.Int64")
+                    dt.Columns.Remove("TempColumn");
             }
             catch (Exception ex)
             {

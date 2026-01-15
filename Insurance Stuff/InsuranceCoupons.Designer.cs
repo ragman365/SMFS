@@ -64,6 +64,7 @@
             this.bandedGridColumn7 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -192,10 +193,10 @@
             // 
             this.panelBottom.Controls.Add(this.tabControl1);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 97);
+            this.panelBottom.Location = new System.Drawing.Point(0, 114);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1348, 293);
+            this.panelBottom.Size = new System.Drawing.Size(1348, 276);
             this.panelBottom.TabIndex = 7;
             // 
             // tabControl1
@@ -208,7 +209,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1348, 293);
+            this.tabControl1.Size = new System.Drawing.Size(1348, 276);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -218,7 +219,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(1340, 264);
+            this.tabPage1.Size = new System.Drawing.Size(1340, 247);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "SMFS";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -231,7 +232,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1334, 256);
+            this.dgv.Size = new System.Drawing.Size(1334, 239);
             this.dgv.TabIndex = 1;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -392,7 +393,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage2.Size = new System.Drawing.Size(1340, 264);
+            this.tabPage2.Size = new System.Drawing.Size(1340, 247);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "AS400";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -405,7 +406,7 @@
             this.dgv2.MainView = this.gridMain2;
             this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv2.Name = "dgv2";
-            this.dgv2.Size = new System.Drawing.Size(1334, 256);
+            this.dgv2.Size = new System.Drawing.Size(1334, 239);
             this.dgv2.TabIndex = 2;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -563,7 +564,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1340, 264);
+            this.tabPage3.Size = new System.Drawing.Size(1340, 247);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Differences";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -576,7 +577,7 @@
             this.dgv3.MainView = this.gridMain3;
             this.dgv3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv3.Name = "dgv3";
-            this.dgv3.Size = new System.Drawing.Size(1340, 264);
+            this.dgv3.Size = new System.Drawing.Size(1340, 247);
             this.dgv3.TabIndex = 3;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -819,6 +820,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.label8);
             this.panelTop.Controls.Add(this.btnSave);
             this.panelTop.Controls.Add(this.label7);
             this.panelTop.Controls.Add(this.label6);
@@ -842,8 +844,17 @@
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1348, 97);
+            this.panelTop.Size = new System.Drawing.Size(1348, 114);
             this.panelTop.TabIndex = 6;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(11, 91);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(445, 17);
+            this.label8.TabIndex = 154;
+            this.label8.Text = "Make Certain to HIDE Location Before Exporting for Coupon Generation";
             // 
             // btnSave
             // 
@@ -1136,5 +1147,6 @@
         private DevExpress.XtraEditors.CheckedComboBoxEdit chkComboSDI;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label8;
     }
 }

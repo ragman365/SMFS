@@ -344,9 +344,13 @@ namespace SMFS
             {
                 lblPayer.Text = "Payer: " + dt.Rows[0]["payer"].ObjToString();
                 workPayer = dt.Rows[0]["payer"].ObjToString();
+                LoadBurialAssociation(workPayer);
             }
             else
+            {
                 lblPayer.Text = "";
+                lblBurialAss.Text = "";
+            }
 
             ddate = dt.Rows[0]["birthDate"].ObjToDateTime();
             //if (workPolicy)
@@ -372,6 +376,43 @@ namespace SMFS
                 string serviceId = dt.Rows[0]["serviceId"].ObjToString();
                 if (!String.IsNullOrWhiteSpace(serviceId))
                     btnFuneral.Show();
+            }
+        }
+        /***********************************************************************************************/
+        private void LoadBurialAssociation ( string payer )
+        {
+            if (String.IsNullOrWhiteSpace(payer))
+                return;
+
+            string SDI_Key_Code = "";
+
+            DataTable dt = G1.get_db_data("Select * from `payers` WHERE `payer` = '" + payer + "';");
+            if (dt.Rows.Count <= 0)
+                return;
+
+            try
+            {
+                DataTable burialDt = G1.get_db_data("Select * from `burial_association`");
+
+                DataTable payerDt = InsuranceCoupons.BuildPayerTable(burialDt);
+                SDI_Key_Code = dt.Rows[0]["SDICode"].ObjToString();
+                if (String.IsNullOrWhiteSpace(SDI_Key_Code))
+                    SDI_Key_Code = "YY";
+
+                DataTable prefixDt = InsuranceCoupons.Locate_SDI_Key_Code(payerDt, payer);
+                if (prefixDt.Rows.Count == 1)
+                    SDI_Key_Code = prefixDt.Rows[0]["SDI_Key_Code"].ObjToString();
+                else if (prefixDt.Rows.Count > 1)
+                    SDI_Key_Code = "YY";
+
+                DataRow[] dRows = burialDt.Select("SDI_Key_Code='" + SDI_Key_Code + "'");
+                if (dRows.Length > 0)
+                    lblBurialAss.Text = "BA : " + dRows[0]["burial_association"].ObjToString();
+                else
+                    lblBurialAss.Text = "";
+            }
+            catch ( Exception ex)
+            {
             }
         }
         /***********************************************************************************************/
@@ -592,11 +633,14 @@ namespace SMFS
                     DataTable payDt = G1.get_db_data("Select * from `icustomers` WHERE `contractNumber` = '" + workContract + "';");
                     if (payDt.Rows.Count > 0)
                     {
+                        string version = payDt.Rows[0]["version"].ObjToString();
                         workPayer = payDt.Rows[0]["payer"].ObjToString();
-                        payDt = G1.get_db_data("Select * from `payers` WHERE `payer` = '" + workPayer + "';");
+                        payDt = G1.get_db_data("Select * from `payers` WHERE `payer` = '" + workPayer + "' AND `version` = '" + version + "';");
                         if (payDt.Rows.Count > 0)
                         {
-                            workContract = payDt.Rows[0]["contractNumber"].ObjToString();
+                            string tempStr = payDt.Rows[0]["contractNumber"].ObjToString();
+                            if (!String.IsNullOrWhiteSpace(tempStr))
+                                workContract = tempStr;
                             cmd = "Select * from `" + contractsFile + "` where `contractNumber` = '" + workContract + "';";
                             dx = G1.get_db_data(cmd);
                         }
@@ -1163,6 +1207,9 @@ namespace SMFS
                 dt = tempview1.ToTable();
 
             }
+
+            if ( dt.Rows.Count > 0 )
+                dt = G1.RemoveDuplicates(dt, "record");
 
             dgv5.DataSource = dt;
             //gridMain5.Columns["num"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;

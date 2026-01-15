@@ -68,11 +68,12 @@ namespace SMFS
         private int imageCount = 0;
         private bool workActuallyPrint = false;
         public static bool workJustViewing = false;
+        public static bool workEmpty = false;
         public static DataTable signatureDt = null;
         private int printNumber = 0;
         //private int yOffset = 0;
         /****************************************************************************************/
-        public Contract1(string contract, DataTable dt, DataTable payDt, bool separate = false, bool actuallyPrint = false, bool justViewing = false)
+        public Contract1(string contract, DataTable dt, DataTable payDt, bool separate = false, bool actuallyPrint = false, bool justViewing = false, bool empty = false )
         {
             try
             {
@@ -82,9 +83,14 @@ namespace SMFS
             {
 
             }
+            workEmpty = empty;
+            if (workEmpty)
+                contract = "";
+
             workContract = contract;
             myWorkContract = contract;
             workContractNumber = contract;
+
             serviceDt = dt.Copy();
             CheckForPackageDiscount(serviceDt);
             paymentsDt = payDt.Copy();
@@ -4406,29 +4412,43 @@ namespace SMFS
             TotalPackage = totalTotal - totalIgnore;
             TotalPackage = totalTotal;
 
+            string empty = "__________";
+
             data = G1.ReformatMoney(totalServices - (ignoreProcessions + ignoreAdditional + ignoreAuto));
             data = G1.ReformatMoney(totalServices);
             data = data.PadLeft(12);
+            if (workEmpty)
+                data = empty;
             AppendToTable(allDt[6], "   A. CHARGES FOR SERVICES:", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
             data = G1.ReformatMoney(merchandice - ignoreMerchandise);
             data = G1.ReformatMoney(merchandice);
             data = data.PadLeft(12);
+            if (workEmpty)
+                data = empty;
             AppendToTable(allDt[6], "   B. CHARGES FOR MERCHANDISE:", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
             data = G1.ReformatMoney(specialCharges - ignoreSpecial);
             data = G1.ReformatMoney(specialCharges);
             data = data.PadLeft(12);
+            if (workEmpty)
+                data = empty;
             AppendToTable(allDt[6], "   C. SPECIAL CHARGES:", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
             data = G1.ReformatMoney(cashAdvance - ignoreCashAdvance);
             data = G1.ReformatMoney(cashAdvance);
             data = data.PadLeft(12);
+            if (workEmpty)
+                data = empty;
             AppendToTable(allDt[6], "   D. CASH ADVANCES:", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
             data = G1.ReformatMoney(salesTax);
             data = data.PadLeft(12);
+            if (workEmpty)
+                data = empty;
             AppendToTable(allDt[6], "   E. SALES TAX, IF APPLICABLE :", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
             AppendToTable(allDt[6], "", "", "Arial", smallFontSize, "Lucida Console", smallFontSize);
             data = G1.ReformatMoney(totalTotal - totalIgnore);
             data = G1.ReformatMoney(totalTotal);
             data = data.PadLeft(12);
+            if (workEmpty)
+                data = empty;
             AppendToTable(allDt[6], "      TOTAL FUNERAL HOME CHARGES", data, "Arial Black", largeFontSize, "Lucida Console", smallFontSize);
 
             double balanceDue = TotalPackage - totalCredit;
@@ -4447,6 +4467,8 @@ namespace SMFS
                 data = G1.ReformatMoney(totalAllowances);
                 data = G1.ReformatMoney(newTotalAllowances);
                 data = data.PadLeft(12);
+                if (workEmpty)
+                    data = empty;
                 AppendToTable(allDt[7], "                                  TOTAL ALLOWANCES ", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
             }
 
@@ -4456,6 +4478,8 @@ namespace SMFS
                 aTotal = newPayments;
                 data = G1.ReformatMoney(aTotal);
                 data = data.PadLeft(12);
+                if (workEmpty)
+                    data = empty;
                 AppendToTable(allDt[8], "                                  TOTAL CREDIT ", data, "Arial", smallFontSize, "Lucida Console", smallFontSize);
             }
 
@@ -4476,6 +4500,8 @@ namespace SMFS
             }
             data = G1.ReformatMoney(balanceDue);
             data = data.PadLeft(12);
+            if (workEmpty)
+                data = empty;
             AppendToTable(allDt[8], "        BALANCE DUE ", data, "Arial Black", largeFontSize, "Lucida Console", smallFontSize);
 
             DateTime afterStart = DateTime.Now;
@@ -4979,6 +5005,8 @@ namespace SMFS
                 //                AppendToTable(dt, "       TOTAL :", data, "Arial", 7f, "Lucida Console", 7f);
                 if (data != "0.00")
                     AppendToTable(dt, "              ", "", "Arial", 7f, "Lucida Console", 7f);
+                if (workEmpty)
+                    data = "___________";
                 AppendToTable(dt, "              ", data, "Arial", 7f, "Lucida Console", 7f);
             }
             catch (Exception ex)

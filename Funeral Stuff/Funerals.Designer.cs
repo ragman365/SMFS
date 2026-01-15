@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Funerals));
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
@@ -37,6 +37,8 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.recalculateBalanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goodsAndServicesContractToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.blankGSContractToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.Num = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -139,6 +141,7 @@
             this.menuPrint = new System.Windows.Forms.ToolStripMenuItem();
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.blankGAndSContactPerLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripRemoveFormat = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -239,9 +242,10 @@
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recalculateBalanceToolStripMenuItem,
-            this.goodsAndServicesContractToolStripMenuItem});
+            this.goodsAndServicesContractToolStripMenuItem,
+            this.printToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(268, 52);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(268, 76);
             // 
             // recalculateBalanceToolStripMenuItem
             // 
@@ -256,6 +260,21 @@
             this.goodsAndServicesContractToolStripMenuItem.Size = new System.Drawing.Size(267, 24);
             this.goodsAndServicesContractToolStripMenuItem.Text = "Goods and Services Contract";
             this.goodsAndServicesContractToolStripMenuItem.Click += new System.EventHandler(this.goodsAndServicesContractToolStripMenuItem_Click);
+            // 
+            // printToolStripMenuItem1
+            // 
+            this.printToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.blankGSContractToolStripMenuItem});
+            this.printToolStripMenuItem1.Name = "printToolStripMenuItem1";
+            this.printToolStripMenuItem1.Size = new System.Drawing.Size(267, 24);
+            this.printToolStripMenuItem1.Text = "Print";
+            // 
+            // blankGSContractToolStripMenuItem
+            // 
+            this.blankGSContractToolStripMenuItem.Name = "blankGSContractToolStripMenuItem";
+            this.blankGSContractToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
+            this.blankGSContractToolStripMenuItem.Text = "Blank G and S Contract";
+            this.blankGSContractToolStripMenuItem.Click += new System.EventHandler(this.blankGSContractToolStripMenuItem_Click);
             // 
             // gridMain
             // 
@@ -1363,10 +1382,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton2.Caption = "contextButton1";
-            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton2.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
+            contextButton1.Caption = "contextButton1";
+            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton1.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton1);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // panelTop
@@ -1487,7 +1506,8 @@
             this.cmbPaidInFull.Items.AddRange(new object[] {
             "All",
             "Exclude Paid In Full",
-            "Paid In Full Only"});
+            "Paid In Full Only",
+            "Exclude Merchandise"});
             this.cmbPaidInFull.Location = new System.Drawing.Point(1315, 48);
             this.cmbPaidInFull.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbPaidInFull.Name = "cmbPaidInFull";
@@ -1683,7 +1703,6 @@
             this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
             this.menuStrip1.Size = new System.Drawing.Size(1548, 28);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
@@ -1704,7 +1723,8 @@
             // 
             this.menuPrint.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.printPreviewToolStripMenuItem,
-            this.printToolStripMenuItem});
+            this.printToolStripMenuItem,
+            this.blankGAndSContactPerLocationToolStripMenuItem});
             this.menuPrint.Name = "menuPrint";
             this.menuPrint.Size = new System.Drawing.Size(197, 26);
             this.menuPrint.Text = "Print";
@@ -1712,16 +1732,23 @@
             // printPreviewToolStripMenuItem
             // 
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(325, 26);
             this.printPreviewToolStripMenuItem.Text = "Print Preview";
             this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.printPreviewToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(325, 26);
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            // 
+            // blankGAndSContactPerLocationToolStripMenuItem
+            // 
+            this.blankGAndSContactPerLocationToolStripMenuItem.Name = "blankGAndSContactPerLocationToolStripMenuItem";
+            this.blankGAndSContactPerLocationToolStripMenuItem.Size = new System.Drawing.Size(325, 26);
+            this.blankGAndSContactPerLocationToolStripMenuItem.Text = "Blank G and S Contact per Location";
+            this.blankGAndSContactPerLocationToolStripMenuItem.Click += new System.EventHandler(this.blankGAndSContactPerLocationToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -2147,5 +2174,8 @@
         private System.Windows.Forms.ToolStripMenuItem miscToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showChangesWOSavingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem passareDetailReportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem blankGSContractToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem blankGAndSContactPerLocationToolStripMenuItem;
     }
 }

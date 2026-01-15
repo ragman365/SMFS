@@ -1166,6 +1166,9 @@ namespace SMFS
             double vCost = 0D;
             bool rtn = false;
 
+            if (G1.get_column_number(dt, "pendingTrust") < 0)
+                dt.Columns.Add("pendingTrust", Type.GetType("System.Double"));
+
             asService = 0D;
             asCash = 0D;
             asNothing = 0D;
@@ -1541,6 +1544,7 @@ namespace SMFS
                     //totalDiscount += trustPending;
                     trustPending = Math.Truncate(trustPending);
                     otherBonuses += trustPending;
+                    dRow["pendingTrust"] = trustPending;
                 }
             }
 

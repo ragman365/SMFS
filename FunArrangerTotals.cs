@@ -1361,11 +1361,14 @@ namespace SMFS
 
                 //OR e.`Funeral Arranger` LIKE 'Arthur%' AND e.`Funeral Arranger` LIKE  '%Newman%' )
                     string sdate1 = date1.ToString("yyyy-MM-dd");
-                    if (firstDate != date1)
+                    if (firstDate != date1 && !chkShowDetail.Checked )
                         sdate1 = firstDate.ToString("yyyy-MM-dd");
 
                     string sdate2 = date2.ToString("yyyy-MM-dd");
-                        cmd += " AND ( (p.`deceasedDate` >= '" + sdate1 + "' AND p.`deceasedDate` <= '" + sdate2 + "' ) OR ( e.`bonusDate` >= '" + sdate1 + "' AND e.`bonusDate` <= '" + sdate2 + "' ) )";
+                if ( chkBonusDate.Checked )
+                    cmd += " AND ( (p.`deceasedDate` >= '" + sdate1 + "' AND p.`deceasedDate` <= '" + sdate2 + "' ) OR ( e.`bonusDate` >= '" + sdate1 + "' AND e.`bonusDate` <= '" + sdate2 + "' ) )";
+                else
+                    cmd += " AND ( (p.`deceasedDate` >= '" + sdate1 + "' AND p.`deceasedDate` <= '" + sdate2 + "' ) )";
 
                 cmd += " ORDER BY e.`serviceDate` DESC ";
                 cmd += ";";
@@ -1443,6 +1446,40 @@ namespace SMFS
             return dt;
         }
         /***********************************************************************************************/
+        private DataTable ShowDetail ( DataTable dt )
+        {
+            try
+            {
+                DataView tempview = dt.DefaultView;
+                tempview.Sort = "serviceLoc,Funeral Arranger";
+                dt = tempview.ToTable();
+            }
+            catch (Exception ex)
+            {
+            }
+
+
+            if ( G1.get_column_number ( dt, "count") <= 0 )
+                dt.Columns.Add("count", Type.GetType("System.Int32"));
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+                dt.Rows[i]["count"] = 1;
+
+            gridMain.Columns["firstName"].Visible = true;
+            gridMain.Columns["lastName"].Visible = true;
+            gridMain.Columns["serviceId"].Visible = true;
+            gridMain.Columns["deceasedDate"].Visible = true;
+
+
+
+            DataTable dx = dt.Copy();
+            G1.NumberDataTable(dx);
+            dgv.DataSource = dx;
+
+            originalDt = dx.Copy();
+            return dx;
+        }
+        /***********************************************************************************************/
         private void btnRefresh_Click (object sender, EventArgs e)
         {
             DateTime date1 = this.dateTimePicker1.Value;
@@ -1465,6 +1502,21 @@ namespace SMFS
 
             string arranger = "";
             bool got = false;
+
+            bool showDetail = chkShowDetail.Checked;
+
+            if ( showDetail )
+            {
+                dt = LoadData2(date1, date2 );
+
+                ShowDetail(dt);
+                return;
+            }
+
+            gridMain.Columns["firstName"].Visible = false;
+            gridMain.Columns["lastName"].Visible = false;
+            gridMain.Columns["serviceId"].Visible = false;
+            gridMain.Columns["deceasedDate"].Visible = false;
 
             for (; ; )
             {
@@ -1606,6 +1658,15 @@ namespace SMFS
             dgv.DataSource = finalDt;
 
             originalDt = finalDt;
+
+            if (chkMerchandise.Checked)
+                chkMerchandise_CheckedChanged(null, null);
+
+            gridMain.Columns["firstName"].Visible = false;
+            gridMain.Columns["lastName"].Visible = false;
+            gridMain.Columns["serviceId"].Visible = false;
+            gridMain.Columns["deceasedDate"].Visible = false;
+
             ScaleCells();
         }
         /***********************************************************************************************/
@@ -1836,6 +1897,54 @@ namespace SMFS
                 gridMain.OptionsPrint.ExpandAllGroups = true;
                 gridMain.ExpandAllGroups();
             }
+        }
+        /***********************************************************************************************/
+        private void chkMerchandise_CheckedChanged(object sender, EventArgs e)
+        {
+            if (originalDt == null)
+                return;
+
+            DataTable dt = originalDt.Copy();
+            if (dt == null)
+                return;
+
+            System.Windows.Forms.CheckBox box = null;
+
+            if (sender != null)
+                box = (System.Windows.Forms.CheckBox)sender;
+            else
+                box = chkMerchandise;
+
+            if ( !box.Checked )
+            {
+                G1.NumberDataTable(dt);
+                dgv.DataSource = dt;
+                return;
+            }
+
+            DataTable funDt = G1.get_db_data("Select * from `funeralHomes`;");
+
+            DataTable mercDt = dt.Clone();
+
+            DataRow[] dRows = funDt.Select("merchandiseCode<>''");
+            if (dRows.Length > 0)
+                mercDt = dRows.CopyToDataTable();
+
+            DataRow dRow = mercDt.NewRow();
+            dRow["merchandiseCode"] = "NM";
+            mercDt.Rows.Add(dRow);
+
+            string loc = "";
+            for ( int i=dt.Rows.Count-1; i>=0; i--)
+            {
+                loc = dt.Rows[i]["serviceLoc"].ObjToString();
+                dRows = mercDt.Select("merchandiseCode='" + loc + "'");
+                if (dRows.Length > 0)
+                    dt.Rows.RemoveAt(i);
+            }
+
+            G1.NumberDataTable(dt);
+            dgv.DataSource = dt;
         }
         /***********************************************************************************************/
     }

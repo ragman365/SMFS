@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FunManager));
-            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -158,6 +158,7 @@
             this.bandedGridColumn70 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Num = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.balanceDue6 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn147 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.tabServices = new System.Windows.Forms.TabPage();
             this.dgv2 = new DevExpress.XtraGrid.GridControl();
             this.gridMain2 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
@@ -759,7 +760,8 @@
             this.bandedGridColumn74,
             this.bandedGridColumn76,
             this.bandedGridColumn77,
-            this.bandedGridColumn143});
+            this.bandedGridColumn143,
+            this.bandedGridColumn147});
             this.gridMain.DetailHeight = 431;
             this.gridMain.GridControl = this.dgv;
             this.gridMain.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
@@ -902,10 +904,11 @@
             this.gridBand4.Columns.Add(this.bandedGridColumn69);
             this.gridBand4.Columns.Add(this.bandedGridColumn143);
             this.gridBand4.Columns.Add(this.bandedGridColumn70);
+            this.gridBand4.Columns.Add(this.bandedGridColumn147);
             this.gridBand4.MinWidth = 30;
             this.gridBand4.Name = "gridBand4";
             this.gridBand4.VisibleIndex = 0;
-            this.gridBand4.Width = 12471;
+            this.gridBand4.Width = 12565;
             // 
             // bandedGridColumn71
             // 
@@ -2217,6 +2220,18 @@
             this.balanceDue6.OptionsColumn.FixedWidth = true;
             this.balanceDue6.Visible = true;
             this.balanceDue6.Width = 116;
+            // 
+            // bandedGridColumn147
+            // 
+            this.bandedGridColumn147.Caption = "Pending Trust";
+            this.bandedGridColumn147.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn147.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn147.FieldName = "pendingTrust";
+            this.bandedGridColumn147.MinWidth = 25;
+            this.bandedGridColumn147.Name = "bandedGridColumn147";
+            this.bandedGridColumn147.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn147.Visible = true;
+            this.bandedGridColumn147.Width = 94;
             // 
             // tabServices
             // 
@@ -4606,10 +4621,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton1.Caption = "contextButton1";
-            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton1.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton1);
+            contextButton2.Caption = "contextButton1";
+            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton2.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // repositoryItemMemoEdit1
@@ -4636,7 +4651,6 @@
             this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
             this.menuStrip1.Size = new System.Drawing.Size(1754, 30);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
@@ -4650,7 +4664,7 @@
             this.toolStripRemoveFormat,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -4706,7 +4720,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
             // 
             // miscToolStripMenuItem
             // 
@@ -4714,7 +4728,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unLockScreenFormatToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -5110,5 +5124,6 @@
         private System.Windows.Forms.ToolStripMenuItem findItemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clarifyItemToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkPastCosts;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn147;
     }
 }
