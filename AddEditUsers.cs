@@ -220,9 +220,12 @@ namespace SMFS
             string agent = dr["agentCode"].ObjToString();
             string assignedLocations = dr["assignedLocations"].ObjToString();
             string admin = "0";
+            string carsAccess = "0";
             if (classification.ToUpper() == "ADMIN")
                 admin = "1";
-            G1.update_db_table("users", "record", record, new string[] {"classification", classification, "email", email, "agentCode", agent, "admin", admin, "assignedLocations", assignedLocations });
+            if (dr["carsAccess"].ObjToString().ToUpper() == "TRUE")
+                carsAccess = "1";
+            G1.update_db_table("users", "record", record, new string[] {"classification", classification, "email", email, "agentCode", agent, "admin", admin, "assignedLocations", assignedLocations, "carsAccess", carsAccess });
         }
         /****************************************************************************************/
         private void gridMain_ShownEditor(object sender, EventArgs e)

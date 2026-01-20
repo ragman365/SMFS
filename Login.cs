@@ -404,7 +404,6 @@ namespace SMFS
             bool success = false;
             isRobby = isThisRobby();
             isReallyRobby = isThisReallyRobby();
-
             //System.Diagnostics.Process[] myProcs = System.Diagnostics.Process.GetProcesses();
 
             if (username.Trim().Length == 0 && password.Trim().Length == 0)
@@ -549,7 +548,7 @@ namespace SMFS
             //MessageBox.Show("HERE1");
             bool robby = false;
             string local_user = Environment.GetEnvironmentVariable("USERNAME").ToUpper();
-            if (local_user.Trim().ToUpper() == "ROBBY")
+            if (local_user.Trim().ToUpper() == "ROBBY" || local_user.Trim().ToUpper() == "ADAM")
             {
                 try
                 {
@@ -564,7 +563,7 @@ namespace SMFS
                     {
                     }
                     string userprofile = Environment.GetEnvironmentVariable("USERPROFILE").ToUpper();
-                    if (userprofile.IndexOf("\\USERS\\ROBBY") >= 0)
+                    if (userprofile.IndexOf("\\USERS\\ROBBY") >= 0 || userprofile.IndexOf("\\USERS\\CLIFF") >= 0)
                         robby = true;
                     //MessageBox.Show(" userprofile=" + userprofile);
                 }
@@ -582,7 +581,7 @@ namespace SMFS
             //MessageBox.Show("HERE1");
             bool robby = false;
             string local_user = Environment.GetEnvironmentVariable("USERNAME").ToUpper();
-            if (local_user.Trim().ToUpper() == "ROBBY")
+            if (local_user.Trim().ToUpper() == "ROBBY" || local_user.Trim().ToUpper() == "ADAM")
             {
                 try
                 {

@@ -276,6 +276,7 @@
             this.dailyDepositReportFromAllSourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.carsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlbMain.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -304,7 +305,7 @@
             this.btnMsg,
             this.btnClock,
             this.btnContacts});
-            this.tlbMain.Location = new System.Drawing.Point(0, 30);
+            this.tlbMain.Location = new System.Drawing.Point(0, 28);
             this.tlbMain.Name = "tlbMain";
             this.tlbMain.Size = new System.Drawing.Size(584, 39);
             this.tlbMain.TabIndex = 1;
@@ -491,10 +492,10 @@
             this.panelBottom.Controls.Add(this.labelMaximum);
             this.panelBottom.Controls.Add(this.barImport);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 69);
+            this.panelBottom.Location = new System.Drawing.Point(0, 67);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(584, 6);
+            this.panelBottom.Size = new System.Drawing.Size(584, 8);
             this.panelBottom.TabIndex = 2;
             // 
             // lblTotal
@@ -537,11 +538,12 @@
             this.helpToolStripMenuItem,
             this.miscToolStripMenuItem1,
             this.activateToolStripMenuItem,
-            this.reportsToolStripMenuItem});
+            this.reportsToolStripMenuItem,
+            this.carsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(584, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(584, 28);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -551,7 +553,7 @@
             this.toolStripMenuItem18,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem18
@@ -579,7 +581,7 @@
             this.importTrustFileDataToolStripMenuItem,
             this.importNewInsuranceCompanyToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.miscToolStripMenuItem.Text = "Imports";
             // 
             // importStartupDataToolStripMenuItem
@@ -1373,7 +1375,7 @@
             this.trustsToolStripMenuItem,
             this.insuranceToolStripMenuItem});
             this.quickStartToolStripMenuItem.Name = "quickStartToolStripMenuItem";
-            this.quickStartToolStripMenuItem.Size = new System.Drawing.Size(91, 26);
+            this.quickStartToolStripMenuItem.Size = new System.Drawing.Size(91, 24);
             this.quickStartToolStripMenuItem.Text = "QuickStart";
             // 
             // trustsToolStripMenuItem
@@ -1446,7 +1448,7 @@
             this.toolStripMenuItem24,
             this.toolStripMenuItem22});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // toolStripMenuItem17
@@ -1800,7 +1802,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
@@ -1825,7 +1827,7 @@
             this.mergeTwoSpreadsheetsToolStripMenuItem,
             this.pDFSharpToolStripMenuItem});
             this.miscToolStripMenuItem1.Name = "miscToolStripMenuItem1";
-            this.miscToolStripMenuItem1.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem1.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem1.Text = "Misc";
             // 
             // displayAuditToolStripMenuItem1
@@ -2098,7 +2100,7 @@
             this.rilesToolStripMenuItem,
             this.oldPassareSystemToolStripMenuItem});
             this.activateToolStripMenuItem.Name = "activateToolStripMenuItem";
-            this.activateToolStripMenuItem.Size = new System.Drawing.Size(77, 26);
+            this.activateToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
             this.activateToolStripMenuItem.Text = "Activate";
             // 
             // mainSystemToolStripMenuItem
@@ -2132,7 +2134,7 @@
             this.bankReportsToolStripMenuItem,
             this.dailyDepositReportFromAllSourcesToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // runACHReportToolStripMenuItem
@@ -2310,6 +2312,14 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 60000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // carsToolStripMenuItem
+            // 
+            this.carsToolStripMenuItem.Enabled = false;
+            this.carsToolStripMenuItem.Name = "carsToolStripMenuItem";
+            this.carsToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.carsToolStripMenuItem.Text = "Cars";
+            this.carsToolStripMenuItem.Click += new System.EventHandler(this.carsToolStripMenuItem_Click);
             // 
             // SMFS
             // 
@@ -2584,6 +2594,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem31;
         private System.Windows.Forms.ToolStripMenuItem preneedContactsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vernonMuseContactsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem carsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importNewInsuranceCompanyToolStripMenuItem;
     }
 }

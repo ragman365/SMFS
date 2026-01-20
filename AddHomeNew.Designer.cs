@@ -171,6 +171,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.chkExcludeOnReport = new System.Windows.Forms.CheckBox();
             this.btnShowOrders = new System.Windows.Forms.Button();
             this.txtWeb = new System.Windows.Forms.TextBox();
@@ -2413,6 +2414,7 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.SeaShell;
+            this.panelTop.Controls.Add(this.button1);
             this.panelTop.Controls.Add(this.chkExcludeOnReport);
             this.panelTop.Controls.Add(this.btnShowOrders);
             this.panelTop.Controls.Add(this.txtWeb);
@@ -2478,6 +2480,17 @@
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1658, 295);
             this.panelTop.TabIndex = 13;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(610, 259);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(155, 28);
+            this.button1.TabIndex = 169;
+            this.button1.Text = "Show Vehicles";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
             // 
             // chkExcludeOnReport
             // 
@@ -3279,5 +3292,6 @@
         private DevExpress.XtraEditors.LabelControl labelControl7;
         private System.Windows.Forms.Button btnShowOrders;
         private System.Windows.Forms.CheckBox chkExcludeOnReport;
+        private System.Windows.Forms.Button button1;
     }
 }

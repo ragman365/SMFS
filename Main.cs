@@ -149,6 +149,19 @@ namespace SMFS
         /***********************************************************************************************/
         private void SetupMenuPreferences()
         {
+            string cmd = "SELECT carsAccess FROM users WHERE userName = '" + LoginForm.username + "'";
+            DataTable userTable = G1.get_db_data(cmd);
+            if (userTable.Rows[0]["carsAccess"].ObjToString() == "True")
+            {
+                carsToolStripMenuItem.Enabled = true;
+                carsToolStripMenuItem.Visible = true;
+            }
+            else 
+            {
+                carsToolStripMenuItem.Enabled = false;
+                carsToolStripMenuItem.Visible = false;
+            }
+
             string preference = G1.getPreference(LoginForm.username, "Import Startup Data", "Allow Access");
             if (preference != "YES")
                 importStartupDataToolStripMenuItem.Enabled = false;
@@ -6091,6 +6104,14 @@ namespace SMFS
             this.Cursor = Cursors.WaitCursor;
             ImportNewInsuranceCompany importForm = new ImportNewInsuranceCompany();
             importForm.Show();
+            this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private void carsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            EditCars CarsForm = new EditCars();
+            CarsForm.Show();
             this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/

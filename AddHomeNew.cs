@@ -1937,5 +1937,19 @@ namespace SMFS
             ordersForm.Show();
         }
         /***********************************************************************************************/
+        private void button1_MouseClick(object sender, MouseEventArgs e)
+        {
+            // Created by: Adam Sloan 1/14/2025
+            // Purpose: to open the Cars.cs module only showing cars and maintenance from the selected location.
+
+            // Retrieve location from the form.
+            string locCode = txtLocationCode.Text.ObjToString();
+            
+            // Open the form EditCars.cs passing locCode as an argument
+            EditCars carsForm = new EditCars(locCode);
+            carsForm.Show();
+            
+        }
+        /***********************************************************************************************/
     }
 }
