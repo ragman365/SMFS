@@ -287,10 +287,10 @@ namespace SMFS
             // 
             this.panelAllMain.Controls.Add(this.tabControl1);
             this.panelAllMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAllMain.Location = new System.Drawing.Point(0, 28);
+            this.panelAllMain.Location = new System.Drawing.Point(0, 30);
             this.panelAllMain.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelAllMain.Name = "panelAllMain";
-            this.panelAllMain.Size = new System.Drawing.Size(1448, 507);
+            this.panelAllMain.Size = new System.Drawing.Size(1448, 505);
             this.panelAllMain.TabIndex = 0;
             // 
             // tabControl1
@@ -305,7 +305,7 @@ namespace SMFS
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1448, 507);
+            this.tabControl1.Size = new System.Drawing.Size(1448, 505);
             this.tabControl1.TabIndex = 1;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseClick);
@@ -317,7 +317,7 @@ namespace SMFS
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tabPage1.Size = new System.Drawing.Size(1440, 478);
+            this.tabPage1.Size = new System.Drawing.Size(1440, 476);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Vehicles";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -330,7 +330,7 @@ namespace SMFS
             this.panelAll.Location = new System.Drawing.Point(2, 3);
             this.panelAll.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1436, 472);
+            this.panelAll.Size = new System.Drawing.Size(1436, 470);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -340,7 +340,7 @@ namespace SMFS
             this.panelBottom.Location = new System.Drawing.Point(0, 53);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1436, 419);
+            this.panelBottom.Size = new System.Drawing.Size(1436, 417);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -353,7 +353,7 @@ namespace SMFS
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1436, 419);
+            this.dgv.Size = new System.Drawing.Size(1436, 417);
             this.dgv.TabIndex = 12;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain,
@@ -2971,7 +2971,7 @@ namespace SMFS
             this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1448, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1448, 30);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2981,7 +2981,7 @@ namespace SMFS
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -3017,7 +3017,7 @@ namespace SMFS
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // importToolStripMenuItem
