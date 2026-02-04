@@ -54,6 +54,7 @@ namespace SMFS
             //LoadYears();
         }
         /***********************************************************************************************/
+        private bool editing = false;
         public ImportTrustFile(string what, string company, string contractNumber, DateTime date )
         {
             InitializeComponent();
@@ -66,6 +67,8 @@ namespace SMFS
             lblTrust.Hide();
 
             SetupTotalsSummary();
+
+            editing = true;
         }
         /****************************************************************************************/
         private void SetupTotalsSummary()
@@ -302,6 +305,11 @@ namespace SMFS
 
             if (!String.IsNullOrWhiteSpace(workContract))
             {
+                if (workCompany.ToUpper().Contains("UNITY"))
+                    workCompany = "Unity";
+                else if (workCompany.ToUpper().Contains("FDLIC"))
+                    workCompany = "FDLIC";
+
                 LoadContractData();
                 chkShowAll.Show();
                 chkShowAll.Refresh();
@@ -784,6 +792,7 @@ namespace SMFS
             double deathClaimAmount = 0D;
             double reducedPaidUp = 0D;
             string deathPaidDate = "";
+            double totalPaidIn = 0D;
 
             string insuredName = "";
             string lastName = "";
@@ -887,9 +896,11 @@ namespace SMFS
                 }
 
                 this.Cursor = Cursors.WaitCursor;
+                string trustCompany = "";
 
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
+                    trustCompany = dt.Rows[i]["trustCompany"].ObjToString();
                     trustName = dt.Rows[i]["trustName"].ObjToString();
                     policyNumber = dt.Rows[i]["policyNumber"].ObjToString();
                     preOrPost = dt.Rows[i]["preOrPost"].ObjToString();
@@ -906,6 +917,7 @@ namespace SMFS
                     deathClaimAmount = dt.Rows[i]["deathClaimAmount"].ObjToDouble();
                     reducedPaidUp = dt.Rows[i]["reducedPaidUpAmount"].ObjToDouble();
                     deathPaidDate = dt.Rows[i]["deathPaidDate"].ObjToString();
+                    totalPaidIn = dt.Rows[i]["totalPaidInAtClaim"].ObjToDouble();
 
                     downPayments = dt.Rows[i]["downPayments"].ObjToDouble();
                     payments = dt.Rows[i]["Payments"].ObjToDouble();
@@ -923,6 +935,10 @@ namespace SMFS
                     middleName = dt.Rows[i]["middleName"].ObjToString();
 
                     G1.update_db_table("trust_data", "record", record, new string[] { "status", "", "preOrPost", preOrPost, "date", date.ToString("yyyyMMdd"), "trustCompany", company, "trustName", trustName, "contractNumber", contractNumber, "policyNumber", policyNumber, "beginningPaymentBalance", premium.ToString(), "beginningDeathBenefit", surrender.ToString(), "endingPaymentBalance", faceAmount.ToString(), "endingDeathBenefit", deathBenefit.ToString(), "insuredName", insuredName, "lastName", lastName, "firstName", firstName, "middleName", middleName, "downPayments", downPayments.ToString(), "Payments", payments.ToString(), "growth", growth.ToString(), "deathClaimAmount", deathClaimAmount.ToString(), "deathPaidDate", deathPaidDate, "reducedPaidUpAmount", reducedPaidUp.ToString() });
+
+                    if ( editing )
+                        G1.update_db_table("trust_data", "record", record, new string[] { "totalPaidInAtClaim", totalPaidIn.ToString(), "trustCompany", trustCompany });
+
                 }
                 this.Cursor = Cursors.Default;
                 btnSave.Hide();
@@ -1810,6 +1826,13 @@ namespace SMFS
 
                 filename = filename.Trim();
                 filename = filename.ToUpper().Replace("ACTIVE", "DC");
+                if ( !File.Exists ( filename ))
+                {
+                    if (filename.ToUpper().IndexOf("XLS") > 0)
+                        filename = filename.Replace("XLS", "XLSX");
+                    else if (filename.ToUpper().IndexOf("XLSX") > 0)
+                        filename = filename.Replace("XLSX", "XLS");
+                }
 
                 DataTable dt = ExcelWriter.ReadFile2(filename);
                 if (dt.Rows.Count <= 0)
@@ -1947,6 +1970,7 @@ namespace SMFS
             }
             catch ( Exception ex )
             {
+                MessageBox.Show("***ERROR*** " + ex.Message.ToString(), "Trying to Read File", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
 
             workDC = false;
@@ -3443,6 +3467,10 @@ namespace SMFS
                 dt.Columns.Add("reducedPaidUpAmount", Type.GetType("System.Double"));
             //if (G1.get_column_number(dt, "deathPaidDate") < 0)
             //    dt.Columns.Add("deathPaidDate");
+
+            if ( G1.get_column_number ( dt, "Date Claim Processed" ) < 0 )
+                dt.Columns.Add("Date Claim Processed");
+
 
             string[] Lines = null;
 

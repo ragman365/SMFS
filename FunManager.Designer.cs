@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FunManager));
-            DevExpress.Utils.ContextButton contextButton2 = new DevExpress.Utils.ContextButton();
+            DevExpress.Utils.ContextButton contextButton1 = new DevExpress.Utils.ContextButton();
             this.panelAll = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -156,9 +156,9 @@
             this.bandedGridColumn69 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn143 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.bandedGridColumn70 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.bandedGridColumn147 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Num = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.balanceDue6 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.bandedGridColumn147 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.tabServices = new System.Windows.Forms.TabPage();
             this.dgv2 = new DevExpress.XtraGrid.GridControl();
             this.gridMain2 = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
@@ -280,6 +280,7 @@
             this.repositoryItemCheckEdit9 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemCheckEdit7 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.chkExcludePending = new System.Windows.Forms.CheckBox();
             this.chkPastCosts = new System.Windows.Forms.CheckBox();
             this.btnZeros = new System.Windows.Forms.Button();
             this.btnCompare = new System.Windows.Forms.Button();
@@ -2195,6 +2196,18 @@
             this.bandedGridColumn70.Visible = true;
             this.bandedGridColumn70.Width = 116;
             // 
+            // bandedGridColumn147
+            // 
+            this.bandedGridColumn147.Caption = "Pending Trust";
+            this.bandedGridColumn147.DisplayFormat.FormatString = "N2";
+            this.bandedGridColumn147.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.bandedGridColumn147.FieldName = "pendingTrust";
+            this.bandedGridColumn147.MinWidth = 25;
+            this.bandedGridColumn147.Name = "bandedGridColumn147";
+            this.bandedGridColumn147.OptionsColumn.FixedWidth = true;
+            this.bandedGridColumn147.Visible = true;
+            this.bandedGridColumn147.Width = 94;
+            // 
             // Num
             // 
             this.Num.AppearanceHeader.Options.UseTextOptions = true;
@@ -2220,18 +2233,6 @@
             this.balanceDue6.OptionsColumn.FixedWidth = true;
             this.balanceDue6.Visible = true;
             this.balanceDue6.Width = 116;
-            // 
-            // bandedGridColumn147
-            // 
-            this.bandedGridColumn147.Caption = "Pending Trust";
-            this.bandedGridColumn147.DisplayFormat.FormatString = "N2";
-            this.bandedGridColumn147.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.bandedGridColumn147.FieldName = "pendingTrust";
-            this.bandedGridColumn147.MinWidth = 25;
-            this.bandedGridColumn147.Name = "bandedGridColumn147";
-            this.bandedGridColumn147.OptionsColumn.FixedWidth = true;
-            this.bandedGridColumn147.Visible = true;
-            this.bandedGridColumn147.Width = 94;
             // 
             // tabServices
             // 
@@ -4172,6 +4173,7 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Beige;
+            this.panelTop.Controls.Add(this.chkExcludePending);
             this.panelTop.Controls.Add(this.chkPastCosts);
             this.panelTop.Controls.Add(this.btnZeros);
             this.panelTop.Controls.Add(this.btnCompare);
@@ -4210,6 +4212,16 @@
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1754, 105);
             this.panelTop.TabIndex = 1;
+            // 
+            // chkExcludePending
+            // 
+            this.chkExcludePending.AutoSize = true;
+            this.chkExcludePending.Location = new System.Drawing.Point(1390, 81);
+            this.chkExcludePending.Name = "chkExcludePending";
+            this.chkExcludePending.Size = new System.Drawing.Size(173, 21);
+            this.chkExcludePending.TabIndex = 164;
+            this.chkExcludePending.Text = "Exclude Pending Trusts";
+            this.chkExcludePending.UseVisualStyleBackColor = true;
             // 
             // chkPastCosts
             // 
@@ -4621,10 +4633,10 @@
             // 
             // repositoryItemPictureEdit1
             // 
-            contextButton2.Caption = "contextButton1";
-            contextButton2.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
-            contextButton2.Name = "contextButton1";
-            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton2);
+            contextButton1.Caption = "contextButton1";
+            contextButton1.Id = new System.Guid("7020ad83-ad48-4296-8d4d-5a08a0a3f273");
+            contextButton1.Name = "contextButton1";
+            this.repositoryItemPictureEdit1.ContextButtons.Add(contextButton1);
             this.repositoryItemPictureEdit1.Name = "repositoryItemPictureEdit1";
             // 
             // repositoryItemMemoEdit1
@@ -4664,7 +4676,7 @@
             this.toolStripRemoveFormat,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -4720,7 +4732,7 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // miscToolStripMenuItem
             // 
@@ -4728,7 +4740,7 @@
             this.lockScreenFormatToolStripMenuItem,
             this.unLockScreenFormatToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // lockScreenFormatToolStripMenuItem
@@ -5125,5 +5137,6 @@
         private System.Windows.Forms.ToolStripMenuItem clarifyItemToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkPastCosts;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn147;
+        private System.Windows.Forms.CheckBox chkExcludePending;
     }
 }

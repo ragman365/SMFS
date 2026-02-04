@@ -3248,6 +3248,22 @@ namespace SMFS
                 date = dt.Rows[i]["tmstamp"].ObjToDateTime().ToString("MM/dd/yyyy");
                 dt.Rows[i]["sDate"] = date;
             }
+
+            if (DailyHistory.isInsurance(workContract))
+            {
+                if (workPayer.IndexOf("CA-") == 0 || workPayer.IndexOf("EV-") == 0)
+                {
+                    date = "01/21/2026";
+                    DataRow dRow = dt.NewRow();
+                    dRow["sDate"] = date;
+                    if ( workPayer.IndexOf("CA-") == 0 )
+                        dRow["detail"] = "CA Spreadsheet";
+                    else if (workPayer.IndexOf("EV-") == 0)
+                        dRow["detail"] = "EV Spreadsheet";
+                    dt.Rows.InsertAt(dRow, 0);
+                }
+            }
+
             G1.NumberDataTable(dt);
             dgv6.DataSource = dt;
         }
@@ -5847,6 +5863,24 @@ namespace SMFS
             foundPolicyPreference = false;
         }
         /***********************************************************************************************/
+        private void ShowCAEV ( string detail )
+        {
+            string tab = "";
+            string filename = @"C:\SMFS_Other\CA_EV_Class A File For Import";
+            if (detail.ToUpper() == "EV SPREADSHEET")
+                tab = "EV";
+            else if (detail.ToUpper() == "CA SPREADSHEET")
+                tab = "CA";
+
+            if (!String.IsNullOrWhiteSpace(tab))
+            {
+                this.Cursor = Cursors.WaitCursor;
+                ImportNewInsuranceCompany importForm = new ImportNewInsuranceCompany(filename, tab );
+                importForm.Show();
+                this.Cursor = Cursors.Default;
+            }
+        }
+        /***********************************************************************************************/
         private void gridMain6_DoubleClick(object sender, EventArgs e)
         {
             DataRow dr = gridMain6.GetFocusedDataRow();
@@ -5854,6 +5888,11 @@ namespace SMFS
             string type = dr["type"].ObjToString();
             string date = dr["noticeDate"].ObjToString();
             string detail = dr["detail"].ObjToString();
+            if ( detail.ToUpper() == "EV SPREADSHEET"  || detail.ToUpper() == "CA SPREADSHEET" )
+            {
+                ShowCAEV( detail );
+                return;
+            }
             string str = G1.get_db_blob("lapse_notices", record, "image");
             if (str.IndexOf("PDF") > 0)
             {

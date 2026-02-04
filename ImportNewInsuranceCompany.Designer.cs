@@ -73,7 +73,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1659, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1659, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -83,7 +83,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -120,7 +120,7 @@
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteAllVersion20DataToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // deleteAllVersion20DataToolStripMenuItem
@@ -135,10 +135,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 30);
+            this.panelAll.Location = new System.Drawing.Point(0, 28);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1659, 560);
+            this.panelAll.Size = new System.Drawing.Size(1659, 562);
             this.panelAll.TabIndex = 6;
             // 
             // panelBottom
@@ -148,7 +148,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 47);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1659, 513);
+            this.panelBottom.Size = new System.Drawing.Size(1659, 515);
             this.panelBottom.TabIndex = 8;
             // 
             // tabControl1
@@ -159,7 +159,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1659, 513);
+            this.tabControl1.Size = new System.Drawing.Size(1659, 515);
             this.tabControl1.TabIndex = 5;
             // 
             // tabPage1
@@ -169,7 +169,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(1651, 484);
+            this.tabPage1.Size = new System.Drawing.Size(1651, 486);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Pulled Data";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -182,7 +182,7 @@
             this.dgv.MainView = this.gridMain;
             this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1645, 476);
+            this.dgv.Size = new System.Drawing.Size(1645, 478);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});

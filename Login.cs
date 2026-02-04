@@ -534,6 +534,7 @@ namespace SMFS
                 else
                     this.Close();
             }
+            //MessageBox.Show("***INFO*** Got In!", "Login Dialog", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
         /**************************************************************************************/
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)

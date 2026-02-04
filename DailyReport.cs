@@ -299,6 +299,15 @@ namespace SMFS
             dt = G1.get_db_data(cmd);
             if (dt.Rows.Count > 0)
                 return true;
+
+            cmd = "Select * from `payments` where `payDate8` >= '" + date1 + "' AND `payDate8` <= '" + date2 + "' AND `edited` = 'MANUAL' LIMIT 1;";
+            dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count > 0)
+                return true;
+            cmd = "Select * from `ipayments` where `payDate8` >= '" + date1 + "' AND `payDate8` <= '" + date2 + "' AND `edited` = 'MANUAL' LIMIT 1;";
+            dt = G1.get_db_data(cmd);
+            if (dt.Rows.Count > 0)
+                return true;
             return false;
         }
         /****************************************************************************************/
@@ -581,6 +590,14 @@ namespace SMFS
             if ( insurance )
                 cmd = "Select * from `ipayments` p JOIN `icontracts` c ON p.`contractNumber` = c.`contractNumber` JOIN `icustomers` m ON p.`contractNumber` = m.`contractNumber` where p.`tmstamp` >= '" + date1 + "' AND p.`tmstamp` <= '" + date2 + "' AND `edited` = 'MANUAL' ORDER BY p.`tmstamp` DESC;";
             DataTable dx = G1.get_db_data(cmd);
+
+            if ( dx.Rows.Count <= 0 || 1 == 1)
+            {
+                cmd = "Select * from `payments` p JOIN `contracts` c ON p.`contractNumber` = c.`contractNumber` JOIN `customers` m ON p.`contractNumber` = m.`contractNumber` where p.`payDate8` >= '" + date1 + "' AND p.`payDate8` <= '" + date2 + "' AND `edited` = 'MANUAL' ORDER BY p.`tmstamp` DESC;";
+                if (insurance)
+                    cmd = "Select * from `ipayments` p JOIN `icontracts` c ON p.`contractNumber` = c.`contractNumber` JOIN `icustomers` m ON p.`contractNumber` = m.`contractNumber` where p.`payDate8` >= '" + date1 + "' AND p.`payDate8` <= '" + date2 + "' AND `edited` = 'MANUAL' ORDER BY p.`tmstamp` DESC;";
+                dx = G1.get_db_data(cmd);
+            }
             string name = "";
             double apr = 0D;
             double expected = 0D;

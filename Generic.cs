@@ -313,13 +313,14 @@ namespace GeneralLib
         public static bool firstSQL = true;
         public static MySqlConnection conn1
         {
+            //ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_actual_password';
             get
             {
                 //if ( firstSQL)
                 //    MessageBox.Show("HERE BEFORE SERVER!");
                 string server = ConfigurationValue("server").ToString();
                 //                if (G1.RobbyServer)
-                server = ConfigurationValue("RobbyServer").ToString();
+                //server = ConfigurationValue("RobbyServer").ToString();
                 string database = ConfigurationValue("database").ToString();
                 if ( oldCopy )
                     database = ConfigurationValue("database2").ToString();
@@ -342,7 +343,9 @@ namespace GeneralLib
                         ";database=" + ConfigurationValue("database").ToString() +
                     //                    ";uid=smfsus;password=P@ssword.1090;allow zero datetime = yes");
                     //                return new MySqlConnection("host=" + ConfigurationValue("server").ToString() +
-                    ";uid=root;password=P@ssword.1090;allow zero datetime = yes");
+                    //";uid=root;password=P@ssword.1090;allow zero datetime = yes;SslMode=None;CheckParameters=false;ConnectionProtocol=Tcp;AllowPublicKeyRetrieval=true;ConvertZeroDateTime=true");
+                    //";uid=root;password=P@ssword.1090;allow zero datetime = yes;SslMode=None;CheckParameters=false;ConnectionProtocol=Tcp;AllowPublicKeyRetrieval=true;");
+                    ";uid=root;password=P@ssword.1090;allow zero datetime=True");
                 }
                 else
                 {
@@ -350,6 +353,7 @@ namespace GeneralLib
                         ";database=" + ConfigurationValue("database2").ToString() +
                     //                    ";uid=smfsus;password=P@ssword.1090;allow zero datetime = yes");
                     //                return new MySqlConnection("host=" + ConfigurationValue("server").ToString() +
+                    //";uid=root;password=P@ssword.1090;allow zero datetime = yes");
                     ";uid=root;password=P@ssword.1090;allow zero datetime = yes");
                 }
                 //if (firstSQL)
@@ -836,6 +840,7 @@ namespace GeneralLib
                     counter = counter + 1;
                     if (counter > 5)
                     {
+                        //ex.InnerException.Message
                         string str = "***ERROR*** In SQL Database Connection!\n";
                         str += ex.Message + "\n";
                         str += "Keep Trying?";

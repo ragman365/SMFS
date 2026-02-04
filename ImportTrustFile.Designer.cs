@@ -206,8 +206,8 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1659, 30);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1658, 30);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -255,9 +255,9 @@
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAll.Location = new System.Drawing.Point(0, 30);
-            this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelAll.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1659, 354);
+            this.panelAll.Size = new System.Drawing.Size(1658, 354);
             this.panelAll.TabIndex = 6;
             // 
             // panelBottom
@@ -265,9 +265,9 @@
             this.panelBottom.Controls.Add(this.tabControl1);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBottom.Location = new System.Drawing.Point(0, 47);
-            this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelBottom.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1659, 307);
+            this.panelBottom.Size = new System.Drawing.Size(1658, 307);
             this.panelBottom.TabIndex = 8;
             // 
             // tabControl1
@@ -278,20 +278,20 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1659, 307);
+            this.tabControl1.Size = new System.Drawing.Size(1658, 307);
             this.tabControl1.TabIndex = 5;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.dgv);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(1651, 278);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.tabPage1.Size = new System.Drawing.Size(1650, 278);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Pulled Data";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -300,12 +300,12 @@
             // 
             this.dgv.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgv.Location = new System.Drawing.Point(3, 4);
+            this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.dgv.Location = new System.Drawing.Point(2, 4);
             this.dgv.MainView = this.gridMain;
-            this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1645, 270);
+            this.dgv.Size = new System.Drawing.Size(1646, 270);
             this.dgv.TabIndex = 4;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -531,7 +531,7 @@
             this.gridBand5.MinWidth = 22;
             this.gridBand5.Name = "gridBand5";
             this.gridBand5.VisibleIndex = 0;
-            this.gridBand5.Width = 2959;
+            this.gridBand5.Width = 2958;
             // 
             // bandedGridColumn1
             // 
@@ -554,7 +554,7 @@
             this.bandedGridColumn19.DisplayFormat.FormatString = "yyyyMMDD";
             this.bandedGridColumn19.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.bandedGridColumn19.FieldName = "date";
-            this.bandedGridColumn19.MinWidth = 25;
+            this.bandedGridColumn19.MinWidth = 24;
             this.bandedGridColumn19.Name = "bandedGridColumn19";
             this.bandedGridColumn19.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn19.Visible = true;
@@ -578,7 +578,7 @@
             this.bandedGridColumn18.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn18.Caption = "Trust Company";
             this.bandedGridColumn18.FieldName = "trustCompany";
-            this.bandedGridColumn18.MinWidth = 25;
+            this.bandedGridColumn18.MinWidth = 24;
             this.bandedGridColumn18.Name = "bandedGridColumn18";
             this.bandedGridColumn18.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn18.Visible = true;
@@ -602,7 +602,7 @@
             this.bandedGridColumn24.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn24.Caption = "Previous Trust Found";
             this.bandedGridColumn24.FieldName = "found";
-            this.bandedGridColumn24.MinWidth = 25;
+            this.bandedGridColumn24.MinWidth = 24;
             this.bandedGridColumn24.Name = "bandedGridColumn24";
             this.bandedGridColumn24.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn24.Visible = true;
@@ -718,10 +718,9 @@
             this.bandedGridColumn5.FieldName = "beginningDeathBenefit";
             this.bandedGridColumn5.MinWidth = 42;
             this.bandedGridColumn5.Name = "bandedGridColumn5";
-            this.bandedGridColumn5.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn5.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn5.Visible = true;
-            this.bandedGridColumn5.Width = 109;
+            this.bandedGridColumn5.Width = 108;
             // 
             // bandedGridColumn13
             // 
@@ -735,7 +734,6 @@
             this.bandedGridColumn13.FieldName = "endingPaymentBalance";
             this.bandedGridColumn13.MinWidth = 42;
             this.bandedGridColumn13.Name = "bandedGridColumn13";
-            this.bandedGridColumn13.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn13.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn13.Visible = true;
             this.bandedGridColumn13.Width = 126;
@@ -748,7 +746,7 @@
             this.bandedGridColumn17.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn17.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn17.FieldName = "growth";
-            this.bandedGridColumn17.MinWidth = 25;
+            this.bandedGridColumn17.MinWidth = 24;
             this.bandedGridColumn17.Name = "bandedGridColumn17";
             this.bandedGridColumn17.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn17.Visible = true;
@@ -766,7 +764,6 @@
             this.bandedGridColumn10.FieldName = "endingDeathBenefit";
             this.bandedGridColumn10.MinWidth = 42;
             this.bandedGridColumn10.Name = "bandedGridColumn10";
-            this.bandedGridColumn10.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn10.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn10.Visible = true;
             this.bandedGridColumn10.Width = 125;
@@ -779,7 +776,7 @@
             this.bandedGridColumn101.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn101.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn101.FieldName = "reducedPaidUpAmount";
-            this.bandedGridColumn101.MinWidth = 25;
+            this.bandedGridColumn101.MinWidth = 24;
             this.bandedGridColumn101.Name = "bandedGridColumn101";
             this.bandedGridColumn101.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn101.Visible = true;
@@ -793,7 +790,7 @@
             this.bandedGridColumn22.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn22.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn22.FieldName = "deathClaimAmount";
-            this.bandedGridColumn22.MinWidth = 25;
+            this.bandedGridColumn22.MinWidth = 24;
             this.bandedGridColumn22.Name = "bandedGridColumn22";
             this.bandedGridColumn22.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn22.Visible = true;
@@ -805,7 +802,7 @@
             this.bandedGridColumn23.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn23.Caption = "Death Paid Date";
             this.bandedGridColumn23.FieldName = "deathPaidDate";
-            this.bandedGridColumn23.MinWidth = 25;
+            this.bandedGridColumn23.MinWidth = 24;
             this.bandedGridColumn23.Name = "bandedGridColumn23";
             this.bandedGridColumn23.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn23.Visible = true;
@@ -819,7 +816,7 @@
             this.bandedGridColumn21.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn21.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn21.FieldName = "priorUnappliedCash";
-            this.bandedGridColumn21.MinWidth = 25;
+            this.bandedGridColumn21.MinWidth = 24;
             this.bandedGridColumn21.Name = "bandedGridColumn21";
             this.bandedGridColumn21.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn21.Visible = true;
@@ -833,7 +830,7 @@
             this.bandedGridColumn20.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn20.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn20.FieldName = "currentUnappliedCash";
-            this.bandedGridColumn20.MinWidth = 25;
+            this.bandedGridColumn20.MinWidth = 24;
             this.bandedGridColumn20.Name = "bandedGridColumn20";
             this.bandedGridColumn20.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn20.Visible = true;
@@ -847,7 +844,7 @@
             this.bandedGridColumn110.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn110.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn110.FieldName = "totalPaidInAtClaim";
-            this.bandedGridColumn110.MinWidth = 25;
+            this.bandedGridColumn110.MinWidth = 24;
             this.bandedGridColumn110.Name = "bandedGridColumn110";
             this.bandedGridColumn110.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn110.Visible = true;
@@ -895,7 +892,7 @@
             this.bandedGridColumn102.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn102.Caption = "Policy Extract_Billing Reason";
             this.bandedGridColumn102.FieldName = "billingReason";
-            this.bandedGridColumn102.MinWidth = 25;
+            this.bandedGridColumn102.MinWidth = 24;
             this.bandedGridColumn102.Name = "bandedGridColumn102";
             this.bandedGridColumn102.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn102.Visible = true;
@@ -907,7 +904,7 @@
             this.bandedGridColumn97.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn97.Caption = "Policy Extract_Status Reason";
             this.bandedGridColumn97.FieldName = "statusReason";
-            this.bandedGridColumn97.MinWidth = 25;
+            this.bandedGridColumn97.MinWidth = 24;
             this.bandedGridColumn97.Name = "bandedGridColumn97";
             this.bandedGridColumn97.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn97.Visible = true;
@@ -919,7 +916,7 @@
             this.bandedGridColumn109.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn109.Caption = "Policy Status";
             this.bandedGridColumn109.FieldName = "policyStatus";
-            this.bandedGridColumn109.MinWidth = 25;
+            this.bandedGridColumn109.MinWidth = 24;
             this.bandedGridColumn109.Name = "bandedGridColumn109";
             this.bandedGridColumn109.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn109.Visible = true;
@@ -929,8 +926,9 @@
             // 
             this.tabPage2.Controls.Add(this.dgv2);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(1651, 278);
+            this.tabPage2.Size = new System.Drawing.Size(1650, 278);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "DC";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -939,12 +937,12 @@
             // 
             this.dgv2.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv2.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv2.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv2.Location = new System.Drawing.Point(0, 0);
             this.dgv2.MainView = this.gridMain2;
-            this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv2.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv2.Name = "dgv2";
-            this.dgv2.Size = new System.Drawing.Size(1651, 278);
+            this.dgv2.Size = new System.Drawing.Size(1650, 278);
             this.dgv2.TabIndex = 5;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1147,7 +1145,7 @@
             this.gridBand1.MinWidth = 22;
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 2688;
+            this.gridBand1.Width = 2687;
             // 
             // bandedGridColumn25
             // 
@@ -1180,7 +1178,7 @@
             this.bandedGridColumn27.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn27.Caption = "Trust Company";
             this.bandedGridColumn27.FieldName = "trustCompany";
-            this.bandedGridColumn27.MinWidth = 25;
+            this.bandedGridColumn27.MinWidth = 24;
             this.bandedGridColumn27.Name = "bandedGridColumn27";
             this.bandedGridColumn27.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn27.Visible = true;
@@ -1204,7 +1202,7 @@
             this.bandedGridColumn29.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn29.Caption = "Previous Trust Found";
             this.bandedGridColumn29.FieldName = "found";
-            this.bandedGridColumn29.MinWidth = 25;
+            this.bandedGridColumn29.MinWidth = 24;
             this.bandedGridColumn29.Name = "bandedGridColumn29";
             this.bandedGridColumn29.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn29.Visible = true;
@@ -1324,7 +1322,7 @@
             this.bandedGridColumn37.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn37.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn37.Visible = true;
-            this.bandedGridColumn37.Width = 109;
+            this.bandedGridColumn37.Width = 108;
             // 
             // bandedGridColumn38
             // 
@@ -1351,7 +1349,7 @@
             this.bandedGridColumn39.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn39.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn39.FieldName = "growth";
-            this.bandedGridColumn39.MinWidth = 25;
+            this.bandedGridColumn39.MinWidth = 24;
             this.bandedGridColumn39.Name = "bandedGridColumn39";
             this.bandedGridColumn39.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn39.Visible = true;
@@ -1382,7 +1380,7 @@
             this.bandedGridColumn41.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn41.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn41.FieldName = "reducedPaidUpAmount";
-            this.bandedGridColumn41.MinWidth = 25;
+            this.bandedGridColumn41.MinWidth = 24;
             this.bandedGridColumn41.Name = "bandedGridColumn41";
             this.bandedGridColumn41.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn41.Visible = true;
@@ -1396,7 +1394,7 @@
             this.bandedGridColumn42.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn42.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn42.FieldName = "deathClaimAmount";
-            this.bandedGridColumn42.MinWidth = 25;
+            this.bandedGridColumn42.MinWidth = 24;
             this.bandedGridColumn42.Name = "bandedGridColumn42";
             this.bandedGridColumn42.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn42.Visible = true;
@@ -1408,7 +1406,7 @@
             this.bandedGridColumn43.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn43.Caption = "Death Paid Date";
             this.bandedGridColumn43.FieldName = "deathPaidDate";
-            this.bandedGridColumn43.MinWidth = 25;
+            this.bandedGridColumn43.MinWidth = 24;
             this.bandedGridColumn43.Name = "bandedGridColumn43";
             this.bandedGridColumn43.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn43.Visible = true;
@@ -1422,7 +1420,7 @@
             this.bandedGridColumn44.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn44.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn44.FieldName = "priorUnappliedCash";
-            this.bandedGridColumn44.MinWidth = 25;
+            this.bandedGridColumn44.MinWidth = 24;
             this.bandedGridColumn44.Name = "bandedGridColumn44";
             this.bandedGridColumn44.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn44.Visible = true;
@@ -1436,7 +1434,7 @@
             this.bandedGridColumn45.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn45.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn45.FieldName = "currentUnappliedCash";
-            this.bandedGridColumn45.MinWidth = 25;
+            this.bandedGridColumn45.MinWidth = 24;
             this.bandedGridColumn45.Name = "bandedGridColumn45";
             this.bandedGridColumn45.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn45.Visible = true;
@@ -1484,7 +1482,7 @@
             this.bandedGridColumn49.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn49.Caption = "Policy Extract_Status Reason";
             this.bandedGridColumn49.FieldName = "statusReason";
-            this.bandedGridColumn49.MinWidth = 25;
+            this.bandedGridColumn49.MinWidth = 24;
             this.bandedGridColumn49.Name = "bandedGridColumn49";
             this.bandedGridColumn49.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn49.Visible = true;
@@ -1496,7 +1494,7 @@
             this.bandedGridColumn50.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn50.Caption = "Policy Extract_Billing Reason";
             this.bandedGridColumn50.FieldName = "billingReason";
-            this.bandedGridColumn50.MinWidth = 25;
+            this.bandedGridColumn50.MinWidth = 24;
             this.bandedGridColumn50.Name = "bandedGridColumn50";
             this.bandedGridColumn50.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn50.Visible = true;
@@ -1508,7 +1506,7 @@
             this.bandedGridColumn51.DisplayFormat.FormatString = "yyyyMMDD";
             this.bandedGridColumn51.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.bandedGridColumn51.FieldName = "date";
-            this.bandedGridColumn51.MinWidth = 25;
+            this.bandedGridColumn51.MinWidth = 24;
             this.bandedGridColumn51.Name = "bandedGridColumn51";
             this.bandedGridColumn51.Visible = true;
             this.bandedGridColumn51.Width = 94;
@@ -1517,8 +1515,9 @@
             // 
             this.tabPage3.Controls.Add(this.dgv3);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1651, 278);
+            this.tabPage3.Size = new System.Drawing.Size(1650, 278);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Last Month";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1527,12 +1526,12 @@
             // 
             this.dgv3.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv3.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv3.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv3.Location = new System.Drawing.Point(0, 0);
             this.dgv3.MainView = this.gridMain3;
-            this.dgv3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv3.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv3.Name = "dgv3";
-            this.dgv3.Size = new System.Drawing.Size(1651, 278);
+            this.dgv3.Size = new System.Drawing.Size(1650, 278);
             this.dgv3.TabIndex = 5;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -1735,7 +1734,7 @@
             this.gridBand2.MinWidth = 22;
             this.gridBand2.Name = "gridBand2";
             this.gridBand2.VisibleIndex = 0;
-            this.gridBand2.Width = 2688;
+            this.gridBand2.Width = 2687;
             // 
             // bandedGridColumn52
             // 
@@ -1768,7 +1767,7 @@
             this.bandedGridColumn54.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn54.Caption = "Trust Company";
             this.bandedGridColumn54.FieldName = "trustCompany";
-            this.bandedGridColumn54.MinWidth = 25;
+            this.bandedGridColumn54.MinWidth = 24;
             this.bandedGridColumn54.Name = "bandedGridColumn54";
             this.bandedGridColumn54.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn54.Visible = true;
@@ -1792,7 +1791,7 @@
             this.bandedGridColumn56.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn56.Caption = "Previous Trust Found";
             this.bandedGridColumn56.FieldName = "found";
-            this.bandedGridColumn56.MinWidth = 25;
+            this.bandedGridColumn56.MinWidth = 24;
             this.bandedGridColumn56.Name = "bandedGridColumn56";
             this.bandedGridColumn56.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn56.Visible = true;
@@ -1912,7 +1911,7 @@
             this.bandedGridColumn64.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn64.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn64.Visible = true;
-            this.bandedGridColumn64.Width = 109;
+            this.bandedGridColumn64.Width = 108;
             // 
             // bandedGridColumn65
             // 
@@ -1939,7 +1938,7 @@
             this.bandedGridColumn66.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn66.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn66.FieldName = "growth";
-            this.bandedGridColumn66.MinWidth = 25;
+            this.bandedGridColumn66.MinWidth = 24;
             this.bandedGridColumn66.Name = "bandedGridColumn66";
             this.bandedGridColumn66.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn66.Visible = true;
@@ -1970,7 +1969,7 @@
             this.bandedGridColumn68.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn68.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn68.FieldName = "reducedPaidUpAmount";
-            this.bandedGridColumn68.MinWidth = 25;
+            this.bandedGridColumn68.MinWidth = 24;
             this.bandedGridColumn68.Name = "bandedGridColumn68";
             this.bandedGridColumn68.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn68.Visible = true;
@@ -1984,7 +1983,7 @@
             this.bandedGridColumn69.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn69.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn69.FieldName = "deathClaimAmount";
-            this.bandedGridColumn69.MinWidth = 25;
+            this.bandedGridColumn69.MinWidth = 24;
             this.bandedGridColumn69.Name = "bandedGridColumn69";
             this.bandedGridColumn69.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn69.Visible = true;
@@ -1996,7 +1995,7 @@
             this.bandedGridColumn70.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn70.Caption = "Death Paid Date";
             this.bandedGridColumn70.FieldName = "deathPaidDate";
-            this.bandedGridColumn70.MinWidth = 25;
+            this.bandedGridColumn70.MinWidth = 24;
             this.bandedGridColumn70.Name = "bandedGridColumn70";
             this.bandedGridColumn70.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn70.Visible = true;
@@ -2010,7 +2009,7 @@
             this.bandedGridColumn71.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn71.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn71.FieldName = "priorUnappliedCash";
-            this.bandedGridColumn71.MinWidth = 25;
+            this.bandedGridColumn71.MinWidth = 24;
             this.bandedGridColumn71.Name = "bandedGridColumn71";
             this.bandedGridColumn71.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn71.Visible = true;
@@ -2024,7 +2023,7 @@
             this.bandedGridColumn72.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn72.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn72.FieldName = "currentUnappliedCash";
-            this.bandedGridColumn72.MinWidth = 25;
+            this.bandedGridColumn72.MinWidth = 24;
             this.bandedGridColumn72.Name = "bandedGridColumn72";
             this.bandedGridColumn72.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn72.Visible = true;
@@ -2072,7 +2071,7 @@
             this.bandedGridColumn76.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn76.Caption = "Policy Extract_Status Reason";
             this.bandedGridColumn76.FieldName = "statusReason";
-            this.bandedGridColumn76.MinWidth = 25;
+            this.bandedGridColumn76.MinWidth = 24;
             this.bandedGridColumn76.Name = "bandedGridColumn76";
             this.bandedGridColumn76.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn76.Visible = true;
@@ -2084,7 +2083,7 @@
             this.bandedGridColumn77.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn77.Caption = "Policy Extract_Billing Reason";
             this.bandedGridColumn77.FieldName = "billingReason";
-            this.bandedGridColumn77.MinWidth = 25;
+            this.bandedGridColumn77.MinWidth = 24;
             this.bandedGridColumn77.Name = "bandedGridColumn77";
             this.bandedGridColumn77.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn77.Visible = true;
@@ -2096,7 +2095,7 @@
             this.bandedGridColumn78.DisplayFormat.FormatString = "yyyyMMDD";
             this.bandedGridColumn78.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.bandedGridColumn78.FieldName = "date";
-            this.bandedGridColumn78.MinWidth = 25;
+            this.bandedGridColumn78.MinWidth = 24;
             this.bandedGridColumn78.Name = "bandedGridColumn78";
             this.bandedGridColumn78.Visible = true;
             this.bandedGridColumn78.Width = 94;
@@ -2105,8 +2104,9 @@
             // 
             this.tabPage4.Controls.Add(this.dgv4);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1651, 278);
+            this.tabPage4.Size = new System.Drawing.Size(1650, 278);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Problems";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -2115,12 +2115,12 @@
             // 
             this.dgv4.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv4.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv4.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv4.Location = new System.Drawing.Point(0, 0);
             this.dgv4.MainView = this.gridMain4;
-            this.dgv4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv4.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv4.Name = "dgv4";
-            this.dgv4.Size = new System.Drawing.Size(1651, 278);
+            this.dgv4.Size = new System.Drawing.Size(1650, 278);
             this.dgv4.TabIndex = 5;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -2323,7 +2323,7 @@
             this.gridBand3.MinWidth = 22;
             this.gridBand3.Name = "gridBand3";
             this.gridBand3.VisibleIndex = 0;
-            this.gridBand3.Width = 2688;
+            this.gridBand3.Width = 2687;
             // 
             // bandedGridColumn79
             // 
@@ -2356,7 +2356,7 @@
             this.bandedGridColumn81.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn81.Caption = "Trust Company";
             this.bandedGridColumn81.FieldName = "trustCompany";
-            this.bandedGridColumn81.MinWidth = 25;
+            this.bandedGridColumn81.MinWidth = 24;
             this.bandedGridColumn81.Name = "bandedGridColumn81";
             this.bandedGridColumn81.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn81.Visible = true;
@@ -2380,7 +2380,7 @@
             this.bandedGridColumn83.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn83.Caption = "Previous Trust Found";
             this.bandedGridColumn83.FieldName = "found";
-            this.bandedGridColumn83.MinWidth = 25;
+            this.bandedGridColumn83.MinWidth = 24;
             this.bandedGridColumn83.Name = "bandedGridColumn83";
             this.bandedGridColumn83.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn83.Visible = true;
@@ -2500,7 +2500,7 @@
             this.bandedGridColumn91.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn91.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn91.Visible = true;
-            this.bandedGridColumn91.Width = 109;
+            this.bandedGridColumn91.Width = 108;
             // 
             // bandedGridColumn92
             // 
@@ -2527,7 +2527,7 @@
             this.bandedGridColumn93.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn93.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn93.FieldName = "growth";
-            this.bandedGridColumn93.MinWidth = 25;
+            this.bandedGridColumn93.MinWidth = 24;
             this.bandedGridColumn93.Name = "bandedGridColumn93";
             this.bandedGridColumn93.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn93.Visible = true;
@@ -2558,7 +2558,7 @@
             this.bandedGridColumn95.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn95.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn95.FieldName = "reducedPaidUpAmount";
-            this.bandedGridColumn95.MinWidth = 25;
+            this.bandedGridColumn95.MinWidth = 24;
             this.bandedGridColumn95.Name = "bandedGridColumn95";
             this.bandedGridColumn95.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn95.Visible = true;
@@ -2572,7 +2572,7 @@
             this.bandedGridColumn96.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn96.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn96.FieldName = "deathClaimAmount";
-            this.bandedGridColumn96.MinWidth = 25;
+            this.bandedGridColumn96.MinWidth = 24;
             this.bandedGridColumn96.Name = "bandedGridColumn96";
             this.bandedGridColumn96.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn96.Visible = true;
@@ -2584,7 +2584,7 @@
             this.bandedGridColumn98.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn98.Caption = "Death Paid Date";
             this.bandedGridColumn98.FieldName = "deathPaidDate";
-            this.bandedGridColumn98.MinWidth = 25;
+            this.bandedGridColumn98.MinWidth = 24;
             this.bandedGridColumn98.Name = "bandedGridColumn98";
             this.bandedGridColumn98.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn98.Visible = true;
@@ -2598,7 +2598,7 @@
             this.bandedGridColumn99.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn99.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn99.FieldName = "priorUnappliedCash";
-            this.bandedGridColumn99.MinWidth = 25;
+            this.bandedGridColumn99.MinWidth = 24;
             this.bandedGridColumn99.Name = "bandedGridColumn99";
             this.bandedGridColumn99.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn99.Visible = true;
@@ -2612,7 +2612,7 @@
             this.bandedGridColumn100.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn100.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn100.FieldName = "currentUnappliedCash";
-            this.bandedGridColumn100.MinWidth = 25;
+            this.bandedGridColumn100.MinWidth = 24;
             this.bandedGridColumn100.Name = "bandedGridColumn100";
             this.bandedGridColumn100.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn100.Visible = true;
@@ -2660,7 +2660,7 @@
             this.bandedGridColumn106.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn106.Caption = "Policy Extract_Status Reason";
             this.bandedGridColumn106.FieldName = "statusReason";
-            this.bandedGridColumn106.MinWidth = 25;
+            this.bandedGridColumn106.MinWidth = 24;
             this.bandedGridColumn106.Name = "bandedGridColumn106";
             this.bandedGridColumn106.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn106.Visible = true;
@@ -2672,7 +2672,7 @@
             this.bandedGridColumn107.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn107.Caption = "Policy Extract_Billing Reason";
             this.bandedGridColumn107.FieldName = "billingReason";
-            this.bandedGridColumn107.MinWidth = 25;
+            this.bandedGridColumn107.MinWidth = 24;
             this.bandedGridColumn107.Name = "bandedGridColumn107";
             this.bandedGridColumn107.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn107.Visible = true;
@@ -2684,7 +2684,7 @@
             this.bandedGridColumn108.DisplayFormat.FormatString = "yyyyMMDD";
             this.bandedGridColumn108.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.bandedGridColumn108.FieldName = "date";
-            this.bandedGridColumn108.MinWidth = 25;
+            this.bandedGridColumn108.MinWidth = 24;
             this.bandedGridColumn108.Name = "bandedGridColumn108";
             this.bandedGridColumn108.Visible = true;
             this.bandedGridColumn108.Width = 94;
@@ -2703,15 +2703,16 @@
             this.panelTop.Controls.Add(this.pictureBox1);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
-            this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelTop.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1659, 47);
+            this.panelTop.Size = new System.Drawing.Size(1658, 47);
             this.panelTop.TabIndex = 7;
             // 
             // lblTrust
             // 
             this.lblTrust.AutoSize = true;
             this.lblTrust.Location = new System.Drawing.Point(223, 17);
+            this.lblTrust.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTrust.Name = "lblTrust";
             this.lblTrust.Size = new System.Drawing.Size(40, 17);
             this.lblTrust.TabIndex = 163;
@@ -2725,10 +2726,10 @@
             "Unity",
             "Security National",
             "Forethought"});
-            this.cmbTrust.Location = new System.Drawing.Point(269, 14);
-            this.cmbTrust.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbTrust.Location = new System.Drawing.Point(268, 14);
+            this.cmbTrust.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbTrust.Name = "cmbTrust";
-            this.cmbTrust.Size = new System.Drawing.Size(140, 24);
+            this.cmbTrust.Size = new System.Drawing.Size(139, 24);
             this.cmbTrust.TabIndex = 162;
             this.cmbTrust.Text = "FDLIC";
             this.cmbTrust.SelectedIndexChanged += new System.EventHandler(this.cmbTrust_SelectedIndexChanged);
@@ -2736,7 +2737,8 @@
             // chkShowAll
             // 
             this.chkShowAll.AutoSize = true;
-            this.chkShowAll.Location = new System.Drawing.Point(900, 17);
+            this.chkShowAll.Location = new System.Drawing.Point(899, 17);
+            this.chkShowAll.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkShowAll.Name = "chkShowAll";
             this.chkShowAll.Size = new System.Drawing.Size(134, 21);
             this.chkShowAll.TabIndex = 156;
@@ -2747,7 +2749,8 @@
             // btnImport
             // 
             this.btnImport.BackColor = System.Drawing.Color.Transparent;
-            this.btnImport.Location = new System.Drawing.Point(91, 10);
+            this.btnImport.Location = new System.Drawing.Point(90, 10);
+            this.btnImport.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(90, 29);
             this.btnImport.TabIndex = 155;
@@ -2759,6 +2762,7 @@
             // 
             this.lblYear.AutoSize = true;
             this.lblYear.Location = new System.Drawing.Point(818, 18);
+            this.lblYear.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblYear.Name = "lblYear";
             this.lblYear.Size = new System.Drawing.Size(35, 17);
             this.lblYear.TabIndex = 154;
@@ -2767,7 +2771,8 @@
             // cmbYear
             // 
             this.cmbYear.FormattingEnabled = true;
-            this.cmbYear.Location = new System.Drawing.Point(728, 13);
+            this.cmbYear.Location = new System.Drawing.Point(727, 13);
+            this.cmbYear.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cmbYear.Name = "cmbYear";
             this.cmbYear.Size = new System.Drawing.Size(73, 24);
             this.cmbYear.TabIndex = 153;
@@ -2775,7 +2780,8 @@
             // lblMonth
             // 
             this.lblMonth.AutoSize = true;
-            this.lblMonth.Location = new System.Drawing.Point(675, 17);
+            this.lblMonth.Location = new System.Drawing.Point(674, 17);
+            this.lblMonth.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMonth.Name = "lblMonth";
             this.lblMonth.Size = new System.Drawing.Size(47, 17);
             this.lblMonth.TabIndex = 152;
@@ -2785,14 +2791,16 @@
             // 
             this.cmbMonth.FormattingEnabled = true;
             this.cmbMonth.Location = new System.Drawing.Point(551, 13);
+            this.cmbMonth.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cmbMonth.Name = "cmbMonth";
-            this.cmbMonth.Size = new System.Drawing.Size(120, 24);
+            this.cmbMonth.Size = new System.Drawing.Size(119, 24);
             this.cmbMonth.TabIndex = 151;
             // 
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.btnSave.Location = new System.Drawing.Point(437, 14);
+            this.btnSave.Location = new System.Drawing.Point(436, 14);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 150;
@@ -2803,8 +2811,8 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(14, 10);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox1.Location = new System.Drawing.Point(13, 10);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(33, 27);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -2816,10 +2824,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1659, 384);
+            this.ClientSize = new System.Drawing.Size(1658, 384);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.Name = "ImportTrustFile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Import Trust Information";

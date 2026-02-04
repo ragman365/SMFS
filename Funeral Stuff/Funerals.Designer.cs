@@ -199,10 +199,10 @@
             this.panelAll.Controls.Add(this.panelBottom);
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 28);
+            this.panelAll.Location = new System.Drawing.Point(0, 30);
             this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1548, 477);
+            this.panelAll.Size = new System.Drawing.Size(1548, 475);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -212,7 +212,7 @@
             this.panelBottom.Location = new System.Drawing.Point(0, 79);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1548, 398);
+            this.panelBottom.Size = new System.Drawing.Size(1548, 396);
             this.panelBottom.TabIndex = 2;
             // 
             // dgv
@@ -232,7 +232,7 @@
             this.repositoryItemPictureEdit1,
             this.repositoryItemMemoEdit1,
             this.repPaidCheckEdit});
-            this.dgv.Size = new System.Drawing.Size(1548, 398);
+            this.dgv.Size = new System.Drawing.Size(1548, 396);
             this.dgv.TabIndex = 3;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1703,7 +1703,7 @@
             this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1548, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1548, 30);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1716,7 +1716,7 @@
             this.exitToolStripMenuItem,
             this.recalcServicesToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -1780,12 +1780,12 @@
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(14, 26);
             // 
             // latestChangesToolStripMenuItem
             // 
             this.latestChangesToolStripMenuItem.Name = "latestChangesToolStripMenuItem";
-            this.latestChangesToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
+            this.latestChangesToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
             this.latestChangesToolStripMenuItem.Text = "Latest Changes";
             this.latestChangesToolStripMenuItem.Click += new System.EventHandler(this.latestChangesToolStripMenuItem_Click);
             // 
@@ -1808,7 +1808,7 @@
             this.burialCremationSummaryReportTestToolStripMenuItem,
             this.passareDetailReportToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // casketUsageToolStripMenuItem
@@ -1922,7 +1922,7 @@
             this.trustsClaimsToolStripMenuItem,
             this.outsideTrustClaimsToolStripMenuItem});
             this.aRToolStripMenuItem.Name = "aRToolStripMenuItem";
-            this.aRToolStripMenuItem.Size = new System.Drawing.Size(48, 24);
+            this.aRToolStripMenuItem.Size = new System.Drawing.Size(48, 26);
             this.aRToolStripMenuItem.Text = "A/R";
             // 
             // trustsClaimsToolStripMenuItem
@@ -1947,7 +1947,7 @@
             this.funeralsAvailableForCommissionToolStripMenuItem,
             this.funeralCommissionsForArrangersToolStripMenuItem});
             this.commissionsMenu.Name = "commissionsMenu";
-            this.commissionsMenu.Size = new System.Drawing.Size(110, 24);
+            this.commissionsMenu.Size = new System.Drawing.Size(110, 26);
             this.commissionsMenu.Text = "Commissions";
             // 
             // commissionOptionsToolStripMenuItem
@@ -1983,7 +1983,7 @@
             this.miscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showChangesWOSavingToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // showChangesWOSavingToolStripMenuItem

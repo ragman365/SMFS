@@ -864,7 +864,7 @@ namespace SMFS
 
             DataTable dt = G1.get_db_data(cmd);
 
-            Trust85.FindContract(dt, "M13166UI");
+            Trust85.FindContract(dt, "L090000U");
 
             dt.Columns.Add("mark");
             SetupSelection(dt, this.repositoryItemCheckEdit1, "mark");
@@ -902,7 +902,7 @@ namespace SMFS
             //dt = pullUnityActive(dt);
 
 
-            Trust85.FindContract(dt, "M04095");
+            Trust85.FindContract(dt, "L090000U");
             Trust85.FindContract(dt, "M13166UI");
 
 
@@ -919,9 +919,9 @@ namespace SMFS
                         company = locIDs[i].Trim();
                         if (company.ToUpper() == "UNITY")
                         {
-                            Trust85.FindContract(dt, "L14140UI");
+                            Trust85.FindContract(dt, "L090000U");
                             dx = pullUnityActive(dt);
-                            Trust85.FindContract(dx, "L14140UI");
+                            Trust85.FindContract(dx, "L090000U");
                             newDt.Merge(dx);
 
                             if (!chkShowAll.Checked)
@@ -1275,7 +1275,7 @@ namespace SMFS
         /***********************************************************************************************/
         private DataTable pullUnityActive(DataTable dt)
         {
-            Trust85.FindContract(dt, "L14140UI");
+            Trust85.FindContract(dt, "B15002U");
             DataTable dx = dt.Clone();
             //dRows = dt.Select("`Death Benefit` <> '0.00' AND `Policy Extract_Policy Status` = 'A' AND `Policy Number` LIKE '77%'");
             //DataRow[] dRows = dt.Select("`trustCompany` = 'Unity' AND `endingDeathBenefit` <> '0.00' AND `policyStatus` = 'A'  AND `policyNumber` LIKE '77%' ");
@@ -1287,7 +1287,7 @@ namespace SMFS
             if (dRows.Length > 0)
             {
                 dx = dRows.CopyToDataTable();
-                Trust85.FindContract(dx, "L14140UI");
+                Trust85.FindContract(dx, "L090000U");
                 dx = SortBy(dx);
 
                 dRows = dt.Select("`tab` = 'Unity Active'");

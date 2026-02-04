@@ -39,12 +39,24 @@ namespace SMFS
         private bool workDC = false;
         private string title = "";
 
+        private string pullFile = "";
+        private string pullWhat = "";
+
         private DataTable problemDt = null;
         /***********************************************************************************************/
         public ImportNewInsuranceCompany()
         {
             InitializeComponent();
             SetupTotalsSummary();
+        }
+        /****************************************************************************************/
+        public ImportNewInsuranceCompany( string filename, string what )
+        {
+            InitializeComponent();
+            SetupTotalsSummary();
+
+            pullFile = filename;
+            pullWhat = what;
         }
         /****************************************************************************************/
         private void SetupTotalsSummary()
@@ -70,11 +82,68 @@ namespace SMFS
             gridMain.Columns[columnName].SummaryItem.DisplayFormat = format;
         }
         /***********************************************************************************************/
+        private void WorkWhatFile ()
+        {
+            try
+            {
+                string str = "";
+                string tab = "EV INS";
+                this.Text = "Original EV Payers and Policies Previously Imported";
+                if (pullWhat.ToUpper() == "CA")
+                {
+                    tab = "CA INS";
+                    this.Text = "Original CA Payers and Policies Previously Imported";
+                }
+                txtWhat.Text = tab;
+
+                btnImport.Hide();
+                txtCC.Hide();
+                txtWhat.Hide();
+                label1.Hide();
+                chkJustPolicies.Hide();
+                miscToolStripMenuItem.Dispose();
+
+                workDt = ExcelWriter.ReadFile2(pullFile, 0, tab);
+                for (int i = 0; i < workDt.Columns.Count; i++)
+                {
+                    str = workDt.Rows[0][i].ObjToString();
+                    if (String.IsNullOrWhiteSpace(str))
+                        continue;
+                    if (G1.get_column_number(workDt, str) >= 0)
+                        str = str + "2";
+                    workDt.Columns[i].ColumnName = str;
+                    workDt.Columns[i].Caption = str;
+                }
+                workDt.TableName = pullFile;
+
+                if (G1.get_column_number(workDt, "num") < 0)
+                    workDt.Columns.Add("num").SetOrdinal(0);
+
+                workDt.Rows.RemoveAt(0);
+
+                G1.NumberDataTable(workDt);
+
+                ProcessPulledData(workDt);
+
+                dgv.DataSource = workDt;
+
+                gridMain.Columns["num"].Width = 60;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("***ERROR*** Reading File!");
+                workDt = null;
+            }
+        }
+        /***********************************************************************************************/
         private void ImportNewInsuranceCompany_Load(object sender, EventArgs e)
         {
             barImport.Hide();
 
             btnCreateNew.Hide();
+
+            if ( !String.IsNullOrWhiteSpace ( pullFile ))
+                WorkWhatFile();
         }
         /***********************************************************************************************/
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -661,7 +730,15 @@ namespace SMFS
             string dueDate = "";
             string deceasedDate = "";
             string payerDeceasedDate = "";
-            string version = "";
+            string version = "2.0";
+
+            string tab = txtWhat.Text.Trim();
+
+            if (tab.ToUpper().IndexOf("EV") == 0)
+                version = "3.0";
+
+            string mainVersion = version;
+
 
             string companyCode = txtCC.Text;
 
@@ -679,6 +756,7 @@ namespace SMFS
             contract = contract.Replace("ZZ", "");
 
             bool justPolicies = chkJustPolicies.Checked;
+            bool createdPayer = false;
 
             int totalCustomers = contract.ObjToInt32();
             //totalCustomers = totalCustomers + 1;
@@ -688,10 +766,15 @@ namespace SMFS
 
             for ( int i=0; i<lastRow; i++)
             {
-
+                createdPayer = false;
                 try
                 {
                     payer = dt.Rows[i]["payer"].ObjToString();
+
+                    if ( payer.Trim() == "EV-090705")
+                    {
+                    }
+
                     policyNumber = dt.Rows[i]["Policy Number"].ObjToString();
 
                     pay = dt.Rows[i]["Pay"].ObjToString();
@@ -775,10 +858,21 @@ namespace SMFS
                             dx = G1.get_db_data(cmd);
                             if ( dx.Rows.Count <= 0 )
                             {
-                                MessageBox.Show("***ERROR*** Problem looking up Payer " + payer + " for Version 2.0", "Possible Version Problem Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                                continue;
+                                if (mainVersion == "3.0")
+                                {
+                                    record = G1.create_record("payers", "version", "2.0");
+                                    G1.update_db_table("payers", "record", record, new string[] { "contractNumber", contractNumber, "payer", payer, "firstName", payerFirstName, "lastName", payerLastName, "amtOfMonthlyPayt", monthlyPremium.ToString(), "annualPremium", yearlyPremium.ToString(), "dueDate8", dueDate, "deceasedDate", payerDeceasedDate });
+                                    createdPayer = true;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("***ERROR*** Problem looking up Payer " + payer + " for Version 2.0", "Possible Version Problem Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                                    continue;
+                                }
                             }
                             contractNumber = dx.Rows[0]["contractNumber"].ObjToString();
+                            if ( mainVersion == "3.0" )
+                                G1.update_db_table("payers", "record", record, new string[] { "annualPremium", yearlyPremium.ToString(), "deceasedDate", payerDeceasedDate });
                         }
                         else
                         {
@@ -807,10 +901,19 @@ namespace SMFS
                         //else
                         //    record = cusDt.Rows[0]["record"].ObjToString();
 
-                        if (!justPolicies)
+                        if (!justPolicies || createdPayer )
                         {
                             record = G1.create_record("icustomers", "version", "2.0");
                             G1.update_db_table("icustomers", "record", record, new string[] { "contractNumber", contractNumber, "payer", payer, "firstName", payerFirstName, "lastName", payerLastName, "suffix", payerSuffix, "address1", address1, "address2", address2, "city", city, "state", state, "zip1", zip, "phoneNumber1", payerPhone, "phoneNumber2", payerPhone2, "deceasedDate", payerDeceasedDate });
+                        }
+                        else
+                        {
+                            cusDt = G1.get_db_data(cmd);
+                            if ( cusDt.Rows.Count <= 0 )
+                            {
+                                record = G1.create_record("icustomers", "version", "2.0");
+                                G1.update_db_table("icustomers", "record", record, new string[] { "contractNumber", contractNumber, "payer", payer, "firstName", payerFirstName, "lastName", payerLastName, "suffix", payerSuffix, "address1", address1, "address2", address2, "city", city, "state", state, "zip1", zip, "phoneNumber1", payerPhone, "phoneNumber2", payerPhone2, "deceasedDate", payerDeceasedDate });
+                            }
                         }
 
                         cmd = "Select * from `icontracts` WHERE `contractNumber` = '" + contractNumber + "';";
@@ -834,10 +937,19 @@ namespace SMFS
                         //else
                         //    record = conDt.Rows[0]["record"].ObjToString();
 
-                        if (!justPolicies)
+                        if (!justPolicies || createdPayer )
                         {
                             record = G1.create_record("icontracts", "version", "2.0");
                             G1.update_db_table("icontracts", "record", record, new string[] { "contractNumber", contractNumber, "amtOfMonthlyPayt", monthlyPremium.ToString(), "annualPremium", yearlyPremium.ToString(), "dueDate8", dueDate, "deceasedDate", payerDeceasedDate, "issueDate8", issueDate });
+                        }
+                        else
+                        {
+                            conDt = G1.get_db_data(cmd);
+                            if ( conDt.Rows.Count <= 0 )
+                            {
+                                record = G1.create_record("icontracts", "version", "2.0");
+                                G1.update_db_table("icontracts", "record", record, new string[] { "contractNumber", contractNumber, "amtOfMonthlyPayt", monthlyPremium.ToString(), "annualPremium", yearlyPremium.ToString(), "dueDate8", dueDate, "deceasedDate", payerDeceasedDate, "issueDate8", issueDate });
+                            }
                         }
                         oldPayer = payer;
                     }
@@ -846,9 +958,16 @@ namespace SMFS
                         continue;
 
                     cmd = "Select * from `policies` WHERE `contractNumber` = '" + contractNumber + "' AND `policyNumber` = '" + policyNumber + "';";
-                    if ( justPolicies )
+                    if (justPolicies)
+                    {
                         cmd = "Select * from `policies` WHERE `contractNumber` = '" + contractNumber + "' AND `policyNumber` = '" + policyNumber + "' AND `version` = '2.0';";
+                    }
                     policyDt = G1.get_db_data(cmd);
+                    if ( policyDt.Rows.Count <= 0 && mainVersion == "3.0")
+                    {
+                        cmd = "Select * from `policies` WHERE `contractNumber` = '" + contractNumber + "' AND `policyNumber` = '" + policyNumber + "' AND `version` = '3.0';";
+                        policyDt = G1.get_db_data(cmd);
+                    }
                     if (policyDt.Rows.Count > 0)
                     {
                         contract = policyDt.Rows[0]["contractNumber"].ObjToString();
@@ -857,14 +976,14 @@ namespace SMFS
                         else
                         {
                             version = policyDt.Rows[0]["Version"].ObjToString();
-                            if (version != "2.0")
+                            if (version != "2.0" && version != "3.0" )
                             {
-                                MessageBox.Show("***ERROR*** Got Old Policy " + contract + " and not Version 2.0", "Possible Version Problem Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                                MessageBox.Show("***ERROR*** Got Old Policy " + contract + " and not Version 2.0 or 3.0", "Possible Version Problem Dialog", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                             }
                         }
                     }
                     if (policyDt.Rows.Count <= 0)
-                        record = G1.create_record("policies", "version", "2.0");
+                        record = G1.create_record("policies", "version", mainVersion);
                     else
                         record = policyDt.Rows[0]["record"].ObjToString();
 

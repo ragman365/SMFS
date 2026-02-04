@@ -575,10 +575,10 @@
             // 
             this.panelBottom.Controls.Add(this.xtraTabControl1);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 120);
+            this.panelBottom.Location = new System.Drawing.Point(0, 118);
             this.panelBottom.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1482, 575);
+            this.panelBottom.Size = new System.Drawing.Size(1482, 577);
             this.panelBottom.TabIndex = 2;
             // 
             // xtraTabControl1
@@ -588,7 +588,7 @@
             this.xtraTabControl1.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.tabDemographics;
-            this.xtraTabControl1.Size = new System.Drawing.Size(1482, 575);
+            this.xtraTabControl1.Size = new System.Drawing.Size(1482, 577);
             this.xtraTabControl1.TabIndex = 1;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabDemographics,
@@ -607,7 +607,7 @@
             this.tabDemographics.Controls.Add(this.panelDemoAll);
             this.tabDemographics.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.tabDemographics.Name = "tabDemographics";
-            this.tabDemographics.Size = new System.Drawing.Size(1480, 545);
+            this.tabDemographics.Size = new System.Drawing.Size(1480, 547);
             this.tabDemographics.Text = "Demographics";
             // 
             // panelDemoAll
@@ -618,7 +618,7 @@
             this.panelDemoAll.Location = new System.Drawing.Point(0, 0);
             this.panelDemoAll.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelDemoAll.Name = "panelDemoAll";
-            this.panelDemoAll.Size = new System.Drawing.Size(1480, 545);
+            this.panelDemoAll.Size = new System.Drawing.Size(1480, 547);
             this.panelDemoAll.TabIndex = 0;
             // 
             // panelDemoBottom
@@ -628,7 +628,7 @@
             this.panelDemoBottom.Location = new System.Drawing.Point(0, 54);
             this.panelDemoBottom.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelDemoBottom.Name = "panelDemoBottom";
-            this.panelDemoBottom.Size = new System.Drawing.Size(1480, 491);
+            this.panelDemoBottom.Size = new System.Drawing.Size(1480, 493);
             this.panelDemoBottom.TabIndex = 2;
             // 
             // xtraTabControl2
@@ -640,7 +640,7 @@
             this.xtraTabControl2.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.xtraTabControl2.Name = "xtraTabControl2";
             this.xtraTabControl2.SelectedTabPage = this.tabPersonal;
-            this.xtraTabControl2.Size = new System.Drawing.Size(1480, 491);
+            this.xtraTabControl2.Size = new System.Drawing.Size(1480, 493);
             this.xtraTabControl2.TabIndex = 0;
             this.xtraTabControl2.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tabPersonal,
@@ -659,7 +659,7 @@
             this.tabPersonal.Controls.Add(this.panelCustomer);
             this.tabPersonal.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.tabPersonal.Name = "tabPersonal";
-            this.tabPersonal.Size = new System.Drawing.Size(1478, 461);
+            this.tabPersonal.Size = new System.Drawing.Size(1478, 463);
             this.tabPersonal.Text = "Personal";
             // 
             // panelCustomer
@@ -668,7 +668,7 @@
             this.panelCustomer.Location = new System.Drawing.Point(0, 0);
             this.panelCustomer.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelCustomer.Name = "panelCustomer";
-            this.panelCustomer.Size = new System.Drawing.Size(1478, 461);
+            this.panelCustomer.Size = new System.Drawing.Size(1478, 463);
             this.panelCustomer.TabIndex = 122;
             // 
             // tabContact
@@ -698,7 +698,7 @@
             this.tabContact.Controls.Add(this.labelControl27);
             this.tabContact.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.tabContact.Name = "tabContact";
-            this.tabContact.Size = new System.Drawing.Size(1478, 463);
+            this.tabContact.Size = new System.Drawing.Size(1478, 461);
             this.tabContact.Text = "Contact Info";
             // 
             // comboStates
@@ -991,7 +991,7 @@
             this.tabFamily.Controls.Add(this.panelFamilyAll);
             this.tabFamily.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.tabFamily.Name = "tabFamily";
-            this.tabFamily.Size = new System.Drawing.Size(1478, 463);
+            this.tabFamily.Size = new System.Drawing.Size(1478, 461);
             this.tabFamily.Text = "Family";
             // 
             // panelFamilyAll
@@ -1000,7 +1000,7 @@
             this.panelFamilyAll.Location = new System.Drawing.Point(0, 0);
             this.panelFamilyAll.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelFamilyAll.Name = "panelFamilyAll";
-            this.panelFamilyAll.Size = new System.Drawing.Size(1478, 463);
+            this.panelFamilyAll.Size = new System.Drawing.Size(1478, 461);
             this.panelFamilyAll.TabIndex = 0;
             // 
             // tabTrusts
@@ -1008,7 +1008,7 @@
             this.tabTrusts.Controls.Add(this.panelTrustInfoAll);
             this.tabTrusts.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.tabTrusts.Name = "tabTrusts";
-            this.tabTrusts.Size = new System.Drawing.Size(1478, 463);
+            this.tabTrusts.Size = new System.Drawing.Size(1478, 461);
             this.tabTrusts.Text = "Trust Info";
             // 
             // panelTrustInfoAll
@@ -1019,7 +1019,7 @@
             this.panelTrustInfoAll.Location = new System.Drawing.Point(0, 0);
             this.panelTrustInfoAll.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelTrustInfoAll.Name = "panelTrustInfoAll";
-            this.panelTrustInfoAll.Size = new System.Drawing.Size(1478, 463);
+            this.panelTrustInfoAll.Size = new System.Drawing.Size(1478, 461);
             this.panelTrustInfoAll.TabIndex = 0;
             // 
             // panelTrustInfoBottom
@@ -1029,7 +1029,7 @@
             this.panelTrustInfoBottom.Location = new System.Drawing.Point(0, 325);
             this.panelTrustInfoBottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelTrustInfoBottom.Name = "panelTrustInfoBottom";
-            this.panelTrustInfoBottom.Size = new System.Drawing.Size(1478, 138);
+            this.panelTrustInfoBottom.Size = new System.Drawing.Size(1478, 136);
             this.panelTrustInfoBottom.TabIndex = 177;
             // 
             // dgvTrust
@@ -1042,7 +1042,7 @@
             this.dgvTrust.MainView = this.gridTrust;
             this.dgvTrust.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dgvTrust.Name = "dgvTrust";
-            this.dgvTrust.Size = new System.Drawing.Size(1478, 138);
+            this.dgvTrust.Size = new System.Drawing.Size(1478, 136);
             this.dgvTrust.TabIndex = 3;
             this.dgvTrust.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridTrust});
@@ -1933,7 +1933,7 @@
             this.tabACH.Controls.Add(this.labelControl12);
             this.tabACH.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.tabACH.Name = "tabACH";
-            this.tabACH.Size = new System.Drawing.Size(1478, 463);
+            this.tabACH.Size = new System.Drawing.Size(1478, 461);
             this.tabACH.Text = "ACH";
             // 
             // txtLeftPayments
@@ -2194,7 +2194,7 @@
             this.tabCC.Controls.Add(this.labelControl39);
             this.tabCC.Margin = new System.Windows.Forms.Padding(2);
             this.tabCC.Name = "tabCC";
-            this.tabCC.Size = new System.Drawing.Size(1478, 463);
+            this.tabCC.Size = new System.Drawing.Size(1478, 461);
             this.tabCC.Text = "CC";
             // 
             // labelControl46
@@ -5726,7 +5726,7 @@
             this.panelTop.Controls.Add(this.label6);
             this.panelTop.Controls.Add(this.PatientPicture);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Location = new System.Drawing.Point(0, 30);
+            this.panelTop.Location = new System.Drawing.Point(0, 28);
             this.panelTop.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1482, 90);
@@ -5945,7 +5945,7 @@
             this.miscToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1482, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1482, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -5955,7 +5955,7 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // toolStripMenuItem1
@@ -5981,7 +5981,7 @@
             this.unlockScreenPositionToolStripMenuItem,
             this.untieCustomerToolStripMenuItem});
             this.miscToolStripMenuItem.Name = "miscToolStripMenuItem";
-            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 26);
+            this.miscToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.miscToolStripMenuItem.Text = "Misc";
             // 
             // toolStripMenuItem5

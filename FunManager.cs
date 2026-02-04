@@ -1530,7 +1530,7 @@ namespace SMFS
 
             double trustPending = 0D;
 
-            if (balanceDue > 0D)
+            if (balanceDue > 0D && !chkExcludePending.Checked )
             {
                 comment = dRow["pendingComment"].ObjToString();
                 if (comment.ToUpper().IndexOf("PENDING TRUST") >= 0)
