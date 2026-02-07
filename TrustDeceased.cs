@@ -3623,6 +3623,8 @@ namespace SMFS
             if (workReport == "Pre 2002 Report")
             {
                 Save_Pre2002();
+                Save_Pre2002_SN();
+                Save_Pre2002_FT();
                 SaveOverRuns();
                 btnSave.Hide();
                 btnSave.Refresh();
@@ -4026,6 +4028,112 @@ namespace SMFS
                     G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "EndingBalance", "beginningPaymentBalance", Forethought.ToString(), "beginningDeathBenefit", SecurityNational.ToString(), "endingPaymentBalance", FdlicOldWebb.ToString(), "endingDeathBenefit", FdlicOldCCI.ToString(), "priorUnappliedCash", UnityOldBarham.ToString(), "currentUnappliedCash", UnityOldWebb.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
 
                     continue;
+                }
+            }
+
+            btnSave.Hide();
+            btnSave.Refresh();
+        }
+        /****************************************************************************************/
+        private void Save_Pre2002_SN()
+        {
+            DataTable dt = (DataTable)dgv17.DataSource;
+
+            string data = "";
+            string type = "";
+            string field = "";
+            string record = "";
+            string modList = "";
+            string month = "";
+            string trustCompany = "Pre2002SN";
+
+            double payments = 0D;
+            double received = 0D;
+
+            DataTable dx = null;
+            DataRow[] dRows = null;
+            DateTime date = this.dateTimePicker2.Value;
+            string cmd = "";
+            string status = "";
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                month = dt.Rows[i]["month"].ObjToString();
+                month = dt.Rows[i]["status"].ObjToString();
+
+                if (month.ToUpper() == "ENDING BALANCE")
+                {
+                    record = dt.Rows[i]["record"].ObjToString();
+                    received = dt.Rows[i]["received"].ObjToDouble();
+                    payments = dt.Rows[i]["value"].ObjToDouble();
+                    cmd = "Select * from `trust_data_edits` where `status` = 'EndingBalance' AND `trustName` = '" + trustCompany + "' AND `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `preOrPost` = 'Pre';";
+                    dx = G1.get_db_data(cmd);
+                    if (dx.Rows.Count > 0)
+                        record = dx.Rows[0]["record"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(record))
+                    {
+                        record = G1.create_record("trust_data_edits", "status", "-1");
+                        dt.Rows[i]["record"] = record.ObjToInt32();
+                        G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "EndingBalance", "preOrPost", "Pre" });
+                    }
+                    if (G1.BadRecord("trust_data_edits", record))
+                        return;
+                    G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "EndingBalance", "payments", payments.ToString(), "deathClaimAmount", received.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
+
+                    break;
+                }
+            }
+
+            btnSave.Hide();
+            btnSave.Refresh();
+        }
+        /****************************************************************************************/
+        private void Save_Pre2002_FT()
+        {
+            DataTable dt = (DataTable)dgv18.DataSource;
+
+            string data = "";
+            string type = "";
+            string field = "";
+            string record = "";
+            string modList = "";
+            string month = "";
+            string trustCompany = "Pre2002FT";
+
+            double payments = 0D;
+            double received = 0D;
+
+            DataTable dx = null;
+            DataRow[] dRows = null;
+            DateTime date = this.dateTimePicker2.Value;
+            string cmd = "";
+            string status = "";
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                month = dt.Rows[i]["month"].ObjToString();
+                month = dt.Rows[i]["status"].ObjToString();
+
+                if (month.ToUpper() == "ENDING BALANCE")
+                {
+                    record = dt.Rows[i]["record"].ObjToString();
+                    received = dt.Rows[i]["received"].ObjToDouble();
+                    payments = dt.Rows[i]["value"].ObjToDouble();
+                    cmd = "Select * from `trust_data_edits` where `status` = 'EndingBalance' AND `trustName` = '" + trustCompany + "' AND `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `preOrPost` = 'Pre';";
+                    dx = G1.get_db_data(cmd);
+                    if (dx.Rows.Count > 0)
+                        record = dx.Rows[0]["record"].ObjToString();
+                    if (String.IsNullOrWhiteSpace(record))
+                    {
+                        record = G1.create_record("trust_data_edits", "status", "-1");
+                        dt.Rows[i]["record"] = record.ObjToInt32();
+                        G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "EndingBalance", "preOrPost", "Pre" });
+                    }
+                    if (G1.BadRecord("trust_data_edits", record))
+                        return;
+                    G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "EndingBalance", "payments", payments.ToString(), "deathClaimAmount", received.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
+
+                    break;
                 }
             }
 
@@ -8724,7 +8832,7 @@ namespace SMFS
             this.Cursor = Cursors.Default;
         }
         /****************************************************************************************/
-        private void LoadSplitPreSN(DataTable xDt = null)
+        private void LoadSplitPreSN (DataTable xDt = null)
         {
             this.Cursor = Cursors.WaitCursor;
             G1.SetupToolTip(btnDelete, "Delete Row");
@@ -8806,6 +8914,10 @@ namespace SMFS
 
             if (G1.get_column_number(dx, "rp") < 0)
                 dx.Columns.Add("rp");
+            if (G1.get_column_number(dx, "red1") < 0)
+                dx.Columns.Add("red1");
+            if (G1.get_column_number(dx, "red2") < 0)
+                dx.Columns.Add("red2");
 
             int firstRow = 1;
             for (int i = 0; i < maxRow; i++)
@@ -8893,8 +9005,8 @@ namespace SMFS
                         if (receivedDate.Year > 1000)
                             dx.Rows[j]["date"] = G1.DTtoMySQLDT(dd.Rows[j]["dateReceived"].ObjToDateTime().ToString("yyyy-MM-dd"));
                         dx.Rows[j]["trust"] = trustCompany;
-                        gridMain2.Columns["value"].Caption = trustCompany + " Trust Money";
-                        gridMain2.Columns["balance"].Caption = trustCompany + " Trust Balance";
+                        gridMain17.Columns["value"].Caption = trustCompany + " Trust Money";
+                        gridMain17.Columns["balance"].Caption = trustCompany + " Trust Balance";
                         dx.Rows[j]["value"] = dd.Rows[j]["value"].ObjToDouble();
                         dx.Rows[j]["fun_amtReceived"] = dd.Rows[j]["fun_AmtReceived"].ObjToDouble();
                         dx.Rows[j]["principal"] = dd.Rows[j]["principal"].ObjToDouble();
@@ -8954,27 +9066,48 @@ namespace SMFS
             tempview.Sort = "rp, date";
             dx = tempview.ToTable();
 
-                //DataTable ddx = dx.Copy();
+            //DataTable ddx = dx.Copy();
 
-                //tempview = ddx.DefaultView;
-                //tempview.Sort = "dateReceived";
-                //ddx = tempview.ToTable();
+            //tempview = ddx.DefaultView;
+            //tempview.Sort = "dateReceived";
+            //ddx = tempview.ToTable();
 
-                //for (int i = 0; i < ddx.Rows.Count; i++)
-                //{
-                //    dx.Rows[i]["otherContract"] = ddx.Rows[i]["otherContract"].ObjToString();
-                //    dx.Rows[i]["otherdesc"] = ddx.Rows[i]["otherdesc"].ObjToString();
-                //    dx.Rows[i]["otherFuneral"] = ddx.Rows[i]["otherFuneral"].ObjToString();
-                //    dx.Rows[i]["dateReceived"] = G1.DTtoMySQLDT(ddx.Rows[i]["dateReceived"].ObjToDateTime().ToString("yyyy-MM-dd"));
-                //    dx.Rows[i]["received"] = ddx.Rows[i]["received"].ObjToDouble();
-                //    dx.Rows[i]["othertrust"] = ddx.Rows[i]["othertrust"].ObjToString();
-                //}
+            //for (int i = 0; i < ddx.Rows.Count; i++)
+            //{
+            //    dx.Rows[i]["otherContract"] = ddx.Rows[i]["otherContract"].ObjToString();
+            //    dx.Rows[i]["otherdesc"] = ddx.Rows[i]["otherdesc"].ObjToString();
+            //    dx.Rows[i]["otherFuneral"] = ddx.Rows[i]["otherFuneral"].ObjToString();
+            //    dx.Rows[i]["dateReceived"] = G1.DTtoMySQLDT(ddx.Rows[i]["dateReceived"].ObjToDateTime().ToString("yyyy-MM-dd"));
+            //    dx.Rows[i]["received"] = ddx.Rows[i]["received"].ObjToDouble();
+            //    dx.Rows[i]["othertrust"] = ddx.Rows[i]["othertrust"].ObjToString();
+            //}
 
 
-            LoadBeginningBalances(dx);
+            //LoadBeginningBalances(dx);
+
+            double Forethought = 0D;
+            double foreOther = 0D;
+            double SecurityNational = 0D;
+            double securityOther = 0D;
+            string record = "";
+
+            DateTime date = this.dateTimePicker2.Value;
+
+            dRow = dx.NewRow();
+            dRow["month"] = date.ToString("MMMM");
+
+            tempDt = null;
+
+            GetBeginningBalancesPre2002_SN(dt, ref SecurityNational, ref securityOther, ref record);
+
+            dRow["value"] = G1.ReformatMoney(SecurityNational);
+            dRow["principal"] = G1.ReformatMoney(securityOther);
+            dRow["status"] = "Beginning Balance";
+            dRow["record"] = record;
+
+            //dx.Rows.InsertAt(dRow, 0);
 
             string cmd = "";
-            DateTime date = this.dateTimePicker2.Value;
 
             //loadCashPaid(dx);
 
@@ -8994,27 +9127,11 @@ namespace SMFS
                 saveDt1.Rows.Add(xxxRow);
             }
 
-            //for (int j = 0; j < saveDt1.Rows.Count; j++)
-            //{
-            //    trust = saveDt1.Rows[j]["trust"].ObjToString();
-            //    if (trust == "Security National")
-            //        trust = "SNFT";
-            //    if (workReport == "Post 2002 Report - SN & FT")
-            //        trust = "SNFT";
-            //    else if (workReport == "Post 2002 Report - SN")
-            //        trust = "SN";
-            //    else if (workReport == "Post 2002 Report - FT")
-            //        trust = "FT";
-            //    if (!gotSNFT)
-            //    {
-            //        cmd = "Select * from `trust_data_edits` WHERE `trustName` = '" + trust + "' AND `status` = 'Line Edit' AND `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `preOrPost` = 'Post' AND `policyStatus` <> 'SPLIT';";
-            //        dd = G1.get_db_data(cmd);
-            //        if (dd.Rows.Count > 0)
-            //            dx = LoadLineEdits(dx, dd);
-            //    }
-            //    if (trust == "SNFT")
-            //        gotSNFT = true;
-            //}
+            trust = "Pre2002SN";
+            cmd = "Select * from `trust_data_edits` WHERE `trustName` = '" + trust + "' AND `status` = 'Line Edit' AND `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `preOrPost` = 'Pre' AND `policyStatus` <> 'SPLIT';";
+            dd = G1.get_db_data(cmd);
+            //if (dd.Rows.Count > 0)
+            //    dx = LoadLineEdits(dx, dd);
 
             //LoadEndingBalances(dx);
 
@@ -9023,6 +9140,10 @@ namespace SMFS
             {
                 dRow = dx.NewRow();
                 dRow["month"] = month + " " + this.dateTimePicker2.Value.Year.ToString("D4") + " Beg Bal";
+                dRow["value"] = G1.ReformatMoney(SecurityNational);
+                dRow["received"] = G1.ReformatMoney(securityOther);
+                dRow["status"] = "Beginning Balance";
+                dRow["record"] = record;
                 dx.Rows.InsertAt(dRow, 0);
                 //dx.Rows[0]["month"] = month + " " + this.dateTimePicker2.Value.Year.ToString("D4") + " Beg Bal";
                 //if (dx.Rows.Count >= 2)
@@ -9067,7 +9188,11 @@ namespace SMFS
                     value = ddd.Rows[i]["Security National"].ObjToDouble();
                     desc = ddd.Rows[i]["Security National desc"].ObjToString();
                     if (String.IsNullOrWhiteSpace(desc))
+                    {
+                        dRow = ddx.NewRow();
+                        ddx.Rows.Add(dRow);
                         continue;
+                    }
 
                     dRow = ddx.NewRow();
                     dRow["Security National"] = value;
@@ -9095,6 +9220,8 @@ namespace SMFS
                     }
                 }
 
+                string red1 = "";
+                string red2 = "";
                 int col = G1.get_column_number(dx, "trust");
                 if (col >= 0)
                 {
@@ -9105,9 +9232,11 @@ namespace SMFS
                     {
                         value = ddx.Rows[i]["Security National"].ObjToDouble();
                         desc = ddx.Rows[i]["Security National desc"].ObjToString();
+                        red1 = ddx.Rows[i]["Security National redx"].ObjToString();
                         dRow = dx.NewRow();
                         dRow["value"] = value;
                         dRow["desc"] = desc;
+                        dRow["red1"] = red1;
                         if (desc.ToUpper().IndexOf("DC CASH-") == 0)
                         {
                             dRow["cashPaid1"] = "DC CASH";
@@ -9118,10 +9247,17 @@ namespace SMFS
                             dRow["cashPaid1"] = "DC PAID";
                             dRow["desc"] = desc.Replace("DC PAID-", "").Trim();
                         }
-                        dRow["date"] = ddd.Rows[i]["Security National date"].ObjToDateTime();
-                        dRow["contract"] = ddd.Rows[i]["Security National contract"].ObjToString();
-                        dRow["funeral"] = ddd.Rows[i]["Security National funeral"].ObjToString();
-                        //dRow["redx"] = ddd.Rows[i]["Security National redx"].ObjToString();
+                        if (value == 0D && String.IsNullOrWhiteSpace(desc))
+                        {
+                            dRow["value"] = DBNull.Value;
+                        }
+                        else
+                        {
+                            dRow["date"] = ddd.Rows[i]["Security National date"].ObjToDateTime();
+                            dRow["contract"] = ddd.Rows[i]["Security National contract"].ObjToString();
+                            dRow["funeral"] = ddd.Rows[i]["Security National funeral"].ObjToString();
+                            //dRow["redx"] = ddd.Rows[i]["Security National redx"].ObjToString();
+                        }
                         dx.Rows.InsertAt(dRow, 1);
                     }
                 }
@@ -9129,6 +9265,22 @@ namespace SMFS
             catch ( Exception ex )
             {
             }
+
+            dRow = dx.NewRow();
+            dRow["month"] = date.ToString("MMMM");
+
+            tempDt = null;
+
+            CalcEndingBalancesPre2002_SN(dx, ref SecurityNational, ref securityOther, ref record);
+
+
+            dRow["value"] = G1.ReformatMoney(SecurityNational);
+            dRow["received"] = G1.ReformatMoney(securityOther);
+            dRow["status"] = "Ending Balance";
+            dRow["record"] = record;
+
+            dx.Rows.Add(dRow);
+
 
             //gridMain17.Columns["cashPaid1"].Caption = "";
             //gridMain17.Columns["cashPaid2"].Caption = "";
@@ -11423,6 +11575,97 @@ namespace SMFS
             return dx;
         }
         /****************************************************************************************/
+        private DataTable LoadLineEditsPreSN(DataTable dx, DataTable dd)
+        {
+            string trustCompany = "";
+
+            double Forethought = 0D;
+            double SecurityNational = 0D;
+
+            string snDesc = "";
+            string ftDesc = "";
+
+            double smfsBalance = 0D;
+            double balance = 0D;
+            double ftBalance = 0D;
+            double dValue = 0D;
+            string desc = "";
+            string otherdesc = "";
+            string record = "";
+            DateTime date = DateTime.Now;
+            int row = 0;
+
+            DateTime extraDate = DateTime.Now;
+            DateTime otherDate = DateTime.Now;
+            string contractNumber = "";
+            string otherContract = "";
+            string funeral = "";
+            string otherFuneral = "";
+
+            DataRow dRow = null;
+            double value = 0D;
+            double received = 0D;
+
+            for (int i = 0; i < dd.Rows.Count; i++)
+            {
+                record = dd.Rows[i]["record"].ObjToString();
+                trustCompany = dd.Rows[i]["trustName"].ObjToString();
+                desc = dd.Rows[i]["lastName"].ObjToString();
+                otherdesc = dd.Rows[i]["firstName"].ObjToString();
+
+                value = dd.Rows[i]["payments"].ObjToDouble();
+                received = dd.Rows[i]["deathClaimAmount"].ObjToDouble();
+
+                snDesc = dd.Rows[i]["lastName"].ObjToString();
+                ftDesc = dd.Rows[i]["firstName"].ObjToString();
+
+                contractNumber = dd.Rows[i]["contractNumber"].ObjToString();
+                funeral = dd.Rows[i]["policyNumber"].ObjToString();
+                //otherContract = dd.Rows[i]["otherContract"].ObjToString();
+
+                otherDate = dd.Rows[i]["deathPaidDate"].ObjToDateTime();
+                otherContract = dd.Rows[i]["statusReason"].ObjToString();
+                otherFuneral = dd.Rows[i]["billingReason"].ObjToString();
+
+                row = dd.Rows[i]["position"].ObjToInt32();
+
+                date = dd.Rows[i]["date"].ObjToDateTime();
+
+                dRow = dx.NewRow();
+                dRow["record"] = record.ObjToInt32();
+                dRow["trust"] = trustCompany;
+                dRow["date"] = G1.DTtoMySQLDT(date.ToString("yyyy-MM-dd"));
+                //if (extraDate.Year > 100)
+                //    dRow["date"] = G1.DTtoMySQLDT(extraDate.ToString("yyyy-MM-dd"));
+                if (!String.IsNullOrWhiteSpace(contractNumber))
+                    dRow["contract"] = contractNumber;
+                if (!String.IsNullOrWhiteSpace(funeral))
+                    dRow["funeral"] = funeral;
+                dRow["desc"] = desc;
+                if (value != 0D)
+                    dRow["value"] = value;
+                if (received != 0D)
+                    dRow["received"] = received;
+
+                dRow["manual"] = "Y";
+                dRow["status"] = "Line Edit";
+
+                if (G1.get_column_number(dx, "otherdesc") > 0)
+                    dRow["otherdesc"] = otherdesc;
+                if (G1.get_column_number(dx, "otherContract") > 0)
+                    dRow["otherContract"] = otherContract;
+                if (G1.get_column_number(dx, "otherFuneral") > 0)
+                    dRow["otherFuneral"] = otherFuneral;
+                if (G1.get_column_number(dx, "dateReceived") > 0 && otherDate.Year > 100)
+                    dRow["dateReceived"] = G1.DTtoMySQLDT(otherDate.ToString("yyyy-MM-dd"));
+
+                dRow["manual"] = "Y";
+
+                dx.Rows.InsertAt(dRow, row);
+            }
+            return dx;
+        }
+        /****************************************************************************************/
         private DataRow FindRecord ( DataTable dx, string record )
         {
             DataRow dRow = null;
@@ -12169,6 +12412,8 @@ namespace SMFS
             double bankCD = 0D;
             double foreThought = pullActiveForethoughtValue(trustDt, "Pre");
             double securityNational = loadSecurityNationalBalance(lastDate, "Pre", ref tempDt);
+            double securityOther = 0D;
+            double foreThoughtOther = 0D;
             double fdlicOldWebb = pullOldWebb(trustDt);
             double fdlicOldCCI = pullOldCCI(trustDt);
             double unityOldBarham = pullUnityBarhamBalance(trustDt);
@@ -12177,7 +12422,7 @@ namespace SMFS
 
             dx = LoadOverruns(dx, overDt);
 
-            GetBeginningBalancesPre2002(dx, ref CD, ref bankCD, ref foreThought, ref securityNational, ref fdlicOldWebb, ref fdlicOldCCI, ref unityOldBarham, ref unityOldWebb, ref record);
+            GetBeginningBalancesPre2002(dx, ref CD, ref bankCD, ref foreThought, ref securityNational, ref fdlicOldWebb, ref fdlicOldCCI, ref unityOldBarham, ref unityOldWebb, ref securityOther, ref foreThoughtOther, ref record);
 
             dRow["CD"] = G1.ReformatMoney(CD);
             dRow["bankCD"] = G1.ReformatMoney(bankCD );
@@ -12206,7 +12451,7 @@ namespace SMFS
             //unityOldBarham = pullUnityBarhamBalance(trustDt);
             //unityOldWebb = pullUnityWebbBalance(trustDt);
 
-            CalcEndingBalancesPre2002(dx, ref CD, ref bankCD, ref foreThought, ref securityNational, ref fdlicOldWebb, ref fdlicOldCCI, ref unityOldBarham, ref unityOldWebb, ref record);
+            CalcEndingBalancesPre2002(dx, ref CD, ref bankCD, ref foreThought, ref securityNational, ref fdlicOldWebb, ref fdlicOldCCI, ref unityOldBarham, ref unityOldWebb, ref securityOther, ref foreThoughtOther, ref record);
 
             dRow["CD"] = G1.ReformatMoney(CD);
             dRow["bankCD"] = G1.ReformatMoney(bankCD);
@@ -13647,6 +13892,10 @@ namespace SMFS
                     Insert_Row(dgv13, gridMain13);
                 else if (dgv14.Visible)
                     Insert_Row(dgv14, gridMain14);
+                else if (dgv17.Visible)
+                    Insert_Row(dgv17, gridMain17);
+                else if (dgv18.Visible)
+                    Insert_Row(dgv18, gridMain18);
                 else
                     return;
             }
@@ -13884,6 +14133,10 @@ namespace SMFS
                     Delete_Row(dgv13, gridMain13);
                 else if (dgv14.Visible)
                     Delete_Row(dgv14, gridMain14);
+                else if (dgv17.Visible)
+                    Delete_Row(dgv17, gridMain17);
+                else if (dgv18.Visible)
+                    Delete_Row(dgv18, gridMain14);
             }
             else
             {
@@ -14117,7 +14370,7 @@ namespace SMFS
             }
         }
         /****************************************************************************************/
-        private void GetBeginningBalancesPre2002(DataTable dt, ref double CD, ref double bankCD, ref double Forethought, ref double SecurityNational, ref double FdlicOldWebb, ref double FdlicOldCCI, ref double UnityOldBarham, ref double UnityOldWebb, ref string record)
+        private void GetBeginningBalancesPre2002(DataTable dt, ref double CD, ref double bankCD, ref double Forethought, ref double SecurityNational, ref double FdlicOldWebb, ref double FdlicOldCCI, ref double UnityOldBarham, ref double UnityOldWebb, ref double securityOther, ref double ftOther, ref string record)
         {
             //if (1 == 1)
             //    return;
@@ -14131,7 +14384,9 @@ namespace SMFS
             //dRow["Unity Old Webb"] = G1.ReformatMoney(unityOldWebb);        // currentUnappliedCash
 
             Forethought = 0D;
+            ftOther = 0D;
             SecurityNational = 0D;
+            securityOther = 0D;
             FdlicOldWebb = 0D;
             FdlicOldCCI = 0D;
             UnityOldBarham = 0D;
@@ -14180,7 +14435,9 @@ namespace SMFS
                 CD = dx.Rows[0]["downPayments"].ObjToDouble();
                 bankCD = dx.Rows[0]["growth"].ObjToDouble();
                 Forethought = dx.Rows[0]["beginningPaymentBalance"].ObjToDouble();
+                ftOther = dx.Rows[0]["payments"].ObjToDouble();
                 SecurityNational = dx.Rows[0]["beginningDeathBenefit"].ObjToDouble();
+                securityOther = dx.Rows[0]["deathClaimAmount"].ObjToDouble();
                 FdlicOldWebb = dx.Rows[0]["endingPaymentBalance"].ObjToDouble();
                 FdlicOldCCI = dx.Rows[0]["endingDeathBenefit"].ObjToDouble();
                 UnityOldBarham = dx.Rows[0]["priorUnappliedCash"].ObjToDouble();
@@ -14196,7 +14453,9 @@ namespace SMFS
                     CD = dx.Rows[0]["downPayments"].ObjToDouble();
                     bankCD = dx.Rows[0]["growth"].ObjToDouble();
                     Forethought = dx.Rows[0]["beginningPaymentBalance"].ObjToDouble();
+                    ftOther = dx.Rows[0]["payments"].ObjToDouble();
                     SecurityNational = dx.Rows[0]["beginningDeathBenefit"].ObjToDouble();
+                    securityOther = dx.Rows[0]["deathClaimAmount"].ObjToDouble();
                     FdlicOldWebb = dx.Rows[0]["endingPaymentBalance"].ObjToDouble();
                     FdlicOldCCI = dx.Rows[0]["endingDeathBenefit"].ObjToDouble();
                     UnityOldBarham = dx.Rows[0]["priorUnappliedCash"].ObjToDouble();
@@ -14235,7 +14494,369 @@ namespace SMFS
             //dt.Rows.InsertAt(dRow, 0);
         }
         /****************************************************************************************/
-        private void CalcEndingBalancesPre2002(DataTable dt, ref double CD, ref double bankCD, ref double Forethought, ref double SecurityNational, ref double FdlicOldWebb, ref double FdlicOldCCI, ref double UnityOldBarham, ref double UnityOldWebb, ref string record)
+        private void GetBeginningBalancesPre2002_SNFT(DataTable dt, ref double Forethought, ref double SecurityNational, ref double securityOther, ref double ftOther, ref string record)
+        {
+
+            Forethought = 0D;
+            ftOther = 0D;
+            SecurityNational = 0D;
+            securityOther = 0D;
+
+            record = "";
+            DataTable activeDt = null;
+
+            string trustCompany = dt.TableName.Trim();
+            trustCompany = "Pre2002SN";
+
+            string str = "";
+
+            bool useTrustCalculatedBeginningBalance = true;
+            bool useTrustCalculatedEndingBalance = true;
+            bool useSMFSCalculatedBeginningBalance = true;
+            bool useSMFSCalculatedEndingBalance = true;
+
+            string[] balances = this.chkBalances.EditValue.ToString().Split('|');
+            for (int i = 0; i < chkBalances.Properties.Items.Count; i++)
+            {
+                str = chkBalances.Properties.Items[i].Description.ObjToString();
+                if (chkBalances.Properties.Items[i].CheckState == CheckState.Checked)
+                {
+                    if (str == "Use SMFS Manually Entered Beginning Balance")
+                        useSMFSCalculatedBeginningBalance = false;
+                    else if (str == "Use SMFS Manually Entered Ending Balance")
+                        useSMFSCalculatedEndingBalance = false;
+                    if (str == "Use Trust Manually Entered Beginning Balance")
+                        useTrustCalculatedBeginningBalance = false;
+                    else if (str == "Use Trust Manually Entered Ending Balance")
+                        useTrustCalculatedEndingBalance = false;
+                }
+            }
+
+            DateTime date = this.dateTimePicker2.Value;
+            DateTime lastMonth = date.AddMonths(-1);
+            int days = DateTime.DaysInMonth(lastMonth.Year, lastMonth.Month);
+            lastMonth = new DateTime(lastMonth.Year, lastMonth.Month, days);
+
+            string cmd = "Select * from `trust_data_edits` where `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `status` = 'BeginningBalance' AND `trustName` = '" + trustCompany + "' AND `preOrPost` = 'Pre';";
+            DataTable dx = G1.get_db_data(cmd);
+            if (dx.Rows.Count > 0)
+            {
+                Forethought = dx.Rows[0]["beginningPaymentBalance"].ObjToDouble();
+                ftOther = dx.Rows[0]["payments"].ObjToDouble();
+                SecurityNational = dx.Rows[0]["beginningDeathBenefit"].ObjToDouble();
+                securityOther = dx.Rows[0]["deathClaimAmount"].ObjToDouble();
+                record = dx.Rows[0]["record"].ObjToString();
+            }
+            else
+            {
+                cmd = "Select * from `trust_data_edits` where `date` = '" + lastMonth.ToString("yyyy-MM-dd") + "' AND `status` = 'EndingBalance' AND `trustName` = '" + trustCompany + "' AND `preOrPost` = 'Pre';";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    Forethought = dx.Rows[0]["beginningPaymentBalance"].ObjToDouble();
+                    ftOther = dx.Rows[0]["payments"].ObjToDouble();
+                    SecurityNational = dx.Rows[0]["beginningDeathBenefit"].ObjToDouble();
+                    securityOther = dx.Rows[0]["deathClaimAmount"].ObjToDouble();
+                    record = dx.Rows[0]["record"].ObjToString();
+                    record = "";
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void GetBeginningBalancesPre2002_SN(DataTable dt, ref double SecurityNational, ref double securityOther, ref string record)
+        {
+
+            SecurityNational = 0D;
+            securityOther = 0D;
+
+            record = "";
+            DataTable activeDt = null;
+
+            string trustCompany = dt.TableName.Trim();
+            trustCompany = "Pre2002SN";
+
+            string str = "";
+
+            bool useTrustCalculatedBeginningBalance = true;
+            bool useTrustCalculatedEndingBalance = true;
+            bool useSMFSCalculatedBeginningBalance = true;
+            bool useSMFSCalculatedEndingBalance = true;
+
+            string[] balances = this.chkBalances.EditValue.ToString().Split('|');
+            for (int i = 0; i < chkBalances.Properties.Items.Count; i++)
+            {
+                str = chkBalances.Properties.Items[i].Description.ObjToString();
+                if (chkBalances.Properties.Items[i].CheckState == CheckState.Checked)
+                {
+                    if (str == "Use SMFS Manually Entered Beginning Balance")
+                        useSMFSCalculatedBeginningBalance = false;
+                    else if (str == "Use SMFS Manually Entered Ending Balance")
+                        useSMFSCalculatedEndingBalance = false;
+                    if (str == "Use Trust Manually Entered Beginning Balance")
+                        useTrustCalculatedBeginningBalance = false;
+                    else if (str == "Use Trust Manually Entered Ending Balance")
+                        useTrustCalculatedEndingBalance = false;
+                }
+            }
+
+            DateTime date = this.dateTimePicker2.Value;
+            DateTime lastMonth = date.AddMonths(-1);
+            int days = DateTime.DaysInMonth(lastMonth.Year, lastMonth.Month);
+            lastMonth = new DateTime(lastMonth.Year, lastMonth.Month, days);
+
+            string cmd = "Select * from `trust_data_edits` where `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `status` = 'BeginningBalance' AND `trustName` = '" + trustCompany + "' AND `preOrPost` = 'Pre';";
+            DataTable dx = G1.get_db_data(cmd);
+            if (dx.Rows.Count > 0)
+            {
+                SecurityNational = dx.Rows[0]["payments"].ObjToDouble();
+                securityOther = dx.Rows[0]["deathClaimAmount"].ObjToDouble();
+                record = dx.Rows[0]["record"].ObjToString();
+            }
+            else
+            {
+                cmd = "Select * from `trust_data_edits` where `date` = '" + lastMonth.ToString("yyyy-MM-dd") + "' AND `status` = 'EndingBalance' AND `trustName` = '" + trustCompany + "' AND `preOrPost` = 'Pre';";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    SecurityNational = dx.Rows[0]["payments"].ObjToDouble();
+                    securityOther = dx.Rows[0]["deathClaimAmount"].ObjToDouble();
+                    record = dx.Rows[0]["record"].ObjToString();
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void GetBeginningBalancesPre2002_FT(DataTable dt, ref double SecurityNational, ref double securityOther, ref string record)
+        {
+
+            SecurityNational = 0D;
+            securityOther = 0D;
+
+            record = "";
+            DataTable activeDt = null;
+
+            string trustCompany = dt.TableName.Trim();
+            trustCompany = "Pre2002FT";
+
+            string str = "";
+
+            bool useTrustCalculatedBeginningBalance = true;
+            bool useTrustCalculatedEndingBalance = true;
+            bool useSMFSCalculatedBeginningBalance = true;
+            bool useSMFSCalculatedEndingBalance = true;
+
+            string[] balances = this.chkBalances.EditValue.ToString().Split('|');
+            for (int i = 0; i < chkBalances.Properties.Items.Count; i++)
+            {
+                str = chkBalances.Properties.Items[i].Description.ObjToString();
+                if (chkBalances.Properties.Items[i].CheckState == CheckState.Checked)
+                {
+                    if (str == "Use SMFS Manually Entered Beginning Balance")
+                        useSMFSCalculatedBeginningBalance = false;
+                    else if (str == "Use SMFS Manually Entered Ending Balance")
+                        useSMFSCalculatedEndingBalance = false;
+                    if (str == "Use Trust Manually Entered Beginning Balance")
+                        useTrustCalculatedBeginningBalance = false;
+                    else if (str == "Use Trust Manually Entered Ending Balance")
+                        useTrustCalculatedEndingBalance = false;
+                }
+            }
+
+            DateTime date = this.dateTimePicker2.Value;
+            DateTime lastMonth = date.AddMonths(-1);
+            int days = DateTime.DaysInMonth(lastMonth.Year, lastMonth.Month);
+            lastMonth = new DateTime(lastMonth.Year, lastMonth.Month, days);
+
+            string cmd = "Select * from `trust_data_edits` where `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `status` = 'BeginningBalance' AND `trustName` = '" + trustCompany + "' AND `preOrPost` = 'Pre';";
+            DataTable dx = G1.get_db_data(cmd);
+            if (dx.Rows.Count > 0)
+            {
+                SecurityNational = dx.Rows[0]["payments"].ObjToDouble();
+                securityOther = dx.Rows[0]["deathClaimAmount"].ObjToDouble();
+                record = dx.Rows[0]["record"].ObjToString();
+            }
+            else
+            {
+                cmd = "Select * from `trust_data_edits` where `date` = '" + lastMonth.ToString("yyyy-MM-dd") + "' AND `status` = 'EndingBalance' AND `trustName` = '" + trustCompany + "' AND `preOrPost` = 'Pre';";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    SecurityNational = dx.Rows[0]["payments"].ObjToDouble();
+                    securityOther = dx.Rows[0]["deathClaimAmount"].ObjToDouble();
+                    record = dx.Rows[0]["record"].ObjToString();
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void CalcEndingBalancesPre2002_SN(DataTable dt, ref double SecurityNational, ref double securityOther, ref string record)
+        {
+            SecurityNational = 0D;
+            securityOther = 0D;
+
+            record = "";
+            string status = "";
+
+            double dValue = 0D;
+            double ft = 0D;
+            double ftOther = 0D;
+            double secnat = 0D;
+            double secnatOther = 0D;
+            string desc = "";
+
+            GetBeginningBalancesPre2002_SN (dt, ref SecurityNational, ref securityOther, ref record);
+
+            string cmd = "";
+            DateTime date = this.dateTimePicker2.Value;
+
+            string startDate = this.dateTimePicker1.Value.ToString("yyyy-MM-dd");
+            string stopDate = this.dateTimePicker2.Value.ToString("yyyy-MM-dd");
+
+            cmd = "Select * from `trust_data_edits` WHERE `trustName` = 'Pre2002SN' AND `status` = 'Line Edit' AND `date` >= '" + startDate + "' AND `date` <= '" + stopDate + "' AND `preOrPost` = 'Pre' AND `policyStatus` <> 'SPLIT';";
+            DataTable dd = G1.get_db_data(cmd);
+            if (dd.Rows.Count > 0)
+                dt = LoadLineEditsPreSN(dt, dd);
+
+            int snCol = G1.get_column_number(dt, "Security National Desc");
+            int ftCol = G1.get_column_number(dt, "Forethought Desc");
+
+            string firstName = "";
+            string lastName = "";
+            string middleName = "";
+            double security = 0D;
+
+            string cashPaid1 = "";
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                status = dt.Rows[i]["status"].ObjToString().ToUpper();
+                if (status.ToUpper() == "BEGINNING BALANCE")
+                    continue;
+                firstName = dt.Rows[i]["firstName"].ObjToString().ToUpper();
+                lastName = dt.Rows[i]["lastName"].ObjToString().ToUpper();
+
+                middleName = dt.Rows[i]["middleName"].ObjToString().ToUpper();
+                if (middleName == "REPLACE")
+                    continue;
+
+                cashPaid1 = dt.Rows[i]["cashPaid1"].ObjToString().ToUpper();
+                if (cashPaid1 == "DC CASH")
+                    continue;
+                if (cashPaid1 == "DC PAID")
+                    continue;
+
+                cashPaid1 = dt.Rows[i]["desc"].ObjToString().ToUpper();
+                if (cashPaid1.IndexOf("DC PAID") >= 0)
+                    continue;
+                if (cashPaid1.IndexOf("DC CASH") >= 0)
+                    continue;
+
+
+                if (String.IsNullOrWhiteSpace(status) && firstName == "LINE EDIT")
+                    status = firstName;
+                else if (String.IsNullOrWhiteSpace(status) && lastName == "LINE EDIT")
+                    status = lastName;
+                if (CheckPreIncludeEdits(dt, i, snCol, firstName, lastName))
+                {
+                    secnatOther += dt.Rows[i]["value"].ObjToDouble();
+                    //secnatOther += dt.Rows[i]["payments"].ObjToDouble();
+                    //continue;
+                }
+                if (CheckPreIncludeEdits(dt, i, ftCol, firstName, lastName))
+                {
+                    secnat += dt.Rows[i]["received"].ObjToDouble();
+                    //ftOther += dt.Rows[i]["deathClaimAmount"].ObjToDouble();
+                    //continue;
+                }
+            }
+
+            SecurityNational += secnat;
+            securityOther += secnatOther;
+        }
+        /****************************************************************************************/
+        private void CalcEndingBalancesPre2002_FT(DataTable dt, ref double Forethought, ref double foreOther, ref string record)
+        {
+            Forethought = 0D;
+            foreOther = 0D;
+            record = "";
+            string status = "";
+
+            double dValue = 0D;
+            double ft = 0D;
+            double ftOther = 0D;
+            double secnat = 0D;
+            double secnatOther = 0D;
+            string desc = "";
+
+            GetBeginningBalancesPre2002_FT(dt, ref Forethought, ref foreOther, ref record);
+
+            string cmd = "";
+            DateTime date = this.dateTimePicker2.Value;
+
+            string startDate = this.dateTimePicker1.Value.ToString("yyyy-MM-dd");
+            string stopDate = this.dateTimePicker2.Value.ToString("yyyy-MM-dd");
+
+            cmd = "Select * from `trust_data_edits` WHERE `trustName` = 'Pre2002FT' AND `status` = 'Line Edit' AND `date` >= '" + startDate + "' AND `date` <= '" + stopDate + "' AND `preOrPost` = 'Pre' AND `policyStatus` <> 'SPLIT';";
+            DataTable dd = G1.get_db_data(cmd);
+            if (dd.Rows.Count > 0)
+                dt = LoadLineEditsPreSN(dt, dd);
+
+            int snCol = G1.get_column_number(dt, "Security National Desc");
+            int ftCol = G1.get_column_number(dt, "Forethought Desc");
+
+            string firstName = "";
+            string lastName = "";
+            string middleName = "";
+            double security = 0D;
+
+            string cashPaid1 = "";
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                status = dt.Rows[i]["status"].ObjToString().ToUpper();
+                if (status.ToUpper() == "BEGINNING BALANCE")
+                    continue;
+                firstName = dt.Rows[i]["firstName"].ObjToString().ToUpper();
+                lastName = dt.Rows[i]["lastName"].ObjToString().ToUpper();
+
+                middleName = dt.Rows[i]["middleName"].ObjToString().ToUpper();
+                if (middleName == "REPLACE")
+                    continue;
+
+                cashPaid1 = dt.Rows[i]["cashPaid1"].ObjToString().ToUpper();
+                if (cashPaid1 == "DC CASH")
+                    continue;
+                if (cashPaid1 == "DC PAID")
+                    continue;
+
+                cashPaid1 = dt.Rows[i]["desc"].ObjToString().ToUpper();
+                if (cashPaid1.IndexOf("DC PAID") >= 0)
+                    continue;
+                if (cashPaid1.IndexOf("DC CASH") >= 0)
+                    continue;
+
+
+                if (String.IsNullOrWhiteSpace(status) && firstName == "LINE EDIT")
+                    status = firstName;
+                else if (String.IsNullOrWhiteSpace(status) && lastName == "LINE EDIT")
+                    status = lastName;
+                if (CheckPreIncludeEdits(dt, i, snCol, firstName, lastName))
+                {
+                    ft += dt.Rows[i]["value"].ObjToDouble();
+                    //secnatOther += dt.Rows[i]["payments"].ObjToDouble();
+                    //continue;
+                }
+                if (CheckPreIncludeEdits(dt, i, ftCol, firstName, lastName))
+                {
+                    ftOther += dt.Rows[i]["received"].ObjToDouble();
+                    //ftOther += dt.Rows[i]["deathClaimAmount"].ObjToDouble();
+                    //continue;
+                }
+            }
+
+            Forethought += ft;
+            foreOther += ftOther;
+        }
+        /****************************************************************************************/
+        private void CalcEndingBalancesPre2002(DataTable dt, ref double CD, ref double bankCD, ref double Forethought, ref double SecurityNational, ref double FdlicOldWebb, ref double FdlicOldCCI, ref double UnityOldBarham, ref double UnityOldWebb, ref double securityOther, ref double foreOther, ref string record)
         {
             //dRow["Forethought"] = G1.ReformatMoney(foreThought);            // beginningPaymentBalance
             //dRow["Security National"] = G1.ReformatMoney(securityNational); // beginningDeathBenefit
@@ -14247,7 +14868,10 @@ namespace SMFS
             CD = 0D;
             bankCD = 0D;
             Forethought = 0D;
+            foreOther = 0D;
             SecurityNational = 0D;
+            securityOther = 0D;
+
             FdlicOldWebb = 0D;
             FdlicOldCCI = 0D;
             UnityOldBarham = 0D;
@@ -14258,14 +14882,16 @@ namespace SMFS
 
             double dValue = 0D;
             double ft = 0D;
+            double ftOther = 0D;
             double secnat = 0D;
+            double secnatOther = 0D;
             double fdlicOW = 0D;
             double fdlicCCI = 0D;
             double unityOB = 0D;
             double unityOW = 0D;
             string desc = "";
 
-            GetBeginningBalancesPre2002(dt, ref CD, ref bankCD, ref Forethought, ref SecurityNational, ref FdlicOldWebb, ref FdlicOldCCI, ref UnityOldBarham, ref UnityOldWebb, ref record);
+            GetBeginningBalancesPre2002(dt, ref CD, ref bankCD, ref Forethought, ref SecurityNational, ref FdlicOldWebb, ref FdlicOldCCI, ref UnityOldBarham, ref UnityOldWebb, ref securityOther, ref foreOther, ref record);
 
             string cmd = "";
             DateTime date = this.dateTimePicker2.Value;
@@ -14318,11 +14944,13 @@ namespace SMFS
                 if (CheckPreIncludeEdits(dt, i, snCol, firstName, lastName))
                 {
                     secnat += dt.Rows[i]["Security National"].ObjToDouble();
+                    //secnatOther += dt.Rows[i]["payments"].ObjToDouble();
                     //continue;
                 }
                 if (CheckPreIncludeEdits(dt, i, ftCol, firstName, lastName))
                 {
                     ft += dt.Rows[i]["Forethought"].ObjToDouble();
+                    //ftOther += dt.Rows[i]["deathClaimAmount"].ObjToDouble();
                     //continue;
                 }
                 if (CheckPreIncludeEdits(dt, i, fdlicOWCol, firstName, lastName))
@@ -14357,7 +14985,9 @@ namespace SMFS
             }
 
             Forethought += ft;
+            foreOther += foreOther;
             SecurityNational += secnat;
+            securityOther += secnatOther;
             FdlicOldWebb += fdlicOW;
             FdlicOldCCI += fdlicCCI;
             UnityOldBarham += unityOB;
@@ -17221,8 +17851,6 @@ namespace SMFS
             DataRow[] dRows = dt.Select("trustCompany='Forethought'");
             if (dRows.Length > 0)
                 dt = dRows.CopyToDataTable();
-            else
-                dt.Rows.Clear();
 
             string trust = "trust";
             if (G1.get_column_number(dt, "trust") < 0)
@@ -17287,6 +17915,10 @@ namespace SMFS
 
             if (G1.get_column_number(dx, "rp") < 0)
                 dx.Columns.Add("rp");
+            if (G1.get_column_number(dx, "red1") < 0)
+                dx.Columns.Add("red1");
+            if (G1.get_column_number(dx, "red2") < 0)
+                dx.Columns.Add("red2");
 
             int firstRow = 1;
             for (int i = 0; i < maxRow; i++)
@@ -17336,6 +17968,9 @@ namespace SMFS
                 {
                     include = false;
                     contract = dd.Rows[j]["contract"].ObjToString();
+                    if (contract == "P15099UI")
+                    {
+                    }
                     rp = dd.Rows[j]["billingReason"].ObjToString().ToUpper();
                     if (rp == "RP")
                         dd.Rows[j]["imonth"] = 2;
@@ -17364,15 +17999,15 @@ namespace SMFS
                                 name = Lines[1] + " " + Lines[0];
                         }
                     }
-                    if (i == 0 )
+                    if (i == 0 && trustCompany == "Forethought")
                     {
                         dx.Rows[j]["date"] = G1.DTtoMySQLDT(dd.Rows[j]["date"].ObjToDateTime().ToString("yyyy-MM-dd"));
                         receivedDate = dd.Rows[j]["dateReceived"].ObjToDateTime();
                         if (receivedDate.Year > 1000)
                             dx.Rows[j]["date"] = G1.DTtoMySQLDT(dd.Rows[j]["dateReceived"].ObjToDateTime().ToString("yyyy-MM-dd"));
                         dx.Rows[j]["trust"] = trustCompany;
-                        gridMain2.Columns["value"].Caption = trustCompany + " Trust Money";
-                        gridMain2.Columns["balance"].Caption = trustCompany + " Trust Balance";
+                        gridMain18.Columns["value"].Caption = trustCompany + " Trust Money";
+                        gridMain18.Columns["balance"].Caption = trustCompany + " Trust Balance";
                         dx.Rows[j]["value"] = dd.Rows[j]["value"].ObjToDouble();
                         dx.Rows[j]["fun_amtReceived"] = dd.Rows[j]["fun_AmtReceived"].ObjToDouble();
                         dx.Rows[j]["principal"] = dd.Rows[j]["principal"].ObjToDouble();
@@ -17432,27 +18067,31 @@ namespace SMFS
             tempview.Sort = "rp, date";
             dx = tempview.ToTable();
 
-            //DataTable ddx = dx.Copy();
+            //dx.Rows.Clear();
 
-            //tempview = ddx.DefaultView;
-            //tempview.Sort = "dateReceived";
-            //ddx = tempview.ToTable();
+            double Forethought = 0D;
+            double foreOther = 0D;
+            double SecurityNational = 0D;
+            double securityOther = 0D;
+            string record = "";
 
-            //for (int i = 0; i < ddx.Rows.Count; i++)
-            //{
-            //    dx.Rows[i]["otherContract"] = ddx.Rows[i]["otherContract"].ObjToString();
-            //    dx.Rows[i]["otherdesc"] = ddx.Rows[i]["otherdesc"].ObjToString();
-            //    dx.Rows[i]["otherFuneral"] = ddx.Rows[i]["otherFuneral"].ObjToString();
-            //    dx.Rows[i]["dateReceived"] = G1.DTtoMySQLDT(ddx.Rows[i]["dateReceived"].ObjToDateTime().ToString("yyyy-MM-dd"));
-            //    dx.Rows[i]["received"] = ddx.Rows[i]["received"].ObjToDouble();
-            //    dx.Rows[i]["othertrust"] = ddx.Rows[i]["othertrust"].ObjToString();
-            //}
+            DateTime date = this.dateTimePicker2.Value;
 
+            dRow = dx.NewRow();
+            dRow["month"] = date.ToString("MMMM");
 
-            LoadBeginningBalances(dx);
+            tempDt = null;
+
+            GetBeginningBalancesPre2002_FT(dt, ref Forethought, ref foreOther, ref record);
+
+            dRow["value"] = G1.ReformatMoney(Forethought);
+            dRow["received"] = G1.ReformatMoney(foreOther);
+            dRow["status"] = "Beginning Balance";
+            dRow["record"] = record;
+
+            //dx.Rows.InsertAt(dRow, 0);
 
             string cmd = "";
-            DateTime date = this.dateTimePicker2.Value;
 
             //loadCashPaid(dx);
 
@@ -17472,41 +18111,26 @@ namespace SMFS
                 saveDt1.Rows.Add(xxxRow);
             }
 
-            //for (int j = 0; j < saveDt1.Rows.Count; j++)
-            //{
-            //    trust = saveDt1.Rows[j]["trust"].ObjToString();
-            //    if (trust == "Security National")
-            //        trust = "SNFT";
-            //    if (workReport == "Post 2002 Report - SN & FT")
-            //        trust = "SNFT";
-            //    else if (workReport == "Post 2002 Report - SN")
-            //        trust = "SN";
-            //    else if (workReport == "Post 2002 Report - FT")
-            //        trust = "FT";
-            //    if (!gotSNFT)
-            //    {
-            //        cmd = "Select * from `trust_data_edits` WHERE `trustName` = '" + trust + "' AND `status` = 'Line Edit' AND `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `preOrPost` = 'Post' AND `policyStatus` <> 'SPLIT';";
-            //        dd = G1.get_db_data(cmd);
-            //        if (dd.Rows.Count > 0)
-            //            dx = LoadLineEdits(dx, dd);
-            //    }
-            //    if (trust == "SNFT")
-            //        gotSNFT = true;
-            //}
+            trust = "Pre2002FT";
+            cmd = "Select * from `trust_data_edits` WHERE `trustName` = '" + trust + "' AND `status` = 'Line Edit' AND `date` = '" + date.ToString("yyyy-MM-dd") + "' AND `preOrPost` = 'Pre' AND `policyStatus` <> 'SPLIT';";
+            dd = G1.get_db_data(cmd);
+            //if (dd.Rows.Count > 0)
+            //    dx = LoadLineEdits(dx, dd);
 
             //LoadEndingBalances(dx);
 
             string month = this.dateTimePicker2.Value.ToString("MMMM");
-            if (dx.Rows.Count >= 1) // xyzzy
+
+            if (dx.Rows.Count >= 1)
             {
                 dRow = dx.NewRow();
                 dRow["month"] = month + " " + this.dateTimePicker2.Value.Year.ToString("D4") + " Beg Bal";
+                dRow["value"] = G1.ReformatMoney(Forethought);
+                dRow["received"] = G1.ReformatMoney(foreOther);
+                dRow["status"] = "Beginning Balance";
+                dRow["record"] = record;
+                //dx.Rows.Add(dRow);
                 dx.Rows.InsertAt(dRow, 0);
-                //dx.Rows[0]["month"] = month + " " + this.dateTimePicker2.Value.Year.ToString("D4") + " Beg Bal";
-                //if (dx.Rows.Count >= 2)
-                //    dx.Rows[1]["month"] = "Beginning";
-                //if ( dx.Rows.Count >= 3 )
-                //    dx.Rows[2]["month"] = "Balance";
             }
 
             SetupPostPositions();
@@ -17537,14 +18161,29 @@ namespace SMFS
 
             double value = 0D;
             string desc = "";
+            bool gotit = false;
             DataTable ddx = ddd.Clone();
             try
             {
                 for (int i = 0; i < ddd.Rows.Count; i++)
                 {
+                    gotit = false;
                     value = ddd.Rows[i]["Forethought"].ObjToDouble();
                     desc = ddd.Rows[i]["Forethought desc"].ObjToString();
                     if (String.IsNullOrWhiteSpace(desc))
+                    {
+                        dRow = ddx.NewRow();
+                        ddx.Rows.Add(dRow);
+                        continue;
+                    }
+
+                    if (desc.ToUpper().IndexOf("DC PAID") >= 0)
+                        gotit = true;
+
+                    if (desc.ToUpper().IndexOf("DC CASH") >= 0)
+                        gotit = true;
+
+                    if (!gotit)
                         continue;
 
                     dRow = ddx.NewRow();
@@ -17573,6 +18212,8 @@ namespace SMFS
                     }
                 }
 
+                string red1 = "";
+                string red2 = "";
                 int col = G1.get_column_number(dx, "trust");
                 if (col >= 0)
                 {
@@ -17583,9 +18224,11 @@ namespace SMFS
                     {
                         value = ddx.Rows[i]["Forethought"].ObjToDouble();
                         desc = ddx.Rows[i]["Forethought desc"].ObjToString();
+                        red1 = ddx.Rows[i]["Forethought redx"].ObjToString();
                         dRow = dx.NewRow();
                         dRow["value"] = value;
                         dRow["desc"] = desc;
+                        dRow["red1"] = red1;
                         if (desc.ToUpper().IndexOf("DC CASH-") == 0)
                         {
                             dRow["cashPaid1"] = "DC CASH";
@@ -17596,10 +18239,17 @@ namespace SMFS
                             dRow["cashPaid1"] = "DC PAID";
                             dRow["desc"] = desc.Replace("DC PAID-", "").Trim();
                         }
-                        dRow["date"] = ddd.Rows[i]["Forethought date"].ObjToDateTime();
-                        dRow["contract"] = ddd.Rows[i]["Forethought contract"].ObjToString();
-                        dRow["funeral"] = ddd.Rows[i]["Forethought funeral"].ObjToString();
-                        //dRow["redx"] = ddd.Rows[i]["Security National redx"].ObjToString();
+                        if (value == 0D && String.IsNullOrWhiteSpace(desc))
+                        {
+                            dRow["value"] = DBNull.Value;
+                        }
+                        else
+                        {
+                            dRow["date"] = ddd.Rows[i]["Forethought date"].ObjToDateTime();
+                            dRow["contract"] = ddd.Rows[i]["Forethought contract"].ObjToString();
+                            dRow["funeral"] = ddd.Rows[i]["Forethought funeral"].ObjToString();
+                            //dRow["redx"] = ddd.Rows[i]["Security National redx"].ObjToString();
+                        }
                         dx.Rows.InsertAt(dRow, 1);
                     }
                 }
@@ -17608,10 +18258,312 @@ namespace SMFS
             {
             }
 
+            dRow = dx.NewRow();
+            dRow["month"] = date.ToString("MMMM");
+
+            tempDt = null;
+
+            dx = CleanupDx(dx);
+
+            CalcEndingBalancesPre2002_FT(dx, ref Forethought, ref foreOther, ref record);
+
+
+            dRow["value"] = G1.ReformatMoney(Forethought);
+            dRow["received"] = G1.ReformatMoney(foreOther);
+            dRow["status"] = "Ending Balance";
+            dRow["record"] = record;
+
+            dx.Rows.Add(dRow);
+
             G1.NumberDataTable(dx);
             dgv18.DataSource = dx;
             dgv18.Refresh();
             this.Cursor = Cursors.Default;
+        }
+        /****************************************************************************************/
+        private DataTable CleanupDx ( DataTable dx )
+        {
+            double value = 0D;
+            double received = 0D;
+            string status = "";
+            string desc = "";
+            string otherDesc = "";
+            int blankCount = 0;
+            for ( int i=dx.Rows.Count-1; i>=0; i-- )
+            {
+                value = dx.Rows[i]["value"].ObjToDouble();
+                received = dx.Rows[i]["received"].ObjToDouble();
+                status = dx.Rows[i]["status"].ObjToString();
+                desc = dx.Rows[i]["desc"].ObjToString();
+                otherDesc = dx.Rows[i]["otherDesc"].ObjToString();
+
+                if ( value == 0D && received == 0D && String.IsNullOrWhiteSpace ( status ) && String.IsNullOrWhiteSpace ( desc ) && String.IsNullOrWhiteSpace ( otherDesc ))
+                {
+                    blankCount++;
+                    if ( blankCount >= 2 )
+                    {
+                        dx.Rows.RemoveAt(i);
+                        blankCount = 1;
+                    }
+                    continue;
+                }
+                blankCount = 0;
+            }
+            return dx;
+        }
+        /****************************************************************************************/
+        private void gridMain17_RowCellStyle(object sender, RowCellStyleEventArgs e)
+        {
+            GridView View = sender as GridView;
+            if (e.RowHandle >= 0)
+            {
+                string column = e.Column.FieldName.ToUpper();
+                DataTable dt = (DataTable)dgv17.DataSource;
+                int row = gridMain17.GetDataSourceRowIndex(e.RowHandle);
+                if (row >= dt.Rows.Count)
+                    return;
+
+                string red1 = "";
+                string red2 = "";
+
+                try
+                {
+                    if (column == "NUM")
+                    {
+                        string manual = dt.Rows[row]["manual"].ObjToString();
+                        if (manual.Trim().ToUpper() == "Y")
+                            e.Appearance.BackColor = Color.Red;
+                        else
+                            e.Appearance.BackColor = Color.Transparent;
+                    }
+
+                    int col = G1.get_column_number(dt, "red1");
+                    if (col >= 0)
+                        red1 = dt.Rows[row]["red1"].ObjToString();
+
+                    if (red1 == "Y")
+                    {
+                        if (column.IndexOf("DESC") >= 0 || column == "VALUE" || column == "CONTRACT" || column == "FUNERAL" || column == "DATE" || column == "CASHPAID1" )
+                        {
+                            e.Appearance.ForeColor = Color.Red;
+                            ColorizeCell(e.Appearance);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+        /****************************************************************************************/
+        private void gridMain17_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            try
+            {
+                int rowHandle = gridMain17.FocusedRowHandle;
+                int row = gridMain17.GetDataSourceRowIndex(rowHandle);
+                DataRow dr = gridMain17.GetFocusedDataRow();
+                if (dr == null)
+                    return;
+
+                DataTable dt = (DataTable)dgv17.DataSource;
+                string record = dr["record"].ObjToString();
+                if (record == "0")
+                    record = "";
+
+                DateTime date = this.dateTimePicker2.Value;
+
+                string trustCompany = "Pre2002SN";
+                double value = dr["value"].ObjToDouble();
+                double received = dr["received"].ObjToDouble();
+
+                string desc = "";
+                if (G1.get_column_number(dt, "desc") > 0)
+                    desc = dr["desc"].ObjToString();
+                string otherDesc = "";
+                if (G1.get_column_number(dt, "otherDesc") > 0)
+                    otherDesc = dr["otherDesc"].ObjToString();
+
+                string month = dr["month"].ObjToString().ToUpper();
+                month = dr["status"].ObjToString().ToUpper();
+                string colName = gridMain17.FocusedColumn.FieldName;
+
+                string contract = dr["contract"].ObjToString();
+                string funeral = dr["funeral"].ObjToString();
+                DateTime dateReceived = dr["dateReceived"].ObjToDateTime();
+                string otherContract = dr["otherContract"].ObjToString();
+                string otherFuneral = dr["otherFuneral"].ObjToString();
+                DateTime strDate = dr["date"].ObjToDateTime();
+                if (strDate.Year > 100)
+                    date = strDate;
+
+                if (month == "BEGINNING BALANCE")
+                {
+                    if (String.IsNullOrWhiteSpace(record))
+                    {
+                        record = G1.create_record("trust_data_edits", "status", "-1");
+                        dr["record"] = record.ObjToInt32();
+                        G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "preOrPost", "Pre" });
+                    }
+                    if (G1.BadRecord("trust_data_edits", record))
+                        return;
+                    G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "payments", value.ToString(), "deathClaimAmount", received.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
+                    return;
+                }
+
+
+                if ( String.IsNullOrWhiteSpace ( month ) || month.ToUpper() == "LINE EDIT" )
+                {
+                    if (String.IsNullOrWhiteSpace(record))
+                    {
+                        record = G1.create_record("trust_data_edits", "status", "-1");
+                        dr["record"] = record.ObjToInt32();
+                        G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "Line Edit", "preOrPost", "Pre", "trustName", trustCompany, "date", date.ToString("yyyyMMdd"), "position", row.ToString(), });
+                    }
+                    if (G1.BadRecord("trust_data_edits", record))
+                        return;
+
+                    G1.update_db_table("trust_data_edits", "record", record, new string[] { "payments", value.ToString(), "deathClaimAmount", received.ToString(), "lastName", desc, "firstName", otherDesc, "contractNumber", contract, "policyNumber", funeral, "deathPaidDate", dateReceived.ToString("yyyyMMdd"), "statusReason", otherContract, "billingReason", otherFuneral, "date", date.ToString("yyyyMMdd") });
+
+                    dr["manual"] = "Y";
+
+                    gridMain17.RefreshEditor(true);
+                    gridMain17.RefreshData();
+                    dgv17.Refresh();
+                    gridMain17.PostEditor();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        /****************************************************************************************/
+        private void gridMain18_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            try
+            {
+                int rowHandle = gridMain18.FocusedRowHandle;
+                int row = gridMain18.GetDataSourceRowIndex(rowHandle);
+                DataRow dr = gridMain18.GetFocusedDataRow();
+                if (dr == null)
+                    return;
+
+                DataTable dt = (DataTable)dgv18.DataSource;
+                string record = dr["record"].ObjToString();
+                if (record == "0")
+                    record = "";
+
+                DateTime date = this.dateTimePicker2.Value;
+
+                string trustCompany = "Pre2002FT";
+                double value = dr["value"].ObjToDouble();
+                double received = dr["received"].ObjToDouble();
+
+                string desc = "";
+                if (G1.get_column_number(dt, "desc") > 0)
+                    desc = dr["desc"].ObjToString();
+                string otherDesc = "";
+                if (G1.get_column_number(dt, "otherDesc") > 0)
+                    otherDesc = dr["otherDesc"].ObjToString();
+
+                string month = dr["month"].ObjToString().ToUpper();
+                month = dr["status"].ObjToString().ToUpper();
+                string colName = gridMain17.FocusedColumn.FieldName;
+
+                string contract = dr["contract"].ObjToString();
+                string funeral = dr["funeral"].ObjToString();
+                DateTime dateReceived = dr["dateReceived"].ObjToDateTime();
+                string otherContract = dr["otherContract"].ObjToString();
+                string otherFuneral = dr["otherFuneral"].ObjToString();
+                DateTime strDate = dr["date"].ObjToDateTime();
+                if (strDate.Year > 100)
+                    date = strDate;
+
+                if (month == "BEGINNING BALANCE")
+                {
+                    if (String.IsNullOrWhiteSpace(record))
+                    {
+                        record = G1.create_record("trust_data_edits", "status", "-1");
+                        dr["record"] = record.ObjToInt32();
+                        G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "preOrPost", "Pre" });
+                    }
+                    if (G1.BadRecord("trust_data_edits", record))
+                        return;
+                    G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "BeginningBalance", "payments", value.ToString(), "deathClaimAmount", received.ToString(), "date", date.ToString("yyyy-MM-dd"), "trustName", trustCompany });
+                    return;
+                }
+
+                if (String.IsNullOrWhiteSpace(month) || month.ToUpper() == "LINE EDIT")
+                {
+                    if (String.IsNullOrWhiteSpace(record))
+                    {
+                        record = G1.create_record("trust_data_edits", "status", "-1");
+                        dr["record"] = record.ObjToInt32();
+                        G1.update_db_table("trust_data_edits", "record", record, new string[] { "status", "Line Edit", "preOrPost", "Pre", "trustName", trustCompany, "date", date.ToString("yyyyMMdd"), "position", row.ToString(), });
+                    }
+                    if (G1.BadRecord("trust_data_edits", record))
+                        return;
+
+
+                    G1.update_db_table("trust_data_edits", "record", record, new string[] { "payments", value.ToString(), "deathClaimAmount", received.ToString(), "lastName", desc, "firstName", otherDesc, "contractNumber", contract, "policyNumber", funeral, "deathPaidDate", dateReceived.ToString("yyyyMMdd"), "statusReason", otherContract, "billingReason", otherFuneral, "date", date.ToString("yyyyMMdd") });
+
+                    dr["manual"] = "Y";
+
+                    gridMain17.RefreshEditor(true);
+                    gridMain17.RefreshData();
+                    dgv17.Refresh();
+                    gridMain17.PostEditor();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        /****************************************************************************************/
+        private void gridMain18_RowCellStyle(object sender, RowCellStyleEventArgs e)
+        {
+            GridView View = sender as GridView;
+            if (e.RowHandle >= 0)
+            {
+                string column = e.Column.FieldName.ToUpper();
+                DataTable dt = (DataTable)dgv18.DataSource;
+                int row = gridMain18.GetDataSourceRowIndex(e.RowHandle);
+                if (row >= dt.Rows.Count)
+                    return;
+
+                string red1 = "";
+                string red2 = "";
+
+                try
+                {
+                    if (column == "NUM")
+                    {
+                        string manual = dt.Rows[row]["manual"].ObjToString();
+                        if (manual.Trim().ToUpper() == "Y")
+                            e.Appearance.BackColor = Color.Red;
+                        else
+                            e.Appearance.BackColor = Color.Transparent;
+                    }
+
+                    int col = G1.get_column_number(dt, "red1");
+                    if (col >= 0)
+                        red1 = dt.Rows[row]["red1"].ObjToString();
+
+                    if (red1 == "Y")
+                    {
+                        if (column.IndexOf("DESC") >= 0 || column == "VALUE" || column == "CONTRACT" || column == "FUNERAL" || column == "DATE" || column == "CASHPAID1")
+                        {
+                            e.Appearance.ForeColor = Color.Red;
+                            ColorizeCell(e.Appearance);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
         }
         /****************************************************************************************/
     }

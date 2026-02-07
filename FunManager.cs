@@ -1254,6 +1254,12 @@ namespace SMFS
             if (preneedDiscount > 0D && preneedDiscount > totalDiscount)
                 totalDiscount = preneedDiscount;
 
+            if (packageDiscount > 0D)
+            {
+                totalFuneral += packageDiscount;
+                dRow["currentPrice"] = totalFuneral;
+            }
+
             classA = dRow["classa"].ObjToDouble();
             totalFuneral += salesTax;
 
@@ -1291,10 +1297,15 @@ namespace SMFS
             casketCost = dRow["casketCost"].ObjToDouble();
             vaultCost = dRow["vaultCost"].ObjToDouble();
             urnCost = dRow["urnCost"].ObjToDouble();
-            if ( chkPastCosts.Checked )
+            if (chkPastCosts.Checked)
             {
-                rtn = getPastCosts(dRow, ref casketCost, ref urnCost);
-                dRow["casketCost"] = casketCost;
+                rtn = getPastCosts(dRow, ref casketCost, ref urnCost, ref vaultCost );
+                if (rtn == true)
+                {
+                    dRow["casketCost"] = casketCost;
+                    dRow["urnCost"] = urnCost;
+                    dRow["vaultCost"] = vaultCost;
+                }
             }
             if (casketDesc.ToUpper().IndexOf("RENTAL") >= 0 || gotRental.ToUpper() == "Y" )
             {
@@ -3861,17 +3872,14 @@ namespace SMFS
             }
         }
         /***********************************************************************************************/
-        private bool getPastCosts( DataRow dRow, ref double casketCost, ref double urnCost )
+        private bool getPastCosts( DataRow dRow, ref double casketCost, ref double urnCost, ref double vaultCost )
         {
             string casketCode = dRow["casket"].ObjToString();
             string vault = dRow["vault"].ObjToString();
             string casketdesc = dRow["casketdesc"].ObjToString();
             string urndesc = dRow["urndesc"].ObjToString();
 
-            if ( casketCode == "N85")
-            {
-
-            }
+            bool rtn = false;
 
             string cmd = "";
             DataTable dx = null;
@@ -3882,7 +3890,28 @@ namespace SMFS
                 if (dx.Rows.Count > 0)
                 {
                     urnCost = dx.Rows[0]["pastCasketCost"].ObjToDouble();
-                    return true;
+                    rtn = true;
+                }
+            }
+
+            if (!String.IsNullOrWhiteSpace(vault) && chkPastVault.Checked )
+            {
+                cmd = "Select * from `casket_master` WHERE `casketdesc` = '" + vault + "';";
+                dx = G1.get_db_data(cmd);
+                if (dx.Rows.Count > 0)
+                {
+                    vaultCost = dx.Rows[0]["pastCasketCost"].ObjToDouble();
+                    rtn = true;
+                }
+                else
+                {
+                    cmd = "Select * from `casket_master` WHERE `casketcode` = '" + vault + "';";
+                    dx = G1.get_db_data(cmd);
+                    if (dx.Rows.Count > 0)
+                    {
+                        vaultCost = dx.Rows[0]["pastCasketCost"].ObjToDouble();
+                        rtn = true;
+                    }
                 }
             }
 
@@ -3893,10 +3922,10 @@ namespace SMFS
                 if ( dx.Rows.Count > 0 )
                 {
                     casketCost = dx.Rows[0]["pastCasketCost"].ObjToDouble();
-                    return true;
+                    rtn = true;
                 }
             }
-            return false;
+            return rtn;
         }
         /***********************************************************************************************/
         private bool getPastCosts ( string code, string desc, ref double casketCost, ref double urnCost )

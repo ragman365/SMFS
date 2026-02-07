@@ -753,6 +753,7 @@ namespace SMFS
                     ////total = total + totalUpgrades - urnCredit;
                     //total = total - urnCredit;
 
+                    actualDiscount = Math.Abs(actualDiscount);
                     money = G1.ReformatMoney(actualDiscount + totalIgnore - totalUpgrades) ;
                     txtPreDiscount.Text = money;
                     txtPreDiscount.Refresh();
@@ -760,9 +761,11 @@ namespace SMFS
                     //total = total + (actualDiscount + totalIgnore);
 
                     total = subtotal + (actualDiscount + totalIgnore);
+                    txtGoods.Text = G1.ReformatMoney(total);
+                    //subtotal = total;
 
-                    total = packagePrice + added - urnCredit - alterCredit;
-                    total = packagePrice + added;
+                    //total = packagePrice + added - urnCredit - alterCredit;
+                    //total = packagePrice + added;
                     newDiscount = subtotal - total + urnCredit + alterCredit - totalUpgrades;
                     if (newDiscount > Math.Abs(actualDiscount))
                         newDiscount = actualDiscount;
@@ -770,7 +773,9 @@ namespace SMFS
                     txtPreDiscount.Text = money;
                     txtPreDiscount.Refresh();
                     //total = total + totalUpgrades - urnCredit;
+                    total = txtGoods.Text.ObjToDouble();
                     total = total - urnCredit - alterCredit;
+                    subtotal = total;
 
                 }
                 else

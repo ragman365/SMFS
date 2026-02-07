@@ -783,7 +783,7 @@ namespace SMFS
             File.SetAttributes(newFile, FileAttributes.Normal);
 
             //G1.WriteAudit("Generate GS ViewPDF");
-            using (ViewPDF myView = new ViewPDF("GS Contract", newFile, true, workContract, doingSignatures, false))
+            using (ViewPDF myView = new ViewPDF("GS Contract", newFile, true, workContract, doingSignatures, true))
             {
                 myView.BringToFront();
                 myView.TopLevel = true;
@@ -1742,6 +1742,8 @@ namespace SMFS
             TotalPackage = currentPrice;
             if (PackageDiscount != 0D)
                 discount = 0D;
+            if (PackageDiscount != 0D)
+                discount = Math.Abs(PackageDiscount);
 
             if (discount > 0D)
             {
@@ -4411,6 +4413,16 @@ namespace SMFS
             double totalTotal = totalServices + merchandice + specialCharges + cashAdvance + salesTax;
             TotalPackage = totalTotal - totalIgnore;
             TotalPackage = totalTotal;
+
+            if (packageDiscount > 0D) // Added 2/5/2026 RAG
+            {
+                if (packageDifference == 0)
+                {
+                    TotalPackage += packageDiscount;
+                    totalServices += packageDiscount;
+                    totalTotal += packageDiscount;
+                }
+            }
 
             string empty = "__________";
 

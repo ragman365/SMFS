@@ -117,6 +117,7 @@ namespace SMFS
             CleanupMainMenu();
 
             SetupMenuPreferences();
+
             //SystemEvents.SessionSwitch += new SessionSwitchEventHandler(SystemEvents_SessionSwitch);
 
             //            Console.ReadLine();

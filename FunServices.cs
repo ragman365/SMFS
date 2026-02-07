@@ -1542,6 +1542,9 @@ namespace SMFS
         private void CleanupOriginal(DataTable dt, string name)
         {
             string casketName = "";
+            if ( name.ToUpper() == "CREMATORY FEE")
+            {
+            }
             DataRow[] dR = dt.Select("service='" + name + " Name'");
             if (dR.Length <= 0)
                 return;
@@ -1716,6 +1719,10 @@ namespace SMFS
                         {
                         }
                         dt.Rows[i]["select"] = "1";
+                        service = dt.Rows[i]["service"].ObjToString().Trim();
+                        if ( service.ToUpper() == "CREMATORY FEE")
+                        {
+                        }
                         if (isPackage)
                         {
                             package = dt.Rows[i]["isPackage"].ObjToString();
@@ -1788,7 +1795,8 @@ namespace SMFS
                         if (service.ToUpper() == "OTHER PREPARATION OF THE BODY")
                             service = "OTHER PREPERATION OF THE BODY";
 
-                        if (type.ToUpper() == "SERVICE")
+                        //if (type.ToUpper() == "SERVICE")
+                        if (type.ToUpper() == "SERVICE" || type.ToUpper() == "CASH ADVANCE" ) //Ramma Zamma
                         {
                             if (!String.IsNullOrWhiteSpace(service))
                             {
@@ -3168,6 +3176,8 @@ namespace SMFS
                                 if (select == "1")
                                 {
                                     price = dt.Rows[i]["price"].ObjToDouble();
+                                    if (service.ToUpper() == "PACKAGE DISCOUNT")
+                                        price = Math.Abs(price);
                                     if (price <= 0D && upgrade <= 0D)
                                         continue;
                                     if (upgrade > 0D)
@@ -3428,15 +3438,25 @@ namespace SMFS
                     ////total = total + totalUpgrades - urnCredit;
                     //total = total - urnCredit;
 
+                    actualDiscount = Math.Abs(actualDiscount);
                     money = G1.ReformatMoney(actualDiscount + totalIgnore - totalUpgrades);
                     txtDiscount.Text = money;
                     txtDiscount.Refresh();
                     //total = packagePrice + cashAdvanceTotal + servicesTotal + merchandiseTotal - urnCredit;
                     //total = total + (actualDiscount + totalIgnore);
 
+                    subtotal = subtotal + (actualDiscount + totalIgnore); // Added RAG 2/4/2026
+                    txtSubtotal.Text = G1.ReformatMoney(subtotal);
+                    if ( (actualDiscount + totalIgnore) > 0D )
+                    {
+                        totalServices = txtServices.Text.ObjToDouble();
+                        totalServices += actualDiscount + totalIgnore;
+                        txtServices.Text = G1.ReformatMoney(totalServices);
+                    }
                     total = subtotal + (actualDiscount + totalIgnore);
 
                     total = packagePrice + added - urnCredit - alterCredit - rentalCredit;
+                    //total += (actualDiscount + totalIgnore); // Added RAG 2/4/2026
                     //total = packagePrice + added;
                     money = G1.ReformatMoney(subtotal - total + urnCredit + alterCredit + rentalCredit );
                     money = G1.ReformatMoney(subtotal - total);

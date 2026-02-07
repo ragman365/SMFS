@@ -707,9 +707,9 @@ namespace SMFS
             this.panelAll.Controls.Add(this.panelTop);
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAll.Location = new System.Drawing.Point(0, 30);
-            this.panelAll.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelAll.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(1809, 702);
+            this.panelAll.Size = new System.Drawing.Size(1808, 702);
             this.panelAll.TabIndex = 0;
             // 
             // panelBottom
@@ -717,9 +717,9 @@ namespace SMFS
             this.panelBottom.Controls.Add(this.tabControl1);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBottom.Location = new System.Drawing.Point(0, 142);
-            this.panelBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelBottom.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1809, 560);
+            this.panelBottom.Size = new System.Drawing.Size(1808, 560);
             this.panelBottom.TabIndex = 2;
             // 
             // tabControl1
@@ -734,9 +734,10 @@ namespace SMFS
             this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1809, 560);
+            this.tabControl1.Size = new System.Drawing.Size(1808, 560);
             this.tabControl1.TabIndex = 7;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -744,9 +745,10 @@ namespace SMFS
             // 
             this.tabPage1.Controls.Add(this.panelMainAll);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tabPage1.Size = new System.Drawing.Size(1800, 533);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -756,9 +758,10 @@ namespace SMFS
             this.panelMainAll.Controls.Add(this.panelMainBottom);
             this.panelMainAll.Controls.Add(this.panelMainTop);
             this.panelMainAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMainAll.Location = new System.Drawing.Point(3, 3);
+            this.panelMainAll.Location = new System.Drawing.Point(2, 3);
+            this.panelMainAll.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelMainAll.Name = "panelMainAll";
-            this.panelMainAll.Size = new System.Drawing.Size(1795, 525);
+            this.panelMainAll.Size = new System.Drawing.Size(1796, 527);
             this.panelMainAll.TabIndex = 7;
             // 
             // panelMainBottom
@@ -766,20 +769,21 @@ namespace SMFS
             this.panelMainBottom.Controls.Add(this.dgv);
             this.panelMainBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainBottom.Location = new System.Drawing.Point(0, 47);
+            this.panelMainBottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelMainBottom.Name = "panelMainBottom";
-            this.panelMainBottom.Size = new System.Drawing.Size(1795, 478);
+            this.panelMainBottom.Size = new System.Drawing.Size(1796, 480);
             this.panelMainBottom.TabIndex = 9;
             // 
             // dgv
             // 
             this.dgv.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv.Location = new System.Drawing.Point(0, 0);
             this.dgv.MainView = this.gridMain;
-            this.dgv.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(1795, 478);
+            this.dgv.Size = new System.Drawing.Size(1796, 480);
             this.dgv.TabIndex = 6;
             this.dgv.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain});
@@ -1097,7 +1101,7 @@ namespace SMFS
             this.bandedGridColumn23.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn23.Caption = "Num";
             this.bandedGridColumn23.FieldName = "num";
-            this.bandedGridColumn23.MinWidth = 25;
+            this.bandedGridColumn23.MinWidth = 24;
             this.bandedGridColumn23.Name = "bandedGridColumn23";
             this.bandedGridColumn23.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn23.OptionsColumn.FixedWidth = true;
@@ -1149,7 +1153,7 @@ namespace SMFS
             this.bandedGridColumn114.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn114.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn114.FieldName = "sandraMoney";
-            this.bandedGridColumn114.MinWidth = 25;
+            this.bandedGridColumn114.MinWidth = 24;
             this.bandedGridColumn114.Name = "bandedGridColumn114";
             this.bandedGridColumn114.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn114.Visible = true;
@@ -1161,7 +1165,7 @@ namespace SMFS
             this.bandedGridColumn197.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn197.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn197.FieldName = "difference";
-            this.bandedGridColumn197.MinWidth = 25;
+            this.bandedGridColumn197.MinWidth = 24;
             this.bandedGridColumn197.Name = "bandedGridColumn197";
             this.bandedGridColumn197.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn197.Visible = true;
@@ -1173,7 +1177,7 @@ namespace SMFS
             this.bandedGridColumn13.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn13.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn13.FieldName = "refunds";
-            this.bandedGridColumn13.MinWidth = 25;
+            this.bandedGridColumn13.MinWidth = 24;
             this.bandedGridColumn13.Name = "bandedGridColumn13";
             this.bandedGridColumn13.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn13.Visible = true;
@@ -1185,7 +1189,7 @@ namespace SMFS
             this.bandedGridColumn75.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn75.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn75.FieldName = "reducedPaidUpAmount";
-            this.bandedGridColumn75.MinWidth = 25;
+            this.bandedGridColumn75.MinWidth = 24;
             this.bandedGridColumn75.Name = "bandedGridColumn75";
             this.bandedGridColumn75.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn75.Visible = true;
@@ -1196,7 +1200,7 @@ namespace SMFS
             this.bandedGridColumn78.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn78.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn78.FieldName = "ourFiledAmount";
-            this.bandedGridColumn78.MinWidth = 25;
+            this.bandedGridColumn78.MinWidth = 24;
             this.bandedGridColumn78.Name = "bandedGridColumn78";
             this.bandedGridColumn78.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn78.Visible = true;
@@ -1208,7 +1212,7 @@ namespace SMFS
             this.bandedGridColumn14.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn14.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn14.FieldName = "principal";
-            this.bandedGridColumn14.MinWidth = 25;
+            this.bandedGridColumn14.MinWidth = 24;
             this.bandedGridColumn14.Name = "bandedGridColumn14";
             this.bandedGridColumn14.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn14.Visible = true;
@@ -1220,7 +1224,7 @@ namespace SMFS
             this.bandedGridColumn115.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn115.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn115.FieldName = "sandraPrincipal";
-            this.bandedGridColumn115.MinWidth = 25;
+            this.bandedGridColumn115.MinWidth = 24;
             this.bandedGridColumn115.Name = "bandedGridColumn115";
             this.bandedGridColumn115.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn115.Visible = true;
@@ -1232,7 +1236,7 @@ namespace SMFS
             this.bandedGridColumn309.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn309.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn309.FieldName = "pdiff";
-            this.bandedGridColumn309.MinWidth = 25;
+            this.bandedGridColumn309.MinWidth = 24;
             this.bandedGridColumn309.Name = "bandedGridColumn309";
             this.bandedGridColumn309.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn309.Visible = true;
@@ -1244,7 +1248,7 @@ namespace SMFS
             this.bandedGridColumn76.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn76.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn76.FieldName = "overunder";
-            this.bandedGridColumn76.MinWidth = 25;
+            this.bandedGridColumn76.MinWidth = 24;
             this.bandedGridColumn76.Name = "bandedGridColumn76";
             this.bandedGridColumn76.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn76.Visible = true;
@@ -1256,7 +1260,7 @@ namespace SMFS
             this.bandedGridColumn195.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn195.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn195.FieldName = "dbr";
-            this.bandedGridColumn195.MinWidth = 25;
+            this.bandedGridColumn195.MinWidth = 24;
             this.bandedGridColumn195.Name = "bandedGridColumn195";
             this.bandedGridColumn195.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn195.Visible = true;
@@ -1268,7 +1272,7 @@ namespace SMFS
             this.bandedGridColumn196.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn196.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn196.FieldName = "tbb";
-            this.bandedGridColumn196.MinWidth = 25;
+            this.bandedGridColumn196.MinWidth = 24;
             this.bandedGridColumn196.Name = "bandedGridColumn196";
             this.bandedGridColumn196.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn196.Visible = true;
@@ -1280,7 +1284,7 @@ namespace SMFS
             this.bandedGridColumn77.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn77.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn77.FieldName = "trustOverUnder";
-            this.bandedGridColumn77.MinWidth = 25;
+            this.bandedGridColumn77.MinWidth = 24;
             this.bandedGridColumn77.Name = "bandedGridColumn77";
             this.bandedGridColumn77.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn77.Visible = true;
@@ -1379,7 +1383,7 @@ namespace SMFS
             this.bandedGridColumn39.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn39.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn39.FieldName = "ftBalance";
-            this.bandedGridColumn39.MinWidth = 25;
+            this.bandedGridColumn39.MinWidth = 24;
             this.bandedGridColumn39.Name = "bandedGridColumn39";
             this.bandedGridColumn39.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn39.Visible = true;
@@ -1425,7 +1429,7 @@ namespace SMFS
             // 
             this.bandedGridColumn40.Caption = "Last Name";
             this.bandedGridColumn40.FieldName = "lastName";
-            this.bandedGridColumn40.MinWidth = 25;
+            this.bandedGridColumn40.MinWidth = 24;
             this.bandedGridColumn40.Name = "bandedGridColumn40";
             this.bandedGridColumn40.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn40.Width = 94;
@@ -1434,7 +1438,7 @@ namespace SMFS
             // 
             this.bandedGridColumn41.Caption = "First Name";
             this.bandedGridColumn41.FieldName = "firstName";
-            this.bandedGridColumn41.MinWidth = 25;
+            this.bandedGridColumn41.MinWidth = 24;
             this.bandedGridColumn41.Name = "bandedGridColumn41";
             this.bandedGridColumn41.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn41.Width = 94;
@@ -1443,7 +1447,7 @@ namespace SMFS
             // 
             this.bandedGridColumn12.Caption = "iMonth";
             this.bandedGridColumn12.FieldName = "iMonth";
-            this.bandedGridColumn12.MinWidth = 25;
+            this.bandedGridColumn12.MinWidth = 24;
             this.bandedGridColumn12.Name = "bandedGridColumn12";
             this.bandedGridColumn12.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn12.Width = 94;
@@ -1455,8 +1459,9 @@ namespace SMFS
             this.panelMainTop.Controls.Add(this.btnMainInsert);
             this.panelMainTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelMainTop.Location = new System.Drawing.Point(0, 0);
+            this.panelMainTop.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelMainTop.Name = "panelMainTop";
-            this.panelMainTop.Size = new System.Drawing.Size(1795, 47);
+            this.panelMainTop.Size = new System.Drawing.Size(1796, 47);
             this.panelMainTop.TabIndex = 8;
             // 
             // btnRP
@@ -1464,9 +1469,9 @@ namespace SMFS
             this.btnRP.BackColor = System.Drawing.Color.Transparent;
             this.btnRP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRP.Location = new System.Drawing.Point(174, 12);
-            this.btnRP.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnRP.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnRP.Name = "btnRP";
-            this.btnRP.Size = new System.Drawing.Size(179, 28);
+            this.btnRP.Size = new System.Drawing.Size(178, 28);
             this.btnRP.TabIndex = 25;
             this.btnRP.Tag = "Insert Row";
             this.btnRP.Text = "Returned Payment";
@@ -1478,9 +1483,9 @@ namespace SMFS
             // 
             this.picMainDelete.Image = ((System.Drawing.Image)(resources.GetObject("picMainDelete.Image")));
             this.picMainDelete.Location = new System.Drawing.Point(90, 12);
-            this.picMainDelete.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.picMainDelete.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.picMainDelete.Name = "picMainDelete";
-            this.picMainDelete.Size = new System.Drawing.Size(36, 28);
+            this.picMainDelete.Size = new System.Drawing.Size(35, 28);
             this.picMainDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picMainDelete.TabIndex = 24;
             this.picMainDelete.TabStop = false;
@@ -1491,10 +1496,10 @@ namespace SMFS
             // 
             this.btnMainInsert.BackColor = System.Drawing.Color.Transparent;
             this.btnMainInsert.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMainInsert.Location = new System.Drawing.Point(36, 12);
-            this.btnMainInsert.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnMainInsert.Location = new System.Drawing.Point(35, 12);
+            this.btnMainInsert.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnMainInsert.Name = "btnMainInsert";
-            this.btnMainInsert.Size = new System.Drawing.Size(36, 28);
+            this.btnMainInsert.Size = new System.Drawing.Size(35, 28);
             this.btnMainInsert.TabIndex = 23;
             this.btnMainInsert.Tag = "Insert Row";
             this.btnMainInsert.Text = "~";
@@ -1506,9 +1511,10 @@ namespace SMFS
             // 
             this.tabPage2.Controls.Add(this.panelSplitAll);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tabPage2.Size = new System.Drawing.Size(1800, 531);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Split";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1518,9 +1524,10 @@ namespace SMFS
             this.panelSplitAll.Controls.Add(this.panelSplitBottom);
             this.panelSplitAll.Controls.Add(this.panelSplitTop);
             this.panelSplitAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSplitAll.Location = new System.Drawing.Point(3, 3);
+            this.panelSplitAll.Location = new System.Drawing.Point(2, 3);
+            this.panelSplitAll.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelSplitAll.Name = "panelSplitAll";
-            this.panelSplitAll.Size = new System.Drawing.Size(1795, 525);
+            this.panelSplitAll.Size = new System.Drawing.Size(1796, 525);
             this.panelSplitAll.TabIndex = 9;
             // 
             // panelSplitBottom
@@ -1528,8 +1535,9 @@ namespace SMFS
             this.panelSplitBottom.Controls.Add(this.tabControl2);
             this.panelSplitBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelSplitBottom.Location = new System.Drawing.Point(0, 39);
+            this.panelSplitBottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelSplitBottom.Name = "panelSplitBottom";
-            this.panelSplitBottom.Size = new System.Drawing.Size(1795, 486);
+            this.panelSplitBottom.Size = new System.Drawing.Size(1796, 486);
             this.panelSplitBottom.TabIndex = 1;
             // 
             // tabControl2
@@ -1545,18 +1553,20 @@ namespace SMFS
             this.tabControl2.Controls.Add(this.tabPage17);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1795, 486);
+            this.tabControl2.Size = new System.Drawing.Size(1796, 486);
             this.tabControl2.TabIndex = 10;
             // 
             // tabPage9
             // 
             this.tabPage9.Controls.Add(this.dgv2);
             this.tabPage9.Location = new System.Drawing.Point(4, 25);
+            this.tabPage9.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1787, 457);
+            this.tabPage9.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tabPage9.Size = new System.Drawing.Size(1788, 459);
             this.tabPage9.TabIndex = 0;
             this.tabPage9.Text = "Post-2002";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1565,14 +1575,14 @@ namespace SMFS
             // 
             this.dgv2.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv2.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgv2.Location = new System.Drawing.Point(3, 3);
+            this.dgv2.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.dgv2.Location = new System.Drawing.Point(2, 3);
             this.dgv2.MainView = this.gridMain2;
-            this.dgv2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv2.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv2.Name = "dgv2";
             this.dgv2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1});
-            this.dgv2.Size = new System.Drawing.Size(1781, 451);
+            this.dgv2.Size = new System.Drawing.Size(1784, 453);
             this.dgv2.TabIndex = 7;
             this.dgv2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain2});
@@ -1797,7 +1807,7 @@ namespace SMFS
             this.gridBand2.MinWidth = 48;
             this.gridBand2.Name = "gridBand2";
             this.gridBand2.VisibleIndex = 0;
-            this.gridBand2.Width = 2089;
+            this.gridBand2.Width = 2087;
             // 
             // bandedGridColumn15
             // 
@@ -1805,7 +1815,7 @@ namespace SMFS
             this.bandedGridColumn15.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn15.Caption = "Num";
             this.bandedGridColumn15.FieldName = "num";
-            this.bandedGridColumn15.MinWidth = 25;
+            this.bandedGridColumn15.MinWidth = 24;
             this.bandedGridColumn15.Name = "bandedGridColumn15";
             this.bandedGridColumn15.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn15.OptionsColumn.FixedWidth = true;
@@ -1840,16 +1850,16 @@ namespace SMFS
             // bandedGridColumn210
             // 
             this.bandedGridColumn210.FieldName = "sn1";
-            this.bandedGridColumn210.MinWidth = 25;
+            this.bandedGridColumn210.MinWidth = 24;
             this.bandedGridColumn210.Name = "bandedGridColumn210";
-            this.bandedGridColumn210.Width = 25;
+            this.bandedGridColumn210.Width = 24;
             // 
             // bandedGridColumn211
             // 
             this.bandedGridColumn211.FieldName = "sn2";
-            this.bandedGridColumn211.MinWidth = 25;
+            this.bandedGridColumn211.MinWidth = 24;
             this.bandedGridColumn211.Name = "bandedGridColumn211";
-            this.bandedGridColumn211.Width = 25;
+            this.bandedGridColumn211.Width = 24;
             // 
             // bandedGridColumn18
             // 
@@ -1879,7 +1889,7 @@ namespace SMFS
             // bandedGridColumn205
             // 
             this.bandedGridColumn205.FieldName = "cashPaid1";
-            this.bandedGridColumn205.MinWidth = 25;
+            this.bandedGridColumn205.MinWidth = 24;
             this.bandedGridColumn205.Name = "bandedGridColumn205";
             this.bandedGridColumn205.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn205.Visible = true;
@@ -1951,21 +1961,21 @@ namespace SMFS
             // bandedGridColumn207
             // 
             this.bandedGridColumn207.FieldName = "junk1";
-            this.bandedGridColumn207.MinWidth = 25;
+            this.bandedGridColumn207.MinWidth = 24;
             this.bandedGridColumn207.Name = "bandedGridColumn207";
-            this.bandedGridColumn207.Width = 25;
+            this.bandedGridColumn207.Width = 24;
             // 
             // bandedGridColumn208
             // 
             this.bandedGridColumn208.FieldName = "junk2";
-            this.bandedGridColumn208.MinWidth = 25;
+            this.bandedGridColumn208.MinWidth = 24;
             this.bandedGridColumn208.Name = "bandedGridColumn208";
-            this.bandedGridColumn208.Width = 25;
+            this.bandedGridColumn208.Width = 24;
             // 
             // bandedGridColumn206
             // 
             this.bandedGridColumn206.FieldName = "cashPaid2";
-            this.bandedGridColumn206.MinWidth = 25;
+            this.bandedGridColumn206.MinWidth = 24;
             this.bandedGridColumn206.Name = "bandedGridColumn206";
             this.bandedGridColumn206.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn206.Visible = true;
@@ -1996,9 +2006,9 @@ namespace SMFS
             // bandedGridColumn209
             // 
             this.bandedGridColumn209.FieldName = "junk3";
-            this.bandedGridColumn209.MinWidth = 25;
+            this.bandedGridColumn209.MinWidth = 24;
             this.bandedGridColumn209.Name = "bandedGridColumn209";
-            this.bandedGridColumn209.Width = 25;
+            this.bandedGridColumn209.Width = 24;
             // 
             // bandedGridColumn37
             // 
@@ -2016,7 +2026,7 @@ namespace SMFS
             this.bandedGridColumn312.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn312.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn312.FieldName = "diff";
-            this.bandedGridColumn312.MinWidth = 25;
+            this.bandedGridColumn312.MinWidth = 24;
             this.bandedGridColumn312.Name = "bandedGridColumn312";
             this.bandedGridColumn312.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn312.OptionsColumn.FixedWidth = true;
@@ -2029,7 +2039,7 @@ namespace SMFS
             this.bandedGridColumn313.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn313.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn313.FieldName = "cadenceDeathBenefits";
-            this.bandedGridColumn313.MinWidth = 25;
+            this.bandedGridColumn313.MinWidth = 24;
             this.bandedGridColumn313.Name = "bandedGridColumn313";
             this.bandedGridColumn313.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn313.OptionsColumn.FixedWidth = true;
@@ -2046,7 +2056,7 @@ namespace SMFS
             this.bandedGridColumn32.Name = "bandedGridColumn32";
             this.bandedGridColumn32.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn32.Visible = true;
-            this.bandedGridColumn32.Width = 95;
+            this.bandedGridColumn32.Width = 94;
             // 
             // bandedGridColumn20
             // 
@@ -2064,7 +2074,7 @@ namespace SMFS
             this.bandedGridColumn38.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn38.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn38.FieldName = "ftBalance";
-            this.bandedGridColumn38.MinWidth = 25;
+            this.bandedGridColumn38.MinWidth = 24;
             this.bandedGridColumn38.Name = "bandedGridColumn38";
             this.bandedGridColumn38.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn38.Visible = true;
@@ -2080,7 +2090,7 @@ namespace SMFS
             this.bandedGridColumn34.Name = "bandedGridColumn34";
             this.bandedGridColumn34.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn34.Visible = true;
-            this.bandedGridColumn34.Width = 116;
+            this.bandedGridColumn34.Width = 115;
             // 
             // bandedGridColumn35
             // 
@@ -2115,8 +2125,9 @@ namespace SMFS
             // 
             this.tabPage11.Controls.Add(this.dgv10);
             this.tabPage11.Location = new System.Drawing.Point(4, 25);
+            this.tabPage11.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Size = new System.Drawing.Size(178, 0);
+            this.tabPage11.Size = new System.Drawing.Size(1786, 459);
             this.tabPage11.TabIndex = 2;
             this.tabPage11.Text = "CD Pre-2002";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -2125,12 +2136,12 @@ namespace SMFS
             // 
             this.dgv10.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv10.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv10.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv10.Location = new System.Drawing.Point(0, 0);
             this.dgv10.MainView = this.gridMain10;
-            this.dgv10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv10.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv10.Name = "dgv10";
-            this.dgv10.Size = new System.Drawing.Size(178, 0);
+            this.dgv10.Size = new System.Drawing.Size(1786, 459);
             this.dgv10.TabIndex = 9;
             this.dgv10.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain10});
@@ -2325,7 +2336,7 @@ namespace SMFS
             this.gridBand10.MinWidth = 30;
             this.gridBand10.Name = "gridBand10";
             this.gridBand10.VisibleIndex = 0;
-            this.gridBand10.Width = 1090;
+            this.gridBand10.Width = 1089;
             // 
             // bandedGridColumn219
             // 
@@ -2377,7 +2388,7 @@ namespace SMFS
             this.bandedGridColumn222.Name = "bandedGridColumn222";
             this.bandedGridColumn222.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn222.Visible = true;
-            this.bandedGridColumn222.Width = 109;
+            this.bandedGridColumn222.Width = 108;
             // 
             // bandedGridColumn223
             // 
@@ -2541,8 +2552,9 @@ namespace SMFS
             // 
             this.tabPage12.Controls.Add(this.dgv11);
             this.tabPage12.Location = new System.Drawing.Point(4, 25);
+            this.tabPage12.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage12.Name = "tabPage12";
-            this.tabPage12.Size = new System.Drawing.Size(178, 0);
+            this.tabPage12.Size = new System.Drawing.Size(1786, 459);
             this.tabPage12.TabIndex = 3;
             this.tabPage12.Text = "FDLIC Old Webb";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -2551,12 +2563,12 @@ namespace SMFS
             // 
             this.dgv11.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv11.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv11.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv11.Location = new System.Drawing.Point(0, 0);
             this.dgv11.MainView = this.gridMain11;
-            this.dgv11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv11.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv11.Name = "dgv11";
-            this.dgv11.Size = new System.Drawing.Size(178, 0);
+            this.dgv11.Size = new System.Drawing.Size(1786, 459);
             this.dgv11.TabIndex = 10;
             this.dgv11.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain11});
@@ -2748,7 +2760,7 @@ namespace SMFS
             this.gridBand11.MinWidth = 30;
             this.gridBand11.Name = "gridBand11";
             this.gridBand11.VisibleIndex = 0;
-            this.gridBand11.Width = 1090;
+            this.gridBand11.Width = 1089;
             // 
             // bandedGridColumn237
             // 
@@ -2800,7 +2812,7 @@ namespace SMFS
             this.bandedGridColumn240.Name = "bandedGridColumn240";
             this.bandedGridColumn240.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn240.Visible = true;
-            this.bandedGridColumn240.Width = 109;
+            this.bandedGridColumn240.Width = 108;
             // 
             // bandedGridColumn241
             // 
@@ -2972,8 +2984,9 @@ namespace SMFS
             // 
             this.tabPage13.Controls.Add(this.dgv12);
             this.tabPage13.Location = new System.Drawing.Point(4, 25);
+            this.tabPage13.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Size = new System.Drawing.Size(178, 0);
+            this.tabPage13.Size = new System.Drawing.Size(1786, 459);
             this.tabPage13.TabIndex = 4;
             this.tabPage13.Text = "FDLIC Old CCI";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -2982,12 +2995,12 @@ namespace SMFS
             // 
             this.dgv12.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv12.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv12.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv12.Location = new System.Drawing.Point(0, 0);
             this.dgv12.MainView = this.gridMain12;
-            this.dgv12.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv12.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv12.Name = "dgv12";
-            this.dgv12.Size = new System.Drawing.Size(178, 0);
+            this.dgv12.Size = new System.Drawing.Size(1786, 459);
             this.dgv12.TabIndex = 11;
             this.dgv12.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain12});
@@ -3179,7 +3192,7 @@ namespace SMFS
             this.gridBand12.MinWidth = 30;
             this.gridBand12.Name = "gridBand12";
             this.gridBand12.VisibleIndex = 0;
-            this.gridBand12.Width = 1090;
+            this.gridBand12.Width = 1089;
             // 
             // bandedGridColumn255
             // 
@@ -3231,7 +3244,7 @@ namespace SMFS
             this.bandedGridColumn258.Name = "bandedGridColumn258";
             this.bandedGridColumn258.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn258.Visible = true;
-            this.bandedGridColumn258.Width = 109;
+            this.bandedGridColumn258.Width = 108;
             // 
             // bandedGridColumn259
             // 
@@ -3403,8 +3416,9 @@ namespace SMFS
             // 
             this.tabPage14.Controls.Add(this.dgv13);
             this.tabPage14.Location = new System.Drawing.Point(4, 25);
+            this.tabPage14.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage14.Name = "tabPage14";
-            this.tabPage14.Size = new System.Drawing.Size(178, 0);
+            this.tabPage14.Size = new System.Drawing.Size(1786, 459);
             this.tabPage14.TabIndex = 5;
             this.tabPage14.Text = "Unity Old Barham";
             this.tabPage14.UseVisualStyleBackColor = true;
@@ -3413,12 +3427,12 @@ namespace SMFS
             // 
             this.dgv13.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv13.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv13.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv13.Location = new System.Drawing.Point(0, 0);
             this.dgv13.MainView = this.gridMain13;
-            this.dgv13.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv13.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv13.Name = "dgv13";
-            this.dgv13.Size = new System.Drawing.Size(178, 0);
+            this.dgv13.Size = new System.Drawing.Size(1786, 459);
             this.dgv13.TabIndex = 12;
             this.dgv13.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain13});
@@ -3610,7 +3624,7 @@ namespace SMFS
             this.gridBand13.MinWidth = 30;
             this.gridBand13.Name = "gridBand13";
             this.gridBand13.VisibleIndex = 0;
-            this.gridBand13.Width = 1090;
+            this.gridBand13.Width = 1089;
             // 
             // bandedGridColumn273
             // 
@@ -3662,7 +3676,7 @@ namespace SMFS
             this.bandedGridColumn276.Name = "bandedGridColumn276";
             this.bandedGridColumn276.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn276.Visible = true;
-            this.bandedGridColumn276.Width = 109;
+            this.bandedGridColumn276.Width = 108;
             // 
             // bandedGridColumn277
             // 
@@ -3834,8 +3848,9 @@ namespace SMFS
             // 
             this.tabPage15.Controls.Add(this.dgv14);
             this.tabPage15.Location = new System.Drawing.Point(4, 25);
+            this.tabPage15.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage15.Name = "tabPage15";
-            this.tabPage15.Size = new System.Drawing.Size(178, 0);
+            this.tabPage15.Size = new System.Drawing.Size(1786, 459);
             this.tabPage15.TabIndex = 6;
             this.tabPage15.Text = "Unity Old Webb";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -3844,12 +3859,12 @@ namespace SMFS
             // 
             this.dgv14.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv14.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv14.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv14.Location = new System.Drawing.Point(0, 0);
             this.dgv14.MainView = this.gridMain14;
-            this.dgv14.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv14.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv14.Name = "dgv14";
-            this.dgv14.Size = new System.Drawing.Size(178, 0);
+            this.dgv14.Size = new System.Drawing.Size(1786, 459);
             this.dgv14.TabIndex = 10;
             this.dgv14.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain14});
@@ -4042,7 +4057,7 @@ namespace SMFS
             this.gridBand14.MinWidth = 30;
             this.gridBand14.Name = "gridBand14";
             this.gridBand14.VisibleIndex = 0;
-            this.gridBand14.Width = 1090;
+            this.gridBand14.Width = 1089;
             // 
             // bandedGridColumn291
             // 
@@ -4094,7 +4109,7 @@ namespace SMFS
             this.bandedGridColumn294.Name = "bandedGridColumn294";
             this.bandedGridColumn294.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn294.Visible = true;
-            this.bandedGridColumn294.Width = 109;
+            this.bandedGridColumn294.Width = 108;
             // 
             // bandedGridColumn295
             // 
@@ -4258,9 +4273,10 @@ namespace SMFS
             // 
             this.tabPage16.Controls.Add(this.dgv6);
             this.tabPage16.Location = new System.Drawing.Point(4, 25);
+            this.tabPage16.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage16.Name = "tabPage16";
-            this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(178, 0);
+            this.tabPage16.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tabPage16.Size = new System.Drawing.Size(1788, 459);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "FT / SN";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -4269,12 +4285,12 @@ namespace SMFS
             // 
             this.dgv6.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv6.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgv6.Location = new System.Drawing.Point(3, 3);
+            this.dgv6.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.dgv6.Location = new System.Drawing.Point(2, 3);
             this.dgv6.MainView = this.gridMain6;
-            this.dgv6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv6.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv6.Name = "dgv6";
-            this.dgv6.Size = new System.Drawing.Size(172, 0);
+            this.dgv6.Size = new System.Drawing.Size(1784, 453);
             this.dgv6.TabIndex = 8;
             this.dgv6.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain6});
@@ -4676,8 +4692,9 @@ namespace SMFS
             // 
             this.tabPage18.Controls.Add(this.dgv18);
             this.tabPage18.Location = new System.Drawing.Point(4, 25);
+            this.tabPage18.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage18.Name = "tabPage18";
-            this.tabPage18.Size = new System.Drawing.Size(178, 0);
+            this.tabPage18.Size = new System.Drawing.Size(1788, 457);
             this.tabPage18.TabIndex = 7;
             this.tabPage18.Text = "Forethought";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -4686,14 +4703,14 @@ namespace SMFS
             // 
             this.dgv18.ContextMenuStrip = this.contextMenuStrip3;
             this.dgv18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv18.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv18.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv18.Location = new System.Drawing.Point(0, 0);
             this.dgv18.MainView = this.gridMain18;
-            this.dgv18.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv18.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv18.Name = "dgv18";
             this.dgv18.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit2});
-            this.dgv18.Size = new System.Drawing.Size(178, 0);
+            this.dgv18.Size = new System.Drawing.Size(1788, 457);
             this.dgv18.TabIndex = 9;
             this.dgv18.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain18});
@@ -4899,6 +4916,8 @@ namespace SMFS
             this.gridMain18.OptionsView.ShowFooter = true;
             this.gridMain18.OptionsView.ShowGroupPanel = false;
             this.gridMain18.PaintStyleName = "Style3D";
+            this.gridMain18.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridMain18_RowCellStyle);
+            this.gridMain18.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain18_CellValueChanged);
             this.gridMain18.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain17_CustomColumnDisplayText);
             // 
             // gridBand15
@@ -4934,7 +4953,7 @@ namespace SMFS
             this.gridBand15.MinWidth = 48;
             this.gridBand15.Name = "gridBand15";
             this.gridBand15.VisibleIndex = 0;
-            this.gridBand15.Width = 2089;
+            this.gridBand15.Width = 2087;
             // 
             // bandedGridColumn314
             // 
@@ -4942,7 +4961,7 @@ namespace SMFS
             this.bandedGridColumn314.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn314.Caption = "Num";
             this.bandedGridColumn314.FieldName = "num";
-            this.bandedGridColumn314.MinWidth = 25;
+            this.bandedGridColumn314.MinWidth = 24;
             this.bandedGridColumn314.Name = "bandedGridColumn314";
             this.bandedGridColumn314.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn314.OptionsColumn.FixedWidth = true;
@@ -4977,16 +4996,16 @@ namespace SMFS
             // bandedGridColumn317
             // 
             this.bandedGridColumn317.FieldName = "sn1";
-            this.bandedGridColumn317.MinWidth = 25;
+            this.bandedGridColumn317.MinWidth = 24;
             this.bandedGridColumn317.Name = "bandedGridColumn317";
-            this.bandedGridColumn317.Width = 25;
+            this.bandedGridColumn317.Width = 24;
             // 
             // bandedGridColumn318
             // 
             this.bandedGridColumn318.FieldName = "sn2";
-            this.bandedGridColumn318.MinWidth = 25;
+            this.bandedGridColumn318.MinWidth = 24;
             this.bandedGridColumn318.Name = "bandedGridColumn318";
-            this.bandedGridColumn318.Width = 25;
+            this.bandedGridColumn318.Width = 24;
             // 
             // bandedGridColumn319
             // 
@@ -5017,7 +5036,7 @@ namespace SMFS
             // 
             this.bandedGridColumn321.Caption = "  ";
             this.bandedGridColumn321.FieldName = "cashPaid1";
-            this.bandedGridColumn321.MinWidth = 25;
+            this.bandedGridColumn321.MinWidth = 24;
             this.bandedGridColumn321.Name = "bandedGridColumn321";
             this.bandedGridColumn321.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn321.Visible = true;
@@ -5089,22 +5108,22 @@ namespace SMFS
             // bandedGridColumn328
             // 
             this.bandedGridColumn328.FieldName = "junk1";
-            this.bandedGridColumn328.MinWidth = 25;
+            this.bandedGridColumn328.MinWidth = 24;
             this.bandedGridColumn328.Name = "bandedGridColumn328";
-            this.bandedGridColumn328.Width = 25;
+            this.bandedGridColumn328.Width = 24;
             // 
             // bandedGridColumn329
             // 
             this.bandedGridColumn329.FieldName = "junk2";
-            this.bandedGridColumn329.MinWidth = 25;
+            this.bandedGridColumn329.MinWidth = 24;
             this.bandedGridColumn329.Name = "bandedGridColumn329";
-            this.bandedGridColumn329.Width = 25;
+            this.bandedGridColumn329.Width = 24;
             // 
             // bandedGridColumn330
             // 
             this.bandedGridColumn330.Caption = "  ";
             this.bandedGridColumn330.FieldName = "cashPaid2";
-            this.bandedGridColumn330.MinWidth = 25;
+            this.bandedGridColumn330.MinWidth = 24;
             this.bandedGridColumn330.Name = "bandedGridColumn330";
             this.bandedGridColumn330.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn330.Visible = true;
@@ -5142,7 +5161,7 @@ namespace SMFS
             this.bandedGridColumn333.Name = "bandedGridColumn333";
             this.bandedGridColumn333.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn333.Visible = true;
-            this.bandedGridColumn333.Width = 95;
+            this.bandedGridColumn333.Width = 94;
             // 
             // bandedGridColumn334
             // 
@@ -5157,9 +5176,9 @@ namespace SMFS
             // bandedGridColumn335
             // 
             this.bandedGridColumn335.FieldName = "junk3";
-            this.bandedGridColumn335.MinWidth = 25;
+            this.bandedGridColumn335.MinWidth = 24;
             this.bandedGridColumn335.Name = "bandedGridColumn335";
-            this.bandedGridColumn335.Width = 25;
+            this.bandedGridColumn335.Width = 24;
             // 
             // bandedGridColumn336
             // 
@@ -5177,7 +5196,7 @@ namespace SMFS
             this.bandedGridColumn337.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn337.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn337.FieldName = "diff";
-            this.bandedGridColumn337.MinWidth = 25;
+            this.bandedGridColumn337.MinWidth = 24;
             this.bandedGridColumn337.Name = "bandedGridColumn337";
             this.bandedGridColumn337.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn337.OptionsColumn.FixedWidth = true;
@@ -5190,7 +5209,7 @@ namespace SMFS
             this.bandedGridColumn338.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn338.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn338.FieldName = "cadenceDeathBenefits";
-            this.bandedGridColumn338.MinWidth = 25;
+            this.bandedGridColumn338.MinWidth = 24;
             this.bandedGridColumn338.Name = "bandedGridColumn338";
             this.bandedGridColumn338.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn338.OptionsColumn.FixedWidth = true;
@@ -5203,7 +5222,7 @@ namespace SMFS
             this.bandedGridColumn339.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn339.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn339.FieldName = "ftBalance";
-            this.bandedGridColumn339.MinWidth = 25;
+            this.bandedGridColumn339.MinWidth = 24;
             this.bandedGridColumn339.Name = "bandedGridColumn339";
             this.bandedGridColumn339.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn339.Visible = true;
@@ -5219,7 +5238,7 @@ namespace SMFS
             this.bandedGridColumn340.Name = "bandedGridColumn340";
             this.bandedGridColumn340.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn340.Visible = true;
-            this.bandedGridColumn340.Width = 116;
+            this.bandedGridColumn340.Width = 115;
             // 
             // bandedGridColumn341
             // 
@@ -5254,8 +5273,9 @@ namespace SMFS
             // 
             this.tabPage17.Controls.Add(this.dgv17);
             this.tabPage17.Location = new System.Drawing.Point(4, 25);
+            this.tabPage17.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage17.Name = "tabPage17";
-            this.tabPage17.Size = new System.Drawing.Size(178, 0);
+            this.tabPage17.Size = new System.Drawing.Size(1788, 459);
             this.tabPage17.TabIndex = 8;
             this.tabPage17.Text = "Security National";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -5264,14 +5284,14 @@ namespace SMFS
             // 
             this.dgv17.ContextMenuStrip = this.contextMenuStrip3;
             this.dgv17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv17.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv17.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv17.Location = new System.Drawing.Point(0, 0);
             this.dgv17.MainView = this.gridMain17;
-            this.dgv17.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv17.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv17.Name = "dgv17";
             this.dgv17.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit3});
-            this.dgv17.Size = new System.Drawing.Size(178, 0);
+            this.dgv17.Size = new System.Drawing.Size(1788, 459);
             this.dgv17.TabIndex = 8;
             this.dgv17.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain17});
@@ -5454,6 +5474,8 @@ namespace SMFS
             this.gridMain17.OptionsView.ShowFooter = true;
             this.gridMain17.OptionsView.ShowGroupPanel = false;
             this.gridMain17.PaintStyleName = "Style3D";
+            this.gridMain17.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridMain17_RowCellStyle);
+            this.gridMain17.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridMain17_CellValueChanged);
             this.gridMain17.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridMain17_CustomColumnDisplayText);
             // 
             // gridBand16
@@ -5489,7 +5511,7 @@ namespace SMFS
             this.gridBand16.MinWidth = 48;
             this.gridBand16.Name = "gridBand16";
             this.gridBand16.VisibleIndex = 0;
-            this.gridBand16.Width = 2089;
+            this.gridBand16.Width = 2087;
             // 
             // bandedGridColumn343
             // 
@@ -5497,7 +5519,7 @@ namespace SMFS
             this.bandedGridColumn343.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn343.Caption = "Num";
             this.bandedGridColumn343.FieldName = "num";
-            this.bandedGridColumn343.MinWidth = 25;
+            this.bandedGridColumn343.MinWidth = 24;
             this.bandedGridColumn343.Name = "bandedGridColumn343";
             this.bandedGridColumn343.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn343.OptionsColumn.FixedWidth = true;
@@ -5532,16 +5554,16 @@ namespace SMFS
             // bandedGridColumn346
             // 
             this.bandedGridColumn346.FieldName = "sn1";
-            this.bandedGridColumn346.MinWidth = 25;
+            this.bandedGridColumn346.MinWidth = 24;
             this.bandedGridColumn346.Name = "bandedGridColumn346";
-            this.bandedGridColumn346.Width = 25;
+            this.bandedGridColumn346.Width = 24;
             // 
             // bandedGridColumn347
             // 
             this.bandedGridColumn347.FieldName = "sn2";
-            this.bandedGridColumn347.MinWidth = 25;
+            this.bandedGridColumn347.MinWidth = 24;
             this.bandedGridColumn347.Name = "bandedGridColumn347";
-            this.bandedGridColumn347.Width = 25;
+            this.bandedGridColumn347.Width = 24;
             // 
             // bandedGridColumn348
             // 
@@ -5572,7 +5594,7 @@ namespace SMFS
             // 
             this.bandedGridColumn350.Caption = "  ";
             this.bandedGridColumn350.FieldName = "cashPaid1";
-            this.bandedGridColumn350.MinWidth = 25;
+            this.bandedGridColumn350.MinWidth = 24;
             this.bandedGridColumn350.Name = "bandedGridColumn350";
             this.bandedGridColumn350.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn350.Visible = true;
@@ -5644,22 +5666,22 @@ namespace SMFS
             // bandedGridColumn357
             // 
             this.bandedGridColumn357.FieldName = "junk1";
-            this.bandedGridColumn357.MinWidth = 25;
+            this.bandedGridColumn357.MinWidth = 24;
             this.bandedGridColumn357.Name = "bandedGridColumn357";
-            this.bandedGridColumn357.Width = 25;
+            this.bandedGridColumn357.Width = 24;
             // 
             // bandedGridColumn358
             // 
             this.bandedGridColumn358.FieldName = "junk2";
-            this.bandedGridColumn358.MinWidth = 25;
+            this.bandedGridColumn358.MinWidth = 24;
             this.bandedGridColumn358.Name = "bandedGridColumn358";
-            this.bandedGridColumn358.Width = 25;
+            this.bandedGridColumn358.Width = 24;
             // 
             // bandedGridColumn359
             // 
             this.bandedGridColumn359.Caption = "  ";
             this.bandedGridColumn359.FieldName = "cashPaid2";
-            this.bandedGridColumn359.MinWidth = 25;
+            this.bandedGridColumn359.MinWidth = 24;
             this.bandedGridColumn359.Name = "bandedGridColumn359";
             this.bandedGridColumn359.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn359.Visible = true;
@@ -5697,7 +5719,7 @@ namespace SMFS
             this.bandedGridColumn366.Name = "bandedGridColumn366";
             this.bandedGridColumn366.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn366.Visible = true;
-            this.bandedGridColumn366.Width = 95;
+            this.bandedGridColumn366.Width = 94;
             // 
             // bandedGridColumn367
             // 
@@ -5712,9 +5734,9 @@ namespace SMFS
             // bandedGridColumn362
             // 
             this.bandedGridColumn362.FieldName = "junk3";
-            this.bandedGridColumn362.MinWidth = 25;
+            this.bandedGridColumn362.MinWidth = 24;
             this.bandedGridColumn362.Name = "bandedGridColumn362";
-            this.bandedGridColumn362.Width = 25;
+            this.bandedGridColumn362.Width = 24;
             // 
             // bandedGridColumn363
             // 
@@ -5732,7 +5754,7 @@ namespace SMFS
             this.bandedGridColumn364.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn364.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn364.FieldName = "diff";
-            this.bandedGridColumn364.MinWidth = 25;
+            this.bandedGridColumn364.MinWidth = 24;
             this.bandedGridColumn364.Name = "bandedGridColumn364";
             this.bandedGridColumn364.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn364.OptionsColumn.FixedWidth = true;
@@ -5745,7 +5767,7 @@ namespace SMFS
             this.bandedGridColumn365.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn365.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn365.FieldName = "cadenceDeathBenefits";
-            this.bandedGridColumn365.MinWidth = 25;
+            this.bandedGridColumn365.MinWidth = 24;
             this.bandedGridColumn365.Name = "bandedGridColumn365";
             this.bandedGridColumn365.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn365.OptionsColumn.FixedWidth = true;
@@ -5758,7 +5780,7 @@ namespace SMFS
             this.bandedGridColumn368.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn368.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn368.FieldName = "ftBalance";
-            this.bandedGridColumn368.MinWidth = 25;
+            this.bandedGridColumn368.MinWidth = 24;
             this.bandedGridColumn368.Name = "bandedGridColumn368";
             this.bandedGridColumn368.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn368.Visible = true;
@@ -5774,7 +5796,7 @@ namespace SMFS
             this.bandedGridColumn369.Name = "bandedGridColumn369";
             this.bandedGridColumn369.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn369.Visible = true;
-            this.bandedGridColumn369.Width = 116;
+            this.bandedGridColumn369.Width = 115;
             // 
             // bandedGridColumn370
             // 
@@ -5815,16 +5837,18 @@ namespace SMFS
             this.panelSplitTop.Controls.Add(this.btnInsert);
             this.panelSplitTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelSplitTop.Location = new System.Drawing.Point(0, 0);
+            this.panelSplitTop.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelSplitTop.Name = "panelSplitTop";
-            this.panelSplitTop.Size = new System.Drawing.Size(1795, 39);
+            this.panelSplitTop.Size = new System.Drawing.Size(1796, 39);
             this.panelSplitTop.TabIndex = 0;
             // 
             // btnCopy
             // 
             this.btnCopy.BackColor = System.Drawing.Color.MistyRose;
             this.btnCopy.Location = new System.Drawing.Point(1014, 3);
+            this.btnCopy.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(163, 29);
+            this.btnCopy.Size = new System.Drawing.Size(162, 29);
             this.btnCopy.TabIndex = 181;
             this.btnCopy.Text = "Copy to Clipboard";
             this.btnCopy.UseVisualStyleBackColor = false;
@@ -5833,7 +5857,8 @@ namespace SMFS
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(457, 12);
+            this.label8.Location = new System.Drawing.Point(456, 12);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(511, 17);
             this.label8.TabIndex = 24;
@@ -5843,7 +5868,8 @@ namespace SMFS
             // chkRemoveEmpty
             // 
             this.chkRemoveEmpty.AutoSize = true;
-            this.chkRemoveEmpty.Location = new System.Drawing.Point(212, 12);
+            this.chkRemoveEmpty.Location = new System.Drawing.Point(211, 12);
+            this.chkRemoveEmpty.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkRemoveEmpty.Name = "chkRemoveEmpty";
             this.chkRemoveEmpty.Size = new System.Drawing.Size(163, 21);
             this.chkRemoveEmpty.TabIndex = 23;
@@ -5854,10 +5880,10 @@ namespace SMFS
             // btnDelete
             // 
             this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
-            this.btnDelete.Location = new System.Drawing.Point(133, 7);
-            this.btnDelete.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnDelete.Location = new System.Drawing.Point(132, 7);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(36, 28);
+            this.btnDelete.Size = new System.Drawing.Size(35, 28);
             this.btnDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnDelete.TabIndex = 22;
             this.btnDelete.TabStop = false;
@@ -5868,10 +5894,10 @@ namespace SMFS
             // 
             this.btnInsert.BackColor = System.Drawing.Color.Transparent;
             this.btnInsert.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInsert.Location = new System.Drawing.Point(79, 7);
-            this.btnInsert.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnInsert.Location = new System.Drawing.Point(78, 7);
+            this.btnInsert.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnInsert.Name = "btnInsert";
-            this.btnInsert.Size = new System.Drawing.Size(36, 28);
+            this.btnInsert.Size = new System.Drawing.Size(35, 28);
             this.btnInsert.TabIndex = 21;
             this.btnInsert.Tag = "Insert Row";
             this.btnInsert.Text = "~";
@@ -5883,8 +5909,9 @@ namespace SMFS
             // 
             this.tabPage3.Controls.Add(this.panelDiffAll);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage3.Size = new System.Drawing.Size(1800, 533);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Differences";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -5895,8 +5922,9 @@ namespace SMFS
             this.panelDiffAll.Controls.Add(this.panelDiffTop);
             this.panelDiffAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDiffAll.Location = new System.Drawing.Point(0, 0);
+            this.panelDiffAll.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelDiffAll.Name = "panelDiffAll";
-            this.panelDiffAll.Size = new System.Drawing.Size(1801, 531);
+            this.panelDiffAll.Size = new System.Drawing.Size(1800, 533);
             this.panelDiffAll.TabIndex = 6;
             // 
             // panelDiffBottom
@@ -5904,22 +5932,23 @@ namespace SMFS
             this.panelDiffBottom.Controls.Add(this.dgv3);
             this.panelDiffBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDiffBottom.Location = new System.Drawing.Point(0, 45);
+            this.panelDiffBottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelDiffBottom.Name = "panelDiffBottom";
-            this.panelDiffBottom.Size = new System.Drawing.Size(1801, 486);
+            this.panelDiffBottom.Size = new System.Drawing.Size(1800, 488);
             this.panelDiffBottom.TabIndex = 8;
             // 
             // dgv3
             // 
             this.dgv3.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv3.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv3.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv3.Location = new System.Drawing.Point(0, 0);
             this.dgv3.MainView = this.gridMain3;
-            this.dgv3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv3.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv3.Name = "dgv3";
             this.dgv3.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.dgv3.Size = new System.Drawing.Size(1801, 486);
+            this.dgv3.Size = new System.Drawing.Size(1800, 488);
             this.dgv3.TabIndex = 5;
             this.dgv3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain3});
@@ -6142,7 +6171,7 @@ namespace SMFS
             this.gridBand5.MinWidth = 26;
             this.gridBand5.Name = "gridBand5";
             this.gridBand5.VisibleIndex = 0;
-            this.gridBand5.Width = 3551;
+            this.gridBand5.Width = 3550;
             // 
             // bandedGridColumn42
             // 
@@ -6167,7 +6196,7 @@ namespace SMFS
             this.bandedGridColumn43.Name = "bandedGridColumn43";
             this.bandedGridColumn43.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn43.Visible = true;
-            this.bandedGridColumn43.Width = 109;
+            this.bandedGridColumn43.Width = 108;
             // 
             // bandedGridColumn44
             // 
@@ -6332,7 +6361,7 @@ namespace SMFS
             this.bandedGridColumn55.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn55.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn55.FieldName = "tSurrender";
-            this.bandedGridColumn55.MinWidth = 25;
+            this.bandedGridColumn55.MinWidth = 24;
             this.bandedGridColumn55.Name = "bandedGridColumn55";
             this.bandedGridColumn55.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn55.OptionsColumn.FixedWidth = true;
@@ -6364,7 +6393,7 @@ namespace SMFS
             this.bandedGridColumn123.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn123.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn123.FieldName = "surfacdiff";
-            this.bandedGridColumn123.MinWidth = 25;
+            this.bandedGridColumn123.MinWidth = 24;
             this.bandedGridColumn123.Name = "bandedGridColumn123";
             this.bandedGridColumn123.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn123.Visible = true;
@@ -6393,7 +6422,7 @@ namespace SMFS
             this.bandedGridColumn58.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn58.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn58.FieldName = "overshort";
-            this.bandedGridColumn58.MinWidth = 25;
+            this.bandedGridColumn58.MinWidth = 24;
             this.bandedGridColumn58.Name = "bandedGridColumn58";
             this.bandedGridColumn58.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn58.Visible = true;
@@ -6468,7 +6497,7 @@ namespace SMFS
             this.bandedGridColumn63.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn63.Caption = "Billing Reason";
             this.bandedGridColumn63.FieldName = "billingReason";
-            this.bandedGridColumn63.MinWidth = 25;
+            this.bandedGridColumn63.MinWidth = 24;
             this.bandedGridColumn63.Name = "bandedGridColumn63";
             this.bandedGridColumn63.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn63.OptionsColumn.FixedWidth = true;
@@ -6482,7 +6511,7 @@ namespace SMFS
             this.bandedGridColumn64.Caption = "Mark";
             this.bandedGridColumn64.ColumnEdit = this.repositoryItemCheckEdit1;
             this.bandedGridColumn64.FieldName = "mark";
-            this.bandedGridColumn64.MinWidth = 25;
+            this.bandedGridColumn64.MinWidth = 24;
             this.bandedGridColumn64.Name = "bandedGridColumn64";
             this.bandedGridColumn64.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn64.Width = 51;
@@ -6503,7 +6532,7 @@ namespace SMFS
             this.bandedGridColumn65.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn65.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn65.FieldName = "refund";
-            this.bandedGridColumn65.MinWidth = 25;
+            this.bandedGridColumn65.MinWidth = 24;
             this.bandedGridColumn65.Name = "bandedGridColumn65";
             this.bandedGridColumn65.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn65.OptionsColumn.FixedWidth = true;
@@ -6516,7 +6545,7 @@ namespace SMFS
             this.bandedGridColumn66.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn66.Caption = "Status Reason";
             this.bandedGridColumn66.FieldName = "statusReason";
-            this.bandedGridColumn66.MinWidth = 25;
+            this.bandedGridColumn66.MinWidth = 24;
             this.bandedGridColumn66.Name = "bandedGridColumn66";
             this.bandedGridColumn66.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn66.OptionsColumn.FixedWidth = true;
@@ -6529,7 +6558,7 @@ namespace SMFS
             this.bandedGridColumn67.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn67.Caption = "Policy Status";
             this.bandedGridColumn67.FieldName = "policyStatus";
-            this.bandedGridColumn67.MinWidth = 25;
+            this.bandedGridColumn67.MinWidth = 24;
             this.bandedGridColumn67.Name = "bandedGridColumn67";
             this.bandedGridColumn67.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn67.Visible = true;
@@ -6607,7 +6636,7 @@ namespace SMFS
             this.bandedGridColumn135.DisplayFormat.FormatString = "MM/dd/yyyy";
             this.bandedGridColumn135.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn135.FieldName = "reportDate";
-            this.bandedGridColumn135.MinWidth = 25;
+            this.bandedGridColumn135.MinWidth = 24;
             this.bandedGridColumn135.Name = "bandedGridColumn135";
             this.bandedGridColumn135.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn135.Visible = true;
@@ -6643,18 +6672,19 @@ namespace SMFS
             this.panelDiffTop.Controls.Add(this.btnHold);
             this.panelDiffTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDiffTop.Location = new System.Drawing.Point(0, 0);
+            this.panelDiffTop.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelDiffTop.Name = "panelDiffTop";
-            this.panelDiffTop.Size = new System.Drawing.Size(1801, 45);
+            this.panelDiffTop.Size = new System.Drawing.Size(1800, 45);
             this.panelDiffTop.TabIndex = 7;
             // 
             // btnHold
             // 
             this.btnHold.BackColor = System.Drawing.Color.SandyBrown;
             this.btnHold.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHold.Location = new System.Drawing.Point(67, 8);
-            this.btnHold.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnHold.Location = new System.Drawing.Point(66, 8);
+            this.btnHold.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnHold.Name = "btnHold";
-            this.btnHold.Size = new System.Drawing.Size(134, 30);
+            this.btnHold.Size = new System.Drawing.Size(133, 30);
             this.btnHold.TabIndex = 96;
             this.btnHold.Text = "Hold";
             this.btnHold.UseVisualStyleBackColor = false;
@@ -6664,8 +6694,9 @@ namespace SMFS
             // 
             this.tabPage4.Controls.Add(this.dgv4);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage4.Size = new System.Drawing.Size(1800, 533);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Active";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -6674,14 +6705,14 @@ namespace SMFS
             // 
             this.dgv4.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv4.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv4.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv4.Location = new System.Drawing.Point(0, 0);
             this.dgv4.MainView = this.gridMain4;
-            this.dgv4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv4.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv4.Name = "dgv4";
             this.dgv4.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit2});
-            this.dgv4.Size = new System.Drawing.Size(1801, 531);
+            this.dgv4.Size = new System.Drawing.Size(1800, 533);
             this.dgv4.TabIndex = 6;
             this.dgv4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain4});
@@ -6904,7 +6935,7 @@ namespace SMFS
             this.gridBand3.MinWidth = 26;
             this.gridBand3.Name = "gridBand3";
             this.gridBand3.VisibleIndex = 0;
-            this.gridBand3.Width = 3551;
+            this.gridBand3.Width = 3550;
             // 
             // bandedGridColumn79
             // 
@@ -6929,7 +6960,7 @@ namespace SMFS
             this.bandedGridColumn80.Name = "bandedGridColumn80";
             this.bandedGridColumn80.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn80.Visible = true;
-            this.bandedGridColumn80.Width = 109;
+            this.bandedGridColumn80.Width = 108;
             // 
             // bandedGridColumn81
             // 
@@ -7094,7 +7125,7 @@ namespace SMFS
             this.bandedGridColumn92.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn92.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn92.FieldName = "tSurrender";
-            this.bandedGridColumn92.MinWidth = 25;
+            this.bandedGridColumn92.MinWidth = 24;
             this.bandedGridColumn92.Name = "bandedGridColumn92";
             this.bandedGridColumn92.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn92.OptionsColumn.FixedWidth = true;
@@ -7126,7 +7157,7 @@ namespace SMFS
             this.bandedGridColumn94.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn94.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn94.FieldName = "surfacdiff";
-            this.bandedGridColumn94.MinWidth = 25;
+            this.bandedGridColumn94.MinWidth = 24;
             this.bandedGridColumn94.Name = "bandedGridColumn94";
             this.bandedGridColumn94.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn94.Visible = true;
@@ -7155,7 +7186,7 @@ namespace SMFS
             this.bandedGridColumn96.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn96.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn96.FieldName = "overshort";
-            this.bandedGridColumn96.MinWidth = 25;
+            this.bandedGridColumn96.MinWidth = 24;
             this.bandedGridColumn96.Name = "bandedGridColumn96";
             this.bandedGridColumn96.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn96.Visible = true;
@@ -7230,7 +7261,7 @@ namespace SMFS
             this.bandedGridColumn101.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn101.Caption = "Billing Reason";
             this.bandedGridColumn101.FieldName = "billingReason";
-            this.bandedGridColumn101.MinWidth = 25;
+            this.bandedGridColumn101.MinWidth = 24;
             this.bandedGridColumn101.Name = "bandedGridColumn101";
             this.bandedGridColumn101.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn101.OptionsColumn.FixedWidth = true;
@@ -7244,7 +7275,7 @@ namespace SMFS
             this.bandedGridColumn102.Caption = "Mark";
             this.bandedGridColumn102.ColumnEdit = this.repositoryItemCheckEdit2;
             this.bandedGridColumn102.FieldName = "mark";
-            this.bandedGridColumn102.MinWidth = 25;
+            this.bandedGridColumn102.MinWidth = 24;
             this.bandedGridColumn102.Name = "bandedGridColumn102";
             this.bandedGridColumn102.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn102.Width = 51;
@@ -7265,7 +7296,7 @@ namespace SMFS
             this.bandedGridColumn103.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn103.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn103.FieldName = "refund";
-            this.bandedGridColumn103.MinWidth = 25;
+            this.bandedGridColumn103.MinWidth = 24;
             this.bandedGridColumn103.Name = "bandedGridColumn103";
             this.bandedGridColumn103.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn103.OptionsColumn.FixedWidth = true;
@@ -7278,7 +7309,7 @@ namespace SMFS
             this.bandedGridColumn104.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn104.Caption = "Status Reason";
             this.bandedGridColumn104.FieldName = "statusReason";
-            this.bandedGridColumn104.MinWidth = 25;
+            this.bandedGridColumn104.MinWidth = 24;
             this.bandedGridColumn104.Name = "bandedGridColumn104";
             this.bandedGridColumn104.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn104.OptionsColumn.FixedWidth = true;
@@ -7291,7 +7322,7 @@ namespace SMFS
             this.bandedGridColumn105.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn105.Caption = "Policy Status";
             this.bandedGridColumn105.FieldName = "policyStatus";
-            this.bandedGridColumn105.MinWidth = 25;
+            this.bandedGridColumn105.MinWidth = 24;
             this.bandedGridColumn105.Name = "bandedGridColumn105";
             this.bandedGridColumn105.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn105.Visible = true;
@@ -7369,7 +7400,7 @@ namespace SMFS
             this.bandedGridColumn111.DisplayFormat.FormatString = "MM/dd/yyyy";
             this.bandedGridColumn111.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn111.FieldName = "reportDate";
-            this.bandedGridColumn111.MinWidth = 25;
+            this.bandedGridColumn111.MinWidth = 24;
             this.bandedGridColumn111.Name = "bandedGridColumn111";
             this.bandedGridColumn111.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn111.Visible = true;
@@ -7404,8 +7435,9 @@ namespace SMFS
             // 
             this.tabPage5.Controls.Add(this.dgv5);
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
+            this.tabPage5.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage5.Size = new System.Drawing.Size(1800, 533);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "MisMatches";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -7414,14 +7446,14 @@ namespace SMFS
             // 
             this.dgv5.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv5.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv5.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv5.Location = new System.Drawing.Point(0, 0);
             this.dgv5.MainView = this.gridMain5;
-            this.dgv5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv5.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv5.Name = "dgv5";
             this.dgv5.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit3});
-            this.dgv5.Size = new System.Drawing.Size(1801, 531);
+            this.dgv5.Size = new System.Drawing.Size(1800, 533);
             this.dgv5.TabIndex = 7;
             this.dgv5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain5});
@@ -7614,7 +7646,7 @@ namespace SMFS
             this.bandedGridColumn116.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn116.Caption = "Num";
             this.bandedGridColumn116.FieldName = "num";
-            this.bandedGridColumn116.MinWidth = 25;
+            this.bandedGridColumn116.MinWidth = 24;
             this.bandedGridColumn116.Name = "bandedGridColumn116";
             this.bandedGridColumn116.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn116.OptionsColumn.FixedWidth = true;
@@ -7627,7 +7659,7 @@ namespace SMFS
             this.bandedGridColumn121.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn121.Caption = "Trust";
             this.bandedGridColumn121.FieldName = "Trust";
-            this.bandedGridColumn121.MinWidth = 25;
+            this.bandedGridColumn121.MinWidth = 24;
             this.bandedGridColumn121.Name = "bandedGridColumn121";
             this.bandedGridColumn121.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn121.Visible = true;
@@ -7637,7 +7669,7 @@ namespace SMFS
             // 
             this.bandedGridColumn118.Caption = "Funeral Number";
             this.bandedGridColumn118.FieldName = "Funeral Number";
-            this.bandedGridColumn118.MinWidth = 25;
+            this.bandedGridColumn118.MinWidth = 24;
             this.bandedGridColumn118.Name = "bandedGridColumn118";
             this.bandedGridColumn118.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn118.Visible = true;
@@ -7649,7 +7681,7 @@ namespace SMFS
             this.bandedGridColumn117.DisplayFormat.FormatString = "MM/dd/yyyy";
             this.bandedGridColumn117.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.bandedGridColumn117.FieldName = "Date Received";
-            this.bandedGridColumn117.MinWidth = 25;
+            this.bandedGridColumn117.MinWidth = 24;
             this.bandedGridColumn117.Name = "bandedGridColumn117";
             this.bandedGridColumn117.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn117.Width = 98;
@@ -7660,7 +7692,7 @@ namespace SMFS
             this.bandedGridColumn120.AppearanceHeader.Options.UseForeColor = true;
             this.bandedGridColumn120.Caption = "Name";
             this.bandedGridColumn120.FieldName = "Name";
-            this.bandedGridColumn120.MinWidth = 25;
+            this.bandedGridColumn120.MinWidth = 24;
             this.bandedGridColumn120.Name = "bandedGridColumn120";
             this.bandedGridColumn120.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn120.Visible = true;
@@ -7676,7 +7708,7 @@ namespace SMFS
             this.bandedGridColumn127.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn127.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn127.FieldName = "Sandra Money";
-            this.bandedGridColumn127.MinWidth = 25;
+            this.bandedGridColumn127.MinWidth = 24;
             this.bandedGridColumn127.Name = "bandedGridColumn127";
             this.bandedGridColumn127.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn127.Visible = true;
@@ -7692,7 +7724,7 @@ namespace SMFS
             this.bandedGridColumn129.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn129.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn129.FieldName = "Trust Money";
-            this.bandedGridColumn129.MinWidth = 25;
+            this.bandedGridColumn129.MinWidth = 24;
             this.bandedGridColumn129.Name = "bandedGridColumn129";
             this.bandedGridColumn129.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn129.Visible = true;
@@ -7708,7 +7740,7 @@ namespace SMFS
             this.bandedGridColumn131.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn131.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn131.FieldName = "Difference";
-            this.bandedGridColumn131.MinWidth = 25;
+            this.bandedGridColumn131.MinWidth = 24;
             this.bandedGridColumn131.Name = "bandedGridColumn131";
             this.bandedGridColumn131.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn131.Visible = true;
@@ -7722,7 +7754,7 @@ namespace SMFS
             this.bandedGridColumn132.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn132.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn132.FieldName = "Sandra Principal";
-            this.bandedGridColumn132.MinWidth = 25;
+            this.bandedGridColumn132.MinWidth = 24;
             this.bandedGridColumn132.Name = "bandedGridColumn132";
             this.bandedGridColumn132.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn132.Visible = true;
@@ -7738,7 +7770,7 @@ namespace SMFS
             this.bandedGridColumn137.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn137.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn137.FieldName = "Trust Principal";
-            this.bandedGridColumn137.MinWidth = 25;
+            this.bandedGridColumn137.MinWidth = 24;
             this.bandedGridColumn137.Name = "bandedGridColumn137";
             this.bandedGridColumn137.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn137.Visible = true;
@@ -7752,7 +7784,7 @@ namespace SMFS
             this.bandedGridColumn145.DisplayFormat.FormatString = "N2";
             this.bandedGridColumn145.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.bandedGridColumn145.FieldName = "Principal Diff";
-            this.bandedGridColumn145.MinWidth = 25;
+            this.bandedGridColumn145.MinWidth = 24;
             this.bandedGridColumn145.Name = "bandedGridColumn145";
             this.bandedGridColumn145.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn145.Visible = true;
@@ -7770,8 +7802,9 @@ namespace SMFS
             // 
             this.tabPage6.Controls.Add(this.panelHistAll);
             this.tabPage6.Location = new System.Drawing.Point(4, 25);
+            this.tabPage6.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage6.Size = new System.Drawing.Size(1800, 533);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "History";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -7782,8 +7815,9 @@ namespace SMFS
             this.panelHistAll.Controls.Add(this.panelHistTop);
             this.panelHistAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelHistAll.Location = new System.Drawing.Point(0, 0);
+            this.panelHistAll.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelHistAll.Name = "panelHistAll";
-            this.panelHistAll.Size = new System.Drawing.Size(1801, 531);
+            this.panelHistAll.Size = new System.Drawing.Size(1800, 533);
             this.panelHistAll.TabIndex = 0;
             // 
             // panelHistBottom
@@ -7791,19 +7825,20 @@ namespace SMFS
             this.panelHistBottom.Controls.Add(this.dgv7);
             this.panelHistBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelHistBottom.Location = new System.Drawing.Point(0, 59);
+            this.panelHistBottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelHistBottom.Name = "panelHistBottom";
-            this.panelHistBottom.Size = new System.Drawing.Size(1801, 472);
+            this.panelHistBottom.Size = new System.Drawing.Size(1800, 474);
             this.panelHistBottom.TabIndex = 2;
             // 
             // dgv7
             // 
             this.dgv7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv7.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv7.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv7.Location = new System.Drawing.Point(0, 0);
             this.dgv7.MainView = this.gridMain7;
-            this.dgv7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv7.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv7.Name = "dgv7";
-            this.dgv7.Size = new System.Drawing.Size(1801, 472);
+            this.dgv7.Size = new System.Drawing.Size(1800, 474);
             this.dgv7.TabIndex = 6;
             this.dgv7.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain7});
@@ -8009,7 +8044,7 @@ namespace SMFS
             this.gridBand7.MinWidth = 26;
             this.gridBand7.Name = "gridBand7";
             this.gridBand7.VisibleIndex = 0;
-            this.gridBand7.Width = 2890;
+            this.gridBand7.Width = 2889;
             // 
             // bandedGridColumn130
             // 
@@ -8331,7 +8366,7 @@ namespace SMFS
             this.bandedGridColumn212.MinWidth = 14;
             this.bandedGridColumn212.Name = "bandedGridColumn212";
             this.bandedGridColumn212.Visible = true;
-            this.bandedGridColumn212.Width = 25;
+            this.bandedGridColumn212.Width = 24;
             // 
             // bandedGridColumn161
             // 
@@ -8413,16 +8448,18 @@ namespace SMFS
             this.panelHistTop.Controls.Add(this.dateTimePicker3);
             this.panelHistTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHistTop.Location = new System.Drawing.Point(0, 0);
+            this.panelHistTop.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelHistTop.Name = "panelHistTop";
-            this.panelHistTop.Size = new System.Drawing.Size(1801, 59);
+            this.panelHistTop.Size = new System.Drawing.Size(1800, 59);
             this.panelHistTop.TabIndex = 1;
             // 
             // button10
             // 
             this.button10.BackColor = System.Drawing.Color.MistyRose;
             this.button10.Location = new System.Drawing.Point(1007, 16);
+            this.button10.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(163, 29);
+            this.button10.Size = new System.Drawing.Size(162, 29);
             this.button10.TabIndex = 182;
             this.button10.Text = "Copy to Clipboard";
             this.button10.UseVisualStyleBackColor = false;
@@ -8431,7 +8468,8 @@ namespace SMFS
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(863, 24);
+            this.label6.Location = new System.Drawing.Point(862, 24);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(76, 17);
             this.label6.TabIndex = 174;
@@ -8444,15 +8482,17 @@ namespace SMFS
             "Post",
             "Pre"});
             this.cmbPreOrPost2.Location = new System.Drawing.Point(796, 21);
+            this.cmbPreOrPost2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cmbPreOrPost2.Name = "cmbPreOrPost2";
-            this.cmbPreOrPost2.Size = new System.Drawing.Size(61, 24);
+            this.cmbPreOrPost2.Size = new System.Drawing.Size(60, 24);
             this.cmbPreOrPost2.TabIndex = 173;
             this.cmbPreOrPost2.Text = "Post";
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.Transparent;
-            this.button1.Location = new System.Drawing.Point(689, 21);
+            this.button1.Location = new System.Drawing.Point(688, 21);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 172;
@@ -8464,6 +8504,7 @@ namespace SMFS
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(349, 23);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(39, 17);
             this.label5.TabIndex = 171;
@@ -8471,7 +8512,8 @@ namespace SMFS
             // 
             // dateTimePicker4
             // 
-            this.dateTimePicker4.Location = new System.Drawing.Point(392, 20);
+            this.dateTimePicker4.Location = new System.Drawing.Point(391, 20);
+            this.dateTimePicker4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dateTimePicker4.Name = "dateTimePicker4";
             this.dateTimePicker4.Size = new System.Drawing.Size(233, 23);
             this.dateTimePicker4.TabIndex = 170;
@@ -8480,7 +8522,7 @@ namespace SMFS
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(12, 15);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(33, 27);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -8492,8 +8534,8 @@ namespace SMFS
             // 
             this.button2.BackColor = System.Drawing.Color.Transparent;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(631, 19);
-            this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button2.Location = new System.Drawing.Point(630, 19);
+            this.button2.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(33, 28);
             this.button2.TabIndex = 168;
@@ -8504,8 +8546,8 @@ namespace SMFS
             // 
             this.button3.BackColor = System.Drawing.Color.Transparent;
             this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.Location = new System.Drawing.Point(71, 15);
-            this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button3.Location = new System.Drawing.Point(70, 15);
+            this.button3.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(33, 28);
             this.button3.TabIndex = 167;
@@ -8515,6 +8557,7 @@ namespace SMFS
             // dateTimePicker3
             // 
             this.dateTimePicker3.Location = new System.Drawing.Point(110, 19);
+            this.dateTimePicker3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dateTimePicker3.Name = "dateTimePicker3";
             this.dateTimePicker3.Size = new System.Drawing.Size(233, 23);
             this.dateTimePicker3.TabIndex = 166;
@@ -8523,8 +8566,9 @@ namespace SMFS
             // 
             this.tabPage7.Controls.Add(this.panelTbbAll);
             this.tabPage7.Location = new System.Drawing.Point(4, 25);
+            this.tabPage7.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage7.Size = new System.Drawing.Size(1800, 533);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "TBB Info";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -8535,8 +8579,9 @@ namespace SMFS
             this.panelTbbAll.Controls.Add(this.panelTbbTop);
             this.panelTbbAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTbbAll.Location = new System.Drawing.Point(0, 0);
+            this.panelTbbAll.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelTbbAll.Name = "panelTbbAll";
-            this.panelTbbAll.Size = new System.Drawing.Size(1801, 531);
+            this.panelTbbAll.Size = new System.Drawing.Size(1800, 533);
             this.panelTbbAll.TabIndex = 0;
             // 
             // panelTbbBottom
@@ -8544,20 +8589,21 @@ namespace SMFS
             this.panelTbbBottom.Controls.Add(this.dgv8);
             this.panelTbbBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTbbBottom.Location = new System.Drawing.Point(0, 61);
+            this.panelTbbBottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelTbbBottom.Name = "panelTbbBottom";
-            this.panelTbbBottom.Size = new System.Drawing.Size(1801, 470);
+            this.panelTbbBottom.Size = new System.Drawing.Size(1800, 472);
             this.panelTbbBottom.TabIndex = 2;
             // 
             // dgv8
             // 
             this.dgv8.ContextMenuStrip = this.contextMenuStrip2;
             this.dgv8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv8.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv8.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv8.Location = new System.Drawing.Point(0, 0);
             this.dgv8.MainView = this.gridMain8;
-            this.dgv8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv8.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv8.Name = "dgv8";
-            this.dgv8.Size = new System.Drawing.Size(1801, 470);
+            this.dgv8.Size = new System.Drawing.Size(1800, 472);
             this.dgv8.TabIndex = 7;
             this.dgv8.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain8});
@@ -8795,7 +8841,7 @@ namespace SMFS
             this.gridBand8.MinWidth = 30;
             this.gridBand8.Name = "gridBand8";
             this.gridBand8.VisibleIndex = 0;
-            this.gridBand8.Width = 3337;
+            this.gridBand8.Width = 3334;
             // 
             // bandedGridColumn165
             // 
@@ -8843,7 +8889,7 @@ namespace SMFS
             this.bandedGridColumn191.Name = "bandedGridColumn191";
             this.bandedGridColumn191.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn191.Visible = true;
-            this.bandedGridColumn191.Width = 102;
+            this.bandedGridColumn191.Width = 101;
             // 
             // bandedGridColumn311
             // 
@@ -8851,7 +8897,7 @@ namespace SMFS
             this.bandedGridColumn311.DisplayFormat.FormatString = "MM/dd/yyyy";
             this.bandedGridColumn311.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.bandedGridColumn311.FieldName = "deceasedDate";
-            this.bandedGridColumn311.MinWidth = 25;
+            this.bandedGridColumn311.MinWidth = 24;
             this.bandedGridColumn311.Name = "bandedGridColumn311";
             this.bandedGridColumn311.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn311.OptionsColumn.FixedWidth = true;
@@ -8862,7 +8908,7 @@ namespace SMFS
             // 
             this.bandedGridColumn310.Caption = "Service ID";
             this.bandedGridColumn310.FieldName = "serviceId";
-            this.bandedGridColumn310.MinWidth = 25;
+            this.bandedGridColumn310.MinWidth = 24;
             this.bandedGridColumn310.Name = "bandedGridColumn310";
             this.bandedGridColumn310.OptionsColumn.AllowEdit = false;
             this.bandedGridColumn310.OptionsColumn.FixedWidth = true;
@@ -8923,7 +8969,7 @@ namespace SMFS
             this.bandedGridColumn171.Name = "bandedGridColumn171";
             this.bandedGridColumn171.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn171.Visible = true;
-            this.bandedGridColumn171.Width = 137;
+            this.bandedGridColumn171.Width = 136;
             // 
             // bandedGridColumn172
             // 
@@ -8967,7 +9013,7 @@ namespace SMFS
             this.bandedGridColumn174.Name = "bandedGridColumn174";
             this.bandedGridColumn174.OptionsColumn.FixedWidth = true;
             this.bandedGridColumn174.Visible = true;
-            this.bandedGridColumn174.Width = 109;
+            this.bandedGridColumn174.Width = 108;
             // 
             // bandedGridColumn175
             // 
@@ -9223,17 +9269,19 @@ namespace SMFS
             this.panelTbbTop.Controls.Add(this.dateTimePicker5);
             this.panelTbbTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTbbTop.Location = new System.Drawing.Point(0, 0);
+            this.panelTbbTop.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelTbbTop.Name = "panelTbbTop";
-            this.panelTbbTop.Size = new System.Drawing.Size(1801, 61);
+            this.panelTbbTop.Size = new System.Drawing.Size(1800, 61);
             this.panelTbbTop.TabIndex = 1;
             // 
             // btnAccept
             // 
             this.btnAccept.BackColor = System.Drawing.Color.Chartreuse;
             this.btnAccept.Font = new System.Drawing.Font("Tahoma", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAccept.Location = new System.Drawing.Point(1149, 14);
+            this.btnAccept.Location = new System.Drawing.Point(1148, 14);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(113, 35);
+            this.btnAccept.Size = new System.Drawing.Size(112, 35);
             this.btnAccept.TabIndex = 181;
             this.btnAccept.Text = "Accept";
             this.btnAccept.UseVisualStyleBackColor = false;
@@ -9242,7 +9290,8 @@ namespace SMFS
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1032, 23);
+            this.label9.Location = new System.Drawing.Point(1031, 23);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(76, 17);
             this.label9.TabIndex = 180;
@@ -9251,14 +9300,16 @@ namespace SMFS
             // txtContract
             // 
             this.txtContract.Location = new System.Drawing.Point(915, 21);
+            this.txtContract.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtContract.Name = "txtContract";
-            this.txtContract.Size = new System.Drawing.Size(111, 23);
+            this.txtContract.Size = new System.Drawing.Size(110, 23);
             this.txtContract.TabIndex = 179;
             // 
             // chkFilterEmpty
             // 
             this.chkFilterEmpty.AutoSize = true;
-            this.chkFilterEmpty.Location = new System.Drawing.Point(750, 23);
+            this.chkFilterEmpty.Location = new System.Drawing.Point(749, 23);
+            this.chkFilterEmpty.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkFilterEmpty.Name = "chkFilterEmpty";
             this.chkFilterEmpty.Size = new System.Drawing.Size(140, 21);
             this.chkFilterEmpty.TabIndex = 178;
@@ -9269,7 +9320,8 @@ namespace SMFS
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(583, 23);
+            this.label7.Location = new System.Drawing.Point(582, 23);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(76, 17);
             this.label7.TabIndex = 177;
@@ -9283,15 +9335,17 @@ namespace SMFS
             "Pre",
             "Both"});
             this.cmbPreOrPost8.Location = new System.Drawing.Point(516, 20);
+            this.cmbPreOrPost8.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cmbPreOrPost8.Name = "cmbPreOrPost8";
-            this.cmbPreOrPost8.Size = new System.Drawing.Size(61, 24);
+            this.cmbPreOrPost8.Size = new System.Drawing.Size(60, 24);
             this.cmbPreOrPost8.TabIndex = 176;
             this.cmbPreOrPost8.Text = "Post";
             // 
             // button6
             // 
             this.button6.BackColor = System.Drawing.Color.Transparent;
-            this.button6.Location = new System.Drawing.Point(409, 20);
+            this.button6.Location = new System.Drawing.Point(408, 20);
+            this.button6.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 175;
@@ -9303,8 +9357,8 @@ namespace SMFS
             // 
             this.button5.BackColor = System.Drawing.Color.Transparent;
             this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
-            this.button5.Location = new System.Drawing.Point(351, 18);
-            this.button5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button5.Location = new System.Drawing.Point(350, 18);
+            this.button5.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(33, 28);
             this.button5.TabIndex = 173;
@@ -9315,7 +9369,7 @@ namespace SMFS
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.Location = new System.Drawing.Point(12, 15);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(33, 27);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -9327,8 +9381,8 @@ namespace SMFS
             // 
             this.button4.BackColor = System.Drawing.Color.Transparent;
             this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
-            this.button4.Location = new System.Drawing.Point(71, 15);
-            this.button4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button4.Location = new System.Drawing.Point(70, 15);
+            this.button4.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(33, 28);
             this.button4.TabIndex = 171;
@@ -9338,6 +9392,7 @@ namespace SMFS
             // dateTimePicker5
             // 
             this.dateTimePicker5.Location = new System.Drawing.Point(110, 19);
+            this.dateTimePicker5.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dateTimePicker5.Name = "dateTimePicker5";
             this.dateTimePicker5.Size = new System.Drawing.Size(233, 23);
             this.dateTimePicker5.TabIndex = 170;
@@ -9346,8 +9401,9 @@ namespace SMFS
             // 
             this.tabPage8.Controls.Add(this.panelTDT);
             this.tabPage8.Location = new System.Drawing.Point(4, 25);
+            this.tabPage8.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1801, 531);
+            this.tabPage8.Size = new System.Drawing.Size(1800, 533);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "Daily Trust Deposits";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -9358,8 +9414,9 @@ namespace SMFS
             this.panelTDT.Controls.Add(this.panelTDTTop);
             this.panelTDT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTDT.Location = new System.Drawing.Point(0, 0);
+            this.panelTDT.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelTDT.Name = "panelTDT";
-            this.panelTDT.Size = new System.Drawing.Size(1801, 531);
+            this.panelTDT.Size = new System.Drawing.Size(1800, 533);
             this.panelTDT.TabIndex = 0;
             // 
             // panelTDTBottom
@@ -9367,22 +9424,23 @@ namespace SMFS
             this.panelTDTBottom.Controls.Add(this.dgv9);
             this.panelTDTBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTDTBottom.Location = new System.Drawing.Point(0, 60);
+            this.panelTDTBottom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelTDTBottom.Name = "panelTDTBottom";
-            this.panelTDTBottom.Size = new System.Drawing.Size(1801, 471);
+            this.panelTDTBottom.Size = new System.Drawing.Size(1800, 473);
             this.panelTDTBottom.TabIndex = 2;
             // 
             // dgv9
             // 
             this.dgv9.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv9.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv9.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv9.Location = new System.Drawing.Point(0, 0);
             this.dgv9.MainView = this.gridMain9;
-            this.dgv9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgv9.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.dgv9.Name = "dgv9";
             this.dgv9.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit4});
-            this.dgv9.Size = new System.Drawing.Size(1801, 471);
+            this.dgv9.Size = new System.Drawing.Size(1800, 473);
             this.dgv9.TabIndex = 8;
             this.dgv9.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridMain9});
@@ -9660,14 +9718,16 @@ namespace SMFS
             this.panelTDTTop.Controls.Add(this.dateTimePicker9);
             this.panelTDTTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTDTTop.Location = new System.Drawing.Point(0, 0);
+            this.panelTDTTop.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panelTDTTop.Name = "panelTDTTop";
-            this.panelTDTTop.Size = new System.Drawing.Size(1801, 60);
+            this.panelTDTTop.Size = new System.Drawing.Size(1800, 60);
             this.panelTDTTop.TabIndex = 1;
             // 
             // chkGroupPaidFrom
             // 
             this.chkGroupPaidFrom.AutoSize = true;
-            this.chkGroupPaidFrom.Location = new System.Drawing.Point(598, 21);
+            this.chkGroupPaidFrom.Location = new System.Drawing.Point(597, 21);
+            this.chkGroupPaidFrom.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkGroupPaidFrom.Name = "chkGroupPaidFrom";
             this.chkGroupPaidFrom.Size = new System.Drawing.Size(153, 21);
             this.chkGroupPaidFrom.TabIndex = 181;
@@ -9679,6 +9739,7 @@ namespace SMFS
             // 
             this.button7.BackColor = System.Drawing.Color.Transparent;
             this.button7.Location = new System.Drawing.Point(405, 21);
+            this.button7.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(75, 23);
             this.button7.TabIndex = 180;
@@ -9690,8 +9751,8 @@ namespace SMFS
             // 
             this.button8.BackColor = System.Drawing.Color.Transparent;
             this.button8.Image = ((System.Drawing.Image)(resources.GetObject("button8.Image")));
-            this.button8.Location = new System.Drawing.Point(347, 19);
-            this.button8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button8.Location = new System.Drawing.Point(346, 19);
+            this.button8.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(33, 28);
             this.button8.TabIndex = 179;
@@ -9701,8 +9762,8 @@ namespace SMFS
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(8, 16);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox4.Location = new System.Drawing.Point(7, 16);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(33, 27);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -9714,8 +9775,8 @@ namespace SMFS
             // 
             this.button9.BackColor = System.Drawing.Color.Transparent;
             this.button9.Image = ((System.Drawing.Image)(resources.GetObject("button9.Image")));
-            this.button9.Location = new System.Drawing.Point(67, 16);
-            this.button9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button9.Location = new System.Drawing.Point(66, 16);
+            this.button9.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(33, 28);
             this.button9.TabIndex = 177;
@@ -9724,7 +9785,8 @@ namespace SMFS
             // 
             // dateTimePicker9
             // 
-            this.dateTimePicker9.Location = new System.Drawing.Point(106, 20);
+            this.dateTimePicker9.Location = new System.Drawing.Point(105, 20);
+            this.dateTimePicker9.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dateTimePicker9.Name = "dateTimePicker9";
             this.dateTimePicker9.Size = new System.Drawing.Size(233, 23);
             this.dateTimePicker9.TabIndex = 176;
@@ -9765,15 +9827,16 @@ namespace SMFS
             this.panelTop.Controls.Add(this.pictureBox1);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
-            this.panelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelTop.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1809, 142);
+            this.panelTop.Size = new System.Drawing.Size(1808, 142);
             this.panelTop.TabIndex = 1;
             // 
             // chkAllowEdit
             // 
             this.chkAllowEdit.AutoSize = true;
             this.chkAllowEdit.Location = new System.Drawing.Point(755, 104);
+            this.chkAllowEdit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkAllowEdit.Name = "chkAllowEdit";
             this.chkAllowEdit.Size = new System.Drawing.Size(87, 21);
             this.chkAllowEdit.TabIndex = 197;
@@ -9783,7 +9846,8 @@ namespace SMFS
             // chkIgnoreOverruns
             // 
             this.chkIgnoreOverruns.AutoSize = true;
-            this.chkIgnoreOverruns.Location = new System.Drawing.Point(1407, 59);
+            this.chkIgnoreOverruns.Location = new System.Drawing.Point(1406, 59);
+            this.chkIgnoreOverruns.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkIgnoreOverruns.Name = "chkIgnoreOverruns";
             this.chkIgnoreOverruns.Size = new System.Drawing.Size(187, 21);
             this.chkIgnoreOverruns.TabIndex = 196;
@@ -9793,8 +9857,8 @@ namespace SMFS
             // chkBalances
             // 
             this.chkBalances.EditValue = "| ";
-            this.chkBalances.Location = new System.Drawing.Point(16, 99);
-            this.chkBalances.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkBalances.Location = new System.Drawing.Point(15, 99);
+            this.chkBalances.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.chkBalances.Name = "chkBalances";
             this.chkBalances.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -9811,7 +9875,8 @@ namespace SMFS
             // chkIncludeDetails
             // 
             this.chkIncludeDetails.AutoSize = true;
-            this.chkIncludeDetails.Location = new System.Drawing.Point(81, 75);
+            this.chkIncludeDetails.Location = new System.Drawing.Point(80, 75);
+            this.chkIncludeDetails.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkIncludeDetails.Name = "chkIncludeDetails";
             this.chkIncludeDetails.Size = new System.Drawing.Size(117, 21);
             this.chkIncludeDetails.TabIndex = 194;
@@ -9821,7 +9886,8 @@ namespace SMFS
             // chkMissing
             // 
             this.chkMissing.AutoSize = true;
-            this.chkMissing.Location = new System.Drawing.Point(248, 75);
+            this.chkMissing.Location = new System.Drawing.Point(247, 75);
+            this.chkMissing.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkMissing.Name = "chkMissing";
             this.chkMissing.Size = new System.Drawing.Size(161, 21);
             this.chkMissing.TabIndex = 193;
@@ -9835,8 +9901,9 @@ namespace SMFS
             "Trust",
             "Month"});
             this.cmbGroupBy.Location = new System.Drawing.Point(181, 48);
+            this.cmbGroupBy.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cmbGroupBy.Name = "cmbGroupBy";
-            this.cmbGroupBy.Size = new System.Drawing.Size(61, 24);
+            this.cmbGroupBy.Size = new System.Drawing.Size(60, 24);
             this.cmbGroupBy.TabIndex = 192;
             this.cmbGroupBy.Text = "Trust";
             this.cmbGroupBy.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -9846,7 +9913,7 @@ namespace SMFS
             this.btnEditCustom.BackColor = System.Drawing.Color.SandyBrown;
             this.btnEditCustom.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
             this.btnEditCustom.Location = new System.Drawing.Point(439, 44);
-            this.btnEditCustom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnEditCustom.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnEditCustom.Name = "btnEditCustom";
             this.btnEditCustom.Size = new System.Drawing.Size(174, 40);
             this.btnEditCustom.TabIndex = 191;
@@ -9857,7 +9924,8 @@ namespace SMFS
             // chkGroup
             // 
             this.chkGroup.AutoSize = true;
-            this.chkGroup.Location = new System.Drawing.Point(248, 48);
+            this.chkGroup.Location = new System.Drawing.Point(247, 48);
+            this.chkGroup.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkGroup.Name = "chkGroup";
             this.chkGroup.Size = new System.Drawing.Size(125, 21);
             this.chkGroup.TabIndex = 190;
@@ -9868,20 +9936,21 @@ namespace SMFS
             // chkCmbCompany
             // 
             this.chkCmbCompany.EditValue = "";
-            this.chkCmbCompany.Location = new System.Drawing.Point(870, 21);
-            this.chkCmbCompany.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chkCmbCompany.Location = new System.Drawing.Point(869, 21);
+            this.chkCmbCompany.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.chkCmbCompany.Name = "chkCmbCompany";
             this.chkCmbCompany.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.chkCmbCompany.Properties.DisplayMember = "trustCompany";
             this.chkCmbCompany.Properties.SeparatorChar = '|';
-            this.chkCmbCompany.Size = new System.Drawing.Size(171, 22);
+            this.chkCmbCompany.Size = new System.Drawing.Size(170, 22);
             this.chkCmbCompany.TabIndex = 189;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1047, 23);
+            this.label4.Location = new System.Drawing.Point(1046, 23);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(111, 17);
             this.label4.TabIndex = 188;
@@ -9890,7 +9959,8 @@ namespace SMFS
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(1408, 39);
+            this.label13.Location = new System.Drawing.Point(1407, 39);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(180, 17);
             this.label13.TabIndex = 187;
@@ -9898,9 +9968,10 @@ namespace SMFS
             // 
             // txtNextDays
             // 
-            this.txtNextDays.Location = new System.Drawing.Point(1337, 39);
+            this.txtNextDays.Location = new System.Drawing.Point(1336, 39);
+            this.txtNextDays.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtNextDays.Name = "txtNextDays";
-            this.txtNextDays.Size = new System.Drawing.Size(61, 23);
+            this.txtNextDays.Size = new System.Drawing.Size(60, 23);
             this.txtNextDays.TabIndex = 186;
             this.txtNextDays.Text = "4";
             this.txtNextDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -9908,7 +9979,8 @@ namespace SMFS
             // chkQuick
             // 
             this.chkQuick.AutoSize = true;
-            this.chkQuick.Location = new System.Drawing.Point(1170, 37);
+            this.chkQuick.Location = new System.Drawing.Point(1169, 37);
+            this.chkQuick.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkQuick.Name = "chkQuick";
             this.chkQuick.Size = new System.Drawing.Size(156, 21);
             this.chkQuick.TabIndex = 185;
@@ -9918,7 +9990,8 @@ namespace SMFS
             // chkOldStuff
             // 
             this.chkOldStuff.AutoSize = true;
-            this.chkOldStuff.Location = new System.Drawing.Point(1505, 15);
+            this.chkOldStuff.Location = new System.Drawing.Point(1504, 15);
+            this.chkOldStuff.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkOldStuff.Name = "chkOldStuff";
             this.chkOldStuff.Size = new System.Drawing.Size(143, 21);
             this.chkOldStuff.TabIndex = 184;
@@ -9928,7 +10001,8 @@ namespace SMFS
             // chkJustTrustsSelected
             // 
             this.chkJustTrustsSelected.AutoSize = true;
-            this.chkJustTrustsSelected.Location = new System.Drawing.Point(1170, 13);
+            this.chkJustTrustsSelected.Location = new System.Drawing.Point(1169, 13);
+            this.chkJustTrustsSelected.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chkJustTrustsSelected.Name = "chkJustTrustsSelected";
             this.chkJustTrustsSelected.Size = new System.Drawing.Size(152, 21);
             this.chkJustTrustsSelected.TabIndex = 183;
@@ -9938,7 +10012,8 @@ namespace SMFS
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1404, 16);
+            this.label1.Location = new System.Drawing.Point(1403, 16);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 17);
             this.label1.TabIndex = 182;
@@ -9951,16 +10026,18 @@ namespace SMFS
             "Post",
             "Pre",
             "Both"});
-            this.cmbPreOrPost.Location = new System.Drawing.Point(1337, 13);
+            this.cmbPreOrPost.Location = new System.Drawing.Point(1336, 13);
+            this.cmbPreOrPost.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cmbPreOrPost.Name = "cmbPreOrPost";
-            this.cmbPreOrPost.Size = new System.Drawing.Size(61, 24);
+            this.cmbPreOrPost.Size = new System.Drawing.Size(60, 24);
             this.cmbPreOrPost.TabIndex = 181;
             this.cmbPreOrPost.Text = "Post";
             // 
             // btnRunTotals
             // 
             this.btnRunTotals.BackColor = System.Drawing.Color.Transparent;
-            this.btnRunTotals.Location = new System.Drawing.Point(689, 18);
+            this.btnRunTotals.Location = new System.Drawing.Point(688, 18);
+            this.btnRunTotals.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnRunTotals.Name = "btnRunTotals";
             this.btnRunTotals.Size = new System.Drawing.Size(75, 23);
             this.btnRunTotals.TabIndex = 180;
@@ -9972,6 +10049,7 @@ namespace SMFS
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(349, 19);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(39, 17);
             this.label2.TabIndex = 179;
@@ -9979,7 +10057,8 @@ namespace SMFS
             // 
             // dateTimePicker2
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(392, 16);
+            this.dateTimePicker2.Location = new System.Drawing.Point(391, 16);
+            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(233, 23);
             this.dateTimePicker2.TabIndex = 178;
@@ -9989,8 +10068,8 @@ namespace SMFS
             // 
             this.btnRight.BackColor = System.Drawing.Color.Transparent;
             this.btnRight.Image = ((System.Drawing.Image)(resources.GetObject("btnRight.Image")));
-            this.btnRight.Location = new System.Drawing.Point(631, 15);
-            this.btnRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnRight.Location = new System.Drawing.Point(630, 15);
+            this.btnRight.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnRight.Name = "btnRight";
             this.btnRight.Size = new System.Drawing.Size(33, 28);
             this.btnRight.TabIndex = 177;
@@ -10001,8 +10080,8 @@ namespace SMFS
             // 
             this.btnLeft.BackColor = System.Drawing.Color.Transparent;
             this.btnLeft.Image = ((System.Drawing.Image)(resources.GetObject("btnLeft.Image")));
-            this.btnLeft.Location = new System.Drawing.Point(71, 14);
-            this.btnLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnLeft.Location = new System.Drawing.Point(70, 14);
+            this.btnLeft.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnLeft.Name = "btnLeft";
             this.btnLeft.Size = new System.Drawing.Size(33, 28);
             this.btnLeft.TabIndex = 176;
@@ -10012,6 +10091,7 @@ namespace SMFS
             // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(110, 16);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(233, 23);
             this.dateTimePicker1.TabIndex = 175;
@@ -10021,10 +10101,10 @@ namespace SMFS
             // 
             this.btnVerifyTrusts.BackColor = System.Drawing.Color.SandyBrown;
             this.btnVerifyTrusts.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.btnVerifyTrusts.Location = new System.Drawing.Point(596, 94);
-            this.btnVerifyTrusts.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnVerifyTrusts.Location = new System.Drawing.Point(595, 94);
+            this.btnVerifyTrusts.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnVerifyTrusts.Name = "btnVerifyTrusts";
-            this.btnVerifyTrusts.Size = new System.Drawing.Size(147, 40);
+            this.btnVerifyTrusts.Size = new System.Drawing.Size(146, 40);
             this.btnVerifyTrusts.TabIndex = 99;
             this.btnVerifyTrusts.Text = "Verify Trusts";
             this.btnVerifyTrusts.UseVisualStyleBackColor = false;
@@ -10034,10 +10114,10 @@ namespace SMFS
             // 
             this.btnShowSMFS.BackColor = System.Drawing.Color.SandyBrown;
             this.btnShowSMFS.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.btnShowSMFS.Location = new System.Drawing.Point(1222, 69);
-            this.btnShowSMFS.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnShowSMFS.Location = new System.Drawing.Point(1221, 69);
+            this.btnShowSMFS.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnShowSMFS.Name = "btnShowSMFS";
-            this.btnShowSMFS.Size = new System.Drawing.Size(147, 40);
+            this.btnShowSMFS.Size = new System.Drawing.Size(146, 40);
             this.btnShowSMFS.TabIndex = 98;
             this.btnShowSMFS.Text = "Show SMFS";
             this.btnShowSMFS.UseVisualStyleBackColor = false;
@@ -10048,10 +10128,10 @@ namespace SMFS
             // 
             this.btnSelectColumns.BackColor = System.Drawing.Color.SandyBrown;
             this.btnSelectColumns.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectColumns.Location = new System.Drawing.Point(1050, 50);
-            this.btnSelectColumns.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnSelectColumns.Location = new System.Drawing.Point(1049, 50);
+            this.btnSelectColumns.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnSelectColumns.Name = "btnSelectColumns";
-            this.btnSelectColumns.Size = new System.Drawing.Size(134, 30);
+            this.btnSelectColumns.Size = new System.Drawing.Size(133, 30);
             this.btnSelectColumns.TabIndex = 95;
             this.btnSelectColumns.Text = "Select Columns";
             this.btnSelectColumns.UseVisualStyleBackColor = false;
@@ -10060,10 +10140,10 @@ namespace SMFS
             // cmbSelectColumns
             // 
             this.cmbSelectColumns.FormattingEnabled = true;
-            this.cmbSelectColumns.Location = new System.Drawing.Point(865, 53);
-            this.cmbSelectColumns.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cmbSelectColumns.Location = new System.Drawing.Point(864, 53);
+            this.cmbSelectColumns.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.cmbSelectColumns.Name = "cmbSelectColumns";
-            this.cmbSelectColumns.Size = new System.Drawing.Size(179, 24);
+            this.cmbSelectColumns.Size = new System.Drawing.Size(178, 24);
             this.cmbSelectColumns.TabIndex = 94;
             this.cmbSelectColumns.SelectedIndexChanged += new System.EventHandler(this.cmbSelectColumns_SelectedIndexChanged);
             // 
@@ -10071,6 +10151,7 @@ namespace SMFS
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(83, 50);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 17);
             this.label3.TabIndex = 45;
@@ -10078,10 +10159,10 @@ namespace SMFS
             // 
             // txtScale
             // 
-            this.txtScale.Location = new System.Drawing.Point(16, 46);
-            this.txtScale.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtScale.Location = new System.Drawing.Point(15, 46);
+            this.txtScale.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.txtScale.Name = "txtScale";
-            this.txtScale.Size = new System.Drawing.Size(63, 23);
+            this.txtScale.Size = new System.Drawing.Size(62, 23);
             this.txtScale.TabIndex = 44;
             this.txtScale.Text = "90.00";
             this.txtScale.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -10091,10 +10172,10 @@ namespace SMFS
             // 
             this.btnSave.BackColor = System.Drawing.Color.LawnGreen;
             this.btnSave.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.btnSave.Location = new System.Drawing.Point(689, 50);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnSave.Location = new System.Drawing.Point(688, 50);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(126, 40);
+            this.btnSave.Size = new System.Drawing.Size(125, 40);
             this.btnSave.TabIndex = 29;
             this.btnSave.Text = "Save Data";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -10104,8 +10185,8 @@ namespace SMFS
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(14, 15);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox1.Location = new System.Drawing.Point(13, 15);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(33, 27);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -10124,8 +10205,8 @@ namespace SMFS
             this.massPrintToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1809, 30);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1808, 30);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -10135,7 +10216,7 @@ namespace SMFS
             this.menuPrint,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // menuPrint
@@ -10173,7 +10254,7 @@ namespace SMFS
             this.lockSceenFormatToolStripMenuItem,
             this.unlockScreenFormatToolStripMenuItem});
             this.screenOptionsToolStripMenuItem.Name = "screenOptionsToolStripMenuItem";
-            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.screenOptionsToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.screenOptionsToolStripMenuItem.Text = "Screen Options";
             // 
             // lockSceenFormatToolStripMenuItem
@@ -10198,7 +10279,7 @@ namespace SMFS
             this.useCalculatedBeginningBalanceToolStripMenuItem,
             this.useCalculatedEndingBalanceToolStripMenuItem});
             this.editsToolStripMenuItem.Name = "editsToolStripMenuItem";
-            this.editsToolStripMenuItem.Size = new System.Drawing.Size(55, 26);
+            this.editsToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.editsToolStripMenuItem.Text = "Edits";
             // 
             // editPolicyToTrustToolStripMenuItem
@@ -10240,7 +10321,7 @@ namespace SMFS
             this.toolStripMenuItem2,
             this.pre2002ReportSNFTToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // post2002ReportUnityToolStripMenuItem
@@ -10298,7 +10379,7 @@ namespace SMFS
             this.massPrintPost2002ReportsToolStripMenuItem,
             this.massPrintPre2002ReportsToolStripMenuItem});
             this.massPrintToolStripMenuItem.Name = "massPrintToolStripMenuItem";
-            this.massPrintToolStripMenuItem.Size = new System.Drawing.Size(90, 26);
+            this.massPrintToolStripMenuItem.Size = new System.Drawing.Size(90, 24);
             this.massPrintToolStripMenuItem.Text = "Mass Print";
             // 
             // massPrintPost2002ReportsToolStripMenuItem
@@ -10319,10 +10400,10 @@ namespace SMFS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1809, 732);
+            this.ClientSize = new System.Drawing.Size(1808, 732);
             this.Controls.Add(this.panelAll);
             this.Controls.Add(this.menuStrip1);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.Name = "TrustDeceased";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trust Data Deceased";

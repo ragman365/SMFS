@@ -3120,7 +3120,10 @@ namespace SMFS
             if (gotPackage)
             {
                 if (preDiscount < packageDiscount)
-                    packageDiscount = preDiscount;
+                {
+                    if ( preDiscount > 0D )
+                        packageDiscount = preDiscount;
+                }
                 totalDiscount = packageDiscount;
                 preDiscount = 0D;
             }
